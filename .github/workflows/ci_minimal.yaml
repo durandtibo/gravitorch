@@ -1,4 +1,4 @@
-name: CI with minimal dependencies
+name: CI minimal dependencies
 on:
   pull_request:
     branches:
