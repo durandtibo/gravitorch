@@ -420,7 +420,7 @@ def top_module_mode(module: nn.Module) -> Generator[None, None, None]:
     .. code-block:: python
 
         >>> from torch import nn
-        >>> from gravitorch.nn import module_mode_restored
+        >>> from gravitorch.nn import module_mode
         >>> module = nn.Linear(4, 6)
         >>> print(module.training)
         True

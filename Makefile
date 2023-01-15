@@ -27,7 +27,7 @@ format :
 
 .PHONY : test
 test :
-	python -m pytest
+	python -m pytest tests/
 
 .PHONY : unit-test
 unit-test :
@@ -36,6 +36,14 @@ unit-test :
 .PHONY : unit-test-cov
 unit-test-cov :
 	python -m pytest --timeout 10 --cov-report html --cov-report xml --cov-report term --cov=gravitorch tests/unit
+
+.PHONY : integration-test
+integration-test :
+	python -m pytest tests/integration
+
+.PHONY : integration-test-cov
+integration-test-cov :
+	python -m pytest --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/integration
 
 .PHONY : publish-pypi
 publish-pypi :
