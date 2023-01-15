@@ -1,0 +1,6 @@
+# @package _global_
+defaults:
+  - mlp_classification_sgd
+  - override engine/core_creator: advanced_ddp
+  - override engine/core_creator/optimizer_creator: zero
+  - _self_

@@ -1,0 +1,6 @@
+# @package _global_
+defaults:
+  - mlp_classification_sgd
+  - override engine/training_loop: amp_clip_grad_norm_1
+  - override engine/evaluation_loop: amp
+  - _self_

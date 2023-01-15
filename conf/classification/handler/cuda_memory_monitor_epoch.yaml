@@ -1,0 +1,2 @@
+cuda_memory_monitor_epoch:
+  _target_: gravitorch.handlers.EpochCudaMemoryMonitor

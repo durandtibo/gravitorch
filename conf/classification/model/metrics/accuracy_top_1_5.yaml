@@ -1,0 +1,25 @@
+# @package _global_
+model:
+  metrics:
+    train_metric:
+      _target_: gravitorch.models.metrics.VanillaMetric
+      metric:
+        _target_: gravitorch.models.metrics.TopKAccuracy
+        topk: [ 1, 5 ]
+        mode: train
+        state_config:
+          _target_: gravitorch.models.metrics.state.ExtendedAccuracyState
+
+    eval_metric:
+      _target_: gravitorch.models.metrics.VanillaMetric
+      metric:
+        _target_: gravitorch.models.metrics.TopKAccuracy
+        topk: [ 1, 5 ]
+        mode: eval
+        state_config:
+          _target_: gravitorch.models.metrics.state.ExtendedAccuracyState
+
+best_checkpoints_to_save:
+  - eval/loss
+  - eval/acc_top_1_accuracy
+  - eval/acc_top_5_accuracy

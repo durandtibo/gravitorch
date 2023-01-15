@@ -1,0 +1,9 @@
+_target_: gravitorch.utils.evaluation_loops.AMPEvaluationLoop
+grad_enabled: false
+condition:
+  _target_: gravitorch.utils.evaluation_loops.conditions.EveryEpochEvalCondition
+  every: 1
+profiler: null
+observer: null
+batch_device_placement: ${oc.select:device_placement,null}
+amp_enabled: True

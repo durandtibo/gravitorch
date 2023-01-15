@@ -1,0 +1,3 @@
+_target_: gravitorch.models.networks.LeNet5
+num_classes: 10
+logits: true

@@ -1,5 +1,16 @@
 # @package _global_
 hydra:
+  output_subdir: .
+
+  job:
+    chdir: False
+
+  run:
+    dir: ${hydra_dir}
+
+  sweep:
+    dir: ${hydra.run.dir}
+
   job_logging:
     formatters:
       simple:
@@ -7,7 +18,7 @@ hydra:
         datefmt: "%Y-%m-%d %H:%M:%S"
       colored:
         '()': 'colorlog.ColoredFormatter'
-        format: "%(log_color)s%(asctime)s [%(levelname)s] %(name)s:%(lineno)s%(reset)s %(message_log_color)s%(message)s"
+        format: "%(log_color)s(%(process)d) %(asctime)s [%(levelname)s] %(name)s:%(lineno)s%(reset)s %(message_log_color)s%(message)s"
         datefmt: "%Y-%m-%d %H:%M:%S"
         log_colors:
           DEBUG: 'cyan'

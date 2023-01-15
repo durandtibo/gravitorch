@@ -1,0 +1,22 @@
+# @package _global_
+model:
+  metrics:
+    train_metric:
+      _target_: gravitorch.models.metrics.VanillaMetric
+      metric:
+        _target_: gravitorch.models.metrics.CategoricalConfusionMatrix
+        mode: train
+        num_classes: ${num_classes}
+
+    eval_metric:
+      _target_: gravitorch.models.metrics.VanillaMetric
+      metric:
+        _target_: gravitorch.models.metrics.CategoricalConfusionMatrix
+        mode: eval
+        num_classes: ${num_classes}
+
+best_checkpoints_to_save:
+  - eval/loss
+  - eval/mcm_accuracy
+  - eval/mcm_macro_f1_score
+  - eval/mcm_weighted_f1_score

@@ -1,0 +1,20 @@
+_target_: gravitorch.utils.evaluation_loops.VanillaEvaluationLoop
+grad_enabled: false
+condition:
+  _target_: gravitorch.utils.evaluation_loops.conditions.EveryEpochEvalCondition
+  every: 1
+profiler:
+  _target_: gravitorch.utils.profilers.PyTorchProfiler
+  _init_: scheduled_profiler_with_tensorboard_trace
+  trace_path: ${exp_dir}/profiling_trace/evaluation_loop
+  wait: 10
+  warmup: 10
+  active: 30
+  repeat: 5
+  skip_first: 10
+  record_shapes: true
+  profile_memory: true
+  with_stack: true
+  with_flops: true
+observer: null
+batch_device_placement: ${oc.select:device_placement,null}
