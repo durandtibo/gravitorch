@@ -1,0 +1,7 @@
+_target_: gravitorch.utils.evaluation_loops.AccelerateEvaluationLoop
+grad_enabled: false
+condition:
+  _target_: gravitorch.utils.evaluation_loops.conditions.EveryEpochEvalCondition
+  every: 1
+observer: null
+profiler: null

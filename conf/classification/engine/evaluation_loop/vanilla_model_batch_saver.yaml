@@ -1,0 +1,10 @@
+_target_: gravitorch.utils.evaluation_loops.VanillaEvaluationLoop
+grad_enabled: false
+condition:
+  _target_: gravitorch.utils.evaluation_loops.conditions.EveryEpochEvalCondition
+  every: 1
+profiler: null
+observer:
+  _target_: gravitorch.utils.loop_observers.PyTorchBatchSaver
+  path: ${exp_dir}/model_outputs/eval.pt
+batch_device_placement: ${oc.select:device_placement,null}

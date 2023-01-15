@@ -1,0 +1,19 @@
+_target_: gravitorch.datasources.MnistDataSource
+path: ${oc.env:PWD}/data
+
+data_loader_creators:
+  train:
+    _target_: gravitorch.creators.dataloader.AutoDataLoaderCreator
+    batch_size: ${oc.select:batch_size,32}
+    shuffle: true
+    num_workers: 4
+    pin_memory: true
+    drop_last: false
+
+  eval:
+    _target_: gravitorch.creators.dataloader.VanillaDataLoaderCreator
+    batch_size: ${..train.batch_size}
+    shuffle: false
+    num_workers: ${..train.num_workers}
+    pin_memory: ${..train.pin_memory}
+    drop_last: ${..train.drop_last}

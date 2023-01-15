@@ -1,0 +1,4 @@
+_target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+factor: 0.1  # decrease the learning rate by 10
+patience: 5  # wait 5 epochs without improvement before to decrease the learning rate
+mode: max  # higher is better
