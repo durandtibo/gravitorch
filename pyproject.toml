@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.0a0"
-description = ""
+version = "0.0.0a1"
+description = "Experimental"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
-homepage = "https://github.com/durandtibo/gravitorch"
-repository = "https://github.com/durandtibo/gravitorch"
+#homepage = "https://github.com/durandtibo/gravitorch"
+#repository = "https://github.com/durandtibo/gravitorch"
 keywords = ["gravitorch"]
 
 classifiers = [

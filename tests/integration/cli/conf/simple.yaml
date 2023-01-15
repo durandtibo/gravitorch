@@ -1,0 +1,84 @@
+runner:
+  _target_: gravitorch.runners.TrainingRunner
+  engine: ${engine}
+  random_seed: ${random_seed}
+
+engine:
+  _target_: gravitorch.engines.AlphaEngine
+  core_modules_creator:
+    _target_: gravitorch.creators.core.AdvancedCoreCreator
+    data_source_creator:
+      _target_: gravitorch.creators.datasource.VanillaDataSourceCreator
+      config:
+        _target_: gravitorch.datasources.DatasetDataSource
+        datasets:
+          train:
+            _target_: gravitorch.data.datasets.DemoMultiClassClsDataset
+            num_examples: 20
+            num_classes: ${oc.select:num_classes,50}
+            feature_size: ${oc.select:feature_size,64}
+            noise_std: 0.2
+            random_seed: 15771755705050738633
+          eval:
+            _target_: ${..train._target_}
+            num_examples: 20
+            num_classes: ${..train.num_classes}
+            feature_size: ${..train.feature_size}
+            noise_std: ${..train.noise_std}
+            random_seed: 16187889889061516052
+        data_loader_creators:
+          train:
+            _target_: gravitorch.creators.dataloader.AutoDataLoaderCreator
+            batch_size: 4
+            shuffle: true
+            num_workers: 0
+            pin_memory: true
+            drop_last: false
+          eval:
+            _target_: gravitorch.creators.dataloader.AutoDataLoaderCreator
+            batch_size: ${..train.batch_size}
+            shuffle: false
+            num_workers: ${..train.num_workers}
+            pin_memory: ${..train.pin_memory}
+            drop_last: ${..train.drop_last}
+    model_creator:
+      _target_: gravitorch.creators.model.VanillaModelCreator
+      model_config:
+        _target_: gravitorch.models.VanillaModel
+        random_seed: ${random_seed}
+        network:
+          _target_: gravitorch.models.networks.BetaMLP
+          input_size: ${feature_size}
+          hidden_sizes:
+            - 16
+            - 16
+            - ${num_classes}
+          activation:
+            _target_: torch.nn.ReLU
+          dropout: 0
+        criterion:
+          _target_: gravitorch.models.criterions.VanillaLoss
+          criterion:
+            _target_: torch.nn.CrossEntropyLoss
+        metrics:
+          train_metric:
+            _target_: gravitorch.models.metrics.VanillaMetric
+            metric:
+              _target_: gravitorch.models.metrics.CategoricalAccuracy
+              mode: train
+          eval_metric:
+            _target_: gravitorch.models.metrics.VanillaMetric
+            metric:
+              _target_: gravitorch.models.metrics.CategoricalAccuracy
+              mode: eval
+    optimizer_creator:
+      _target_: gravitorch.creators.optimizer.VanillaOptimizerCreator
+      optimizer_config:
+        _target_: torch.optim.SGD
+        lr: 0.01
+        momentum: 0.9
+        weight_decay: 0.0001
+
+random_seed: 42
+feature_size: 12
+num_classes: 6

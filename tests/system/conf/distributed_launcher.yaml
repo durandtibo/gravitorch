@@ -1,0 +1,8 @@
+# @package _global_
+defaults:
+  - hydra: tibo
+  - distributed/launcher: slurm_1x2
+
+distributed:
+  launcher:
+    command: tests/system/torch_distributed.py
