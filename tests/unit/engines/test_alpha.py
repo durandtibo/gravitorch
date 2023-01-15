@@ -380,36 +380,34 @@ def test_alpha_engine_state_dict(core_creator: BaseCoreCreator):
     assert set(engine.state_dict().keys()) == {"modules", "epoch", "histories", "iteration"}
 
 
-def test_alpha_engine_terminate_initial_false(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_terminate_initial_false(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.terminate()
     assert engine.should_terminate
 
 
-def test_alpha_engine_terminate_initial_true(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_terminate_initial_true(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine._should_terminate = True
     engine.terminate()
     assert engine.should_terminate
 
 
-def test_alpha_engine_train(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_train(core_creator: BaseCoreCreator):
     evaluation_loop = Mock()
     training_loop = Mock()
-    engine = AlphaEngine(
-        core_modules_creator, evaluation_loop=evaluation_loop, training_loop=training_loop
-    )
+    engine = AlphaEngine(core_creator, evaluation_loop=evaluation_loop, training_loop=training_loop)
     engine.train()
     assert engine.epoch == 0
     evaluation_loop.eval.assert_called_once_with(engine)
     training_loop.train.assert_called_once_with(engine)
 
 
-def test_alpha_engine_train_max_epochs_2(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_train_max_epochs_2(core_creator: BaseCoreCreator):
     evaluation_loop = Mock()
     training_loop = Mock()
     engine = AlphaEngine(
-        core_modules_creator,
+        core_creator,
         evaluation_loop=evaluation_loop,
         training_loop=training_loop,
         state=VanillaEngineState(max_epochs=2),
@@ -420,12 +418,10 @@ def test_alpha_engine_train_max_epochs_2(core_modules_creator: BaseCoreCreator):
     assert training_loop.train.call_count == 2
 
 
-def test_alpha_engine_train_should_terminate_true(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_train_should_terminate_true(core_creator: BaseCoreCreator):
     evaluation_loop = Mock()
     training_loop = Mock()
-    engine = AlphaEngine(
-        core_modules_creator, evaluation_loop=evaluation_loop, training_loop=training_loop
-    )
+    engine = AlphaEngine(core_creator, evaluation_loop=evaluation_loop, training_loop=training_loop)
     engine.terminate()
     engine.train()
     assert engine.epoch == -1
@@ -433,7 +429,7 @@ def test_alpha_engine_train_should_terminate_true(core_modules_creator: BaseCore
     training_loop.train.assert_not_called()
 
 
-def test_alpha_engine_train_with_terminate(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_train_with_terminate(core_creator: BaseCoreCreator):
     def terminate_handler(engine: BaseEngine):
         if engine.epoch == 2:
             engine.terminate()
@@ -441,7 +437,7 @@ def test_alpha_engine_train_with_terminate(core_modules_creator: BaseCoreCreator
     evaluation_loop = Mock()
     training_loop = Mock()
     engine = AlphaEngine(
-        core_modules_creator,
+        core_creator,
         evaluation_loop=evaluation_loop,
         training_loop=training_loop,
         state=VanillaEngineState(max_epochs=10),
@@ -456,58 +452,56 @@ def test_alpha_engine_train_with_terminate(core_modules_creator: BaseCoreCreator
     assert training_loop.train.call_count == 3
 
 
-def test_alpha_engine_log_best_metrics(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_best_metrics(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     engine._log_best_metrics()
     exp_tracker.log_best_metrics.assert_called_once_with({})
 
 
-def test_alpha_engine_setup_exp_tracker_with_none(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)  # None is the default value of exp_tracker
+def test_alpha_engine_setup_exp_tracker_with_none(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)  # None is the default value of exp_tracker
     assert isinstance(engine._exp_tracker, NoOpExpTracker)
 
 
 def test_alpha_engine_setup_exp_tracker_with_exp_tracker_object_not_activated(
-    core_modules_creator: BaseCoreCreator,
+    core_creator: BaseCoreCreator,
     tmp_path: Path,
 ):
-    engine = AlphaEngine(core_modules_creator, exp_tracker=NoOpExpTracker(tmp_path.as_posix()))
+    engine = AlphaEngine(core_creator, exp_tracker=NoOpExpTracker(tmp_path.as_posix()))
     assert isinstance(engine._exp_tracker, NoOpExpTracker)
     assert engine._exp_tracker.is_activated()
 
 
 def test_alpha_engine_with_exp_tracker_object_activated(
-    core_modules_creator: BaseCoreCreator,
+    core_creator: BaseCoreCreator,
     tmp_path: Path,
 ):
     with NoOpExpTracker(tmp_path.as_posix()) as exp_tracker:
-        engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+        engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
         assert engine._exp_tracker is exp_tracker
         assert engine._exp_tracker.is_activated()
 
 
-def test_alpha_engine_setup_evaluation_loop_with_none(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)  # None is the default value of evaluation_loop
+def test_alpha_engine_setup_evaluation_loop_with_none(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)  # None is the default value of evaluation_loop
     assert isinstance(engine._evaluation_loop, VanillaEvaluationLoop)
     assert engine._evaluation_loop == engine.get_module(ct.EVALUATION_LOOP)
 
 
-def test_alpha_engine_setup_evaluation_loop_with_object(
-    core_modules_creator: BaseCoreCreator,
-):
+def test_alpha_engine_setup_evaluation_loop_with_object(core_creator: BaseCoreCreator):
     evaluation_loop = VanillaEvaluationLoop()
-    engine = AlphaEngine(core_modules_creator, evaluation_loop=evaluation_loop)
+    engine = AlphaEngine(core_creator, evaluation_loop=evaluation_loop)
     assert engine._evaluation_loop is evaluation_loop
 
 
-def test_alpha_engine_setup_training_loop_with_none(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)  # None is the default value of training_loop
+def test_alpha_engine_setup_training_loop_with_none(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)  # None is the default value of training_loop
     assert isinstance(engine._training_loop, VanillaTrainingLoop)
     assert engine._training_loop == engine.get_module(ct.TRAINING_LOOP)
 
 
-def test_alpha_engine_setup_training_loop_with_object(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_setup_training_loop_with_object(core_creator: BaseCoreCreator):
     training_loop = VanillaTrainingLoop()
-    engine = AlphaEngine(core_modules_creator, training_loop=training_loop)
+    engine = AlphaEngine(core_creator, training_loop=training_loop)
     assert engine._training_loop is training_loop
