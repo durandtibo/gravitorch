@@ -140,7 +140,7 @@ def create_engine(
     model = model or FakeModel()
     optimizer = optimizer or {OBJECT_TARGET: "torch.optim.sgd.SGD", "lr": 0.01}
     return AlphaEngine(
-        core_modules_creator=VanillaCoreCreator(
+        core_creator=VanillaCoreCreator(
             data_source=data_source,
             model=model.to(device=device),
             optimizer=optimizer,

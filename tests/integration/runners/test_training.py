@@ -8,7 +8,7 @@ from gravitorch.runners.training import _run_training_pipeline
 def create_engine_config(random_seed: int) -> dict:
     return {
         OBJECT_TARGET: "gravitorch.engines.AlphaEngine",
-        "core_modules_creator": {
+        "core_creator": {
             OBJECT_TARGET: "gravitorch.creators.core.AdvancedCoreCreator",
             "data_source_creator": {
                 OBJECT_TARGET: "gravitorch.creators.datasource.VanillaDataSourceCreator",
