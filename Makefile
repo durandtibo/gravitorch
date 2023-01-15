@@ -47,5 +47,5 @@ integration-test-cov :
 
 .PHONY : publish-pypi
 publish-pypi :
-	poetry config pypi-token.pypi ${HYA_PYPI_TOKEN}
+	poetry config pypi-token.pypi ${GRAVITORCH_PYPI_TOKEN}
 	poetry publish --build
