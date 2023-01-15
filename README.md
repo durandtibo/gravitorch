@@ -1,4 +1,3 @@
-# meteor
 
 [//]: # (<p align="center">)
 
