@@ -37,7 +37,7 @@ class AlphaEngine(BaseEngine):
     engine modules creator.
 
     Args:
-        core_modules_creator (``BaseCoreCreator`` or dict):
+        core_creator (``BaseCoreCreator`` or dict):
             Specifies the core engine modules creators or its
             configuration. This object creates the data module, model,
             optimizer and LR scheduler.
@@ -65,7 +65,7 @@ class AlphaEngine(BaseEngine):
 
     def __init__(
         self,
-        core_modules_creator: BaseCoreCreator | dict,
+        core_creator: BaseCoreCreator | dict,
         state: BaseEngineState | dict | None = None,
         exp_tracker: BaseExpTracker | dict | None = None,
         training_loop: BaseTrainingLoop | dict | None = None,
@@ -77,14 +77,14 @@ class AlphaEngine(BaseEngine):
         self._training_loop = self._setup_training_loop(training_loop)
         self._evaluation_loop = self._setup_evaluation_loop(evaluation_loop)
 
-        core_modules_creator = setup_core_creator(core_modules_creator)
-        logger.info(f"core_modules_creator:\n{core_modules_creator}")
+        core_creator = setup_core_creator(core_creator)
+        logger.info(f"core_creator:\n{core_creator}")
         (
             self._data_source,
             self._model,
             self._optimizer,
             self._lr_scheduler,
-        ) = core_modules_creator.create(self)
+        ) = core_creator.create(self)
         # TODO: add the modules if there are not added yet.
 
         self._should_terminate = False

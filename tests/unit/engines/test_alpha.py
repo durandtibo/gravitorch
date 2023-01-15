@@ -24,7 +24,7 @@ from tests.unit.engines.util import FakeDataSource
 
 
 @fixture
-def core_modules_creator() -> BaseCoreCreator:
+def core_creator() -> BaseCoreCreator:
     creator = Mock(spec=BaseCoreCreator)
     model = nn.Linear(4, 6)
     creator.create.return_value = (
@@ -40,13 +40,13 @@ def increment_epoch_handler(engine: BaseEngine) -> None:
     engine.increment_epoch(2)
 
 
-def test_alpha_engine_str(core_modules_creator: BaseCoreCreator):
-    assert str(AlphaEngine(core_modules_creator)).startswith("AlphaEngine(")
+def test_alpha_engine_str(core_creator: BaseCoreCreator):
+    assert str(AlphaEngine(core_creator)).startswith("AlphaEngine(")
 
 
-def test_alpha_engine_core_modules_creator_dict():
+def test_alpha_engine_core_creator_dict():
     engine = AlphaEngine(
-        core_modules_creator={
+        core_creator={
             OBJECT_TARGET: "gravitorch.creators.core.AdvancedCoreCreator",
             "data_source_creator": {
                 OBJECT_TARGET: "gravitorch.creators.datasource.VanillaDataSourceCreator",
@@ -66,44 +66,44 @@ def test_alpha_engine_core_modules_creator_dict():
     assert isinstance(engine.model, nn.Linear)
 
 
-def test_alpha_engine_data_source(core_modules_creator: BaseCoreCreator):
-    assert isinstance(AlphaEngine(core_modules_creator).data_source, FakeDataSource)
+def test_alpha_engine_data_source(core_creator: BaseCoreCreator):
+    assert isinstance(AlphaEngine(core_creator).data_source, FakeDataSource)
 
 
-def test_alpha_engine_epoch(core_modules_creator: BaseCoreCreator):
-    assert AlphaEngine(core_modules_creator).epoch == -1
+def test_alpha_engine_epoch(core_creator: BaseCoreCreator):
+    assert AlphaEngine(core_creator).epoch == -1
 
 
-def test_alpha_engine_iteration(core_modules_creator: BaseCoreCreator):
-    assert AlphaEngine(core_modules_creator).iteration == -1
+def test_alpha_engine_iteration(core_creator: BaseCoreCreator):
+    assert AlphaEngine(core_creator).iteration == -1
 
 
-def test_alpha_engine_lr_scheduler(core_modules_creator: BaseCoreCreator):
-    assert AlphaEngine(core_modules_creator).lr_scheduler is None
+def test_alpha_engine_lr_scheduler(core_creator: BaseCoreCreator):
+    assert AlphaEngine(core_creator).lr_scheduler is None
 
 
-def test_alpha_engine_max_epochs(core_modules_creator: BaseCoreCreator):
-    assert AlphaEngine(core_modules_creator).max_epochs == 1
+def test_alpha_engine_max_epochs(core_creator: BaseCoreCreator):
+    assert AlphaEngine(core_creator).max_epochs == 1
 
 
-def test_alpha_engine_model(core_modules_creator: BaseCoreCreator):
-    assert isinstance(AlphaEngine(core_modules_creator).model, nn.Linear)
+def test_alpha_engine_model(core_creator: BaseCoreCreator):
+    assert isinstance(AlphaEngine(core_creator).model, nn.Linear)
 
 
-def test_alpha_engine_optimizer(core_modules_creator: BaseCoreCreator):
-    assert isinstance(AlphaEngine(core_modules_creator).optimizer, Optimizer)
+def test_alpha_engine_optimizer(core_creator: BaseCoreCreator):
+    assert isinstance(AlphaEngine(core_creator).optimizer, Optimizer)
 
 
-def test_alpha_engine_random_seed(core_modules_creator: BaseCoreCreator):
-    assert AlphaEngine(core_modules_creator).random_seed == 9984043075503325450
+def test_alpha_engine_random_seed(core_creator: BaseCoreCreator):
+    assert AlphaEngine(core_creator).random_seed == 9984043075503325450
 
 
-def test_alpha_engine_should_terminate(core_modules_creator: BaseCoreCreator):
-    assert not AlphaEngine(core_modules_creator).should_terminate
+def test_alpha_engine_should_terminate(core_creator: BaseCoreCreator):
+    assert not AlphaEngine(core_creator).should_terminate
 
 
-def test_alpha_engine_add_event_handler(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_add_event_handler(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_event_handler(
         "my_event",
         VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
@@ -114,41 +114,41 @@ def test_alpha_engine_add_event_handler(core_modules_creator: BaseCoreCreator):
     )
 
 
-def test_alpha_engine_add_history_with_key(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_add_history_with_key(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_history(MinScalarHistory("name"), "loss")
     assert engine._state.has_history("loss")
 
 
-def test_alpha_engine_add_history_without_key(core_modules_creator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_add_history_without_key(core_creator):
+    engine = AlphaEngine(core_creator)
     engine.add_history(MinScalarHistory("loss"))
     assert engine._state.has_history("loss")
 
 
-def test_alpha_engine_add_module(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_add_module(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_module("my_module", nn.Linear(4, 6))
     assert engine._state.has_module("my_module")
 
 
-def test_alpha_engine_create_artifact(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_create_artifact(core_creator: BaseCoreCreator):
     exp_tracker = Mock(spec=BaseExpTracker)
     artifact = Mock(spec=BaseArtifact)
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     engine.create_artifact(artifact)
     exp_tracker.create_artifact.assert_called_once_with(artifact)
 
 
-def test_alpha_engine_eval(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_eval(core_creator: BaseCoreCreator):
     evaluation_loop = Mock()
-    engine = AlphaEngine(core_modules_creator, evaluation_loop=evaluation_loop)
+    engine = AlphaEngine(core_creator, evaluation_loop=evaluation_loop)
     engine.eval()
     evaluation_loop.eval.assert_called_once_with(engine)
 
 
-def test_alpha_engine_fire_event(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_fire_event(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_event_handler(
         "my_event",
         VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
@@ -158,22 +158,22 @@ def test_alpha_engine_fire_event(core_modules_creator: BaseCoreCreator):
     assert engine.epoch == 1
 
 
-def test_alpha_engine_get_history_exists(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_get_history_exists(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     history = MinScalarHistory("loss")
     engine.add_history(history)
     assert engine.get_history("loss") is history
 
 
-def test_alpha_engine_get_history_does_not_exist(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_get_history_does_not_exist(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     history = engine.get_history("loss")
     assert isinstance(history, GenericHistory)
     assert len(history.get_recent_history()) == 0
 
 
-def test_alpha_engine_get_histories(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_get_histories(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     history1 = MinScalarHistory("loss")
     history2 = MinScalarHistory("accuracy")
     engine.add_history(history1)
@@ -181,119 +181,119 @@ def test_alpha_engine_get_histories(core_modules_creator: BaseCoreCreator):
     assert engine.get_histories() == {"loss": history1, "accuracy": history2}
 
 
-def test_alpha_engine_get_histories_empty(core_modules_creator: BaseCoreCreator):
-    assert AlphaEngine(core_modules_creator).get_histories() == {}
+def test_alpha_engine_get_histories_empty(core_creator: BaseCoreCreator):
+    assert AlphaEngine(core_creator).get_histories() == {}
 
 
-def test_alpha_engine_get_module_exists(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_get_module_exists(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_module("my_module", nn.Linear(4, 6))
     module = engine.get_module("my_module")
     assert isinstance(module, nn.Linear)
 
 
-def test_alpha_engine_get_module_does_not_exists(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_get_module_does_not_exists(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     with raises(ValueError):
         engine.get_module("my_module")
 
 
-def test_alpha_engine_has_event_handler_true(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_has_event_handler_true(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_event_handler("my_event", VanillaEventHandler(increment_epoch_handler))
     assert engine.has_event_handler(VanillaEventHandler(increment_epoch_handler), "my_event")
 
 
-def test_alpha_engine_has_event_handler_false(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_has_event_handler_false(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     assert not engine.has_event_handler(VanillaEventHandler(increment_epoch_handler), "my_event")
 
 
-def test_alpha_engine_has_history_true(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_has_history_true(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_history(MinScalarHistory("loss"))
     assert engine.has_history("loss")
 
 
-def test_alpha_engine_has_history_false(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_has_history_false(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     assert not engine.has_history("loss")
 
 
-def test_alpha_engine_has_module_true(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_has_module_true(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_module("my_module", nn.Linear(4, 6))
     assert engine.has_module("my_module")
 
 
-def test_alpha_engine_has_module_false(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_has_module_false(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     assert not engine.has_module("my_module")
 
 
-def test_alpha_engine_increment_epoch_1(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_increment_epoch_1(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     assert engine.epoch == -1
     engine.increment_epoch()
     assert engine.epoch == 0
 
 
-def test_alpha_engine_increment_epoch_2(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_increment_epoch_2(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     assert engine.epoch == -1
     engine.increment_epoch(2)
     assert engine.epoch == 1
 
 
-def test_alpha_engine_increment_iteration_1(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_increment_iteration_1(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     assert engine.iteration == -1
     engine.increment_iteration()
     assert engine.iteration == 0
 
 
-def test_alpha_engine_increment_iteration_2(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_increment_iteration_2(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     assert engine.iteration == -1
     engine.increment_iteration(2)
     assert engine.iteration == 1
 
 
-def test_alpha_engine_load_state_dict(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_load_state_dict(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     state = engine.state_dict()
     state["epoch"] = 10
     engine.load_state_dict(state)
     assert engine.epoch == 10
 
 
-def test_alpha_engine_log_figure_without_step(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_figure_without_step(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     figure = Mock()
     engine.log_figure("loss", figure)
     exp_tracker.log_figure.assert_called_once_with("loss", figure, None)
 
 
-def test_alpha_engine_log_figure_with_step(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_figure_with_step(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     figure = Mock()
     engine.log_figure("loss", figure, step=EpochStep(3))
     exp_tracker.log_figure.assert_called_once_with("loss", figure, EpochStep(3))
 
 
-def test_alpha_engine_log_figures_without_step(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_figures_without_step(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     figure1, figure2 = Mock(), Mock()
     engine.log_figures({"figure1": figure1, "figure2": figure2})
     exp_tracker.log_figures.assert_called_once_with({"figure1": figure1, "figure2": figure2}, None)
 
 
-def test_alpha_engine_log_figures_with_step(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_figures_with_step(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     figure1, figure2 = Mock(), Mock()
     engine.log_figures({"figure1": figure1, "figure2": figure2}, step=EpochStep(3))
     exp_tracker.log_figures.assert_called_once_with(
@@ -301,42 +301,42 @@ def test_alpha_engine_log_figures_with_step(core_modules_creator: BaseCoreCreato
     )
 
 
-def test_alpha_engine_log_metric_without_step(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_metric_without_step(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     engine.log_metric("loss", 0.8)
     assert engine.get_history("loss").get_last_value() == 0.8
     exp_tracker.log_metric.assert_called_once_with("loss", 0.8, None)
 
 
-def test_alpha_engine_log_metric_with_step(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_metric_with_step(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     engine.log_metric("loss", 0.8, step=EpochStep(3))
     assert engine.get_history("loss").get_recent_history()[-1] == (3, 0.8)
     exp_tracker.log_metric.assert_called_once_with("loss", 0.8, EpochStep(3))
 
 
-def test_alpha_engine_log_metrics_without_step(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_metrics_without_step(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     engine.log_metrics({"loss": 0.8, "accuracy": 42})
     assert engine.get_history("loss").get_last_value() == 0.8
     assert engine.get_history("accuracy").get_last_value() == 42
     exp_tracker.log_metrics.assert_called_once_with({"loss": 0.8, "accuracy": 42}, None)
 
 
-def test_alpha_engine_log_metrics_with_step(core_modules_creator: BaseCoreCreator):
+def test_alpha_engine_log_metrics_with_step(core_creator: BaseCoreCreator):
     exp_tracker = Mock()
-    engine = AlphaEngine(core_modules_creator, exp_tracker=exp_tracker)
+    engine = AlphaEngine(core_creator, exp_tracker=exp_tracker)
     engine.log_metrics({"loss": 0.8, "accuracy": 42}, EpochStep(3))
     assert engine.get_history("loss").get_recent_history()[-1] == (3, 0.8)
     assert engine.get_history("accuracy").get_recent_history()[-1] == (3, 42)
     exp_tracker.log_metrics.assert_called_once_with({"loss": 0.8, "accuracy": 42}, EpochStep(3))
 
 
-def test_alpha_engine_remove_event_handler_exists(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_remove_event_handler_exists(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_event_handler(
         "my_event",
         VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
@@ -352,9 +352,9 @@ def test_alpha_engine_remove_event_handler_exists(core_modules_creator: BaseCore
 
 
 def test_alpha_engine_remove_event_handler_does_not_exist(
-    core_modules_creator: BaseCoreCreator,
+    core_creator: BaseCoreCreator,
 ):
-    engine = AlphaEngine(core_modules_creator)
+    engine = AlphaEngine(core_creator)
     with raises(ValueError):
         engine.remove_event_handler(
             "my_event",
@@ -362,21 +362,21 @@ def test_alpha_engine_remove_event_handler_does_not_exist(
         )
 
 
-def test_alpha_engine_remove_module_exists(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_remove_module_exists(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     engine.add_module("my_module", nn.Linear(4, 6))
     engine.remove_module("my_module")
     assert not engine.has_module("my_module")
 
 
-def test_alpha_engine_remove_module_does_not_exists(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_remove_module_does_not_exists(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     with raises(ValueError):
         engine.remove_module("my_module")
 
 
-def test_alpha_engine_state_dict(core_modules_creator: BaseCoreCreator):
-    engine = AlphaEngine(core_modules_creator)
+def test_alpha_engine_state_dict(core_creator: BaseCoreCreator):
+    engine = AlphaEngine(core_creator)
     assert set(engine.state_dict().keys()) == {"modules", "epoch", "histories", "iteration"}
 
 

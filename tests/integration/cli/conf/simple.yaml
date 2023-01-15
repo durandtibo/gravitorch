@@ -5,7 +5,7 @@ runner:
 
 engine:
   _target_: gravitorch.engines.AlphaEngine
-  core_modules_creator:
+  core_creator:
     _target_: gravitorch.creators.core.AdvancedCoreCreator
     data_source_creator:
       _target_: gravitorch.creators.datasource.VanillaDataSourceCreator
