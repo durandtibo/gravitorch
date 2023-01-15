@@ -11,6 +11,10 @@ config-poetry :
 install :
 	poetry install --no-interaction --all-extras
 
+.PHONY : install-all
+install-all :
+	poetry install --no-interaction --with exp --all-extras
+
 .PHONY : update
 update :
 	-poetry self update
