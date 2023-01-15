@@ -1,8 +1,8 @@
 # meteor
 
 <p align="center">
-   <a href="https://github.com/durandtibo/gravitorch/actions">
-      <img alt="CI" src="https://github.com/durandtibo/gravitorch/workflows/CI/badge.svg?event=push&branch=main">
+   <a href="https://github.com/durandtibo/meteor/actions">
+      <img alt="CI" src="https://github.com/durandtibo/meteor/workflows/CI/badge.svg?event=push&branch=main">
    </a>
     <a href="https://pypi.org/project/gravitorch/">
       <img alt="PYPI version" src="https://img.shields.io/pypi/v/gravitorch">
@@ -13,8 +13,8 @@
    <a href="https://opensource.org/licenses/BSD-3-Clause">
       <img alt="BSD-3-Clause" src="https://img.shields.io/pypi/l/gravitorch">
    </a>
-   <a href="https://codecov.io/gh/durandtibo/gravitorch">
-      <img alt="Codecov" src="https://codecov.io/gh/durandtibo/gravitorch/branch/main/graph/badge.svg">
+   <a href="https://codecov.io/gh/durandtibo/meteor">
+      <img alt="Codecov" src="https://codecov.io/gh/durandtibo/meteor/branch/main/graph/badge.svg">
    </a>
    <a href="https://github.com/psf/black">
      <img  alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg">
