@@ -20,12 +20,12 @@ datapipe_creators:
   train:
     _target_: gravitorch.creators.datapipe.EpochRandomIterDataPipeCreator
     config:
-      _target_: gravitorch.data.datapipes.iter.DictBatcherIterDataPipe
+      _target_: gravitorch.data.datapipes.iter.DictBatcher
       batch_size: ${oc.select:batch_size,32}
       shuffle: true
   eval:
     _target_: gravitorch.creators.datapipe.SequentialIterDataPipeCreator
     config:
-      - _target_: gravitorch.data.datapipes.iter.DictBatcherIterDataPipe
+      - _target_: gravitorch.data.datapipes.iter.DictBatcher
         batch_size: ${oc.select:batch_size,32}
         shuffle: false
