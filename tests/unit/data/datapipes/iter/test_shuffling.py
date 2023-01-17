@@ -6,30 +6,29 @@ from coola import objects_are_equal
 from pytest import mark, raises
 from torch import Tensor
 
-from gravitorch.data.datapipes.iter import SourceIterDataPipe
+from gravitorch.data.datapipes.iter import SourceIterDataPipe, TensorDictShuffler
 from gravitorch.data.datapipes.iter.shuffling import (
-    TensorDictShufflerIterDataPipe,
     get_first_dimension,
     shuffle_tensor_mapping,
     shuffle_tensors,
 )
 from gravitorch.utils.seed import get_torch_generator
 
-####################################################
-#     Tests for TensorDictShufflerIterDataPipe     #
-####################################################
+########################################
+#     Tests for TensorDictShuffler     #
+########################################
 
 
-def test_tensor_dict_shuffler_iter_datapipe_str():
-    assert str(TensorDictShufflerIterDataPipe(SourceIterDataPipe([]))).startswith(
+def test_tensor_dict_shuffler_str():
+    assert str(TensorDictShuffler(SourceIterDataPipe([]))).startswith(
         "TensorDictShufflerIterDataPipe("
     )
 
 
 @mark.parametrize("random_seed", (1, 2))
-def test_tensor_dict_shuffler_iter_datapipe_iter_random_seed(random_seed: int):
+def test_tensor_dict_shuffler_iter_random_seed(random_seed: int):
     assert (
-        TensorDictShufflerIterDataPipe(SourceIterDataPipe([]), random_seed=random_seed).random_seed
+        TensorDictShuffler(SourceIterDataPipe([]), random_seed=random_seed).random_seed
         == random_seed
     )
 
@@ -38,10 +37,10 @@ def test_tensor_dict_shuffler_iter_datapipe_iter_random_seed(random_seed: int):
     "gravitorch.data.datapipes.iter.shuffling.torch.randperm",
     lambda *args, **kwargs: torch.tensor([0, 2, 1, 3]),
 )
-def test_tensor_dict_shuffler_iter_datapipe_iter():
+def test_tensor_dict_shuffler_iter():
     source = SourceIterDataPipe([{"key": torch.arange(4) + i} for i in range(3)])
     assert objects_are_equal(
-        list(TensorDictShufflerIterDataPipe(source)),
+        list(TensorDictShuffler(source)),
         [
             {"key": torch.tensor([0, 2, 1, 3])},
             {"key": torch.tensor([1, 3, 2, 4])},
@@ -51,45 +50,45 @@ def test_tensor_dict_shuffler_iter_datapipe_iter():
 
 
 @mark.parametrize("dim", (0, 1, 2))
-def test_tensor_dict_shuffler_iter_datapipe_iter_dim_int(dim: int):
+def test_tensor_dict_shuffler_iter_dim_int(dim: int):
     source = SourceIterDataPipe([{"key": torch.arange(4) + i} for i in range(3)])
     with patch("gravitorch.data.datapipes.iter.shuffling.shuffle_tensor_mapping") as shuffle_mock:
-        next(iter(TensorDictShufflerIterDataPipe(source, dim=dim)))
+        next(iter(TensorDictShuffler(source, dim=dim)))
         assert shuffle_mock.call_args.kwargs["dim"] == dim
 
 
 @mark.parametrize("dim", (0, 1, 2))
-def test_tensor_dict_shuffler_iter_datapipe_iter_dim_dict(dim: int):
+def test_tensor_dict_shuffler_iter_dim_dict(dim: int):
     source = SourceIterDataPipe([{"key": torch.arange(4) + i} for i in range(3)])
     with patch("gravitorch.data.datapipes.iter.shuffling.shuffle_tensor_mapping") as shuffle_mock:
-        next(iter(TensorDictShufflerIterDataPipe(source, dim={"key": dim})))
+        next(iter(TensorDictShuffler(source, dim={"key": dim})))
         assert shuffle_mock.call_args.kwargs["dim"] == {"key": dim}
 
 
-def test_tensor_dict_shuffler_iter_datapipe_iter_same_random_seed():
+def test_tensor_dict_shuffler_iter_same_random_seed():
     source = SourceIterDataPipe([{"key": torch.arange(4) + i} for i in range(3)])
     assert objects_are_equal(
-        list(TensorDictShufflerIterDataPipe(source, random_seed=1)),
-        list(TensorDictShufflerIterDataPipe(source, random_seed=1)),
+        list(TensorDictShuffler(source, random_seed=1)),
+        list(TensorDictShuffler(source, random_seed=1)),
     )
 
 
-def test_tensor_dict_shuffler_iter_datapipe_iter_different_random_seeds():
+def test_tensor_dict_shuffler_iter_different_random_seeds():
     source = SourceIterDataPipe([{"key": torch.arange(4) + i} for i in range(3)])
     assert not objects_are_equal(
-        list(TensorDictShufflerIterDataPipe(source, random_seed=1)),
-        list(TensorDictShufflerIterDataPipe(source, random_seed=2)),
+        list(TensorDictShuffler(source, random_seed=1)),
+        list(TensorDictShuffler(source, random_seed=2)),
     )
 
 
-def test_tensor_dict_shuffler_iter_datapipe_len():
-    assert len(TensorDictShufflerIterDataPipe(Mock(__len__=Mock(return_value=5)))) == 5
+def test_tensor_dict_shuffler_len():
+    assert len(TensorDictShuffler(Mock(__len__=Mock(return_value=5)))) == 5
 
 
-def test_tensor_dict_shuffler_iter_datapipe_no_len():
+def test_tensor_dict_shuffler_no_len():
     source = SourceIterDataPipe({"key": torch.arange(4) + i} for i in range(3))
     with raises(TypeError):
-        len(TensorDictShufflerIterDataPipe(source))
+        len(TensorDictShuffler(source))
 
 
 #####################################

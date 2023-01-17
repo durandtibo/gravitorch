@@ -44,7 +44,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
             ``mapping``. See example in ``shuffle_tensor_mapping``.
 
     Args:
-        source_datapipe (``IterDataPipe``): Specifies the source
+        datapipe (``IterDataPipe``): Specifies the source
             iterable DataPipe.
         dim (int or dict, optional): Specifies the dimension used to
             shuffle the mapping. Default: ``0``
@@ -57,17 +57,17 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
     .. code-block:: python
 
         >>> from torch.utils.data import IterDataPipe
-        >>> from gravitorch.data.datapipes.iter import TensorDictShufflerIterDataPipe
+        >>> from gravitorch.data.datapipes.iter import TensorDictShuffler
         >>> class MyIterDataPipe(IterDataPipe[dict]):
         ...     def __iter__(self) -> Iterator[dict]:
         ...         for i in range(3):
         ...             yield {"key": torch.arange(4) + i}
         ...
-        >>> list(TensorDictShufflerIterDataPipe(MyIterDataPipe()))
+        >>> list(TensorDictShuffler(MyIterDataPipe()))
         [{'key': tensor([2, 3, 0, 1])},
          {'key': tensor([3, 2, 4, 1])},
          {'key': tensor([2, 5, 4, 3])}]
-        >>> list(TensorDictShufflerIterDataPipe(MyIterDataPipe(), dim={'key': 0}))
+        >>> list(TensorDictShuffler(MyIterDataPipe(), dim={'key': 0}))
         [{'key': tensor([2, 3, 0, 1])},
          {'key': tensor([3, 2, 4, 1])},
          {'key': tensor([2, 5, 4, 3])}]
@@ -75,21 +75,21 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
 
     def __init__(
         self,
-        source_datapipe: IterDataPipe[Mapping],
+        datapipe: IterDataPipe[Mapping],
         dim: Union[int, dict] = 0,
         random_seed: int = 3510637111256283951,
     ):
-        self._source_datapipe = source_datapipe
+        self._datapipe = datapipe
         self._dim = dim
         self._generator = get_torch_generator(random_seed)
 
     def __iter__(self) -> Iterator[dict]:
-        for data in self._source_datapipe:
+        for data in self._datapipe:
             yield shuffle_tensor_mapping(data, dim=self._dim, generator=self._generator)
 
     def __len__(self) -> int:
         try:
-            return len(self._source_datapipe)
+            return len(self._datapipe)
         except TypeError as exc:
             raise TypeError(
                 f"{type(self).__qualname__} instance doesn't have valid length"
@@ -100,7 +100,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
             f"{self.__class__.__qualname__}(\n"
             f"  dim={self._dim},\n"
             f"  random_seed={self.random_seed},\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"  datapipe={str_add_indent(self._datapipe)},\n)"
         )
 
     @property
