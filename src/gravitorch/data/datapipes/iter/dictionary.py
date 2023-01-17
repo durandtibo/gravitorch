@@ -1,4 +1,4 @@
-__all__ = ["ToDictOfListIterDataPipe", "ToListOfDictIterDataPipe"]
+__all__ = ["DictOfListConverterIterDataPipe", "ListOfDictConverterIterDataPipe"]
 
 from collections.abc import Hashable, Iterator, Mapping, Sequence
 
@@ -8,7 +8,7 @@ from gravitorch.utils.format import str_add_indent
 from gravitorch.utils.mapping import convert_to_dict_of_lists, convert_to_list_of_dicts
 
 
-class ToDictOfListIterDataPipe(IterDataPipe[dict[Hashable, list]]):
+class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
     r"""Implements an ``IterDataPipe`` to convert a sequence of mappings to a
     dictionary of lists.
 
@@ -25,12 +25,7 @@ class ToDictOfListIterDataPipe(IterDataPipe[dict[Hashable, list]]):
             yield convert_to_dict_of_lists(data)
 
     def __len__(self) -> int:
-        try:
-            return len(self._source_datapipe)
-        except TypeError as exc:
-            raise TypeError(
-                f"{type(self).__qualname__} instance doesn't have valid length"
-            ) from exc
+        return len(self._source_datapipe)
 
     def __str__(self) -> str:
         return (
@@ -39,7 +34,7 @@ class ToDictOfListIterDataPipe(IterDataPipe[dict[Hashable, list]]):
         )
 
 
-class ToListOfDictIterDataPipe(IterDataPipe[list[dict]]):
+class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
     r"""Implements an ``IterDataPipe`` to convert a mapping of sequences to a
     list of dictionaries.
 
@@ -56,12 +51,7 @@ class ToListOfDictIterDataPipe(IterDataPipe[list[dict]]):
             yield convert_to_list_of_dicts(data)
 
     def __len__(self) -> int:
-        try:
-            return len(self._source_datapipe)
-        except TypeError as exc:
-            raise TypeError(
-                f"{type(self).__qualname__} instance doesn't have valid length"
-            ) from exc
+        return len(self._source_datapipe)
 
     def __str__(self) -> str:
         return (

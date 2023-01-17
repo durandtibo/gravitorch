@@ -1,15 +1,15 @@
 __all__ = [
     "DictBatcher",
+    "DictOfListConverter",
     "DirFilter",
     "FileFilter",
     "FixedLengthIterDataPipe",
+    "ListOfDictConverter",
     "PathLister",
     "PickleSaver",
     "PyTorchSaver",
     "SourceIterDataPipe",
     "TensorDictShuffler",
-    "ToDictOfListIterDataPipe",
-    "ToListOfDictIterDataPipe",
     "TupleBatcher",
     "setup_iter_datapipe",
 ]
@@ -21,8 +21,10 @@ from gravitorch.data.datapipes.iter.batching import (
     TupleBatcherIterDataPipe as TupleBatcher,
 )
 from gravitorch.data.datapipes.iter.dictionary import (
-    ToDictOfListIterDataPipe,
-    ToListOfDictIterDataPipe,
+    DictOfListConverterIterDataPipe as DictOfListConverter,
+)
+from gravitorch.data.datapipes.iter.dictionary import (
+    ListOfDictConverterIterDataPipe as ListOfDictConverter,
 )
 from gravitorch.data.datapipes.iter.factory import setup_iter_datapipe
 from gravitorch.data.datapipes.iter.length import FixedLengthIterDataPipe
