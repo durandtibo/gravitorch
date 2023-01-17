@@ -57,8 +57,8 @@ def test_epoch_random_iter_data_pipe_creator_create_rank_0():
     assert (
         EpochRandomIterDataPipeCreator(
             {
-                OBJECT_TARGET: "gravitorch.data.datapipes.iter.TensorDictShufflerIterDataPipe",
-                "source_datapipe": Mock(spec=IterDataPipe),
+                OBJECT_TARGET: "gravitorch.data.datapipes.iter.TensorDictShuffler",
+                "datapipe": Mock(spec=IterDataPipe),
                 "random_seed": 42,
             }
         )
@@ -73,8 +73,8 @@ def test_epoch_random_iter_data_pipe_creator_get_random_seed_rank_1():
     assert (
         EpochRandomIterDataPipeCreator(
             {
-                OBJECT_TARGET: "gravitorch.data.datapipes.iter.TensorDictShufflerIterDataPipe",
-                "source_datapipe": Mock(spec=IterDataPipe),
+                OBJECT_TARGET: "gravitorch.data.datapipes.iter.TensorDictShuffler",
+                "datapipe": Mock(spec=IterDataPipe),
                 "random_seed": 42,
             }
         )
@@ -89,8 +89,8 @@ def test_epoch_random_iter_data_pipe_creator_create_no_random_seed():
     assert (
         EpochRandomIterDataPipeCreator(
             {
-                OBJECT_TARGET: "gravitorch.data.datapipes.iter.TensorDictShufflerIterDataPipe",
-                "source_datapipe": Mock(spec=IterDataPipe),
+                OBJECT_TARGET: "gravitorch.data.datapipes.iter.TensorDictShuffler",
+                "datapipe": Mock(spec=IterDataPipe),
             }
         )
         .create(engine=Mock(spec=BaseEngine, epoch=2, max_epochs=10, random_seed=35))

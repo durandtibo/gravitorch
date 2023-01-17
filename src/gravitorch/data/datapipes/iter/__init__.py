@@ -7,7 +7,7 @@ __all__ = [
     "PickleSaver",
     "PyTorchSaver",
     "SourceIterDataPipe",
-    "TensorDictShufflerIterDataPipe",
+    "TensorDictShuffler",
     "ToDictOfListIterDataPipe",
     "ToListOfDictIterDataPipe",
     "TupleBatcher",
@@ -33,5 +33,7 @@ from gravitorch.data.datapipes.iter.saving import PickleSaverIterDataPipe as Pic
 from gravitorch.data.datapipes.iter.saving import (
     PyTorchSaverIterDataPipe as PyTorchSaver,
 )
-from gravitorch.data.datapipes.iter.shuffling import TensorDictShufflerIterDataPipe
+from gravitorch.data.datapipes.iter.shuffling import (
+    TensorDictShufflerIterDataPipe as TensorDictShuffler,
+)
 from gravitorch.data.datapipes.iter.source import SourceIterDataPipe
