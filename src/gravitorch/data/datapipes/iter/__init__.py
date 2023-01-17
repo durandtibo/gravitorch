@@ -1,5 +1,5 @@
 __all__ = [
-    "DictBatcherSrcIterDataPipe",
+    "DictBatcher",
     "DirFilter",
     "FileFilter",
     "FixedLengthIterDataPipe",
@@ -10,10 +10,16 @@ __all__ = [
     "TensorDictShufflerIterDataPipe",
     "ToDictOfListIterDataPipe",
     "ToListOfDictIterDataPipe",
-    "TupleBatcherSrcIterDataPipe",
+    "TupleBatcher",
     "setup_iter_datapipe",
 ]
 
+from gravitorch.data.datapipes.iter.batching import (
+    DictBatcherIterDataPipe as DictBatcher,
+)
+from gravitorch.data.datapipes.iter.batching import (
+    TupleBatcherIterDataPipe as TupleBatcher,
+)
 from gravitorch.data.datapipes.iter.dictionary import (
     ToDictOfListIterDataPipe,
     ToListOfDictIterDataPipe,
@@ -29,7 +35,3 @@ from gravitorch.data.datapipes.iter.saving import (
 )
 from gravitorch.data.datapipes.iter.shuffling import TensorDictShufflerIterDataPipe
 from gravitorch.data.datapipes.iter.source import SourceIterDataPipe
-from gravitorch.data.datapipes.iter.source_batch import (
-    DictBatcherSrcIterDataPipe,
-    TupleBatcherSrcIterDataPipe,
-)

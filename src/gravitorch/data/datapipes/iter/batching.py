@@ -1,4 +1,4 @@
-__all__ = ["DictBatcherSrcIterDataPipe", "TupleBatcherSrcIterDataPipe"]
+__all__ = ["DictBatcherIterDataPipe", "TupleBatcherIterDataPipe"]
 
 import logging
 from collections.abc import Hashable, Iterator, Sequence
@@ -18,7 +18,7 @@ from gravitorch.utils.summary import concise_summary
 logger = logging.getLogger(__name__)
 
 
-class DictBatcherSrcIterDataPipe(IterDataPipe[dict]):
+class DictBatcherIterDataPipe(IterDataPipe[dict]):
     r"""Implements a source DataPipe to generate batch of examples from a
     dictionary of ``torch.Tensor``s.
 
@@ -49,10 +49,8 @@ class DictBatcherSrcIterDataPipe(IterDataPipe[dict]):
         if self._shuffle:
             data = shuffle_tensor_mapping(data, generator=self._generator)
         keys = data.keys()
-        for batched_tensors in zip(
-            *[torch.split(value, self._batch_size) for value in data.values()]
-        ):
-            yield {key: batched_tensor for key, batched_tensor in zip(keys, batched_tensors)}
+        for tensors in zip(*[torch.split(value, self._batch_size) for value in data.values()]):
+            yield {key: tensor for key, tensor in zip(keys, tensors)}
 
     def __len__(self) -> int:
         return (
@@ -76,7 +74,7 @@ class DictBatcherSrcIterDataPipe(IterDataPipe[dict]):
         return self._generator.initial_seed()
 
 
-class TupleBatcherSrcIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
+class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
     r"""Implements a source DataPipe to generate batch of examples from a tuple
     of ``torch.Tensor``s.
 
