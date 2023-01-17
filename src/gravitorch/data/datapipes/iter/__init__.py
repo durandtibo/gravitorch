@@ -4,8 +4,8 @@ __all__ = [
     "FileFilterIterDataPipe",
     "FixedLengthIterDataPipe",
     "PathListerIterDataPipe",
-    "PickleSaverIterDataPipe",
-    "PyTorchSaverIterDataPipe",
+    "PickleSaver",
+    "PyTorchSaver",
     "SourceIterDataPipe",
     "TensorDictShufflerIterDataPipe",
     "ToDictOfListIterDataPipe",
@@ -25,9 +25,9 @@ from gravitorch.data.datapipes.iter.path import (
     FileFilterIterDataPipe,
     PathListerIterDataPipe,
 )
+from gravitorch.data.datapipes.iter.saving import PickleSaverIterDataPipe as PickleSaver
 from gravitorch.data.datapipes.iter.saving import (
-    PickleSaverIterDataPipe,
-    PyTorchSaverIterDataPipe,
+    PyTorchSaverIterDataPipe as PyTorchSaver,
 )
 from gravitorch.data.datapipes.iter.shuffling import TensorDictShufflerIterDataPipe
 from gravitorch.data.datapipes.iter.source import SourceIterDataPipe

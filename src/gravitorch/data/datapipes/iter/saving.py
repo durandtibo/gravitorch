@@ -22,7 +22,7 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
     DataPipe has ``M`` values, ``M`` pickle files are created.
 
     Args:
-        source_datapipe: Specifies the source DataPipe.
+        datapipe: Specifies the source DataPipe.
         root_path (``pathlib.Path`` or str): Specifies the directory
             where to save the pickle files.
         pattern (str, optional): Specifies the filename pattern of
@@ -33,11 +33,11 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
 
     def __init__(
         self,
-        source_datapipe: IterDataPipe,
+        datapipe: IterDataPipe,
         root_path: Union[Path, str],
         pattern: str = "data_{index:04d}.pkl",
     ):
-        self._source_datapipe = source_datapipe
+        self._datapipe = datapipe
         self._root_path = sanitize_path(root_path)
         if not self._root_path.is_dir():
             raise ValueError(f"root_path has to be a directory (received: {self._root_path})")
@@ -46,25 +46,20 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
             raise ValueError(f"pattern does not have 'index' (received: {self._pattern})")
 
     def __iter__(self) -> Iterator[Path]:
-        for i, data in enumerate(self._source_datapipe):
+        for i, data in enumerate(self._datapipe):
             path = self._root_path.joinpath(self._pattern.format(index=i))
             save_pickle(data, path)
             yield path
 
     def __len__(self) -> int:
-        try:
-            return len(self._source_datapipe)
-        except TypeError as exc:
-            raise TypeError(
-                f"{type(self).__qualname__} instance doesn't have valid length"
-            ) from exc
+        return len(self._datapipe)
 
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  root_path={self._root_path},\n"
             f"  pattern={self._pattern},\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"  datapipe={str_add_indent(self._datapipe)},\n)"
         )
 
 
@@ -76,7 +71,7 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
     DataPipe has ``M`` values, ``M`` PyTorch files are created.
 
     Args:
-        source_datapipe: Specifies the source DataPipe.
+        datapipe: Specifies the source DataPipe.
         root_path (``pathlib.Path`` or str): Specifies the directory
             where to save the PyTorch files.
         pattern (str, optional): Specifies the filename pattern of the
@@ -87,11 +82,11 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
 
     def __init__(
         self,
-        source_datapipe: IterDataPipe,
+        datapipe: IterDataPipe,
         root_path: Union[Path, str],
         pattern: str = "data_{index:04d}.pt",
     ):
-        self._source_datapipe = source_datapipe
+        self._datapipe = datapipe
         self._root_path = sanitize_path(root_path)
         if not self._root_path.is_dir():
             raise ValueError(f"root_path has to be a directory (received: {self._root_path})")
@@ -100,18 +95,18 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
             raise ValueError(f"pattern does not have 'index' (received: {self._pattern})")
 
     def __iter__(self) -> Iterator[Path]:
-        for i, data in enumerate(self._source_datapipe):
+        for i, data in enumerate(self._datapipe):
             path = self._root_path.joinpath(self._pattern.format(index=i))
             save_pytorch(data, path)
             yield path
 
     def __len__(self) -> int:
-        return len(self._source_datapipe)
+        return len(self._datapipe)
 
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  root_path={self._root_path},\n"
             f"  pattern={self._pattern},\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"  datapipe={str_add_indent(self._datapipe)},\n)"
         )
