@@ -1,9 +1,9 @@
 __all__ = [
     "DictBatcherSrcIterDataPipe",
-    "DirFilterIterDataPipe",
-    "FileFilterIterDataPipe",
+    "DirFilter",
+    "FileFilter",
     "FixedLengthIterDataPipe",
-    "PathListerIterDataPipe",
+    "PathLister",
     "PickleSaver",
     "PyTorchSaver",
     "SourceIterDataPipe",
@@ -20,11 +20,9 @@ from gravitorch.data.datapipes.iter.dictionary import (
 )
 from gravitorch.data.datapipes.iter.factory import setup_iter_datapipe
 from gravitorch.data.datapipes.iter.length import FixedLengthIterDataPipe
-from gravitorch.data.datapipes.iter.path import (
-    DirFilterIterDataPipe,
-    FileFilterIterDataPipe,
-    PathListerIterDataPipe,
-)
+from gravitorch.data.datapipes.iter.path import DirFilterIterDataPipe as DirFilter
+from gravitorch.data.datapipes.iter.path import FileFilterIterDataPipe as FileFilter
+from gravitorch.data.datapipes.iter.path import PathListerIterDataPipe as PathLister
 from gravitorch.data.datapipes.iter.saving import PickleSaverIterDataPipe as PickleSaver
 from gravitorch.data.datapipes.iter.saving import (
     PyTorchSaverIterDataPipe as PyTorchSaver,

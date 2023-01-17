@@ -12,22 +12,21 @@ class DirFilterIterDataPipe(IterDataPipe[Path]):
     r"""Implements an ``IterDataPipe`` to keep only the directory.
 
     Args:
-        source_datapipe (``IterDataPipe``): Specifies the source
+        datapipe (``IterDataPipe``): Specifies the source
             ``IterDataPipe``.
     """
 
-    def __init__(self, source_datapipe: IterDataPipe[Path]):
-        self._source_datapipe = source_datapipe
+    def __init__(self, datapipe: IterDataPipe[Path]):
+        self._datapipe = datapipe
 
     def __iter__(self) -> Iterator[Path]:
-        for path in self._source_datapipe:
+        for path in self._datapipe:
             if path.is_dir():
                 yield path
 
     def __str__(self) -> str:
         return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"{self.__class__.__qualname__}(\n" f"  datapipe={str_add_indent(self._datapipe)},\n)"
         )
 
 
@@ -35,22 +34,21 @@ class FileFilterIterDataPipe(IterDataPipe[Path]):
     r"""Implements an ``IterDataPipe`` to keep only the files.
 
     Args:
-        source_datapipe (``IterDataPipe``): Specifies the source
+        datapipe (``IterDataPipe``): Specifies the source
             ``IterDataPipe``.
     """
 
-    def __init__(self, source_datapipe: IterDataPipe[Path]):
-        self._source_datapipe = source_datapipe
+    def __init__(self, datapipe: IterDataPipe[Path]):
+        self._datapipe = datapipe
 
     def __iter__(self) -> Iterator[Path]:
-        for path in self._source_datapipe:
+        for path in self._datapipe:
             if path.is_file():
                 yield path
 
     def __str__(self) -> str:
         return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"{self.__class__.__qualname__}(\n" f"  datapipe={str_add_indent(self._datapipe)},\n)"
         )
 
 
@@ -58,7 +56,7 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
     r"""Implements an ``IterDataPipe`` to list the paths.
 
     Args:
-        source_datapipe (``IterDataPipe``): Specifies the source
+        datapipe (``IterDataPipe``): Specifies the source
             ``IterDataPipe`` with the root paths.
         pattern (str, optional): Specifies a glob pattern, to return
             only the matching paths. Default: ``'*'``
@@ -68,16 +66,16 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
 
     def __init__(
         self,
-        source_datapipe: IterDataPipe[Path],
+        datapipe: IterDataPipe[Path],
         pattern: str = "*",
         deterministic: bool = True,
     ):
-        self._source_datapipe = source_datapipe
+        self._datapipe = datapipe
         self._pattern = pattern
         self._deterministic = bool(deterministic)
 
     def __iter__(self) -> Iterator[Path]:
-        for path in self._source_datapipe:
+        for path in self._datapipe:
             paths = path.glob(self._pattern)
             if self._deterministic:
                 paths = sorted(paths)
@@ -88,5 +86,5 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
             f"{self.__class__.__qualname__}(\n"
             f"  pattern={self._pattern},\n"
             f"  deterministic={self._deterministic},\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"  datapipe={str_add_indent(self._datapipe)},\n)"
         )
