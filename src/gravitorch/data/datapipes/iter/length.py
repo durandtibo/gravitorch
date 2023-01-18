@@ -27,11 +27,11 @@ class LooperIterDataPipe(IterDataPipe[T]):
 
     .. code-block:: python
 
-        >>> from gravitorch.data.datapipes.iter import Looper, SourceIterDataPipe
-        >>> dp = Looper(SourceIterDataPipe([1, 2, 3, 4]), length=10)
+        >>> from gravitorch.data.datapipes.iter import Looper, SourceWrapper
+        >>> dp = Looper(SourceWrapper([1, 2, 3, 4]), length=10)
         >>> list(dp)
         [1, 2, 3, 4, 1, 2, 3, 4, 1, 2]
-        >>> dp = Looper(SourceIterDataPipe([1, 2, 3, 4, 5, 6]), length=4)
+        >>> dp = Looper(SourceWrapper([1, 2, 3, 4, 5, 6]), length=4)
         >>> list(dp)
         [1, 2, 3, 4]
     """

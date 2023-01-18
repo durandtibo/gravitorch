@@ -8,7 +8,7 @@ from gravitorch.data.datapipes.iter import (
     DirFilter,
     FileFilter,
     PathLister,
-    SourceIterDataPipe,
+    SourceWrapper,
 )
 from gravitorch.utils.io import save_text
 
@@ -31,7 +31,7 @@ def test_dir_filter_iter_recursive(tmp_path: Path):
     create_files(tmp_path)
     assert list(
         DirFilter(
-            SourceIterDataPipe(
+            SourceWrapper(
                 [
                     tmp_path.joinpath("dir/file.txt"),
                     tmp_path.joinpath("dir/"),
@@ -60,7 +60,7 @@ def test_file_filter_iter_recursive(tmp_path: Path):
     create_files(tmp_path)
     assert list(
         FileFilter(
-            SourceIterDataPipe(
+            SourceWrapper(
                 [
                     tmp_path.joinpath("dir/file.txt"),
                     tmp_path.joinpath("dir/"),
@@ -89,19 +89,19 @@ def test_path_lister_str():
 
 
 def test_path_lister_iter_empty(tmp_path: Path):
-    assert list(PathLister(SourceIterDataPipe([tmp_path]))) == []
+    assert list(PathLister(SourceWrapper([tmp_path]))) == []
 
 
 def test_path_lister_iter(tmp_path: Path):
     create_files(tmp_path)
-    assert list(PathLister(SourceIterDataPipe([tmp_path]), pattern="*.txt")) == [
+    assert list(PathLister(SourceWrapper([tmp_path]), pattern="*.txt")) == [
         tmp_path.joinpath("file.txt")
     ]
 
 
 def test_path_lister_iter_recursive(tmp_path: Path):
     create_files(tmp_path)
-    assert list(PathLister(SourceIterDataPipe([tmp_path]), pattern="**/*.txt")) == [
+    assert list(PathLister(SourceWrapper([tmp_path]), pattern="**/*.txt")) == [
         tmp_path.joinpath("dir/file.txt"),
         tmp_path.joinpath("file.txt"),
     ]
@@ -109,9 +109,7 @@ def test_path_lister_iter_recursive(tmp_path: Path):
 
 def test_path_lister_iter_deterministic_false(tmp_path: Path):
     create_files(tmp_path)
-    assert set(
-        PathLister(SourceIterDataPipe([tmp_path]), pattern="**/*.txt", deterministic=False)
-    ) == {
+    assert set(PathLister(SourceWrapper([tmp_path]), pattern="**/*.txt", deterministic=False)) == {
         tmp_path.joinpath("dir/file.txt"),
         tmp_path.joinpath("file.txt"),
     }
