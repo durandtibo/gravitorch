@@ -12,18 +12,15 @@ def test_looper_str():
 
 
 def test_looper_iter_exact_length():
-    datapipe = Looper(SourceIterDataPipe([1, 2, 3]), length=3)
-    assert tuple(datapipe) == (1, 2, 3)
+    assert tuple(Looper(SourceIterDataPipe([1, 2, 3]), length=3)) == (1, 2, 3)
 
 
 def test_looper_iter_too_long():
-    datapipe = Looper(SourceIterDataPipe([1, 2, 3, 4, 5]), length=3)
-    assert tuple(datapipe) == (1, 2, 3)
+    assert tuple(Looper(SourceIterDataPipe([1, 2, 3, 4, 5]), length=3)) == (1, 2, 3)
 
 
 def test_looper_iter_too_short():
-    datapipe = Looper(SourceIterDataPipe([1, 2, 3]), length=5)
-    assert tuple(datapipe) == (1, 2, 3, 1, 2)
+    assert tuple(Looper(SourceIterDataPipe([1, 2, 3]), length=5)) == (1, 2, 3, 1, 2)
 
 
 @mark.parametrize("length", (1, 2, 3))
