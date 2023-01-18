@@ -1,4 +1,4 @@
-__all__ = ["FixedLengthIterDataPipe"]
+__all__ = ["LooperIterDataPipe"]
 
 from collections.abc import Iterator
 from typing import TypeVar
@@ -10,7 +10,7 @@ from gravitorch.utils.format import str_add_indent
 T = TypeVar("T")
 
 
-class FixedLengthIterDataPipe(IterDataPipe[T]):
+class LooperIterDataPipe(IterDataPipe[T]):
     r"""Implements a DataPipe that has a fixed length.
 
     - If the source DataPipe is longer than ``length``, only the first
@@ -19,13 +19,25 @@ class FixedLengthIterDataPipe(IterDataPipe[T]):
         the source DataPipe are repeated until ``length`` items.
 
     Args:
-        source_datapipe (``torch.utils.data.IterDataPipe``): Specifies
+        datapipe (``torch.utils.data.IterDataPipe``): Specifies
             the source iterable DataPipe.
         length (int): Specifies the length of the DataPipe.
+
+     Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch.data.datapipes.iter import Looper, SourceIterDataPipe
+        >>> dp = Looper(SourceIterDataPipe([1, 2, 3, 4]), length=10)
+        >>> list(dp)
+        [1, 2, 3, 4, 1, 2, 3, 4, 1, 2]
+        >>> dp = Looper(SourceIterDataPipe([1, 2, 3, 4, 5, 6]), length=4)
+        >>> list(dp)
+        [1, 2, 3, 4]
     """
 
-    def __init__(self, source_datapipe: IterDataPipe[T], length: int):
-        self._source_datapipe = source_datapipe
+    def __init__(self, datapipe: IterDataPipe[T], length: int):
+        self._datapipe = datapipe
         if length < 1:
             raise ValueError(
                 f"Incorrect length: {length}. The length has to be greater or equal to 1"
@@ -35,7 +47,7 @@ class FixedLengthIterDataPipe(IterDataPipe[T]):
     def __iter__(self) -> Iterator[T]:
         step = 0
         while step < self._length:
-            for data in self._source_datapipe:
+            for data in self._datapipe:
                 yield data
                 step += 1
                 if step == self._length:
@@ -48,5 +60,5 @@ class FixedLengthIterDataPipe(IterDataPipe[T]):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  length={self._length:,},\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"  datapipe={str_add_indent(self._datapipe)},\n)"
         )

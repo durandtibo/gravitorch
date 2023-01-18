@@ -3,8 +3,8 @@ __all__ = [
     "DictOfListConverter",
     "DirFilter",
     "FileFilter",
-    "FixedLengthIterDataPipe",
     "ListOfDictConverter",
+    "Looper",
     "PathLister",
     "PickleSaver",
     "PyTorchSaver",
@@ -27,7 +27,7 @@ from gravitorch.data.datapipes.iter.dictionary import (
     ListOfDictConverterIterDataPipe as ListOfDictConverter,
 )
 from gravitorch.data.datapipes.iter.factory import setup_iter_datapipe
-from gravitorch.data.datapipes.iter.length import FixedLengthIterDataPipe
+from gravitorch.data.datapipes.iter.length import LooperIterDataPipe as Looper
 from gravitorch.data.datapipes.iter.path import DirFilterIterDataPipe as DirFilter
 from gravitorch.data.datapipes.iter.path import FileFilterIterDataPipe as FileFilter
 from gravitorch.data.datapipes.iter.path import PathListerIterDataPipe as PathLister
