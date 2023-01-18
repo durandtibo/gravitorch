@@ -9,7 +9,7 @@ from gravitorch.creators.datapipe import (
     SequentialIterDataPipeCreator,
 )
 from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCreator
-from gravitorch.data.datapipes.iter import SourceIterDataPipe
+from gravitorch.data.datapipes.iter import SourceWrapper
 from gravitorch.datasources import (
     DataCreatorIterDataPipeCreatorDataSource,
     IterDataPipeCreatorDataSource,
@@ -31,8 +31,8 @@ def data_source() -> IterDataPipeCreatorDataSource:
                 OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
                 "config": [
                     {
-                        OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceIterDataPipe",
-                        "data": [1, 2, 3, 4],
+                        OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
+                        "source": [1, 2, 3, 4],
                     },
                 ],
             },
@@ -40,8 +40,8 @@ def data_source() -> IterDataPipeCreatorDataSource:
                 OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
                 "config": [
                     {
-                        OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceIterDataPipe",
-                        "data": ["a", "b", "c"],
+                        OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
+                        "source": ["a", "b", "c"],
                     },
                 ],
             },
@@ -94,7 +94,7 @@ def test_iter_data_pipe_creator_data_source_get_data_loader_train(
     data_source: IterDataPipeCreatorDataSource,
 ):
     loader = data_source.get_data_loader("train")
-    assert isinstance(loader, SourceIterDataPipe)
+    assert isinstance(loader, SourceWrapper)
     assert tuple(loader) == (1, 2, 3, 4)
 
 
@@ -102,7 +102,7 @@ def test_iter_data_pipe_creator_data_source_get_data_loader_val(
     data_source: IterDataPipeCreatorDataSource,
 ):
     loader = data_source.get_data_loader("val")
-    assert isinstance(loader, SourceIterDataPipe)
+    assert isinstance(loader, SourceWrapper)
     assert tuple(loader) == ("a", "b", "c")
 
 
@@ -222,7 +222,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_get_data_loader():
         datapipe_creators={
             "train": SequentialIterDataPipeCreator(
                 config=[
-                    {OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceIterDataPipe"},
+                    {OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper"},
                 ]
             )
         },
@@ -231,4 +231,4 @@ def test_data_creator_iter_data_pipe_creator_data_source_get_data_loader():
         },
     )
     datapipe = creator.get_data_loader("train")
-    assert isinstance(datapipe, SourceIterDataPipe)
+    assert isinstance(datapipe, SourceWrapper)

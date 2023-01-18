@@ -32,7 +32,7 @@ def test_setup_iter_datapipe_creator_dict():
                 OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
                 "config": [
                     {
-                        OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceIterDataPipe",
+                        OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
                         "data": [1, 2, 3, 4],
                     }
                 ],

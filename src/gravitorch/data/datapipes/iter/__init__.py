@@ -8,7 +8,7 @@ __all__ = [
     "PathLister",
     "PickleSaver",
     "PyTorchSaver",
-    "SourceIterDataPipe",
+    "SourceWrapper",
     "TensorDictShuffler",
     "TupleBatcher",
     "setup_iter_datapipe",
@@ -38,4 +38,6 @@ from gravitorch.data.datapipes.iter.saving import (
 from gravitorch.data.datapipes.iter.shuffling import (
     TensorDictShufflerIterDataPipe as TensorDictShuffler,
 )
-from gravitorch.data.datapipes.iter.source import SourceIterDataPipe
+from gravitorch.data.datapipes.iter.source import (
+    SourceWrapperIterDataPipe as SourceWrapper,
+)

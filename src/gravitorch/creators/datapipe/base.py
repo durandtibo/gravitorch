@@ -96,7 +96,7 @@ def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> Base
         ...     SequentialIterDataPipeCreator(
         ...         config=[
         ...             {
-        ...                 OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceIterDataPipe",
+        ...                 OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
         ...                 "data": [1, 2, 3, 4],
         ...             }
         ...         ],
@@ -109,7 +109,7 @@ def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> Base
         ...         OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
         ...         "config": [
         ...             {
-        ...                 OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceIterDataPipe",
+        ...                 OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
         ...                 "data": [1, 2, 3, 4],
         ...             }
         ...         ],

@@ -5,7 +5,7 @@ from pytest import raises
 from gravitorch.data.datapipes.iter import (
     DictOfListConverter,
     ListOfDictConverter,
-    SourceIterDataPipe,
+    SourceWrapper,
 )
 
 #########################################
@@ -14,7 +14,7 @@ from gravitorch.data.datapipes.iter import (
 
 
 def test_dict_of_list_converter_str():
-    assert str(DictOfListConverter(SourceIterDataPipe([]))).startswith(
+    assert str(DictOfListConverter(SourceWrapper([]))).startswith(
         "DictOfListConverterIterDataPipe("
     )
 
@@ -22,7 +22,7 @@ def test_dict_of_list_converter_str():
 def test_dict_of_list_converter_iter():
     assert tuple(
         DictOfListConverter(
-            SourceIterDataPipe(
+            SourceWrapper(
                 [
                     [{"key1": 1, "key2": 10}, {"key1": 2, "key2": 20}, {"key1": 3, "key2": 30}],
                     [{"key": "a"}, {"key": -2}],
@@ -57,7 +57,7 @@ def test_dict_of_list_converter_no_len():
 
 
 def test_list_of_dict_converter_str():
-    assert str(ListOfDictConverter(SourceIterDataPipe([]))).startswith(
+    assert str(ListOfDictConverter(SourceWrapper([]))).startswith(
         "ListOfDictConverterIterDataPipe("
     )
 
@@ -65,7 +65,7 @@ def test_list_of_dict_converter_str():
 def test_list_of_dict_converter_iter():
     assert tuple(
         ListOfDictConverter(
-            SourceIterDataPipe(
+            SourceWrapper(
                 [
                     {
                         "key1": [1, 2, 3],
