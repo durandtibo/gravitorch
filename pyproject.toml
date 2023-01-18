@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.2a8"
-description = "Experimental"
+version = "0.0.2"
+description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
 #homepage = "https://github.com/durandtibo/gravitorch"
