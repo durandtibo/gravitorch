@@ -88,12 +88,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
             yield shuffle_tensor_mapping(data, dim=self._dim, generator=self._generator)
 
     def __len__(self) -> int:
-        try:
-            return len(self._datapipe)
-        except TypeError as exc:
-            raise TypeError(
-                f"{type(self).__qualname__} instance doesn't have valid length"
-            ) from exc
+        return len(self._datapipe)
 
     def __str__(self) -> str:
         return (
