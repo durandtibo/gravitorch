@@ -2,6 +2,7 @@ __all__ = ["DictBatcherIterDataPipe", "TupleBatcherIterDataPipe"]
 
 import logging
 from collections.abc import Hashable, Iterator, Sequence
+from typing import Union
 
 import torch
 from torch import Tensor
@@ -11,6 +12,7 @@ from gravitorch.data.datapipes.iter.shuffling import (
     shuffle_tensor_mapping,
     shuffle_tensors,
 )
+from gravitorch.data.datapipes.iter.source import SourceWrapperIterDataPipe
 from gravitorch.utils.format import str_add_indent
 from gravitorch.utils.seed import get_torch_generator
 from gravitorch.utils.summary import concise_summary
@@ -79,12 +81,14 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
     of ``torch.Tensor``s.
 
     Args:
-        tensors (``torch.Tensor`` of shape ``(num_examples, *)`` where
-            ``*`` means any number of dimensions): Specifies the
+        tensors (``IterDataPipe`` or sequence of ``torch.Tensor`` of
+            shape ``(num_examples, *)`` where ``*`` means any number
+            of dimensions): Specifies source DataPipe or a sequence of
             tensors.
         batch_size (int): Specifies the batch size.
         shuffle (bool, optional): If ``True``, the examples are
-            shuffled before to create the batches.
+            shuffled before to create the batches. The
+            shuffling is done per sequence of tensors.
             Default: ``False``
         random_seed (int, optional): Specifies the random seed used to
             shuffle the data. Default: ``13382866045483866228``
@@ -92,32 +96,42 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
 
     def __init__(
         self,
-        tensors: Sequence[Tensor],
+        datapipe_or_tensors: Union[IterDataPipe[Sequence[Tensor]], Sequence[Tensor]],
         batch_size: int,
         shuffle: bool = False,
         random_seed: int = 13382866045483866228,
     ):
-        self._tensors = tensors
+        self._datapipe_or_tensors = datapipe_or_tensors
         self._batch_size = int(batch_size)
         self._shuffle = bool(shuffle)
         self._generator = get_torch_generator(random_seed)
 
     def __iter__(self) -> Iterator[tuple[Tensor, ...]]:
-        tensors = self._tensors
-        if self._shuffle:
-            tensors = shuffle_tensors(tensors, generator=self._generator)
-        yield from zip(*[torch.split(tensor, self._batch_size) for tensor in tensors])
+        datapipe_or_tensors = self._datapipe_or_tensors
+        if not isinstance(datapipe_or_tensors, IterDataPipe):
+            datapipe_or_tensors = SourceWrapperIterDataPipe([datapipe_or_tensors])
+        for batch in datapipe_or_tensors:
+            if self._shuffle:
+                batch = shuffle_tensors(batch, generator=self._generator)
+            yield from zip(*[torch.split(tensor, self._batch_size) for tensor in batch])
 
     def __len__(self) -> int:
-        return (self._tensors[0].shape[0] + self._batch_size - 1) // self._batch_size
+        if isinstance(self._datapipe_or_tensors, IterDataPipe):
+            raise TypeError(f"{type(self).__qualname__} instance doesn't have valid length")
+        return (self._datapipe_or_tensors[0].shape[0] + self._batch_size - 1) // self._batch_size
 
     def __str__(self) -> str:
+        desc = (
+            str(self._datapipe_or_tensors)
+            if isinstance(self._datapipe_or_tensors, IterDataPipe)
+            else concise_summary(self._datapipe_or_tensors)
+        )
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data:\n    {str_add_indent(concise_summary(self._tensors), num_spaces=4)}\n"
             f"  batch_size={self._batch_size},\n"
             f"  shuffle={self._shuffle},\n"
-            f"  random_seed={self.random_seed},\n)"
+            f"  random_seed={self.random_seed},\n"
+            f"  datapipe_or_tensors={str_add_indent(desc)},\n)"
         )
 
     @property
