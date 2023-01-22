@@ -1,9 +1,10 @@
 r"""This module implements some utility functions to manipulate
 mappings/dicts."""
 
-__all__ = ["convert_to_dict_of_lists", "convert_to_list_of_dicts"]
+__all__ = ["convert_to_dict_of_lists", "convert_to_list_of_dicts", "get_first_value"]
 
 from collections.abc import Hashable, Mapping, Sequence
+from typing import Any
 
 
 def convert_to_dict_of_lists(seq_of_mappings: Sequence[Mapping]) -> dict[Hashable, list]:
@@ -82,3 +83,17 @@ def remove_keys_starting_with(mapping: Mapping, prefix: str) -> dict:
             continue
         new_dict[key] = value
     return new_dict
+
+
+def get_first_value(data: Mapping) -> Any:
+    r"""Gets the first value of a mapping.
+
+    Args:
+        data (``Mapping``): Specifies the input mapping.
+
+    Returns:
+        The first value in the mapping.
+    """
+    if not data:
+        raise ValueError("First value cannot be returned because the mapping is empty")
+    return data[next(iter(data))]
