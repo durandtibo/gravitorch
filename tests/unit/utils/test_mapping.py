@@ -1,6 +1,9 @@
+from pytest import raises
+
 from gravitorch.utils.mapping import (
     convert_to_dict_of_lists,
     convert_to_list_of_dicts,
+    get_first_value,
     remove_keys_starting_with,
 )
 
@@ -77,3 +80,17 @@ def test_remove_keys_starting_with_another_key():
         1: 5,
         (2, 3): 6,
     }
+
+
+#####################################
+#     Tests for get_first_value     #
+#####################################
+
+
+def test_get_first_value_empty():
+    with raises(ValueError):
+        get_first_value({})
+
+
+def test_get_first_value():
+    assert get_first_value({"key1": 1, "key2": 2}) == 1
