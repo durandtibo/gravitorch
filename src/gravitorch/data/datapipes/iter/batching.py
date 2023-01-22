@@ -14,6 +14,7 @@ from gravitorch.data.datapipes.iter.shuffling import (
 )
 from gravitorch.data.datapipes.iter.source import SourceWrapperIterDataPipe
 from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.mapping import get_first_value
 from gravitorch.utils.seed import get_torch_generator
 from gravitorch.utils.summary import concise_summary
 
@@ -36,36 +37,46 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
 
     def __init__(
         self,
-        data: dict[Hashable, Tensor],
+        datapipe_or_data: Union[IterDataPipe[dict[Hashable, Tensor]], dict[Hashable, Tensor]],
         batch_size: int,
         shuffle: bool = False,
         random_seed: int = 11918852809641073385,
     ):
-        self._data = data
+        self._datapipe_or_data = datapipe_or_data
         self._batch_size = int(batch_size)
         self._shuffle = bool(shuffle)
         self._generator = get_torch_generator(random_seed)
 
     def __iter__(self) -> Iterator[dict]:
-        data = self._data
-        if self._shuffle:
-            data = shuffle_tensor_mapping(data, generator=self._generator)
-        keys = data.keys()
-        for tensors in zip(*[torch.split(value, self._batch_size) for value in data.values()]):
-            yield {key: tensor for key, tensor in zip(keys, tensors)}
+        datapipe_or_data = self._datapipe_or_data
+        if not isinstance(datapipe_or_data, IterDataPipe):
+            datapipe_or_data = SourceWrapperIterDataPipe([datapipe_or_data])
+        for batch in datapipe_or_data:
+            if self._shuffle:
+                batch = shuffle_tensor_mapping(batch, generator=self._generator)
+            keys = batch.keys()
+            for tensors in zip(*[torch.split(value, self._batch_size) for value in batch.values()]):
+                yield {key: tensor for key, tensor in zip(keys, tensors)}
 
     def __len__(self) -> int:
+        if isinstance(self._datapipe_or_data, IterDataPipe):
+            raise TypeError(f"{type(self).__qualname__} instance doesn't have valid length")
         return (
-            self._data[next(iter(self._data))].shape[0] + self._batch_size - 1
+            get_first_value(self._datapipe_or_data).shape[0] + self._batch_size - 1
         ) // self._batch_size
 
     def __str__(self) -> str:
+        desc = (
+            str(self._datapipe_or_data)
+            if isinstance(self._datapipe_or_data, IterDataPipe)
+            else concise_summary(self._datapipe_or_data)
+        )
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data:\n    {str_add_indent(concise_summary(self._data), num_spaces=4)}\n"
             f"  batch_size={self._batch_size},\n"
             f"  shuffle={self._shuffle},\n"
-            f"  random_seed={self.random_seed},\n)"
+            f"  random_seed={self.random_seed},\n"
+            f"  datapipe_or_data={str_add_indent(desc)},\n)"
         )
 
     @property
