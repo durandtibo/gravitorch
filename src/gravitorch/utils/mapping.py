@@ -93,6 +93,14 @@ def get_first_value(data: Mapping) -> Any:
 
     Returns:
         The first value in the mapping.
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch.utils.mapping import get_first_value
+        >>> get_first_value({"key1": 1, "key2": 2})
+        1
     """
     if not data:
         raise ValueError("First value cannot be returned because the mapping is empty")
