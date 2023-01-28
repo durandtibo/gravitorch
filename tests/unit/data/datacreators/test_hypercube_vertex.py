@@ -22,9 +22,10 @@ def test_hypercube_vertex_data_creator_num_examples(num_examples: int):
     assert HypercubeVertexDataCreator(num_examples).num_examples == num_examples
 
 
-def test_hypercube_vertex_data_creator_incorrect_num_examples():
-    with raises(ValueError):
-        HypercubeVertexDataCreator(num_examples=0)
+@mark.parametrize("num_examples", (0, -1))
+def test_hypercube_vertex_data_creator_incorrect_num_examples(num_examples: int):
+    with raises(ValueError, match="The number of examples .* has to be greater than 0"):
+        HypercubeVertexDataCreator(num_examples=num_examples)
 
 
 @mark.parametrize("num_classes", SIZES)
@@ -35,8 +36,9 @@ def test_hypercube_vertex_data_creator_num_classes(num_classes: int):
     )
 
 
-def test_hypercube_vertex_data_creator_incorrect_num_classes():
-    with raises(ValueError):
+@mark.parametrize("num_classes", (0, -1))
+def test_hypercube_vertex_data_creator_incorrect_num_classes(num_classes: int):
+    with raises(ValueError, match="he number of classes .* has to be greater than 0"):
         HypercubeVertexDataCreator(num_classes=0)
 
 
@@ -51,7 +53,10 @@ def test_hypercube_vertex_data_creator_feature_size(feature_size: int):
 
 
 def test_hypercube_vertex_data_creator_incorrect_feature_size():
-    with raises(ValueError):
+    with raises(
+        ValueError,
+        match="The feature dimension .* has to be greater or equal to the number of classes .*",
+    ):
         HypercubeVertexDataCreator(num_classes=50, feature_size=32)
 
 
@@ -61,7 +66,10 @@ def test_hypercube_vertex_data_creator_noise_std(noise_std: float):
 
 
 def test_hypercube_vertex_data_creator_incorrect_noise_std():
-    with raises(ValueError):
+    with raises(
+        ValueError,
+        match="The standard deviation of the Gaussian noise .* has to be greater or equal than 0",
+    ):
         HypercubeVertexDataCreator(noise_std=-1)
 
 
@@ -113,23 +121,25 @@ def test_hypercube_vertex_data_creator_noise_std_0():
 
 
 def test_hypercube_vertex_data_creator_create_same_random_seed():
-    creator1 = HypercubeVertexDataCreator(
-        num_examples=10, num_classes=5, feature_size=8, random_seed=1
+    assert objects_are_equal(
+        HypercubeVertexDataCreator(
+            num_examples=10, num_classes=5, feature_size=8, random_seed=1
+        ).create(),
+        HypercubeVertexDataCreator(
+            num_examples=10, num_classes=5, feature_size=8, random_seed=1
+        ).create(),
     )
-    creator2 = HypercubeVertexDataCreator(
-        num_examples=10, num_classes=5, feature_size=8, random_seed=1
-    )
-    assert objects_are_equal(creator1.create(), creator2.create())
 
 
 def test_hypercube_vertex_data_creator_create_different_random_seeds():
-    creator1 = HypercubeVertexDataCreator(
-        num_examples=10, num_classes=5, feature_size=8, random_seed=1
+    assert not objects_are_equal(
+        HypercubeVertexDataCreator(
+            num_examples=10, num_classes=5, feature_size=8, random_seed=1
+        ).create(),
+        HypercubeVertexDataCreator(
+            num_examples=10, num_classes=5, feature_size=8, random_seed=2
+        ).create(),
     )
-    creator2 = HypercubeVertexDataCreator(
-        num_examples=10, num_classes=5, feature_size=8, random_seed=2
-    )
-    assert not objects_are_equal(creator1.create(), creator2.create())
 
 
 def test_hypercube_vertex_data_creator_create_repeat():

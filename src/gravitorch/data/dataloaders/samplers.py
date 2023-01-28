@@ -76,11 +76,11 @@ class PartialSequentialSampler(Sampler):
     def __init__(self, data_source, num_samples: int):
         super().__init__(data_source)
         self.data_source = data_source
-        self.num_samples = num_samples
-        if not isinstance(self.num_samples, int) or self.num_samples <= 0:
+        if not isinstance(num_samples, int) or num_samples <= 0:
             raise ValueError(
-                f"num_samples should be a positive integer value, but got {self.num_samples}"
+                f"num_samples should be a positive integer value, but got {num_samples}"
             )
+        self.num_samples = num_samples
 
     def __iter__(self) -> Iterator:
         return iter(range(len(self)))

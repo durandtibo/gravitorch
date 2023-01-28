@@ -45,7 +45,9 @@ class MultiplicationFusion(Module):
                 tensor: The fused tensor.
         """
         if len(inputs) == 0:
-            raise ValueError("`MultiplicationFusion` must have at least one tensor in the input")
+            raise ValueError(
+                f"{type(self).__qualname__} must have at least one tensor in the input"
+            )
         output = inputs[0]
         for xi in inputs[1:]:
             output = output.mul(xi)
