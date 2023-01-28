@@ -6,7 +6,7 @@ from typing import Any, Optional
 
 from torch.backends import cuda
 
-from gravitorch.experimental.sysconfig.base import BaseSysConfig
+from gravitorch.experimental.rsrc.base import BaseResourceManager
 from gravitorch.utils.format import to_pretty_dict_str
 
 logger = logging.getLogger(__name__)
@@ -21,6 +21,8 @@ class PyTorchCudaBackendState:
     preferred_linalg_backend: Any
 
     def restore(self) -> None:
+        r"""Restores the PyTorch CUDA backend configuration by using the values
+        in the state."""
         cuda.matmul.allow_tf32 = self.allow_tf32
         cuda.matmul.allow_fp16_reduced_precision_reduction = (
             self.allow_fp16_reduced_precision_reduction
@@ -45,8 +47,8 @@ class PyTorchCudaBackendState:
         )
 
 
-class PyTorchCudaBackend(BaseSysConfig):
-    r"""Configure the PyTorch CUDA backend.
+class PyTorchCudaBackend(BaseResourceManager):
+    r"""Implements a context manager to configure the PyTorch CUDA backend.
 
     Args:
         allow_tf32 (bool or ``None``, optional): Specifies the value
