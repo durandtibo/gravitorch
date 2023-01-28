@@ -98,6 +98,7 @@ class PyTorchCudaBackend(BaseResourceManager):
         self._state: list[PyTorchCudaBackendState] = []
 
     def __enter__(self):
+        logger.debug("Configuring CUDNN backend state...")
         self._state.append(PyTorchCudaBackendState.create())
         self.configure()
         if self._show_state:
@@ -105,6 +106,7 @@ class PyTorchCudaBackend(BaseResourceManager):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        logger.debug("Restoring CUDA backend state...")
         self._state.pop().restore()
 
     def __repr__(self) -> str:
@@ -224,6 +226,7 @@ class PyTorchCudnnBackend(BaseResourceManager):
         self._state: list[PyTorchCudnnBackendState] = []
 
     def __enter__(self):
+        logger.debug("Configuring CUDNN backend state...")
         self._state.append(PyTorchCudnnBackendState.create())
         self.configure()
         if self._show_state:
@@ -231,6 +234,7 @@ class PyTorchCudnnBackend(BaseResourceManager):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        logger.debug("Restoring CUDNN backend state...")
         self._state.pop().restore()
 
     def __repr__(self) -> str:

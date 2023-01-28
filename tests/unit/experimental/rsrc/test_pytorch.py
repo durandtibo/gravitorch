@@ -114,13 +114,15 @@ def test_pytorch_cuda_backend_show(caplog: LogCaptureFixture):
 
 
 def test_pytorch_cuda_backend_show_state_true(caplog: LogCaptureFixture):
-    with PyTorchCudaBackend(show_state=True):
-        assert caplog.messages
+    with caplog.at_level(logging.INFO):
+        with PyTorchCudaBackend(show_state=True):
+            assert caplog.messages
 
 
 def test_pytorch_cuda_backend_show_state_false(caplog: LogCaptureFixture):
-    with PyTorchCudaBackend():
-        assert not caplog.messages
+    with caplog.at_level(logging.INFO):
+        with PyTorchCudaBackend():
+            assert not caplog.messages
 
 
 ##############################################
@@ -210,10 +212,12 @@ def test_pytorch_cudnn_backend_show(caplog: LogCaptureFixture):
 
 
 def test_pytorch_cudnn_backend_show_state_true(caplog: LogCaptureFixture):
-    with PyTorchCudnnBackend(show_state=True):
-        assert caplog.messages
+    with caplog.at_level(logging.INFO):
+        with PyTorchCudnnBackend(show_state=True):
+            assert caplog.messages
 
 
 def test_pytorch_cudnn_backend_show_state_false(caplog: LogCaptureFixture):
-    with PyTorchCudnnBackend():
-        assert not caplog.messages
+    with caplog.at_level(logging.INFO):
+        with PyTorchCudnnBackend():
+            assert not caplog.messages
