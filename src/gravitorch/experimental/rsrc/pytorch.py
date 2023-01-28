@@ -1,10 +1,15 @@
-__all__ = ["PyTorchCudaBackend", "PyTorchCudaBackendState"]
+__all__ = [
+    "PyTorchCudaBackend",
+    "PyTorchCudaBackendState",
+    "PyTorchCudnnBackend",
+    "PyTorchCudnnBackendState",
+]
 
 import logging
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from torch.backends import cuda
+from torch.backends import cuda, cudnn
 
 from gravitorch.experimental.rsrc.base import BaseResourceManager
 from gravitorch.utils.format import to_pretty_dict_str
@@ -40,7 +45,9 @@ class PyTorchCudaBackendState:
         """
         return cls(
             allow_tf32=cuda.matmul.allow_tf32,
-            allow_fp16_reduced_precision_reduction=cuda.matmul.allow_fp16_reduced_precision_reduction,
+            allow_fp16_reduced_precision_reduction=(
+                cuda.matmul.allow_fp16_reduced_precision_reduction
+            ),
             math_sdp_enabled=cuda.math_sdp_enabled(),
             flash_sdp_enabled=cuda.flash_sdp_enabled(),
             preferred_linalg_backend=cuda.preferred_linalg_library(),
@@ -104,7 +111,8 @@ class PyTorchCudaBackend(BaseResourceManager):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  allow_tf32={self._allow_tf32},\n"
-            f"  allow_fp16_reduced_precision_reduction={self._allow_fp16_reduced_precision_reduction},\n"
+            "  allow_fp16_reduced_precision_reduction="
+            f"{self._allow_fp16_reduced_precision_reduction},\n"
             f"  flash_sdp_enabled={self._flash_sdp_enabled},\n"
             f"  math_sdp_enabled={self._math_sdp_enabled},\n"
             f"  preferred_linalg_backend={self._preferred_linalg_backend},\n"
@@ -139,3 +147,125 @@ class PyTorchCudaBackend(BaseResourceManager):
             f"{prefix}.preferred_linalg_library": cuda.preferred_linalg_library(),
         }
         logger.info(f"CUDA backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
+
+
+@dataclass
+class PyTorchCudnnBackendState:
+    allow_tf32: bool
+    benchmark: bool
+    benchmark_limit: Optional[int]
+    deterministic: bool
+    enabled: bool
+
+    def restore(self) -> None:
+        r"""Restores the PyTorch CUDNN backend configuration by using the
+        values in the state."""
+        cudnn.allow_tf32 = self.allow_tf32
+        cudnn.benchmark = self.benchmark
+        cudnn.benchmark_limit = self.benchmark_limit
+        cudnn.deterministic = self.deterministic
+        cudnn.enabled = self.enabled
+
+    @classmethod
+    def create(cls) -> "PyTorchCudnnBackendState":
+        r"""Creates a state to capture the current PyTorch CUDA CUDNN.
+
+        Returns:
+            ``PyTorchCudnnBackendState``: The current state.
+        """
+        return cls(
+            allow_tf32=cudnn.allow_tf32,
+            benchmark=cudnn.benchmark,
+            benchmark_limit=cudnn.benchmark_limit,
+            deterministic=cudnn.deterministic,
+            enabled=cudnn.enabled,
+        )
+
+
+class PyTorchCudnnBackend(BaseResourceManager):
+    r"""Implements a context manager to configure the PyTorch CUDNN backend.
+
+    Args:
+        allow_tf32 (bool or ``None``, optional): Specifies the value
+            of ``torch.backends.cudnn.allow_tf32``. If ``None``,
+            the default value is used. Default: ``None``
+        benchmark (bool or ``None``, optional): Specifies the value of
+            ``torch.backends.cudnn.benchmark``. If ``None``,
+            the default value is used. Default: ``None``
+        benchmark_limit (int or ``None``, optional): Specifies the
+            value of ``torch.backends.cudnn.benchmark_limit``.
+            If ``None``, the default value is used. Default: ``None``
+        deterministic (bool or ``None``, optional): Specifies the
+            value of ``torch.backends.cudnn.deterministic``.
+            If ``None``, the default value is used. Default: ``None``
+        enabled (bool or ``None``, optional): Specifies the value of
+            ``torch.backends.cudnn.enabled``. If ``None``,
+            the default value is used. Default: ``None``
+        show_state (bool, optional): If ``True``, the state is shown
+            after the context manager is created. Default: ``False``
+    """
+
+    def __init__(
+        self,
+        allow_tf32: bool = None,
+        benchmark: Optional[bool] = None,
+        benchmark_limit: Optional[int] = None,
+        deterministic: Optional[bool] = None,
+        enabled: Optional[bool] = None,
+        show_state: bool = False,
+    ):
+        self._allow_tf32 = allow_tf32
+        self._benchmark = benchmark
+        self._benchmark_limit = benchmark_limit
+        self._deterministic = deterministic
+        self._enabled = enabled
+
+        self._show_state = bool(show_state)
+        self._state: list[PyTorchCudnnBackendState] = []
+
+    def __enter__(self):
+        self._state.append(PyTorchCudnnBackendState.create())
+        self.configure()
+        if self._show_state:
+            self.show()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._state.pop().restore()
+
+    def __repr__(self) -> str:
+        return (
+            f"{self.__class__.__qualname__}(\n"
+            f"  allow_tf32={self._allow_tf32},\n"
+            f"  benchmark={self._benchmark},\n"
+            f"  benchmark_limit={self._benchmark_limit},\n"
+            f"  deterministic={self._deterministic},\n"
+            f"  enabled={self._enabled},\n"
+            f"  show_state={self._show_state},\n"
+            ")"
+        )
+
+    def configure(self) -> None:
+        if self._allow_tf32 is not None:
+            cudnn.allow_tf32 = self._allow_tf32
+        if self._benchmark is not None:
+            cudnn.benchmark = self._benchmark
+        if self._benchmark_limit is not None:
+            cudnn.benchmark_limit = self._benchmark_limit
+        if self._deterministic is not None:
+            cudnn.deterministic = self._deterministic
+        if self._enabled is not None:
+            cudnn.enabled = self._enabled
+
+    def show(self) -> None:
+        prefix = "torch.backends.cudnn"
+        info = {
+            f"{prefix}.allow_tf32": cudnn.allow_tf32,
+            f"{prefix}.benchmark": cudnn.benchmark,
+            f"{prefix}.benchmark_limit": cudnn.benchmark_limit,
+            f"{prefix}.deterministic": cudnn.deterministic,
+            f"{prefix}.enabled": cudnn.enabled,
+            f"{prefix}.is_available": cudnn.is_available(),
+            f"{prefix}.version": cudnn.version(),
+        }
+        logger.info(f"CUDNN backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
