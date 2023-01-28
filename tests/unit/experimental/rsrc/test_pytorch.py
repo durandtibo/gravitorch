@@ -4,7 +4,7 @@ from unittest.mock import patch
 from pytest import LogCaptureFixture, mark
 from torch.backends import cuda
 
-from gravitorch.experimental.sysconfig import PyTorchCudaBackend
+from gravitorch.experimental.rsrc import PyTorchCudaBackend
 
 ########################################
 #     Tests for PyTorchCudaBackend     #
@@ -56,16 +56,16 @@ def test_pytorch_cuda_backend_preferred_linalg_backend(preferred_linalg_backend:
 @mark.parametrize("preferred_linalg_backend", ("cusolver", "magma", "default"))
 def test_pytorch_cuda_backend_configure_preferred_linalg_backend(preferred_linalg_backend: str):
     with patch("torch.backends.cuda.preferred_linalg_library"):
-        with PyTorchCudaBackend(preferred_linalg_backend=preferred_linalg_backend) as sysconfig:
+        with PyTorchCudaBackend(preferred_linalg_backend=preferred_linalg_backend) as rsrc:
             with patch("torch.backends.cuda.preferred_linalg_library") as mock:
-                sysconfig.configure()
+                rsrc.configure()
                 mock.assert_called_once_with(preferred_linalg_backend)
 
 
 def test_pytorch_cuda_backend_show(caplog: LogCaptureFixture):
-    sysconfig = PyTorchCudaBackend()
+    rsrc = PyTorchCudaBackend()
     with caplog.at_level(logging.INFO):
-        sysconfig.show()
+        rsrc.show()
         assert caplog.messages
 
 
