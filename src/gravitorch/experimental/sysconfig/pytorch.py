@@ -1,8 +1,8 @@
-__all__ = ["PyTorchCudaBackend", "pytorch_cuda_backend"]
+__all__ = ["PyTorchCudaBackend", "PyTorchCudaBackendState"]
 
 import logging
-from contextlib import contextmanager
-from typing import Optional
+from dataclasses import dataclass
+from typing import Any, Optional
 
 from torch.backends import cuda
 
@@ -10,6 +10,39 @@ from gravitorch.experimental.sysconfig.base import BaseSysConfig
 from gravitorch.utils.format import to_pretty_dict_str
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class PyTorchCudaBackendState:
+    allow_tf32: bool
+    allow_fp16_reduced_precision_reduction: bool
+    flash_sdp_enabled: bool
+    math_sdp_enabled: bool
+    preferred_linalg_backend: Any
+
+    def restore(self) -> None:
+        cuda.matmul.allow_tf32 = self.allow_tf32
+        cuda.matmul.allow_fp16_reduced_precision_reduction = (
+            self.allow_fp16_reduced_precision_reduction
+        )
+        cuda.enable_math_sdp(self.math_sdp_enabled)
+        cuda.enable_flash_sdp(self.flash_sdp_enabled)
+        cuda.preferred_linalg_library(self.preferred_linalg_backend)
+
+    @classmethod
+    def create(cls) -> "PyTorchCudaBackendState":
+        r"""Creates a state to capture the current PyTorch CUDA backend.
+
+        Returns:
+            ``PyTorchCudaBackendState``: The current state.
+        """
+        return cls(
+            allow_tf32=cuda.matmul.allow_tf32,
+            allow_fp16_reduced_precision_reduction=cuda.matmul.allow_fp16_reduced_precision_reduction,
+            math_sdp_enabled=cuda.math_sdp_enabled(),
+            flash_sdp_enabled=cuda.flash_sdp_enabled(),
+            preferred_linalg_backend=cuda.preferred_linalg_library(),
+        )
 
 
 class PyTorchCudaBackend(BaseSysConfig):
@@ -33,6 +66,8 @@ class PyTorchCudaBackend(BaseSysConfig):
             Specifies the value of
             ``torch.backends.cuda.preferred_linalg_library``.
             If ``None``, the default value is used. Default: ``None``
+        show_state (bool, optional): If ``True``, the state is shown
+            after the context manager is created. Default: ``False``
     """
 
     def __init__(
@@ -42,12 +77,26 @@ class PyTorchCudaBackend(BaseSysConfig):
         flash_sdp_enabled: Optional[bool] = None,
         math_sdp_enabled: Optional[bool] = None,
         preferred_linalg_backend: Optional[str] = None,
+        show_state: bool = False,
     ):
         self._allow_tf32 = allow_tf32
         self._allow_fp16_reduced_precision_reduction = allow_fp16_reduced_precision_reduction
         self._flash_sdp_enabled = flash_sdp_enabled
         self._math_sdp_enabled = math_sdp_enabled
         self._preferred_linalg_backend = preferred_linalg_backend
+
+        self._show_state = bool(show_state)
+        self._state: list[PyTorchCudaBackendState] = []
+
+    def __enter__(self):
+        self._state.append(PyTorchCudaBackendState.create())
+        self.configure()
+        if self._show_state:
+            self.show()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._state.pop().restore()
 
     def __repr__(self) -> str:
         return (
@@ -57,6 +106,7 @@ class PyTorchCudaBackend(BaseSysConfig):
             f"  flash_sdp_enabled={self._flash_sdp_enabled},\n"
             f"  math_sdp_enabled={self._math_sdp_enabled},\n"
             f"  preferred_linalg_backend={self._preferred_linalg_backend},\n"
+            f"  show_state={self._show_state},\n"
             ")"
         )
 
@@ -86,25 +136,4 @@ class PyTorchCudaBackend(BaseSysConfig):
             f"{prefix}.math_sdp_enabled": cuda.math_sdp_enabled(),
             f"{prefix}.preferred_linalg_library": cuda.preferred_linalg_library(),
         }
-        logger.info(
-            f"PyTorch CUDA backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n"
-        )
-
-
-@contextmanager
-def pytorch_cuda_backend():
-    r"""Defines a context manager to easily manage the PyTorch cuda backend
-    configuration."""
-    allow_tf32 = cuda.matmul.allow_tf32
-    allow_fp16_reduced_precision_reduction = cuda.matmul.allow_fp16_reduced_precision_reduction
-    math_sdp_enabled = cuda.math_sdp_enabled()
-    flash_sdp_enabled = cuda.flash_sdp_enabled()
-    preferred_linalg_library = cuda.preferred_linalg_library()
-    try:
-        yield
-    finally:
-        cuda.matmul.allow_tf32 = allow_tf32
-        cuda.matmul.allow_fp16_reduced_precision_reduction = allow_fp16_reduced_precision_reduction
-        cuda.enable_math_sdp(math_sdp_enabled)
-        cuda.enable_flash_sdp(flash_sdp_enabled)
-        cuda.preferred_linalg_library(preferred_linalg_library)
+        logger.info(f"CUDA backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
