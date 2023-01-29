@@ -19,6 +19,7 @@ from gravitorch.distributed import (
     ncclcontext,
     resolve_backend,
 )
+from gravitorch.distributed.comm import BACKEND_TO_CONTEXT
 
 #####################################
 #     Tests for is_main_process     #
@@ -118,6 +119,7 @@ def test_auto_backend_gpu_and_nccl():
 
 
 @mark.parametrize("backend", (Backend.GLOO, Backend.NCCL, None))
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.GLOO, Backend.NCCL))
 def test_resolve_backend(backend: Optional[str]):
     assert resolve_backend(backend) == backend
 
@@ -132,6 +134,11 @@ def test_resolve_backend_auto_should_not_initialize():
 def test_resolve_backend_auto_should_initialize(backend: str):
     with patch("gravitorch.distributed.comm.auto_backend", lambda *args: backend):
         assert resolve_backend("auto") == backend
+
+
+def test_resolve_backend_incorrect_backend():
+    with raises(UnknownBackendError):
+        resolve_backend("incorrect")
 
 
 #################################
@@ -183,3 +190,12 @@ def test_ncclcontext_cuda_is_not_available():
     with raises(RuntimeError):
         with ncclcontext():
             pass
+
+
+########################################
+#     Tests for BACKEND_TO_CONTEXT     #
+########################################
+
+
+def test_backend_to_context():
+    assert len(BACKEND_TO_CONTEXT) == 3

@@ -33,7 +33,7 @@ __all__ = [
 
 import logging
 from collections.abc import Generator
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from typing import Optional
 
 import torch
@@ -125,7 +125,6 @@ def distributed_context(backend: str) -> Generator[None, None, None]:
                 [1., 1., 1.]])
     """
     show_distributed_env_vars()
-    logger.info(f"Available distributed backends: {available_backends()}")
     if backend not in available_backends():
         raise UnknownBackendError(
             f"Unknown backend '{backend}'. Available backends: {available_backends()}"
@@ -194,15 +193,20 @@ def resolve_backend(backend: Optional[str]) -> Optional[str]:
 
         >>> from gravitorch import distributed as dist
         >>> dist.resolve_backend("auto")
-        None
+        gloo
     """
+    if backend is None:
+        return None
     if backend == "auto":
         if is_distributed_ready():
-            backend = auto_backend()
-        else:
-            # Set to ``None`` because the process does not seem ready
-            # to be configured for a distributed experiment.
-            backend = None
+            return auto_backend()
+        # Set to ``None`` because the process does not seem ready
+        # to be configured for a distributed experiment.
+        return None
+    if backend not in available_backends():
+        raise UnknownBackendError(
+            f"Unknown distributed backend '{backend}'. Available backends: {available_backends()}"
+        )
     return backend
 
 
@@ -252,3 +256,10 @@ def ncclcontext() -> Generator[None, None, None]:
     with distributed_context(Backend.NCCL):
         with torch.cuda.device(get_local_rank()):
             yield
+
+
+BACKEND_TO_CONTEXT = {
+    Backend.NCCL: ncclcontext(),
+    Backend.GLOO: gloocontext(),
+    None: nullcontext(),
+}
