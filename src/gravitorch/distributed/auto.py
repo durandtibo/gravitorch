@@ -45,7 +45,7 @@ def auto_distributed_context(dist_backend: Optional[str]) -> Generator[None, Non
             to use.
     """
     if dist_backend is not None:  # distributed mode
-        with dist.setup_distributed_context(backend=dist_backend):
+        with dist.distributed_context(backend=dist_backend):
             if torch.cuda.is_available():  # GPU
                 with torch.cuda.device(dist.get_local_rank()):
                     show_distributed_context_info()
