@@ -13,10 +13,10 @@ from gravitorch.distributed import (
 from gravitorch.distributed import backend as dist_backend
 from gravitorch.distributed import (
     distributed_context,
-    gloo,
+    gloocontext,
     is_distributed,
     is_main_process,
-    nccl,
+    ncclcontext,
     resolve_backend,
 )
 
@@ -134,52 +134,52 @@ def test_resolve_backend_auto_should_initialize(backend: str):
         assert resolve_backend("auto") == backend
 
 
-##########################
-#     Tests for gloo     #
-##########################
+#################################
+#     Tests for gloocontext     #
+#################################
 
 
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.GLOO,))
-def test_gloo():
+def test_gloocontext():
     with patch("gravitorch.distributed.comm.distributed_context") as mock:
-        with gloo():
+        with gloocontext():
             mock.assert_called_once_with(Backend.GLOO)
 
 
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
-def test_gloo_no_gloo_backend():
+def test_gloocontext_no_gloo_backend():
     with raises(RuntimeError):
-        with gloo():
+        with gloocontext():
             pass
 
 
-##########################
-#     Tests for nccl     #
-##########################
+#################################
+#     Tests for ncclcontext     #
+#################################
 
 
 @patch("torch.cuda.is_available", lambda *args: True)
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.NCCL,))
 @patch("gravitorch.distributed.comm.get_local_rank", lambda *args: 1)
-def test_nccl():
+def test_ncclcontext():
     with patch("gravitorch.distributed.comm.distributed_context") as mock:
         with patch("gravitorch.distributed.comm.torch.cuda.device") as device:
-            with nccl():
+            with ncclcontext():
                 mock.assert_called_once_with(Backend.NCCL)
                 device.assert_called_once_with(1)
 
 
 @patch("torch.cuda.is_available", lambda *args: True)
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
-def test_nccl_no_nccl_backend():
+def test_ncclcontext_no_nccl_backend():
     with raises(RuntimeError):
-        with nccl():
+        with ncclcontext():
             pass
 
 
 @patch("torch.cuda.is_available", lambda *args: False)
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.NCCL,))
-def test_nccl_cuda_is_not_available():
+def test_ncclcontext_cuda_is_not_available():
     with raises(RuntimeError):
-        with nccl():
+        with ncclcontext():
             pass

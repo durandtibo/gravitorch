@@ -7,6 +7,7 @@ __all__ = [
 
 import logging
 from dataclasses import dataclass
+from types import TracebackType
 from typing import Any, Optional
 
 from torch.backends import cuda, cudnn
@@ -97,7 +98,7 @@ class PyTorchCudaBackend(BaseResourceManager):
         self._show_state = bool(show_state)
         self._state: list[PyTorchCudaBackendState] = []
 
-    def __enter__(self):
+    def __enter__(self) -> "PyTorchCudaBackend":
         logger.debug("Configuring CUDNN backend...")
         self._state.append(PyTorchCudaBackendState.create())
         self.configure()
@@ -105,7 +106,12 @@ class PyTorchCudaBackend(BaseResourceManager):
             self.show()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
         logger.debug("Restoring CUDA backend configuration...")
         self._state.pop().restore()
 
@@ -225,7 +231,7 @@ class PyTorchCudnnBackend(BaseResourceManager):
         self._show_state = bool(show_state)
         self._state: list[PyTorchCudnnBackendState] = []
 
-    def __enter__(self):
+    def __enter__(self) -> "PyTorchCudnnBackend":
         logger.debug("Configuring CUDNN backend...")
         self._state.append(PyTorchCudnnBackendState.create())
         self.configure()
@@ -233,7 +239,12 @@ class PyTorchCudnnBackend(BaseResourceManager):
             self.show()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
         logger.debug("Restoring CUDNN backend configuration...")
         self._state.pop().restore()
 
