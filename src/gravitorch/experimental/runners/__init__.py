@@ -1,3 +1,3 @@
-__all__ = ["BaseResourceRunner"]
+__all__ = ["BaseResourceRunner", "TrainingRunner"]
 
-from gravitorch.experimental.runners.resource import BaseResourceRunner
+from gravitorch.experimental.runners.resource import BaseResourceRunner, TrainingRunner
