@@ -180,6 +180,14 @@ def resolve_backend(backend: Optional[str]) -> Optional[str]:
     Returns:
         str or ``None``: The distributed backend or ``None`` if it
             should not use a distributed backend.
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch import distributed as dist
+        >>> dist.resolve_backend("auto")
+        None
     """
     if backend == "auto":
         if is_distributed_ready():
