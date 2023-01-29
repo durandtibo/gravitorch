@@ -13,8 +13,10 @@ from gravitorch.distributed import (
 from gravitorch.distributed import backend as dist_backend
 from gravitorch.distributed import (
     distributed_context,
+    gloo,
     is_distributed,
     is_main_process,
+    nccl,
     resolve_backend,
 )
 
@@ -130,3 +132,54 @@ def test_resolve_backend_auto_should_not_initialize():
 def test_resolve_backend_auto_should_initialize(backend: str):
     with patch("gravitorch.distributed.comm.auto_backend", lambda *args: backend):
         assert resolve_backend("auto") == backend
+
+
+##########################
+#     Tests for gloo     #
+##########################
+
+
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.GLOO,))
+def test_gloo():
+    with patch("gravitorch.distributed.comm.distributed_context") as mock:
+        with gloo():
+            mock.assert_called_once_with(Backend.GLOO)
+
+
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
+def test_gloo_no_gloo_backend():
+    with raises(RuntimeError):
+        with gloo():
+            pass
+
+
+##########################
+#     Tests for nccl     #
+##########################
+
+
+@patch("torch.cuda.is_available", lambda *args: True)
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.NCCL,))
+@patch("gravitorch.distributed.comm.get_local_rank", lambda *args: 1)
+def test_nccl():
+    with patch("gravitorch.distributed.comm.distributed_context") as mock:
+        with patch("gravitorch.distributed.comm.torch.cuda.device") as device:
+            with nccl():
+                mock.assert_called_once_with(Backend.NCCL)
+                device.assert_called_once_with(1)
+
+
+@patch("torch.cuda.is_available", lambda *args: True)
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
+def test_nccl_no_nccl_backend():
+    with raises(RuntimeError):
+        with nccl():
+            pass
+
+
+@patch("torch.cuda.is_available", lambda *args: False)
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.NCCL,))
+def test_nccl_cuda_is_not_available():
+    with raises(RuntimeError):
+        with nccl():
+            pass

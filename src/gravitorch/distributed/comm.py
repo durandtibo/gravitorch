@@ -19,17 +19,20 @@ __all__ = [
     "get_nproc_per_node",
     "get_rank",
     "get_world_size",
+    "gloo",
     "hostname",
     "initialize",
     "is_distributed",
     "is_main_process",
     "model_name",
+    "nccl",
     "resolve_backend",
     "set_local_rank",
     "show_config",
 ]
 
 import logging
+from collections.abc import Generator
 from contextlib import contextmanager
 from typing import Optional
 
@@ -70,6 +73,10 @@ set_local_rank = utils.set_local_rank
 show_config = utils.show_config
 
 
+class UnknownBackendError(Exception):
+    r"""This exception is raised when you try to use an unknown backend."""
+
+
 def is_main_process() -> bool:
     r"""Indicates if this process is the main process.
 
@@ -93,7 +100,7 @@ def is_distributed():
 
 
 @contextmanager
-def distributed_context(backend: str) -> None:
+def distributed_context(backend: str) -> Generator[None, None, None]:
     r"""Context manager to initialize the distributed context for a given
     backend.
 
@@ -199,5 +206,49 @@ def resolve_backend(backend: Optional[str]) -> Optional[str]:
     return backend
 
 
-class UnknownBackendError(Exception):
-    r"""This exception is raised when you try to use an unknown backend."""
+@contextmanager
+def gloo() -> Generator[None, None, None]:
+    r"""Context manager to initialize a GLOO distributed context.
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch.distributed import backend, gloo
+        >>> with gloo():
+        ...     print(backend())
+        gloo
+    """
+    if Backend.GLOO not in available_backends():
+        raise RuntimeError(
+            f"GLOO backend is not available. Available backends: {available_backends()}"
+        )
+    with distributed_context(Backend.GLOO):
+        yield
+
+
+@contextmanager
+def nccl() -> Generator[None, None, None]:
+    r"""Context manager to initialize the NCCL distributed context.
+
+    Raises:
+        RuntimeError if CUDA is not available
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch.distributed import backend, nccl
+        >>> with nccl():
+        ...     print(backend())
+        nccl
+    """
+    if Backend.NCCL not in available_backends():
+        raise RuntimeError(
+            f"NCCL backend is not available. Available backends: {available_backends()}"
+        )
+    if not torch.cuda.is_available():
+        raise RuntimeError("NCCL backend requires CUDA capable devices but CUDA is not available")
+    with distributed_context(Backend.NCCL):
+        with torch.cuda.device(get_local_rank()):
+            yield
