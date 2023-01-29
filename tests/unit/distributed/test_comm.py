@@ -13,10 +13,10 @@ from gravitorch.distributed import (
 from gravitorch.distributed import backend as dist_backend
 from gravitorch.distributed import (
     distributed_context,
-    gloo,
+    gloocontext,
     is_distributed,
     is_main_process,
-    nccl,
+    ncclcontext,
     resolve_backend,
 )
 
@@ -142,14 +142,14 @@ def test_resolve_backend_auto_should_initialize(backend: str):
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.GLOO,))
 def test_gloo():
     with patch("gravitorch.distributed.comm.distributed_context") as mock:
-        with gloo():
+        with gloocontext():
             mock.assert_called_once_with(Backend.GLOO)
 
 
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
 def test_gloo_no_gloo_backend():
     with raises(RuntimeError):
-        with gloo():
+        with gloocontext():
             pass
 
 
@@ -164,7 +164,7 @@ def test_gloo_no_gloo_backend():
 def test_nccl():
     with patch("gravitorch.distributed.comm.distributed_context") as mock:
         with patch("gravitorch.distributed.comm.torch.cuda.device") as device:
-            with nccl():
+            with ncclcontext():
                 mock.assert_called_once_with(Backend.NCCL)
                 device.assert_called_once_with(1)
 
@@ -173,7 +173,7 @@ def test_nccl():
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
 def test_nccl_no_nccl_backend():
     with raises(RuntimeError):
-        with nccl():
+        with ncclcontext():
             pass
 
 
@@ -181,5 +181,5 @@ def test_nccl_no_nccl_backend():
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.NCCL,))
 def test_nccl_cuda_is_not_available():
     with raises(RuntimeError):
-        with nccl():
+        with ncclcontext():
             pass

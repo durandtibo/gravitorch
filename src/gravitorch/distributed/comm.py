@@ -19,13 +19,13 @@ __all__ = [
     "get_nproc_per_node",
     "get_rank",
     "get_world_size",
-    "gloo",
+    "gloocontext",
     "hostname",
     "initialize",
     "is_distributed",
     "is_main_process",
     "model_name",
-    "nccl",
+    "ncclcontext",
     "resolve_backend",
     "set_local_rank",
     "show_config",
@@ -207,15 +207,15 @@ def resolve_backend(backend: Optional[str]) -> Optional[str]:
 
 
 @contextmanager
-def gloo() -> Generator[None, None, None]:
+def gloocontext() -> Generator[None, None, None]:
     r"""Context manager to initialize a GLOO distributed context.
 
     Example usage:
 
     .. code-block:: python
 
-        >>> from gravitorch.distributed import backend, gloo
-        >>> with gloo():
+        >>> from gravitorch.distributed import backend, gloocontext
+        >>> with gloocontext():
         ...     print(backend())
         gloo
     """
@@ -228,7 +228,7 @@ def gloo() -> Generator[None, None, None]:
 
 
 @contextmanager
-def nccl() -> Generator[None, None, None]:
+def ncclcontext() -> Generator[None, None, None]:
     r"""Context manager to initialize the NCCL distributed context.
 
     Raises:
@@ -238,8 +238,8 @@ def nccl() -> Generator[None, None, None]:
 
     .. code-block:: python
 
-        >>> from gravitorch.distributed import backend, nccl
-        >>> with nccl():
+        >>> from gravitorch.distributed import backend, ncclcontext
+        >>> with ncclcontext():
         ...     print(backend())
         nccl
     """

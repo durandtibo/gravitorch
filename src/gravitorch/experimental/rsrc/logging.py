@@ -2,7 +2,8 @@ __all__ = ["Logging", "LoggingState"]
 
 import logging
 from dataclasses import dataclass
-from typing import Union
+from types import TracebackType
+from typing import Optional, Union
 
 from gravitorch.distributed import comm as dist
 from gravitorch.experimental.rsrc.base import BaseResourceManager
@@ -60,7 +61,7 @@ class Logging(BaseResourceManager):
         self._show_state = bool(show_state)
         self._state: list[LoggingState] = []
 
-    def __enter__(self):
+    def __enter__(self) -> "Logging":
         logger.debug("Configuring logging...")
         self._state.append(LoggingState.create())
         self.configure()
@@ -68,7 +69,12 @@ class Logging(BaseResourceManager):
             self.show()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
         logger.debug("Restoring logging configuration...")
         self._state.pop().restore()
 
