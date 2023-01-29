@@ -6,12 +6,12 @@ from typing import Optional
 
 from gravitorch.distributed.comm import BACKEND_TO_CONTEXT, resolve_backend
 from gravitorch.distributed.utils import show_distributed_context_info
-from gravitorch.experimental.rsrc.base import BaseResourceManager
+from gravitorch.experimental.rsrc.base import BaseResource
 
 logger = logging.getLogger(__name__)
 
 
-class DistributedContext(BaseResourceManager):
+class DistributedContext(BaseResource):
     r"""Implements a context manager to initialize the distributed backend.
 
     Args:
@@ -48,7 +48,7 @@ class DistributedContext(BaseResourceManager):
         self._context.__exit__(exc_type, exc_val, exc_tb)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}(backend={self._backend})"
+        return f"{self.__class__.__qualname__}(backend={self._backend}, log_info={self._log_info})"
 
     def configure(self) -> None:
         pass

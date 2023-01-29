@@ -12,7 +12,7 @@ from typing import Any, Optional
 
 from torch.backends import cuda, cudnn
 
-from gravitorch.experimental.rsrc.base import BaseResourceManager
+from gravitorch.experimental.rsrc.base import BaseResource
 from gravitorch.utils.format import to_pretty_dict_str
 
 logger = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ class PyTorchCudaBackendState:
         )
 
 
-class PyTorchCudaBackend(BaseResourceManager):
+class PyTorchCudaBackend(BaseResource):
     r"""Implements a context manager to configure the PyTorch CUDA backend.
 
     Args:
@@ -76,7 +76,7 @@ class PyTorchCudaBackend(BaseResourceManager):
             Specifies the value of
             ``torch.backends.cuda.preferred_linalg_library``.
             If ``None``, the default value is used. Default: ``None``
-        show_state (bool, optional): If ``True``, the state is shown
+        log_info (bool, optional): If ``True``, the state is shown
             after the context manager is created. Default: ``False``
     """
 
@@ -87,7 +87,7 @@ class PyTorchCudaBackend(BaseResourceManager):
         flash_sdp_enabled: Optional[bool] = None,
         math_sdp_enabled: Optional[bool] = None,
         preferred_linalg_backend: Optional[str] = None,
-        show_state: bool = False,
+        log_info: bool = False,
     ):
         self._allow_tf32 = allow_tf32
         self._allow_fp16_reduced_precision_reduction = allow_fp16_reduced_precision_reduction
@@ -95,14 +95,14 @@ class PyTorchCudaBackend(BaseResourceManager):
         self._math_sdp_enabled = math_sdp_enabled
         self._preferred_linalg_backend = preferred_linalg_backend
 
-        self._show_state = bool(show_state)
+        self._log_info = bool(log_info)
         self._state: list[PyTorchCudaBackendState] = []
 
     def __enter__(self) -> "PyTorchCudaBackend":
         logger.debug("Configuring CUDNN backend...")
         self._state.append(PyTorchCudaBackendState.create())
         self.configure()
-        if self._show_state:
+        if self._log_info:
             self.show()
         return self
 
@@ -124,7 +124,7 @@ class PyTorchCudaBackend(BaseResourceManager):
             f"  flash_sdp_enabled={self._flash_sdp_enabled},\n"
             f"  math_sdp_enabled={self._math_sdp_enabled},\n"
             f"  preferred_linalg_backend={self._preferred_linalg_backend},\n"
-            f"  show_state={self._show_state},\n"
+            f"  log_info={self._log_info},\n"
             ")"
         )
 
@@ -190,7 +190,7 @@ class PyTorchCudnnBackendState:
         )
 
 
-class PyTorchCudnnBackend(BaseResourceManager):
+class PyTorchCudnnBackend(BaseResource):
     r"""Implements a context manager to configure the PyTorch CUDNN backend.
 
     Args:
@@ -209,7 +209,7 @@ class PyTorchCudnnBackend(BaseResourceManager):
         enabled (bool or ``None``, optional): Specifies the value of
             ``torch.backends.cudnn.enabled``. If ``None``,
             the default value is used. Default: ``None``
-        show_state (bool, optional): If ``True``, the state is shown
+        log_info (bool, optional): If ``True``, the state is shown
             after the context manager is created. Default: ``False``
     """
 
@@ -220,7 +220,7 @@ class PyTorchCudnnBackend(BaseResourceManager):
         benchmark_limit: Optional[int] = None,
         deterministic: Optional[bool] = None,
         enabled: Optional[bool] = None,
-        show_state: bool = False,
+        log_info: bool = False,
     ):
         self._allow_tf32 = allow_tf32
         self._benchmark = benchmark
@@ -228,14 +228,14 @@ class PyTorchCudnnBackend(BaseResourceManager):
         self._deterministic = deterministic
         self._enabled = enabled
 
-        self._show_state = bool(show_state)
+        self._log_info = bool(log_info)
         self._state: list[PyTorchCudnnBackendState] = []
 
     def __enter__(self) -> "PyTorchCudnnBackend":
         logger.debug("Configuring CUDNN backend...")
         self._state.append(PyTorchCudnnBackendState.create())
         self.configure()
-        if self._show_state:
+        if self._log_info:
             self.show()
         return self
 
@@ -256,7 +256,7 @@ class PyTorchCudnnBackend(BaseResourceManager):
             f"  benchmark_limit={self._benchmark_limit},\n"
             f"  deterministic={self._deterministic},\n"
             f"  enabled={self._enabled},\n"
-            f"  show_state={self._show_state},\n"
+            f"  log_info={self._log_info},\n"
             ")"
         )
 

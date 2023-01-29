@@ -1,4 +1,4 @@
-__all__ = ["BaseResourceManager", "setup_resource_manager"]
+__all__ = ["BaseResource", "setup_resource"]
 
 import logging
 from abc import abstractmethod
@@ -12,7 +12,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-class BaseResourceManager(AbstractContextManager, metaclass=AbstractFactory):
+class BaseResource(AbstractContextManager, metaclass=AbstractFactory):
     r"""Defines the base class to manage a resource."""
 
     @abstractmethod
@@ -24,25 +24,22 @@ class BaseResourceManager(AbstractContextManager, metaclass=AbstractFactory):
         r"""Shows the information associated to resource."""
 
 
-def setup_resource_manager(
-    resource_manager: Union[BaseResourceManager, dict]
-) -> BaseResourceManager:
-    r"""Sets up the resource manager.
+def setup_resource(resource: Union[BaseResource, dict]) -> BaseResource:
+    r"""Sets up a resource.
 
     The resource manager is instantiated from its configuration by using the
-    ``BaseResourceManager`` factory function.
+    ``BaseResource`` factory function.
 
     Args:
-        resource_manager (``BaseResourceManager`` or dict): Specifies
-            the resource manager or its configuration.
+        resource (``BaseResource`` or dict): Specifies
+            the resource or its configuration.
 
     Returns:
-        ``BaseResourceManager``: The instantiated resource manager.
+        ``BaseResource``: The instantiated resource.
     """
-    if isinstance(resource_manager, dict):
+    if isinstance(resource, dict):
         logger.debug(
-            "Initializing a resource manager from its configuration... "
-            f"{str_target_object(resource_manager)}"
+            f"Initializing a resource from its configuration... {str_target_object(resource)}"
         )
-        resource_manager = BaseResourceManager.factory(**resource_manager)
-    return resource_manager
+        resource = BaseResource.factory(**resource)
+    return resource
