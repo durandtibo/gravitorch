@@ -82,3 +82,12 @@ def test_logging_show_state_false(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with Logging():
             assert not caplog.messages
+
+
+def test_logging_reentrant():
+    default = logging.root.manager.disable
+    resource = Logging()
+    with resource:
+        with resource:
+            assert logging.root.manager.disable == default
+    assert logging.root.manager.disable == default

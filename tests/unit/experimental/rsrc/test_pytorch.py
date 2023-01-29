@@ -125,6 +125,15 @@ def test_pytorch_cuda_backend_show_state_false(caplog: LogCaptureFixture):
             assert not caplog.messages
 
 
+def test_pytorch_cuda_backend_reentrant():
+    default = cuda.matmul.allow_tf32
+    resource = PyTorchCudaBackend(allow_tf32=True)
+    with resource:
+        with resource:
+            assert cuda.matmul.allow_tf32
+    assert cuda.matmul.allow_tf32 == default
+
+
 ##############################################
 #     Tests for PyTorchCudnnBackendState     #
 ##############################################
@@ -221,3 +230,12 @@ def test_pytorch_cudnn_backend_show_state_false(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with PyTorchCudnnBackend():
             assert not caplog.messages
+
+
+def test_pytorch_cudnn_backend_reentrant():
+    default = cudnn.allow_tf32
+    resource = PyTorchCudnnBackend(allow_tf32=True)
+    with resource:
+        with resource:
+            assert cudnn.allow_tf32
+    assert cudnn.allow_tf32 == default
