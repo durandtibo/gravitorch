@@ -6,7 +6,7 @@ from collections.abc import Sequence
 from contextlib import ExitStack
 from typing import Any, Optional, Union
 
-from gravitorch.experimental.rsrc import BaseResourceManager, setup_resource_manager
+from gravitorch.experimental.rsrc import BaseResource, setup_resource
 from gravitorch.runners.base import BaseRunner
 
 logger = logging.getLogger(__name__)
@@ -18,14 +18,14 @@ class BaseResourceRunner(BaseRunner):
 
     Args:
         resources (sequence or ``None``, optional): Specifies a
-            sequence of resource managers or their configurations.
+            sequence of resources or their configurations.
             Default: ``None``
     """
 
-    def __init__(self, resources: Optional[Sequence[Union[BaseResourceManager, dict]]] = None):
+    def __init__(self, resources: Optional[Sequence[Union[BaseResource, dict]]] = None):
         if resources is None:
             resources = tuple()
-        self._resources = tuple(setup_resource_manager(resource) for resource in resources)
+        self._resources = tuple(setup_resource(resource) for resource in resources)
 
     def run(self) -> Any:
         r"""Sets up the distributed context and executes the logic of the

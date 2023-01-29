@@ -3,23 +3,23 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 
 from gravitorch.experimental.rsrc import (
-    BaseResourceManager,
+    BaseResource,
     PyTorchCudaBackend,
-    setup_resource_manager,
+    setup_resource,
 )
 
-############################################
-#     Tests for setup_resource_manager     #
-############################################
+####################################
+#     Tests for setup_resource     #
+####################################
 
 
-def test_setup_resource_manager_object():
-    runner = Mock(spec=BaseResourceManager)
-    assert setup_resource_manager(runner) is runner
+def test_setup_resource_object():
+    runner = Mock(spec=BaseResource)
+    assert setup_resource(runner) is runner
 
 
-def test_setup_resource_manager_dict():
+def test_setup_resource_dict():
     assert isinstance(
-        setup_resource_manager({OBJECT_TARGET: "gravitorch.experimental.rsrc.PyTorchCudaBackend"}),
+        setup_resource({OBJECT_TARGET: "gravitorch.experimental.rsrc.PyTorchCudaBackend"}),
         PyTorchCudaBackend,
     )

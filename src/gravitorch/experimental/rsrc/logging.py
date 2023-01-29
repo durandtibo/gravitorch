@@ -6,7 +6,7 @@ from types import TracebackType
 from typing import Optional, Union
 
 from gravitorch.distributed import comm as dist
-from gravitorch.experimental.rsrc.base import BaseResourceManager
+from gravitorch.experimental.rsrc.base import BaseResource
 from gravitorch.utils.format import to_pretty_dict_str
 
 logger = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ class LoggingState:
         return cls(disabled_level=logging.root.manager.disable)
 
 
-class Logging(BaseResourceManager):
+class Logging(BaseResource):
     r"""Implements a context manager to disable the logging.
 
     Args:
@@ -43,7 +43,7 @@ class Logging(BaseResourceManager):
         disabled_level (int or str, optional): All logging calls
             of severity ``disabled_level`` and below will be
             disabled. Default: ``39``
-        show_state (bool, optional): If ``True``, the state is shown
+        log_info (bool, optional): If ``True``, the state is shown
             after the context manager is created. Default: ``False``
     """
 
@@ -51,21 +51,21 @@ class Logging(BaseResourceManager):
         self,
         only_main_process: bool = False,
         disabled_level: Union[int, str] = logging.ERROR - 1,
-        show_state: bool = False,
+        log_info: bool = False,
     ):
         self._only_main_process = bool(only_main_process)
         if isinstance(disabled_level, str):
             disabled_level = logging.getLevelName(disabled_level)
         self._disabled_level = int(disabled_level)
 
-        self._show_state = bool(show_state)
+        self._log_info = bool(log_info)
         self._state: list[LoggingState] = []
 
     def __enter__(self) -> "Logging":
         logger.debug("Configuring logging...")
         self._state.append(LoggingState.create())
         self.configure()
-        if self._show_state:
+        if self._log_info:
             self.show()
         return self
 
@@ -83,7 +83,7 @@ class Logging(BaseResourceManager):
             f"{self.__class__.__qualname__}(\n"
             f"  only_main_process={self._only_main_process},\n"
             f"  disabled_level={self._disabled_level},\n"
-            f"  show_state={self._show_state},\n"
+            f"  log_info={self._log_info},\n"
             ")"
         )
 

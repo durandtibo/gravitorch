@@ -72,13 +72,13 @@ def test_logging_show(caplog: LogCaptureFixture):
         assert caplog.messages
 
 
-def test_logging_show_state_true(caplog: LogCaptureFixture):
+def test_logging_log_info_true(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
-        with Logging(show_state=True):
+        with Logging(log_info=True):
             assert caplog.messages
 
 
-def test_logging_show_state_false(caplog: LogCaptureFixture):
+def test_logging_log_info_false(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with Logging():
             assert not caplog.messages
