@@ -26,7 +26,7 @@ class DistributedContext(BaseResource):
 
     def __init__(self, backend: Optional[str] = "auto", log_info: bool = False):
         self._backend = resolve_backend(backend)
-        self._context = BACKEND_TO_CONTEXT[backend]
+        self._context = BACKEND_TO_CONTEXT[self._backend]
 
         self._log_info = bool(log_info)
 

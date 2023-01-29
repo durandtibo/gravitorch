@@ -62,7 +62,7 @@ class Logging(BaseResource):
         self._state: list[LoggingState] = []
 
     def __enter__(self) -> "Logging":
-        logger.debug("Configuring logging...")
+        logger.debug("Setting logging configuration...")
         self._state.append(LoggingState.create())
         self.configure()
         if self._log_info:
@@ -75,16 +75,13 @@ class Logging(BaseResource):
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
-        logger.debug("Restoring logging configuration...")
+        logger.debug("Restoring previous logging configuration...")
         self._state.pop().restore()
 
     def __repr__(self) -> str:
         return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  only_main_process={self._only_main_process},\n"
-            f"  disabled_level={self._disabled_level},\n"
-            f"  log_info={self._log_info},\n"
-            ")"
+            f"{self.__class__.__qualname__}(only_main_process={self._only_main_process}, "
+            f"disabled_level={self._disabled_level}, log_info={self._log_info})"
         )
 
     def configure(self) -> None:
