@@ -7,7 +7,6 @@ from typing import Optional, Union
 
 from gravitorch.distributed import comm as dist
 from gravitorch.experimental.rsrc.base import BaseResource
-from gravitorch.utils.format import to_pretty_dict_str
 
 logger = logging.getLogger(__name__)
 
@@ -48,25 +47,20 @@ class Logging(BaseResource):
     """
 
     def __init__(
-        self,
-        only_main_process: bool = False,
-        disabled_level: Union[int, str] = logging.ERROR - 1,
-        log_info: bool = False,
+        self, only_main_process: bool = False, disabled_level: Union[int, str] = logging.ERROR - 1
     ):
         self._only_main_process = bool(only_main_process)
         if isinstance(disabled_level, str):
             disabled_level = logging.getLevelName(disabled_level)
         self._disabled_level = int(disabled_level)
 
-        self._log_info = bool(log_info)
         self._state: list[LoggingState] = []
 
     def __enter__(self) -> "Logging":
-        logger.debug("Setting logging configuration...")
+        logger.info("Setting logging configuration...")
         self._state.append(LoggingState.create())
-        self.configure()
-        if self._log_info:
-            self.show()
+        if self._only_main_process and not dist.is_main_process():
+            logging.disable(self._disabled_level)
         return self
 
     def __exit__(
@@ -75,19 +69,11 @@ class Logging(BaseResource):
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
-        logger.debug("Restoring previous logging configuration...")
+        logger.info("Restoring previous logging configuration...")
         self._state.pop().restore()
 
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(only_main_process={self._only_main_process}, "
-            f"disabled_level={self._disabled_level}, log_info={self._log_info})"
+            f"disabled_level={self._disabled_level})"
         )
-
-    def configure(self) -> None:
-        if self._only_main_process and not dist.is_main_process():
-            logging.disable(self._disabled_level)
-
-    def show(self) -> None:
-        info = {"logging.root.manager.disable": logging.root.manager.disable}
-        logger.info(f"logging:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")

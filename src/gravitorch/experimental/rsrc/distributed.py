@@ -33,9 +33,8 @@ class DistributedContext(BaseResource):
     def __enter__(self) -> "DistributedContext":
         logger.info(f"Initialing `{self._backend}` distributed context...")
         self._context.__enter__()
-        self.configure()
         if self._log_info:
-            self.show()
+            show_distributed_context_info()
         return self
 
     def __exit__(
@@ -49,9 +48,3 @@ class DistributedContext(BaseResource):
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(backend={self._backend}, log_info={self._log_info})"
-
-    def configure(self) -> None:
-        pass
-
-    def show(self) -> None:
-        show_distributed_context_info()

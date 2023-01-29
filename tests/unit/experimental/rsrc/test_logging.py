@@ -2,7 +2,7 @@ import logging
 from typing import Union
 from unittest.mock import patch
 
-from pytest import LogCaptureFixture, mark
+from pytest import mark
 
 from gravitorch.experimental.rsrc.logging import Logging, LoggingState
 
@@ -63,25 +63,6 @@ def test_logging_non_main_process_only_main_process_false(disabled_level: int):
         with Logging(only_main_process=False, disabled_level=disabled_level):
             assert logging.root.manager.disable == default
     assert logging.root.manager.disable == default
-
-
-def test_logging_show(caplog: LogCaptureFixture):
-    resource = Logging()
-    with caplog.at_level(logging.INFO):
-        resource.show()
-        assert caplog.messages
-
-
-def test_logging_log_info_true(caplog: LogCaptureFixture):
-    with caplog.at_level(logging.INFO):
-        with Logging(log_info=True):
-            assert caplog.messages
-
-
-def test_logging_log_info_false(caplog: LogCaptureFixture):
-    with caplog.at_level(logging.INFO):
-        with Logging():
-            assert not caplog.messages
 
 
 def test_logging_reentrant():

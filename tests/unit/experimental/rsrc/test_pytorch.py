@@ -102,27 +102,22 @@ def test_pytorch_cuda_backend_configure_preferred_linalg_backend(preferred_linal
     with patch("torch.backends.cuda.preferred_linalg_library"):
         with PyTorchCudaBackend(preferred_linalg_backend=preferred_linalg_backend) as resource:
             with patch("torch.backends.cuda.preferred_linalg_library") as mock:
-                resource.configure()
+                resource._configure()
                 mock.assert_called_once_with(preferred_linalg_backend)
-
-
-def test_pytorch_cuda_backend_show(caplog: LogCaptureFixture):
-    resource = PyTorchCudaBackend()
-    with caplog.at_level(logging.INFO):
-        resource.show()
-        assert caplog.messages
 
 
 def test_pytorch_cuda_backend_log_info_true(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with PyTorchCudaBackend(log_info=True):
-            assert caplog.messages
+            pass
+        assert len(caplog.messages) == 3
 
 
 def test_pytorch_cuda_backend_log_info_false(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with PyTorchCudaBackend():
-            assert not caplog.messages
+            pass
+        assert len(caplog.messages) == 2
 
 
 def test_pytorch_cuda_backend_reentrant():
@@ -213,23 +208,18 @@ def test_pytorch_cudnn_backend_enabled(enabled: bool):
     assert cudnn.enabled == default
 
 
-def test_pytorch_cudnn_backend_show(caplog: LogCaptureFixture):
-    resource = PyTorchCudnnBackend()
-    with caplog.at_level(logging.INFO):
-        resource.show()
-        assert caplog.messages
-
-
 def test_pytorch_cudnn_backend_log_info_true(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with PyTorchCudnnBackend(log_info=True):
-            assert caplog.messages
+            pass
+        assert len(caplog.messages) == 3
 
 
 def test_pytorch_cudnn_backend_log_info_false(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with PyTorchCudnnBackend():
-            assert not caplog.messages
+            pass
+        assert len(caplog.messages) == 2
 
 
 def test_pytorch_cudnn_backend_reentrant():

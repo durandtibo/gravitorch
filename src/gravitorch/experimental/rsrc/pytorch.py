@@ -99,11 +99,11 @@ class PyTorchCudaBackend(BaseResource):
         self._state: list[PyTorchCudaBackendState] = []
 
     def __enter__(self) -> "PyTorchCudaBackend":
-        logger.debug("Configuring CUDNN backend...")
+        logger.info("Configuring CUDA backend...")
         self._state.append(PyTorchCudaBackendState.create())
-        self.configure()
+        self._configure()
         if self._log_info:
-            self.show()
+            self._show()
         return self
 
     def __exit__(
@@ -112,7 +112,7 @@ class PyTorchCudaBackend(BaseResource):
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
-        logger.debug("Restoring CUDA backend configuration...")
+        logger.info("Restoring CUDA backend configuration...")
         self._state.pop().restore()
 
     def __repr__(self) -> str:
@@ -126,7 +126,7 @@ class PyTorchCudaBackend(BaseResource):
             f"log_info={self._log_info})"
         )
 
-    def configure(self) -> None:
+    def _configure(self) -> None:
         if self._allow_tf32 is not None:
             cuda.matmul.allow_tf32 = self._allow_tf32
         if self._allow_fp16_reduced_precision_reduction is not None:
@@ -140,7 +140,7 @@ class PyTorchCudaBackend(BaseResource):
         if self._preferred_linalg_backend is not None:
             cuda.preferred_linalg_library(self._preferred_linalg_backend)
 
-    def show(self) -> None:
+    def _show(self) -> None:
         prefix = "torch.backends.cuda"
         info = {
             f"{prefix}.matmul.allow_fp16_reduced_precision_reduction": (
@@ -230,11 +230,11 @@ class PyTorchCudnnBackend(BaseResource):
         self._state: list[PyTorchCudnnBackendState] = []
 
     def __enter__(self) -> "PyTorchCudnnBackend":
-        logger.debug("Configuring CUDNN backend...")
+        logger.info("Configuring CUDNN backend...")
         self._state.append(PyTorchCudnnBackendState.create())
-        self.configure()
+        self._configure()
         if self._log_info:
-            self.show()
+            self._show()
         return self
 
     def __exit__(
@@ -243,7 +243,7 @@ class PyTorchCudnnBackend(BaseResource):
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
-        logger.debug("Restoring CUDNN backend configuration...")
+        logger.info("Restoring CUDNN backend configuration...")
         self._state.pop().restore()
 
     def __repr__(self) -> str:
@@ -254,7 +254,7 @@ class PyTorchCudnnBackend(BaseResource):
             f"log_info={self._log_info})"
         )
 
-    def configure(self) -> None:
+    def _configure(self) -> None:
         if self._allow_tf32 is not None:
             cudnn.allow_tf32 = self._allow_tf32
         if self._benchmark is not None:
@@ -266,7 +266,7 @@ class PyTorchCudnnBackend(BaseResource):
         if self._enabled is not None:
             cudnn.enabled = self._enabled
 
-    def show(self) -> None:
+    def _show(self) -> None:
         prefix = "torch.backends.cudnn"
         info = {
             f"{prefix}.allow_tf32": cudnn.allow_tf32,
