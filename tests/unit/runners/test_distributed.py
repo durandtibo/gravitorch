@@ -79,12 +79,12 @@ def test_resolve_dist_backend(dist_backend: Optional[str]):
     assert resolve_dist_backend(dist_backend) == dist_backend
 
 
-@patch("gravitorch.distributed.utils.should_initialize_distributed_context", lambda *args: False)
+@patch("gravitorch.distributed.utils.is_distributed_ready", lambda *args: False)
 def test_resolve_dist_backend_auto_should_not_initialize():
     assert resolve_dist_backend("auto") is None
 
 
-@patch("gravitorch.runners.distributed.should_initialize_distributed_context", lambda *args: True)
+@patch("gravitorch.runners.distributed.is_distributed_ready", lambda *args: True)
 @patch("gravitorch.runners.distributed.auto_dist_backend", lambda *args: Backend.GLOO)
 def test_resolve_dist_backend_auto_should_initialize():
     assert resolve_dist_backend("auto") == Backend.GLOO

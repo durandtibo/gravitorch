@@ -9,8 +9,8 @@ from gravitorch.distributed.utils import (
     conditional_evaluation,
     has_slurm_distributed_env_vars,
     has_torch_distributed_env_vars,
+    is_distributed_ready,
     is_slurm_job,
-    should_initialize_distributed_context,
     show_all_slurm_env_vars,
     show_distributed_context_info,
     show_distributed_env_vars,
@@ -33,14 +33,14 @@ def test_is_slurm_job_true():
     assert is_slurm_job()
 
 
-###########################################################
-#     Tests for should_initialize_distributed_context     #
-###########################################################
+##########################################
+#     Tests for is_distributed_ready     #
+##########################################
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_should_initialize_distributed_context_false():
-    assert not should_initialize_distributed_context()
+def test_is_distributed_ready_false():
+    assert not is_distributed_ready()
 
 
 @patch.dict(
@@ -61,13 +61,13 @@ def test_should_initialize_distributed_context_false():
     },
     clear=True,
 )
-def test_should_initialize_distributed_context_true():
-    assert should_initialize_distributed_context()
+def test_is_distributed_ready_true():
+    assert is_distributed_ready()
 
 
 @patch.dict(os.environ, {dist.SLURM_JOB_ID: "123"}, clear=True)
-def test_should_initialize_distributed_context_slurm_false():
-    assert not should_initialize_distributed_context()
+def test_is_distributed_ready_slurm_false():
+    assert not is_distributed_ready()
 
 
 @patch.dict(
@@ -81,8 +81,8 @@ def test_should_initialize_distributed_context_slurm_false():
     },
     clear=True,
 )
-def test_should_initialize_distributed_context_slurm_false_ntask_1():
-    assert not should_initialize_distributed_context()
+def test_is_distributed_ready_slurm_false_ntask_1():
+    assert not is_distributed_ready()
 
 
 @patch.dict(
@@ -96,8 +96,8 @@ def test_should_initialize_distributed_context_slurm_false_ntask_1():
     },
     clear=True,
 )
-def test_should_initialize_distributed_context_slurm_true():
-    assert should_initialize_distributed_context()
+def test_is_distributed_ready_slurm_true():
+    assert is_distributed_ready()
 
 
 ####################################################
