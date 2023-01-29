@@ -12,10 +12,10 @@ from gravitorch.distributed import (
 )
 from gravitorch.distributed import backend as dist_backend
 from gravitorch.distributed import (
+    distributed_context,
     is_distributed,
     is_main_process,
     resolve_backend,
-    setup_distributed_context,
 )
 
 #####################################
@@ -47,30 +47,30 @@ def test_is_distributed_false():
     assert not is_distributed()
 
 
-###############################################
-#     Tests for setup_distributed_context     #
-###############################################
+#########################################
+#     Tests for distributed_context     #
+#########################################
 
 
 @mark.parametrize("backend", available_backends())
-def test_setup_distributed_context_backend(backend):
+def test_distributed_context_backend(backend):
     if backend == Backend.NCCL and not torch.cuda.is_available():
         return  # no cuda capable device
-    with setup_distributed_context(backend):
+    with distributed_context(backend):
         assert dist_backend() == backend
     assert dist_backend() is None
 
 
-def test_setup_distributed_context_backend_incorrect():
+def test_distributed_context_backend_incorrect():
     with raises(UnknownBackendError):
-        with setup_distributed_context(backend="incorrect backend"):
+        with distributed_context(backend="incorrect backend"):
             pass
 
 
-def test_setup_distributed_context_backend_raise_error():
+def test_distributed_context_backend_raise_error():
     # Test if the `finalize` function is called to release the resources.
     with raises(RuntimeError):
-        with setup_distributed_context(backend=Backend.GLOO):
+        with distributed_context(backend=Backend.GLOO):
             raise RuntimeError("Fake error")
     assert dist_backend() is None
 

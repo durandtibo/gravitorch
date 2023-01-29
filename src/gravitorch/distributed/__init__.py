@@ -12,6 +12,7 @@ __all__ = [
     "barrier",
     "broadcast",
     "device",
+    "distributed_context",
     "finalize",
     "get_local_rank",
     "get_nnodes",
@@ -26,7 +27,6 @@ __all__ = [
     "model_name",
     "resolve_backend",
     "set_local_rank",
-    "setup_distributed_context",
     "show_config",
     # Nvidia
     "CUDA_VISIBLE_DEVICES",
@@ -91,6 +91,7 @@ from gravitorch.distributed.comm import (
     barrier,
     broadcast,
     device,
+    distributed_context,
     finalize,
     get_local_rank,
     get_nnodes,
@@ -105,6 +106,5 @@ from gravitorch.distributed.comm import (
     model_name,
     resolve_backend,
     set_local_rank,
-    setup_distributed_context,
     show_config,
 )

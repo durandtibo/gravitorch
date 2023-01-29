@@ -11,6 +11,7 @@ __all__ = [
     "barrier",
     "broadcast",
     "device",
+    "distributed_context",
     "finalize",
     "get_local_rank",
     "get_nnodes",
@@ -25,7 +26,6 @@ __all__ = [
     "model_name",
     "resolve_backend",
     "set_local_rank",
-    "setup_distributed_context",
     "show_config",
 ]
 
@@ -93,8 +93,9 @@ def is_distributed():
 
 
 @contextmanager
-def setup_distributed_context(backend: str) -> None:
-    r"""Context manager to set up the distributed context for a given backend.
+def distributed_context(backend: str) -> None:
+    r"""Context manager to initialize the distributed context for a given
+    backend.
 
     Args:
         backend (str): Specifies the distributed backend to use.
@@ -107,12 +108,11 @@ def setup_distributed_context(backend: str) -> None:
 
         >>> import torch
         >>> from gravitorch import distributed as dist
-        >>> with dist.setup_distributed_context(backend='gloo'):
+        >>> with dist.distributed_context(backend='gloo'):
         ...     print(dist.backend())
         ...     x = torch.ones(2, 3, device=dist.device())
         ...     dist.all_reduce(x, op="SUM")
         ...     print(x)
-        ... # The distributed backend is deactivated.
         gloo
         tensor([[1., 1., 1.],
                 [1., 1., 1.]])
