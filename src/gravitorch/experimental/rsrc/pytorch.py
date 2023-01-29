@@ -117,15 +117,13 @@ class PyTorchCudaBackend(BaseResource):
 
     def __repr__(self) -> str:
         return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  allow_tf32={self._allow_tf32},\n"
-            "  allow_fp16_reduced_precision_reduction="
-            f"{self._allow_fp16_reduced_precision_reduction},\n"
-            f"  flash_sdp_enabled={self._flash_sdp_enabled},\n"
-            f"  math_sdp_enabled={self._math_sdp_enabled},\n"
-            f"  preferred_linalg_backend={self._preferred_linalg_backend},\n"
-            f"  log_info={self._log_info},\n"
-            ")"
+            f"{self.__class__.__qualname__}(allow_tf32={self._allow_tf32}, "
+            "allow_fp16_reduced_precision_reduction="
+            f"{self._allow_fp16_reduced_precision_reduction}, "
+            f"flash_sdp_enabled={self._flash_sdp_enabled}, "
+            f"math_sdp_enabled={self._math_sdp_enabled}, "
+            f"preferred_linalg_backend={self._preferred_linalg_backend}, "
+            f"log_info={self._log_info})"
         )
 
     def configure(self) -> None:
@@ -250,14 +248,10 @@ class PyTorchCudnnBackend(BaseResource):
 
     def __repr__(self) -> str:
         return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  allow_tf32={self._allow_tf32},\n"
-            f"  benchmark={self._benchmark},\n"
-            f"  benchmark_limit={self._benchmark_limit},\n"
-            f"  deterministic={self._deterministic},\n"
-            f"  enabled={self._enabled},\n"
-            f"  log_info={self._log_info},\n"
-            ")"
+            f"{self.__class__.__qualname__}(allow_tf32={self._allow_tf32}, "
+            f"benchmark={self._benchmark}, benchmark_limit={self._benchmark_limit}, "
+            f"deterministic={self._deterministic}, enabled={self._enabled}, "
+            f"log_info={self._log_info})"
         )
 
     def configure(self) -> None:
