@@ -1,7 +1,6 @@
 __all__ = ["BaseResource", "setup_resource"]
 
 import logging
-from abc import abstractmethod
 from contextlib import AbstractContextManager
 from typing import Union
 
@@ -14,14 +13,6 @@ logger = logging.getLogger(__name__)
 
 class BaseResource(AbstractContextManager, metaclass=AbstractFactory):
     r"""Defines the base class to manage a resource."""
-
-    @abstractmethod
-    def configure(self) -> None:
-        r"""Configure the resource."""
-
-    @abstractmethod
-    def show(self) -> None:
-        r"""Shows the information associated to resource."""
 
 
 def setup_resource(resource: Union[BaseResource, dict]) -> BaseResource:
