@@ -1,15 +1,9 @@
 from typing import Optional
 from unittest.mock import patch
 
-import torch
 from pytest import mark, raises
 
-from gravitorch.distributed import (
-    Backend,
-    UnknownBackendError,
-    auto_backend,
-    available_backends,
-)
+from gravitorch.distributed import Backend, UnknownBackendError, auto_backend
 from gravitorch.distributed import backend as dist_backend
 from gravitorch.distributed import (
     distributed_context,
@@ -55,13 +49,14 @@ def test_is_distributed_false():
 #########################################
 
 
-@mark.parametrize("backend", available_backends())
-def test_distributed_context_backend(backend):
-    if backend == Backend.NCCL and not torch.cuda.is_available():
-        return  # no cuda capable device
-    with distributed_context(backend):
-        assert dist_backend() == backend
-    assert dist_backend() is None
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.GLOO,))
+def test_distributed_context_backend():
+    with patch("gravitorch.distributed.comm.initialize") as initialize_mock:
+        with patch("gravitorch.distributed.comm.finalize") as finalize_mock:
+            with distributed_context(Backend.GLOO):
+                pass
+    initialize_mock.assert_called_once_with(Backend.GLOO, init_method="env://")
+    finalize_mock.assert_called_once_with()
 
 
 def test_distributed_context_backend_incorrect():
