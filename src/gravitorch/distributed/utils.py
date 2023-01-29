@@ -5,7 +5,7 @@ __all__ = [
     "has_slurm_distributed_env_vars",
     "has_torch_distributed_env_vars",
     "is_slurm_job",
-    "should_initialize_distributed_context",
+    "is_distributed_ready",
     "show_all_slurm_env_vars",
     "show_distributed_context_info",
     "show_distributed_env_vars",
@@ -37,8 +37,8 @@ def is_slurm_job() -> bool:
     return ct.SLURM_JOB_ID in os.environ
 
 
-def should_initialize_distributed_context() -> bool:
-    r"""Indicates if the distributed context should be activated or not.
+def is_distributed_ready() -> bool:
+    r"""Indicates if the distributed context is ready to be activated or not.
 
     Returns:
         bool: ``True`` if the distributed context should be activated,

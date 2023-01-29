@@ -5,6 +5,7 @@ __all__ = [
     "UnknownBackendError",
     "all_gather",
     "all_reduce",
+    "auto_backend",
     "available_backends",
     "backend",
     "barrier",
@@ -22,6 +23,7 @@ __all__ = [
     "is_distributed",
     "is_main_process",
     "model_name",
+    "resolve_backend",
     "set_local_rank",
     "setup_distributed_context",
     "show_config",
@@ -29,10 +31,12 @@ __all__ = [
 
 import logging
 from contextlib import contextmanager
+from typing import Optional
 
+import torch
 from ignite.distributed import utils
 
-from gravitorch.distributed.utils import show_distributed_env_vars
+from gravitorch.distributed.utils import is_distributed_ready, show_distributed_env_vars
 
 logger = logging.getLogger(__name__)
 
@@ -120,7 +124,6 @@ def setup_distributed_context(backend: str) -> None:
             f"Unknown backend '{backend}'. Available backends: {available_backends()}"
         )
 
-    # Initialize the distributed context.
     initialize(backend, init_method="env://")
 
     try:
@@ -133,6 +136,59 @@ def setup_distributed_context(backend: str) -> None:
         logger.info("Destroying the distributed process...")
         finalize()
         logger.info("Distributed process destroyed")
+
+
+def auto_backend() -> Optional[str]:
+    r"""Finds the best distributed backend for the current environment.
+
+    The rules to find the best distributed backend are:
+
+        - If the NCCL backend and a GPU are available, the best
+            distributed backend is NCCL
+        - If the GLOO backend is available, the best distributed
+            backend is GLOO
+        - Otherwise, ``None`` is returned because there is no
+            best distributed backend
+
+    Returns:
+        str or ``None``: The name of the best distributed backend.
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch import distributed as dist
+        >>> dist.auto_backend()
+        'gloo'
+    """
+    if torch.cuda.is_available() and Backend.NCCL in available_backends():
+        return Backend.NCCL
+    if Backend.GLOO in available_backends():
+        return Backend.GLOO
+    return None
+
+
+def resolve_backend(backend: Optional[str]) -> Optional[str]:
+    r"""Resolves the distributed backend if ``'auto'``.
+
+    Args:
+        backend (str or ``None``): Specifies the distributed
+            backend. If ``'auto'``, this function will find the best
+            option for the distributed backend according to the
+            context and some rules.
+
+    Returns:
+        str or ``None``: The distributed backend or ``None`` if it
+            should not use a distributed backend.
+    """
+    if backend == "auto":
+        if is_distributed_ready():
+            backend = auto_backend()
+        else:
+            # Set to ``None`` because the process does not seem ready
+            # to be configured for a distributed experiment.
+            backend = None
+    return backend
 
 
 class UnknownBackendError(Exception):

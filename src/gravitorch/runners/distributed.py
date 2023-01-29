@@ -9,7 +9,7 @@ from typing import Any, Optional, Union
 
 from gravitorch.distributed import comm as dist
 from gravitorch.distributed.auto import auto_dist_backend, auto_distributed_context
-from gravitorch.distributed.utils import should_initialize_distributed_context
+from gravitorch.distributed.utils import is_distributed_ready
 from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.runners.base import BaseRunner
@@ -102,7 +102,7 @@ def resolve_dist_backend(dist_backend: Optional[str]) -> Optional[str]:
             should not use a distributed backend.
     """
     if dist_backend == "auto":
-        if should_initialize_distributed_context():
+        if is_distributed_ready():
             dist_backend = auto_dist_backend()
         else:
             # Set to ``None`` because the process does not seem ready
