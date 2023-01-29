@@ -17,8 +17,14 @@ import logging
 import os
 from typing import Callable
 
-from gravitorch.distributed import _constants as ct
 from gravitorch.distributed import comm as dist
+from gravitorch.distributed._constants import (
+    CUDA_VISIBLE_DEVICES,
+    SLURM_DISTRIBUTED_ENV_VARS,
+    SLURM_JOB_ID,
+    SLURM_NTASKS,
+    TORCH_DISTRIBUTED_ENV_VARS,
+)
 from gravitorch.utils.format import to_pretty_dict_str
 
 logger = logging.getLogger(__name__)
@@ -34,7 +40,7 @@ def is_slurm_job() -> bool:
         bool: ``True`` if the current process is connected to a SLURM
             job, otherwise ``False``.
     """
-    return ct.SLURM_JOB_ID in os.environ
+    return SLURM_JOB_ID in os.environ
 
 
 def is_distributed_ready() -> bool:
@@ -45,7 +51,7 @@ def is_distributed_ready() -> bool:
             otherwise ``False``.
     """
     if is_slurm_job():
-        return has_slurm_distributed_env_vars() and int(os.environ.get(ct.SLURM_NTASKS, 0)) > 1
+        return has_slurm_distributed_env_vars() and int(os.environ.get(SLURM_NTASKS, 0)) > 1
     return has_torch_distributed_env_vars()
 
 
@@ -62,7 +68,7 @@ def has_torch_distributed_env_vars() -> bool:
         bool: ``True`` if all the environment variables are set,
             otherwise ``False``.
     """
-    for env_var in ct.TORCH_DISTRIBUTED_ENV_VARS:
+    for env_var in TORCH_DISTRIBUTED_ENV_VARS:
         if env_var not in os.environ:
             return False
     return True
@@ -76,7 +82,7 @@ def has_slurm_distributed_env_vars() -> bool:
         bool: ``True`` if all the environment variables are set,
             otherwise ``False``.
     """
-    for env_var in ct.SLURM_DISTRIBUTED_ENV_VARS:
+    for env_var in SLURM_DISTRIBUTED_ENV_VARS:
         if env_var not in os.environ:
             return False
     return True
@@ -115,7 +121,7 @@ def show_torch_distributed_env_vars() -> None:
             documentation of ``torch.distributed.run``
             https://github.com/pytorch/pytorch/blob/master/torch/distributed/run.py
     """
-    names = ct.TORCH_DISTRIBUTED_ENV_VARS + (ct.CUDA_VISIBLE_DEVICES,)
+    names = TORCH_DISTRIBUTED_ENV_VARS + (CUDA_VISIBLE_DEVICES,)
     env_vars = {env_var: os.environ.get(env_var, "<NOT SET>") for env_var in names}
     logger.info(
         "PyTorch environment variables for distributed training:\n"
@@ -135,7 +141,7 @@ def show_all_slurm_env_vars() -> None:
 def show_slurm_env_vars() -> None:
     r"""Shows the value of some SLURM environment variables."""
     env_vars = {
-        env_var: os.environ.get(env_var, "<NOT SET>") for env_var in ct.SLURM_DISTRIBUTED_ENV_VARS
+        env_var: os.environ.get(env_var, "<NOT SET>") for env_var in SLURM_DISTRIBUTED_ENV_VARS
     }
     logger.info(
         "SLURM environment variables:\n"
