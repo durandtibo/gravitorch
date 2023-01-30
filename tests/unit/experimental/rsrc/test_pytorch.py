@@ -5,12 +5,31 @@ import torch
 from pytest import LogCaptureFixture, mark
 from torch.backends import cuda, cudnn
 
-from gravitorch.experimental.rsrc import PyTorchCudaBackend
+from gravitorch.experimental.rsrc import (
+    PyTorchConfig,
+    PyTorchCudaBackend,
+    PyTorchCudnnBackend,
+)
 from gravitorch.experimental.rsrc.pytorch import (
     PyTorchCudaBackendState,
-    PyTorchCudnnBackend,
     PyTorchCudnnBackendState,
 )
+
+###################################
+#     Tests for PyTorchConfig     #
+###################################
+
+
+def test_pytorch_config_str():
+    assert str(PyTorchConfig()).startswith("PyTorchConfig(")
+
+
+def test_pytorch_config(caplog: LogCaptureFixture):
+    with caplog.at_level(logging.INFO):
+        with PyTorchConfig():
+            pass
+        assert len(caplog.messages) == 2
+
 
 #############################################
 #     Tests for PyTorchCudaBackendState     #

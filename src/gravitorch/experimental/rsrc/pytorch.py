@@ -1,4 +1,5 @@
 __all__ = [
+    "PyTorchConfig",
     "PyTorchCudaBackend",
     "PyTorchCudaBackendState",
     "PyTorchCudnnBackend",
@@ -10,12 +11,33 @@ from dataclasses import dataclass
 from types import TracebackType
 from typing import Any, Optional
 
+import torch
 from torch.backends import cuda, cudnn
 
 from gravitorch.experimental.rsrc.base import BaseResource
 from gravitorch.utils.format import to_pretty_dict_str
 
 logger = logging.getLogger(__name__)
+
+
+class PyTorchConfig(BaseResource):
+    r"""Implements a context manager to show the PyTorch configuration."""
+
+    def __enter__(self) -> "PyTorchConfig":
+        logger.info(f"PyTorch configuration:\n{torch.__config__.show()}")
+        logger.info(f"PyTorch parallel information:\n{torch.__config__.parallel_info()}")
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
+        pass
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__qualname__}()"
 
 
 @dataclass
