@@ -129,5 +129,6 @@ def test_all_gather_tensor_varshape_not_distributed():
 
 @patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: True)
 @patch("gravitorch.distributed.ddp.all_gather", lambda tensor: tensor)
+@patch("gravitorch.distributed.ddp.dist_device", lambda *args: torch.device("cpu"))
 def test_all_gather_tensor_varshape_distributed():
     assert objects_are_equal(ddp.all_gather_tensor_varshape(torch.arange(6)), [torch.arange(6)])

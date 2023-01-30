@@ -30,7 +30,7 @@ def test_residual_block_skip():
 @mark.parametrize("mode", (True, False))
 def test_residual_block_forward(device: str, batch_size: int, mode: bool):
     device = torch.device(device)
-    module = ResidualBlock(residual=Linear(4, 4))
+    module = ResidualBlock(residual=Linear(4, 4)).to(device=device)
     module.train(mode)
     out = module(torch.rand(batch_size, 4, device=device))
     assert out.shape == (batch_size, 4)
@@ -45,7 +45,7 @@ def test_residual_block_forward_skip(device: str, batch_size: int, mode: bool):
     device = torch.device(device)
     module = ResidualBlock(
         residual=Sequential(Linear(4, 8), ReLU(), Linear(8, 4)), skip=Linear(4, 4)
-    )
+    ).to(device=device)
     module.train(mode)
     out = module(torch.rand(batch_size, 4, device=device))
     assert out.shape == (batch_size, 4)
