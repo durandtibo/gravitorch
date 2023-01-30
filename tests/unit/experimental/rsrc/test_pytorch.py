@@ -28,7 +28,7 @@ def test_pytorch_config(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with PyTorchConfig():
             pass
-        assert len(caplog.messages) == 2
+        assert len(caplog.messages) == 4
 
 
 #############################################
