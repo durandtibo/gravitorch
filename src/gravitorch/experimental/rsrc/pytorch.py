@@ -24,6 +24,8 @@ class PyTorchConfig(BaseResource):
     r"""Implements a context manager to show the PyTorch configuration."""
 
     def __enter__(self) -> "PyTorchConfig":
+        logger.info(f"PyTorch version: {torch.version.__version__}  ({torch.version.git_version})")
+        logger.info(f"PyTorch cuda version: {torch.version.cuda}")
         logger.info(f"PyTorch configuration:\n{torch.__config__.show()}")
         logger.info(f"PyTorch parallel information:\n{torch.__config__.parallel_info()}")
         return self
@@ -173,6 +175,7 @@ class PyTorchCudaBackend(BaseResource):
             f"{prefix}.flash_sdp_enabled": cuda.flash_sdp_enabled(),
             f"{prefix}.math_sdp_enabled": cuda.math_sdp_enabled(),
             f"{prefix}.preferred_linalg_library": cuda.preferred_linalg_library(),
+            "torch.version.cuda": torch.version.cuda,
         }
         logger.info(f"CUDA backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
 
