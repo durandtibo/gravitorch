@@ -161,6 +161,7 @@ def test_transformed_prediction_target_forward_transformations(
     metric: BaseMetric,
 ):
     device = torch.device(device)
+    metric.reset()
     metric = metric.to(device=device)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
     assert metric.value() == {
