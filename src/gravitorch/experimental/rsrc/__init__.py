@@ -1,6 +1,7 @@
 __all__ = [
     "BaseResource",
     "DistributedContext",
+    "LogSysInfo",
     "Logging",
     "PyTorchConfig",
     "PyTorchCudaBackend",
@@ -16,3 +17,4 @@ from gravitorch.experimental.rsrc.pytorch import (
     PyTorchCudaBackend,
     PyTorchCudnnBackend,
 )
+from gravitorch.experimental.rsrc.sysinfo import LogSysInfo
