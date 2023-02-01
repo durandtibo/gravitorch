@@ -12,7 +12,6 @@ __all__ = [
     "is_fairscale_available",
     "is_matplotlib_available",
     "is_pillow_available",
-    "is_psutil_available",
     "is_tensorboard_available",
     "is_torchvision_available",
 ]
@@ -97,11 +96,6 @@ def check_pillow() -> None:
             "You can install `pillow` package with the command:\n\n"
             "pip install pillow\n"
         )
-
-
-def is_psutil_available() -> bool:
-    r"""Indicates if the ``psutil`` package is installed or not."""
-    return find_spec("psutil") is not None
 
 
 def is_tensorboard_available() -> bool:

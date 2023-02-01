@@ -1,5 +1,26 @@
-from gravitorch.utils.sysinfo import virtual_memory_human_summary
-from tests.testing import psutil_available
+from gravitorch.utils.sysinfo import (
+    cpu_human_summary,
+    swap_memory_human_summary,
+    virtual_memory_human_summary,
+)
+
+#######################################
+#     Tests for cpu_human_summary     #
+#######################################
+
+
+def test_cpu_human_summary():
+    assert cpu_human_summary().startswith("CPU")
+
+
+###############################################
+#     Tests for swap_memory_human_summary     #
+###############################################
+
+
+def test_swap_memory_human_summary():
+    assert swap_memory_human_summary().startswith("swap memory")
+
 
 ##################################################
 #     Tests for virtual_memory_human_summary     #
@@ -7,9 +28,4 @@ from tests.testing import psutil_available
 
 
 def test_virtual_memory_human_summary():
-    assert isinstance(virtual_memory_human_summary(), str)
-
-
-@psutil_available
-def test_virtual_memory_human_summary_with_psutil():
     assert virtual_memory_human_summary().startswith("virtual memory")

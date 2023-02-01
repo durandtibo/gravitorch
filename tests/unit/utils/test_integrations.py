@@ -13,7 +13,6 @@ from gravitorch.utils.integrations import (
     is_fairscale_available,
     is_matplotlib_available,
     is_pillow_available,
-    is_psutil_available,
     is_tensorboard_available,
     is_torchvision_available,
 )
@@ -77,10 +76,6 @@ def test_check_pillow_without_package():
     with patch("gravitorch.utils.integrations.is_pillow_available", lambda *args: False):
         with raises(RuntimeError):
             check_pillow()
-
-
-def test_is_psutil_available():
-    assert isinstance(is_psutil_available(), bool)
 
 
 def test_is_tensorboard_available():
