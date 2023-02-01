@@ -34,6 +34,10 @@ pillow_available = mark.skipif(
     not is_pillow_available(),
     reason="`pillow` is not available. Please install `pillow` if you want to run this test",
 )
+psutil_available = mark.skipif(
+    not is_pillow_available(),
+    reason="`psutil` is not available. Please install `psutil` if you want to run this test",
+)
 tensorboard_available = mark.skipif(
     not is_tensorboard_available(),
     reason=(
