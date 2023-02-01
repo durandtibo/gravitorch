@@ -12,8 +12,8 @@ class BaseProfiler(ABC, metaclass=AbstractFactory):
 
     .. note::
 
-        The profiler is an experimental feature and may change in the
-        future without warnings.
+    The profiler is an experimental feature and may change in the
+    future without warnings.
     """
 
     def __enter__(self):
