@@ -1,12 +1,8 @@
 __all__ = ["cpu_human_summary", "swap_memory_human_summary", "virtual_memory_human_summary"]
 
-from gravitorch.utils.format import to_human_readable_byte_size
-from gravitorch.utils.integrations import is_psutil_available
+import psutil
 
-if is_psutil_available():
-    import psutil
-else:
-    psutil = None  # pragma: no cover
+from gravitorch.utils.format import to_human_readable_byte_size
 
 
 def cpu_human_summary() -> str:
@@ -70,8 +66,6 @@ def virtual_memory_human_summary() -> str:
         >>> virtual_memory_human_summary()
         virtual memory - total: 16.00 GB | available: 2.89 GB | percent: 81.9% | used: 5.43 GB | free: 28.14 MB  # noqa: E501,B950
     """
-    if psutil is None:
-        return "psutil is required to collect virtual memory usage"
     vm = psutil.virtual_memory()
     return (
         f"virtual memory - total: {to_human_readable_byte_size(vm.total)} | "
