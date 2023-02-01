@@ -1,11 +1,11 @@
 from unittest.mock import Mock, patch
 
-import torch
 from objectory import OBJECT_TARGET
-from pytest import mark
 
+from gravitorch.engines import BaseEngine
+from gravitorch.handlers import BaseHandler
 from gravitorch.runners.evaluation import EvaluationRunner, _run_evaluation_pipeline
-from gravitorch.utils.exp_trackers import NoOpExpTracker
+from gravitorch.utils.exp_trackers import BaseExpTracker, NoOpExpTracker
 
 DIST_BACKENDS = ("auto", "gloo", "nccl", None)
 
@@ -19,35 +19,57 @@ def test_evaluation_runner_str():
     assert str(EvaluationRunner(engine={})).startswith("EvaluationRunner(")
 
 
+def test_evaluation_runner_run_no_handler():
+    engine = Mock(spec=BaseEngine)
+    exp_tracker = Mock(spec=BaseExpTracker)
+    runner = EvaluationRunner(engine=engine, exp_tracker=exp_tracker, random_seed=42)
+    with patch("gravitorch.runners.evaluation._run_evaluation_pipeline") as pipe_mock:
+        runner.run()
+    pipe_mock.assert_called_once_with(
+        engine=engine,
+        exp_tracker=exp_tracker,
+        handlers=tuple(),
+        random_seed=42,
+    )
+
+
+def test_evaluation_runner_run_handler():
+    engine = Mock(spec=BaseEngine)
+    exp_tracker = Mock(spec=BaseExpTracker)
+    handlers = tuple([Mock(spec=BaseHandler)])
+    runner = EvaluationRunner(
+        engine=engine,
+        exp_tracker=exp_tracker,
+        handlers=handlers,
+        random_seed=42,
+    )
+    with patch("gravitorch.runners.evaluation._run_evaluation_pipeline") as pipe_mock:
+        runner.run()
+    pipe_mock.assert_called_once_with(
+        engine=engine,
+        exp_tracker=exp_tracker,
+        handlers=handlers,
+        random_seed=42,
+    )
+
+
+def test_evaluation_runner_run_no_exp_tracker():
+    engine = Mock(spec=BaseEngine)
+    runner = EvaluationRunner(engine=engine, random_seed=42)
+    with patch("gravitorch.runners.evaluation._run_evaluation_pipeline") as pipe_mock:
+        runner.run()
+    pipe_mock.assert_called_once_with(
+        engine=engine,
+        exp_tracker=None,
+        handlers=tuple(),
+        random_seed=42,
+    )
+
+
 def test_evaluation_runner_engine():
     engine = Mock()
-    EvaluationRunner(engine, dist_backend=None).run()
+    EvaluationRunner(engine).run()
     engine.eval.assert_called_once()
-
-
-@mark.parametrize("random_seed", (1, 2, 3))
-def test_evaluation_runner_random_seed(random_seed: int):
-    engine = Mock()
-    EvaluationRunner(engine, random_seed=random_seed).run()
-    x1 = torch.rand(2, 3)
-    torch.manual_seed(random_seed)
-    x2 = torch.rand(2, 3)
-    assert x1.equal(x2)
-
-
-def test_evaluation_runner_run_train():
-    engine = Mock()
-    EvaluationRunner(engine, tuple(), NoOpExpTracker()).run()
-    engine.eval.assert_called_once()
-
-
-def test_evaluation_runner_run_setup_and_attach_handlers():
-    engine = Mock()
-    handlers = Mock()
-    runner = EvaluationRunner(engine, handlers, exp_tracker=NoOpExpTracker())
-    with patch("gravitorch.runners.evaluation.setup_and_attach_handlers") as setup_mock:
-        runner.run()
-        setup_mock.assert_called_once_with(engine, handlers)
 
 
 ##############################################
