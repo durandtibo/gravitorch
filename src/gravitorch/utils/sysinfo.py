@@ -1,8 +1,17 @@
-__all__ = ["cpu_human_summary", "swap_memory_human_summary", "virtual_memory_human_summary"]
+__all__ = [
+    "cpu_human_summary",
+    "log_system_info",
+    "swap_memory_human_summary",
+    "virtual_memory_human_summary",
+]
+
+import logging
 
 import psutil
 
 from gravitorch.utils.format import to_human_readable_byte_size
+
+logger = logging.getLogger(__name__)
 
 
 def cpu_human_summary() -> str:
@@ -22,9 +31,24 @@ def cpu_human_summary() -> str:
     loadavg = tuple(100.0 * x / psutil.cpu_count() for x in psutil.getloadavg())
     return (
         f"CPU - logical/physical count: {psutil.cpu_count()}/{psutil.cpu_count(logical=False)} | "
-        f"percent: {psutil.cpu_percent()} | "
+        f"percent: {psutil.cpu_percent()} % | "
         f"load 1/5/15min: {loadavg[0]:.2f}/{loadavg[1]:.2f}/{loadavg[2]:.2f} %"
     )
+
+
+def log_system_info() -> None:
+    r"""Log information about the system.
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch.utils.sysinfo import log_system_info
+        >>> log_system_info()
+    """
+    logger.info(cpu_human_summary())
+    logger.info(virtual_memory_human_summary())
+    logger.info(swap_memory_human_summary())
 
 
 def swap_memory_human_summary() -> str:
@@ -46,7 +70,7 @@ def swap_memory_human_summary() -> str:
         f"swap memory - total: {to_human_readable_byte_size(swap.total)} | "
         f"used: {to_human_readable_byte_size(swap.used)} | "
         f"free: {to_human_readable_byte_size(swap.free)} | "
-        f"percent: {swap.percent}% | "
+        f"percent: {swap.percent} % | "
         f"sin: {to_human_readable_byte_size(swap.sin)} | "
         f"sout: {to_human_readable_byte_size(swap.sout)}"
     )
@@ -70,7 +94,7 @@ def virtual_memory_human_summary() -> str:
     return (
         f"virtual memory - total: {to_human_readable_byte_size(vm.total)} | "
         f"available: {to_human_readable_byte_size(vm.available)} | "
-        f"percent: {vm.percent}% | "
+        f"percent: {vm.percent} % | "
         f"used: {to_human_readable_byte_size(vm.used)} | "
         f"free: {to_human_readable_byte_size(vm.free)}"
     )
