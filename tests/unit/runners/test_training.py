@@ -1,11 +1,11 @@
 from unittest.mock import Mock, patch
 
-import torch
 from objectory import OBJECT_TARGET
-from pytest import mark
 
+from gravitorch.engines import BaseEngine
+from gravitorch.handlers import BaseHandler
 from gravitorch.runners.training import TrainingRunner, _run_training_pipeline
-from gravitorch.utils.exp_trackers import NoOpExpTracker
+from gravitorch.utils.exp_trackers import BaseExpTracker, NoOpExpTracker
 
 DIST_BACKENDS = ("auto", "gloo", "nccl", None)
 
@@ -19,35 +19,57 @@ def test_training_runner_str():
     assert str(TrainingRunner(engine={})).startswith("TrainingRunner(")
 
 
+def test_training_runner_run_no_handler():
+    engine = Mock(spec=BaseEngine)
+    exp_tracker = Mock(spec=BaseExpTracker)
+    runner = TrainingRunner(engine=engine, exp_tracker=exp_tracker, random_seed=42)
+    with patch("gravitorch.runners.training._run_training_pipeline") as pipe_mock:
+        runner.run()
+    pipe_mock.assert_called_once_with(
+        engine=engine,
+        exp_tracker=exp_tracker,
+        handlers=tuple(),
+        random_seed=42,
+    )
+
+
+def test_training_runner_run_handler():
+    engine = Mock(spec=BaseEngine)
+    exp_tracker = Mock(spec=BaseExpTracker)
+    handlers = tuple([Mock(spec=BaseHandler)])
+    runner = TrainingRunner(
+        engine=engine,
+        exp_tracker=exp_tracker,
+        handlers=handlers,
+        random_seed=42,
+    )
+    with patch("gravitorch.runners.training._run_training_pipeline") as pipe_mock:
+        runner.run()
+    pipe_mock.assert_called_once_with(
+        engine=engine,
+        exp_tracker=exp_tracker,
+        handlers=handlers,
+        random_seed=42,
+    )
+
+
+def test_training_runner_run_no_exp_tracker():
+    engine = Mock(spec=BaseEngine)
+    runner = TrainingRunner(engine=engine, random_seed=42)
+    with patch("gravitorch.runners.training._run_training_pipeline") as pipe_mock:
+        runner.run()
+    pipe_mock.assert_called_once_with(
+        engine=engine,
+        exp_tracker=None,
+        handlers=tuple(),
+        random_seed=42,
+    )
+
+
 def test_training_runner_engine():
     engine = Mock()
-    TrainingRunner(engine, dist_backend=None).run()
+    TrainingRunner(engine).run()
     engine.train.assert_called_once()
-
-
-@mark.parametrize("random_seed", (1, 2, 3))
-def test_training_runner_random_seed(random_seed: int):
-    engine = Mock()
-    TrainingRunner(engine, random_seed=random_seed).run()
-    x1 = torch.rand(2, 3)
-    torch.manual_seed(random_seed)
-    x2 = torch.rand(2, 3)
-    assert x1.equal(x2)
-
-
-def test_training_runner_run_train():
-    engine = Mock()
-    TrainingRunner(engine, tuple(), NoOpExpTracker()).run()
-    engine.train.assert_called_once()
-
-
-def test_training_runner_run_setup_and_attach_handlers():
-    engine = Mock()
-    handlers = Mock()
-    runner = TrainingRunner(engine, handlers, exp_tracker=NoOpExpTracker())
-    with patch("gravitorch.runners.training.setup_and_attach_handlers") as setup_mock:
-        runner.run()
-        setup_mock.assert_called_once_with(engine, handlers)
 
 
 ############################################
