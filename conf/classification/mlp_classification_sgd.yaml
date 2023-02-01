@@ -2,6 +2,7 @@
 defaults:
   - ../hydra: tibo
   - runner: training
+  - resources: default
   - exp_tracker: tensorboard
   - device_placement: auto
   - engine: alpha
