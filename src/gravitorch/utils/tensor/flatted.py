@@ -84,7 +84,6 @@ class LazyFlattedTensor:
             >>> lazy_tensor.update(torch.arange(6))
             >>> lazy_tensor_reduced = lazy_tensor.all_reduce()
         """
-
         return LazyFlattedTensor(torch.cat(all_gather_tensor_varshape(self.values()), dim=0))
 
     def clear(self) -> None:

@@ -12,6 +12,7 @@ __all__ = [
     "is_fairscale_available",
     "is_matplotlib_available",
     "is_pillow_available",
+    "is_psutil_available",
     "is_tensorboard_available",
     "is_torchvision_available",
 ]
@@ -20,7 +21,7 @@ from importlib.util import find_spec
 
 
 def is_accelerate_available() -> bool:
-    r"""Indicates if the accelerate package is installed or not.
+    r"""Indicates if the ``accelerate`` package is installed or not.
 
     https://huggingface.co/docs/accelerate/index.html
     """
@@ -28,10 +29,10 @@ def is_accelerate_available() -> bool:
 
 
 def check_accelerate() -> None:
-    r"""Checks if the accelerate package is installed.
+    r"""Checks if the ``accelerate`` package is installed.
 
     Raises:
-        RuntimeError if the accelerate package is not installed.
+        RuntimeError if the ``accelerate`` package is not installed.
     """
     if not is_accelerate_available():
         raise RuntimeError(
@@ -42,15 +43,15 @@ def check_accelerate() -> None:
 
 
 def is_fairscale_available() -> bool:
-    r"""Indicates if the fairscale package is installed or not."""
+    r"""Indicates if the ``fairscale`` package is installed or not."""
     return find_spec("fairscale") is not None
 
 
 def check_fairscale() -> None:
-    r"""Checks if the fairscale package is installed.
+    r"""Checks if the ``fairscale`` package is installed.
 
     Raises:
-        RuntimeError if the fairscale package is not installed.
+        RuntimeError if the ``fairscale`` package is not installed.
     """
     if not is_fairscale_available():
         raise RuntimeError(
@@ -61,15 +62,15 @@ def check_fairscale() -> None:
 
 
 def is_matplotlib_available() -> bool:
-    r"""Indicates if the matplotlib package is installed or not."""
+    r"""Indicates if the ``matplotlib`` package is installed or not."""
     return find_spec("matplotlib") is not None
 
 
 def check_matplotlib() -> None:
-    r"""Checks if the matplotlib package is installed.
+    r"""Checks if the ``matplotlib`` package is installed.
 
     Raises:
-        RuntimeError if the matplotlib package is not installed.
+        RuntimeError if the ``matplotlib`` package is not installed.
     """
     if not is_matplotlib_available():
         raise RuntimeError(
@@ -80,7 +81,7 @@ def check_matplotlib() -> None:
 
 
 def is_pillow_available() -> bool:
-    r"""Indicates if the pillow package is installed or not."""
+    r"""Indicates if the ``pillow`` package is installed or not."""
     return find_spec("PIL") is not None
 
 
@@ -88,7 +89,7 @@ def check_pillow() -> None:
     r"""Checks if the pillow package is installed.
 
     Raises:
-        RuntimeError if the pillow package is not installed.
+        RuntimeError if the ``pillow`` package is not installed.
     """
     if not is_pillow_available():
         raise RuntimeError(
@@ -98,16 +99,21 @@ def check_pillow() -> None:
         )
 
 
+def is_psutil_available() -> bool:
+    r"""Indicates if the ``psutil`` package is installed or not."""
+    return find_spec("psutil") is not None
+
+
 def is_tensorboard_available() -> bool:
-    r"""Indicates if the tensorboard package is installed or not."""
+    r"""Indicates if the ``tensorboard`` package is installed or not."""
     return find_spec("tensorboard") is not None
 
 
 def check_tensorboard() -> None:
-    r"""Checks if the tensorboard package is installed.
+    r"""Checks if the ``tensorboard`` package is installed.
 
     Raises:
-        RuntimeError if the tensorboard package is not installed.
+        RuntimeError if the ``tensorboard`` package is not installed.
     """
     if not is_tensorboard_available():
         raise RuntimeError(
@@ -118,7 +124,7 @@ def check_tensorboard() -> None:
 
 
 def is_torchvision_available() -> bool:
-    r"""Indicates if the torchvision package is installed or not.
+    r"""Indicates if the ``torchvision`` package is installed or not.
 
     https://pytorch.org/vision/stable/index.html
     """
@@ -126,10 +132,10 @@ def is_torchvision_available() -> bool:
 
 
 def check_torchvision() -> None:
-    r"""Checks if the torchvision package is installed.
+    r"""Checks if the ``torchvision`` package is installed.
 
     Raises:
-        RuntimeError if the torchvision package is not installed.
+        RuntimeError if the ``torchvision`` package is not installed.
     """
     if not is_torchvision_available():
         raise RuntimeError(
