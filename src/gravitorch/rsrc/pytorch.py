@@ -14,7 +14,7 @@ from typing import Any, Optional
 import torch
 from torch.backends import cuda, cudnn
 
-from gravitorch.experimental.rsrc.base import BaseResource
+from gravitorch.rsrc.base import BaseResource
 from gravitorch.utils.format import to_pretty_dict_str
 
 logger = logging.getLogger(__name__)

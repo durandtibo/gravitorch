@@ -1,6 +1,6 @@
 from torch.backends import cuda
 
-from gravitorch.experimental.rsrc import PyTorchCudaBackend
+from gravitorch.rsrc import PyTorchCudaBackend
 from gravitorch.runners import BaseResourceRunner
 
 ########################################

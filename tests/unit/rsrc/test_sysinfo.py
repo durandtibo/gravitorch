@@ -2,7 +2,7 @@ import logging
 
 from pytest import LogCaptureFixture
 
-from gravitorch.experimental.rsrc import LogCudaMemory, LogSysInfo
+from gravitorch.rsrc import LogCudaMemory, LogSysInfo
 
 ###################################
 #     Tests for LogCudaMemory     #
