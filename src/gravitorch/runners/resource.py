@@ -6,7 +6,7 @@ from collections.abc import Sequence
 from contextlib import ExitStack
 from typing import Any, Optional, Union
 
-from gravitorch.experimental.rsrc.base import BaseResource, setup_resource
+from gravitorch.rsrc.base import BaseResource, setup_resource
 from gravitorch.runners.base import BaseRunner
 
 logger = logging.getLogger(__name__)

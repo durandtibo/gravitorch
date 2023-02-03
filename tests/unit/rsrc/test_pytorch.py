@@ -5,15 +5,8 @@ import torch
 from pytest import LogCaptureFixture, mark
 from torch.backends import cuda, cudnn
 
-from gravitorch.experimental.rsrc import (
-    PyTorchConfig,
-    PyTorchCudaBackend,
-    PyTorchCudnnBackend,
-)
-from gravitorch.experimental.rsrc.pytorch import (
-    PyTorchCudaBackendState,
-    PyTorchCudnnBackendState,
-)
+from gravitorch.rsrc import PyTorchConfig, PyTorchCudaBackend, PyTorchCudnnBackend
+from gravitorch.rsrc.pytorch import PyTorchCudaBackendState, PyTorchCudnnBackendState
 
 ###################################
 #     Tests for PyTorchConfig     #

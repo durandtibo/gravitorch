@@ -6,7 +6,7 @@ from types import TracebackType
 from typing import Optional, Union
 
 from gravitorch.distributed import comm as dist
-from gravitorch.experimental.rsrc.base import BaseResource
+from gravitorch.rsrc.base import BaseResource
 
 logger = logging.getLogger(__name__)
 

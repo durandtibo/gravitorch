@@ -6,7 +6,7 @@ from typing import Optional
 
 from gravitorch.distributed.comm import BACKEND_TO_CONTEXT, resolve_backend
 from gravitorch.distributed.utils import show_distributed_context_info
-from gravitorch.experimental.rsrc.base import BaseResource
+from gravitorch.rsrc.base import BaseResource
 
 logger = logging.getLogger(__name__)
 

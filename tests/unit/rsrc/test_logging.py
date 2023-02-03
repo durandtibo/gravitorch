@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from pytest import mark
 
-from gravitorch.experimental.rsrc.logging import Logging, LoggingState
+from gravitorch.rsrc.logging import Logging, LoggingState
 
 ##################################
 #     Tests for LoggingState     #

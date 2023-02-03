@@ -1,16 +1,16 @@
-- _target_: gravitorch.experimental.rsrc.LogSysInfo
-- _target_: gravitorch.experimental.rsrc.LogCudaMemory
-- _target_: gravitorch.experimental.rsrc.Logging
+- _target_: gravitorch.rsrc.LogSysInfo
+- _target_: gravitorch.rsrc.LogCudaMemory
+- _target_: gravitorch.rsrc.Logging
   only_main_process: true
-- _target_: gravitorch.experimental.rsrc.PyTorchConfig
-- _target_: gravitorch.experimental.rsrc.PyTorchCudaBackend
+- _target_: gravitorch.rsrc.PyTorchConfig
+- _target_: gravitorch.rsrc.PyTorchCudaBackend
   allow_tf32: true
   log_info: true
-- _target_: gravitorch.experimental.rsrc.PyTorchCudnnBackend
+- _target_: gravitorch.rsrc.PyTorchCudnnBackend
   allow_tf32: true
   benchmark: true
   enabled: true
   log_info: true
-- _target_: gravitorch.experimental.rsrc.DistributedContext
+- _target_: gravitorch.rsrc.DistributedContext
   backend: auto
   log_info: true

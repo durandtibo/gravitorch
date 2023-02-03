@@ -4,7 +4,7 @@ from pytest import LogCaptureFixture, raises
 
 from gravitorch.distributed import UnknownBackendError
 from gravitorch.distributed import backend as dist_backend
-from gravitorch.experimental.rsrc.distributed import DistributedContext
+from gravitorch.rsrc.distributed import DistributedContext
 
 ########################################
 #     Tests for DistributedContext     #
