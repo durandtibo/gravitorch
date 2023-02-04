@@ -4,7 +4,7 @@ from pytest import mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import EngineEvents
-from gravitorch.handlers import EarlyStoppingHandler
+from gravitorch.handlers import EarlyStopping
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import (
     EmptyHistoryError,
@@ -17,46 +17,43 @@ EVENTS = ("my_event", "my_other_event")
 METRICS = ("metric1", "metric2")
 
 
-##########################################
-#     Tests for EarlyStoppingHandler     #
-##########################################
+###################################
+#     Tests for EarlyStopping     #
+###################################
 
 
 def test_early_stopping_str():
-    assert str(EarlyStoppingHandler()).startswith("EarlyStoppingHandler(")
+    assert str(EarlyStopping()).startswith("EarlyStopping(")
 
 
 @mark.parametrize("metric_name", METRICS)
 def test_early_stopping_metric_name(metric_name: str):
-    assert EarlyStoppingHandler(metric_name=metric_name)._metric_name == metric_name
+    assert EarlyStopping(metric_name=metric_name)._metric_name == metric_name
 
 
 @mark.parametrize("patience", (1, 5))
 def test_early_stopping_patience(patience: int):
-    assert EarlyStoppingHandler(patience=patience)._patience == patience
+    assert EarlyStopping(patience=patience)._patience == patience
 
 
 def test_early_stopping_incorrect_patience():
     with raises(ValueError):
-        EarlyStoppingHandler(patience=0)
+        EarlyStopping(patience=0)
 
 
 @mark.parametrize("delta", (0.0, 1.0))
 def test_early_stopping_delta(delta: float):
-    assert EarlyStoppingHandler(delta=delta)._delta == delta
+    assert EarlyStopping(delta=delta)._delta == delta
 
 
 def test_early_stopping_incorrect_delta():
     with raises(ValueError):
-        EarlyStoppingHandler(delta=-0.1)
+        EarlyStopping(delta=-0.1)
 
 
 @mark.parametrize("cumulative_delta", (True, False))
 def test_early_stopping_cumulative_delta(cumulative_delta: bool):
-    assert (
-        EarlyStoppingHandler(cumulative_delta=cumulative_delta)._cumulative_delta
-        == cumulative_delta
-    )
+    assert EarlyStopping(cumulative_delta=cumulative_delta)._cumulative_delta == cumulative_delta
 
 
 def test_early_stopping_attach_with_correct_metric():
@@ -64,7 +61,7 @@ def test_early_stopping_attach_with_correct_metric():
     engine.has_event_handler.return_value = False
     engine.has_history.return_value = True
     engine.get_history.return_value = MinScalarHistory("my_metric")
-    handler = EarlyStoppingHandler(metric_name="my_metric")
+    handler = EarlyStopping(metric_name="my_metric")
     handler.attach(engine)
     assert engine.add_event_handler.call_args_list[0].args == (
         EngineEvents.TRAIN_STARTED,
@@ -81,14 +78,14 @@ def test_early_stopping_attach_with_incorrect_metric():
     engine = Mock()
     engine.has_history.return_value = True
     engine.get_history.return_value = GenericHistory("my_metric")
-    handler = EarlyStoppingHandler(metric_name="my_metric")
+    handler = EarlyStopping(metric_name="my_metric")
     with raises(RuntimeError):
         handler.attach(engine)
 
 
 def test_early_stopping_attach_without_metric():
     engine = Mock()
-    handler = EarlyStoppingHandler()
+    handler = EarlyStopping()
     engine.has_event_handler.return_value = False
     engine.has_history.return_value = False
     handler.attach(engine)
@@ -104,7 +101,7 @@ def test_early_stopping_attach_without_metric():
 
 
 def test_early_stopping_load_state_dict():
-    handler = EarlyStoppingHandler()
+    handler = EarlyStopping()
     handler.load_state_dict(
         {
             "best_epoch": 12,
@@ -118,7 +115,7 @@ def test_early_stopping_load_state_dict():
 
 
 def test_early_stopping_state_dict():
-    handler = EarlyStoppingHandler()
+    handler = EarlyStopping()
     assert handler.state_dict() == {
         "best_epoch": None,
         "best_score": None,
@@ -128,14 +125,14 @@ def test_early_stopping_state_dict():
 
 def test_early_stopping_start_should_terminate_false():
     engine = Mock()
-    handler = EarlyStoppingHandler()
+    handler = EarlyStopping()
     handler.start(engine)
     engine.terminate.assert_not_called()
 
 
 def test_early_stopping_start_should_terminate_true():
     engine = Mock()
-    handler = EarlyStoppingHandler()
+    handler = EarlyStopping()
     handler.load_state_dict(
         {
             "best_epoch": 12,
@@ -150,13 +147,13 @@ def test_early_stopping_start_should_terminate_true():
 def test_early_stopping_step_empty_history():
     engine = Mock()
     engine.get_history.return_value = MinScalarHistory("my_metric")
-    handler = EarlyStoppingHandler(metric_name="my_metric")
+    handler = EarlyStopping(metric_name="my_metric")
     with raises(EmptyHistoryError):
         handler.step(engine)
 
 
 def test_early_stopping_step_first_epoch():
-    handler = EarlyStoppingHandler(metric_name="my_metric")
+    handler = EarlyStopping(metric_name="my_metric")
     engine = Mock()
     engine.epoch = 0
     history = MinScalarHistory("my_metric")
@@ -169,7 +166,7 @@ def test_early_stopping_step_first_epoch():
 
 
 def test_early_stopping_step_reset_waiting_counter():
-    handler = EarlyStoppingHandler(metric_name="my_metric")
+    handler = EarlyStopping(metric_name="my_metric")
     handler.load_state_dict(
         {
             "best_epoch": 12,
@@ -189,7 +186,7 @@ def test_early_stopping_step_reset_waiting_counter():
 
 
 def test_early_stopping_step_increase_waiting_counter():
-    handler = EarlyStoppingHandler(metric_name="my_metric")
+    handler = EarlyStopping(metric_name="my_metric")
     handler.load_state_dict(
         {
             "best_epoch": 12,
@@ -209,7 +206,7 @@ def test_early_stopping_step_increase_waiting_counter():
 
 
 def test_early_stopping_step_waiting_counter_reach_patience():
-    handler = EarlyStoppingHandler(metric_name="my_metric")
+    handler = EarlyStopping(metric_name="my_metric")
     handler.load_state_dict(
         {
             "best_epoch": 12,
@@ -229,7 +226,7 @@ def test_early_stopping_step_waiting_counter_reach_patience():
 
 
 def test_early_stopping_step_increase_waiting_counter_delta_1_min():
-    handler = EarlyStoppingHandler(metric_name="my_metric", delta=1)
+    handler = EarlyStopping(metric_name="my_metric", delta=1)
     handler.load_state_dict(
         {
             "best_epoch": 12,
@@ -249,7 +246,7 @@ def test_early_stopping_step_increase_waiting_counter_delta_1_min():
 
 
 def test_early_stopping_step_increase_waiting_counter_delta_1_max():
-    handler = EarlyStoppingHandler(metric_name="my_metric", delta=1)
+    handler = EarlyStopping(metric_name="my_metric", delta=1)
     handler.load_state_dict(
         {
             "best_epoch": 12,
@@ -269,7 +266,7 @@ def test_early_stopping_step_increase_waiting_counter_delta_1_max():
 
 
 def test_early_stopping_step_increase_waiting_counter_cumulative_delta_true_min():
-    handler = EarlyStoppingHandler(metric_name="my_metric", delta=1, cumulative_delta=True)
+    handler = EarlyStopping(metric_name="my_metric", delta=1, cumulative_delta=True)
     handler.load_state_dict(
         {
             "best_epoch": 12,
@@ -289,7 +286,7 @@ def test_early_stopping_step_increase_waiting_counter_cumulative_delta_true_min(
 
 
 def test_early_stopping_step_increase_waiting_counter_cumulative_delta_true_max():
-    handler = EarlyStoppingHandler(metric_name="my_metric", delta=1, cumulative_delta=True)
+    handler = EarlyStopping(metric_name="my_metric", delta=1, cumulative_delta=True)
     handler.load_state_dict(
         {
             "best_epoch": 12,

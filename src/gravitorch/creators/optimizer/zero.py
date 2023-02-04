@@ -11,7 +11,7 @@ from tornado.util import import_object
 from gravitorch import constants as ct
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
 from gravitorch.engines.base import BaseEngine
-from gravitorch.handlers import ConsolidateOptimizerStateHandler
+from gravitorch.handlers import ConsolidateOptimizerState
 from gravitorch.utils.format import str_add_indent, to_pretty_json_str
 
 logger = logging.getLogger(__name__)
@@ -103,5 +103,5 @@ class ZeroRedundancyOptimizerCreator(BaseOptimizerCreator):
             engine.add_module(ct.OPTIMIZER, optimizer)
         if self._attach_handler:
             logger.info("Creating handler to consolidate the optimizer state dict...")
-            ConsolidateOptimizerStateHandler().attach(engine)
+            ConsolidateOptimizerState().attach(engine)
         return optimizer

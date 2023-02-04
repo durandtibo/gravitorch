@@ -1,4 +1,4 @@
-__all__ = ["VanillaLRSchedulerHandler", "EpochLRSchedulerHandler", "IterationLRSchedulerHandler"]
+__all__ = ["VanillaLRScheduler", "EpochLRScheduler", "IterationLRScheduler"]
 
 from typing import Union
 
@@ -13,7 +13,7 @@ from gravitorch.handlers.utils import setup_handler
 from gravitorch.utils.format import str_add_indent
 
 
-class VanillaLRSchedulerHandler(BaseHandler):
+class VanillaLRScheduler(BaseHandler):
     r"""Implements a handler to update a learning rate (LR) scheduler and
     monitor the LR value.
 
@@ -53,7 +53,7 @@ class VanillaLRSchedulerHandler(BaseHandler):
         self._lr_monitor.attach(engine)
 
 
-class EpochLRSchedulerHandler(VanillaLRSchedulerHandler):
+class EpochLRScheduler(VanillaLRScheduler):
     r"""Implements a handler to update a learning rate (LR) scheduler at the end
     of each training epoch and monitor the LR value.
 
@@ -71,7 +71,7 @@ class EpochLRSchedulerHandler(VanillaLRSchedulerHandler):
         )
 
 
-class IterationLRSchedulerHandler(VanillaLRSchedulerHandler):
+class IterationLRScheduler(VanillaLRScheduler):
     r"""Implements a handler to update a learning rate (LR) scheduler at the end
     of each training iteration and monitor the LR value.
 

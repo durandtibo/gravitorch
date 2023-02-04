@@ -6,12 +6,12 @@ from torch.distributed.optim import ZeroRedundancyOptimizer
 
 from gravitorch import distributed as dist
 from gravitorch.distributed import gloocontext
-from gravitorch.handlers import ConsolidateOptimizerStateHandler
+from gravitorch.handlers import ConsolidateOptimizerState
 from tests.testing import gloo_available
 
-######################################################
-#     Tests for ConsolidateOptimizerStateHandler     #
-######################################################
+###############################################
+#     Tests for ConsolidateOptimizerState     #
+###############################################
 
 
 @gloo_available
@@ -26,10 +26,10 @@ from tests.testing import gloo_available
     },
     clear=True,
 )
-def test_consolidate_optimizer_state_handler_consolidate_zero():
+def test_consolidate_optimizer_state_consolidate_zero():
     with gloocontext():
         optimizer = ZeroRedundancyOptimizer(
             params=torch.nn.Linear(4, 5).parameters(), optimizer_class=torch.optim.SGD, lr=0.01
         )
-        ConsolidateOptimizerStateHandler().consolidate(engine=Mock(optimizer=optimizer))
+        ConsolidateOptimizerState().consolidate(engine=Mock(optimizer=optimizer))
         assert isinstance(optimizer.state_dict(), dict)

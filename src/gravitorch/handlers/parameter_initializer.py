@@ -1,6 +1,6 @@
 r"""This module implements a handler to initialize parameters."""
 
-__all__ = ["ParameterInitializerHandler"]
+__all__ = ["ParameterInitializer"]
 
 import logging
 from typing import Union
@@ -19,7 +19,7 @@ from gravitorch.utils.parameter_initializers import (
 logger = logging.getLogger(__name__)
 
 
-class ParameterInitializerHandler(BaseHandler):
+class ParameterInitializer(BaseHandler):
     r"""Implements a handler to initialize the parameters.
 
     This handler uses a ``BaseParameterInitializer`` object to
