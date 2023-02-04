@@ -14,6 +14,7 @@ __all__ = [
     "EpochLRSchedulerHandler",
     "EpochLRSchedulerUpdater",
     "EpochOptimizerMonitor",
+    "EpochSysInfoMonitor",
     "IterationCudaMemoryMonitor",
     "IterationLRMonitor",
     "IterationLRSchedulerHandler",
@@ -86,6 +87,7 @@ from gravitorch.handlers.optimizer_monitor import (
     IterationOptimizerMonitor,
 )
 from gravitorch.handlers.parameter_initializer import ParameterInitializerHandler
+from gravitorch.handlers.sysinfo import EpochSysInfoMonitor
 from gravitorch.handlers.utils import (
     add_unique_event_handler,
     setup_and_attach_handlers,
