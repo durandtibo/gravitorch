@@ -5,73 +5,20 @@ These implementations cover a large set of use cases but you may need to
 implement your own functions for some special use cases.
 """
 
-__all__ = ["auto_distributed_context", "auto_dist_backend", "auto_ddp_model"]
+__all__ = ["auto_ddp_model"]
 
 import logging
-from collections.abc import Generator
-from contextlib import contextmanager
-from typing import Optional
 
-import torch
 from torch.nn import Module, SyncBatchNorm
 from torch.nn.parallel import DistributedDataParallel
 
 from gravitorch.distributed import comm as dist
-from gravitorch.distributed.utils import show_distributed_context_info
 from gravitorch.nn.utils.module_helpers import (
     has_learnable_parameters,
     is_module_on_device,
 )
 
 logger = logging.getLogger(__name__)
-
-
-@contextmanager
-def auto_distributed_context(dist_backend: Optional[str]) -> Generator[None, None, None]:
-    r"""Context manager that automatically initializes and sets up the
-    distributed context.
-
-    This context manager provides an implementation to initialize and
-    set up the distributed context that covers a large set of use
-    cases, but you may need to implement your own functions for some
-    special use cases. If the distributed backend is not ``None``,
-    this context manager initialize the distributed context. If there
-    is at least one GPU available, the selected device is set to the
-    local rank. This context manager is a no-op if the distributed
-    backend is ``None``.
-
-    Args:
-        dist_backend (str or None): Specifies the distributed backend
-            to use.
-    """
-    if dist_backend is not None:  # distributed mode
-        with dist.distributed_context(backend=dist_backend):
-            if torch.cuda.is_available():  # GPU
-                with torch.cuda.device(dist.get_local_rank()):
-                    show_distributed_context_info()
-                    yield
-            else:  # CPU
-                show_distributed_context_info()
-                yield
-    else:  # non-distributed mode
-        yield
-
-
-def auto_dist_backend() -> str:
-    r"""Finds the best distributed backend for the current environment.
-
-    The rules to find the best distributed backend are:
-
-        - If there is a GPU is available, the distributed backend is
-            NCCL
-        - otherwise the backend is GLOO
-
-    Returns:
-        str: The name of the backend.
-    """
-    if torch.cuda.is_available() and dist.Backend.NCCL in dist.available_backends():
-        return dist.Backend.NCCL
-    return dist.Backend.GLOO
 
 
 def auto_ddp_model(model: Module, sync_batch_norm: bool = False, **kwargs) -> Module:
