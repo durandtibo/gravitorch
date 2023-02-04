@@ -20,7 +20,7 @@ from gravitorch.optimizers.utils import (
     log_optimizer_parameters_per_group,
     show_optimizer_parameters_per_group,
 )
-from gravitorch.utils.cuda_memory import log_max_cuda_memory_allocated
+from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import MinScalarHistory
 from gravitorch.utils.loop_observers import BaseLoopObserver, setup_loop_observer

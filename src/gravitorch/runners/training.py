@@ -10,7 +10,6 @@ from gravitorch.handlers import setup_and_attach_handlers
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.rsrc.base import BaseResource
 from gravitorch.runners.resource import BaseResourceRunner
-from gravitorch.utils.cuda_memory import log_cuda_memory_summary
 from gravitorch.utils.exp_trackers import setup_exp_tracker
 from gravitorch.utils.exp_trackers.base import BaseExpTracker
 from gravitorch.utils.format import (
@@ -131,5 +130,4 @@ def _run_training_pipeline(
         logger.info(f"engine:\n{engine}")
         engine.train()
 
-    log_cuda_memory_summary()
     return engine
