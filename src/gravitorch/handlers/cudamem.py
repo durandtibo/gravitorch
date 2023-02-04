@@ -6,7 +6,7 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
-from gravitorch.utils.cuda_memory import log_max_cuda_memory_allocated
+from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
 from gravitorch.utils.events import (
     ConditionalEventHandler,
     EpochPeriodicCondition,

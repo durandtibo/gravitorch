@@ -5,7 +5,7 @@ from types import TracebackType
 from typing import Optional
 
 from gravitorch.rsrc.base import BaseResource
-from gravitorch.utils.cuda_memory import log_max_cuda_memory_allocated
+from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
 from gravitorch.utils.sysinfo import log_system_info
 
 logger = logging.getLogger(__name__)
