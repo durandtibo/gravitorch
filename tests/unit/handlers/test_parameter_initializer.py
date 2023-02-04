@@ -3,39 +3,36 @@ from unittest.mock import Mock
 from pytest import mark
 
 from gravitorch.engines import EngineEvents
-from gravitorch.handlers import ParameterInitializerHandler
+from gravitorch.handlers import ParameterInitializer
 from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 
 
-#################################################
-#     Tests for ParameterInitializerHandler     #
-#################################################
+##########################################
+#     Tests for ParameterInitializer     #
+##########################################
 
 
-def test_parameter_initializer_handler_str():
-    assert str(ParameterInitializerHandler(parameter_initializer=Mock())).startswith(
-        "ParameterInitializerHandler("
+def test_parameter_initializer_str():
+    assert str(ParameterInitializer(parameter_initializer=Mock())).startswith(
+        "ParameterInitializer("
     )
 
 
 @mark.parametrize("event", EVENTS)
-def test_parameter_initializer_handler_event(event: str):
-    assert ParameterInitializerHandler(parameter_initializer=Mock(), event=event)._event == event
+def test_parameter_initializer_event(event: str):
+    assert ParameterInitializer(parameter_initializer=Mock(), event=event)._event == event
 
 
-def test_parameter_initializer_handler_event_default():
-    assert (
-        ParameterInitializerHandler(parameter_initializer=Mock())._event
-        == EngineEvents.TRAIN_STARTED
-    )
+def test_parameter_initializer_event_default():
+    assert ParameterInitializer(parameter_initializer=Mock())._event == EngineEvents.TRAIN_STARTED
 
 
 @mark.parametrize("event", EVENTS)
-def test_parameter_initializer_handler_attach(event: str):
+def test_parameter_initializer_attach(event: str):
     parameter_initializer = Mock()
-    handler = ParameterInitializerHandler(parameter_initializer=parameter_initializer, event=event)
+    handler = ParameterInitializer(parameter_initializer=parameter_initializer, event=event)
     engine = Mock()
     engine.has_event_handler.return_value = False
     handler.attach(engine)
@@ -45,8 +42,8 @@ def test_parameter_initializer_handler_attach(event: str):
     )
 
 
-def test_parameter_initializer_handler_attach_duplicate():
-    handler = ParameterInitializerHandler(parameter_initializer=Mock())
+def test_parameter_initializer_attach_duplicate():
+    handler = ParameterInitializer(parameter_initializer=Mock())
     engine = Mock()
     engine.has_event_handler.return_value = True
     handler.attach(engine)

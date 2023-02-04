@@ -1,4 +1,4 @@
-__all__ = ["EarlyStoppingHandler"]
+__all__ = ["EarlyStopping"]
 
 import logging
 import operator
@@ -15,7 +15,7 @@ from gravitorch.utils.history import BaseHistory, MaxScalarHistory, MinScalarHis
 logger = logging.getLogger(__name__)
 
 
-class EarlyStoppingHandler(BaseHandler):
+class EarlyStopping(BaseHandler):
     r"""Implements an early stopping handler to stop the training if no
     improvement after a given number of epochs.
 
@@ -46,10 +46,10 @@ class EarlyStoppingHandler(BaseHandler):
 
         # Create an engine
         >>> engine = ...
-        >>> from gravitorch.handlers import EarlyStoppingHandler
+        >>> from gravitorch.handlers import EarlyStopping
         # Add the early stopping handler to the engine with a patience of 10 epochs
         # for the accuracy metric.
-        >>> handler = EarlyStoppingHandler(metric_name='eval/accuracy', patience=10)
+        >>> handler = EarlyStopping(metric_name='eval/accuracy', patience=10)
         >>> handler.attach(engine)
     """
 
@@ -126,7 +126,7 @@ class EarlyStoppingHandler(BaseHandler):
 
         .. code-block:: python
 
-            >>> handler = EarlyStoppingHandler(...)
+            >>> handler = EarlyStopping(...)
             >>> state = {...}
             >>> handler.load_state_dict(state)
         """
@@ -144,7 +144,7 @@ class EarlyStoppingHandler(BaseHandler):
 
         .. code-block:: python
 
-            >>> state = EarlyStoppingHandler(...)
+            >>> state = EarlyStopping(...)
             >>> state_dict = state.state_dict()
         """
         return {

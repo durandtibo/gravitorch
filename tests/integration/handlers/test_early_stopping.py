@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 from gravitorch import constants as ct
 from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
-from gravitorch.handlers import EarlyStoppingHandler
+from gravitorch.handlers import EarlyStopping
 from gravitorch.utils.engine_states import VanillaEngineState
 from gravitorch.utils.history import MaxScalarHistory, MinScalarHistory
 
@@ -17,14 +17,14 @@ def create_engine(**kwargs) -> BaseEngine:
 
 
 ##########################################
-#     Tests for EarlyStoppingHandler     #
+#     Tests for EarlyStopping     #
 ##########################################
 
 
 def test_early_stopping_simulation_min():
     engine = create_engine()
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
-    handler = EarlyStoppingHandler(delta=0)
+    handler = EarlyStopping(delta=0)
     handler.attach(engine)
     # Simulate the behavior of the engine.
     for loss in [3, 2, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]:
@@ -44,7 +44,7 @@ def test_early_stopping_simulation_min():
 def test_early_stopping_simulation_max():
     engine = create_engine()
     engine.add_history(MaxScalarHistory("accuracy"))
-    handler = EarlyStoppingHandler(metric_name="accuracy", delta=0)
+    handler = EarlyStopping(metric_name="accuracy", delta=0)
     handler.attach(engine)
     # Simulate the behavior of the engine.
     for loss in [1, 2, 3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5]:
@@ -64,7 +64,7 @@ def test_early_stopping_simulation_max():
 def test_early_stopping_simulation_delta():
     engine = create_engine()
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
-    handler = EarlyStoppingHandler(delta=0.15)
+    handler = EarlyStopping(delta=0.15)
     handler.attach(engine)
     # Simulate the behavior of the engine.
     for loss in [3, 2, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]:
@@ -84,7 +84,7 @@ def test_early_stopping_simulation_delta():
 def test_early_stopping_simulation_delta_and_cumulative_delta():
     engine = create_engine()
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
-    handler = EarlyStoppingHandler(delta=0.15, cumulative_delta=True)
+    handler = EarlyStopping(delta=0.15, cumulative_delta=True)
     handler.attach(engine)
     # Simulate the behavior of the engine.
     for loss in [3, 2, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]:
@@ -104,7 +104,7 @@ def test_early_stopping_simulation_delta_and_cumulative_delta():
 def test_early_stopping_simulation_resume():
     engine = create_engine(state=VanillaEngineState(epoch=10))
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
-    handler = EarlyStoppingHandler()
+    handler = EarlyStopping()
     handler.attach(engine)
     handler.load_state_dict(
         {
@@ -131,7 +131,7 @@ def test_early_stopping_simulation_resume():
 def test_early_stopping_simulation_resume_cumulative_delta():
     engine = create_engine(state=VanillaEngineState(epoch=10))
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
-    handler = EarlyStoppingHandler(delta=0.5, cumulative_delta=True)
+    handler = EarlyStopping(delta=0.5, cumulative_delta=True)
     handler.attach(engine)
     handler.load_state_dict(
         {

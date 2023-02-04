@@ -6,42 +6,42 @@ from torch import nn
 from torch.optim import SGD
 
 from gravitorch.engines import EngineEvents
-from gravitorch.handlers import ConsolidateOptimizerStateHandler
+from gravitorch.handlers import ConsolidateOptimizerState
 from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 
 
-######################################################
-#     Tests for ConsolidateOptimizerStateHandler     #
-######################################################
+###############################################
+#     Tests for ConsolidateOptimizerState     #
+###############################################
 
 
-def test_consolidate_optimizer_state_handler_str():
-    assert str(ConsolidateOptimizerStateHandler()).startswith("ConsolidateOptimizerStateHandler(")
+def test_consolidate_optimizer_state_str():
+    assert str(ConsolidateOptimizerState()).startswith("ConsolidateOptimizerState(")
 
 
 @mark.parametrize("event", EVENTS)
-def test_consolidate_optimizer_state_handler_event(event: str):
-    assert ConsolidateOptimizerStateHandler(event)._event == event
+def test_consolidate_optimizer_state_event(event: str):
+    assert ConsolidateOptimizerState(event)._event == event
 
 
-def test_consolidate_optimizer_state_handler_event_default():
-    assert ConsolidateOptimizerStateHandler()._event == EngineEvents.TRAIN_EPOCH_COMPLETED
+def test_consolidate_optimizer_state_event_default():
+    assert ConsolidateOptimizerState()._event == EngineEvents.TRAIN_EPOCH_COMPLETED
 
 
 @mark.parametrize("recipient_rank", (-1, 0, 1))
 def test_consolidate_optimizer_state_dict_recipient_rank(recipient_rank: int):
-    assert ConsolidateOptimizerStateHandler()._recipient_rank == 0
+    assert ConsolidateOptimizerState()._recipient_rank == 0
 
 
 def test_consolidate_optimizer_state_dict_recipient_rank_default():
-    assert ConsolidateOptimizerStateHandler()._recipient_rank == 0
+    assert ConsolidateOptimizerState()._recipient_rank == 0
 
 
 @mark.parametrize("event", EVENTS)
-def test_consolidate_optimizer_state_handler_attach(event: str):
-    handler = ConsolidateOptimizerStateHandler(event=event)
+def test_consolidate_optimizer_state_attach(event: str):
+    handler = ConsolidateOptimizerState(event=event)
     engine = Mock(epoch=-1, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
@@ -53,32 +53,32 @@ def test_consolidate_optimizer_state_handler_attach(event: str):
     )
 
 
-def test_consolidate_optimizer_state_handler_attach_duplicate():
+def test_consolidate_optimizer_state_attach_duplicate():
     engine = Mock(epoch=-1, has_event_handler=Mock(return_value=True))
-    ConsolidateOptimizerStateHandler().attach(engine)
+    ConsolidateOptimizerState().attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_consolidate_optimizer_state_handler_consolidate_no_optimizer(
+def test_consolidate_optimizer_state_consolidate_no_optimizer(
     caplog: LogCaptureFixture,
 ):
     with caplog.at_level(logging.INFO):
-        ConsolidateOptimizerStateHandler().consolidate(engine=Mock(optimizer=None))
+        ConsolidateOptimizerState().consolidate(engine=Mock(optimizer=None))
         assert len(caplog.messages) == 1
 
 
 @mark.parametrize("recipient_rank", (0, 1))
-def test_consolidate_optimizer_state_handler_consolidate(recipient_rank: int):
+def test_consolidate_optimizer_state_consolidate(recipient_rank: int):
     engine = Mock()
-    ConsolidateOptimizerStateHandler(recipient_rank=recipient_rank).consolidate(engine)
+    ConsolidateOptimizerState(recipient_rank=recipient_rank).consolidate(engine)
     engine.optimizer.consolidate_state_dict.assert_called_once_with(recipient_rank)
 
 
-def test_consolidate_optimizer_state_handler_consolidate_no_consolidate_state_dict(
+def test_consolidate_optimizer_state_consolidate_no_consolidate_state_dict(
     caplog: LogCaptureFixture,
 ):
     with caplog.at_level(logging.INFO):
-        ConsolidateOptimizerStateHandler().consolidate(
+        ConsolidateOptimizerState().consolidate(
             engine=Mock(optimizer=SGD(nn.Linear(4, 6).parameters(), lr=0.01))
         )
         assert len(caplog.messages) == 1

@@ -3,21 +3,21 @@ __all__ = [
     "BaseHandler",
     "BestEngineStateSaver",
     "BestHistorySaver",
-    "ConsolidateOptimizerStateHandler",
-    "EarlyStoppingHandler",
+    "ConsolidateOptimizerState",
+    "EarlyStopping",
     "EngineStateLoader",
     "EngineStateLoaderWithExcludeKeys",
     "EngineStateLoaderWithIncludeKeys",
     "EpochCudaMemoryMonitor",
     "EpochEngineStateSaver",
     "EpochLRMonitor",
-    "EpochLRSchedulerHandler",
+    "EpochLRScheduler",
     "EpochLRSchedulerUpdater",
     "EpochOptimizerMonitor",
     "EpochSysInfoMonitor",
     "IterationCudaMemoryMonitor",
     "IterationLRMonitor",
-    "IterationLRSchedulerHandler",
+    "IterationLRScheduler",
     "IterationLRSchedulerUpdater",
     "IterationOptimizerMonitor",
     "LRSchedulerUpdater",
@@ -28,10 +28,10 @@ __all__ = [
     "ModelNetworkArchitectureAnalyzer",
     "ModelParameterAnalyzer",
     "ModelStateDictLoader",
-    "ParameterInitializerHandler",
+    "ParameterInitializer",
     "PartialModelStateDictLoader",
     "TagEngineStateSaver",
-    "VanillaLRSchedulerHandler",
+    "VanillaLRScheduler",
     "add_unique_event_handler",
     "setup_and_attach_handlers",
     "setup_handler",
@@ -43,7 +43,7 @@ from gravitorch.handlers.cudamem import (
     EpochCudaMemoryMonitor,
     IterationCudaMemoryMonitor,
 )
-from gravitorch.handlers.early_stopping import EarlyStoppingHandler
+from gravitorch.handlers.early_stopping import EarlyStopping
 from gravitorch.handlers.engine_loader import (
     EngineStateLoader,
     EngineStateLoaderWithExcludeKeys,
@@ -59,9 +59,9 @@ from gravitorch.handlers.engine_saver import (
 )
 from gravitorch.handlers.lr_monitor import EpochLRMonitor, IterationLRMonitor
 from gravitorch.handlers.lr_scheduler import (
-    EpochLRSchedulerHandler,
-    IterationLRSchedulerHandler,
-    VanillaLRSchedulerHandler,
+    EpochLRScheduler,
+    IterationLRScheduler,
+    VanillaLRScheduler,
 )
 from gravitorch.handlers.lr_scheduler_updater import (
     EpochLRSchedulerUpdater,
@@ -83,8 +83,8 @@ from gravitorch.handlers.optimizer_monitor import (
     EpochOptimizerMonitor,
     IterationOptimizerMonitor,
 )
-from gravitorch.handlers.optimizer_state import ConsolidateOptimizerStateHandler
-from gravitorch.handlers.parameter_initializer import ParameterInitializerHandler
+from gravitorch.handlers.optimizer_state import ConsolidateOptimizerState
+from gravitorch.handlers.parameter_initializer import ParameterInitializer
 from gravitorch.handlers.sysinfo import EpochSysInfoMonitor
 from gravitorch.handlers.utils import (
     add_unique_event_handler,

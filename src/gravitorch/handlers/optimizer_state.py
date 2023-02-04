@@ -1,4 +1,4 @@
-__all__ = ["ConsolidateOptimizerStateHandler"]
+__all__ = ["ConsolidateOptimizerState"]
 
 import logging
 
@@ -12,7 +12,7 @@ from gravitorch.utils.events import VanillaEventHandler
 logger = logging.getLogger(__name__)
 
 
-class ConsolidateOptimizerStateHandler(BaseHandler):
+class ConsolidateOptimizerState(BaseHandler):
     r"""Implements a handler to consolidate the state dict of an optimizer.
 
     Args:
