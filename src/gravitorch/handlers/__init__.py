@@ -41,7 +41,7 @@ from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.consolidate_optimizer_state import (
     ConsolidateOptimizerStateHandler,
 )
-from gravitorch.handlers.cuda_memory_monitor import (
+from gravitorch.handlers.cuda_memory import (
     EpochCudaMemoryMonitor,
     IterationCudaMemoryMonitor,
 )

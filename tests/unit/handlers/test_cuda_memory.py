@@ -70,11 +70,15 @@ def test_epoch_cuda_memory_monitor_attach_duplicate():
 
 
 @patch("gravitorch.utils.cuda_memory.torch.cuda.is_available", lambda *args: True)
+@patch("gravitorch.utils.cuda_memory.torch.cuda.mem_get_info", lambda *args: (None, 1))
 def test_epoch_cuda_memory_monitor_monitor():
     engine = Mock(spec=BaseEngine, epoch=4)
     EpochCudaMemoryMonitor().monitor(engine)
-    assert engine.log_metric.call_args.args[0] == "epoch/max_cuda_memory_allocated"
-    assert engine.log_metric.call_args.kwargs["step"] == EpochStep(4)
+    assert isinstance(engine.log_metrics.call_args.args[0]["epoch/max_cuda_memory_allocated"], int)
+    assert isinstance(
+        engine.log_metrics.call_args.args[0]["epoch/max_cuda_memory_allocated_pct"], float
+    )
+    assert engine.log_metrics.call_args.kwargs["step"] == EpochStep(4)
 
 
 @patch("gravitorch.utils.cuda_memory.torch.cuda.is_available", lambda *args: False)
@@ -140,11 +144,17 @@ def test_iteration_cuda_memory_monitor_attach_duplicate():
 
 
 @patch("gravitorch.utils.cuda_memory.torch.cuda.is_available", lambda *args: True)
+@patch("gravitorch.utils.cuda_memory.torch.cuda.mem_get_info", lambda *args: (None, 1))
 def test_iteration_cuda_memory_monitor_monitor():
     engine = Mock(spec=BaseEngine, iteration=4)
     IterationCudaMemoryMonitor().monitor(engine)
-    assert engine.log_metric.call_args.args[0] == "iteration/max_cuda_memory_allocated"
-    assert engine.log_metric.call_args.kwargs["step"] == IterationStep(4)
+    assert isinstance(
+        engine.log_metrics.call_args.args[0]["iteration/max_cuda_memory_allocated"], int
+    )
+    assert isinstance(
+        engine.log_metrics.call_args.args[0]["iteration/max_cuda_memory_allocated_pct"], float
+    )
+    assert engine.log_metrics.call_args.kwargs["step"] == IterationStep(4)
 
 
 @patch("gravitorch.utils.cuda_memory.torch.cuda.is_available", lambda *args: False)

@@ -6,6 +6,7 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
+from gravitorch.utils.cuda_memory import log_max_cuda_memory_allocated
 from gravitorch.utils.events import (
     ConditionalEventHandler,
     EpochPeriodicCondition,
@@ -52,10 +53,15 @@ class EpochCudaMemoryMonitor(BaseHandler):
         Args:
             engine (``BaseEngine``): Specifies the engine.
         """
+        log_max_cuda_memory_allocated()
         if torch.cuda.is_available():
-            engine.log_metric(
-                "epoch/max_cuda_memory_allocated",
-                torch.cuda.max_memory_allocated(),
+            allocated_memory = torch.cuda.max_memory_allocated()
+            total_memory = torch.cuda.mem_get_info()[1]
+            engine.log_metrics(
+                {
+                    "epoch/max_cuda_memory_allocated": allocated_memory,
+                    "epoch/max_cuda_memory_allocated_pct": float(allocated_memory / total_memory),
+                },
                 step=EpochStep(engine.epoch),
             )
 
@@ -98,9 +104,16 @@ class IterationCudaMemoryMonitor(BaseHandler):
         Args:
             engine (``BaseEngine``): Specifies the engine.
         """
+        log_max_cuda_memory_allocated()
         if torch.cuda.is_available():
-            engine.log_metric(
-                "iteration/max_cuda_memory_allocated",
-                torch.cuda.max_memory_allocated(),
+            allocated_memory = torch.cuda.max_memory_allocated()
+            total_memory = torch.cuda.mem_get_info()[1]
+            engine.log_metrics(
+                {
+                    "iteration/max_cuda_memory_allocated": allocated_memory,
+                    "iteration/max_cuda_memory_allocated_pct": float(
+                        allocated_memory / total_memory
+                    ),
+                },
                 step=IterationStep(engine.iteration),
             )
