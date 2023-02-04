@@ -5,7 +5,7 @@ import torch
 from torch.distributed.optim import ZeroRedundancyOptimizer
 
 from gravitorch import distributed as dist
-from gravitorch.distributed import Backend, auto_distributed_context
+from gravitorch.distributed import gloocontext
 from gravitorch.handlers import ConsolidateOptimizerStateHandler
 from tests.testing import gloo_available
 
@@ -27,7 +27,7 @@ from tests.testing import gloo_available
     clear=True,
 )
 def test_consolidate_optimizer_state_handler_consolidate_zero():
-    with auto_distributed_context(dist_backend=Backend.GLOO):
+    with gloocontext():
         optimizer = ZeroRedundancyOptimizer(
             params=torch.nn.Linear(4, 5).parameters(), optimizer_class=torch.optim.SGD, lr=0.01
         )

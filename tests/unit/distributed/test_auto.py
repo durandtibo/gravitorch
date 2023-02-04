@@ -9,74 +9,10 @@ from gravitorch.distributed.auto import (
     _manage_model_device,
     _wrap_distributed_data_parallel,
     auto_ddp_model,
-    auto_dist_backend,
-    auto_distributed_context,
 )
 from gravitorch.nn import get_module_device, get_module_devices, is_module_on_device
 from gravitorch.utils import get_available_devices
 from tests.testing import cuda_available, distributed_available, nccl_available
-
-##############################################
-#     Tests for auto_distributed_context     #
-##############################################
-
-
-def test_auto_distributed_context_dist_backend_none():
-    with auto_distributed_context(dist_backend=None):
-        assert not dist.is_distributed()
-
-
-@mark.parametrize("dist_backend", (dist.Backend.GLOO, dist.Backend.NCCL))
-def test_auto_distributed_context_dist_backend(dist_backend: str):
-    with patch("gravitorch.distributed.auto.dist.distributed_context") as mock_setup:
-        with auto_distributed_context(dist_backend=dist_backend):
-            mock_setup.assert_called_with(backend=dist_backend)
-
-
-@patch("gravitorch.distributed.auto.torch.cuda.is_available", lambda *args: True)
-@patch("gravitorch.distributed.auto.torch.cuda.device")
-@mark.parametrize("local_rank", (0, 1))
-def test_auto_distributed_context_gpu_local_rank(mock_device, local_rank: int):
-    with patch("gravitorch.distributed.auto.dist.distributed_context") as mock_setup:
-        with patch("gravitorch.distributed.auto.dist.get_local_rank", lambda *args: local_rank):
-            with auto_distributed_context(dist_backend=dist.Backend.GLOO):
-                mock_setup.assert_called_with(backend=dist.Backend.GLOO)
-                mock_device.assert_called_with(local_rank)
-
-
-#############################
-#     auto_dist_backend     #
-#############################
-
-
-@patch("torch.cuda.is_available", lambda *args: False)
-def test_auto_dist_backend_no_gpu():
-    assert auto_dist_backend() == dist.Backend.GLOO
-
-
-@patch("torch.cuda.is_available", lambda *args: False)
-@patch(
-    "gravitorch.distributed.auto.dist.available_backends",
-    lambda *args: (dist.Backend.GLOO, dist.Backend.NCCL),
-)
-def test_auto_dist_backend_no_gpu_and_nccl():
-    assert auto_dist_backend() == dist.Backend.GLOO
-
-
-@patch("torch.cuda.is_available", lambda *args: True)
-@patch("gravitorch.distributed.auto.dist.available_backends", lambda *args: (dist.Backend.GLOO,))
-def test_auto_dist_backend_gpu_and_no_nccl():
-    assert auto_dist_backend() == dist.Backend.GLOO
-
-
-@patch("torch.cuda.is_available", lambda *args: True)
-@patch(
-    "gravitorch.distributed.auto.dist.available_backends",
-    lambda *args: (dist.Backend.GLOO, dist.Backend.NCCL),
-)
-def test_auto_dist_backend_gpu_and_nccl():
-    assert auto_dist_backend() == dist.Backend.NCCL
-
 
 ##########################
 #     auto_ddp_model     #

@@ -6,9 +6,9 @@ from pytest import fixture
 from torch import nn
 from torch.nn.parallel import DistributedDataParallel
 
-from gravitorch import distributed as dist
 from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
 from gravitorch.creators.model.ddp import DataDistributedParallelModelCreator, to_ddp
+from gravitorch.distributed import gloocontext, ncclcontext
 from gravitorch.nn import get_module_device
 from tests.testing import cuda_available, gloo_available, nccl_available
 
@@ -26,7 +26,7 @@ def model_creator() -> BaseModelCreator:
 
 @gloo_available
 def test_data_distributed_parallel_model_creator_create_gloo(model_creator):
-    with dist.auto_distributed_context(dist_backend=dist.Backend.GLOO):
+    with gloocontext():
         creator = DataDistributedParallelModelCreator(model_creator=model_creator)
         model = creator.create(engine=Mock())
         assert isinstance(model, DistributedDataParallel)
@@ -37,7 +37,7 @@ def test_data_distributed_parallel_model_creator_create_gloo(model_creator):
 @nccl_available
 @patch("gravitorch.creators.model.ddp.dist.get_world_size", lambda *args: 2)
 def test_data_distributed_parallel_model_creator_create_nccl(model_creator):
-    with dist.auto_distributed_context(dist_backend=dist.Backend.NCCL):
+    with ncclcontext():
         creator = DataDistributedParallelModelCreator(model_creator=model_creator)
         model = creator.create(engine=Mock())
         assert isinstance(model, DistributedDataParallel)
@@ -51,7 +51,7 @@ def test_data_distributed_parallel_model_creator_create_nccl(model_creator):
 
 @gloo_available
 def test_to_ddp_already_ddp():
-    with dist.auto_distributed_context(dist_backend=dist.Backend.GLOO):
+    with gloocontext():
         module = to_ddp(DistributedDataParallel(nn.Linear(4, 5)))
         assert isinstance(module, DistributedDataParallel)
         assert isinstance(module.module, nn.Linear)
@@ -59,7 +59,7 @@ def test_to_ddp_already_ddp():
 
 @gloo_available
 def test_to_ddp_linear_gloo():
-    with dist.auto_distributed_context(dist_backend=dist.Backend.GLOO):
+    with gloocontext():
         module = to_ddp(nn.Linear(4, 5))
         assert isinstance(module, DistributedDataParallel)
         assert isinstance(module.module, nn.Linear)
@@ -69,7 +69,7 @@ def test_to_ddp_linear_gloo():
 @nccl_available
 @patch("gravitorch.creators.model.ddp.dist.get_world_size", lambda *args: 2)
 def test_to_ddp_linear_nccl():
-    with dist.auto_distributed_context(dist_backend=dist.Backend.NCCL):
+    with ncclcontext():
         module = to_ddp(nn.Linear(4, 5).to(device=torch.device("cuda:0")))
         assert isinstance(module, DistributedDataParallel)
         assert isinstance(module.module, nn.Linear)

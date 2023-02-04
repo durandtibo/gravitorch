@@ -5,8 +5,6 @@ __all__ = [
     "all_reduce",
     "auto_backend",
     "auto_ddp_model",
-    "auto_dist_backend",
-    "auto_distributed_context",
     "available_backends",
     "backend",
     "barrier",
@@ -77,11 +75,7 @@ from gravitorch.distributed._constants import (
     TORCHELASTIC_RUN_ID,
     WORLD_SIZE,
 )
-from gravitorch.distributed.auto import (
-    auto_ddp_model,
-    auto_dist_backend,
-    auto_distributed_context,
-)
+from gravitorch.distributed.auto import auto_ddp_model
 from gravitorch.distributed.comm import (
     Backend,
     UnknownBackendError,
