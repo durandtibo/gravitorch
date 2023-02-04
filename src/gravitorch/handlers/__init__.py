@@ -39,9 +39,6 @@ __all__ = [
 ]
 
 from gravitorch.handlers.base import BaseHandler
-from gravitorch.handlers.consolidate_optimizer_state import (
-    ConsolidateOptimizerStateHandler,
-)
 from gravitorch.handlers.cudamem import (
     EpochCudaMemoryMonitor,
     IterationCudaMemoryMonitor,
@@ -86,6 +83,7 @@ from gravitorch.handlers.optimizer_monitor import (
     EpochOptimizerMonitor,
     IterationOptimizerMonitor,
 )
+from gravitorch.handlers.optimizer_state import ConsolidateOptimizerStateHandler
 from gravitorch.handlers.parameter_initializer import ParameterInitializerHandler
 from gravitorch.handlers.sysinfo import EpochSysInfoMonitor
 from gravitorch.handlers.utils import (
