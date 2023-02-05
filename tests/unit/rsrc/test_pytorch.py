@@ -17,7 +17,19 @@ def test_pytorch_config_str():
     assert str(PyTorchConfig()).startswith("PyTorchConfig(")
 
 
-def test_pytorch_config(caplog: LogCaptureFixture):
+@patch("torch.cuda.is_available", lambda *args: True)
+@patch("torch.cuda.current_device", lambda *args: torch.device("cuda:0"))
+@patch("torch.cuda.get_device_capability", lambda *args: (1, 2))
+@patch("torch.cuda.get_device_name", lambda *args: "meow")
+def test_pytorch_config_with_cuda(caplog: LogCaptureFixture):
+    with caplog.at_level(logging.INFO):
+        with PyTorchConfig():
+            pass
+        assert len(caplog.messages) == 6
+
+
+@patch("torch.cuda.is_available", lambda *args: False)
+def test_pytorch_config_without_cuda(caplog: LogCaptureFixture):
     with caplog.at_level(logging.INFO):
         with PyTorchConfig():
             pass
