@@ -53,7 +53,6 @@ class EpochCudaMemoryMonitor(BaseHandler):
         Args:
             engine (``BaseEngine``): Specifies the engine.
         """
-
         if torch.cuda.is_available():
             torch.cuda.synchronize()
             log_max_cuda_memory_allocated()
