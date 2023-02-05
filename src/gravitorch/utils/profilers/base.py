@@ -1,6 +1,8 @@
 __all__ = ["BaseProfiler"]
 
 from abc import ABC, abstractmethod
+from types import TracebackType
+from typing import Optional
 
 from objectory import AbstractFactory
 
@@ -16,10 +18,15 @@ class BaseProfiler(ABC, metaclass=AbstractFactory):
     future without warnings.
     """
 
-    def __enter__(self):
+    def __enter__(self) -> "BaseProfiler":
         r"""Starts profiling."""
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
         r"""Ends profiling."""
 
     @abstractmethod

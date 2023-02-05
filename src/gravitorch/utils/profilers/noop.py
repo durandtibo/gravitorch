@@ -1,6 +1,8 @@
 __all__ = ["NoOpProfiler"]
 
 import logging
+from types import TracebackType
+from typing import Optional
 
 from gravitorch.utils.profilers.base import BaseProfiler
 
@@ -14,10 +16,15 @@ class NoOpProfiler(BaseProfiler):
     implementation.
     """
 
-    def __enter__(self):
+    def __enter__(self) -> "NoOpProfiler":
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
         pass
 
     def __str__(self) -> str:
