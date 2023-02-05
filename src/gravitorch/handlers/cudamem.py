@@ -53,8 +53,9 @@ class EpochCudaMemoryMonitor(BaseHandler):
         Args:
             engine (``BaseEngine``): Specifies the engine.
         """
-        log_max_cuda_memory_allocated()
         if torch.cuda.is_available():
+            torch.cuda.synchronize()
+            log_max_cuda_memory_allocated()
             allocated_memory = torch.cuda.max_memory_allocated()
             total_memory = torch.cuda.mem_get_info()[1]
             engine.log_metrics(
@@ -104,8 +105,9 @@ class IterationCudaMemoryMonitor(BaseHandler):
         Args:
             engine (``BaseEngine``): Specifies the engine.
         """
-        log_max_cuda_memory_allocated()
         if torch.cuda.is_available():
+            torch.cuda.synchronize()
+            log_max_cuda_memory_allocated()
             allocated_memory = torch.cuda.max_memory_allocated()
             total_memory = torch.cuda.mem_get_info()[1]
             engine.log_metrics(

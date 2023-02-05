@@ -70,6 +70,7 @@ def test_epoch_cuda_memory_monitor_attach_duplicate():
 
 
 @patch("gravitorch.utils.cudamem.torch.cuda.is_available", lambda *args: True)
+@patch("gravitorch.utils.cudamem.torch.cuda.synchronize", lambda *args: None)
 @patch("gravitorch.utils.cudamem.torch.cuda.mem_get_info", lambda *args: (None, 1))
 def test_epoch_cuda_memory_monitor_monitor():
     engine = Mock(spec=BaseEngine, epoch=4)
@@ -144,6 +145,7 @@ def test_iteration_cuda_memory_monitor_attach_duplicate():
 
 
 @patch("gravitorch.utils.cudamem.torch.cuda.is_available", lambda *args: True)
+@patch("gravitorch.utils.cudamem.torch.cuda.synchronize", lambda *args: None)
 @patch("gravitorch.utils.cudamem.torch.cuda.mem_get_info", lambda *args: (None, 1))
 def test_iteration_cuda_memory_monitor_monitor():
     engine = Mock(spec=BaseEngine, iteration=4)
