@@ -69,9 +69,9 @@ def test_epoch_cuda_memory_monitor_attach_duplicate():
     engine.add_event_handler.assert_not_called()
 
 
-@patch("gravitorch.utils.cudamem.torch.cuda.is_available", lambda *args: True)
-@patch("gravitorch.utils.cudamem.torch.cuda.synchronize", lambda *args: None)
-@patch("gravitorch.utils.cudamem.torch.cuda.mem_get_info", lambda *args: (None, 1))
+@patch("torch.cuda.is_available", lambda *args: True)
+@patch("torch.cuda.synchronize", lambda *args: None)
+@patch("torch.cuda.mem_get_info", lambda *args: (None, 1))
 def test_epoch_cuda_memory_monitor_monitor():
     engine = Mock(spec=BaseEngine, epoch=4)
     EpochCudaMemoryMonitor().monitor(engine)
@@ -82,7 +82,7 @@ def test_epoch_cuda_memory_monitor_monitor():
     assert engine.log_metrics.call_args.kwargs["step"] == EpochStep(4)
 
 
-@patch("gravitorch.utils.cudamem.torch.cuda.is_available", lambda *args: False)
+@patch("torch.cuda.is_available", lambda *args: False)
 def test_epoch_cuda_memory_monitor_monitor_no_cuda():
     engine = Mock(spec=BaseEngine)
     EpochCudaMemoryMonitor().monitor(engine)
@@ -144,9 +144,9 @@ def test_iteration_cuda_memory_monitor_attach_duplicate():
     engine.add_event_handler.assert_not_called()
 
 
-@patch("gravitorch.utils.cudamem.torch.cuda.is_available", lambda *args: True)
-@patch("gravitorch.utils.cudamem.torch.cuda.synchronize", lambda *args: None)
-@patch("gravitorch.utils.cudamem.torch.cuda.mem_get_info", lambda *args: (None, 1))
+@patch("torch.cuda.is_available", lambda *args: True)
+@patch("torch.cuda.synchronize", lambda *args: None)
+@patch("torch.cuda.mem_get_info", lambda *args: (None, 1))
 def test_iteration_cuda_memory_monitor_monitor():
     engine = Mock(spec=BaseEngine, iteration=4)
     IterationCudaMemoryMonitor().monitor(engine)
@@ -159,7 +159,7 @@ def test_iteration_cuda_memory_monitor_monitor():
     assert engine.log_metrics.call_args.kwargs["step"] == IterationStep(4)
 
 
-@patch("gravitorch.utils.cudamem.torch.cuda.is_available", lambda *args: False)
+@patch("torch.cuda.is_available", lambda *args: False)
 def test_iteration_cuda_memory_monitor_monitor_no_cuda():
     engine = Mock(spec=BaseEngine)
     IterationCudaMemoryMonitor().monitor(engine)

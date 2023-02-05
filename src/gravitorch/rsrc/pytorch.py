@@ -25,9 +25,14 @@ class PyTorchConfig(BaseResource):
 
     def __enter__(self) -> "PyTorchConfig":
         logger.info(f"PyTorch version: {torch.version.__version__}  ({torch.version.git_version})")
-        logger.info(f"PyTorch cuda version: {torch.version.cuda}")
         logger.info(f"PyTorch configuration:\n{torch.__config__.show()}")
         logger.info(f"PyTorch parallel information:\n{torch.__config__.parallel_info()}")
+        logger.info(f"PyTorch CUDA version: {torch.version.cuda}")
+        if torch.cuda.is_available():
+            device = torch.cuda.current_device()
+            cap = torch.cuda.get_device_capability(device)
+            logger.info(f"PyTorch CUDA compute capability: {'.'.join(str(ver) for ver in cap)}")
+            logger.info(f"PyTorch GPU name: {torch.cuda.get_device_name(device)}")
         return self
 
     def __exit__(
