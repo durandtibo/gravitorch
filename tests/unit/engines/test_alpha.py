@@ -12,7 +12,7 @@ from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
 from gravitorch.loops.training import VanillaTrainingLoop
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import VanillaEngineState
-from gravitorch.utils.evaluation_loops import VanillaEvaluationLoop
+from gravitorch.loops.evaluation import VanillaEvaluationLoop
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import BaseExpTracker, EpochStep, NoOpExpTracker
 from gravitorch.utils.history import GenericHistory, MinScalarHistory
