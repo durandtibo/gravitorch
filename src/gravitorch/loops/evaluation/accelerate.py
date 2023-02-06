@@ -17,8 +17,8 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.evaluation.basic import BaseBasicEvaluationLoop
 from gravitorch.loops.evaluation.conditions import BaseEvalCondition
+from gravitorch.loops.observers import BaseLoopObserver
 from gravitorch.utils.integrations import check_accelerate, is_accelerate_available
-from gravitorch.utils.loop_observers import BaseLoopObserver
 from gravitorch.utils.profilers import BaseProfiler
 
 if is_accelerate_available():

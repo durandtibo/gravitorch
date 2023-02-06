@@ -5,6 +5,6 @@ condition:
   every: 1
 profiler: null
 observer:
-  _target_: gravitorch.utils.loop_observers.PyTorchBatchSaver
+  _target_: gravitorch.loops.observers.PyTorchBatchSaver
   path: ${exp_dir}/model_outputs/eval.pt
 batch_device_placement: ${oc.select:device_placement,null}

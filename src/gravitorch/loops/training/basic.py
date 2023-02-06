@@ -15,6 +15,7 @@ from gravitorch import constants as ct
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.loops.observers import BaseLoopObserver, setup_loop_observer
 from gravitorch.loops.training.base import BaseTrainingLoop
 from gravitorch.optimizers.utils import (
     log_optimizer_parameters_per_group,
@@ -22,7 +23,6 @@ from gravitorch.optimizers.utils import (
 )
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import MinScalarHistory
-from gravitorch.utils.loop_observers import BaseLoopObserver, setup_loop_observer
 from gravitorch.utils.metric_tracker import ScalarMetricTracker
 from gravitorch.utils.profilers import BaseProfiler, setup_profiler
 from gravitorch.utils.seed import get_random_seed, manual_seed

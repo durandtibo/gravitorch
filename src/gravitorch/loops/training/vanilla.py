@@ -16,13 +16,13 @@ from gravitorch import constants as ct
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.loops.observers import BaseLoopObserver
 from gravitorch.loops.training.basic import BaseBasicTrainingLoop
 from gravitorch.utils.device_placement import (
     AutoDevicePlacement,
     BaseDevicePlacement,
     setup_device_placement,
 )
-from gravitorch.utils.loop_observers import BaseLoopObserver
 from gravitorch.utils.profilers import BaseProfiler
 
 logger = logging.getLogger(__name__)

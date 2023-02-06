@@ -14,9 +14,9 @@ from torch.optim import Optimizer
 from gravitorch import constants as ct
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.loops.observers import BaseLoopObserver
 from gravitorch.loops.training.vanilla import VanillaTrainingLoop
 from gravitorch.utils.device_placement import BaseDevicePlacement
-from gravitorch.utils.loop_observers import BaseLoopObserver
 from gravitorch.utils.profilers import BaseProfiler
 
 logger = logging.getLogger(__name__)

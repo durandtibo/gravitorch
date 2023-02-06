@@ -3,7 +3,7 @@ __all__ = ["NoOpLoopObserver"]
 from typing import Any
 
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.loop_observers.base import BaseLoopObserver
+from gravitorch.loops.observers.base import BaseLoopObserver
 
 
 class NoOpLoopObserver(BaseLoopObserver):
