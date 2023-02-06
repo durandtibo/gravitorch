@@ -32,7 +32,8 @@ def setup_evaluation_loop(
         evaluation_loop = VanillaEvaluationLoop()
     if isinstance(evaluation_loop, dict):
         logger.info(
-            f"Initializing an evaluation loop from its configuration... {str_target_object(evaluation_loop)}"
+            f"Initializing an evaluation loop from its configuration... "
+            f"{str_target_object(evaluation_loop)}"
         )
         evaluation_loop = BaseEvaluationLoop.factory(**evaluation_loop)
     return evaluation_loop

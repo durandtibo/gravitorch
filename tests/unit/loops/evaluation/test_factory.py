@@ -1,9 +1,7 @@
 from objectory import OBJECT_TARGET
 
-from gravitorch.utils.evaluation_loops import (
-    VanillaEvaluationLoop,
-    setup_evaluation_loop,
-)
+from gravitorch.loops.evaluation import setup_evaluation_loop
+from gravitorch.utils.evaluation_loops import VanillaEvaluationLoop
 
 ###########################################
 #     Tests for setup_evaluation_loop     #
