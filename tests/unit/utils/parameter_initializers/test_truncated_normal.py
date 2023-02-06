@@ -213,10 +213,7 @@ def test_recursive_trunc_normal_std(std: float):
     assert math.isclose(module.weight.data.std().item(), std, rel_tol=0.05)
 
 
-@mark.parametrize(
-    "min_cutoff",
-    (-1.0, -0.5, -0.1),
-)
+@mark.parametrize("min_cutoff", (-1.0, -0.5, -0.1))
 def test_recursive_trunc_normal_min_cutoff(min_cutoff: float):
     module = nn.Linear(200, 200)
     recursive_constant_(module, 0)
@@ -224,10 +221,7 @@ def test_recursive_trunc_normal_min_cutoff(min_cutoff: float):
     assert module.weight.data.min() >= min_cutoff
 
 
-@mark.parametrize(
-    "max_cutoff",
-    (1.0, 0.5, 0.1),
-)
+@mark.parametrize("max_cutoff", (1.0, 0.5, 0.1))
 def test_recursive_trunc_normal_max_cutoff(max_cutoff: float):
     module = nn.Linear(200, 200)
     recursive_constant_(module, 0)
