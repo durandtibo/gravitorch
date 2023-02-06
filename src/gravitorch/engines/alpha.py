@@ -13,6 +13,7 @@ from gravitorch.creators.core.base import BaseCoreCreator, setup_core_creator
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.loops.training import BaseTrainingLoop, setup_training_loop
 from gravitorch.lr_schedulers import LRSchedulerType
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import BaseEngineState, setup_engine_state
@@ -22,7 +23,6 @@ from gravitorch.utils.exp_trackers import BaseExpTracker, Step, setup_exp_tracke
 from gravitorch.utils.format import str_add_indent
 from gravitorch.utils.history import BaseHistory
 from gravitorch.utils.timing import timeblock
-from gravitorch.utils.training_loops import BaseTrainingLoop, setup_training_loop
 
 if TYPE_CHECKING:
     from gravitorch.datasources import BaseDataSource

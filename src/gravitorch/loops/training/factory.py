@@ -5,9 +5,9 @@ __all__ = ["setup_training_loop"]
 import logging
 from typing import Union
 
+from gravitorch.loops.training.base import BaseTrainingLoop
+from gravitorch.loops.training.vanilla import VanillaTrainingLoop
 from gravitorch.utils.format import str_target_object
-from gravitorch.utils.training_loops.base import BaseTrainingLoop
-from gravitorch.utils.training_loops.vanilla import VanillaTrainingLoop
 
 logger = logging.getLogger(__name__)
 
