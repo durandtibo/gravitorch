@@ -13,8 +13,8 @@ from torch.nn import Module
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.evaluation.conditions import BaseEvalCondition
+from gravitorch.loops.evaluation.vanilla import VanillaEvaluationLoop
 from gravitorch.utils.device_placement import BaseDevicePlacement
-from gravitorch.utils.evaluation_loops.vanilla import VanillaEvaluationLoop
 from gravitorch.utils.loop_observers import BaseLoopObserver
 from gravitorch.utils.profilers import BaseProfiler
 

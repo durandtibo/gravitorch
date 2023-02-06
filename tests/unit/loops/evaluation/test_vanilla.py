@@ -7,6 +7,7 @@ from pytest import mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.loops.evaluation import VanillaEvaluationLoop
 from gravitorch.loops.evaluation.conditions import (
     EveryEpochEvalCondition,
     LastEpochEvalCondition,
@@ -17,7 +18,6 @@ from gravitorch.utils.device_placement import (
     CpuDevicePlacement,
     ManualDevicePlacement,
 )
-from gravitorch.utils.evaluation_loops import VanillaEvaluationLoop
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
