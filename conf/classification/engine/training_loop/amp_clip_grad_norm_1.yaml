@@ -1,4 +1,4 @@
-_target_: gravitorch.utils.training_loops.AMPTrainingLoop
+_target_: gravitorch.loops.training.AMPTrainingLoop
 clip_grad:
   name: clip_grad_norm
   max_norm: 1
