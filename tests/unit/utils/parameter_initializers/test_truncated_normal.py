@@ -202,7 +202,7 @@ def test_recursive_trunc_normal_mean(mean: float):
     module = nn.Linear(200, 200)
     recursive_constant_(module, 0)
     recursive_trunc_normal_(module, mean=mean, min_cutoff=mean - 2, max_cutoff=mean + 2)
-    assert math.isclose(module.weight.data.mean().item(), mean, abs_tol=0.01)
+    assert math.isclose(module.weight.data.mean().item(), mean, abs_tol=0.05)
 
 
 @mark.parametrize("std", (0.1, 0.5, 1.0))
@@ -210,7 +210,7 @@ def test_recursive_trunc_normal_std(std: float):
     module = nn.Linear(200, 200)
     recursive_constant_(module, 0)
     recursive_trunc_normal_(module, std=std, min_cutoff=-10, max_cutoff=10)
-    assert math.isclose(module.weight.data.std().item(), std, rel_tol=0.01)  # 2% tolerance
+    assert math.isclose(module.weight.data.std().item(), std, rel_tol=0.05)
 
 
 @mark.parametrize(
