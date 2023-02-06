@@ -1,7 +1,7 @@
-_target_: gravitorch.utils.evaluation_loops.VanillaEvaluationLoop
+_target_: gravitorch.loops.evaluation.VanillaEvaluationLoop
 grad_enabled: false
 condition:
-  _target_: gravitorch.utils.evaluation_loops.conditions.EveryEpochEvalCondition
+  _target_: gravitorch.loops.evaluation.conditions.EveryEpochEvalCondition
   every: 1
 profiler: null
 observer:
