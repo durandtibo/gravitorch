@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 
-from gravitorch.utils.evaluation_loops.conditions import (
+from gravitorch.loops.evaluation.conditions import (
     EveryEpochEvalCondition,
     LastEpochEvalCondition,
 )

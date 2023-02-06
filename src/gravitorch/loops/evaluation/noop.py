@@ -3,9 +3,10 @@ r"""This module implements a no-operation evaluation loop."""
 __all__ = ["NoOpEvaluationLoop"]
 
 import logging
+from typing import Any
 
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.evaluation_loops.base import BaseEvaluationLoop
+from gravitorch.loops.evaluation.base import BaseEvaluationLoop
 
 logger = logging.getLogger(__name__)
 
@@ -27,3 +28,9 @@ class NoOpEvaluationLoop(BaseEvaluationLoop):
         Args:
             engine (``BaseEngine``): Specifies the engine.
         """
+
+    def load_state_dict(self, state_dict: dict[str, Any]) -> None:
+        pass
+
+    def state_dict(self) -> dict[str, Any]:
+        return {}
