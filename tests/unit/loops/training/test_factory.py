@@ -1,6 +1,6 @@
 from objectory import OBJECT_TARGET
 
-from gravitorch.utils.training_loops import VanillaTrainingLoop, setup_training_loop
+from gravitorch.loops.training import VanillaTrainingLoop, setup_training_loop
 
 #########################################
 #     Tests for setup_training_loop     #
@@ -18,6 +18,6 @@ def test_setup_training_loop_object():
 
 def test_setup_training_loop_dict():
     assert isinstance(
-        setup_training_loop({OBJECT_TARGET: "gravitorch.utils.training_loops.VanillaTrainingLoop"}),
+        setup_training_loop({OBJECT_TARGET: "gravitorch.loops.training.VanillaTrainingLoop"}),
         VanillaTrainingLoop,
     )
