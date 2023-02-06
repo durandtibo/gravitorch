@@ -3,9 +3,10 @@ r"""This module implements a no-operation training loop."""
 __all__ = ["NoOpTrainingLoop"]
 
 import logging
+from typing import Any
 
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.training_loops.base import BaseTrainingLoop
+from gravitorch.loops.training.base import BaseTrainingLoop
 
 logger = logging.getLogger(__name__)
 
@@ -27,3 +28,9 @@ class NoOpTrainingLoop(BaseTrainingLoop):
          Args:
              engine (``BaseEngine``): Specifies the engine.
         """
+
+    def load_state_dict(self, state_dict: dict[str, Any]) -> None:
+        pass
+
+    def state_dict(self) -> dict[str, Any]:
+        return {}
