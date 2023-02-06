@@ -1,7 +1,6 @@
 from objectory import OBJECT_TARGET
 
-from gravitorch.loops.evaluation import setup_evaluation_loop
-from gravitorch.utils.evaluation_loops import VanillaEvaluationLoop
+from gravitorch.loops.evaluation import VanillaEvaluationLoop, setup_evaluation_loop
 
 ###########################################
 #     Tests for setup_evaluation_loop     #
@@ -19,8 +18,6 @@ def test_setup_evaluation_loop_object():
 
 def test_setup_evaluation_loop_dict():
     assert isinstance(
-        setup_evaluation_loop(
-            {OBJECT_TARGET: "gravitorch.utils.evaluation_loops.VanillaEvaluationLoop"}
-        ),
+        setup_evaluation_loop({OBJECT_TARGET: "gravitorch.loops.evaluation.VanillaEvaluationLoop"}),
         VanillaEvaluationLoop,
     )

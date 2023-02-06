@@ -5,8 +5,8 @@ __all__ = ["setup_evaluation_loop"]
 import logging
 from typing import Union
 
-from gravitorch.utils.evaluation_loops.base import BaseEvaluationLoop
-from gravitorch.utils.evaluation_loops.vanilla import VanillaEvaluationLoop
+from gravitorch.loops.evaluation.base import BaseEvaluationLoop
+from gravitorch.loops.evaluation.vanilla import VanillaEvaluationLoop
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
