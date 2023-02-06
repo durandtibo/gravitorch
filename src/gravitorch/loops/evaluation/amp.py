@@ -14,9 +14,9 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.evaluation.conditions import BaseEvalCondition
 from gravitorch.loops.evaluation.vanilla import VanillaEvaluationLoop
+from gravitorch.loops.observers.base import BaseLoopObserver
 from gravitorch.utils.device_placement import BaseDevicePlacement
-from gravitorch.utils.loop_observers import BaseLoopObserver
-from gravitorch.utils.profilers import BaseProfiler
+from gravitorch.utils.profilers.base import BaseProfiler
 
 logger = logging.getLogger(__name__)
 

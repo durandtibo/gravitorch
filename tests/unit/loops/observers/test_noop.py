@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 
 from gravitorch.engines import BaseEngine
-from gravitorch.utils.loop_observers import NoOpLoopObserver
+from gravitorch.loops.observers import NoOpLoopObserver
 
 ######################################
 #     Tests for NoOpLoopObserver     #

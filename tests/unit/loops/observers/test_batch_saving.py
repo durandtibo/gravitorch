@@ -4,7 +4,7 @@ from unittest.mock import Mock
 from pytest import mark
 
 from gravitorch.engines import BaseEngine
-from gravitorch.utils.loop_observers import PyTorchBatchSaver
+from gravitorch.loops.observers import PyTorchBatchSaver
 
 #######################################
 #     Tests for PyTorchBatchSaver     #

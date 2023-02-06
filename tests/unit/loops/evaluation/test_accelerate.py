@@ -12,11 +12,11 @@ from gravitorch.loops.evaluation.conditions import (
     EveryEpochEvalCondition,
     LastEpochEvalCondition,
 )
+from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.integrations import is_accelerate_available
-from gravitorch.utils.loop_observers import NoOpLoopObserver, PyTorchBatchSaver
 from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
 from tests.testing import accelerate_available
 from tests.unit.engines.util import (

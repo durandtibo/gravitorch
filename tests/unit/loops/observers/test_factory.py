@@ -2,7 +2,7 @@ from pathlib import Path
 
 from objectory import OBJECT_TARGET
 
-from gravitorch.utils.loop_observers import (
+from gravitorch.loops.observers import (
     NoOpLoopObserver,
     PyTorchBatchSaver,
     setup_loop_observer,
@@ -26,7 +26,7 @@ def test_setup_loop_observer_dict(tmp_path: Path):
     assert isinstance(
         setup_loop_observer(
             {
-                OBJECT_TARGET: "gravitorch.utils.loop_observers.PyTorchBatchSaver",
+                OBJECT_TARGET: "gravitorch.loops.observers.PyTorchBatchSaver",
                 "path": tmp_path.joinpath("batch.pt"),
             }
         ),

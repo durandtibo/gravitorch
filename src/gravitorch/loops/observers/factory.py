@@ -3,9 +3,9 @@ __all__ = ["setup_loop_observer"]
 import logging
 from typing import Union
 
+from gravitorch.loops.observers.base import BaseLoopObserver
+from gravitorch.loops.observers.noop import NoOpLoopObserver
 from gravitorch.utils.format import str_target_object
-from gravitorch.utils.loop_observers.base import BaseLoopObserver
-from gravitorch.utils.loop_observers.noop import NoOpLoopObserver
 
 logger = logging.getLogger(__name__)
 
