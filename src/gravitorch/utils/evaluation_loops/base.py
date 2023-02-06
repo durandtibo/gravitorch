@@ -15,11 +15,11 @@ from gravitorch import constants as ct
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
-from gravitorch.utils.evaluation_loops.conditions import (
+from gravitorch.loops.evaluation.conditions import (
     BaseEvalCondition,
     EveryEpochEvalCondition,
 )
+from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
 from gravitorch.utils.history import MinScalarHistory
 from gravitorch.utils.loop_observers import BaseLoopObserver, setup_loop_observer
 from gravitorch.utils.metric_tracker import ScalarMetricTracker

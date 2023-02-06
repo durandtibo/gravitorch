@@ -11,11 +11,11 @@ __all__ = [
 ]
 
 from gravitorch.loops.evaluation import setup_evaluation_loop
+from gravitorch.loops.evaluation.noop import NoOpEvaluationLoop
 from gravitorch.utils.evaluation_loops.accelerate import AccelerateEvaluationLoop
 from gravitorch.utils.evaluation_loops.amp import AMPEvaluationLoop
 from gravitorch.utils.evaluation_loops.base import (
     BaseBasicEvaluationLoop,
     BaseEvaluationLoop,
 )
-from gravitorch.utils.evaluation_loops.noop import NoOpEvaluationLoop
 from gravitorch.utils.evaluation_loops.vanilla import VanillaEvaluationLoop

@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 
 from gravitorch.engines import BaseEngine
-from gravitorch.utils.evaluation_loops import NoOpEvaluationLoop
+from gravitorch.loops.evaluation import NoOpEvaluationLoop
 
 ########################################
 #     Tests for NoOpEvaluationLoop     #

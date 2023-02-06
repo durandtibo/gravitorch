@@ -7,11 +7,11 @@ from pytest import fixture, mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.utils.evaluation_loops.accelerate import AccelerateEvaluationLoop
-from gravitorch.utils.evaluation_loops.conditions import (
+from gravitorch.loops.evaluation.conditions import (
     EveryEpochEvalCondition,
     LastEpochEvalCondition,
 )
+from gravitorch.utils.evaluation_loops.accelerate import AccelerateEvaluationLoop
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
@@ -93,9 +93,7 @@ def test_accelerate_evaluation_loop_tag_default():
 @accelerate_available
 def test_accelerate_evaluation_loop_condition():
     evaluation_loop = AccelerateEvaluationLoop(
-        condition={
-            OBJECT_TARGET: "gravitorch.utils.evaluation_loops.conditions.LastEpochEvalCondition"
-        }
+        condition={OBJECT_TARGET: "gravitorch.loops.evaluation.conditions.LastEpochEvalCondition"}
     )
     assert isinstance(evaluation_loop._condition, LastEpochEvalCondition)
 

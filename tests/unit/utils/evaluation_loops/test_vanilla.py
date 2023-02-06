@@ -7,6 +7,10 @@ from pytest import mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.loops.evaluation.conditions import (
+    EveryEpochEvalCondition,
+    LastEpochEvalCondition,
+)
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.device_placement import (
     AutoDevicePlacement,
@@ -14,10 +18,6 @@ from gravitorch.utils.device_placement import (
     ManualDevicePlacement,
 )
 from gravitorch.utils.evaluation_loops import VanillaEvaluationLoop
-from gravitorch.utils.evaluation_loops.conditions import (
-    EveryEpochEvalCondition,
-    LastEpochEvalCondition,
-)
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
@@ -69,9 +69,7 @@ def test_vanilla_evaluation_loop_batch_device_placement_default():
 
 def test_vanilla_evaluation_loop_condition():
     evaluation_loop = VanillaEvaluationLoop(
-        condition={
-            OBJECT_TARGET: "gravitorch.utils.evaluation_loops.conditions.LastEpochEvalCondition"
-        }
+        condition={OBJECT_TARGET: "gravitorch.loops.evaluation.conditions.LastEpochEvalCondition"}
     )
     assert isinstance(evaluation_loop._condition, LastEpochEvalCondition)
 
