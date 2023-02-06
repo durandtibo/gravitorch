@@ -10,6 +10,7 @@ __all__ = [
     "setup_evaluation_loop",
 ]
 
+from gravitorch.loops.evaluation import setup_evaluation_loop
 from gravitorch.utils.evaluation_loops.accelerate import AccelerateEvaluationLoop
 from gravitorch.utils.evaluation_loops.amp import AMPEvaluationLoop
 from gravitorch.utils.evaluation_loops.base import (
@@ -17,5 +18,4 @@ from gravitorch.utils.evaluation_loops.base import (
     BaseEvaluationLoop,
 )
 from gravitorch.utils.evaluation_loops.noop import NoOpEvaluationLoop
-from gravitorch.utils.evaluation_loops.utils import setup_evaluation_loop
 from gravitorch.utils.evaluation_loops.vanilla import VanillaEvaluationLoop
