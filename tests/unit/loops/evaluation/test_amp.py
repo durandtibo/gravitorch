@@ -5,9 +5,9 @@ from pytest import mark
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.loops.evaluation import AMPEvaluationLoop
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.device_placement import ManualDevicePlacement
-from gravitorch.utils.evaluation_loops import AMPEvaluationLoop
 from tests.unit.engines.util import FakeModel
 
 #######################################
@@ -43,7 +43,7 @@ def test_amp_evaluation_loop_eval_one_batch_fired_events(device: str):
 @mark.parametrize("amp_enabled", (True, False))
 def test_amp_evaluation_loop_eval_one_batch_amp_enabled(device: str, amp_enabled: bool):
     device = torch.device(device)
-    with patch("gravitorch.utils.evaluation_loops.amp.autocast") as autocast_mock:
+    with patch("gravitorch.loops.evaluation.amp.autocast") as autocast_mock:
         AMPEvaluationLoop(
             amp_enabled=amp_enabled, batch_device_placement=ManualDevicePlacement(device)
         )._eval_one_batch(

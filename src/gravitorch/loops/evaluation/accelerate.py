@@ -15,8 +15,8 @@ from tqdm import tqdm
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.loops.evaluation.basic import BaseBasicEvaluationLoop
 from gravitorch.loops.evaluation.conditions import BaseEvalCondition
-from gravitorch.utils.evaluation_loops.base import BaseBasicEvaluationLoop
 from gravitorch.utils.integrations import check_accelerate, is_accelerate_available
 from gravitorch.utils.loop_observers import BaseLoopObserver
 from gravitorch.utils.profilers import BaseProfiler
