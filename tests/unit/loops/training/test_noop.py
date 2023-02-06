@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 
 from gravitorch.engines import BaseEngine
-from gravitorch.utils.training_loops import NoOpTrainingLoop
+from gravitorch.loops.training import NoOpTrainingLoop
 
 ######################################
 #     Tests for NoOpTrainingLoop     #

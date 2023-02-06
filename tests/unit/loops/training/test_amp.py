@@ -8,9 +8,9 @@ from torch.optim import SGD, Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.loops.training import AMPTrainingLoop
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.device_placement import ManualDevicePlacement
-from gravitorch.utils.training_loops import AMPTrainingLoop
 from tests.unit.engines.util import FakeModel
 
 #####################################
@@ -24,7 +24,7 @@ def test_amp_training_loop_str():
 
 @mark.parametrize("amp_enabled", (True, False))
 def test_amp_training_loop_amp_enabled(amp_enabled: bool):
-    with patch("gravitorch.utils.training_loops.amp.GradScaler") as scaler_mock:
+    with patch("gravitorch.loops.training.amp.GradScaler") as scaler_mock:
         assert AMPTrainingLoop(amp_enabled=amp_enabled)._amp_enabled == amp_enabled
         scaler_mock.assert_called_once_with(enabled=amp_enabled)
 
@@ -68,7 +68,7 @@ def test_amp_training_loop_train_one_batch_amp_enabled(device: str, amp_enabled:
             amp_enabled=amp_enabled,
             batch_device_placement=ManualDevicePlacement(device),
         )
-        with patch("gravitorch.utils.training_loops.amp.autocast") as autocast_mock:
+        with patch("gravitorch.loops.training.amp.autocast") as autocast_mock:
             training_loop._train_one_batch(
                 engine=Mock(spec=BaseEngine),
                 model=model,
