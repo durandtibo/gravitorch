@@ -26,7 +26,7 @@ class NoRepeatRunner(BaseRunner):
 
     def __init__(self, runner: Union[Union[BaseRunner, dict]], path: Union[Path, str]):
         self._path = sanitize_path(path)
-        self._success_path = self._path.joinpath("_MLTORCH_SUCCESS_")
+        self._success_path = self._path.joinpath("_GRAVITORCH_SUCCESS_")
         self._runner = setup_runner(runner)
 
     def __repr__(self) -> str:
