@@ -6,7 +6,7 @@ import copy
 import logging
 from typing import Any, Optional
 
-from gravitorch.utils.format import str_add_indent, to_torch_mapping_str
+from gravitorch.utils.format import str_indent, to_torch_mapping_str
 from gravitorch.utils.history.base import BaseHistory
 from gravitorch.utils.history.generic import GenericHistory
 from gravitorch.utils.history.utils import get_best_values
@@ -33,7 +33,7 @@ class HistoryManager:
         if self._histories:
             return (
                 f"{self.__class__.__qualname__}(\n"
-                f"  {str_add_indent(to_torch_mapping_str(self._histories))}\n)"
+                f"  {str_indent(to_torch_mapping_str(self._histories))}\n)"
             )
         return f"{self.__class__.__qualname__}()"
 

@@ -14,7 +14,7 @@ from gravitorch.data.datacreators import BaseDataCreator, setup_data_creator
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset_manager import AssetManager
-from gravitorch.utils.format import str_add_indent, to_torch_mapping_str
+from gravitorch.utils.format import str_indent, to_torch_mapping_str
 from gravitorch.utils.summary import concise_summary
 
 logger = logging.getLogger(__name__)
@@ -101,7 +101,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_add_indent(to_torch_mapping_str(self._datapipe_creators))}\n)"
+            f"  {str_indent(to_torch_mapping_str(self._datapipe_creators))}\n)"
         )
 
     def attach(self, engine: BaseEngine) -> None:
@@ -293,9 +293,9 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         return (
             f"{self.__class__.__qualname__}(\n"
             "  data_creators\n"
-            f"    {str_add_indent(to_torch_mapping_str(self._data_creators), num_spaces=4)}\n"
+            f"    {str_indent(to_torch_mapping_str(self._data_creators), num_spaces=4)}\n"
             "  datapipe_creators\n"
-            f"    {str_add_indent(to_torch_mapping_str(self._datapipe_creators), num_spaces=4)}"
+            f"    {str_indent(to_torch_mapping_str(self._datapipe_creators), num_spaces=4)}"
             "\n)"
         )
 

@@ -14,7 +14,7 @@ from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.data.dataloaders.collators.utils import setup_collator
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 T = TypeVar("T")
 
@@ -93,7 +93,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data_loader_creator={str_add_indent(str(self._data_loader_creator))},\n"
+            f"  data_loader_creator={str_indent(str(self._data_loader_creator))},\n"
             ")"
         )
 
@@ -164,7 +164,7 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
             f"  pin_memory={self._pin_memory},\n"
             f"  drop_last={self._drop_last},\n"
             f"  seed={self._seed},\n"
-            f"  collate_fn={str_add_indent(str(self._collate_fn))},\n"
+            f"  collate_fn={str_indent(str(self._collate_fn))},\n"
             ")"
         )
 

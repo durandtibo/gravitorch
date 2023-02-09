@@ -14,7 +14,7 @@ from gravitorch.utils.device_placement import (
     BaseDevicePlacement,
     setup_device_placement,
 )
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ class VanillaModelCreator(BaseModelCreator):
             f"{self.__class__.__qualname__}(\n"
             f"  attach_model_to_engine={self._attach_model_to_engine},\n"
             f"  add_module_to_engine={self._add_module_to_engine},\n"
-            f"  device_placement={str_add_indent(self._device_placement)},\n"
+            f"  device_placement={str_indent(self._device_placement)},\n"
             ")"
         )
 

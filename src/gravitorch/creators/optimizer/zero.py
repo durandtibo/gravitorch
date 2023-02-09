@@ -12,7 +12,7 @@ from gravitorch import constants as ct
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
 from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers import ConsolidateOptimizerState
-from gravitorch.utils.format import str_add_indent, to_pretty_json_str
+from gravitorch.utils.format import str_indent, to_pretty_json_str
 
 logger = logging.getLogger(__name__)
 
@@ -69,8 +69,8 @@ class ZeroRedundancyOptimizerCreator(BaseOptimizerCreator):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  optimizer_class={self._optimizer_class},\n"
-            f"  optimizer_config={str_add_indent(to_pretty_json_str(self._optimizer_config))},\n"
-            f"  zero_kwargs={str_add_indent(to_pretty_json_str(self._zero_kwargs))},\n"
+            f"  optimizer_config={str_indent(to_pretty_json_str(self._optimizer_config))},\n"
+            f"  zero_kwargs={str_indent(to_pretty_json_str(self._zero_kwargs))},\n"
             f"  add_module_to_engine={self._add_module_to_engine},\n"
             f"  attach_handler={self._attach_handler},\n"
             ")"

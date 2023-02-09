@@ -10,7 +10,7 @@ from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.events import VanillaEventHandler
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.parameter_initializers import (
     BaseParameterInitializer,
     setup_parameter_initializer,
@@ -43,7 +43,7 @@ class ParameterInitializer(BaseHandler):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  parameter_initializer={str_add_indent(self._parameter_initializer)},"
+            f"  parameter_initializer={str_indent(self._parameter_initializer)},"
             f"  event={self._event},"
             ")"
         )

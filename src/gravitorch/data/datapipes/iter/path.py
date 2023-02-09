@@ -5,7 +5,7 @@ from pathlib import Path
 
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 
 class DirFilterIterDataPipe(IterDataPipe[Path]):
@@ -25,9 +25,7 @@ class DirFilterIterDataPipe(IterDataPipe[Path]):
                 yield path
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n" f"  datapipe={str_add_indent(self._datapipe)},\n)"
-        )
+        return f"{self.__class__.__qualname__}(\n" f"  datapipe={str_indent(self._datapipe)},\n)"
 
 
 class FileFilterIterDataPipe(IterDataPipe[Path]):
@@ -47,9 +45,7 @@ class FileFilterIterDataPipe(IterDataPipe[Path]):
                 yield path
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n" f"  datapipe={str_add_indent(self._datapipe)},\n)"
-        )
+        return f"{self.__class__.__qualname__}(\n" f"  datapipe={str_indent(self._datapipe)},\n)"
 
 
 class PathListerIterDataPipe(IterDataPipe[Path]):
@@ -86,5 +82,5 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
             f"{self.__class__.__qualname__}(\n"
             f"  pattern={self._pattern},\n"
             f"  deterministic={self._deterministic},\n"
-            f"  datapipe={str_add_indent(self._datapipe)},\n)"
+            f"  datapipe={str_indent(self._datapipe)},\n)"
         )

@@ -13,7 +13,7 @@ from gravitorch.runners.resource import BaseResourceRunner
 from gravitorch.utils.exp_trackers import setup_exp_tracker
 from gravitorch.utils.exp_trackers.base import BaseExpTracker
 from gravitorch.utils.format import (
-    str_add_indent,
+    str_indent,
     to_pretty_json_str,
     to_torch_sequence_str,
 )
@@ -68,10 +68,10 @@ class TrainingRunner(BaseResourceRunner):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  random_seed={self._random_seed},\n"
-            f"  engine={str_add_indent(to_pretty_json_str(self._engine))},\n"
-            f"  exp_tracker={str_add_indent(to_pretty_json_str(self._exp_tracker))},\n"
-            f"  handlers:\n  {str_add_indent(to_torch_sequence_str(self._handlers))},\n"
-            f"  resources:\n  {str_add_indent(to_torch_sequence_str(self._resources))},\n"
+            f"  engine={str_indent(to_pretty_json_str(self._engine))},\n"
+            f"  exp_tracker={str_indent(to_pretty_json_str(self._exp_tracker))},\n"
+            f"  handlers:\n  {str_indent(to_torch_sequence_str(self._handlers))},\n"
+            f"  resources:\n  {str_indent(to_torch_sequence_str(self._resources))},\n"
             ")"
         )
 

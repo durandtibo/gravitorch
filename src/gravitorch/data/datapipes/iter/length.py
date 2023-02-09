@@ -5,7 +5,7 @@ from typing import TypeVar
 
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 T = TypeVar("T")
 
@@ -60,5 +60,5 @@ class LooperIterDataPipe(IterDataPipe[T]):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  length={self._length:,},\n"
-            f"  datapipe={str_add_indent(self._datapipe)},\n)"
+            f"  datapipe={str_indent(self._datapipe)},\n)"
         )

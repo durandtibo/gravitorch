@@ -7,7 +7,7 @@ import torch
 
 from gravitorch.data.partitioners.base import BasePartitioner, setup_partitioner
 from gravitorch.engines import BaseEngine
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.seed import get_torch_generator
 
 T = TypeVar("T")
@@ -39,7 +39,7 @@ class EpochShufflePartitioner(BasePartitioner[T]):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  partitioner={str_add_indent(self._partitioner)},\n"
+            f"  partitioner={str_indent(self._partitioner)},\n"
             f"  random_seed={self._random_seed},\n"
             ")"
         )

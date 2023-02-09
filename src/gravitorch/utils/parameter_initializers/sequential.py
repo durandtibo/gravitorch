@@ -5,7 +5,7 @@ from collections.abc import Sequence
 from typing import Union
 
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_add_indent, to_torch_sequence_str
+from gravitorch.utils.format import str_indent, to_torch_sequence_str
 from gravitorch.utils.parameter_initializers.base import (
     BaseDefaultParameterInitializer,
     BaseParameterInitializer,
@@ -41,7 +41,7 @@ class SequentialParameterInitializer(BaseDefaultParameterInitializer):
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_add_indent(to_torch_sequence_str(self._parameter_initializers))}\n)"
+            f"  {str_indent(to_torch_sequence_str(self._parameter_initializers))}\n)"
         )
 
     def _initialize(self, engine: BaseEngine) -> None:

@@ -10,7 +10,7 @@ from gravitorch.handlers.lr_scheduler_updater import (
     IterationLRSchedulerUpdater,
 )
 from gravitorch.handlers.utils import setup_handler
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 
 class VanillaLRScheduler(BaseHandler):
@@ -37,8 +37,8 @@ class VanillaLRScheduler(BaseHandler):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  lr_scheduler_updater={str_add_indent(str(self._lr_scheduler_updater))},\n"
-            f"  lr_monitor={str_add_indent(str(self._lr_monitor))},\n"
+            f"  lr_scheduler_updater={str_indent(str(self._lr_scheduler_updater))},\n"
+            f"  lr_monitor={str_indent(str(self._lr_monitor))},\n"
             ")"
         )
 

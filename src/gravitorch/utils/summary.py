@@ -9,7 +9,7 @@ import torch
 from torch import Tensor
 
 from gravitorch.utils.format import (
-    str_add_indent,
+    str_indent,
     to_torch_mapping_str,
     to_torch_sequence_str,
 )
@@ -122,7 +122,7 @@ def _concise_summary_sequence(sequence: Sequence, num_spaces: int = 2, max_lengt
         ]
     )
     suffix = "\n..." if len(sequence) > max_length else ""
-    return str_add_indent(
+    return str_indent(
         f"{type(sequence)} | length={len(sequence):,}\n{summary}{suffix}", num_spaces=num_spaces
     )
 
@@ -152,6 +152,6 @@ def _concise_summary_mapping(mapping: Mapping, num_spaces: int = 2, max_length: 
         }
     )
     suffix = "\n..." if len(mapping) > max_length else ""
-    return str_add_indent(
+    return str_indent(
         f"{type(mapping)} | length={len(mapping):,}\n{summary}{suffix}", num_spaces=num_spaces
     )

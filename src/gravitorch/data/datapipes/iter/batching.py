@@ -13,7 +13,7 @@ from gravitorch.data.datapipes.iter.shuffling import (
     shuffle_tensors,
 )
 from gravitorch.data.datapipes.iter.source import SourceWrapperIterDataPipe
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.mapping import get_first_value
 from gravitorch.utils.seed import get_torch_generator
 from gravitorch.utils.summary import concise_summary
@@ -76,7 +76,7 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
             f"  batch_size={self._batch_size},\n"
             f"  shuffle={self._shuffle},\n"
             f"  random_seed={self.random_seed},\n"
-            f"  datapipe_or_data={str_add_indent(desc)},\n)"
+            f"  datapipe_or_data={str_indent(desc)},\n)"
         )
 
     @property
@@ -142,7 +142,7 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
             f"  batch_size={self._batch_size},\n"
             f"  shuffle={self._shuffle},\n"
             f"  random_seed={self.random_seed},\n"
-            f"  datapipe_or_tensors={str_add_indent(desc)},\n)"
+            f"  datapipe_or_tensors={str_indent(desc)},\n)"
         )
 
     @property
