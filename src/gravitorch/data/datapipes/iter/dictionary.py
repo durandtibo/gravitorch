@@ -4,7 +4,7 @@ from collections.abc import Hashable, Iterator, Mapping, Sequence
 
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.mapping import convert_to_dict_of_lists, convert_to_list_of_dicts
 
 
@@ -30,7 +30,7 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"  source_datapipe={str_indent(self._source_datapipe)},\n)"
         )
 
 
@@ -56,5 +56,5 @@ class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  source_datapipe={str_add_indent(self._source_datapipe)},\n)"
+            f"  source_datapipe={str_indent(self._source_datapipe)},\n)"
         )

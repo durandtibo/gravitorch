@@ -5,7 +5,7 @@ __all__ = ["ModuleManager"]
 import logging
 from typing import Any, Union
 
-from gravitorch.utils.format import str_add_indent, to_torch_mapping_str
+from gravitorch.utils.format import str_indent, to_torch_mapping_str
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ class ModuleManager:
         if self._modules:
             return (
                 f"{self.__class__.__qualname__}(\n"
-                f"  {str_add_indent(to_torch_mapping_str(self._modules))}\n)"
+                f"  {str_indent(to_torch_mapping_str(self._modules))}\n)"
             )
         return f"{self.__class__.__qualname__}()"
 

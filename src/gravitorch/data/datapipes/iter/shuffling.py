@@ -14,7 +14,7 @@ import torch
 from torch import Tensor
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.seed import get_torch_generator
 from gravitorch.utils.tensor import permute
 
@@ -95,7 +95,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
             f"{self.__class__.__qualname__}(\n"
             f"  dim={self._dim},\n"
             f"  random_seed={self.random_seed},\n"
-            f"  datapipe={str_add_indent(self._datapipe)},\n)"
+            f"  datapipe={str_indent(self._datapipe)},\n)"
         )
 
     @property

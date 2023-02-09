@@ -6,7 +6,7 @@ from typing import Union
 
 from gravitorch.runners.base import BaseRunner
 from gravitorch.runners.utils import setup_runner
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.io import save_text
 from gravitorch.utils.path import sanitize_path
 
@@ -32,7 +32,7 @@ class NoRepeatRunner(BaseRunner):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  runner={str_add_indent(str(self._runner))},\n"
+            f"  runner={str_indent(str(self._runner))},\n"
             f"  path={self._path},\n"
             ")"
         )

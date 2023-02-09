@@ -20,7 +20,7 @@ from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import BaseEngineState, setup_engine_state
 from gravitorch.utils.events import BaseEventHandler, EventManager
 from gravitorch.utils.exp_trackers import BaseExpTracker, Step, setup_exp_tracker
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.history import BaseHistory
 from gravitorch.utils.timing import timeblock
 
@@ -92,15 +92,15 @@ class AlphaEngine(BaseEngine):
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data_source={str_add_indent(self._data_source)},\n"
-            f"  model={str_add_indent(self._model)},\n"
-            f"  optimizer={str_add_indent(self._optimizer)},\n"
-            f"  lr_scheduler={str_add_indent(self._lr_scheduler)},\n"
-            f"  training_loop={str_add_indent(self._training_loop)},\n"
-            f"  evaluation_loop={str_add_indent(self._evaluation_loop)},\n"
-            f"  state={str_add_indent(self._state)},\n"
-            f"  event_manager={str_add_indent(self._event_manager)},\n"
-            f"  exp_tracker={str_add_indent(self._exp_tracker)},\n"
+            f"  data_source={str_indent(self._data_source)},\n"
+            f"  model={str_indent(self._model)},\n"
+            f"  optimizer={str_indent(self._optimizer)},\n"
+            f"  lr_scheduler={str_indent(self._lr_scheduler)},\n"
+            f"  training_loop={str_indent(self._training_loop)},\n"
+            f"  evaluation_loop={str_indent(self._evaluation_loop)},\n"
+            f"  state={str_indent(self._state)},\n"
+            f"  event_manager={str_indent(self._event_manager)},\n"
+            f"  exp_tracker={str_indent(self._exp_tracker)},\n"
             ")"
         )
 

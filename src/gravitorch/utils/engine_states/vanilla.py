@@ -3,7 +3,7 @@ __all__ = ["VanillaEngineState"]
 from typing import Any, Optional
 
 from gravitorch.utils.engine_states.base import BaseEngineState
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.history import BaseHistory, HistoryManager
 from gravitorch.utils.module_manager import ModuleManager
 
@@ -40,8 +40,8 @@ class VanillaEngineState(BaseEngineState):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  modules={str_add_indent(self._modules)},\n"
-            f"  histories={str_add_indent(self._histories)},\n"
+            f"  modules={str_indent(self._modules)},\n"
+            f"  histories={str_indent(self._histories)},\n"
             f"  random_seed={self._random_seed},\n"
             f"  max_epochs={self._max_epochs},\n"
             f"  epoch={self._epoch},\n"

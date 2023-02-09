@@ -6,7 +6,7 @@ from collections.abc import Iterable, Iterator
 
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.summary import concise_summary
 
 logger = logging.getLogger(__name__)
@@ -48,5 +48,5 @@ class SourceWrapperIterDataPipe(IterDataPipe):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  deepcopy: {self._deepcopy},\n"
-            f"  source:\n    {str_add_indent(concise_summary(self._source), num_spaces=4)}\n)"
+            f"  source:\n    {str_indent(concise_summary(self._source), num_spaces=4)}\n)"
         )

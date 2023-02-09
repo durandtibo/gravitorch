@@ -11,7 +11,7 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import setup_handler
 from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +55,7 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  lr_scheduler_handler={str_add_indent(str(self._lr_scheduler_manager))},\n"
+            f"  lr_scheduler_handler={str_indent(str(self._lr_scheduler_manager))},\n"
             f"  add_module_to_engine={self._add_module_to_engine},\n"
             ")"
         )

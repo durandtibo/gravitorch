@@ -6,7 +6,7 @@ from typing import Optional, TypeVar, Union
 from gravitorch.data.partitioners.base import BasePartitioner, setup_partitioner
 from gravitorch.distributed.ddp import broadcast_object_list
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.partitioning import ddp_partitions
 
 T = TypeVar("T")
@@ -60,7 +60,7 @@ class SyncParallelPartitioner(BasePartitioner[T]):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  partitioner={str_add_indent(self._partitioner)},\n"
+            f"  partitioner={str_indent(self._partitioner)},\n"
             ")"
         )
 

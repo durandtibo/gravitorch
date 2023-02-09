@@ -20,7 +20,7 @@ from gravitorch.creators.optimizer.utils import setup_optimizer_creator
 from gravitorch.datasources.base import BaseDataSource
 from gravitorch.engines.base import BaseEngine
 from gravitorch.lr_schedulers.base import LRSchedulerType
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 
 class AdvancedCoreCreator(BaseCoreCreator):
@@ -54,10 +54,10 @@ class AdvancedCoreCreator(BaseCoreCreator):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data_source_creator={str_add_indent(self._data_source_creator)},\n"
-            f"  model_creator={str_add_indent(self._model_creator)},\n"
-            f"  optimizer_creator={str_add_indent(self._optimizer_creator)},\n"
-            f"  lr_scheduler_creator={str_add_indent(self._lr_scheduler_creator)},\n"
+            f"  data_source_creator={str_indent(self._data_source_creator)},\n"
+            f"  model_creator={str_indent(self._model_creator)},\n"
+            f"  optimizer_creator={str_indent(self._optimizer_creator)},\n"
+            f"  lr_scheduler_creator={str_indent(self._lr_scheduler_creator)},\n"
             ")"
         )
 

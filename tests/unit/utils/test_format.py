@@ -9,7 +9,7 @@ from pytest import mark, raises
 from gravitorch.utils.format import (
     convert_human_readable_count,
     convert_seconds_to_readable_format,
-    str_add_indent,
+    str_indent,
     str_scalar,
     str_target_object,
     to_flat_dict,
@@ -38,29 +38,29 @@ def test_convert_seconds_to_readable_format(time_float: Union[int, float], time_
     assert convert_seconds_to_readable_format(time_float) == time_str
 
 
-####################################
-#     Tests for str_add_indent     #
-####################################
+################################
+#     Tests for str_indent     #
+################################
 
 
-def test_str_add_indent_1_line():
-    assert str_add_indent("abc") == "abc"
+def test_str_indent_1_line():
+    assert str_indent("abc") == "abc"
 
 
-def test_str_add_indent_2_lines():
-    assert str_add_indent("abc\n  def") == "abc\n    def"
+def test_str_indent_2_lines():
+    assert str_indent("abc\n  def") == "abc\n    def"
 
 
-def test_str_add_indent_num_spaces_2():
-    assert str_add_indent("abc\ndef", num_spaces=2) == "abc\n  def"
+def test_str_indent_num_spaces_2():
+    assert str_indent("abc\ndef", num_spaces=2) == "abc\n  def"
 
 
-def test_str_add_indent_num_spaces_4():
-    assert str_add_indent("abc\ndef", num_spaces=4) == "abc\n    def"
+def test_str_indent_num_spaces_4():
+    assert str_indent("abc\ndef", num_spaces=4) == "abc\n    def"
 
 
-def test_str_add_indent_not_a_string():
-    assert str_add_indent(123) == "123"
+def test_str_indent_not_a_string():
+    assert str_indent(123) == "123"
 
 
 ################################

@@ -3,7 +3,7 @@ r"""This module defines some utility functions to format some objects."""
 __all__ = [
     "convert_human_readable_count",
     "convert_seconds_to_readable_format",
-    "str_add_indent",
+    "str_indent",
     "str_scalar",
     "str_target_object",
     "to_flat_dict",
@@ -64,8 +64,8 @@ def convert_seconds_to_readable_format(seconds: Union[int, float]) -> str:
     return str(datetime.timedelta(seconds=seconds))
 
 
-def str_add_indent(original: Any, num_spaces: int = 2) -> str:
-    r"""Add indentations if the original string is a multi-lines string.
+def str_indent(original: Any, num_spaces: int = 2) -> str:
+    r"""Adds indentations if the original string is a multi-lines string.
 
     Args:
         original: Specifies the original string. If the inputis not a
@@ -90,8 +90,8 @@ def str_add_indent(original: Any, num_spaces: int = 2) -> str:
         string2
         # The problem is that 'string1' and 'string2' are not aligned.
         # The indentation is only applied to the first line
-        >>> from gravitorch.utils.format import str_add_indent
-        >>> print(f"\t{str_add_indent(string_to_print, 4)}")
+        >>> from gravitorch.utils.format import str_indent
+        >>> print(f"\t{str_indent(string_to_print, 4)}")
             string1
             string2
     """
@@ -438,7 +438,7 @@ def to_torch_mapping_str(mapping: Mapping, sorted_keys: bool = False, num_spaces
     """
     lines = []
     for key, value in sorted(mapping.items()) if sorted_keys else mapping.items():
-        lines.append(f"({key}) {str_add_indent(value, num_spaces=num_spaces)}")
+        lines.append(f"({key}) {str_indent(value, num_spaces=num_spaces)}")
     return "\n".join(lines)
 
 
@@ -466,7 +466,7 @@ def to_torch_sequence_str(sequence: Sequence, num_spaces: int = 2) -> str:
     """
     lines = []
     for i, item in enumerate(sequence):
-        lines.append(f"({i}) {str_add_indent(item, num_spaces=num_spaces)}")
+        lines.append(f"({i}) {str_indent(item, num_spaces=num_spaces)}")
     return "\n".join(lines)
 
 

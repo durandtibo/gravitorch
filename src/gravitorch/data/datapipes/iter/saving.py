@@ -7,7 +7,7 @@ from typing import Union
 
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.io import save_pickle, save_pytorch
 from gravitorch.utils.path import sanitize_path
 
@@ -59,7 +59,7 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
             f"{self.__class__.__qualname__}(\n"
             f"  root_path={self._root_path},\n"
             f"  pattern={self._pattern},\n"
-            f"  datapipe={str_add_indent(self._datapipe)},\n)"
+            f"  datapipe={str_indent(self._datapipe)},\n)"
         )
 
 
@@ -108,5 +108,5 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
             f"{self.__class__.__qualname__}(\n"
             f"  root_path={self._root_path},\n"
             f"  pattern={self._pattern},\n"
-            f"  datapipe={str_add_indent(self._datapipe)},\n)"
+            f"  datapipe={str_indent(self._datapipe)},\n)"
         )

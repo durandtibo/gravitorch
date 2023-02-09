@@ -8,7 +8,7 @@ import torch
 from torch import Tensor
 
 from gravitorch.distributed.ddp import all_gather_tensor_varshape
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 
 class LazyFlattedTensor:
@@ -63,8 +63,8 @@ class LazyFlattedTensor:
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  values={str_add_indent(self._values)}\n"
-            f"  buffer={str_add_indent(self._buffer)}\n)"
+            f"  values={str_indent(self._values)}\n"
+            f"  buffer={str_indent(self._buffer)}\n)"
         )
 
     def all_reduce(self) -> "LazyFlattedTensor":

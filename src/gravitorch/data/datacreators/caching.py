@@ -6,7 +6,7 @@ from typing import Any, Optional, TypeVar, Union
 
 from gravitorch.data.datacreators import BaseDataCreator, setup_data_creator
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ class OneCacheDataCreator(BaseDataCreator[T]):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data_creator={str_add_indent(self._data_creator)},\n"
+            f"  data_creator={str_indent(self._data_creator)},\n"
             f"  is_cache_created={self._is_cache_created},\n"
             f"  deepcopy={self._deepcopy},\n"
             ")"

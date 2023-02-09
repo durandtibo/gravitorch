@@ -7,7 +7,7 @@ import torch
 from torch import Tensor
 
 from gravitorch.distributed.ddp import SUM, sync_reduce_
-from gravitorch.utils.format import str_add_indent
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.meters.exceptions import EmptyMeterError
 
 
@@ -32,7 +32,7 @@ class BaseConfusionMatrix:
             f"  num_predictions={self.num_predictions:,}\n"
             f"  shape={self._matrix.shape}\n"
             f"  dtype={self._matrix.dtype}\n"
-            f"  {str_add_indent(self._matrix)}\n)"
+            f"  {str_indent(self._matrix)}\n)"
         )
 
     def __str__(self) -> str:
