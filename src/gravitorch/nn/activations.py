@@ -1,7 +1,9 @@
-__all__ = ["ReLUn"]
+__all__ = ["ReLUn", "SquaredReLU"]
 
+import torch
 from torch import Tensor
 from torch.nn import Module
+from torch.nn import functional as F
 
 
 class ReLUn(Module):
@@ -33,3 +35,18 @@ class ReLUn(Module):
                 tensor.
         """
         return tensor.clamp(min=0.0, max=self._max_value)
+
+
+class SquaredReLU(Module):
+    r"""Implements the Squared ReLU.
+
+    Squared ReLU is defined in the following paper:
+
+        Primer: Searching for Efficient Transformers for Language Modeling.
+        So DR., Mańke W., Liu H., Dai Z., Shazeer N., Le QV.
+        NeurIPS, 2021. (https://arxiv.org/pdf/2109.08668.pdf)
+    """
+
+    def forward(self, tensor: torch.Tensor) -> torch.Tensor:
+        x = F.relu(tensor)
+        return x * x

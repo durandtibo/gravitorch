@@ -2,7 +2,9 @@ __all__ = [
     "Asinh",
     "AsinhBarronRobustLoss",
     "AsinhCosSinScalarEncoder",
+    "AsinhCosSinScalarEncoder",
     "AsinhMSELoss",
+    "AsinhScalarEncoder",
     "AverageFusion",
     "BarronRobustLoss",
     "BinaryFocalLoss",
@@ -11,8 +13,8 @@ __all__ = [
     "ClampLoss",
     "ConcatFusion",
     "CosSinScalarEncoder",
-    "ExpSin",
     "ExU",
+    "ExpSin",
     "FlattenModule",
     "FusionFFN",
     "FusionNorm",
@@ -20,8 +22,6 @@ __all__ = [
     "Isymlog",
     "Laplacian",
     "Log1p",
-    "AsinhScalarEncoder",
-    "AsinhCosSinScalarEncoder",
     "MSLELoss",
     "ModuleSummary",
     "MultiQuadratic",
@@ -43,6 +43,7 @@ __all__ = [
     "ShiftScale",
     "Sin",
     "Sinh",
+    "SquaredReLU",
     "Squeeze",
     "SumFusion",
     "Symlog",
@@ -78,7 +79,7 @@ __all__ = [
     "unfreeze_module",
 ]
 
-from gravitorch.nn.activations import ReLUn
+from gravitorch.nn.activations import ReLUn, SquaredReLU
 from gravitorch.nn.alpha_activations import (
     ExpSin,
     Gaussian,
