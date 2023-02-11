@@ -1,4 +1,4 @@
-__all__ = ["Sequential"]
+__all__ = ["SequentialLoopObserver"]
 
 from collections.abc import Sequence
 from typing import Any, Union
@@ -9,7 +9,7 @@ from gravitorch.loops.observers.factory import setup_loop_observer
 from gravitorch.utils.format import str_indent, to_torch_sequence_str
 
 
-class Sequential(BaseLoopObserver):
+class SequentialLoopObserver(BaseLoopObserver):
     r"""Implements a loop observer that is used to run a sequence of loop
     observers.
 

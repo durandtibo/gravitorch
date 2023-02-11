@@ -1,41 +1,45 @@
 from unittest.mock import Mock
 
 from gravitorch.engines import BaseEngine
-from gravitorch.loops.observers import BaseLoopObserver, NoOpLoopObserver, Sequential
+from gravitorch.loops.observers import (
+    BaseLoopObserver,
+    NoOpLoopObserver,
+    SequentialLoopObserver,
+)
 
-################################
-#     Tests for Sequential     #
-################################
-
-
-def test_sequential_str():
-    assert str(Sequential((NoOpLoopObserver(), Mock(spec=BaseLoopObserver)))).startswith(
-        "Sequential("
-    )
+############################################
+#     Tests for SequentialLoopObserver     #
+############################################
 
 
-def test_sequential_start():
+def test_sequential_loop_observer_str():
+    assert str(
+        SequentialLoopObserver((NoOpLoopObserver(), Mock(spec=BaseLoopObserver)))
+    ).startswith("SequentialLoopObserver(")
+
+
+def test_sequential_loop_observer_start():
     engine = Mock(spec=BaseEngine)
     observer1 = Mock(spec=BaseLoopObserver)
     observer2 = Mock(spec=BaseLoopObserver)
-    Sequential((observer1, observer2)).start(engine)
+    SequentialLoopObserver((observer1, observer2)).start(engine)
     observer1.start.assert_called_once_with(engine)
     observer2.start.assert_called_once_with(engine)
 
 
-def test_sequential_end():
+def test_sequential_loop_observer_end():
     engine = Mock(spec=BaseEngine)
     observer1 = Mock(spec=BaseLoopObserver)
     observer2 = Mock(spec=BaseLoopObserver)
-    Sequential((observer1, observer2)).end(engine)
+    SequentialLoopObserver((observer1, observer2)).end(engine)
     observer1.end.assert_called_once_with(engine)
     observer2.end.assert_called_once_with(engine)
 
 
-def test_sequential_update():
+def test_sequential_loop_observer_update():
     engine = Mock(spec=BaseEngine)
     observer1 = Mock(spec=BaseLoopObserver)
     observer2 = Mock(spec=BaseLoopObserver)
-    Sequential((observer1, observer2)).update(engine, {}, 1)
+    SequentialLoopObserver((observer1, observer2)).update(engine, {}, 1)
     observer1.update.assert_called_once_with(engine, {}, 1)
     observer2.update.assert_called_once_with(engine, {}, 1)
