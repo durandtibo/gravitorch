@@ -42,13 +42,13 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
         # Create by using a ``BaseIterDataPipeCreator`` object.
         >>> from gravitorch.creators.datapipe import SequentialIterDataPipeCreator
-        >>> from gravitorch.data.datapipes.iter import SourceWrapperIterDataPipe
+        >>> from gravitorch.data.datapipes.iter import SourceWrapper
         >>> data_source = IterDataPipeCreatorDataSource(
         ...     datapipe_creators={
         ...         "train": SequentialIterDataPipeCreator(
         ...             config=[
         ...                 {
-        ...                     '_target_': "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+        ...                     '_target_': "gravitorch.data.datapipes.iter.SourceWrapper",
         ...                     "data": [1, 2, 3, 4],
         ...                 },
         ...             ]
@@ -56,7 +56,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...         "val": SequentialIterDataPipeCreator(
         ...             config=[
         ...                 {
-        ...                     '_target_': "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+        ...                     '_target_': "gravitorch.data.datapipes.iter.SourceWrapper",
         ...                     "data": ["a", "b", "c"],
         ...                 },
         ...             ]
@@ -71,7 +71,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...             '_target_': "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
         ...             "config": [
         ...                 {
-        ...                     OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+        ...                     OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
         ...                    "data": [1, 2, 3, 4],
         ...                },
         ...             ],
@@ -80,7 +80,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...             '_target_': "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
         ...             "config": [
         ...                 {
-        ...                     '_target_': "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+        ...                     '_target_': "gravitorch.data.datapipes.iter.SourceWrapper",
         ...                     "data": ["a", "b", "c"],
         ...                 },
         ...             ],
