@@ -246,7 +246,10 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         Returns:
             ``IterDataPipe``: An ``IterDataPipe`` object.
         """
-        return self._datapipe_creators[loader_id].create(engine=engine)
+        logger.info("Crating DataPipe...")
+        datapipe = self._datapipe_creators[loader_id].create(engine=engine)
+        logger.info(f"Crated DataPipe: {datapipe}")
+        return datapipe
 
 
 class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
