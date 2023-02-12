@@ -248,7 +248,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         """
         logger.info("Crating DataPipe...")
         datapipe = self._datapipe_creators[loader_id].create(engine=engine)
-        logger.info(f"Crated DataPipe: {datapipe}")
+        logger.info(f"Created DataPipe:\n{datapipe}")
         return datapipe
 
 
