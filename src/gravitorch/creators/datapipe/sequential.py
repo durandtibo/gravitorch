@@ -74,7 +74,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
             # Create an IterDataPipe object using a single IterDataPipe object and no source input
             >>> creator = SequentialIterDataPipeCreator(
             ...     {
-            ...         OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+            ...         OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
             ...         "data": [1, 2, 3, 4],
             ...     }
             ... )
@@ -85,7 +85,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
             >>> creator = SequentialIterDataPipeCreator(
             ...     [
             ...         {
-            ...             OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+            ...             OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
             ...             "data": [1, 2, 3, 4],
             ...         },
             ...     ]
@@ -96,7 +96,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
             # It is possible to use the source_inputs to create the same IterDataPipe object.
             # The data is given by the source_inputs
             >>> creator = SequentialIterDataPipeCreator(
-            ...     config={OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe"},
+            ...     config={OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper"},
             ... )
             >>> datapipe: IterDataPipe = creator.create(source_inputs=([1, 2, 3, 4],))
             >>> tuple(datapipe)
@@ -105,7 +105,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
             >>> creator = SequentialIterDataPipeCreator(
             ...     [
             ...         {
-            ...             OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+            ...             OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
             ...             "data": [1, 2, 3, 4],
             ...         },
             ...         {
@@ -127,9 +127,9 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
             ...         },
             ...     ],
             ... )
-            >>> from gravitorch.data.datapipes.iter import SourceWrapperIterDataPipe
+            >>> from gravitorch.data.datapipes.iter import SourceWrapper
             >>> datapipe: IterDataPipe = creator.create(
-            ...     source_inputs=[SourceWrapperIterDataPipe(data=[1, 2, 3, 4])]
+            ...     source_inputs=[SourceWrapper(data=[1, 2, 3, 4])]
             ... )
             >>> tuple(datapipe)
             ([1, 2], [3, 4])
@@ -146,8 +146,8 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
             ... )
             >>> datapipe: IterDataPipe = creator.create(
             ...    source_inputs=[
-            ...         SourceWrapperIterDataPipe(data=[1, 2, 3, 4]),
-            ...         SourceWrapperIterDataPipe(data=[11, 12, 13, 14]),
+            ...         SourceWrapper(data=[1, 2, 3, 4]),
+            ...         SourceWrapper(data=[11, 12, 13, 14]),
             ...     ],
             ... )
             >>> tuple(datapipe)
@@ -222,7 +222,7 @@ def create_sequential_iter_datapipe(
         # Create an IterDataPipe object using a single IterDataPipe object and no source input
         >>> datapipe: IterDataPipe = create_sequential_iter_datapipe(
         ...     {
-        ...         OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+        ...         OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
         ...         "data": [1, 2, 3, 4],
         ...     }
         ... )
@@ -232,7 +232,7 @@ def create_sequential_iter_datapipe(
         >>> datapipe: IterDataPipe = create_sequential_iter_datapipe(
         ...     [
         ...         {
-        ...             OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+        ...             OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
         ...             "data": [1, 2, 3, 4],
         ...         },
         ...     ]
@@ -242,7 +242,7 @@ def create_sequential_iter_datapipe(
         # It is possible to use the source_inputs to create the same IterDataPipe object.
         # The data is given by the source_inputs
         >>> datapipe: IterDataPipe = create_sequential_iter_datapipe(
-        ...     config={OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe"},
+        ...     config={OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper"},
         ...     source_inputs=([1, 2, 3, 4],),
         ... )
         >>> tuple(datapipe)
@@ -251,7 +251,7 @@ def create_sequential_iter_datapipe(
         >>> datapipe: IterDataPipe = create_sequential_iter_datapipe(
         ...     [
         ...         {
-        ...             OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+        ...             OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
         ...             "data": [1, 2, 3, 4],
         ...         },
         ...         {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
@@ -261,12 +261,12 @@ def create_sequential_iter_datapipe(
         ([1, 2], [3, 4])
         # It is possible to use the source_inputs to create the same IterDataPipe object.
         # A source IterDataPipe object is specified by using source_inputs
-        >>> from gravitorch.data.datapipes.iter import SourceWrapperIterDataPipe
+        >>> from gravitorch.data.datapipes.iter import SourceWrapper
         >>> datapipe: IterDataPipe = create_sequential_iter_datapipe(
         ...     config=[
         ...         {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
         ...     ],
-        ...     source_inputs=[SourceWrapperIterDataPipe(data=[1, 2, 3, 4])],
+        ...     source_inputs=[SourceWrapper(data=[1, 2, 3, 4])],
         ... )
         >>> tuple(datapipe)
         ([1, 2], [3, 4])
@@ -278,8 +278,8 @@ def create_sequential_iter_datapipe(
         ...         {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
         ...     ],
         ...     source_inputs=[
-        ...         SourceWrapperIterDataPipe(data=[1, 2, 3, 4]),
-        ...         SourceWrapperIterDataPipe(data=[11, 12, 13, 14]),
+        ...         SourceWrapper(data=[1, 2, 3, 4]),
+        ...         SourceWrapper(data=[11, 12, 13, 14]),
         ...     ],
         ... )
         >>> tuple(datapipe)
@@ -360,7 +360,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             ...     [
             ...         SequentialIterDataPipeCreator(
             ...             {
-            ...                 OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe",
+            ...                 OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
             ...                 "data": [1, 2, 3, 4],
             ...             },
             ...         ),
@@ -374,7 +374,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             >>> creator = SequentialCreatorIterDataPipeCreator(
             ...     [
             ...         SequentialIterDataPipeCreator(
-            ...             {OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe"},
+            ...             {OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper"},
             ...         ),
             ...     ]
             ... )
@@ -385,7 +385,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             >>> creator = SequentialCreatorIterDataPipeCreator(
             ...     [
             ...         SequentialIterDataPipeCreator(
-            ...             {OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapperIterDataPipe"},
+            ...             {OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper"},
             ...         ),
             ...         SequentialIterDataPipeCreator(
             ...             {
@@ -400,7 +400,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             ([1, 2], [3, 4])
             # It is possible to use the source_inputs to create the same IterDataPipe object.
             # A source IterDataPipe object is specified by using source_inputs
-            >>> from gravitorch.data.datapipes.iter import SourceWrapperIterDataPipe
+            >>> from gravitorch.data.datapipes.iter import SourceWrapper
             >>> creator = SequentialCreatorIterDataPipeCreator(
             ...     creators=[
             ...         SequentialIterDataPipeCreator(
@@ -412,7 +412,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             ...     ]
             ... )
             >>> datapipe: IterDataPipe = creator.create(
-            ...     source_inputs=[SourceWrapperIterDataPipe(data=[1, 2, 3, 4])]
+            ...     source_inputs=[SourceWrapper(data=[1, 2, 3, 4])]
             ... )
             >>> tuple(datapipe)
             ([1, 2], [3, 4])
@@ -433,8 +433,8 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             ... )
             >>> datapipe: IterDataPipe = creator.create(
             ...    source_inputs=[
-            ...         SourceWrapperIterDataPipe(data=[1, 2, 3, 4]),
-            ...         SourceWrapperIterDataPipe(data=[11, 12, 13, 14]),
+            ...         SourceWrapper(data=[1, 2, 3, 4]),
+            ...         SourceWrapper(data=[11, 12, 13, 14]),
             ...     ],
             ... )
             >>> tuple(datapipe)
