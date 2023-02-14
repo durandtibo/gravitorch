@@ -11,6 +11,7 @@ __all__ = [
     "recursive_apply",
     "recursive_contiguous",
     "recursive_detach",
+    "recursive_from_numpy",
     "recursive_transpose",
     "safeexp",
     "safelog",
@@ -47,5 +48,6 @@ from gravitorch.utils.tensor.recursive_ops import (
     recursive_apply,
     recursive_contiguous,
     recursive_detach,
+    recursive_from_numpy,
     recursive_transpose,
 )
