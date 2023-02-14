@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from typing import Any
 
+import numpy as np
 import torch
 from coola import objects_are_equal
 from pytest import mark
@@ -12,6 +13,7 @@ from gravitorch.utils.tensor import (
     recursive_apply,
     recursive_contiguous,
     recursive_detach,
+    recursive_from_numpy,
     recursive_transpose,
 )
 
@@ -390,3 +392,60 @@ def test_recursive_transpose_dict_nested():
 @mark.parametrize("obj", (1, 2.3, "abc"))
 def test_recursive_transpose_other_types(obj: Any):
     assert recursive_transpose(obj, 0, 1) == obj
+
+
+##########################################
+#     Tests for recursive_from_numpy     #
+##########################################
+
+
+def test_recursive_from_numpy_tensor():
+    assert recursive_from_numpy(torch.arange(5)).equal(torch.arange(5))
+
+
+def test_recursive_from_numpy_ndarray():
+    assert recursive_from_numpy(np.arange(5, dtype=np.int32)).equal(torch.arange(5))
+
+
+def test_recursive_from_numpy_list():
+    assert objects_are_equal(
+        recursive_from_numpy([np.ones((3, 2), dtype=np.float32), torch.zeros((2, 4, 1))]),
+        [torch.ones(3, 2), torch.zeros(2, 4, 1)],
+    )
+
+
+def test_recursive_from_numpy_tuple():
+    assert objects_are_equal(
+        recursive_from_numpy((np.ones((3, 2), dtype=np.float32), torch.zeros((2, 4, 1)))),
+        (torch.ones(3, 2), torch.zeros(2, 4, 1)),
+    )
+
+
+def test_recursive_from_numpy_set():
+    assert recursive_from_numpy({1, "abc", 2}) == {1, "abc", 2}
+
+
+@mark.parametrize(
+    "data,target",
+    (
+        (
+            {"array1": np.ones((3, 2), dtype=np.float32), "array2": np.zeros((2, 4, 1))},
+            {"array1": torch.ones(3, 2), "array2": torch.zeros(2, 4, 1, dtype=torch.float64)},
+        ),
+        (
+            OrderedDict(
+                {"array1": np.ones((3, 2), dtype=np.float32), "array2": np.zeros((2, 4, 1))}
+            ),
+            OrderedDict(
+                {"array1": torch.ones(3, 2), "array2": torch.zeros(2, 4, 1, dtype=torch.float64)}
+            ),
+        ),
+    ),
+)
+def test_recursive_from_numpy_dict(data: dict, target: dict):
+    assert objects_are_equal(recursive_from_numpy(data), target, show_difference=True)
+
+
+@mark.parametrize("obj", (1, 2.3, "abc"))
+def test_recursive_from_numpy_other_types(obj: Any):
+    assert recursive_from_numpy(obj) == obj

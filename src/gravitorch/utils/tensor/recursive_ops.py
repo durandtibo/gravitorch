@@ -13,6 +13,7 @@ __all__ = [
 from collections.abc import Callable
 from typing import Any, Optional, TypeVar
 
+import numpy as np
 import torch
 
 T = TypeVar("T")
@@ -265,3 +266,45 @@ def recursive_transpose(data: T, dim0: int, dim1: int) -> T:
         torch.Size([2, 3])
     """
     return recursive_apply(data, lambda tensor: tensor.transpose(dim0, dim1))
+
+
+def recursive_from_numpy(data: Any) -> Any:
+    r"""Comverts recursively all the ``numpy.ndarray``s to ``torch.Tensor``s.
+
+    The current implementation supports the following types:
+
+        - ``collections.OrderedDict``
+        - ``dict``
+        - ``list``
+        - ``numpy.ndarray``
+        - ``set``
+        - ``torch.Tensor``
+        - ``tuple``
+
+    Args:
+        data: Specifies the data to convert.
+
+    Returns:
+        The input data where all the ``numpy.ndarray``s are converted
+            to ``torch.Tensor``s.
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> import numpy as np
+        >>> from gravitorch.utils.tensor import recursive_from_numpy
+        >>> recursive_from_numpy(np.ones((3, 2)))
+        tensor([[1., 1.],
+                [1., 1.],
+                [1., 1.]], dtype=torch.float64)
+        >>> recursive_from_numpy({'key': np.ones((3, 2), dtype=np.float32)})
+        {'key': tensor([[1., 1.],
+                [1., 1.],
+                [1., 1.]])}
+    """
+    return recursive_apply(
+        data,
+        lambda tensor: tensor,
+        lambda value: torch.from_numpy(value) if isinstance(value, np.ndarray) else value,
+    )
