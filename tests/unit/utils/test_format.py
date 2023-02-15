@@ -7,8 +7,8 @@ from objectory import OBJECT_TARGET
 from pytest import mark, raises
 
 from gravitorch.utils.format import (
-    convert_human_readable_count,
-    convert_seconds_to_readable_format,
+    human_count,
+    human_time,
     str_indent,
     str_scalar,
     str_target_object,
@@ -21,9 +21,40 @@ from gravitorch.utils.format import (
     to_torch_sequence_str,
 )
 
+#################################
+#     Tests for human_count     #
+#################################
+
 
 @mark.parametrize(
-    "time_float,time_str",
+    "count,human",
+    [
+        (0, "0"),
+        (123, "123"),
+        (123.5, "123"),
+        (1234, "1.2 K"),
+        (2e6, "2.0 M"),
+        (3e9, "3.0 B"),
+        (4e14, "400 T"),
+        (5e15, "5,000 T"),
+    ],
+)
+def test_human_count(count: Union[int, float], human: str):
+    assert human_count(count) == human
+
+
+def test_human_count_incorrect_value():
+    with raises(ValueError):
+        human_count(-1)
+
+
+################################
+#     Tests for human_time     #
+################################
+
+
+@mark.parametrize(
+    "seconds,human",
     (
         (1, "0:00:01"),
         (61, "0:01:01"),
@@ -34,8 +65,8 @@ from gravitorch.utils.format import (
         (3600 * 48 + 3661, "2 days, 1:01:01"),
     ),
 )
-def test_convert_seconds_to_readable_format(time_float: Union[int, float], time_str: str):
-    assert convert_seconds_to_readable_format(time_float) == time_str
+def test_human_time(seconds: Union[int, float], human: str):
+    assert human_time(seconds) == human
 
 
 ################################
@@ -129,33 +160,6 @@ def test_str_target_object_with_target():
 
 def test_str_target_object_without_target():
     assert str_target_object({}) == "[_target_: N/A]"
-
-
-##################################################
-#     Tests for convert_human_readable_count     #
-##################################################
-
-
-@mark.parametrize(
-    "count,human",
-    [
-        (0, "0  "),
-        (123, "123  "),
-        (123.5, "123  "),
-        (1234, "1.2 K"),
-        (2e6, "2.0 M"),
-        (3e9, "3.0 B"),
-        (4e14, "400 T"),
-        (5e15, "5,000 T"),
-    ],
-)
-def test_convert_human_readable_count(count: Union[int, float], human: str):
-    assert convert_human_readable_count(count) == human
-
-
-def test_convert_human_readable_count_incorrect_value():
-    with raises(ValueError):
-        convert_human_readable_count(-1)
 
 
 ##################################

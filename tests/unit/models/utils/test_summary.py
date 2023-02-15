@@ -15,7 +15,7 @@ LINEAR_TABLE_STR = (
     "╒════╤═══════════════╤════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕\n"  # noqa: E501,B950
     "│    │ Name          │ Type   │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │\n"  # noqa: E501,B950
     "╞════╪═══════════════╪════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡\n"  # noqa: E501,B950
-    "│  0 │ [root module] │ Linear │     25   │           25   │ (1, 4)     │ torch.float32 │ (1, 5)      │ torch.float32 │\n"  # noqa: E501,B950
+    "│  0 │ [root module] │ Linear │       25 │             25 │ (1, 4)     │ torch.float32 │ (1, 5)      │ torch.float32 │\n"  # noqa: E501,B950
     "╘════╧═══════════════╧════════╧══════════╧════════════════╧════════════╧═══════════════╧═════════════╧═══════════════╛\n"  # noqa: E501,B950
     " - 25         Learnable params\n"
     " - 0          Non-learnable params\n"
@@ -62,15 +62,15 @@ MY_NETWORK_TABLE_TOP_STR = (
     "╒════╤═══════════════╤══════════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕\n"  # noqa: E501,B950
     "│    │ Name          │ Type         │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │\n"  # noqa: E501,B950
     "╞════╪═══════════════╪══════════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡\n"  # noqa: E501,B950
-    "│  0 │ [root module] │ MyNetwork    │    455   │          455   │ (1, 10)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
+    "│  0 │ [root module] │ MyNetwork    │      455 │            455 │ (1, 10)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
     "│    │               │              │          │                │ (1, 2)     │ torch.float32 │ (1, 8)      │ torch.float32 │\n"  # noqa: E501,B950
     "│    │               │              │          │                │ (1, 8)     │ torch.float32 │             │               │\n"  # noqa: E501,B950
     "├────┼───────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤\n"  # noqa: E501,B950
-    "│  1 │ fusion        │ ConcatFusion │      0   │            0   │ (1, 10)    │ torch.float32 │ (1, 20)     │ torch.float32 │\n"  # noqa: E501,B950
+    "│  1 │ fusion        │ ConcatFusion │        0 │              0 │ (1, 10)    │ torch.float32 │ (1, 20)     │ torch.float32 │\n"  # noqa: E501,B950
     "│    │               │              │          │                │ (1, 2)     │ torch.float32 │             │               │\n"  # noqa: E501,B950
     "│    │               │              │          │                │ (1, 8)     │ torch.float32 │             │               │\n"  # noqa: E501,B950
     "├────┼───────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤\n"  # noqa: E501,B950
-    "│  2 │ decoder       │ BetaMLP      │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
+    "│  2 │ decoder       │ BetaMLP      │      455 │            455 │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
     "╘════╧═══════════════╧══════════════╧══════════╧════════════════╧════════════╧═══════════════╧═════════════╧═══════════════╛\n"  # noqa: E501,B950
     " - 455        Learnable params\n"
     " - 0          Non-learnable params\n"
@@ -81,23 +81,23 @@ MY_NETWORK_TABLE_FULL_STR = (
     "╒════╤════════════════════════╤══════════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕\n"  # noqa: E501,B950
     "│    │ Name                   │ Type         │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │\n"  # noqa: E501,B950
     "╞════╪════════════════════════╪══════════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡\n"  # noqa: E501,B950
-    "│  0 │ [root module]          │ MyNetwork    │    455   │          455   │ (1, 10)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
+    "│  0 │ [root module]          │ MyNetwork    │      455 │            455 │ (1, 10)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
     "│    │                        │              │          │                │ (1, 2)     │ torch.float32 │ (1, 8)      │ torch.float32 │\n"  # noqa: E501,B950
     "│    │                        │              │          │                │ (1, 8)     │ torch.float32 │             │               │\n"  # noqa: E501,B950
     "├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤\n"  # noqa: E501,B950
-    "│  1 │ fusion                 │ ConcatFusion │      0   │            0   │ (1, 10)    │ torch.float32 │ (1, 20)     │ torch.float32 │\n"  # noqa: E501,B950
+    "│  1 │ fusion                 │ ConcatFusion │        0 │              0 │ (1, 10)    │ torch.float32 │ (1, 20)     │ torch.float32 │\n"  # noqa: E501,B950
     "│    │                        │              │          │                │ (1, 2)     │ torch.float32 │             │               │\n"  # noqa: E501,B950
     "│    │                        │              │          │                │ (1, 8)     │ torch.float32 │             │               │\n"  # noqa: E501,B950
     "├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤\n"  # noqa: E501,B950
-    "│  2 │ decoder                │ BetaMLP      │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
+    "│  2 │ decoder                │ BetaMLP      │      455 │            455 │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
     "├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤\n"  # noqa: E501,B950
-    "│  3 │ decoder.layers         │ Sequential   │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
+    "│  3 │ decoder.layers         │ Sequential   │      455 │            455 │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
     "├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤\n"  # noqa: E501,B950
-    "│  4 │ decoder.layers.linear1 │ Linear       │    336   │          336   │ (1, 20)    │ torch.float32 │ (1, 16)     │ torch.float32 │\n"  # noqa: E501,B950
+    "│  4 │ decoder.layers.linear1 │ Linear       │      336 │            336 │ (1, 20)    │ torch.float32 │ (1, 16)     │ torch.float32 │\n"  # noqa: E501,B950
     "├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤\n"  # noqa: E501,B950
-    "│  5 │ decoder.layers.relu1   │ ReLU         │      0   │            0   │ (1, 16)    │ torch.float32 │ (1, 16)     │ torch.float32 │\n"  # noqa: E501,B950
+    "│  5 │ decoder.layers.relu1   │ ReLU         │        0 │              0 │ (1, 16)    │ torch.float32 │ (1, 16)     │ torch.float32 │\n"  # noqa: E501,B950
     "├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤\n"  # noqa: E501,B950
-    "│  6 │ decoder.layers.linear2 │ Linear       │    119   │          119   │ (1, 16)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
+    "│  6 │ decoder.layers.linear2 │ Linear       │      119 │            119 │ (1, 16)    │ torch.float32 │ (1, 7)      │ torch.float32 │\n"  # noqa: E501,B950
     "╘════╧════════════════════════╧══════════════╧══════════╧════════════════╧════════════╧═══════════════╧═════════════╧═══════════════╛\n"  # noqa: E501,B950
     " - 455        Learnable params\n"
     " - 0          Non-learnable params\n"
@@ -148,7 +148,7 @@ def test_model_summary_linear_top():
         "╒════╤═══════════════╤════════╤══════════╤════════════════╕\n"  # noqa: E501,B950
         "│    │ Name          │ Type   │   Params │   Learn Params │\n"  # noqa: E501,B950
         "╞════╪═══════════════╪════════╪══════════╪════════════════╡\n"  # noqa: E501,B950
-        "│  0 │ [root module] │ Linear │     25   │           25   │\n"  # noqa: E501,B950
+        "│  0 │ [root module] │ Linear │       25 │             25 │\n"  # noqa: E501,B950
         "╘════╧═══════════════╧════════╧══════════╧════════════════╛\n"  # noqa: E501,B950
         " - 25         Learnable params\n"
         " - 0          Non-learnable params\n"
