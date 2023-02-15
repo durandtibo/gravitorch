@@ -24,7 +24,7 @@ from typing import TYPE_CHECKING, Any, TypeVar
 import torch
 
 from gravitorch.utils.exp_trackers.steps import EpochStep
-from gravitorch.utils.format import convert_seconds_to_readable_format
+from gravitorch.utils.format import human_time
 from gravitorch.utils.meters import ScalarMeter
 
 if TYPE_CHECKING:
@@ -97,11 +97,7 @@ def timeblock(message: str = "Total time: {time}") -> Generator[None, None, None
     try:
         yield
     finally:
-        logger.info(
-            message.format(
-                time=convert_seconds_to_readable_format(sync_perf_counter() - start_time)
-            )
-        )
+        logger.info(message.format(time=human_time(sync_perf_counter() - start_time)))
 
 
 class BatchLoadingTimer(Iterable[T]):
@@ -226,9 +222,7 @@ class BatchLoadingTimer(Iterable[T]):
         stats = self.get_stats()
         epoch_time_sec = stats[EPOCH_TIME_SEC]
         epoch_time_str = (
-            convert_seconds_to_readable_format(epoch_time_sec)
-            if epoch_time_sec > 10
-            else f"{epoch_time_sec:.3f} s"
+            human_time(epoch_time_sec) if epoch_time_sec > 10 else f"{epoch_time_sec:.3f} s"
         )
         logger.info(
             f"Epoch: {self._epoch:,} | batch: {stats[NUM_BATCHES]:,} | "

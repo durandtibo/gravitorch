@@ -1,8 +1,8 @@
 r"""This module defines some utility functions to format some objects."""
 
 __all__ = [
-    "convert_human_readable_count",
-    "convert_seconds_to_readable_format",
+    "human_count",
+    "human_time",
     "str_indent",
     "str_scalar",
     "str_target_object",
@@ -37,7 +37,54 @@ BYTE_UNITS = {
 T = TypeVar("T")
 
 
-def convert_seconds_to_readable_format(seconds: Union[int, float]) -> str:
+def human_count(number: Union[int, float]) -> str:
+    r"""Converts an integer number with K, M, B, T for thousands, millions,
+    billions and trillions, respectively.
+
+    Args:
+        number (int or float): A positive integer number. If the
+            number is a float, it will be converted to an integer.
+
+    Returns:
+        str: A string formatted according to the pattern described
+            above.
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch.utils.format import human_count
+        >>> human_count(123)
+        '123  '
+        >>> human_count(1234)  # (one thousand)
+        '1.2 K'
+        >>> human_count(2e6)   # (two million)
+        '2.0 M'
+        >>> human_count(3e9)   # (three billion)
+        '3.0 B'
+        >>> human_count(4e14)  # (four hundred trillion)
+        '400 T'
+        >>> human_count(5e15)  # (more than trillion)
+        '5,000 T'
+    """
+    if number < 0:
+        raise ValueError(f"The number should be a positive number (received {number})")
+    if number < 1000:
+        return str(int(number))
+    labels = PARAMETER_NUM_UNITS
+    num_digits = int(math.floor(math.log10(number)) + 1 if number > 0 else 1)
+    num_groups = min(
+        int(math.ceil(num_digits / 3)), len(labels)
+    )  # don't abbreviate beyond trillions
+    shift = -3 * (num_groups - 1)
+    number = number * (10**shift)
+    index = num_groups - 1
+    if index < 1 or number >= 100:
+        return f"{int(number):,d} {labels[index]}"
+    return f"{number:,.1f} {labels[index]}"
+
+
+def human_time(seconds: Union[int, float]) -> str:
     r"""Converts a number of seconds in an easier format to read hh:mm:ss.
 
     If the number of seconds is bigger than 1 day, this representation
@@ -53,12 +100,12 @@ def convert_seconds_to_readable_format(seconds: Union[int, float]) -> str:
 
     .. code-block:: python
 
-        >>> from gravitorch.utils.format import convert_seconds_to_readable_format
-        >>> convert_seconds_to_readable_format(1.2)
+        >>> from gravitorch.utils.format import human_time
+        >>> human_time(1.2)
         '0:00:01.200000'
-        >>> convert_seconds_to_readable_format(61.2)
+        >>> human_time(61.2)
         '0:01:01.200000'
-        >>> convert_seconds_to_readable_format(3661.2)
+        >>> human_time(3661.2)
         '1:01:01.200000'
     """
     return str(datetime.timedelta(seconds=seconds))
@@ -155,51 +202,6 @@ def str_target_object(config: dict) -> str:
         [_target_: N/A]
     """
     return f"[{OBJECT_TARGET}: {config.get(OBJECT_TARGET, 'N/A')}]"
-
-
-def convert_human_readable_count(number: Union[int, float]) -> str:
-    r"""Converts an integer number with K, M, B, T for thousands, millions,
-    billions and trillions, respectively.
-
-    Args:
-        number (int or float): A positive integer number. If the
-            number is a float, it will be converted to an integer.
-
-    Returns:
-        str: A string formatted according to the pattern described
-            above.
-
-    Example usage:
-
-    .. code-block:: python
-
-        >>> from gravitorch.utils.format import convert_human_readable_count
-        >>> convert_human_readable_count(123)
-        '123  '
-        >>> convert_human_readable_count(1234)  # (one thousand)
-        '1.2 K'
-        >>> convert_human_readable_count(2e6)   # (two million)
-        '2.0 M'
-        >>> convert_human_readable_count(3e9)   # (three billion)
-        '3.0 B'
-        >>> convert_human_readable_count(4e14)  # (four hundred trillion)
-        '400 T'
-        >>> convert_human_readable_count(5e15)  # (more than trillion)
-        '5,000 T'
-    """
-    if number < 0:
-        raise ValueError(f"The number should be a positive number (received {number})")
-    labels = PARAMETER_NUM_UNITS
-    num_digits = int(math.floor(math.log10(number)) + 1 if number > 0 else 1)
-    num_groups = min(
-        int(math.ceil(num_digits / 3)), len(labels)
-    )  # don't abbreviate beyond trillions
-    shift = -3 * (num_groups - 1)
-    number = number * (10**shift)
-    index = num_groups - 1
-    if index < 1 or number >= 100:
-        return f"{int(number):,d} {labels[index]}"
-    return f"{number:,.1f} {labels[index]}"
 
 
 def to_flat_dict(

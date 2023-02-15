@@ -17,7 +17,7 @@ from gravitorch.nn.utils.summary import (
     multiline_format_dtype,
     multiline_format_size,
 )
-from gravitorch.utils.format import convert_human_readable_count
+from gravitorch.utils.format import human_count
 
 
 class ModelSummary:
@@ -190,8 +190,8 @@ class ModelSummary:
         tab = {
             "Name": self.layer_names,
             "Type": self.layer_types,
-            "Params": list(map(convert_human_readable_count, self.param_nums)),
-            "Learn Params": list(map(convert_human_readable_count, self.learn_param_nums)),
+            "Params": list(map(human_count, self.param_nums)),
+            "Learn Params": list(map(human_count, self.learn_param_nums)),
         }
 
         if hasattr(self._model, "get_dummy_input"):
@@ -209,14 +209,9 @@ class ModelSummary:
         total_parameters = sum(p.numel() for p in self._model.parameters())
         non_learnable_parameters = total_parameters - learnable_parameters
 
-        summary += (
-            f"\n - {convert_human_readable_count(learnable_parameters):<{10}} Learnable params\n"
-        )
-        summary += (
-            f" - {convert_human_readable_count(non_learnable_parameters):<{10}} "
-            f"Non-learnable params\n"
-        )
-        summary += f" - {convert_human_readable_count(total_parameters):<{10}} Total params\n"
+        summary += f"\n - {human_count(learnable_parameters):<{10}} Learnable params\n"
+        summary += f" - {human_count(non_learnable_parameters):<{10}} " f"Non-learnable params\n"
+        summary += f" - {human_count(total_parameters):<{10}} Total params\n"
         return summary
 
 
