@@ -13,7 +13,7 @@ from gravitorch.creators.datapipe import (
 from gravitorch.data.datacreators import BaseDataCreator, setup_data_creator
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.asset_manager import AssetManager
+from gravitorch.utils.asset import AssetManager
 from gravitorch.utils.format import str_indent, to_torch_mapping_str
 from gravitorch.utils.summary import concise_summary
 

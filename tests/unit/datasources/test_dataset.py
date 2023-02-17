@@ -11,7 +11,7 @@ from gravitorch.creators.dataloader import AutoDataLoaderCreator, BaseDataLoader
 from gravitorch.data.datasets import InMemoryDataset
 from gravitorch.datasources import DatasetDataSource, LoaderNotFoundError
 from gravitorch.engines import BaseEngine
-from gravitorch.utils.asset_manager import AssetNotFoundError
+from gravitorch.utils.asset import AssetNotFoundError
 
 #######################################
 #     Tests for DatasetDataSource     #

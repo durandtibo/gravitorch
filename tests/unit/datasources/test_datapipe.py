@@ -16,7 +16,7 @@ from gravitorch.datasources import (
     LoaderNotFoundError,
 )
 from gravitorch.engines import BaseEngine
-from gravitorch.utils.asset_manager import AssetNotFoundError
+from gravitorch.utils.asset import AssetNotFoundError
 
 ###################################################
 #     Tests for IterDataPipeCreatorDataSource     #

@@ -11,7 +11,7 @@ from gravitorch.creators.dataloader.utils import setup_data_loader_creator
 from gravitorch.data.datasets import setup_dataset
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.asset_manager import AssetManager
+from gravitorch.utils.asset import AssetManager
 from gravitorch.utils.format import str_indent, to_torch_mapping_str
 
 logger = logging.getLogger(__name__)
