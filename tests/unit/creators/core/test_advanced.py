@@ -15,7 +15,7 @@ from gravitorch.creators.datasource import (
 from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
 from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
 from gravitorch.creators.optimizer import VanillaOptimizerCreator
-from tests.unit.engines.util import FakeDataSource
+from gravitorch.testing import DummyDataSource
 
 #########################################
 #     Tests for AdvancedCoreCreator     #
@@ -24,9 +24,7 @@ from tests.unit.engines.util import FakeDataSource
 
 @fixture
 def data_source_creator() -> BaseDataSourceCreator:
-    return VanillaDataSourceCreator(
-        config={OBJECT_TARGET: "tests.unit.engines.util.FakeDataSource"}
-    )
+    return VanillaDataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
 
 
 @fixture
@@ -53,7 +51,7 @@ def test_advanced_core_creator_create_no_optimizer_creator(
         data_source_creator=data_source_creator, model_creator=model_creator
     )
     data_source, model, optimizer, lr_scheduler = creator.create(engine=engine)
-    assert isinstance(data_source, FakeDataSource)
+    assert isinstance(data_source, DummyDataSource)
     assert isinstance(model, nn.Module)
     assert optimizer is None
     assert lr_scheduler is None
@@ -75,7 +73,7 @@ def test_advanced_core_creator_create_optimizer_creator(
         ),
     )
     data_source, model, optimizer, lr_scheduler = creator.create(engine=engine)
-    assert isinstance(data_source, FakeDataSource)
+    assert isinstance(data_source, DummyDataSource)
     assert isinstance(model, nn.Module)
     assert isinstance(optimizer, SGD)
     assert lr_scheduler is None
@@ -101,7 +99,7 @@ def test_advanced_core_creator_create_lr_scheduler_creator(
         ),
     )
     data_source, model, optimizer, lr_scheduler = creator.create(engine=engine)
-    assert isinstance(data_source, FakeDataSource)
+    assert isinstance(data_source, DummyDataSource)
     assert isinstance(model, nn.Module)
     assert isinstance(optimizer, SGD)
     assert isinstance(lr_scheduler, StepLR)

@@ -8,18 +8,18 @@ from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
 from gravitorch.loops.training import AccelerateTrainingLoop
+from gravitorch.testing import (
+    DummyClassificationModel,
+    DummyDataSource,
+    DummyIterableDataset,
+    create_dummy_engine,
+)
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.integrations import is_accelerate_available
 from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
 from tests.testing import accelerate_available
-from tests.unit.engines.util import (
-    FakeDataSource,
-    FakeIterableDataset,
-    FakeModelWithNaN,
-    create_engine,
-)
 
 if is_accelerate_available():
     from accelerate import Accelerator
@@ -171,7 +171,7 @@ def test_accelerate_training_loop_profiler_tensorboard():
 
 @accelerate_available
 def test_accelerate_training_loop_train():
-    engine = create_engine()
+    engine = create_dummy_engine()
     AccelerateTrainingLoop().train(engine)
     assert engine.model.training
     assert engine.epoch == -1
@@ -184,7 +184,7 @@ def test_accelerate_training_loop_train():
 
 @accelerate_available
 def test_accelerate_training_loop_train_loss_nan():
-    engine = create_engine(model=FakeModelWithNaN())
+    engine = create_dummy_engine(model=DummyClassificationModel(loss_nan=True))
     AccelerateTrainingLoop().train(engine)
     assert engine.epoch == -1
     assert engine.iteration == 3
@@ -196,7 +196,7 @@ def test_accelerate_training_loop_train_loss_nan():
 
 @accelerate_available
 def test_accelerate_training_loop_train_with_loss_history():
-    engine = create_engine()
+    engine = create_dummy_engine()
     engine.add_history(MinScalarHistory(f"train/{ct.LOSS}"))
     engine.log_metric(f"train/{ct.LOSS}", 1, EpochStep(-1))
     AccelerateTrainingLoop().train(engine)
@@ -208,7 +208,7 @@ def test_accelerate_training_loop_train_with_loss_history():
 
 @accelerate_available
 def test_accelerate_training_loop_train_set_grad_to_none_true():
-    engine = create_engine()
+    engine = create_dummy_engine()
     AccelerateTrainingLoop(set_grad_to_none=True).train(engine)
     assert engine.epoch == -1
     assert engine.iteration == 3
@@ -219,7 +219,7 @@ def test_accelerate_training_loop_train_set_grad_to_none_true():
 
 @accelerate_available
 def test_accelerate_training_loop_train_with_clip_grad_value():
-    engine = create_engine()
+    engine = create_dummy_engine()
     AccelerateTrainingLoop(clip_grad={"name": "clip_grad_value", "clip_value": 0.25}).train(engine)
     assert engine.epoch == -1
     assert engine.iteration == 3
@@ -228,7 +228,7 @@ def test_accelerate_training_loop_train_with_clip_grad_value():
 
 @accelerate_available
 def test_accelerate_training_loop_train_with_clip_grad_norm():
-    engine = create_engine()
+    engine = create_dummy_engine()
     AccelerateTrainingLoop(
         clip_grad={"name": "clip_grad_norm", "max_norm": 1, "norm_type": 2}
     ).train(engine)
@@ -241,7 +241,7 @@ def test_accelerate_training_loop_train_with_clip_grad_norm():
 #  empty data loader
 # @accelerate_available
 # def test_accelerate_training_loop_train_empty_map_dataset():
-#     engine = create_engine(data_source=FakeDataSource(train_dataset=EmptyFakeMapDataset()))
+#     engine = create_dummy_engine(data_source=FakeDataSource(train_dataset=EmptyFakeMapDataset()))
 #     AccelerateTrainingLoop().train(engine)
 #     assert engine.epoch == -1
 #     assert engine.iteration == -1
@@ -252,8 +252,8 @@ def test_accelerate_training_loop_train_with_clip_grad_norm():
 
 @accelerate_available
 def test_accelerate_training_loop_train_iterable_dataset():
-    engine = create_engine(
-        data_source=FakeDataSource(train_dataset=FakeIterableDataset(), batch_size=1)
+    engine = create_dummy_engine(
+        data_source=DummyDataSource(train_dataset=DummyIterableDataset(), batch_size=1)
     )
     AccelerateTrainingLoop().train(engine)
     assert engine.epoch == -1
@@ -265,7 +265,7 @@ def test_accelerate_training_loop_train_iterable_dataset():
 #  empty data loader
 # @accelerate_available
 # def test_accelerate_training_loop_train_empty_iterable_dataset():
-#     engine = create_engine(
+#     engine = create_dummy_engine(
 #         data_source=FakeDataSource(train_dataset=EmptyFakeIterableDataset(), batch_size=None)
 #     )
 #     AccelerateTrainingLoop().train(engine)
@@ -279,7 +279,7 @@ def test_accelerate_training_loop_train_iterable_dataset():
 @accelerate_available
 @mark.parametrize("event", (EngineEvents.TRAIN_EPOCH_STARTED, EngineEvents.TRAIN_EPOCH_COMPLETED))
 def test_accelerate_training_loop_fire_event_train_epoch_events(event: str):
-    engine = create_engine()
+    engine = create_dummy_engine()
     engine.add_event_handler(
         event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
@@ -300,7 +300,7 @@ def test_accelerate_training_loop_fire_event_train_epoch_events(event: str):
     ),
 )
 def test_accelerate_training_loop_train_fire_event_train_iteration_events(event: str):
-    engine = create_engine()
+    engine = create_dummy_engine()
     engine.add_event_handler(
         event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
@@ -312,7 +312,7 @@ def test_accelerate_training_loop_train_fire_event_train_iteration_events(event:
 
 @accelerate_available
 def test_accelerate_training_loop_train_with_observer():
-    engine = create_engine()
+    engine = create_dummy_engine()
     observer = MagicMock()
     AccelerateTrainingLoop(observer=observer).train(engine)
     observer.start.assert_called_once_with(engine)
@@ -323,7 +323,7 @@ def test_accelerate_training_loop_train_with_observer():
 @accelerate_available
 def test_accelerate_training_loop_train_with_profiler():
     profiler = MagicMock()
-    AccelerateTrainingLoop(profiler=profiler).train(engine=create_engine())
+    AccelerateTrainingLoop(profiler=profiler).train(engine=create_dummy_engine())
     assert profiler.__enter__().step.call_count == 4
 
 

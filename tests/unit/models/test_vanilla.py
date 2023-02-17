@@ -14,9 +14,9 @@ from gravitorch.models.criterions import VanillaLoss
 from gravitorch.models.metrics import CategoricalAccuracy, VanillaMetric
 from gravitorch.models.networks import BetaMLP
 from gravitorch.models.vanilla import VanillaModel
+from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.events import VanillaEventHandler
-from tests.unit.engines.util import create_engine
 
 SIZES = (1, 2)
 
@@ -249,7 +249,7 @@ def test_attach_without_metric():
 
 
 def test_attach_with_metric():
-    engine = create_engine()
+    engine = create_dummy_engine()
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
         criterion=VanillaLoss(criterion=nn.CrossEntropyLoss()),

@@ -13,18 +13,18 @@ from gravitorch.loops.evaluation.conditions import (
     LastEpochEvalCondition,
 )
 from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
+from gravitorch.testing import (
+    DummyClassificationModel,
+    DummyDataSource,
+    DummyIterableDataset,
+    create_dummy_engine,
+)
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.integrations import is_accelerate_available
 from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
 from tests.testing import accelerate_available
-from tests.unit.engines.util import (
-    FakeDataSource,
-    FakeIterableDataset,
-    FakeModelWithNaN,
-    create_engine,
-)
 
 if is_accelerate_available():
     from accelerate import Accelerator
@@ -131,7 +131,7 @@ def test_accelerate_evaluation_loop_profiler_tensorboard():
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval():
-    engine = create_engine()
+    engine = create_dummy_engine()
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)
     assert not engine.model.training
@@ -145,7 +145,7 @@ def test_accelerate_evaluation_loop_eval():
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_loss_nan():
-    engine = create_engine(model=FakeModelWithNaN())
+    engine = create_dummy_engine(model=DummyClassificationModel(loss_nan=True))
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)
     assert engine.epoch == -1
@@ -158,7 +158,7 @@ def test_accelerate_evaluation_loop_eval_loss_nan():
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_with_loss_history():
-    engine = create_engine()
+    engine = create_dummy_engine()
     engine.add_history(MinScalarHistory(f"eval/{ct.LOSS}"))
     engine.log_metric(f"eval/{ct.LOSS}", 1, EpochStep(-1))
     evaluation_loop = AccelerateEvaluationLoop()
@@ -171,7 +171,7 @@ def test_accelerate_evaluation_loop_eval_with_loss_history():
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_no_dataset():
-    engine = create_engine(data_source=Mock(has_data_loader=Mock(return_value=False)))
+    engine = create_dummy_engine(data_source=Mock(has_data_loader=Mock(return_value=False)))
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)
     assert engine.epoch == -1
@@ -186,7 +186,7 @@ def test_accelerate_evaluation_loop_eval_no_dataset():
 #  empty data loader
 # @accelerate_available
 # def test_accelerate_evaluation_loop_eval_empty_map_dataset():
-#     engine = create_engine(data_source=FakeDataSource(eval_dataset=EmptyFakeMapDataset()))
+#     engine = create_dummy_engine(data_source=FakeDataSource(eval_dataset=EmptyFakeMapDataset()))
 #     evaluation_loop = AccelerateEvaluationLoop(accelerator={'dispatch_batches': False})
 #     evaluation_loop.eval(engine)
 #     assert engine.epoch == -1
@@ -198,8 +198,8 @@ def test_accelerate_evaluation_loop_eval_no_dataset():
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_iterable_dataset():
-    engine = create_engine(
-        data_source=FakeDataSource(eval_dataset=FakeIterableDataset(), batch_size=1)
+    engine = create_dummy_engine(
+        data_source=DummyDataSource(eval_dataset=DummyIterableDataset(), batch_size=1)
     )
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)
@@ -211,7 +211,7 @@ def test_accelerate_evaluation_loop_eval_iterable_dataset():
 # TODO: Comment this test because the current version of accelerate does not support empty data loader
 # @accelerate_available
 # def test_accelerate_evaluation_loop_eval_empty_iterable_dataset():
-#     engine = create_engine(
+#     engine = create_dummy_engine(
 #         data_source=FakeDataSource(eval_dataset=EmptyFakeIterableDataset(), batch_size=None)
 #     )
 #     evaluation_loop = AccelerateEvaluationLoop(accelerator={"dispatch_batches": False})
@@ -225,7 +225,7 @@ def test_accelerate_evaluation_loop_eval_iterable_dataset():
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_skip_evaluation():
-    engine = create_engine()
+    engine = create_dummy_engine()
     evaluation_loop = AccelerateEvaluationLoop(condition=Mock(return_value=False))
     evaluation_loop.eval(engine)
     with raises(EmptyHistoryError):
@@ -237,7 +237,7 @@ def test_accelerate_evaluation_loop_eval_skip_evaluation():
 @accelerate_available
 @mark.parametrize("event", (EngineEvents.EVAL_EPOCH_STARTED, EngineEvents.EVAL_EPOCH_COMPLETED))
 def test_accelerate_evaluation_loop_fire_event_eval_epoch_events(event):
-    engine = create_engine()
+    engine = create_dummy_engine()
     engine.add_event_handler(
         event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
@@ -252,7 +252,7 @@ def test_accelerate_evaluation_loop_fire_event_eval_epoch_events(event):
     "event", (EngineEvents.EVAL_ITERATION_STARTED, EngineEvents.EVAL_ITERATION_COMPLETED)
 )
 def test_accelerate_evaluation_loop_fire_event_eval_iteration_events(event):
-    engine = create_engine()
+    engine = create_dummy_engine()
     engine.add_event_handler(
         event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
@@ -264,7 +264,7 @@ def test_accelerate_evaluation_loop_fire_event_eval_iteration_events(event):
 
 @accelerate_available
 def test_accelerate_evaluation_loop_grad_enabled_false():
-    engine = create_engine()
+    engine = create_dummy_engine()
     loop = AccelerateEvaluationLoop(grad_enabled=False)
     batch = {
         ct.TARGET: torch.tensor([1, 2]),
@@ -276,7 +276,7 @@ def test_accelerate_evaluation_loop_grad_enabled_false():
 
 @accelerate_available
 def test_accelerate_evaluation_loop_grad_enabled_true():
-    engine = create_engine()
+    engine = create_dummy_engine()
     loop = AccelerateEvaluationLoop(grad_enabled=True)
     batch = {
         ct.TARGET: torch.tensor([1, 2]),
@@ -290,7 +290,7 @@ def test_accelerate_evaluation_loop_grad_enabled_true():
 
 @accelerate_available
 def test_accelerate_evaluation_loop_train_with_observer():
-    engine = create_engine()
+    engine = create_dummy_engine()
     observer = MagicMock()
     AccelerateEvaluationLoop(observer=observer).eval(engine)
     observer.start.assert_called_once_with(engine)
@@ -302,7 +302,7 @@ def test_accelerate_evaluation_loop_train_with_observer():
 def test_accelerate_evaluation_loop_eval_with_profiler():
     profiler = MagicMock()
     training_loop = AccelerateEvaluationLoop(profiler=profiler)
-    training_loop.eval(engine=create_engine())
+    training_loop.eval(engine=create_dummy_engine())
     assert profiler.__enter__().step.call_count == 4
 
 

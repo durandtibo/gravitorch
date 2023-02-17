@@ -11,12 +11,12 @@ from gravitorch.creators.core import BaseCoreCreator
 from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
 from gravitorch.loops.evaluation import VanillaEvaluationLoop
 from gravitorch.loops.training import VanillaTrainingLoop
+from gravitorch.testing import DummyDataSource
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import VanillaEngineState
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import BaseExpTracker, EpochStep, NoOpExpTracker
 from gravitorch.utils.history import GenericHistory, MinScalarHistory
-from tests.unit.engines.util import FakeDataSource
 
 #################################
 #     Tests for AlphaEngine     #
@@ -28,7 +28,7 @@ def core_creator() -> BaseCoreCreator:
     creator = Mock(spec=BaseCoreCreator)
     model = nn.Linear(4, 6)
     creator.create.return_value = (
-        FakeDataSource(),
+        DummyDataSource(),
         model,
         SGD(params=model.parameters(), lr=0.01),
         None,
@@ -50,7 +50,7 @@ def test_alpha_engine_core_creator_dict():
             OBJECT_TARGET: "gravitorch.creators.core.AdvancedCoreCreator",
             "data_source_creator": {
                 OBJECT_TARGET: "gravitorch.creators.datasource.VanillaDataSourceCreator",
-                "config": {OBJECT_TARGET: "tests.unit.engines.util.FakeDataSource"},
+                "config": {OBJECT_TARGET: "gravitorch.testing.DummyDataSource"},
             },
             "model_creator": {
                 OBJECT_TARGET: "gravitorch.creators.model.VanillaModelCreator",
@@ -62,12 +62,12 @@ def test_alpha_engine_core_creator_dict():
             },
         }
     )
-    assert isinstance(engine.data_source, FakeDataSource)
+    assert isinstance(engine.data_source, DummyDataSource)
     assert isinstance(engine.model, nn.Linear)
 
 
 def test_alpha_engine_data_source(core_creator: BaseCoreCreator):
-    assert isinstance(AlphaEngine(core_creator).data_source, FakeDataSource)
+    assert isinstance(AlphaEngine(core_creator).data_source, DummyDataSource)
 
 
 def test_alpha_engine_epoch(core_creator: BaseCoreCreator):
