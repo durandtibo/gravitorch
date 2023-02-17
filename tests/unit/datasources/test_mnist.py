@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 from gravitorch import constants as ct
 from gravitorch.creators.dataloader import VanillaDataLoaderCreator
 from gravitorch.datasources.mnist import MnistDataSource
-from gravitorch.utils.asset_manager import AssetNotFoundError
+from gravitorch.utils.asset import AssetNotFoundError
 from gravitorch.utils.io import save_pytorch
 from tests.testing import torchvision_available
 
