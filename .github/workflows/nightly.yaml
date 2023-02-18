@@ -119,8 +119,7 @@ jobs:
 
       - name: Install package
         run: |
-          pip install gravitorch
-          pip install colorlog
+          pip install "gravitorch[all]"
 
       - name: Run short experiment
         run: |
