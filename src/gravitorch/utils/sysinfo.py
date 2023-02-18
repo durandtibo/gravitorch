@@ -9,7 +9,7 @@ import logging
 
 import psutil
 
-from gravitorch.utils.format import to_human_readable_byte_size
+from gravitorch.utils.format import human_byte_size
 
 logger = logging.getLogger(__name__)
 
@@ -67,12 +67,12 @@ def swap_memory_human_summary() -> str:
     """
     swap = psutil.swap_memory()
     return (
-        f"swap memory - total: {to_human_readable_byte_size(swap.total)} | "
-        f"used: {to_human_readable_byte_size(swap.used)} | "
-        f"free: {to_human_readable_byte_size(swap.free)} | "
+        f"swap memory - total: {human_byte_size(swap.total)} | "
+        f"used: {human_byte_size(swap.used)} | "
+        f"free: {human_byte_size(swap.free)} | "
         f"percent: {swap.percent} % | "
-        f"sin: {to_human_readable_byte_size(swap.sin)} | "
-        f"sout: {to_human_readable_byte_size(swap.sout)}"
+        f"sin: {human_byte_size(swap.sin)} | "
+        f"sout: {human_byte_size(swap.sout)}"
     )
 
 
@@ -92,9 +92,9 @@ def virtual_memory_human_summary() -> str:
     """
     vm = psutil.virtual_memory()
     return (
-        f"virtual memory - total: {to_human_readable_byte_size(vm.total)} | "
-        f"available: {to_human_readable_byte_size(vm.available)} | "
+        f"virtual memory - total: {human_byte_size(vm.total)} | "
+        f"available: {human_byte_size(vm.available)} | "
         f"percent: {vm.percent} % | "
-        f"used: {to_human_readable_byte_size(vm.used)} | "
-        f"free: {to_human_readable_byte_size(vm.free)}"
+        f"used: {human_byte_size(vm.used)} | "
+        f"free: {human_byte_size(vm.free)}"
     )

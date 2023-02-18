@@ -1,13 +1,13 @@
 r"""This module defines some utility functions to format some objects."""
 
 __all__ = [
+    "human_byte_size",
     "human_count",
     "human_time",
     "str_indent",
     "str_scalar",
     "str_target_object",
     "to_flat_dict",
-    "to_human_readable_byte_size",
     "to_pretty_dict_str",
     "to_pretty_json_str",
     "to_pretty_yaml_str",
@@ -35,6 +35,48 @@ BYTE_UNITS = {
 }
 
 T = TypeVar("T")
+
+
+def human_byte_size(size: int, unit: Optional[str] = None) -> str:
+    r"""Gets a human-readable representation of the byte size.
+
+    Args:
+        size (int): Specifies the size in bytes.
+        unit (str, optional): Specifies the unit. If ``None``, the
+            best unit is found automatically. The supported units
+            are: ``'B'``, ``'KB'``, ``'MB'``, ``'GB'``, ``'TB'``.
+            Default: ``None``
+
+    Returns:
+        str: The byte size in a human-readable format.
+
+    Example usage:
+
+    .. code-block:: python
+
+        >>> from gravitorch.utils.format import human_byte_size
+        >>> human_byte_size(2)
+        2.00 B
+        >>> human_byte_size(2048)
+        2.00 KB
+        >>> human_byte_size(2097152)
+        2.00 MB
+        >>> human_byte_size(2048, unit='B')
+        2,048.00 B
+    """
+    if unit is None:  # Find the best unit.
+        best_unit = "B"
+        for unit, multiplier in BYTE_UNITS.items():
+            if (size / multiplier) > 1:
+                best_unit = unit
+        unit = best_unit
+
+    if unit not in BYTE_UNITS:
+        raise ValueError(
+            f"Incorrect unit {unit}. The available units are {list(BYTE_UNITS.keys())}"
+        )
+
+    return f"{size / BYTE_UNITS.get(unit, 1):,.2f} {unit}"
 
 
 def human_count(number: Union[int, float]) -> str:
@@ -470,45 +512,3 @@ def to_torch_sequence_str(sequence: Sequence, num_spaces: int = 2) -> str:
     for i, item in enumerate(sequence):
         lines.append(f"({i}) {str_indent(item, num_spaces=num_spaces)}")
     return "\n".join(lines)
-
-
-def to_human_readable_byte_size(size: int, unit: Optional[str] = None) -> str:
-    r"""Gets a human-readable representation of the byte size.
-
-    Args:
-        size (int): Specifies the size in bytes.
-        unit (str, optional): Specifies the unit. If ``None``, the
-            best unit is found automatically. The supported units
-            are: ``'B'``, ``'KB'``, ``'MB'``, ``'GB'``, ``'TB'``.
-            Default: ``None``
-
-    Returns:
-        str: The byte size in a human-readable format.
-
-    Example usage:
-
-    .. code-block:: python
-
-        >>> from gravitorch.utils.format import to_human_readable_byte_size
-        >>> to_human_readable_byte_size(2)
-        2.00 B
-        >>> to_human_readable_byte_size(2048)
-        2.00 KB
-        >>> to_human_readable_byte_size(2097152)
-        2.00 MB
-        >>> to_human_readable_byte_size(2048, unit='B')
-        2,048.00 B
-    """
-    if unit is None:  # Find the best unit.
-        best_unit = "B"
-        for unit, multiplier in BYTE_UNITS.items():
-            if (size / multiplier) > 1:
-                best_unit = unit
-        unit = best_unit
-
-    if unit not in BYTE_UNITS:
-        raise ValueError(
-            f"Incorrect unit {unit}. The available units are {list(BYTE_UNITS.keys())}"
-        )
-
-    return f"{size / BYTE_UNITS.get(unit, 1):,.2f} {unit}"

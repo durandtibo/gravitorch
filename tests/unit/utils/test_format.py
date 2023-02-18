@@ -7,19 +7,63 @@ from objectory import OBJECT_TARGET
 from pytest import mark, raises
 
 from gravitorch.utils.format import (
+    human_byte_size,
     human_count,
     human_time,
     str_indent,
     str_scalar,
     str_target_object,
     to_flat_dict,
-    to_human_readable_byte_size,
     to_pretty_dict_str,
     to_pretty_json_str,
     to_pretty_yaml_str,
     to_torch_mapping_str,
     to_torch_sequence_str,
 )
+
+#####################################
+#     Tests for human_byte_size     #
+#####################################
+
+
+@mark.parametrize("size,output", ((2, "2.00 B"), (2048, "2,048.00 B"), (2097152, "2,097,152.00 B")))
+def test_human_byte_size_b(size: int, output: str):
+    assert human_byte_size(size, "B") == output
+
+
+@mark.parametrize(
+    "size,output",
+    [(2048, "2.00 KB"), (2097152, "2,048.00 KB"), (2147483648, "2,097,152.00 KB")],
+)
+def test_human_byte_size_kb(size: int, output: str):
+    assert human_byte_size(size, "KB") == output
+
+
+@mark.parametrize(
+    "size,output",
+    [(2048, "0.00 MB"), (2097152, "2.00 MB"), (2147483648, "2,048.00 MB")],
+)
+def test_human_byte_size_mb(size: int, output: str):
+    assert human_byte_size(size, "MB") == output
+
+
+@mark.parametrize("size,output", [(2048, "0.00 GB"), (2097152, "0.00 GB"), (2147483648, "2.00 GB")])
+def test_human_byte_size_gb(size: int, output: str):
+    assert human_byte_size(size, "GB") == output
+
+
+@mark.parametrize(
+    "size,output",
+    [(2, "2.00 B"), (1023, "1,023.00 B"), (2048, "2.00 KB"), (2097152, "2.00 MB")],
+)
+def test_human_byte_size_auto(size: int, output: str):
+    assert human_byte_size(size) == output
+
+
+def test_human_byte_size_incorrect_unit():
+    with raises(ValueError):
+        assert human_byte_size(1, "")
+
 
 #################################
 #     Tests for human_count     #
@@ -567,47 +611,3 @@ def test_to_torch_sequence_str_2_items():
 
 def test_to_torch_sequence_str_2_items_multiple_line():
     assert to_torch_sequence_str(["abc", "something\nelse"]) == "(0) abc\n(1) something\n  else"
-
-
-#################################################
-#     Tests for to_human_readable_byte_size     #
-#################################################
-
-
-@mark.parametrize("size,output", ((2, "2.00 B"), (2048, "2,048.00 B"), (2097152, "2,097,152.00 B")))
-def test_to_human_readable_byte_size_b(size: int, output: str):
-    assert to_human_readable_byte_size(size, "B") == output
-
-
-@mark.parametrize(
-    "size,output",
-    [(2048, "2.00 KB"), (2097152, "2,048.00 KB"), (2147483648, "2,097,152.00 KB")],
-)
-def test_to_human_readable_byte_size_kb(size: int, output: str):
-    assert to_human_readable_byte_size(size, "KB") == output
-
-
-@mark.parametrize(
-    "size,output",
-    [(2048, "0.00 MB"), (2097152, "2.00 MB"), (2147483648, "2,048.00 MB")],
-)
-def test_to_human_readable_byte_size_mb(size: int, output: str):
-    assert to_human_readable_byte_size(size, "MB") == output
-
-
-@mark.parametrize("size,output", [(2048, "0.00 GB"), (2097152, "0.00 GB"), (2147483648, "2.00 GB")])
-def test_to_human_readable_byte_size_gb(size: int, output: str):
-    assert to_human_readable_byte_size(size, "GB") == output
-
-
-@mark.parametrize(
-    "size,output",
-    [(2, "2.00 B"), (1023, "1,023.00 B"), (2048, "2.00 KB"), (2097152, "2.00 MB")],
-)
-def test_to_human_readable_byte_size_auto(size: int, output: str):
-    assert to_human_readable_byte_size(size) == output
-
-
-def test_to_human_readable_byte_size_incorrect_unit():
-    with raises(ValueError):
-        assert to_human_readable_byte_size(1, "")
