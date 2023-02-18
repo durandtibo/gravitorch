@@ -13,10 +13,10 @@ from gravitorch.models.metrics.state import (
     ExtendedErrorState,
     MeanErrorState,
 )
+from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import MinScalarHistory
-from tests.unit.engines.util import create_engine
 
 MODES = (ct.TRAIN, ct.EVAL)
 NAMES = ("name1", "name2")
@@ -28,7 +28,7 @@ TOLERANCE = 1e-7
 
 @fixture
 def engine() -> BaseEngine:
-    return create_engine()
+    return create_dummy_engine()
 
 
 #############################################

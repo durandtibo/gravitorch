@@ -15,10 +15,10 @@ from gravitorch.models.metrics import (
     TransformedPredictionTarget,
 )
 from gravitorch.nn import Asinh, Log1p, Symlog
+from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import MinScalarHistory
-from tests.unit.engines.util import create_engine
 
 MODES = (ct.TRAIN, ct.EVAL)
 SIZES = (1, 2)
@@ -26,7 +26,7 @@ SIZES = (1, 2)
 
 @fixture
 def engine() -> BaseEngine:
-    return create_engine()
+    return create_dummy_engine()
 
 
 #################################################

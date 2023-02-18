@@ -13,6 +13,13 @@ from gravitorch.loops.evaluation.conditions import (
     LastEpochEvalCondition,
 )
 from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
+from gravitorch.testing import (
+    DummyClassificationModel,
+    DummyDataset,
+    DummyDataSource,
+    DummyIterableDataset,
+    create_dummy_engine,
+)
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.device_placement import (
     AutoDevicePlacement,
@@ -23,15 +30,6 @@ from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
-from tests.unit.engines.util import (
-    EmptyFakeIterableDataset,
-    EmptyFakeMapDataset,
-    FakeDataSource,
-    FakeIterableDataset,
-    FakeModel,
-    FakeModelWithNaN,
-    create_engine,
-)
 
 
 def increment_epoch_handler(engine: BaseEngine) -> None:
@@ -103,7 +101,7 @@ def test_vanilla_evaluation_loop_profiler_tensorboard():
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval(device: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
     assert not engine.model.training
     assert engine.epoch == -1
@@ -117,7 +115,7 @@ def test_vanilla_evaluation_loop_eval(device: str):
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval_loss_nan(device: str):
     device = torch.device(device)
-    engine = create_engine(model=FakeModelWithNaN(), device=device)
+    engine = create_dummy_engine(model=DummyClassificationModel(loss_nan=True), device=device)
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1
@@ -130,7 +128,7 @@ def test_vanilla_evaluation_loop_eval_loss_nan(device: str):
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval_with_loss_history(device: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     engine.add_history(MinScalarHistory(f"eval/{ct.LOSS}"))
     engine.log_metric(f"eval/{ct.LOSS}", 1, EpochStep(-1))
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
@@ -141,7 +139,7 @@ def test_vanilla_evaluation_loop_eval_with_loss_history(device: str):
 
 
 def test_vanilla_evaluation_loop_eval_no_dataset():
-    engine = create_engine(data_source=Mock(has_data_loader=Mock(return_value=False)))
+    engine = create_dummy_engine(data_source=Mock(has_data_loader=Mock(return_value=False)))
     VanillaEvaluationLoop().eval(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1
@@ -154,23 +152,22 @@ def test_vanilla_evaluation_loop_eval_no_dataset():
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval_empty_map_dataset(device: str):
     device = torch.device(device)
-    engine = create_engine(
-        data_source=FakeDataSource(eval_dataset=EmptyFakeMapDataset()), device=device
+    engine = create_dummy_engine(
+        data_source=DummyDataSource(eval_dataset=DummyDataset(num_examples=0)), device=device
     )
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1
     with raises(EmptyHistoryError):
-        engine.get_history(
-            f"eval/{ct.LOSS}"
-        ).get_last_value()  # The loss is not logged because there is no batch
+        # The loss is not logged because there is no batch
+        engine.get_history(f"eval/{ct.LOSS}").get_last_value()
 
 
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval_iterable_dataset(device: str):
     device = torch.device(device)
-    engine = create_engine(
-        data_source=FakeDataSource(eval_dataset=FakeIterableDataset(), batch_size=2),
+    engine = create_dummy_engine(
+        data_source=DummyDataSource(eval_dataset=DummyIterableDataset(), batch_size=2),
         device=device,
     )
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
@@ -182,8 +179,10 @@ def test_vanilla_evaluation_loop_eval_iterable_dataset(device: str):
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval_empty_iterable_dataset(device: str):
     device = torch.device(device)
-    engine = create_engine(
-        data_source=FakeDataSource(eval_dataset=EmptyFakeIterableDataset(), batch_size=None),
+    engine = create_dummy_engine(
+        data_source=DummyDataSource(
+            eval_dataset=DummyIterableDataset(num_examples=0), batch_size=None
+        ),
         device=device,
     )
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
@@ -198,7 +197,7 @@ def test_vanilla_evaluation_loop_eval_empty_iterable_dataset(device: str):
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval_auto_device_placement(device: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     with patch("gravitorch.distributed.device", lambda *args, **kwargs: device):
         VanillaEvaluationLoop().eval(engine)
         assert not engine.model.training
@@ -213,7 +212,7 @@ def test_vanilla_evaluation_loop_eval_auto_device_placement(device: str):
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval_skip_evaluation(device: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     VanillaEvaluationLoop(
         condition=Mock(return_value=False), batch_device_placement=ManualDevicePlacement(device)
     ).eval(engine)
@@ -227,7 +226,7 @@ def test_vanilla_evaluation_loop_eval_skip_evaluation(device: str):
 @mark.parametrize("event", (EngineEvents.EVAL_EPOCH_STARTED, EngineEvents.EVAL_EPOCH_COMPLETED))
 def test_vanilla_evaluation_loop_fire_event_eval_epoch_events(device: str, event: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     engine.add_event_handler(
         event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
@@ -242,7 +241,7 @@ def test_vanilla_evaluation_loop_fire_event_eval_epoch_events(device: str, event
 )
 def test_vanilla_evaluation_loop_fire_event_eval_iteration_events(device: str, event: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     engine.add_event_handler(
         event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
@@ -254,7 +253,7 @@ def test_vanilla_evaluation_loop_fire_event_eval_iteration_events(device: str, e
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_train_with_observer(device: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     observer = MagicMock()
     VanillaEvaluationLoop(
         observer=observer, batch_device_placement=ManualDevicePlacement(device)
@@ -270,7 +269,7 @@ def test_vanilla_evaluation_loop_eval_with_profiler(device: str):
     profiler = MagicMock()
     VanillaEvaluationLoop(
         profiler=profiler, batch_device_placement=ManualDevicePlacement(device)
-    ).eval(engine=create_engine(device=device))
+    ).eval(engine=create_dummy_engine(device=device))
     assert profiler.__enter__().step.call_count == 4
 
 
@@ -285,7 +284,7 @@ def test_vanilla_evaluation_loop_state_dict():
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_grad_enabled_false(device: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     loop = VanillaEvaluationLoop(
         grad_enabled=False, batch_device_placement=ManualDevicePlacement(device)
     )
@@ -300,7 +299,7 @@ def test_vanilla_evaluation_loop_grad_enabled_false(device: str):
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_grad_enabled_true(device: str):
     device = torch.device(device)
-    engine = create_engine(device=device)
+    engine = create_dummy_engine(device=device)
     loop = VanillaEvaluationLoop(
         grad_enabled=True, batch_device_placement=ManualDevicePlacement(device)
     )
@@ -320,7 +319,7 @@ def test_vanilla_evaluation_loop_eval_one_batch_fired_events(device: str):
     engine = Mock(spec=BaseEngine)
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device))._eval_one_batch(
         engine=engine,
-        model=FakeModel().to(device=device),
+        model=DummyClassificationModel().to(device=device),
         batch={ct.INPUT: torch.ones(8, 4), ct.TARGET: torch.ones(8, dtype=torch.long)},
     )
     assert engine.fire_event.call_args_list == [

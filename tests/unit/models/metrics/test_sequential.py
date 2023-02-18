@@ -7,10 +7,10 @@ from torch import nn
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.models.metrics import AbsoluteError, SequentialMetric, SquaredError
+from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import MinScalarHistory
-from tests.unit.engines.util import create_engine
 
 
 class FakeMetricWithOutput(nn.Module):
@@ -29,7 +29,7 @@ def metric() -> SequentialMetric:
 
 @fixture
 def engine() -> BaseEngine:
-    return create_engine()
+    return create_dummy_engine()
 
 
 ######################################

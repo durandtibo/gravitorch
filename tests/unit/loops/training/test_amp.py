@@ -9,9 +9,9 @@ from torch.optim import SGD, Optimizer
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.loops.training import AMPTrainingLoop
+from gravitorch.testing import DummyClassificationModel
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.device_placement import ManualDevicePlacement
-from tests.unit.engines.util import FakeModel
 
 #####################################
 #     Tests for AMPTrainingLoop     #
@@ -41,7 +41,7 @@ def test_amp_training_loop_state_dict():
 def test_amp_training_loop_train_one_batch_fired_events(device: str):
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
-    model = FakeModel().to(device=device)
+    model = DummyClassificationModel().to(device=device)
     AMPTrainingLoop(
         amp_enabled=False, batch_device_placement=ManualDevicePlacement(device)
     )._train_one_batch(
@@ -62,7 +62,7 @@ def test_amp_training_loop_train_one_batch_fired_events(device: str):
 @mark.parametrize("amp_enabled", (True, False))
 def test_amp_training_loop_train_one_batch_amp_enabled(device: str, amp_enabled: bool):
     device = torch.device(device)
-    model = FakeModel().to(device=device)
+    model = DummyClassificationModel().to(device=device)
     with patch("torch.cuda.is_available", lambda *args, **kwargs: device.type == "cuda"):
         training_loop = AMPTrainingLoop(
             amp_enabled=amp_enabled,
@@ -83,7 +83,7 @@ def test_amp_training_loop_train_one_batch_amp_enabled(device: str, amp_enabled:
 def test_amp_training_loop_train_one_batch_set_grad_to_none(device: str, set_grad_to_none: bool):
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
-    model = FakeModel().to(device=device)
+    model = DummyClassificationModel().to(device=device)
     out = AMPTrainingLoop(
         set_grad_to_none=set_grad_to_none,
         amp_enabled=False,
@@ -103,7 +103,7 @@ def test_amp_training_loop_train_one_batch_set_grad_to_none(device: str, set_gra
 def test_amp_training_loop_train_one_batch_clip_grad_value(device: str):
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
-    model = FakeModel().to(device=device)
+    model = DummyClassificationModel().to(device=device)
     out = AMPTrainingLoop(
         clip_grad={"name": "clip_grad_value", "clip_value": 0.25},
         amp_enabled=False,
@@ -123,7 +123,7 @@ def test_amp_training_loop_train_one_batch_clip_grad_value(device: str):
 def test_amp_training_loop_train_one_batch_clip_grad_norm(device: str):
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
-    model = FakeModel().to(device=device)
+    model = DummyClassificationModel().to(device=device)
     out = AMPTrainingLoop(
         clip_grad={"name": "clip_grad_norm", "max_norm": 1, "norm_type": 2},
         amp_enabled=False,

@@ -7,10 +7,10 @@ from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.models.metrics import AbsoluteError, EmptyMetricError
 from gravitorch.models.metrics.state import BaseState, ErrorState, MeanErrorState
+from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import MinScalarHistory
-from tests.unit.engines.util import create_engine
 
 MODES = (ct.TRAIN, ct.EVAL)
 NAMES = ("abs_err", "absolute_error")
@@ -20,7 +20,7 @@ DTYPES = (torch.long, torch.float)
 
 @fixture
 def engine() -> BaseEngine:
-    return create_engine()
+    return create_dummy_engine()
 
 
 ###################################

@@ -8,7 +8,7 @@ from torch.optim.lr_scheduler import StepLR
 from gravitorch import constants as ct
 from gravitorch.creators.core import VanillaCoreCreator
 from gravitorch.datasources import BaseDataSource
-from tests.unit.engines.util import FakeDataSource
+from gravitorch.testing import DummyDataSource
 
 ########################################
 #     Tests for VanillaCoreCreator     #
@@ -16,7 +16,7 @@ from tests.unit.engines.util import FakeDataSource
 
 
 def test_vanilla_core_creator_str():
-    assert str(VanillaCoreCreator(FakeDataSource(), nn.Linear(4, 6))).startswith(
+    assert str(VanillaCoreCreator(DummyDataSource(), nn.Linear(4, 6))).startswith(
         "VanillaCoreCreator("
     )
 
@@ -24,7 +24,7 @@ def test_vanilla_core_creator_str():
 def test_vanilla_core_creator_create():
     engine = Mock()
     creator = VanillaCoreCreator(
-        data_source=FakeDataSource(),
+        data_source=DummyDataSource(),
         model=nn.Linear(4, 6),
     )
     data_source, model, optimizer, lr_scheduler = creator.create(engine=engine)
@@ -40,7 +40,7 @@ def test_vanilla_core_creator_create():
 def test_vanilla_core_creator_create_optimizer():
     engine = Mock()
     creator = VanillaCoreCreator(
-        data_source=FakeDataSource(),
+        data_source=DummyDataSource(),
         model=nn.Linear(4, 6),
         optimizer={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},
     )
@@ -58,7 +58,7 @@ def test_vanilla_core_creator_create_optimizer():
 def test_vanilla_core_creator_create_lr_scheduler():
     engine = Mock()
     creator = VanillaCoreCreator(
-        data_source=FakeDataSource(),
+        data_source=DummyDataSource(),
         model=nn.Linear(4, 6),
         optimizer={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},
         lr_scheduler={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
