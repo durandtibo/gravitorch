@@ -4,7 +4,7 @@ import logging
 
 import torch
 
-from gravitorch.utils.format import to_human_readable_byte_size
+from gravitorch.utils.format import human_byte_size
 
 logger = logging.getLogger(__name__)
 
@@ -102,7 +102,7 @@ def log_max_cuda_memory_allocated() -> None:
         allocated_memory = torch.cuda.max_memory_allocated()
         total_memory = torch.cuda.mem_get_info()[1]
         logger.info(
-            f"Max CUDA memory allocated: {to_human_readable_byte_size(allocated_memory)} / "
-            f"{to_human_readable_byte_size(total_memory)} "
+            f"Max CUDA memory allocated: {human_byte_size(allocated_memory)} / "
+            f"{human_byte_size(total_memory)} "
             f"({100 * allocated_memory / total_memory:.2f}%)"
         )

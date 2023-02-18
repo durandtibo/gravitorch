@@ -20,7 +20,7 @@ from urllib.parse import unquote, urlparse
 import hydra
 from hydra.core.hydra_config import HydraConfig
 
-from gravitorch.utils.format import to_human_readable_byte_size
+from gravitorch.utils.format import human_byte_size
 
 
 def get_original_cwd() -> Path:
@@ -177,4 +177,4 @@ def get_human_readable_file_size(path: Union[Path, str], unit: Optional[str] = N
         >>> get_human_readable_file_size('/my/path/data.txt')
         2.00 KB
     """
-    return to_human_readable_byte_size(size=sanitize_path(path).stat().st_size, unit=unit)
+    return human_byte_size(size=sanitize_path(path).stat().st_size, unit=unit)
