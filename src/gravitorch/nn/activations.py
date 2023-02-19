@@ -1,4 +1,4 @@
-__all__ = ["ReLUn", "SquaredReLU"]
+__all__ = ["ReLUn", "Snake", "SquaredReLU"]
 
 import torch
 from torch import Tensor
@@ -35,6 +35,31 @@ class ReLUn(Module):
                 tensor.
         """
         return tensor.clamp(min=0.0, max=self._max_value)
+
+
+class Snake(Module):
+    r"""Implements the Snake activation layer.
+
+    Snake was proposed in the following paper:
+
+        Neural Networks Fail to Learn Periodic Functions and How to Fix It.
+        Ziyin L., Hartwig T., Ueda M.
+        NeurIPS, 2020. (http://arxiv.org/pdf/2006.08195)
+
+    Args:
+        frequency (float, optional): Specifies the frequency. Default: ``1.0``
+    """
+
+    def __init__(self, frequency: float = 1.0):
+        super().__init__()
+        self._frequency = float(frequency)
+
+    def extra_repr(self) -> str:
+        return f"frequency={self._frequency}"
+
+    def forward(self, tensor: Tensor) -> Tensor:
+        two_freq = 2 * self._frequency
+        return tensor - tensor.mul(two_freq).cos().div(two_freq) + 1 / two_freq
 
 
 class SquaredReLU(Module):
