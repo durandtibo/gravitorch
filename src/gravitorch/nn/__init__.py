@@ -43,6 +43,7 @@ __all__ = [
     "ShiftScale",
     "Sin",
     "Sinh",
+    "Snake",
     "SquaredReLU",
     "Squeeze",
     "SumFusion",
@@ -79,7 +80,7 @@ __all__ = [
     "unfreeze_module",
 ]
 
-from gravitorch.nn.activations import ReLUn, SquaredReLU
+from gravitorch.nn.activations import ReLUn, Snake, SquaredReLU
 from gravitorch.nn.alpha_activations import (
     ExpSin,
     Gaussian,

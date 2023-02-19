@@ -1,7 +1,7 @@
 import torch
 from pytest import mark
 
-from gravitorch.nn import ReLUn, SquaredReLU
+from gravitorch.nn import ReLUn, Snake, SquaredReLU
 from gravitorch.utils import get_available_devices
 
 ###########################
@@ -30,6 +30,49 @@ def test_relun_forward_max_value_2(device: str):
     assert module(torch.arange(-1, 4, device=device)).equal(
         torch.tensor([0.0, 0.0, 1.0, 2.0, 2.0], dtype=torch.float, device=device)
     )
+
+
+###########################
+#     Tests for Snake     #
+###########################
+
+
+def test_snake_str():
+    assert str(Snake()).startswith("Snake(")
+
+
+def test_snake_forward_frequency_default():
+    module = Snake()
+    assert torch.allclose(
+        module(torch.tensor([[1.0, 0.0, -1.0], [-2.0, 0.0, 2.0]])),
+        torch.tensor(
+            [
+                [1.708073418273571, 0.0, -0.2919265817264288],
+                [-1.173178189568194, 0.0, 2.826821810431806],
+            ]
+        ),
+    )
+
+
+def test_snake_forward_frequency_2():
+    module = Snake(frequency=2)
+    assert torch.allclose(
+        module(torch.tensor([[1.0, 0.0, -1.0], [-2.0, 0.0, 2.0]])),
+        torch.tensor(
+            [
+                [1.413410905215903, 0.0, -0.586589094784097],
+                [-1.7136249915478468, 0.0, 2.2863750084521532],
+            ]
+        ),
+    )
+
+
+@mark.parametrize("size", ((1, 1), (2, 3), (2, 3, 4), (2, 3, 4, 5)))
+def test_snake_forward_frequency_size(size: tuple[int, ...]):
+    module = Snake()
+    out = module(torch.randn(*size))
+    assert out.shape == size
+    assert out.dtype == torch.float
 
 
 #################################
