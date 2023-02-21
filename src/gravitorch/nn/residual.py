@@ -5,7 +5,7 @@ from typing import Any, Union
 from torch import Tensor
 from torch.nn import Identity, Module
 
-from gravitorch.nn.utils import setup_nn_module
+from gravitorch.nn.utils import setup_module
 
 
 class ResidualBlock(Module):
@@ -26,8 +26,8 @@ class ResidualBlock(Module):
         skip: Union[Module, dict[str, Any], None] = None,
     ):
         super().__init__()
-        self.residual = setup_nn_module(residual)
-        self.skip = setup_nn_module(skip or Identity())
+        self.residual = setup_module(residual)
+        self.skip = setup_module(skip or Identity())
 
     def forward(self, tensor: Tensor) -> Tensor:
         return self.skip(tensor) + self.residual(tensor)

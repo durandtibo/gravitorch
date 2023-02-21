@@ -5,7 +5,7 @@ from typing import Union
 
 from torch.nn import Module, Sequential
 
-from gravitorch.nn.utils.factory import setup_nn_module
+from gravitorch.nn.utils.factory import setup_module
 
 
 def create_sequential(modules: Sequence[Union[Module, dict]]) -> Sequential:
@@ -19,4 +19,4 @@ def create_sequential(modules: Sequence[Union[Module, dict]]) -> Sequential:
         ``torch.nn.Sequential``: The instantiated
             ``torch.nn.Sequential`` module.
     """
-    return Sequential(*[setup_nn_module(module) for module in modules])
+    return Sequential(*[setup_module(module) for module in modules])

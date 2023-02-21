@@ -19,7 +19,7 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.models.base import BaseModel
 from gravitorch.models.metrics import BaseMetric
 from gravitorch.models.utils import attach_module_to_engine
-from gravitorch.nn.utils.factory import setup_nn_module
+from gravitorch.nn.utils.factory import setup_module
 from gravitorch.nn.utils.state_dict import load_checkpoint_to_module
 from gravitorch.utils.seed import manual_seed
 
@@ -76,9 +76,9 @@ class VanillaModel(BaseModel):
     ):
         super().__init__()
         manual_seed(random_seed)  # Fix the random seed for reproducibility purpose
-        self.network = setup_nn_module(network)
+        self.network = setup_module(network)
         logger.info(f"network:\n{self.network}")
-        self.criterion = setup_nn_module(criterion)
+        self.criterion = setup_module(criterion)
         logger.info(f"criterion:\n{self.criterion}")
         self.metrics = self._setup_metrics(metrics)
         logger.info(f"metrics:\n{self.metrics}")

@@ -1,4 +1,4 @@
-__all__ = ["setup_nn_module"]
+__all__ = ["setup_module"]
 
 import logging
 from typing import Union
@@ -11,7 +11,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_nn_module(module: Union[Module, dict]) -> Module:
+def setup_module(module: Union[Module, dict]) -> Module:
     r"""Sets up a ``torch.nn.Module`` object.
 
     Args:
@@ -26,13 +26,13 @@ def setup_nn_module(module: Union[Module, dict]) -> Module:
 
     .. code-block:: python
 
-        >>> from gravitorch.nn import setup_nn_module
-        >>> linear = setup_nn_module(
+        >>> from gravitorch.nn import setup_module
+        >>> linear = setup_module(
         ...     {'_target_': 'torch.nn.Linear', 'in_features': 4, 'out_features': 6}
         ... )
         >>> linear
         Linear(in_features=4, out_features=6, bias=True)
-        >>> setup_nn_module(linear)  # Do nothing because the module is already instantiated
+        >>> setup_module(linear)  # Do nothing because the module is already instantiated
         Linear(in_features=4, out_features=6, bias=True)
     """
     if isinstance(module, dict):

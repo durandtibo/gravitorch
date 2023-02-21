@@ -7,7 +7,7 @@ from torch.nn import Flatten, Identity, Module
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.models.metrics.base import BaseMetric, setup_metric
-from gravitorch.nn import Asinh, Log1p, Symlog, setup_nn_module
+from gravitorch.nn import Asinh, Log1p, Symlog, setup_module
 
 
 class TransformedPredictionTarget(BaseMetric):
@@ -37,8 +37,8 @@ class TransformedPredictionTarget(BaseMetric):
     ):
         super().__init__()
         self.metric = setup_metric(metric)
-        self.prediction_transform = setup_nn_module(prediction_transform or Identity())
-        self.target_transform = setup_nn_module(target_transform or Identity())
+        self.prediction_transform = setup_module(prediction_transform or Identity())
+        self.target_transform = setup_module(target_transform or Identity())
 
     def attach(self, engine: BaseEngine) -> None:
         r"""Attaches the metric to the provided engine.

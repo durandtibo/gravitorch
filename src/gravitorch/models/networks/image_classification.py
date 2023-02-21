@@ -10,7 +10,7 @@ from torch import Tensor
 from torch.nn import Module
 
 from gravitorch import constants as ct
-from gravitorch.nn.utils.factory import setup_nn_module
+from gravitorch.nn.utils.factory import setup_module
 from gravitorch.nn.utils.module_helpers import get_module_device
 
 
@@ -36,7 +36,7 @@ class ImageClassificationNetwork(Module):
         output_name: str = ct.PREDICTION,
     ):
         super().__init__()
-        self.network = setup_nn_module(network)
+        self.network = setup_module(network)
         self._input_name = input_name
         self._output_name = output_name
 

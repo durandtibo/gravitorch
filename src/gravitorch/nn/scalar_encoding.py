@@ -12,7 +12,7 @@ import torch
 from torch import Tensor
 from torch.nn import Module, Parameter
 
-from gravitorch.nn.utils.factory import setup_nn_module
+from gravitorch.nn.utils.factory import setup_module
 from gravitorch.utils.tensor.misc import to_tensor
 
 
@@ -515,8 +515,8 @@ class ScalarEncoderFFN(Module):
 
     def __init__(self, encoder: Union[Module, dict[str, Any]], ffn: Union[Module, dict[str, Any]]):
         super().__init__()
-        self.encoder = setup_nn_module(encoder)
-        self.ffn = setup_nn_module(ffn)
+        self.encoder = setup_module(encoder)
+        self.ffn = setup_module(ffn)
 
     @property
     def input_size(self) -> int:
