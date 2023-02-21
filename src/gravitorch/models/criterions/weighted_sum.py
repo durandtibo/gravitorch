@@ -5,7 +5,7 @@ from typing import Optional, Union
 from torch.nn import Module, ModuleDict
 
 from gravitorch import constants as ct
-from gravitorch.nn import setup_nn_module
+from gravitorch.nn import setup_module
 
 
 class WeightedSumLoss(Module):
@@ -82,7 +82,7 @@ class WeightedSumLoss(Module):
     ):
         super().__init__()
         if not isinstance(criteria, ModuleDict):
-            criteria = ModuleDict({key: setup_nn_module(value) for key, value in criteria.items()})
+            criteria = ModuleDict({key: setup_module(value) for key, value in criteria.items()})
         self.criteria = criteria
         self._weights = weights or {}
         for key in self.criteria.keys():

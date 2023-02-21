@@ -5,7 +5,7 @@ from typing import Union
 from torch import Tensor
 from torch.nn import Module
 
-from gravitorch.nn.utils import get_module_output_size, setup_nn_module
+from gravitorch.nn.utils import get_module_output_size, setup_module
 
 
 class FusionFFN(Module):
@@ -41,8 +41,8 @@ class FusionFFN(Module):
 
     def __init__(self, fusion: Union[Module, dict], ffn: Union[Module, dict]):
         super().__init__()
-        self.fusion = setup_nn_module(fusion)
-        self.ffn = setup_nn_module(ffn)
+        self.fusion = setup_module(fusion)
+        self.ffn = setup_module(ffn)
 
     @property
     def output_size(self) -> int:

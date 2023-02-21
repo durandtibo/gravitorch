@@ -21,7 +21,7 @@ __all__ = [
     "module_mode",
     "num_learnable_parameters",
     "num_parameters",
-    "setup_nn_module",
+    "setup_module",
     "show_parameter_stats",
     "show_state_dict_info",
     "state_dicts_are_equal",
@@ -29,7 +29,7 @@ __all__ = [
     "unfreeze_module",
 ]
 
-from gravitorch.nn.utils.factory import setup_nn_module
+from gravitorch.nn.utils.factory import setup_module
 from gravitorch.nn.utils.module_helpers import (
     freeze_module,
     get_module_device,

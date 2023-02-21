@@ -6,7 +6,7 @@ import torch
 from torch import Tensor
 from torch.nn import Module
 
-from gravitorch.nn.utils import setup_nn_module
+from gravitorch.nn.utils import setup_module
 
 
 class FlattenModule(Module):
@@ -19,7 +19,7 @@ class FlattenModule(Module):
 
     def __init__(self, module: Union[Module, dict]):
         super().__init__()
-        self.module = setup_nn_module(module)
+        self.module = setup_module(module)
 
     def forward(self, *args, **kwargs) -> Any:
         r"""Computes the forward pass of the module.

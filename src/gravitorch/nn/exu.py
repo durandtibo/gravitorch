@@ -7,7 +7,7 @@ from torch import Tensor
 from torch.nn import Module, Parameter, ReLU
 from torch.nn.init import trunc_normal_, zeros_
 
-from gravitorch.nn.utils import setup_nn_module
+from gravitorch.nn.utils import setup_module
 
 
 class ExU(Module):
@@ -38,7 +38,7 @@ class ExU(Module):
         super().__init__()
         self.weight = Parameter(torch.empty(input_size, output_size))
         self.bias = Parameter(torch.zeros(input_size))
-        self.activation = setup_nn_module(activation or ReLU())
+        self.activation = setup_module(activation or ReLU())
 
         self.reset_parameters()
 

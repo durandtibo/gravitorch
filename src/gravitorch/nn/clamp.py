@@ -6,7 +6,7 @@ from torch import Tensor
 from torch.nn import Module
 
 from gravitorch.nn.functional import basic_loss_reduction, check_basic_loss_reduction
-from gravitorch.nn.utils import setup_nn_module
+from gravitorch.nn.utils import setup_module
 
 
 class Clamp(Module):
@@ -71,7 +71,7 @@ class ClampLoss(Module):
         reduction: str = "none",
     ):
         super().__init__()
-        self.criterion = setup_nn_module(criterion)
+        self.criterion = setup_module(criterion)
         self.clamp = Clamp(min_value=min_value, max_value=max_value)
 
         check_basic_loss_reduction(reduction)

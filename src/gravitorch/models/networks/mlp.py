@@ -9,7 +9,7 @@ from objectory import OBJECT_TARGET
 from torch import Tensor, nn
 
 from gravitorch import constants as ct
-from gravitorch.nn.utils.factory import setup_nn_module
+from gravitorch.nn.utils.factory import setup_module
 from gravitorch.nn.utils.module_helpers import get_module_device, get_module_name
 
 
@@ -215,7 +215,7 @@ def create_alpha_mlp(
         if dropout > 0:
             layers[f"dropout{i + 1}"] = nn.Dropout(dropout)
         layers[f"linear{i + 1}"] = nn.Linear(sizes[i], sizes[i + 1])
-        activation_layer = setup_nn_module(activation)
+        activation_layer = setup_module(activation)
         layers[f"{get_module_name(activation_layer).lower()}{i + 1}"] = activation_layer
     return nn.Sequential(layers)
 
@@ -249,7 +249,7 @@ def create_beta_mlp(
         if dropout > 0:
             layers[f"dropout{i + 1}"] = nn.Dropout(dropout)
         layers[f"linear{i + 1}"] = nn.Linear(sizes[i], sizes[i + 1])
-        activation_layer = setup_nn_module(activation)
+        activation_layer = setup_module(activation)
         if i < len(sizes) - 2:
             layers[f"{get_module_name(activation_layer).lower()}{i + 1}"] = activation_layer
     return nn.Sequential(layers)

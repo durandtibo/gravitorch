@@ -7,7 +7,7 @@ from torch.nn import Dropout, LayerNorm, Module
 
 from gravitorch.nn.fusion.multiplication import MultiplicationFusion
 from gravitorch.nn.fusion.sum import SumFusion
-from gravitorch.nn.utils import setup_nn_module
+from gravitorch.nn.utils import setup_module
 
 
 class FusionNorm(Module):
@@ -63,9 +63,9 @@ class FusionNorm(Module):
         dropout: Union[Module, dict[str, Any]],
     ):
         super().__init__()
-        self.fusion = setup_nn_module(fusion)
-        self.norm = setup_nn_module(norm)
-        self.dropout = setup_nn_module(dropout)
+        self.fusion = setup_module(fusion)
+        self.norm = setup_module(norm)
+        self.dropout = setup_module(dropout)
 
     def forward(self, *inputs: Tensor) -> Tensor:
         r"""Fuses a list or tuple of inputs.

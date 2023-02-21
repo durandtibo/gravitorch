@@ -8,7 +8,7 @@ from typing import Union
 from torch import Tensor
 from torch.nn import Module
 
-from gravitorch.nn import setup_nn_module
+from gravitorch.nn import setup_module
 
 
 class WarmupSequenceLoss(Module):
@@ -61,7 +61,7 @@ class WarmupSequenceLoss(Module):
         batch_first: bool = False,
     ):
         super().__init__()
-        self.criterion = setup_nn_module(criterion)
+        self.criterion = setup_module(criterion)
         self._warmup = int(warmup)
         self._batch_first = bool(batch_first)
 

@@ -9,7 +9,7 @@ from torch import Tensor
 from torch.nn import Module
 
 from gravitorch import constants as ct
-from gravitorch.nn import setup_nn_module
+from gravitorch.nn import setup_module
 
 
 class PackedSequenceLoss(Module):
@@ -60,7 +60,7 @@ class PackedSequenceLoss(Module):
         mask_key: str = ct.MASK,
     ):
         super().__init__()
-        self.criterion = setup_nn_module(criterion)
+        self.criterion = setup_module(criterion)
         self._prediction_key = prediction_key
         self._target_key = target_key
         self._mask_key = mask_key
