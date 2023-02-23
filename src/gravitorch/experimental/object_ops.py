@@ -40,7 +40,7 @@ def add_objects(object1: Any, object2: Any) -> Any:
     .. code-block:: python
 
         >>> import torch
-        >>> from gravitorch.utils.object_operations import add_objects
+        >>> from gravitorch.experimental.object_ops import add_objects
         >>> add_objects([1, 2, 3], [4, 5, 6])
         [5, 7, 9]
         >>> add_objects(
@@ -92,7 +92,7 @@ def sub_objects(object1: Any, object2: Any) -> Any:
     .. code-block:: python
 
         >>> import torch
-        >>> from gravitorch.utils.object_operations import sub_objects
+        >>> from gravitorch.experimental.object_ops import sub_objects
         >>> sub_objects([1, 2, 3], [4, 5, 6])
         [-3, -3, -3]
         >>> sub_objects(
