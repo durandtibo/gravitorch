@@ -19,13 +19,9 @@ __all__ = [
 
 from importlib.util import find_spec
 
-
-def is_accelerate_available() -> bool:
-    r"""Indicates if the ``accelerate`` package is installed or not.
-
-    https://huggingface.co/docs/accelerate/index.html
-    """
-    return find_spec("accelerate") is not None
+######################
+#     accelerate     #
+######################
 
 
 def check_accelerate() -> None:
@@ -42,9 +38,17 @@ def check_accelerate() -> None:
         )
 
 
-def is_fairscale_available() -> bool:
-    r"""Indicates if the ``fairscale`` package is installed or not."""
-    return find_spec("fairscale") is not None
+def is_accelerate_available() -> bool:
+    r"""Indicates if the ``accelerate`` package is installed or not.
+
+    https://huggingface.co/docs/accelerate/index.html
+    """
+    return find_spec("accelerate") is not None
+
+
+#####################
+#     fairscale     #
+#####################
 
 
 def check_fairscale() -> None:
@@ -61,9 +65,14 @@ def check_fairscale() -> None:
         )
 
 
-def is_matplotlib_available() -> bool:
-    r"""Indicates if the ``matplotlib`` package is installed or not."""
-    return find_spec("matplotlib") is not None
+def is_fairscale_available() -> bool:
+    r"""Indicates if the ``fairscale`` package is installed or not."""
+    return find_spec("fairscale") is not None
+
+
+######################
+#     matplotlib     #
+######################
 
 
 def check_matplotlib() -> None:
@@ -80,9 +89,14 @@ def check_matplotlib() -> None:
         )
 
 
-def is_pillow_available() -> bool:
-    r"""Indicates if the ``pillow`` package is installed or not."""
-    return find_spec("PIL") is not None
+def is_matplotlib_available() -> bool:
+    r"""Indicates if the ``matplotlib`` package is installed or not."""
+    return find_spec("matplotlib") is not None
+
+
+##################
+#     pillow     #
+##################
 
 
 def check_pillow() -> None:
@@ -99,14 +113,24 @@ def check_pillow() -> None:
         )
 
 
+def is_pillow_available() -> bool:
+    r"""Indicates if the ``pillow`` package is installed or not."""
+    return find_spec("PIL") is not None
+
+
+##################
+#     psutil     #
+##################
+
+
 def is_psutil_available() -> bool:
     r"""Indicates if the ``psutil`` package is installed or not."""
     return find_spec("psutil") is not None
 
 
-def is_tensorboard_available() -> bool:
-    r"""Indicates if the ``tensorboard`` package is installed or not."""
-    return find_spec("tensorboard") is not None
+#######################
+#     tensorboard     #
+#######################
 
 
 def check_tensorboard() -> None:
@@ -123,12 +147,14 @@ def check_tensorboard() -> None:
         )
 
 
-def is_torchvision_available() -> bool:
-    r"""Indicates if the ``torchvision`` package is installed or not.
+def is_tensorboard_available() -> bool:
+    r"""Indicates if the ``tensorboard`` package is installed or not."""
+    return find_spec("tensorboard") is not None
 
-    https://pytorch.org/vision/stable/index.html
-    """
-    return find_spec("torchvision") is not None
+
+#######################
+#     torchvision     #
+#######################
 
 
 def check_torchvision() -> None:
@@ -143,3 +169,11 @@ def check_torchvision() -> None:
             "You can install `torchvision` package with the command:\n\n"
             "pip install torchvision\n"
         )
+
+
+def is_torchvision_available() -> bool:
+    r"""Indicates if the ``torchvision`` package is installed or not.
+
+    https://pytorch.org/vision/stable/index.html
+    """
+    return find_spec("torchvision") is not None
