@@ -1,6 +1,6 @@
 r"""This module implements an asset manager."""
 
-__all__ = ["AssetManager", "AssetNotFoundError", "get_asset_summary"]
+__all__ = ["AssetExistsError", "AssetManager", "AssetNotFoundError", "get_asset_summary"]
 
 import copy
 import logging
@@ -13,6 +13,10 @@ from coola import objects_are_equal
 from gravitorch.utils.format import str_indent, to_torch_mapping_str
 
 logger = logging.getLogger(__name__)
+
+
+class AssetExistsError(Exception):
+    r"""Raised when trying to add an asset that already exists."""
 
 
 class AssetNotFoundError(Exception):
@@ -36,7 +40,7 @@ class AssetManager:
     def __str__(self) -> str:
         return f"{self.__class__.__qualname__}(num_assets={len(self._assets):,})"
 
-    def add_asset(self, name: str, asset: Any) -> None:
+    def add_asset(self, name: str, asset: Any, replace_ok: bool = False) -> None:
         r"""Adds an asset to the asset manager.
 
         Note that the name should be unique. If the name exists, the
@@ -45,6 +49,9 @@ class AssetManager:
         Args:
             name (str): Specifies the name of the asset to add.
             asset: Specifies the asset to add.
+            replace_ok (bool, optional): If ``False``,
+                ``AssetExistsError`` is raised if an asset with the
+                same name exists. Default: ``False``
 
         Example usage:
 
@@ -54,6 +61,11 @@ class AssetManager:
             >>> manager = AssetManager()
             >>> manager.add_asset('mean', 5)
         """
+        if name in self._assets and not replace_ok:
+            raise AssetExistsError(
+                f"{name} is already used to register an asset. "
+                "Use `replace_ok=True` to replace an asset"
+            )
         self._assets[name] = asset
 
     def clone(self) -> "AssetManager":
