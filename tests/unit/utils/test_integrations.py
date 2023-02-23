@@ -18,9 +18,9 @@ from gravitorch.utils.integrations import (
     is_torchvision_available,
 )
 
-
-def test_is_accelerate_available():
-    assert isinstance(is_accelerate_available(), bool)
+######################
+#     accelerate     #
+######################
 
 
 def test_check_accelerate_with_package():
@@ -34,8 +34,13 @@ def test_check_accelerate_without_package():
             check_accelerate()
 
 
-def test_is_fairscale_available():
-    assert isinstance(is_fairscale_available(), bool)
+def test_is_accelerate_available():
+    assert isinstance(is_accelerate_available(), bool)
+
+
+#####################
+#     fairscale     #
+#####################
 
 
 def test_check_fairscale_with_package():
@@ -49,8 +54,13 @@ def test_check_fairscale_without_package():
             check_fairscale()
 
 
-def test_is_matplotlib_available():
-    assert isinstance(is_matplotlib_available(), bool)
+def test_is_fairscale_available():
+    assert isinstance(is_fairscale_available(), bool)
+
+
+######################
+#     matplotlib     #
+######################
 
 
 def test_check_matplotlib_with_package():
@@ -64,8 +74,13 @@ def test_check_matplotlib_without_package():
             check_matplotlib()
 
 
-def test_is_pillow_available():
-    assert isinstance(is_pillow_available(), bool)
+def test_is_matplotlib_available():
+    assert isinstance(is_matplotlib_available(), bool)
+
+
+##################
+#     pillow     #
+##################
 
 
 def test_check_pillow_with_package():
@@ -79,12 +94,22 @@ def test_check_pillow_without_package():
             check_pillow()
 
 
+def test_is_pillow_available():
+    assert isinstance(is_pillow_available(), bool)
+
+
+##################
+#     psutil     #
+##################
+
+
 def test_is_psutil_available():
     assert isinstance(is_psutil_available(), bool)
 
 
-def test_is_tensorboard_available():
-    assert isinstance(is_tensorboard_available(), bool)
+#######################
+#     tensorboard     #
+#######################
 
 
 def test_check_tensorboard_with_package():
@@ -98,8 +123,13 @@ def test_check_tensorboard_without_package():
             check_tensorboard()
 
 
-def test_is_torchvision_available():
-    assert isinstance(is_torchvision_available(), bool)
+def test_is_tensorboard_available():
+    assert isinstance(is_tensorboard_available(), bool)
+
+
+#######################
+#     torchvision     #
+#######################
 
 
 def test_check_torchvision_with_package():
@@ -111,3 +141,7 @@ def test_check_torchvision_without_package():
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError):
             check_torchvision()
+
+
+def test_is_torchvision_available():
+    assert isinstance(is_torchvision_available(), bool)
