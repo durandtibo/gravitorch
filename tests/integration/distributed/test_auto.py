@@ -5,7 +5,7 @@ from torch.nn.parallel import DistributedDataParallel
 
 from gravitorch.distributed import gloocontext, ncclcontext
 from gravitorch.distributed.auto import auto_ddp_model
-from tests.testing import cuda_available, gloo_available, nccl_available
+from gravitorch.testing import cuda_available, gloo_available, nccl_available
 
 ####################################
 #     Tests for auto_ddp_model     #

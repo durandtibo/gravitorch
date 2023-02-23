@@ -24,7 +24,7 @@ from gravitorch.nn.utils.module_helpers import (
     module_mode,
     top_module_mode,
 )
-from tests.testing import cuda_available
+from gravitorch.testing import cuda_available
 
 SIZES = (1, 2)
 

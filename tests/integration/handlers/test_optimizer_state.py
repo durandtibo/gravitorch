@@ -7,7 +7,7 @@ from torch.distributed.optim import ZeroRedundancyOptimizer
 from gravitorch import distributed as dist
 from gravitorch.distributed import gloocontext
 from gravitorch.handlers import ConsolidateOptimizerState
-from tests.testing import gloo_available
+from gravitorch.testing import gloo_available
 
 ###############################################
 #     Tests for ConsolidateOptimizerState     #

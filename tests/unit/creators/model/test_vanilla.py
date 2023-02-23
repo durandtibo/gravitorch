@@ -8,12 +8,12 @@ from torch import nn
 from gravitorch import constants as ct
 from gravitorch.creators.model import VanillaModelCreator
 from gravitorch.nn import get_module_device
+from gravitorch.testing import cuda_available
 from gravitorch.utils.device_placement import (
     AutoDevicePlacement,
     CpuDevicePlacement,
     CudaDevicePlacement,
 )
-from tests.testing import cuda_available
 
 #########################################
 #     Tests for VanillaModelCreator     #

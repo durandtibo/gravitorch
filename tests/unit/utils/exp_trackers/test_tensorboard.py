@@ -7,6 +7,7 @@ from coola import objects_are_equal
 from pytest import fixture, mark, raises
 from torch import nn
 
+from gravitorch.testing import tensorboard_available
 from gravitorch.utils.artifacts import JSONArtifact
 from gravitorch.utils.exp_trackers import (
     EpochStep,
@@ -20,7 +21,6 @@ from gravitorch.utils.exp_trackers.tensorboard import (
 )
 from gravitorch.utils.integrations import is_matplotlib_available, is_pillow_available
 from gravitorch.utils.io import save_json
-from tests.testing import tensorboard_available
 
 if is_matplotlib_available():
     from matplotlib.pyplot import Figure

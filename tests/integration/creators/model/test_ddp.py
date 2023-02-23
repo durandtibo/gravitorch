@@ -10,7 +10,7 @@ from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
 from gravitorch.creators.model.ddp import DataDistributedParallelModelCreator, to_ddp
 from gravitorch.distributed import gloocontext, ncclcontext
 from gravitorch.nn import get_module_device
-from tests.testing import cuda_available, gloo_available, nccl_available
+from gravitorch.testing import cuda_available, gloo_available, nccl_available
 
 #########################################################
 #     Tests for DataDistributedParallelModelCreator     #

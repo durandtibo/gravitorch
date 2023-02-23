@@ -6,8 +6,8 @@ from pytest import TempPathFactory, fixture, raises
 
 from gravitorch import constants as ct
 from gravitorch.data.datasets import ImageFolderDataset
+from gravitorch.testing import pillow_available, torchvision_available
 from gravitorch.utils.integrations import is_pillow_available
-from tests.testing import pillow_available, torchvision_available
 
 if is_pillow_available():
     from PIL import Image

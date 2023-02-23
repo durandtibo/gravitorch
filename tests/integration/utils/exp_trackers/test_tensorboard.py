@@ -3,10 +3,10 @@ from pathlib import Path
 import numpy as np
 from pytest import TempPathFactory, fixture
 
+from gravitorch.testing import tensorboard_available
 from gravitorch.utils.exp_trackers.tensorboard import TensorBoardExpTracker
 from gravitorch.utils.integrations import is_matplotlib_available, is_pillow_available
 from gravitorch.utils.path import sanitize_path
-from tests.testing import tensorboard_available
 
 if is_matplotlib_available():
     from matplotlib.pyplot import Figure, subplots

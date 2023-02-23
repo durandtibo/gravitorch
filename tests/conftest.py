@@ -1,1 +1,1 @@
-pytest_plugins = ["tests.testing"]
+pytest_plugins = ["gravitorch.testing"]

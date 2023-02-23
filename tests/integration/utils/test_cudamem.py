@@ -2,11 +2,11 @@ import logging
 
 from pytest import LogCaptureFixture
 
+from gravitorch.testing import cuda_available
 from gravitorch.utils.cudamem import (
     log_cuda_memory_summary,
     log_max_cuda_memory_allocated,
 )
-from tests.testing import cuda_available
 
 #############################################
 #     Tests for log_cuda_memory_summary     #
