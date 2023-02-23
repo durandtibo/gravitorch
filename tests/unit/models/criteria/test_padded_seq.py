@@ -8,7 +8,7 @@ from torch import Tensor
 from torch.nn import CrossEntropyLoss, L1Loss, Module, MSELoss
 
 from gravitorch import constants as ct
-from gravitorch.models.criterions import PaddedSequenceLoss
+from gravitorch.models.criteria import PaddedSequenceLoss
 from gravitorch.utils import get_available_devices
 
 SIZES = (1, 2)

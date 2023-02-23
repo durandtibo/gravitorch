@@ -46,7 +46,7 @@ def is_loss_decreasing(
         >>> from torch import nn
         >>> from torch.optim import SGD
         >>> from gravitorch.models import VanillaModel
-        >>> from gravitorch.models.criterions import VanillaLoss
+        >>> from gravitorch.models.criteria import VanillaLoss
         >>> from gravitorch.models.networks import BetaMLP
         >>> from gravitorch.models.utils import is_loss_decreasing
         >>> model = VanillaModel(
@@ -115,7 +115,7 @@ def is_loss_decreasing_with_adam(
         >>> import torch
         >>> from torch import nn
         >>> from gravitorch.models import VanillaModel
-        >>> from gravitorch.models.criterions import VanillaLoss
+        >>> from gravitorch.models.criteria import VanillaLoss
         >>> from gravitorch.models.networks import BetaMLP
         >>> from gravitorch.models.utils import is_loss_decreasing_with_adam
         >>> is_loss_decreasing_with_adam(
@@ -169,7 +169,7 @@ def is_loss_decreasing_with_sgd(
         >>> import torch
         >>> from torch import nn
         >>> from gravitorch.models import VanillaModel
-        >>> from gravitorch.models.criterions import VanillaLoss
+        >>> from gravitorch.models.criteria import VanillaLoss
         >>> from gravitorch.models.networks import BetaMLP
         >>> from gravitorch.models.utils import is_loss_decreasing_with_sgd
         >>> is_loss_decreasing_with_sgd(

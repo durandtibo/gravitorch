@@ -34,7 +34,7 @@ class PackedSequenceLoss(Module):
     .. code-block:: python
 
         >>> from torch import nn
-        >>> from gravitorch.models.criterions import PackedSequenceLoss
+        >>> from gravitorch.models.criteria import PackedSequenceLoss
         # Init with a nn.Module
         >>> criterion = PackedSequenceLoss(criterion=nn.MSELoss())
         # Init with a config

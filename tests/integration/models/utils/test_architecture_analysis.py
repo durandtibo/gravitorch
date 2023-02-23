@@ -1,7 +1,7 @@
 from torch import nn
 
 from gravitorch.models import VanillaModel
-from gravitorch.models.criterions import VanillaLoss
+from gravitorch.models.criteria import VanillaLoss
 from gravitorch.models.utils import analyze_model_architecture
 from gravitorch.models.utils.architecture_analysis import (
     analyze_model_network_architecture,

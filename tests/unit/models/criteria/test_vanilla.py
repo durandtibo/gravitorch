@@ -7,7 +7,7 @@ from pytest import mark
 from torch.nn import CrossEntropyLoss, L1Loss, Module, MSELoss
 
 from gravitorch import constants as ct
-from gravitorch.models.criterions import VanillaLoss
+from gravitorch.models.criteria import VanillaLoss
 from gravitorch.utils import get_available_devices
 
 SIZES = (1, 2)

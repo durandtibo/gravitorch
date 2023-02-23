@@ -6,7 +6,7 @@ from objectory import OBJECT_TARGET
 from torch import nn
 
 from gravitorch import constants as ct
-from gravitorch.models.criterions import VanillaLoss, WeightedSumLoss
+from gravitorch.models.criteria import VanillaLoss, WeightedSumLoss
 
 #####################################
 #     Tests for WeightedSumLoss     #

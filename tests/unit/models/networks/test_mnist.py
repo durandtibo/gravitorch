@@ -4,7 +4,7 @@ from torch import nn
 
 from gravitorch import constants as ct
 from gravitorch.models import VanillaModel
-from gravitorch.models.criterions import VanillaLoss
+from gravitorch.models.criteria import VanillaLoss
 from gravitorch.models.networks.mnist import PyTorchMnistNet
 from gravitorch.models.utils import is_loss_decreasing_with_sgd
 from gravitorch.utils import get_available_devices

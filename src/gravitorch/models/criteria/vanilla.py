@@ -36,7 +36,7 @@ class VanillaLoss(Module):
     .. code-block:: python
 
         >>> from torch import nn
-        >>> from gravitorch.models.criterions import VanillaLoss
+        >>> from gravitorch.models.criteria import VanillaLoss
         # Initialization with a nn.Module
         >>> criterion = VanillaLoss(criterion=nn.MSELoss())
         # Initialization with a config

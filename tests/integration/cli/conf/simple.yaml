@@ -57,7 +57,7 @@ engine:
             _target_: torch.nn.ReLU
           dropout: 0
         criterion:
-          _target_: gravitorch.models.criterions.VanillaLoss
+          _target_: gravitorch.models.criteria.VanillaLoss
           criterion:
             _target_: torch.nn.CrossEntropyLoss
         metrics:
