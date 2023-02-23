@@ -10,7 +10,7 @@ from torch.nn.utils.rnn import pack_sequence
 
 from gravitorch import constants as ct
 from gravitorch.engines.events import EngineEvents
-from gravitorch.models.criterions import VanillaLoss
+from gravitorch.models.criteria import VanillaLoss
 from gravitorch.models.metrics import CategoricalAccuracy, VanillaMetric
 from gravitorch.models.networks import BetaMLP
 from gravitorch.models.vanilla import VanillaModel
@@ -66,7 +66,7 @@ def test_vanilla_model_init_mlp_without_metric_from_config():
             "hidden_sizes": (32, 8),
         },
         criterion={
-            OBJECT_TARGET: "gravitorch.models.criterions.VanillaLoss",
+            OBJECT_TARGET: "gravitorch.models.criteria.VanillaLoss",
             "criterion": {OBJECT_TARGET: "torch.nn.CrossEntropyLoss"},
         },
     )
@@ -83,7 +83,7 @@ def test_vanilla_model_init_mlp_with_train_metric_from_config():
             "hidden_sizes": (32, 8),
         },
         criterion={
-            OBJECT_TARGET: "gravitorch.models.criterions.VanillaLoss",
+            OBJECT_TARGET: "gravitorch.models.criteria.VanillaLoss",
             "criterion": "torch.nn.CrossEntropyLoss",
         },
         metrics={
@@ -111,7 +111,7 @@ def test_vanilla_model_init_mlp_with_metrics_from_config():
             "hidden_sizes": (32, 8),
         },
         criterion={
-            OBJECT_TARGET: "gravitorch.models.criterions.VanillaLoss",
+            OBJECT_TARGET: "gravitorch.models.criteria.VanillaLoss",
             "criterion": "torch.nn.CrossEntropyLoss",
         },
         metrics={

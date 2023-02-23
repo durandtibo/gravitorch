@@ -76,7 +76,7 @@ class PaddedSequenceLoss(Module):
     .. code-block:: python
 
         >>> from torch import nn
-        >>> from gravitorch.models.criterions import PaddedSequenceLoss
+        >>> from gravitorch.models.criteria import PaddedSequenceLoss
         # Init with a nn.Module
         >>> criterion = PaddedSequenceLoss(criterion=nn.MSELoss())
         # Init with a config

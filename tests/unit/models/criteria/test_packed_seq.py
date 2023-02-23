@@ -8,7 +8,7 @@ from torch.nn import CrossEntropyLoss, Module, MSELoss
 from torch.nn.utils.rnn import pack_sequence
 
 from gravitorch import constants as ct
-from gravitorch.models.criterions import PackedSequenceLoss
+from gravitorch.models.criteria import PackedSequenceLoss
 from gravitorch.utils import get_available_devices
 
 SIZES = (1, 2)

@@ -5,7 +5,7 @@ from pytest import mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.models import VanillaModel
-from gravitorch.models.criterions import VanillaLoss
+from gravitorch.models.criteria import VanillaLoss
 from gravitorch.models.networks import BetaMLP
 from gravitorch.models.utils import is_loss_decreasing_with_sgd
 from gravitorch.nn.experimental import AppVAETimeLoss

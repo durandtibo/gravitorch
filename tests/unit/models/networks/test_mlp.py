@@ -7,7 +7,7 @@ from torch import nn
 
 from gravitorch import constants as ct
 from gravitorch.models import VanillaModel
-from gravitorch.models.criterions import VanillaLoss
+from gravitorch.models.criteria import VanillaLoss
 from gravitorch.models.networks.mlp import (
     AlphaMLP,
     BetaMLP,

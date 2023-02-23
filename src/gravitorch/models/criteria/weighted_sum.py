@@ -25,7 +25,7 @@ class WeightedSumLoss(Module):
 
     .. code-block:: python
 
-        >>> from gravitorch.models.criterions import WeightedSumLoss
+        >>> from gravitorch.models.criteria import WeightedSumLoss
         # Example without specified weight. Weights are initialized to 1.0
         >>> criterion = WeightedSumLoss(
         ...     criteria={

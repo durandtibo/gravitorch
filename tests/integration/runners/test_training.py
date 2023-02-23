@@ -65,7 +65,7 @@ def create_engine_config(random_seed: int) -> dict:
                         "dropout": 0.1,
                     },
                     "criterion": {
-                        OBJECT_TARGET: "gravitorch.models.criterions.VanillaLoss",
+                        OBJECT_TARGET: "gravitorch.models.criteria.VanillaLoss",
                         "criterion": {OBJECT_TARGET: "torch.nn.CrossEntropyLoss"},
                     },
                     "metrics": {
