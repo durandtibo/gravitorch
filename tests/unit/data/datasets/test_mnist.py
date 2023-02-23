@@ -6,9 +6,9 @@ from pytest import TempPathFactory, fixture, raises
 
 from gravitorch import constants as ct
 from gravitorch.data.datasets import MNISTDataset
+from gravitorch.testing import torchvision_available
 from gravitorch.utils.integrations import is_torchvision_available
 from gravitorch.utils.io import save_pytorch
-from tests.testing import torchvision_available
 
 if is_torchvision_available():
     from torchvision.transforms import ToTensor

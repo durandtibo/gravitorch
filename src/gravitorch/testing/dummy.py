@@ -18,10 +18,8 @@ from torch.optim import Optimizer
 from torch.utils.data import Dataset, IterableDataset
 
 from gravitorch import constants as ct
-from gravitorch.creators.core import VanillaCoreCreator
-from gravitorch.creators.dataloader import VanillaDataLoaderCreator
 from gravitorch.datasources import BaseDataSource, DatasetDataSource
-from gravitorch.engines import AlphaEngine, BaseEngine
+from gravitorch.engines import BaseEngine
 from gravitorch.models import BaseModel
 
 
@@ -118,6 +116,9 @@ class DummyDataSource(DatasetDataSource):
             train_dataset = DummyDataset()
         if eval_dataset is None:
             eval_dataset = DummyDataset()
+
+        from gravitorch.creators.dataloader import VanillaDataLoaderCreator
+
         super().__init__(
             datasets={ct.TRAIN: train_dataset, ct.EVAL: eval_dataset},
             data_loader_creators={
@@ -177,6 +178,10 @@ def create_dummy_engine(
     data_source = data_source or DummyDataSource(batch_size=2)
     model = model or DummyClassificationModel()
     optimizer = optimizer or {OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
+
+    from gravitorch.creators.core import VanillaCoreCreator
+    from gravitorch.engines import AlphaEngine
+
     return AlphaEngine(
         core_creator=VanillaCoreCreator(
             data_source=data_source,

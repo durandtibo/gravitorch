@@ -10,7 +10,7 @@ from gravitorch.datasources.imagenet import (
     ImageNetDataSource,
     create_train_eval_datasets_v1,
 )
-from tests.testing import torchvision_available
+from gravitorch.testing import torchvision_available
 from tests.unit.data.datasets.test_image_folder import create_image_folder
 
 

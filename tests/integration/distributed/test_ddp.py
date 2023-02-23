@@ -5,7 +5,12 @@ from pytest import mark, raises
 from gravitorch.distributed import comm as dist
 from gravitorch.distributed import ddp
 from gravitorch.distributed.ddp import all_gather_tensor_varshape
-from tests import testing
+from gravitorch.testing import (
+    distributed_available,
+    gloo_available,
+    nccl_available,
+    two_gpus_available,
+)
 
 ###########################################
 #     Tests for broadcast_object_list     #
@@ -45,15 +50,16 @@ def _check_broadcast_object_list(local_rank: int):
     assert objects_are_equal(object_list, [2, torch.tensor([0, 1], device=device)])
 
 
-@testing.distributed_available
+@distributed_available
+@gloo_available
 def test_broadcast_object_list_gloo(parallel_gloo_2):
     with parallel_gloo_2 as parallel:
         parallel.run(_test_sync_reduce_inplace)
 
 
-@testing.multi_gpus
-@testing.distributed_available
-@testing.nccl_available
+@two_gpus_available
+@distributed_available
+@nccl_available
 def test_broadcast_object_list_nccl(parallel_nccl_2):
     with parallel_nccl_2 as parallel:
         parallel.run(_test_sync_reduce_inplace)
@@ -280,13 +286,15 @@ def _test_sync_reduce_inplace(local_rank: int):
         _check_sync_reduce_float,
     ],
 )
-@testing.distributed_available
+@distributed_available
+@gloo_available
 def test_sync_reduce_gloo(parallel_gloo_2, func):
     with parallel_gloo_2 as parallel:
         parallel.run(func)
 
 
-@testing.distributed_available
+@distributed_available
+@gloo_available
 def test_sync_reduce_inplace_gloo(parallel_gloo_2):
     with parallel_gloo_2 as parallel:
         parallel.run(_test_sync_reduce_inplace)
@@ -301,17 +309,17 @@ def test_sync_reduce_inplace_gloo(parallel_gloo_2):
         _check_sync_reduce_float,
     ],
 )
-@testing.multi_gpus
-@testing.distributed_available
-@testing.nccl_available
+@two_gpus_available
+@distributed_available
+@nccl_available
 def test_sync_reduce_nccl(parallel_nccl_2, func):
     with parallel_nccl_2 as parallel:
         parallel.run(func)
 
 
-@testing.multi_gpus
-@testing.distributed_available
-@testing.nccl_available
+@two_gpus_available
+@distributed_available
+@nccl_available
 def test_sync_reduce_inplace_nccl(parallel_nccl_2):
     with parallel_nccl_2 as parallel:
         parallel.run(_test_sync_reduce_inplace)
@@ -355,15 +363,16 @@ def _check_all_gather_tensor_varshape(local_rank: int) -> None:
     )
 
 
-@testing.distributed_available
+@distributed_available
+@gloo_available
 def test_all_gather_tensor_varshape_gloo(parallel_gloo_2):
     with parallel_gloo_2 as parallel:
         parallel.run(_check_all_gather_tensor_varshape)
 
 
-@testing.multi_gpus
-@testing.distributed_available
-@testing.nccl_available
+@two_gpus_available
+@distributed_available
+@nccl_available
 def test_all_gather_tensor_varshape_nccl(parallel_nccl_2):
     with parallel_nccl_2 as parallel:
         parallel.run(_check_all_gather_tensor_varshape)

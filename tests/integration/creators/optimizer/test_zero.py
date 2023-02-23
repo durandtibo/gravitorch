@@ -9,7 +9,7 @@ from torch.nn.parallel import DistributedDataParallel
 from gravitorch import distributed as dist
 from gravitorch.creators.optimizer import ZeroRedundancyOptimizerCreator
 from gravitorch.distributed import gloocontext
-from tests.testing import gloo_available
+from gravitorch.testing import gloo_available
 
 ####################################################
 #     Tests for ZeroRedundancyOptimizerCreator     #

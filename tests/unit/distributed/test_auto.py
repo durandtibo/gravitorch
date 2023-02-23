@@ -11,8 +11,8 @@ from gravitorch.distributed.auto import (
     auto_ddp_model,
 )
 from gravitorch.nn import get_module_device, get_module_devices, is_module_on_device
+from gravitorch.testing import cuda_available, distributed_available, nccl_available
 from gravitorch.utils import get_available_devices
-from tests.testing import cuda_available, distributed_available, nccl_available
 
 ##########################
 #     auto_ddp_model     #

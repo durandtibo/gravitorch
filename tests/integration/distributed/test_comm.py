@@ -1,7 +1,7 @@
 from gravitorch.distributed import Backend
 from gravitorch.distributed import backend as dist_backend
 from gravitorch.distributed import distributed_context, gloocontext, ncclcontext
-from tests.testing import (
+from gravitorch.testing import (
     cuda_available,
     distributed_available,
     gloo_available,

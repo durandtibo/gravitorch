@@ -12,6 +12,7 @@ from gravitorch.testing import (
     DummyClassificationModel,
     DummyDataSource,
     DummyIterableDataset,
+    accelerate_available,
     create_dummy_engine,
 )
 from gravitorch.utils.events import VanillaEventHandler
@@ -19,7 +20,6 @@ from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.integrations import is_accelerate_available
 from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
-from tests.testing import accelerate_available
 
 if is_accelerate_available():
     from accelerate import Accelerator
