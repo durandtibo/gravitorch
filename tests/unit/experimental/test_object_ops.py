@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from coola import objects_are_equal
 
-from gravitorch.utils.object_operations import add_objects, sub_objects
+from gravitorch.experimental.object_ops import add_objects, sub_objects
 
 #################################
 #     Tests for add_objects     #
