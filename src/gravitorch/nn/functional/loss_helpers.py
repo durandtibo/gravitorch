@@ -68,9 +68,10 @@ def check_basic_loss_reduction(reduction: str) -> None:
 
     .. code-block:: python
 
-        >>> import torch
         >>> from gravitorch.nn.functional import check_basic_loss_reduction
-        >>>
+        >>> check_basic_loss_reduction('mean')
+        >>> check_basic_loss_reduction('incorrect')
+        Traceback (most recent call last): ...
     """
     if reduction not in VALID_REDUCTIONS:
         raise ValueError(
