@@ -2,7 +2,12 @@ import numpy as np
 import torch
 from pytest import mark, raises
 
-from gravitorch.utils.asset import AssetManager, AssetNotFoundError, get_asset_summary
+from gravitorch.utils.asset import (
+    AssetExistsError,
+    AssetManager,
+    AssetNotFoundError,
+    get_asset_summary,
+)
 
 NAMES = ("name", "mean")
 
@@ -35,10 +40,17 @@ def test_asset_manager_add_asset(name: str):
     assert manager._assets == {name: 5}
 
 
-def test_asset_manager_add_asset_duplicate_name():
+def test_asset_manager_add_asset_duplicate_name_replace_ok_false():
     manager = AssetManager()
     manager.add_asset("name", 5)
-    manager.add_asset("name", 2)
+    with raises(AssetExistsError):
+        manager.add_asset("name", 2)
+
+
+def test_asset_manager_add_asset_duplicate_name_replace_ok_true():
+    manager = AssetManager()
+    manager.add_asset("name", 5)
+    manager.add_asset("name", 2, replace_ok=True)
     assert manager._assets == {"name": 2}
 
 
@@ -52,7 +64,7 @@ def test_asset_manager_add_asset_multiple_assets():
 def test_asset_manager_clone():
     manager = AssetManager({"name": 5})
     clone = manager.clone()
-    manager.add_asset("name", 7)
+    manager.add_asset("name", 7, replace_ok=True)
     assert manager.equal(AssetManager({"name": 7}))
     assert clone.equal(AssetManager({"name": 5}))
 
