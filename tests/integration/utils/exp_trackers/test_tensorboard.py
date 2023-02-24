@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import numpy as np
-from pytest import TempPathFactory, fixture
 
 from gravitorch.testing import tensorboard_available
 from gravitorch.utils.exp_trackers.tensorboard import TensorBoardExpTracker
@@ -27,14 +26,6 @@ def create_figure() -> Figure:
 
 def create_image() -> Image:
     return fromarray(np.zeros((16, 16, 3), dtype=np.uint8), "RGB")
-
-
-@fixture(scope="module")
-def tracker(tmp_path_factory: TempPathFactory) -> TensorBoardExpTracker:
-    with TensorBoardExpTracker(
-        experiment_path=tmp_path_factory.mktemp("data").as_posix()
-    ) as tracker:
-        yield tracker
 
 
 @tensorboard_available
