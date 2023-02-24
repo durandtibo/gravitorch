@@ -1,6 +1,6 @@
 __all__ = ["ResidualBlock"]
 
-from typing import Any, Union
+from typing import Union
 
 from torch import Tensor
 from torch.nn import Identity, Module
@@ -22,8 +22,8 @@ class ResidualBlock(Module):
 
     def __init__(
         self,
-        residual: Union[Module, dict[str, Any]],
-        skip: Union[Module, dict[str, Any], None] = None,
+        residual: Union[Module, dict],
+        skip: Union[Module, dict, None] = None,
     ):
         super().__init__()
         self.residual = setup_module(residual)

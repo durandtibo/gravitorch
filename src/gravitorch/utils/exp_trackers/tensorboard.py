@@ -33,12 +33,10 @@ if is_matplotlib_available():
 else:
     Figure = "matplotlib.pyplot.Figure"  # pragma: no cover
 
-
 if is_pillow_available():
     from PIL.Image import Image
 else:
     Image = "PIL.Image.Image"  # pragma: no cover
-
 
 if is_tensorboard_available():
     from torch.utils.tensorboard import SummaryWriter

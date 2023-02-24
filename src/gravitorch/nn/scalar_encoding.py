@@ -6,7 +6,7 @@ __all__ = [
 ]
 
 import math
-from typing import Any, Union
+from typing import Union
 
 import torch
 from torch import Tensor
@@ -513,7 +513,7 @@ class ScalarEncoderFFN(Module):
             network or its configuration.
     """
 
-    def __init__(self, encoder: Union[Module, dict[str, Any]], ffn: Union[Module, dict[str, Any]]):
+    def __init__(self, encoder: Union[Module, dict], ffn: Union[Module, dict]):
         super().__init__()
         self.encoder = setup_module(encoder)
         self.ffn = setup_module(ffn)

@@ -7,7 +7,7 @@ __all__ = ["VanillaModel"]
 
 import logging
 from pathlib import Path
-from typing import Any, Union
+from typing import Union
 
 import torch
 from torch import Tensor
@@ -68,9 +68,9 @@ class VanillaModel(BaseModel):
 
     def __init__(
         self,
-        network: Union[Module, dict[str, Any]],
-        criterion: Union[Module, dict[str, Any]],
-        metrics: Union[ModuleDict, dict[str, Any], None] = None,
+        network: Union[Module, dict],
+        criterion: Union[Module, dict],
+        metrics: Union[ModuleDict, dict, None] = None,
         checkpoint_path: Union[Path, str, None] = None,
         random_seed: int = 6671429959452193306,
     ):
@@ -114,7 +114,7 @@ class VanillaModel(BaseModel):
         for metric in self.metrics.values():
             attach_module_to_engine(metric, engine)
 
-    def _setup_metrics(self, metrics: Union[ModuleDict, dict[str, Any], None]) -> ModuleDict:
+    def _setup_metrics(self, metrics: Union[ModuleDict, dict, None]) -> ModuleDict:
         r"""Sets up the metrics.
 
         Args:

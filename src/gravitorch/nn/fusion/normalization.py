@@ -1,6 +1,6 @@
 __all__ = ["FusionNorm"]
 
-from typing import Any, Union
+from typing import Union
 
 from torch import Tensor
 from torch.nn import Dropout, LayerNorm, Module
@@ -58,9 +58,9 @@ class FusionNorm(Module):
 
     def __init__(
         self,
-        fusion: Union[Module, dict[str, Any]],
-        norm: Union[Module, dict[str, Any]],
-        dropout: Union[Module, dict[str, Any]],
+        fusion: Union[Module, dict],
+        norm: Union[Module, dict],
+        dropout: Union[Module, dict],
     ):
         super().__init__()
         self.fusion = setup_module(fusion)
