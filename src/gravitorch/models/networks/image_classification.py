@@ -3,7 +3,7 @@ network from ``torchvision`` compatible with ``VanillaModel``."""
 
 __all__ = ["ImageClassificationNetwork"]
 
-from typing import Any, Union
+from typing import Union
 
 import torch
 from torch import Tensor
@@ -31,7 +31,7 @@ class ImageClassificationNetwork(Module):
 
     def __init__(
         self,
-        network: Union[Module, dict[str, Any]],
+        network: Union[Module, dict],
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
     ):
