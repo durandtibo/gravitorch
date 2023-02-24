@@ -29,14 +29,6 @@ def create_image() -> Image:
     return fromarray(np.zeros((16, 16, 3), dtype=np.uint8), "RGB")
 
 
-@fixture(scope="module")
-def tracker(tmp_path_factory: TempPathFactory) -> TensorBoardExpTracker:
-    with TensorBoardExpTracker(
-        experiment_path=tmp_path_factory.mktemp("data").as_posix()
-    ) as tracker:
-        yield tracker
-
-
 @tensorboard_available
 def test_tensorboard_exp_tracker(tmp_path: Path):
     with TensorBoardExpTracker(experiment_path=tmp_path.joinpath("data")) as tracker:
