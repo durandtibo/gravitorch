@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import numpy as np
-from pytest import TempPathFactory, fixture
 
 from gravitorch.testing import tensorboard_available
 from gravitorch.utils.exp_trackers.tensorboard import TensorBoardExpTracker
