@@ -5,7 +5,7 @@ from pytest import LogCaptureFixture, mark
 from torch import nn
 from torch.optim import SGD
 
-from gravitorch.engines import EngineEvents
+from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.handlers import ConsolidateOptimizerState
 from gravitorch.utils.events import VanillaEventHandler
 
@@ -69,7 +69,7 @@ def test_consolidate_optimizer_state_consolidate_no_optimizer(
 
 @mark.parametrize("recipient_rank", (0, 1))
 def test_consolidate_optimizer_state_consolidate(recipient_rank: int):
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     ConsolidateOptimizerState(recipient_rank=recipient_rank).consolidate(engine)
     engine.optimizer.consolidate_state_dict.assert_called_once_with(recipient_rank)
 
@@ -79,6 +79,6 @@ def test_consolidate_optimizer_state_consolidate_no_consolidate_state_dict(
 ):
     with caplog.at_level(logging.INFO):
         ConsolidateOptimizerState().consolidate(
-            engine=Mock(optimizer=SGD(nn.Linear(4, 6).parameters(), lr=0.01))
+            engine=Mock(spec=BaseEngine, optimizer=SGD(nn.Linear(4, 6).parameters(), lr=0.01))
         )
         assert len(caplog.messages) == 1

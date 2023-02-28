@@ -44,7 +44,7 @@ def test_best_history_saver_event_default(tmp_path: Path):
 @mark.parametrize("event", EVENTS)
 def test_best_history_saver_attach(tmp_path: Path, event: str):
     saver = BestHistorySaver(tmp_path, event=event)
-    engine = Mock(has_event_handler=Mock(return_value=False))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -54,7 +54,7 @@ def test_best_history_saver_attach(tmp_path: Path, event: str):
 
 def test_best_history_saver_attach_duplicate(tmp_path: Path):
     handler = BestHistorySaver(tmp_path, event="my_event")
-    engine = Mock(has_event_handler=Mock(return_value=True))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -115,7 +115,7 @@ def test_last_history_saver_event_default(tmp_path: Path):
 @mark.parametrize("event", EVENTS)
 def test_last_history_saver_attach(tmp_path: Path, event: str):
     saver = LastHistorySaver(tmp_path, event=event)
-    engine = Mock(has_event_handler=Mock(return_value=False))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -125,7 +125,7 @@ def test_last_history_saver_attach(tmp_path: Path, event: str):
 
 def test_last_history_saver_attach_duplicate(tmp_path: Path):
     handler = LastHistorySaver(tmp_path, event="my_event")
-    engine = Mock(has_event_handler=Mock(return_value=True))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -196,7 +196,7 @@ def test_best_engine_state_saver_keys(tmp_path: Path, keys: Union[tuple[str, ...
 @mark.parametrize("event", EVENTS)
 def test_best_engine_state_saver_attach(tmp_path: Path, event: str):
     saver = BestEngineStateSaver(tmp_path, event=event, keys=("loss", "accuracy"))
-    engine = Mock(has_event_handler=Mock(return_value=False))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -206,7 +206,7 @@ def test_best_engine_state_saver_attach(tmp_path: Path, event: str):
 
 def test_best_engine_state_saver_attach_duplicate(tmp_path: Path):
     handler = BestEngineStateSaver(tmp_path, event="my_event", keys=("loss", "accuracy"))
-    engine = Mock(has_event_handler=Mock(return_value=True))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -276,7 +276,7 @@ def test_best_engine_state_saver_save_only_main_process_false(tmp_path: Path, ma
 
 def test_best_engine_state_saver_save_no_history(tmp_path: Path, caplog: LogCaptureFixture):
     saver = BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))
-    engine = Mock(has_history=Mock(return_value=False))
+    engine = Mock(spec=BaseEngine, has_history=Mock(return_value=False))
     with patch("gravitorch.handlers.engine_saver.save_pytorch") as save_mock:
         with caplog.at_level(logging.WARNING):
             saver.save(engine)
@@ -288,7 +288,11 @@ def test_best_engine_state_saver_save_non_comparable_history(
     tmp_path: Path, caplog: LogCaptureFixture
 ):
     saver = BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))
-    engine = Mock(has_history=Mock(return_value=True), get_history=lambda key: GenericHistory(key))
+    engine = Mock(
+        spec=BaseEngine,
+        has_history=Mock(return_value=True),
+        get_history=lambda key: GenericHistory(key),
+    )
     with patch("gravitorch.handlers.engine_saver.save_pytorch") as save_mock:
         with caplog.at_level(logging.WARNING):
             saver.save(engine)
@@ -301,6 +305,7 @@ def test_best_engine_state_saver_save_history_has_not_improved(
 ):
     saver = BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))
     engine = Mock(
+        spec=BaseEngine,
         has_history=Mock(return_value=True),
         get_history=lambda key: MaxScalarHistory(
             key, elements=[(0, 2), (1, 1)], improved=False, best_value=2
@@ -316,7 +321,9 @@ def test_best_engine_state_saver_save_history_has_not_improved(
 def test_best_engine_state_saver_save_empty_history(tmp_path: Path, caplog: LogCaptureFixture):
     saver = BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))
     engine = Mock(
-        has_history=Mock(return_value=True), get_history=lambda key: MaxScalarHistory(key)
+        spec=BaseEngine,
+        has_history=Mock(return_value=True),
+        get_history=lambda key: MaxScalarHistory(key),
     )
     with patch("gravitorch.handlers.engine_saver.save_pytorch") as save_mock:
         with caplog.at_level(logging.WARNING):
@@ -350,7 +357,7 @@ def test_epoch_engine_state_saver_event_default(tmp_path: Path):
 @mark.parametrize("event", EVENTS)
 def test_epoch_engine_state_saver_attach(tmp_path: Path, event: str):
     saver = EpochEngineStateSaver(tmp_path, event=event)
-    engine = Mock(has_event_handler=Mock(return_value=False))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -360,7 +367,7 @@ def test_epoch_engine_state_saver_attach(tmp_path: Path, event: str):
 
 def test_epoch_engine_state_saver_attach_duplicate(tmp_path: Path):
     handler = EpochEngineStateSaver(tmp_path, event="my_event")
-    engine = Mock(has_event_handler=Mock(return_value=True))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -447,7 +454,7 @@ def test_tag_engine_state_saver_attach(tmp_path: Path, event: str):
 
 def test_tag_engine_state_saver_attach_duplicate(tmp_path: Path):
     handler = TagEngineStateSaver(tmp_path, event="my_event")
-    engine = Mock(has_event_handler=Mock(return_value=True))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 

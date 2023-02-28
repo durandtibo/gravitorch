@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 
 from pytest import mark, raises
 
-from gravitorch.engines import EngineEvents
+from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.handlers import EpochOptimizerMonitor, IterationOptimizerMonitor
 from gravitorch.utils.events import (
     ConditionalEventHandler,
@@ -69,8 +69,7 @@ def test_epoch_optimizer_monitor_prefix_default():
 @mark.parametrize("freq", (1, 2))
 def test_epoch_optimizer_monitor_attach(event: str, freq: int):
     handler = EpochOptimizerMonitor(event=event, freq=freq)
-    engine = Mock()
-    engine.epoch = -1
+    engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=True))
     engine.has_event_handler.return_value = False
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
@@ -85,9 +84,7 @@ def test_epoch_optimizer_monitor_attach(event: str, freq: int):
 
 def test_epoch_optimizer_monitor_attach_duplicate():
     handler = EpochOptimizerMonitor()
-    engine = Mock()
-    engine.epoch = -1
-    engine.has_event_handler.return_value = True
+    engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -96,8 +93,7 @@ def test_epoch_optimizer_monitor_attach_duplicate():
 @mark.parametrize("prefix", ("train/", "eval/"))
 def test_epoch_optimizer_monitor_monitor(tablefmt: str, prefix: str):
     optimizer_monitor = EpochOptimizerMonitor(tablefmt=tablefmt, prefix=prefix)
-    engine = Mock()
-    engine.epoch = 1
+    engine = Mock(spec=BaseEngine, epoch=1)
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"
     ) as show_mock:
@@ -116,8 +112,7 @@ def test_epoch_optimizer_monitor_monitor(tablefmt: str, prefix: str):
 
 def test_epoch_optimizer_monitor_monitor_no_optimizer():
     optimizer_monitor = EpochOptimizerMonitor()
-    engine = Mock()
-    engine.optimizer = None
+    engine = Mock(spec=BaseEngine, optimizer=None)
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"
     ) as show_mock:
@@ -184,9 +179,7 @@ def test_iteration_optimizer_monitor_prefix_default():
 @mark.parametrize("freq", (1, 2))
 def test_iteration_optimizer_monitor_attach(event: str, freq: int):
     handler = IterationOptimizerMonitor(event=event, freq=freq)
-    engine = Mock()
-    engine.iteration = -1
-    engine.has_event_handler.return_value = False
+    engine = Mock(spec=BaseEngine, iteration=-1, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -200,9 +193,7 @@ def test_iteration_optimizer_monitor_attach(event: str, freq: int):
 
 def test_iteration_optimizer_monitor_attach_duplicate():
     handler = IterationOptimizerMonitor()
-    engine = Mock()
-    engine.iteration = -1
-    engine.has_event_handler.return_value = True
+    engine = Mock(spec=BaseEngine, iteration=-1, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -211,8 +202,7 @@ def test_iteration_optimizer_monitor_attach_duplicate():
 @mark.parametrize("prefix", ("train/", "eval/"))
 def test_iteration_optimizer_monitor_monitor(tablefmt: str, prefix: str):
     optimizer_monitor = IterationOptimizerMonitor(tablefmt=tablefmt, prefix=prefix)
-    engine = Mock()
-    engine.iteration = 10
+    engine = Mock(spec=BaseEngine, iteration=10)
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"
     ) as show_mock:
@@ -231,14 +221,12 @@ def test_iteration_optimizer_monitor_monitor(tablefmt: str, prefix: str):
 
 def test_iteration_optimizer_monitor_monitor_no_optimizer():
     optimizer_monitor = IterationOptimizerMonitor()
-    engine = Mock()
-    engine.optimizer = None
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"
     ) as show_mock:
         with patch(
             "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
         ) as log_mock:
-            optimizer_monitor.monitor(engine)
+            optimizer_monitor.monitor(engine=Mock(spec=BaseEngine, optimizer=None))
             show_mock.assert_not_called()
             log_mock.assert_not_called()

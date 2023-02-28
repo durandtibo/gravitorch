@@ -5,6 +5,7 @@ from unittest.mock import Mock
 import torch
 from pytest import mark, raises
 
+from gravitorch.engines import BaseEngine
 from gravitorch.handlers import (
     EngineStateLoader,
     EngineStateLoaderWithExcludeKeys,
@@ -45,7 +46,7 @@ def test_engine_state_loader_missing_ok(tmp_path: Path, missing_ok: bool):
 @mark.parametrize("event", EVENTS)
 def test_engine_state_loader_attach(tmp_path: Path, event: str):
     loader = EngineStateLoader(tmp_path, event=event)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     engine.has_event_handler.return_value = False
     loader.attach(engine)
     engine.add_event_handler.assert_called_once_with(
@@ -56,8 +57,7 @@ def test_engine_state_loader_attach(tmp_path: Path, event: str):
 
 def test_engine_state_loader_attach_duplicate(tmp_path: Path):
     handler = EngineStateLoader(tmp_path, event="my_event")
-    engine = Mock()
-    engine.has_event_handler.return_value = True
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -66,7 +66,7 @@ def test_engine_state_loader_load_engine_state_dict_file_exists(tmp_path: Path):
     path = tmp_path.joinpath("state.pt")
     save_pytorch({"key", 1}, path)
     loader = EngineStateLoader(path, event="my_event")
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     loader.load_engine_state_dict(engine)
     engine.load_state_dict.assert_called_once_with({"key", 1})
 
@@ -75,7 +75,7 @@ def test_engine_state_loader_load_engine_state_dict_file_exists_tensor(tmp_path:
     path = tmp_path.joinpath("state.pt")
     save_pytorch({"key", torch.ones(2, 3)}, path)
     loader = EngineStateLoader(path, event="my_event")
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     loader.load_engine_state_dict(engine)
     engine.load_state_dict.assert_called_once()
 
@@ -84,7 +84,7 @@ def test_engine_state_loader_load_engine_state_dict_file_does_not_exist_missing_
     tmp_path: Path,
 ):
     loader = EngineStateLoader(tmp_path, event="my_event", missing_ok=True)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     loader.load_engine_state_dict(engine)
     engine.load_state_dict.assert_not_called()
 
@@ -142,7 +142,7 @@ def test_engine_state_loader_with_exclude_keys_load_engine_state_dict_file_exist
     path = tmp_path.joinpath("state.pt")
     save_pytorch({"key1": 1, "key2": 2, "key3": 3}, path)
     loader = EngineStateLoaderWithExcludeKeys(path, event="my_event", exclude_keys=("key3", "key4"))
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     loader.load_engine_state_dict(engine)
     engine.load_state_dict.assert_called_once_with({"key1": 1, "key2": 2})
 
@@ -199,6 +199,6 @@ def test_engine_state_loader_with_include_keys_load_engine_state_dict_file_exist
     path = tmp_path.joinpath("state.pt")
     save_pytorch({"key1": 1, "key2": 2, "key3": 3}, path)
     loader = EngineStateLoaderWithIncludeKeys(path, event="my_event", include_keys=("key1", "key2"))
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     loader.load_engine_state_dict(engine)
     engine.load_state_dict.assert_called_once_with({"key1": 1, "key2": 2})

@@ -2,9 +2,10 @@ from unittest.mock import Mock
 
 from pytest import mark
 
-from gravitorch.engines import EngineEvents
+from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.handlers import ParameterInitializer
 from gravitorch.utils.events import VanillaEventHandler
+from gravitorch.utils.parameter_initializers import BaseParameterInitializer
 
 EVENTS = ("my_event", "my_other_event")
 
@@ -31,10 +32,9 @@ def test_parameter_initializer_event_default():
 
 @mark.parametrize("event", EVENTS)
 def test_parameter_initializer_attach(event: str):
-    parameter_initializer = Mock()
+    parameter_initializer = Mock(spec=BaseParameterInitializer)
     handler = ParameterInitializer(parameter_initializer=parameter_initializer, event=event)
-    engine = Mock()
-    engine.has_event_handler.return_value = False
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -43,8 +43,7 @@ def test_parameter_initializer_attach(event: str):
 
 
 def test_parameter_initializer_attach_duplicate():
-    handler = ParameterInitializer(parameter_initializer=Mock())
-    engine = Mock()
-    engine.has_event_handler.return_value = True
+    handler = ParameterInitializer(parameter_initializer=Mock(spec=BaseParameterInitializer))
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()

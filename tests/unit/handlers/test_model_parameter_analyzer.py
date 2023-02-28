@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 
 from pytest import mark
 
-from gravitorch.engines import EngineEvents
+from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.handlers import ModelParameterAnalyzer
 from gravitorch.utils.events import VanillaEventHandler
 
@@ -38,7 +38,7 @@ def test_model_parameter_analyzer_tablefmt_default():
 @mark.parametrize("event", EVENTS)
 def test_model_parameter_analyzer_attach(event: str):
     handler = ModelParameterAnalyzer(events=event)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -48,7 +48,7 @@ def test_model_parameter_analyzer_attach(event: str):
 
 def test_model_parameter_analyzer_attach_2_events():
     handler = ModelParameterAnalyzer()
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     handler.attach(engine)
     assert engine.add_event_handler.call_args_list[0].args == (
         EngineEvents.STARTED,
@@ -63,7 +63,7 @@ def test_model_parameter_analyzer_attach_2_events():
 @mark.parametrize("tablefmt", ("rst", "github"))
 def test_model_parameter_analyzer_analyze(tablefmt: str):
     handler = ModelParameterAnalyzer(tablefmt=tablefmt)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     with patch("gravitorch.handlers.model_parameter_analyzer.show_parameter_stats") as analyze_mock:
         handler.analyze(engine)
         analyze_mock.assert_called_once_with(module=engine.model, tablefmt=tablefmt)

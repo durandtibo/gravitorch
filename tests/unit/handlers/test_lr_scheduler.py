@@ -1,5 +1,6 @@
 from unittest.mock import Mock
 
+from gravitorch.engines import BaseEngine
 from gravitorch.handlers import (
     EpochLRMonitor,
     EpochLRScheduler,
@@ -29,7 +30,7 @@ def test_vanilla_lr_scheduler_attach():
     lr_scheduler_updater = Mock()
     lr_monitor = Mock()
     handler = VanillaLRScheduler(lr_scheduler_updater=lr_scheduler_updater, lr_monitor=lr_monitor)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     handler.attach(engine)
     lr_scheduler_updater.attach.assert_called_once_with(engine)
     lr_monitor.attach.assert_called_once_with(engine)
