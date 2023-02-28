@@ -34,8 +34,7 @@ def test_lr_scheduler_updater_event(event: str):
 @mark.parametrize("event", EVENTS)
 def test_lr_scheduler_updater_attach(event: str):
     handler = LRSchedulerUpdater(event=event)
-    engine = Mock(spec=BaseEngine)
-    engine.has_event_handler.return_value = False
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event, VanillaEventHandler(engine.lr_scheduler.step)
@@ -44,16 +43,14 @@ def test_lr_scheduler_updater_attach(event: str):
 
 def test_lr_scheduler_updater_attach_duplicate():
     handler = LRSchedulerUpdater("my_event")
-    engine = Mock(spec=BaseEngine)
-    engine.has_event_handler.return_value = True
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
 def test_lr_scheduler_updater_attach_lr_scheduler_none():
     handler = LRSchedulerUpdater("my_event")
-    engine = Mock(spec=BaseEngine)
-    engine.lr_scheduler = None
+    engine = Mock(spec=BaseEngine, lr_scheduler=None)
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -88,8 +85,7 @@ def test_metric_lr_scheduler_updater_metric_name(metric_name):
 @mark.parametrize("event", EVENTS)
 def test_metric_lr_scheduler_updater_attach(event: str):
     handler = MetricLRSchedulerUpdater(event=event)
-    engine = Mock(spec=BaseEngine)
-    engine.has_event_handler.return_value = False
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event, VanillaEventHandler(handler.step, handler_kwargs={"engine": engine})
@@ -98,16 +94,14 @@ def test_metric_lr_scheduler_updater_attach(event: str):
 
 def test_metric_lr_scheduler_updater_attach_duplicate():
     handler = MetricLRSchedulerUpdater("my_event")
-    engine = Mock(spec=BaseEngine)
-    engine.has_event_handler.return_value = True
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
 def test_metric_lr_scheduler_updater_attach_lr_scheduler_none():
     handler = MetricLRSchedulerUpdater("my_event")
-    engine = Mock(spec=BaseEngine)
-    engine.lr_scheduler = None
+    engine = Mock(spec=BaseEngine, lr_scheduler=None)
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -115,10 +109,10 @@ def test_metric_lr_scheduler_updater_attach_lr_scheduler_none():
 @mark.parametrize("metric_name", METRICS)
 def test_metric_lr_scheduler_updater_step(metric_name: str):
     handler = MetricLRSchedulerUpdater("my_event", metric_name)
-    engine = Mock(spec=BaseEngine)
-    history = MinScalarHistory(metric_name)
-    history.add_value(1.2)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        get_history=Mock(return_value=MinScalarHistory(metric_name, elements=((None, 1.2),))),
+    )
     handler.step(engine)
     engine.lr_scheduler.step.assert_called_once_with(1.2)
 

@@ -3,7 +3,7 @@ from unittest.mock import Mock
 from pytest import mark, raises
 
 from gravitorch import constants as ct
-from gravitorch.engines import EngineEvents
+from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.handlers import EarlyStopping
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import (
@@ -57,10 +57,12 @@ def test_early_stopping_cumulative_delta(cumulative_delta: bool):
 
 
 def test_early_stopping_attach_with_correct_metric():
-    engine = Mock()
-    engine.has_event_handler.return_value = False
-    engine.has_history.return_value = True
-    engine.get_history.return_value = MinScalarHistory("my_metric")
+    engine = Mock(
+        spec=BaseEngine,
+        has_event_handler=Mock(return_value=False),
+        has_history=Mock(return_value=True),
+        get_history=Mock(return_value=MinScalarHistory("my_metric")),
+    )
     handler = EarlyStopping(metric_name="my_metric")
     handler.attach(engine)
     assert engine.add_event_handler.call_args_list[0].args == (
@@ -75,19 +77,23 @@ def test_early_stopping_attach_with_correct_metric():
 
 
 def test_early_stopping_attach_with_incorrect_metric():
-    engine = Mock()
-    engine.has_history.return_value = True
-    engine.get_history.return_value = GenericHistory("my_metric")
+    engine = Mock(
+        spec=BaseEngine,
+        has_history=Mock(return_value=True),
+        get_history=Mock(return_value=GenericHistory("my_metric")),
+    )
     handler = EarlyStopping(metric_name="my_metric")
     with raises(RuntimeError):
         handler.attach(engine)
 
 
 def test_early_stopping_attach_without_metric():
-    engine = Mock()
+    engine = Mock(
+        spec=BaseEngine,
+        has_event_handler=Mock(return_value=False),
+        has_history=Mock(return_value=False),
+    )
     handler = EarlyStopping()
-    engine.has_event_handler.return_value = False
-    engine.has_history.return_value = False
     handler.attach(engine)
     assert engine.add_event_handler.call_args_list[0].args == (
         EngineEvents.TRAIN_STARTED,
@@ -124,14 +130,14 @@ def test_early_stopping_state_dict():
 
 
 def test_early_stopping_start_should_terminate_false():
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     handler = EarlyStopping()
     handler.start(engine)
     engine.terminate.assert_not_called()
 
 
 def test_early_stopping_start_should_terminate_true():
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     handler = EarlyStopping()
     handler.load_state_dict(
         {
@@ -145,8 +151,7 @@ def test_early_stopping_start_should_terminate_true():
 
 
 def test_early_stopping_step_empty_history():
-    engine = Mock()
-    engine.get_history.return_value = MinScalarHistory("my_metric")
+    engine = Mock(spec=BaseEngine, get_history=Mock(return_value=MinScalarHistory("my_metric")))
     handler = EarlyStopping(metric_name="my_metric")
     with raises(EmptyHistoryError):
         handler.step(engine)
@@ -154,11 +159,11 @@ def test_early_stopping_step_empty_history():
 
 def test_early_stopping_step_first_epoch():
     handler = EarlyStopping(metric_name="my_metric")
-    engine = Mock()
-    engine.epoch = 0
-    history = MinScalarHistory("my_metric")
-    history.add_value(32)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        epoch=0,
+        get_history=Mock(return_value=MinScalarHistory("my_metric", elements=((None, 32),))),
+    )
     handler.step(engine)
     assert handler._best_epoch == 0
     assert handler._best_score == 32
@@ -174,11 +179,11 @@ def test_early_stopping_step_reset_waiting_counter():
             "waiting_counter": 3,
         }
     )
-    engine = Mock()
-    engine.epoch = 16
-    history = MinScalarHistory("my_metric")
-    history.add_value(4)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        epoch=16,
+        get_history=Mock(return_value=MinScalarHistory("my_metric", elements=((None, 4),))),
+    )
     handler.step(engine)
     assert handler._best_epoch == 16
     assert handler._best_score == 4
@@ -194,11 +199,11 @@ def test_early_stopping_step_increase_waiting_counter():
             "waiting_counter": 3,
         }
     )
-    engine = Mock()
-    engine.epoch = 16
-    history = MinScalarHistory("my_metric")
-    history.add_value(6)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        epoch=16,
+        get_history=Mock(return_value=MinScalarHistory("my_metric", elements=((None, 6),))),
+    )
     handler.step(engine)
     assert handler._best_epoch == 12
     assert handler._best_score == 5
@@ -214,10 +219,10 @@ def test_early_stopping_step_waiting_counter_reach_patience():
             "waiting_counter": 4,
         }
     )
-    engine = Mock()
-    history = MinScalarHistory("my_metric")
-    history.add_value(6)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        get_history=Mock(return_value=MinScalarHistory("my_metric", elements=((None, 6),))),
+    )
     handler.step(engine)
     engine.terminate.assert_called_once()
     assert handler._best_epoch == 12
@@ -234,11 +239,11 @@ def test_early_stopping_step_increase_waiting_counter_delta_1_min():
             "waiting_counter": 3,
         }
     )
-    engine = Mock()
-    engine.epoch = 16
-    history = MinScalarHistory("my_metric")
-    history.add_value(4.5)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        epoch=16,
+        get_history=Mock(return_value=MinScalarHistory("my_metric", elements=((None, 4.5),))),
+    )
     handler.step(engine)
     assert handler._best_epoch == 12
     assert handler._best_score == 4.5
@@ -254,11 +259,11 @@ def test_early_stopping_step_increase_waiting_counter_delta_1_max():
             "waiting_counter": 3,
         }
     )
-    engine = Mock()
-    engine.epoch = 16
-    history = MaxScalarHistory("my_metric")
-    history.add_value(5.5)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        epoch=16,
+        get_history=Mock(return_value=MaxScalarHistory("my_metric", elements=((None, 5.5),))),
+    )
     handler.step(engine)
     assert handler._best_epoch == 12
     assert handler._best_score == 5.5
@@ -274,11 +279,11 @@ def test_early_stopping_step_increase_waiting_counter_cumulative_delta_true_min(
             "waiting_counter": 3,
         }
     )
-    engine = Mock()
-    engine.epoch = 16
-    history = MinScalarHistory("my_metric")
-    history.add_value(4.5)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        epoch=16,
+        get_history=Mock(return_value=MinScalarHistory("my_metric", elements=((None, 4.5),))),
+    )
     handler.step(engine)
     assert handler._best_epoch == 12
     assert handler._best_score == 5
@@ -294,11 +299,11 @@ def test_early_stopping_step_increase_waiting_counter_cumulative_delta_true_max(
             "waiting_counter": 3,
         }
     )
-    engine = Mock()
-    engine.epoch = 16
-    history = MaxScalarHistory("my_metric")
-    history.add_value(5.5)
-    engine.get_history.return_value = history
+    engine = Mock(
+        spec=BaseEngine,
+        epoch=16,
+        get_history=Mock(return_value=MaxScalarHistory("my_metric", elements=((None, 5.5),))),
+    )
     handler.step(engine)
     assert handler._best_epoch == 12
     assert handler._best_score == 5

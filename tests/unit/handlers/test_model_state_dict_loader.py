@@ -57,8 +57,7 @@ def test_model_state_dict_loader_key_default(tmp_path: Path):
 @mark.parametrize("event", EVENTS)
 def test_model_state_dict_loader_attach(tmp_path: Path, event: str):
     handler = ModelStateDictLoader(checkpoint_path=tmp_path, event=event)
-    engine = Mock()
-    engine.has_event_handler.return_value = False
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -68,8 +67,7 @@ def test_model_state_dict_loader_attach(tmp_path: Path, event: str):
 
 def test_model_state_dict_loader_attach_duplicate(tmp_path: Path):
     handler = ModelStateDictLoader(checkpoint_path=tmp_path)
-    engine = Mock()
-    engine.has_event_handler.return_value = True
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
@@ -138,8 +136,7 @@ def test_partial_model_state_dict_loader_key_default(tmp_path: Path):
 @mark.parametrize("event", EVENTS)
 def test_partial_model_state_dict_loader_attach(tmp_path: Path, event: str):
     handler = PartialModelStateDictLoader(checkpoint_path=tmp_path, event=event)
-    engine = Mock()
-    engine.has_event_handler.return_value = False
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
@@ -149,8 +146,7 @@ def test_partial_model_state_dict_loader_attach(tmp_path: Path, event: str):
 
 def test_partial_model_state_dict_loader_attach_duplicate(tmp_path: Path):
     handler = PartialModelStateDictLoader(checkpoint_path=tmp_path)
-    engine = Mock()
-    engine.has_event_handler.return_value = True
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
