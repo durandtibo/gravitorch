@@ -1,4 +1,4 @@
-__all__ = ["ModelModuleFreezer"]
+__all__ = ["ModelFreezer"]
 
 import logging
 
@@ -12,14 +12,15 @@ from gravitorch.utils.events import VanillaEventHandler
 logger = logging.getLogger(__name__)
 
 
-class ModelModuleFreezer(BaseHandler):
-    r"""Implements a handler to freeze a (sub-)module of the model.
+class ModelFreezer(BaseHandler):
+    r"""Implements a handler to freeze the model or one of its submodules.
 
     Args:
-        event (str, optional): Specifies the event when the module
+        event (str, optional): Specifies the event when the model
             is frozen. Default: ``'train_started'``
         module_name (str, optional): Specifies the name of the module
-            to freeze. Default: ``''``
+            to freeze if only one of the submodules should be frozen.
+            Default: ``''``
     """
 
     def __init__(self, module_name: str = "", event: str = EngineEvents.TRAIN_STARTED):
@@ -42,7 +43,7 @@ class ModelModuleFreezer(BaseHandler):
         )
 
     def freeze(self, engine: BaseEngine) -> None:
-        r"""Freezes a module in the model.
+        r"""Freezes the model or one of its submodules.
 
         Args:
             engine (``BaseEngine``): Specifies the engine with the

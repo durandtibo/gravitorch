@@ -25,7 +25,7 @@ __all__ = [
     "MetricEpochLRSchedulerUpdater",
     "MetricLRSchedulerUpdater",
     "ModelArchitectureAnalyzer",
-    "ModelModuleFreezer",
+    "ModelFreezer",
     "ModelNetworkArchitectureAnalyzer",
     "ModelParameterAnalyzer",
     "ModelStateDictLoader",
@@ -80,7 +80,7 @@ from gravitorch.handlers.model_state_dict_loader import (
     ModelStateDictLoader,
     PartialModelStateDictLoader,
 )
-from gravitorch.handlers.nn_module import ModelModuleFreezer
+from gravitorch.handlers.nn_module import ModelFreezer
 from gravitorch.handlers.optimizer_monitor import (
     EpochOptimizerMonitor,
     IterationOptimizerMonitor,
