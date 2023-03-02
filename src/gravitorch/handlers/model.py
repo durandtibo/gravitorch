@@ -23,7 +23,11 @@ class ModelFreezer(BaseHandler):
             Default: ``''``
     """
 
-    def __init__(self, module_name: str = "", event: str = EngineEvents.TRAIN_STARTED):
+    def __init__(
+        self,
+        event: str = EngineEvents.TRAIN_STARTED,
+        module_name: str = "",
+    ):
         self._module_name = str(module_name)
         self._event = str(event)
 
@@ -49,4 +53,8 @@ class ModelFreezer(BaseHandler):
             engine (``BaseEngine``): Specifies the engine with the
                 model.
         """
+        if self._module_name:
+            logger.info(f"Freeze submodule {self._module_name}")
+        else:
+            logger.info("Freeze model")
         freeze_module(engine.model.get_submodule(self._module_name))
