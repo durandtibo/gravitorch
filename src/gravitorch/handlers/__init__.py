@@ -71,6 +71,7 @@ from gravitorch.handlers.lr_scheduler_updater import (
     MetricEpochLRSchedulerUpdater,
     MetricLRSchedulerUpdater,
 )
+from gravitorch.handlers.model import ModelFreezer
 from gravitorch.handlers.model_architecture_analyzer import (
     ModelArchitectureAnalyzer,
     ModelNetworkArchitectureAnalyzer,
@@ -80,7 +81,6 @@ from gravitorch.handlers.model_state_dict_loader import (
     ModelStateDictLoader,
     PartialModelStateDictLoader,
 )
-from gravitorch.handlers.nn_module import ModelFreezer
 from gravitorch.handlers.optimizer_monitor import (
     EpochOptimizerMonitor,
     IterationOptimizerMonitor,
