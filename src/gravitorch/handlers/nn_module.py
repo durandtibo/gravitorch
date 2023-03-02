@@ -13,15 +13,16 @@ logger = logging.getLogger(__name__)
 
 
 class ModelModuleFreezer(BaseHandler):
-    r"""Implements a handler to freeze a submodule of the model.
+    r"""Implements a handler to freeze a (sub-)module of the model.
 
     Args:
-        module_name (str): Specifies the name of the module to freeze.
         event (str, optional): Specifies the event when the module
             is frozen. Default: ``'train_started'``
+        module_name (str, optional): Specifies the name of the module
+            to freeze. Default: ``''``
     """
 
-    def __init__(self, module_name: str, event: str = EngineEvents.TRAIN_STARTED):
+    def __init__(self, module_name: str = "", event: str = EngineEvents.TRAIN_STARTED):
         self._module_name = str(module_name)
         self._event = str(event)
 
@@ -41,5 +42,10 @@ class ModelModuleFreezer(BaseHandler):
         )
 
     def freeze(self, engine: BaseEngine) -> None:
-        r"""Freezes the module."""
+        r"""Freezes a module in the model.
+
+        Args:
+            engine (``BaseEngine``): Specifies the engine with the
+                model.
+        """
         freeze_module(engine.model.get_submodule(self._module_name))

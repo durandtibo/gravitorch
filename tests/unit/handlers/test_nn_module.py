@@ -16,21 +16,21 @@ EVENTS = ("my_event", "my_other_event")
 
 
 def test_model_module_freezer_str():
-    assert str(ModelModuleFreezer(module_name="module")).startswith("ModelModuleFreezer(")
+    assert str(ModelModuleFreezer()).startswith("ModelModuleFreezer(")
 
 
 @mark.parametrize("event", EVENTS)
 def test_model_module_freezer_event(event: str):
-    assert ModelModuleFreezer(module_name="module", event=event)._event == event
+    assert ModelModuleFreezer(event=event)._event == event
 
 
 def test_model_module_freezer_event_default():
-    assert ModelModuleFreezer(module_name="module")._event == EngineEvents.TRAIN_STARTED
+    assert ModelModuleFreezer()._event == EngineEvents.TRAIN_STARTED
 
 
 @mark.parametrize("event", EVENTS)
 def test_model_module_freezer_attach(event: str):
-    handler = ModelModuleFreezer(module_name="module", event=event)
+    handler = ModelModuleFreezer(event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
@@ -43,13 +43,23 @@ def test_model_module_freezer_attach(event: str):
 
 
 def test_model_module_freezer_attach_duplicate():
-    handler = ModelModuleFreezer(module_name="module")
+    handler = ModelModuleFreezer()
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
 def test_model_module_freezer_freeze():
+    handler = ModelModuleFreezer()
+    engine = Mock(
+        spec=BaseEngine, model=ModuleDict({"network": Sequential(Linear(4, 4), Linear(4, 4))})
+    )
+    handler.freeze(engine)
+    for param in engine.model.parameters():
+        param.requires_grad = False
+
+
+def test_model_module_freezer_freeze_submodule():
     handler = ModelModuleFreezer(module_name="network.0")
     engine = Mock(
         spec=BaseEngine, model=ModuleDict({"network": Sequential(Linear(4, 4), Linear(4, 4))})
