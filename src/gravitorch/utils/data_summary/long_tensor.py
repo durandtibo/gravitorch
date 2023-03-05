@@ -24,6 +24,7 @@ class LongTensorDataSummary(BaseDiscreteDataSummary[Tensor]):
         r"""Adds new data to the summary.
 
         Args:
+        ----
             data (``torch.Tensor`` of type long): Specifies the data
                 to add to the summary. This method converts the input
                 to a ``torch.Tensor`` of type long if the tensor type
@@ -46,18 +47,20 @@ class LongTensorSequenceDataSummary(BaseSequenceDataSummary[Tensor]):
         - ``count_{}``: the number of values per unique value
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(value_summary=LongTensorDataSummary())
 
     def _get_sequence_length(self, data: Tensor) -> int:
         r"""Gets the sequence length of the data.
 
         Args:
+        ----
             data (``torch.Tensor`` of type long and shape
                 ``(sequence_length, *)`` where `*` means any number of
                 dimensions): Specifies the input sequence.
 
         Returns:
+        -------
             int: The sequence length.
         """
         return data.shape[0]

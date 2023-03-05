@@ -16,11 +16,11 @@ class FakeResourceRunner(BaseResourceRunner):
         return 42
 
 
-def test_base_resource_runner_run_without_resources():
+def test_base_resource_runner_run_without_resources() -> None:
     assert FakeResourceRunner().run() == 42
 
 
-def test_base_resource_runner_run_with_resources():
+def test_base_resource_runner_run_with_resources() -> None:
     default = cuda.matmul.allow_tf32
     assert FakeResourceRunner(resources=(PyTorchCudaBackend(allow_tf32=True),)).run() == 42
     assert cuda.matmul.allow_tf32 == default

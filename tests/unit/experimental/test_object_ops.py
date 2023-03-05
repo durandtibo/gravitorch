@@ -41,7 +41,7 @@ def test_add_objects_list_torch_tensor():
 
 
 def test_add_objects_empty_tuple():
-    assert add_objects(tuple(), tuple()) == tuple()
+    assert add_objects((), ()) == ()
 
 
 def test_add_objects_tuple():
@@ -114,7 +114,7 @@ def test_sub_objects_list_torch_tensor():
 
 
 def test_sub_objects_empty_tuple():
-    assert sub_objects(tuple(), tuple()) == tuple()
+    assert sub_objects((), ()) == ()
 
 
 def test_sub_objects_tuple():

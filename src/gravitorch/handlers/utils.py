@@ -21,6 +21,7 @@ def add_unique_event_handler(
     it is not.
 
     Args:
+    ----
         engine (``BaseEngine``): Specifies the engine used to attach
             the event handler.
         event (str): Specifies the event.
@@ -55,10 +56,12 @@ def setup_handler(handler: Union[BaseHandler, dict]) -> BaseHandler:
     r"""Sets up a handler.
 
     Args:
+    ----
         handler (``BaseHandler`` or dict): Specifies the handler or
             its configuration.
 
     Returns:
+    -------
         ``BaseHandler``: The handler.
     """
     if isinstance(handler, dict):
@@ -79,11 +82,13 @@ def setup_and_attach_handlers(
     handlers, the handlers will be attached ``N`` times to the engine.
 
     Args:
+    ----
         engine (``BaseEngine``): Specifies the engine.
         handlers (list or tuple): Specifies the list of handlers or
             their configuration.
 
     Returns:
+    -------
         list: The list of handlers attached to the engine.
     """
     list_handlers = []
@@ -101,9 +106,11 @@ def to_events(events: Union[str, tuple[str, ...], list[str]]) -> tuple[str, ...]
     tuple with a single event.
 
     Args:
+    ----
         events (str or tuple or list): Specifies the input events.
 
     Returns:
+    -------
         tuple: The tuple of events.
 
     Example usage:

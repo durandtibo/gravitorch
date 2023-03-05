@@ -22,6 +22,7 @@ def create_sequential_lr(
     r"""Instantiates a sequential LR scheduler from its configuration.
 
     Args:
+    ----
         optimizer (``torch.optim.Optimizer``): Specifies the optimizer
             associated to the LR scheduler.
         schedulers (sequence): Specifies the sequence of chained
@@ -32,6 +33,7 @@ def create_sequential_lr(
             Default: ``-1``
 
     Returns:
+    -------
         ``SequentialLR``: The instantiated sequential LR scheduler.
 
     Example usage:
@@ -79,6 +81,7 @@ def create_linear_warmup_cosine_decay_lr(
     r"""Creates a LR scheduler with linear warm-up and cosine decay.
 
     Args:
+    ----
         optimizer (``torch.optim.Optimizer``): Specifies the optimizer
             associated to the LR scheduler.
         num_warmup_steps (int): Specifies the number of steps for the
@@ -90,6 +93,7 @@ def create_linear_warmup_cosine_decay_lr(
             last step (``num_total_steps``). Default: ``1e-6``
 
     Returns:
+    -------
         ``torch.optim.lr_scheduler.SequentialLR``: The instantiated
             learning rate scheduler.
     """
@@ -110,6 +114,7 @@ def create_linear_warmup_linear_decay_lr(
     r"""Creates a LR scheduler with linear warm-up and linear decay.
 
     Args:
+    ----
         optimizer (``torch.optim.Optimizer``): Specifies the optimizer
             associated to the LR scheduler.
         num_warmup_steps (int): Specifies the number of steps for the
@@ -122,6 +127,7 @@ def create_linear_warmup_linear_decay_lr(
             Default: ``0.001``
 
     Returns:
+    -------
         ``torch.optim.lr_scheduler.SequentialLR``: The instantiated
             learning rate scheduler.
     """

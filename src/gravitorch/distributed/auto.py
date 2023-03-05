@@ -35,6 +35,7 @@ def auto_ddp_model(model: Module, sync_batch_norm: bool = False, **kwargs) -> Mo
         distributed (NCCL or GLOO) if world size is larger than 1.
 
     Args:
+    ----
         model (``torch.nn.Module``): Specifies the model to wrap
             with ``DistributedDataParallel``.
         sync_batch_norm (bool): Specifies if the ``BatchNorm*D``
@@ -46,6 +47,7 @@ def auto_ddp_model(model: Module, sync_batch_norm: bool = False, **kwargs) -> Mo
             input is automatically set in this function.
 
     Returns:
+    -------
         ``torch.nn.Module``: The model wrapped in a
             ``DistributedDataParallel`` module.
     """
@@ -68,6 +70,7 @@ def _manage_model_device(model: Module) -> Module:
         if its parameters are not on the device.
 
     Args:
+    ----
         model (``torch.nn.Module``): Specifies the model to manage
             the devices.
     """
@@ -84,6 +87,7 @@ def _wrap_distributed_data_parallel(
     r"""Wraps the model with the ``DistributedDataParallel`` module.
 
     Args:
+    ----
         model (``torch.nn.Module``): Specifies the model to wrap with
             ``DistributedDataParallel``.
         sync_batch_norm (bool): Specifies if the ``BatchNorm*D``
@@ -95,6 +99,7 @@ def _wrap_distributed_data_parallel(
             in this function.
 
     Returns:
+    -------
         ``torch.nn.Module``: The model wrapped in a
             ``DistributedDataParallel`` module.
     """

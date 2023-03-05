@@ -14,7 +14,7 @@ from gravitorch.testing import cuda_available, gloo_available, nccl_available
 
 @gloo_available
 @patch("gravitorch.distributed.auto.dist.get_world_size", lambda *args: 2)
-def test_auto_ddp_model_gloo_backend():
+def test_auto_ddp_model_gloo_backend() -> None:
     with gloocontext():
         model = nn.Linear(4, 6)
         model = auto_ddp_model(model)
@@ -24,7 +24,7 @@ def test_auto_ddp_model_gloo_backend():
 @nccl_available
 @cuda_available
 @patch("gravitorch.distributed.auto.dist.get_world_size", lambda *args: 2)
-def test_auto_ddp_model_nccl_backend():
+def test_auto_ddp_model_nccl_backend() -> None:
     with ncclcontext():
         model = nn.Linear(4, 6)
         model = auto_ddp_model(model)

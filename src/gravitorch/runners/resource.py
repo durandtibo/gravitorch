@@ -17,21 +17,23 @@ class BaseResourceRunner(BaseRunner):
     managers.
 
     Args:
+    ----
         resources (sequence or ``None``, optional): Specifies a
             sequence of resources or their configurations.
             Default: ``None``
     """
 
-    def __init__(self, resources: Optional[Sequence[Union[BaseResource, dict]]] = None):
+    def __init__(self, resources: Optional[Sequence[Union[BaseResource, dict]]] = None) -> None:
         if resources is None:
-            resources = tuple()
+            resources = ()
         self._resources = tuple(setup_resource(resource) for resource in resources)
 
     def run(self) -> Any:
         r"""Sets up the distributed context and executes the logic of the
         runner.
 
-        Returns:
+        Returns
+        -------
             Any artifact of the runner
         """
         with ExitStack() as stack:
@@ -44,6 +46,7 @@ class BaseResourceRunner(BaseRunner):
     def _run(self) -> Any:
         r"""Executes the logic of the runner after the .
 
-        Returns:
+        Returns
+        -------
             Any artifact of the runner
         """

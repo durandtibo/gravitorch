@@ -13,22 +13,22 @@ SIZES = (1, 2)
 ###################################
 
 
-def test_residual_block_residual():
+def test_residual_block_residual() -> None:
     assert isinstance(ResidualBlock(residual=Linear(4, 4)).residual, Linear)
 
 
-def test_residual_block_skip_default():
+def test_residual_block_skip_default() -> None:
     assert isinstance(ResidualBlock(residual=Linear(4, 4)).skip, Identity)
 
 
-def test_residual_block_skip():
+def test_residual_block_skip() -> None:
     assert isinstance(ResidualBlock(residual=Linear(4, 4), skip=Linear(4, 4)).skip, Linear)
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("mode", (True, False))
-def test_residual_block_forward(device: str, batch_size: int, mode: bool):
+def test_residual_block_forward(device: str, batch_size: int, mode: bool) -> None:
     device = torch.device(device)
     module = ResidualBlock(residual=Linear(4, 4)).to(device=device)
     module.train(mode)
@@ -41,7 +41,7 @@ def test_residual_block_forward(device: str, batch_size: int, mode: bool):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("mode", (True, False))
-def test_residual_block_forward_skip(device: str, batch_size: int, mode: bool):
+def test_residual_block_forward_skip(device: str, batch_size: int, mode: bool) -> None:
     device = torch.device(device)
     module = ResidualBlock(
         residual=Sequential(Linear(4, 8), ReLU(), Linear(8, 4)), skip=Linear(4, 4)

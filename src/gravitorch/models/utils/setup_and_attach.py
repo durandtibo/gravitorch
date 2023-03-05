@@ -21,6 +21,7 @@ def attach_module_to_engine(module: Module, engine: BaseEngine) -> None:
     ``attach`` method.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to attach
             to the engine.
         engine (``BaseEngine``): Specifies the engine.
@@ -36,10 +37,12 @@ def setup_model(model: Union[Module, dict]) -> Module:
     ``BaseModel`` factory function.
 
     Args:
+    ----
         model (``torch.nn.Module`` or dict): Specifies the model or
             its configuration.
 
     Returns:
+    -------
         ``torch.nn.Module``: The (instantiated) model.
     """
     if isinstance(model, dict):
@@ -59,11 +62,13 @@ def setup_and_attach_model(engine: BaseEngine, model: Union[Module, dict]) -> Mo
     model, the model will be attached ``N`` times to the engine.
 
     Args:
+    ----
         engine (``BaseEngine``): Specifies the engine.
         model (``torch.nn.Module`` or dict): Specifies the model or
             its configuration.
 
     Returns:
+    -------
         ``torch.nn.Module``: The (instantiated) model.
     """
     model = setup_model(model)

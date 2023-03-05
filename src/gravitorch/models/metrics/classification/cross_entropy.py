@@ -16,6 +16,7 @@ class CategoricalCrossEntropy(BaseStateEpochMetric):
     r"""Implements a metric to compute the categorical cross-entropy.
 
     Args:
+    ----
         mode (str): Specifies the mode.
         name (str, optional): Specifies the name used to log the
             metric. Default: ``'cat_acc'``
@@ -29,13 +30,14 @@ class CategoricalCrossEntropy(BaseStateEpochMetric):
         mode: str,
         name: str = "cat_ce",
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or MeanErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
         r"""Updates the metric given a mini-batch of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn, num_classes)`` and type float):
                 Specifies the predictions.

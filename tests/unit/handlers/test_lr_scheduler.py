@@ -20,13 +20,13 @@ METRICS = ("metric1", "metric2")
 ########################################
 
 
-def test_vanilla_lr_scheduler_str():
+def test_vanilla_lr_scheduler_str() -> None:
     assert str(VanillaLRScheduler(lr_scheduler_updater=Mock(), lr_monitor=Mock())).startswith(
         "VanillaLRScheduler("
     )
 
 
-def test_vanilla_lr_scheduler_attach():
+def test_vanilla_lr_scheduler_attach() -> None:
     lr_scheduler_updater = Mock()
     lr_monitor = Mock()
     handler = VanillaLRScheduler(lr_scheduler_updater=lr_scheduler_updater, lr_monitor=lr_monitor)
@@ -41,7 +41,7 @@ def test_vanilla_lr_scheduler_attach():
 ######################################
 
 
-def test_epoch_lr_scheduler():
+def test_epoch_lr_scheduler() -> None:
     handler = EpochLRScheduler()
     assert isinstance(handler._lr_scheduler_updater, EpochLRSchedulerUpdater)
     assert isinstance(handler._lr_monitor, EpochLRMonitor)
@@ -52,7 +52,7 @@ def test_epoch_lr_scheduler():
 ##########################################
 
 
-def test_iteration_lr_scheduler():
+def test_iteration_lr_scheduler() -> None:
     handler = IterationLRScheduler()
     assert isinstance(handler._lr_scheduler_updater, IterationLRSchedulerUpdater)
     assert isinstance(handler._lr_monitor, IterationLRMonitor)

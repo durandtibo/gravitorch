@@ -17,10 +17,12 @@ def setup_data_source(data_source: Union[BaseDataSource, dict]) -> BaseDataSourc
     the ``BaseDataSource`` factory function.
 
     Args:
+    ----
         data_source (``BaseDataSource`` or dict): Specifies the data
             source or its configuration.
 
     Returns:
+    -------
         ``BaseDataSource``: The instantiated data source.
     """
     if isinstance(data_source, dict):
@@ -42,11 +44,13 @@ def setup_and_attach_data_source(
     engine.
 
     Args:
+    ----
         data_source (``BaseDataSource`` or dict): Specifies the data
             source or its configuration.
         engine (``BaseEngine``): Specifies the engine.
 
     Returns:
+    -------
         ``BaseDataSource``: The instantiated data source.
     """
     data_source = setup_data_source(data_source)

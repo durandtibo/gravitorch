@@ -9,9 +9,11 @@ def is_parameter(value: Any) -> bool:
     r"""Indicates if the input value is a ``torch.nn.Parameter``.
 
     Args:
+    ----
         value: Specifies the value to check.
 
     Returns:
+    -------
         bool: ``True`` if the input value is a ``torch.nn.Parameter``,
             otherwise ``False``.
 
@@ -36,9 +38,11 @@ def is_uninitialized_parameter(value: Any) -> bool:
     r"""Indicates if the input value is a ``torch.nn.UninitializedParameter``.
 
     Args:
+    ----
         value: Specifies the value to check.
 
     Returns:
+    -------
         bool: ``True`` if the input value is a
             ``torch.nn.UninitializedParameter``, otherwise ``False``.
 

@@ -13,6 +13,7 @@ class FusionFFN(Module):
     forward network (FFN) on the fused representation.
 
     Args:
+    ----
         fusion (``torch.nn.Module``, optional): Specifies the fusion
             module or its configuration.
         ffn (``torch.nn.Module``, optional): Specifies the FFN or its
@@ -39,7 +40,7 @@ class FusionFFN(Module):
         >>> out.mean().backward()
     """
 
-    def __init__(self, fusion: Union[Module, dict], ffn: Union[Module, dict]):
+    def __init__(self, fusion: Union[Module, dict], ffn: Union[Module, dict]) -> None:
         super().__init__()
         self.fusion = setup_module(fusion)
         self.ffn = setup_module(ffn)
@@ -54,11 +55,13 @@ class FusionFFN(Module):
         the fused representation.
 
         Args:
+        ----
             *inputs (sequence of ``torch.Tensor``): Specifies the
                 sequence of tensors to fuse. The shape of the tensors
                 may depend on the feed-forward network (FFN).
 
         Returns:
+        -------
             ``torch.Tensor``: The fused representation.
         """
         return self.ffn(self.fusion(*inputs))

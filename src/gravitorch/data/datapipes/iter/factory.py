@@ -11,6 +11,7 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
     r"""Creates a sequence of ``IterDataPipe``s from their configuration.
 
     Args:
+    ----
         configs: Specifies the config of each ``IterDataPipe`` in the
             sequence. The configs sequence follows the order of the
             ``IterDataPipe``s. The first config is used to create the
@@ -21,10 +22,12 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
             excepts for the first DataPipe.
 
     Returns:
+    -------
         ``IterDataPipe``: The last ``IterDataPipe`` of the sequence
             (a.k.a. sink).
 
     Raises:
+    ------
         ValueError if the ``IterDataPipe`` configuration sequence is
             empty.
 
@@ -73,9 +76,11 @@ def setup_iter_datapipe(datapipe: Union[IterDataPipe, Sequence[dict]]) -> IterDa
     documentation for more information.
 
     Args:
+    ----
         datapipe: Specifies the DataPipe or its configuration.
 
     Returns:
+    -------
         ``IterDataPipe``: The last ``IterDataPipe`` of the sequence
             (a.k.a. sink).
 

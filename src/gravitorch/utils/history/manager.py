@@ -22,7 +22,7 @@ class HistoryManager:
     your needs, feel free to use another approach.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._histories = {}
 
     def __len__(self) -> int:
@@ -41,6 +41,7 @@ class HistoryManager:
         r"""Adds a history to the manager.
 
         Args:
+        ----
             history (``BaseHistory``): Specifies the history
                 to add to the manager.
             key (str or ``None``, optional): Specifies the key to
@@ -48,7 +49,7 @@ class HistoryManager:
                 history is used. Default: ``None``
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.history import HistoryManager, MinScalarHistory
@@ -79,6 +80,7 @@ class HistoryManager:
         non-comparable history.
 
         Args:
+        ----
             prefix (str): Specifies the prefix used to create the dict
                 of best values. The goal of this prefix is to generate
                 a name which is different from the metric name to
@@ -91,10 +93,11 @@ class HistoryManager:
                 same name as the metric. Default: ``''``
 
         Returns:
+        -------
             dict: The dict with the best value of each metric.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.history import HistoryManager
@@ -112,15 +115,17 @@ class HistoryManager:
         r"""Gets the history associated to a key.
 
         Args:
+        ----
             key (str): Specifies the key of the history to retrieve.
 
-        Returns
+        Returns:
+        -------
             ``BaseHistory``: The history if it exists,
                 otherwise it returns an empty history. The created
                 empty history is a ``GenericHistory``.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.history import HistoryManager, MinScalarHistory
@@ -139,11 +144,12 @@ class HistoryManager:
     def get_histories(self) -> dict[str, BaseHistory]:
         r"""Gets all the histories.
 
-        Returns
+        Returns:
+        -------
             ``dict``: The histories with their keys.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.history import HistoryManager, MinScalarHistory
@@ -158,13 +164,15 @@ class HistoryManager:
         r"""Indicates if the engine has a history for the given key.
 
         Args:
+        ----
             key (str): Specifies the key of the history.
 
-        Returns
+        Returns:
+        -------
             bool: ``True`` if the history exists, ``False`` otherwise
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.history import HistoryManager, MinScalarHistory
@@ -181,10 +189,11 @@ class HistoryManager:
         r"""Loads the state values from a dict.
 
         Args:
+        ----
             state_dict (dict): a dict with parameters
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.history import HistoryManager
@@ -202,10 +211,11 @@ class HistoryManager:
         r"""Returns a dictionary containing state values of all the histories.
 
         Returns:
+        -------
             dict: the state values in a dict.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.history import HistoryManager

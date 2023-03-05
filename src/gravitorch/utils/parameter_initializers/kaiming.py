@@ -21,6 +21,7 @@ class BaseKaimingParameterInitializer(BaseDefaultParameterInitializer):
     uniform strategy.
 
     Args:
+    ----
         neg_slope (float, optional): Specifies the negative slope of
             the rectifier used after this layer (only used with
             ``'leaky_relu'``). Default: ``0.0``
@@ -47,7 +48,7 @@ class BaseKaimingParameterInitializer(BaseDefaultParameterInitializer):
         nonlinearity: str = "leaky_relu",
         learnable_only: bool = True,
         show_stats: bool = True,
-    ):
+    ) -> None:
         super().__init__(show_stats=show_stats)
         self._neg_slope = float(neg_slope)
         self._mode = str(mode)
@@ -102,6 +103,7 @@ def recursive_kaiming_normal_(
     initialization.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to
             initialize.
         neg_slope (float, optional): Specifies the negative slope of
@@ -144,6 +146,7 @@ def recursive_kaiming_uniform_(
     initialization.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to
             initialize.
         neg_slope (float, optional): Specifies the negative slope of

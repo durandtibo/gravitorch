@@ -48,50 +48,50 @@ MODULE_WITHOUT_BIAS = (
 ######################################################
 
 
-def test_constant_bias_parameter_initializer_str():
+def test_constant_bias_parameter_initializer_str() -> None:
     assert str(ConstantBiasParameterInitializer()).startswith("ConstantBiasParameterInitializer(")
 
 
 @mark.parametrize("value", (1, 2.0))
-def test_constant_bias_parameter_initializer_value(value: Union[int, float]):
+def test_constant_bias_parameter_initializer_value(value: Union[int, float]) -> None:
     assert ConstantBiasParameterInitializer(value=value)._value == value
 
 
-def test_constant_bias_parameter_initializer_value_default():
+def test_constant_bias_parameter_initializer_value_default() -> None:
     assert ConstantBiasParameterInitializer()._value == 0.0
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_constant_bias_parameter_initializer_learnable_only(learnable_only: bool):
+def test_constant_bias_parameter_initializer_learnable_only(learnable_only: bool) -> None:
     assert (
         ConstantBiasParameterInitializer(learnable_only=learnable_only)._learnable_only
         == learnable_only
     )
 
 
-def test_constant_bias_parameter_initializer_learnable_only_default():
+def test_constant_bias_parameter_initializer_learnable_only_default() -> None:
     assert ConstantBiasParameterInitializer()._learnable_only
 
 
 @mark.parametrize("log_info", (True, False))
-def test_constant_bias_parameter_initializer_log_info(log_info: bool):
+def test_constant_bias_parameter_initializer_log_info(log_info: bool) -> None:
     assert ConstantBiasParameterInitializer(log_info=log_info)._log_info == log_info
 
 
-def test_constant_bias_parameter_initializer_log_info_default():
+def test_constant_bias_parameter_initializer_log_info_default() -> None:
     assert not ConstantBiasParameterInitializer()._log_info
 
 
 @mark.parametrize("show_stats", (True, False))
-def test_constant_bias_parameter_initializer_show_stats(show_stats: bool):
+def test_constant_bias_parameter_initializer_show_stats(show_stats: bool) -> None:
     assert ConstantBiasParameterInitializer(show_stats=show_stats)._show_stats == show_stats
 
 
-def test_constant_bias_parameter_initializer_show_stats_default():
+def test_constant_bias_parameter_initializer_show_stats_default() -> None:
     assert ConstantBiasParameterInitializer()._show_stats
 
 
-def test_constant_bias_parameter_initializer_initialize_linear():
+def test_constant_bias_parameter_initializer_initialize_linear() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 0)
     ConstantBiasParameterInitializer(value=1).initialize(engine)
@@ -99,7 +99,7 @@ def test_constant_bias_parameter_initializer_initialize_linear():
     assert engine.model.bias.equal(torch.ones(6))
 
 
-def test_constant_bias_parameter_initializer_initialize_sequential():
+def test_constant_bias_parameter_initializer_initialize_sequential() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6)))
     recursive_constant_(engine.model, 0)
     ConstantBiasParameterInitializer(value=1).initialize(engine)
@@ -110,7 +110,7 @@ def test_constant_bias_parameter_initializer_initialize_sequential():
 
 
 @mark.parametrize("value", (1, 2.0))
-def test_constant_bias_parameter_initializer_initialize_value(value: Union[int, float]):
+def test_constant_bias_parameter_initializer_initialize_value(value: Union[int, float]) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch("gravitorch.utils.parameter_initializers.constant.recursive_bias_constant_") as init:
@@ -121,7 +121,9 @@ def test_constant_bias_parameter_initializer_initialize_value(value: Union[int, 
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_constant_bias_parameter_initializer_initialize_learnable_only(learnable_only: bool):
+def test_constant_bias_parameter_initializer_initialize_learnable_only(
+    learnable_only: bool,
+) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     with patch("gravitorch.utils.parameter_initializers.constant.recursive_bias_constant_") as init:
         ConstantBiasParameterInitializer(learnable_only=learnable_only).initialize(engine)
@@ -131,7 +133,7 @@ def test_constant_bias_parameter_initializer_initialize_learnable_only(learnable
 
 
 @mark.parametrize("log_info", (True, False))
-def test_constant_bias_parameter_initializer_initialize_log_info(log_info: bool):
+def test_constant_bias_parameter_initializer_initialize_log_info(log_info: bool) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     with patch("gravitorch.utils.parameter_initializers.constant.recursive_bias_constant_") as init:
         ConstantBiasParameterInitializer(log_info=log_info).initialize(engine)
@@ -146,7 +148,7 @@ def test_constant_bias_parameter_initializer_initialize_log_info(log_info: bool)
 
 
 @mark.parametrize("value", (1, 2.0))
-def test_bias_constant_value(value: Union[int, float]):
+def test_bias_constant_value(value: Union[int, float]) -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 0)
     bias_constant_(module, value=value)
@@ -154,7 +156,7 @@ def test_bias_constant_value(value: Union[int, float]):
 
 
 @mark.parametrize("module", MODULE_WITH_BIAS)
-def test_bias_constant_module_with_bias(module: nn.Module):
+def test_bias_constant_module_with_bias(module: nn.Module) -> None:
     recursive_constant_(module, 1)
     assert module.bias.equal(torch.ones(6))
     bias_constant_(module, value=0)
@@ -162,12 +164,12 @@ def test_bias_constant_module_with_bias(module: nn.Module):
 
 
 @mark.parametrize("module", MODULE_WITHOUT_BIAS)
-def test_bias_constant_module_without_bias(module: nn.Module):
+def test_bias_constant_module_without_bias(module: nn.Module) -> None:
     bias_constant_(module, value=0)
     assert module.bias is None
 
 
-def test_bias_constant_module_multihead_attention():
+def test_bias_constant_module_multihead_attention() -> None:
     module = nn.MultiheadAttention(embed_dim=4, num_heads=2)
     recursive_constant_(module, 1)
     bias_constant_(module, value=0)
@@ -177,7 +179,7 @@ def test_bias_constant_module_multihead_attention():
     assert module.out_proj.bias.equal(torch.zeros(4))
 
 
-def test_bias_constant_module_multihead_attention_add_bias_kv():
+def test_bias_constant_module_multihead_attention_add_bias_kv() -> None:
     module = nn.MultiheadAttention(embed_dim=4, num_heads=2, add_bias_kv=True)
     recursive_constant_(module, 1)
     bias_constant_(module, value=0)
@@ -187,7 +189,7 @@ def test_bias_constant_module_multihead_attention_add_bias_kv():
     assert module.out_proj.bias.equal(torch.zeros(4))
 
 
-def test_bias_constant_module_multihead_attention_no_bias():
+def test_bias_constant_module_multihead_attention_no_bias() -> None:
     module = nn.MultiheadAttention(embed_dim=4, num_heads=2, bias=False)
     recursive_constant_(module, 1)
     bias_constant_(module, value=0)
@@ -197,7 +199,7 @@ def test_bias_constant_module_multihead_attention_no_bias():
     assert module.out_proj.bias is None
 
 
-def test_bias_constant_module_sequential():
+def test_bias_constant_module_sequential() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
     recursive_constant_(module, 1)
     bias_constant_(module, value=0)
@@ -213,7 +215,7 @@ def test_bias_constant_module_sequential():
 
 
 @mark.parametrize("value", (1, 2.0))
-def test_recursive_bias_constant_value(value: Union[int, float]):
+def test_recursive_bias_constant_value(value: Union[int, float]) -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 0)
     recursive_bias_constant_(module, value=value)
@@ -221,7 +223,7 @@ def test_recursive_bias_constant_value(value: Union[int, float]):
 
 
 @mark.parametrize("module", MODULE_WITH_BIAS)
-def test_recursive_bias_constant_module_with_bias(module: nn.Module):
+def test_recursive_bias_constant_module_with_bias(module: nn.Module) -> None:
     recursive_constant_(module, 1)
     assert module.bias.equal(torch.ones(6))
     recursive_bias_constant_(module, value=0)
@@ -229,12 +231,12 @@ def test_recursive_bias_constant_module_with_bias(module: nn.Module):
 
 
 @mark.parametrize("module", MODULE_WITHOUT_BIAS)
-def test_recursive_bias_constant_module_without_bias(module: nn.Module):
+def test_recursive_bias_constant_module_without_bias(module: nn.Module) -> None:
     recursive_bias_constant_(module, value=0)
     assert module.bias is None
 
 
-def test_recursive_bias_constant_module_multihead_attention():
+def test_recursive_bias_constant_module_multihead_attention() -> None:
     module = nn.MultiheadAttention(embed_dim=4, num_heads=2)
     recursive_constant_(module, 1)
     recursive_bias_constant_(module, value=0)
@@ -244,7 +246,7 @@ def test_recursive_bias_constant_module_multihead_attention():
     assert module.out_proj.bias.equal(torch.zeros(4))
 
 
-def test_recursive_bias_constant_module_multihead_attention_add_bias_kv():
+def test_recursive_bias_constant_module_multihead_attention_add_bias_kv() -> None:
     module = nn.MultiheadAttention(embed_dim=4, num_heads=2, add_bias_kv=True)
     recursive_constant_(module, 1)
     recursive_bias_constant_(module, value=0)
@@ -254,7 +256,7 @@ def test_recursive_bias_constant_module_multihead_attention_add_bias_kv():
     assert module.out_proj.bias.equal(torch.zeros(4))
 
 
-def test_recursive_bias_constant_module_multihead_attention_no_bias():
+def test_recursive_bias_constant_module_multihead_attention_no_bias() -> None:
     module = nn.MultiheadAttention(embed_dim=4, num_heads=2, bias=False)
     recursive_constant_(module, 1)
     recursive_bias_constant_(module, value=0)
@@ -264,7 +266,7 @@ def test_recursive_bias_constant_module_multihead_attention_no_bias():
     assert module.out_proj.bias is None
 
 
-def test_recursive_bias_constant_0_sequential_learnable_only_true():
+def test_recursive_bias_constant_0_sequential_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 1)
     freeze_module(module[1])
@@ -276,7 +278,7 @@ def test_recursive_bias_constant_0_sequential_learnable_only_true():
     assert module[1].bias.data.equal(torch.ones(6))
 
 
-def test_recursive_bias_constant_0_sequential_learnable_only_false():
+def test_recursive_bias_constant_0_sequential_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 1)
     recursive_bias_constant_(module, 0)
@@ -286,7 +288,7 @@ def test_recursive_bias_constant_0_sequential_learnable_only_false():
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_bias_constant_log_info_true(caplog: LogCaptureFixture):
+def test_recursive_bias_constant_log_info_true(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 1)
     with caplog.at_level(level=logging.INFO):
@@ -295,7 +297,7 @@ def test_recursive_bias_constant_log_info_true(caplog: LogCaptureFixture):
         assert caplog.messages
 
 
-def test_recursive_bias_constant_log_info_false(caplog: LogCaptureFixture):
+def test_recursive_bias_constant_log_info_false(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 1)
     with caplog.at_level(level=logging.INFO):
@@ -310,7 +312,7 @@ def test_recursive_bias_constant_log_info_false(caplog: LogCaptureFixture):
 
 
 @mark.parametrize("module", MODULE_WITH_BIAS + MODULE_WITHOUT_BIAS)
-def test_consistency_bias_constant_and_recursive_bias_constant(module: nn.Module):
+def test_consistency_bias_constant_and_recursive_bias_constant(module: nn.Module) -> None:
     # Verify bias_constant_ and recursive_bias_constant_ have consistent results.
     recursive_constant_(module, 1)
     module1 = copy.deepcopy(module)
@@ -325,21 +327,21 @@ def test_consistency_bias_constant_and_recursive_bias_constant(module: nn.Module
 #########################################
 
 
-def test_recursive_constant_0():
+def test_recursive_constant_0() -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 0)
     assert module.weight.data.equal(torch.zeros(6, 4))
     assert module.bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_constant_1():
+def test_recursive_constant_1() -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 1)
     assert module.weight.data.equal(torch.ones(6, 4))
     assert module.bias.data.equal(torch.ones(6))
 
 
-def test_recursive_constant_0_sequential_learnable_only_true():
+def test_recursive_constant_0_sequential_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     freeze_module(module[1])
     recursive_constant_(module, 0, learnable_only=True)
@@ -350,7 +352,7 @@ def test_recursive_constant_0_sequential_learnable_only_true():
     assert not module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_constant_0_sequential_learnable_only_false():
+def test_recursive_constant_0_sequential_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     freeze_module(module[1])
     recursive_constant_(module, 0, learnable_only=False)

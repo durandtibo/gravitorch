@@ -70,7 +70,8 @@ class PyTorchCudaBackendState:
     def create(cls) -> "PyTorchCudaBackendState":
         r"""Creates a state to capture the current PyTorch CUDA backend.
 
-        Returns:
+        Returns
+        -------
             ``PyTorchCudaBackendState``: The current state.
         """
         return cls(
@@ -88,6 +89,7 @@ class PyTorchCudaBackend(BaseResource):
     r"""Implements a context manager to configure the PyTorch CUDA backend.
 
     Args:
+    ----
         allow_tf32 (bool or ``None``, optional): Specifies the value
             of ``torch.backends.cuda.matmul.allow_tf32``.
             If ``None``, the default value is used. Default: ``None``
@@ -117,7 +119,7 @@ class PyTorchCudaBackend(BaseResource):
         math_sdp_enabled: Optional[bool] = None,
         preferred_linalg_backend: Optional[str] = None,
         log_info: bool = False,
-    ):
+    ) -> None:
         self._allow_tf32 = allow_tf32
         self._allow_fp16_reduced_precision_reduction = allow_fp16_reduced_precision_reduction
         self._flash_sdp_enabled = flash_sdp_enabled
@@ -206,7 +208,8 @@ class PyTorchCudnnBackendState:
     def create(cls) -> "PyTorchCudnnBackendState":
         r"""Creates a state to capture the current PyTorch CUDA CUDNN.
 
-        Returns:
+        Returns
+        -------
             ``PyTorchCudnnBackendState``: The current state.
         """
         return cls(
@@ -222,6 +225,7 @@ class PyTorchCudnnBackend(BaseResource):
     r"""Implements a context manager to configure the PyTorch CUDNN backend.
 
     Args:
+    ----
         allow_tf32 (bool or ``None``, optional): Specifies the value
             of ``torch.backends.cudnn.allow_tf32``. If ``None``,
             the default value is used. Default: ``None``
@@ -249,7 +253,7 @@ class PyTorchCudnnBackend(BaseResource):
         deterministic: Optional[bool] = None,
         enabled: Optional[bool] = None,
         log_info: bool = False,
-    ):
+    ) -> None:
         self._allow_tf32 = allow_tf32
         self._benchmark = benchmark
         self._benchmark_limit = benchmark_limit

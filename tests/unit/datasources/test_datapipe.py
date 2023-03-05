@@ -49,7 +49,7 @@ def data_source() -> IterDataPipeCreatorDataSource:
     )
 
 
-def test_iter_data_pipe_creator_data_source_str():
+def test_iter_data_pipe_creator_data_source_str() -> None:
     assert str(
         IterDataPipeCreatorDataSource({"train": Mock(spec=BaseIterDataPipeCreator)})
     ).startswith("IterDataPipeCreatorDataSource(")
@@ -113,7 +113,7 @@ def test_iter_data_pipe_creator_data_source_get_data_loader_missing(
         data_source.get_data_loader("missing")
 
 
-def test_iter_data_pipe_creator_data_source_get_data_loader_with_engine():
+def test_iter_data_pipe_creator_data_source_get_data_loader_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     data_source = IterDataPipeCreatorDataSource({"train": datapipe_creator})
@@ -121,7 +121,7 @@ def test_iter_data_pipe_creator_data_source_get_data_loader_with_engine():
     datapipe_creator.create.assert_called_once_with(engine=engine)
 
 
-def test_iter_data_pipe_creator_data_source_get_data_loader_without_engine():
+def test_iter_data_pipe_creator_data_source_get_data_loader_without_engine() -> None:
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     data_source = IterDataPipeCreatorDataSource({"train": datapipe_creator})
     data_source.get_data_loader("train")
@@ -155,7 +155,7 @@ def test_iter_data_pipe_creator_data_source_state_dict(data_source: IterDataPipe
 ##############################################################
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_str():
+def test_data_creator_iter_data_pipe_creator_data_source_str() -> None:
     assert str(
         DataCreatorIterDataPipeCreatorDataSource(
             datapipe_creators={"train": Mock(spec=BaseIterDataPipeCreator)},
@@ -164,7 +164,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_str():
     ).startswith("DataCreatorIterDataPipeCreatorDataSource(")
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_data_creators():
+def test_data_creator_iter_data_pipe_creator_data_source_data_creators() -> None:
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={"train": Mock(spec=BaseIterDataPipeCreator)},
         data_creators={
@@ -181,7 +181,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_data_creators():
     isinstance(creator._data_creators["val"], HypercubeVertexDataCreator)
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe():
+def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe() -> None:
     data_creator = Mock(spec=BaseDataCreator, create=Mock(return_value=[1, 2, 3]))
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
@@ -194,7 +194,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe():
     datapipe_creator.create.assert_called_once_with(engine=None, source_inputs=([1, 2, 3],))
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data_creator():
+def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data_creator() -> None:
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={"train": datapipe_creator},
@@ -205,7 +205,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data_creator_with_engine():
+def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data_creator_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
@@ -217,7 +217,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_get_data_loader():
+def test_data_creator_iter_data_pipe_creator_data_source_get_data_loader() -> None:
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={
             "train": SequentialIterDataPipeCreator(

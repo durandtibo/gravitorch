@@ -13,14 +13,14 @@ from gravitorch.testing import (
 ########################################
 
 
-def test_distributed_context_backend_none():
+def test_distributed_context_backend_none() -> None:
     with DistributedContext(backend=None):
         assert dist_backend() is None
 
 
 @distributed_available
 @gloo_available
-def test_distributed_context_backend_gloo():
+def test_distributed_context_backend_gloo() -> None:
     with DistributedContext(backend=Backend.GLOO):
         assert dist_backend() == Backend.GLOO
 
@@ -28,6 +28,6 @@ def test_distributed_context_backend_gloo():
 @distributed_available
 @cuda_available
 @nccl_available
-def test_distributed_context_backend_nccl():
+def test_distributed_context_backend_nccl() -> None:
     with DistributedContext(backend=Backend.NCCL):
         assert dist_backend() == Backend.NCCL

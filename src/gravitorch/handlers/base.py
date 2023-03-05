@@ -15,6 +15,7 @@ class BaseHandler(ABC, metaclass=AbstractFactory):
         r"""Attaches the handler to the engine.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine used to
                 attach the handler.
         """

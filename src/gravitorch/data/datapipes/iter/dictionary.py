@@ -13,11 +13,12 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
     dictionary of lists.
 
     Args:
+    ----
         source_datapipe (``IterDataPipe``): Specifies an ``IterDataPipe``
             of sequences of mappings.
     """
 
-    def __init__(self, source_datapipe: IterDataPipe[Sequence[Mapping]]):
+    def __init__(self, source_datapipe: IterDataPipe[Sequence[Mapping]]) -> None:
         self._source_datapipe = source_datapipe
 
     def __iter__(self) -> Iterator[dict[Hashable, list]]:
@@ -39,11 +40,12 @@ class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
     list of dictionaries.
 
     Args:
+    ----
         source_datapipe (``IterDataPipe``): Specifies an
             ``IterDataPipe`` of mappings of sequences.
     """
 
-    def __init__(self, source_datapipe: IterDataPipe[Mapping[Hashable, Sequence]]):
+    def __init__(self, source_datapipe: IterDataPipe[Mapping[Hashable, Sequence]]) -> None:
         self._source_datapipe = source_datapipe
 
     def __iter__(self) -> Iterator[list[dict]]:

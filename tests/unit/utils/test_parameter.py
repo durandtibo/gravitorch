@@ -10,12 +10,12 @@ from gravitorch.utils.parameter import is_parameter, is_uninitialized_parameter
 
 
 @mark.parametrize("value", (Parameter(torch.ones(2, 3)), UninitializedParameter()))
-def test_is_parameter_true(value: Parameter):
+def test_is_parameter_true(value: Parameter) -> None:
     assert is_parameter(value)
 
 
 @mark.parametrize("value", (torch.ones(2, 3), Linear(4, 6), "abc"))
-def test_is_parameter_false(value: Parameter):
+def test_is_parameter_false(value: Parameter) -> None:
     assert not is_parameter(value)
 
 
@@ -24,10 +24,10 @@ def test_is_parameter_false(value: Parameter):
 ################################################
 
 
-def test_is_uninitialized_parameter_true():
+def test_is_uninitialized_parameter_true() -> None:
     assert is_uninitialized_parameter(UninitializedParameter())
 
 
 @mark.parametrize("value", (Parameter(torch.ones(2, 3)), torch.ones(2, 3), Linear(4, 6), "abc"))
-def test_is_uninitialized_parameter_false(value: Parameter):
+def test_is_uninitialized_parameter_false(value: Parameter) -> None:
     assert not is_uninitialized_parameter(value)

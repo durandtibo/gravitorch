@@ -13,14 +13,14 @@ from gravitorch.utils.io import save_json, save_pickle, save_pytorch
 
 
 def test_in_memory_dataset_str():
-    assert str(InMemoryDataset(tuple())).startswith("InMemoryDataset")
+    assert str(InMemoryDataset(())).startswith("InMemoryDataset")
 
 
 def test_in_memory_dataset_examples_list_to_tuple():
     assert InMemoryDataset([1, 2])._examples == (1, 2)
 
 
-@mark.parametrize("examples,length", ((tuple(), 0), ((1,), 1), ((1, 2), 2)))
+@mark.parametrize("examples,length", (((), 0), ((1,), 1), ((1, 2), 2)))
 def test_in_memory_dataset_len(examples, length):
     assert len(InMemoryDataset(examples)) == length
 
@@ -42,7 +42,7 @@ def test_file_to_in_memory_dataset_str(tmp_path):
     assert str(FileToInMemoryDataset(path)).startswith("FileToInMemoryDataset")
 
 
-@mark.parametrize("examples,length", ((tuple(), 0), ((1,), 1), ((1, 2), 2)))
+@mark.parametrize("examples,length", (((), 0), ((1,), 1), ((1, 2), 2)))
 def test_file_to_in_memory_dataset_len(tmp_path, examples, length):
     path = tmp_path.joinpath("data.pt")
     save_pytorch(examples, path)

@@ -9,7 +9,7 @@ from gravitorch.utils.profilers import PyTorchProfiler
 #####################################
 
 
-def test_pytorch_profiler_scheduled_profiler_with_tensorboard_trace(tmp_path: Path):
+def test_pytorch_profiler_scheduled_profiler_with_tensorboard_trace(tmp_path: Path) -> None:
     trace_path = tmp_path.joinpath("trace")
     with PyTorchProfiler.scheduled_profiler_with_tensorboard_trace(
         trace_path=trace_path.as_posix(),

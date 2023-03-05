@@ -19,6 +19,7 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict]):
     be used for a multi-class classification task.
 
     Args:
+    ----
         num_examples (int, optional): Specifies the number of examples.
             Default: ``1000``
         num_classes (int, optional): Specifies the number of classes.
@@ -40,7 +41,7 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict]):
         feature_size: int = 64,
         noise_std: float = 0.2,
         random_seed: int = 15782179921860610490,
-    ):
+    ) -> None:
         if num_examples < 1:
             raise ValueError(f"The number of examples ({num_examples}) has to be greater than 0")
         self._num_examples = int(num_examples)
@@ -104,11 +105,13 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict]):
         r"""Creates data.
 
         Args:
+        ----
             engine (``BaseEngine`` or ``None``): Specifies an engine.
                 This input is not used in this data creator.
                 Default: ``None``
 
         Returns:
+        -------
             dict: A dictionary with two keys:
 
                 - ``'input'``: a ``torch.Tensor`` of type float and

@@ -30,7 +30,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @abstractmethod
     def data_source(self) -> BaseDataSource:
         r"""``BaseDataSource``: The data source object associated to
-        the engine."""
+        the engine.
+        """
 
     @property
     @abstractmethod
@@ -96,6 +97,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         The event handler will be called everytime the event happens.
 
         Args:
+        ----
             event (str): Specifies the event to attach the event
                 handler.
             event_handler (``BaseEventHandler``): Specifies the event
@@ -118,6 +120,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Adds a history to the engine state.
 
         Args:
+        ----
             history (``BaseHistory``): Specifies the history to
                 add to the engine state.
             key (str or ``None``, optional): Specifies the key to
@@ -143,6 +146,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         state when a checkpoint is created.
 
         Args:
+        ----
             name (str): Specifies the name of the module.
             module: Specifies the module to add to the checkpoint. The
                 module needs to have the ``state_dict`` and
@@ -167,6 +171,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Creates an artifact.
 
         Args:
+        ----
             artifact (``BaseArtifact``): Specifies the artifact to
             create.
 
@@ -187,7 +192,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         The evaluation dataset has to be defined.
 
-        Raises:
+        Raises
+        ------
             RuntimeError: if the evaluation dataset is not be defined.
 
         Example usage:
@@ -204,6 +210,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Fires the handler(s) for the given event.
 
         Args:
+        ----
             event (str): Specifies the event to fire.
 
         Example usage:
@@ -226,15 +233,17 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Gets the history associated to a key.
 
         Args:
+        ----
             key (str): Specifies the key of the history to retrieve.
 
-        Returns
+        Returns:
+        -------
             ``BaseHistory``: The history if it exists,
                 otherwise it returns an empty history. The created
                 empty history is a ``GenericHistory``.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.engines import BaseEngine
@@ -251,11 +260,12 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     def get_histories(self) -> dict[str, BaseHistory]:
         r"""Gets all histories in the state.
 
-        Returns
+        Returns:
+        -------
             ``dict``: The histories with their keys.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.engines import BaseEngine
@@ -271,16 +281,19 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Gets a module.
 
         Args:
+        ----
             name (str): Specifies the module to get.
 
         Returns:
+        -------
             The module
 
         Raises:
+        ------
             ValueError if the module does not exist.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from torch import nn
@@ -301,6 +314,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         given event handler to compare event handlers.
 
         Args:
+        ----
             event_handler (``BaseEventHandler``): Specifies the event
                 handler to check.
             event (str or ``None``): Specifies an event to check. If
@@ -335,13 +349,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Indicates if the engine has a history for the given key.
 
         Args:
+        ----
             key (str): Specifies the key of the history.
 
-        Returns
+        Returns:
+        -------
             bool: ``True`` if the history exists, ``False`` otherwise.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.engines import BaseEngine
@@ -359,13 +375,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Indicates if the engine has a module for the given name.
 
         Args:
+        ----
             name (str): Specifies the name of the module.
 
         Returns:
+        -------
             bool: ``True`` if the module exists, otherwise ``False``.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from torch import nn
@@ -383,6 +401,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Increments the epoch value by the given value.
 
         Args:
+        ----
             increment (int, optional): Specifies the increment for the
                 epoch value. Default: ``1``
 
@@ -409,6 +428,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Increments the iteration value by the given value.
 
         Args:
+        ----
             increment (int, optional): Specifies the increment for
                 the iteration value. Default: ``1``
 
@@ -435,6 +455,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Loads the state values from a dict.
 
         Args:
+        ----
             state_dict (dict): a dict with parameters
 
         Example usage:
@@ -457,6 +478,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Logs a figure for the given key and step.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the figure.
             figure (``matplotlib.pyplot.Figure``): Specifies the
                 figure to log.
@@ -487,6 +509,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Logs a dictionary of figures for a given step.
 
         Args:
+        ----
             figures (dict): Specifies the dictionary of figures to log.
             step (``Step``, optional): Specifies the step value to
                 record. If ``None``, it will use the default step.
@@ -514,6 +537,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         using the ``get_history(key)`` method.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the scalar
                 value.
             value (int or float): Specifies the value to log.
@@ -541,6 +565,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         using the ``get_history(key)`` method.
 
         Args:
+        ----
             metrics (dict): Specifies the dictionary of metric to log.
             step (``Step``, optional): Specifies the step value to
                 record. If ``None``, it will use the default step.
@@ -569,11 +594,13 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         handler to compare event handlers.
 
         Args:
+        ----
             event (str): Specifies the event handler is attached to.
             event_handler (``BaseEventHandler``): Specifies the event
                 handler to remove.
 
         Raises:
+        ------
             ValueError: if the event does not exist or if the handler
                 is not attached to the event.
 
@@ -599,13 +626,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""Removes a module from the engine state.
 
         Args:
+        ----
             name (str): Specifies the name of the module to remove.
 
         Raises:
+        ------
             ValueError if the module name is not found.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from torch import nn
@@ -627,7 +656,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Note this state does not capture the handler states.
 
-        Returns:
+        Returns
+        -------
             dict: The dictionary containing a state of the engine.
 
         Example usage:

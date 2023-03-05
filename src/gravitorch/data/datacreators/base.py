@@ -22,10 +22,12 @@ class BaseDataCreator(ABC, Generic[T], metaclass=AbstractFactory):
         r"""Creates data.
 
         Args:
+        ----
             engine (``BaseEngine`` or ``None``): Specifies an engine.
                 Default: ``None``
 
         Return:
+        ------
             The created data.
         """
 
@@ -37,10 +39,12 @@ def setup_data_creator(data_creator: Union[BaseDataCreator, dict]) -> BaseDataCr
     the ``BaseDataCreator`` factory function.
 
     Args:
+    ----
         data_creator (``BaseDataCreator`` or dict): Specifies the data
             creator or its configuration.
 
     Returns:
+    -------
         ``BaseDataCreator``: The instantiated data creator.
     """
     if isinstance(data_creator, dict):

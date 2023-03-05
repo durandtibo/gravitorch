@@ -33,9 +33,11 @@ def get_dtype(data: Any) -> Any:
         - ``tuple``
 
     Args:
+    ----
         data: Specifies the input data.
 
     Returns:
+    -------
         An object with the same structure as the input but with the
             tensor data type.
 
@@ -72,9 +74,11 @@ def get_shape(data: Any) -> Any:
         - ``tuple``
 
     Args:
+    ----
         data: Specifies the input data.
 
     Returns:
+    -------
         An object with the same structure as the input but with the
             tensor shapes.
 
@@ -112,6 +116,7 @@ def recursive_apply(data: Any, tensor_fn: Callable, other_fn: Optional[Callable]
         - ``tuple``
 
     Args:
+    ----
         data: Specifies the data.
         tensor_fn (callable): Specifies the function to apply on
             ``torch.Tensor``s.
@@ -121,6 +126,7 @@ def recursive_apply(data: Any, tensor_fn: Callable, other_fn: Optional[Callable]
             Default: ``None``
 
     Returns:
+    -------
         The transformed data.
 
     Example usage:
@@ -168,6 +174,7 @@ def recursive_contiguous(
         - ``tuple``
 
     Args:
+    ----
         data: Specifies the data to transform tocontiguous in memory
             tensors. All the tensors will be transformed by using the
             ``contiguous`` method.
@@ -176,6 +183,7 @@ def recursive_contiguous(
             Default: ``torch.contiguous_format``
 
     Returns:
+    -------
         Contiguous in memory tensors containing the same data as the
             input.
 
@@ -209,10 +217,12 @@ def recursive_detach(data: T) -> T:
         - ``tuple``
 
     Args:
+    ----
         data: Specifies the data to detach. All the tensors will be
             detached by using the ``detach`` method.
 
     Returns:
+    -------
         The detached data.
 
     Example usage:
@@ -245,6 +255,7 @@ def recursive_transpose(data: T, dim0: int, dim1: int) -> T:
     dimensions.
 
     Args:
+    ----
         data: Specifies the data to transpose. All the
             ``torch.Tensor``s are transposed by using the
             ``transpose`` method.
@@ -252,6 +263,7 @@ def recursive_transpose(data: T, dim0: int, dim1: int) -> T:
         dim1 (int): Specifies the second dimension to be transposed.
 
     Returns:
+    -------
         The input data where the ``torch.Tensor``s are transposed.
 
     Example usage:
@@ -282,9 +294,11 @@ def recursive_from_numpy(data: Any) -> Any:
         - ``tuple``
 
     Args:
+    ----
         data: Specifies the data to convert.
 
     Returns:
+    -------
         The input data where all the ``numpy.ndarray``s are converted
             to ``torch.Tensor``s.
 

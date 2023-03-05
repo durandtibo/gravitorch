@@ -10,18 +10,18 @@ from gravitorch.utils.profilers import PyTorchProfiler
 #####################################
 
 
-def test_pytorch_profiler_str():
+def test_pytorch_profiler_str() -> None:
     assert str(PyTorchProfiler(torch.profiler.profile())).startswith("PyTorchProfiler(")
 
 
-def test_pytorch_profiler_enter_exit():
+def test_pytorch_profiler_enter_exit() -> None:
     with patch("gravitorch.utils.profilers.pytorch.torch.profiler.profile") as profile:
         with PyTorchProfiler(profile):
             profile.__enter__.assert_called_once()
     profile.__exit__.assert_called_once()
 
 
-def test_pytorch_profiler_step():
+def test_pytorch_profiler_step() -> None:
     with patch("gravitorch.utils.profilers.pytorch.torch.profiler.profile") as profile:
         with PyTorchProfiler(profile) as profiler:
             profiler.step()
@@ -46,7 +46,7 @@ def test_pytorch_profiler_scheduled_profiler_with_tensorboard_trace_parameters(
     profile_memory: bool,
     with_stack: bool,
     with_flops: bool,
-):
+) -> None:
     with patch(
         "gravitorch.utils.profilers.pytorch.torch.profiler.tensorboard_trace_handler"
     ) as trace_handler:

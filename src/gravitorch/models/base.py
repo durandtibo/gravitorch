@@ -24,9 +24,11 @@ class BaseModel(Module, metaclass=AbstractFactory):
         containing the loss value.
 
         Args:
+        ----
             batch: The input is the batch of data returned by the data
                 loader.
 
         Returns:
+        -------
             dict: dictionary containing the loss value.
         """

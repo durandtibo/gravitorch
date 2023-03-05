@@ -10,12 +10,13 @@ class TextArtifact(BaseArtifact):
     r"""Implements a text artifact.
 
     Args:
+    ----
         tag (str): Specifies the artifact tag. The tag is used to
             define the text filename.
         data (str): Specifies the data to save in the text artifact.
     """
 
-    def __init__(self, tag: str, data: str):
+    def __init__(self, tag: str, data: str) -> None:
         self._tag = str(tag)
         self._data = str(data)
 

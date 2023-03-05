@@ -12,7 +12,7 @@ SIZES = (1, 2)
 ##############################
 
 
-def test_gaussian_str():
+def test_gaussian_str() -> None:
     assert str(Gaussian()).startswith("Gaussian(")
 
 
@@ -21,7 +21,7 @@ def test_gaussian_num_parameters(num_parameters: int):
     assert Gaussian(num_parameters).alpha.shape == (num_parameters,)
 
 
-def test_gaussian_num_parameters_default():
+def test_gaussian_num_parameters_default() -> None:
     assert Gaussian().alpha.shape == (1,)
 
 
@@ -30,11 +30,11 @@ def test_gaussian_init(init: float):
     assert Gaussian(init=init).alpha.item() == init
 
 
-def test_gaussian_learnable_true():
+def test_gaussian_learnable_true() -> None:
     assert Gaussian().alpha.requires_grad
 
 
-def test_gaussian_learnable_false():
+def test_gaussian_learnable_false() -> None:
     assert not Gaussian(learnable=False).alpha.requires_grad
 
 

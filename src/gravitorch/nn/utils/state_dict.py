@@ -36,12 +36,14 @@ def find_module_state_dict(state_dict: Union[dict, list, tuple], module_keys: se
     only the first one is returned.
 
     Args:
+    ----
         state_dict (dict, list or tuple): Specifies the state dict.
             This function is called recursively on this input to find
             the queried state dict.
         module_keys (set): Specifies the set of module keys.
 
     Returns:
+    -------
         dict: The part of the state dict related to a module if it is
             found, otherwise an empty dict.
 
@@ -97,6 +99,7 @@ def load_checkpoint_to_module(
     weights to the module device if they are on another device.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module. This
             function changes the weights of this module.
         path (str): Specifies the path to the checkpoint with the
@@ -156,6 +159,7 @@ def load_state_dict_to_module(state_dict: dict, module: Module, strict: bool = T
     in the given state dict.
 
     Args:
+    ----
         state_dict (dict): Specifies the state dict with the module
             state dict.
         module (``torch.nn.Module``): Specifies the module. This
@@ -209,12 +213,14 @@ def state_dicts_are_equal(module1: Module, module2: Module) -> bool:
     r"""Indicates if the state dict of 2 modules are equal or not.
 
     Args:
+    ----
         module1 (``torch.nn.Module``): Specifies the first module to
             compare.
         module2 (``torch.nn.Module``): Specifies the second module to
             compare.
 
     Returns:
+    -------
         bool: ``True`` if the state dict of 2 modules are equal,
             otherwise ``False``
     """
@@ -225,6 +231,7 @@ def show_state_dict_info(state_dict: dict, tablefmt: str = "simple") -> None:
     r"""Shows information about the state dict.
 
     Args:
+    ----
         state_dict (dict): Specifies the state dict to analyze.
         tablefmt (str, optional): Specifies the table format.
             Default: ``'simple'``
@@ -245,6 +252,7 @@ def load_model_state_dict(
     r"""Loads a model state dict.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the
             checkpoint with the module weights. The checkpoint
             should be a PyTorch file.

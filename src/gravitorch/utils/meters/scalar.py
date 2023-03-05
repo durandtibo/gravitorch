@@ -22,6 +22,7 @@ class ScalarMeter:
         - the last N values which are used to compute the median value.
 
     Args:
+    ----
         total (float, optional): Specifies the initial total value.
             Default: ``0.0``
         count (int, optional): Specifies the initial count value.
@@ -64,9 +65,9 @@ class ScalarMeter:
         count: int = 0,
         min_value: float = float("inf"),
         max_value: float = -float("inf"),
-        values: Iterable[float] = tuple(),
+        values: Iterable[float] = (),
         max_size: int = 100,
-    ):
+    ) -> None:
         self._total = float(total)
         self._count = int(count)
         self._min_value = float(min_value)
@@ -118,10 +119,12 @@ class ScalarMeter:
     def average(self) -> float:
         r"""Computes the average value.
 
-        Returns:
+        Returns
+        -------
             float: The average value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -132,9 +135,11 @@ class ScalarMeter:
         r"""Indicates if two meters are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
         """
@@ -146,6 +151,7 @@ class ScalarMeter:
         r"""Loads a state to the history tracker.
 
         Args:
+        ----
             state_dict (dict): Dictionary containing state keys with
                 values.
         """
@@ -159,10 +165,12 @@ class ScalarMeter:
     def max(self) -> float:
         r"""Gets the max value.
 
-        Returns:
+        Returns
+        -------
             float: The max value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -179,10 +187,12 @@ class ScalarMeter:
         for input tensors with an even number of elements. In this
         case the lower of the two medians is returned.
 
-        Returns:
+        Returns
+        -------
             float: The median value from the last examples.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -197,10 +207,12 @@ class ScalarMeter:
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``AverageMeter``: The merged meter.
         """
         count, total = self._count, self._total
@@ -228,10 +240,12 @@ class ScalarMeter:
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``AverageMeter``: The merged meter.
         """
         for meter in meters:
@@ -243,10 +257,12 @@ class ScalarMeter:
     def min(self) -> float:
         r"""Gets the min value.
 
-        Returns:
+        Returns
+        -------
             float: The min value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -264,7 +280,8 @@ class ScalarMeter:
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """
         return {
@@ -283,10 +300,12 @@ class ScalarMeter:
         deque to track the last values and the standard deviation
         is computed on the values in the deque.
 
-        Returns:
+        Returns
+        -------
             float: The standard deviation from the last examples.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -296,10 +315,12 @@ class ScalarMeter:
     def sum(self) -> float:
         r"""Computes the sum value.
 
-        Returns:
+        Returns
+        -------
             float: The sum value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -310,6 +331,7 @@ class ScalarMeter:
         r"""Updates the meter given a new value.
 
         Args:
+        ----
             value (float): Specifies the value to add to the meter.
         """
         value = float(value)
@@ -323,6 +345,7 @@ class ScalarMeter:
         r"""Updates the meter given a list/tuple of values.
 
         Args:
+        ----
             values (list or tuple): Specifies the list/tuple of
                 values to add to the meter.
         """

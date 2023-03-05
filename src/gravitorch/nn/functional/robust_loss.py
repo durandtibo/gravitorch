@@ -26,6 +26,7 @@ def msle_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") -> Te
     Note: this loss only works with positive values (0 included).
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -38,6 +39,7 @@ def msle_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") -> Te
             summed. Default: ``'mean'``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The mean squared logarithmic
             error. The shape of the tensor depends on the reduction
             strategy.
@@ -54,6 +56,7 @@ def asinh_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") 
     instead of ``log1p`` because ``arcsinh`` works on negative values.
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -66,6 +69,7 @@ def asinh_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") 
             summed. Default: ``'mean'``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The mean squared error (MSE)
             on the arcsinh transformed prediction and target. The
             shape of the tensor depends on the reduction strategy.
@@ -82,6 +86,7 @@ def symlog_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean")
     instead of ``log1p`` because ``symlog`` works on negative values.
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -94,6 +99,7 @@ def symlog_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean")
             summed. Default: ``'mean'``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The mean squared error (MSE)
             on the symlog transformed prediction and target. The shape
             of the tensor depends on the reduction strategy.
@@ -107,6 +113,7 @@ def relative_mse_loss(
     r"""Computes the relative mean squared error loss.
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -122,6 +129,7 @@ def relative_mse_loss(
             is zero. Default: ``1e-8``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The relative mean squared error.
             The shape depends on the reduction strategy.
 
@@ -150,6 +158,7 @@ def relative_smooth_l1_loss(
     r"""Computes the relative smooth l1 loss.
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -168,6 +177,7 @@ def relative_smooth_l1_loss(
             is zero. Default: ``1e-8``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The relative smooth l1 loss.
             The shape depends on the reduction strategy.
 
@@ -198,6 +208,7 @@ def symmetric_relative_smooth_l1_loss(
     r"""Computes the symmetric relative smooth l1 loss.
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -216,6 +227,7 @@ def symmetric_relative_smooth_l1_loss(
             is zero. Default: ``1e-8``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The symmetric relative smooth
             l1 loss. The shape depends on the reduction strategy.
 
@@ -247,6 +259,7 @@ def log_cosh_loss(
     r"""Computes the logarithm of the hyperbolic cosine of the prediction error.
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -261,6 +274,7 @@ def log_cosh_loss(
             Default: ``1.0``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: the logarithm of the
             hyperbolic cosine of the prediction error.
 

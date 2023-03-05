@@ -25,6 +25,7 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
     control the LR scheduler.
 
     Args:
+    ----
         lr_scheduler_config (dict or ``None``): Specifies the LR
             scheduler configuration. If ``None``, no LR scheduler
             is created and ``None`` will be returned by the ``create``
@@ -46,7 +47,7 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
         lr_scheduler_config: Union[dict, None] = None,
         lr_scheduler_handler: Union[BaseHandler, dict, None] = None,
         add_module_to_engine: bool = True,
-    ):
+    ) -> None:
         self._lr_scheduler_config = lr_scheduler_config
         self._lr_scheduler_manager = setup_handler(lr_scheduler_handler)
         logger.info(f"lr_scheduler_handler:\n{lr_scheduler_handler}")

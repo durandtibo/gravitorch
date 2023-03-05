@@ -21,41 +21,41 @@ from gravitorch.utils.parameter_initializers import (
 ######################################################
 
 
-def test_xavier_normal_parameter_initializer_str():
+def test_xavier_normal_parameter_initializer_str() -> None:
     assert str(XavierNormalParameterInitializer()).startswith("XavierNormalParameterInitializer(")
 
 
 @mark.parametrize("gain", (1, 2.0))
-def test_xavier_normal_parameter_initializer_gain(gain: Union[int, float]):
+def test_xavier_normal_parameter_initializer_gain(gain: Union[int, float]) -> None:
     assert XavierNormalParameterInitializer(gain=gain)._gain == gain
 
 
-def test_xavier_normal_parameter_initializer_gain_default():
+def test_xavier_normal_parameter_initializer_gain_default() -> None:
     assert XavierNormalParameterInitializer()._gain == 1.0
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_xavier_normal_parameter_initializer_learnable_only(learnable_only: bool):
+def test_xavier_normal_parameter_initializer_learnable_only(learnable_only: bool) -> None:
     assert (
         XavierNormalParameterInitializer(learnable_only=learnable_only)._learnable_only
         == learnable_only
     )
 
 
-def test_xavier_normal_parameter_initializer_learnable_only_default():
+def test_xavier_normal_parameter_initializer_learnable_only_default() -> None:
     assert XavierNormalParameterInitializer()._learnable_only
 
 
 @mark.parametrize("show_stats", (True, False))
-def test_xavier_normal_parameter_initializer_show_stats(show_stats: bool):
+def test_xavier_normal_parameter_initializer_show_stats(show_stats: bool) -> None:
     assert XavierNormalParameterInitializer(show_stats=show_stats)._show_stats == show_stats
 
 
-def test_xavier_normal_parameter_initializer_show_stats_default():
+def test_xavier_normal_parameter_initializer_show_stats_default() -> None:
     assert XavierNormalParameterInitializer()._show_stats
 
 
-def test_xavier_normal_parameter_initializer_initialize_linear():
+def test_xavier_normal_parameter_initializer_initialize_linear() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     XavierNormalParameterInitializer().initialize(engine)
@@ -63,7 +63,7 @@ def test_xavier_normal_parameter_initializer_initialize_linear():
     assert engine.model.bias.data.equal(torch.ones(6))
 
 
-def test_xavier_normal_parameter_initializer_initialize_sequential():
+def test_xavier_normal_parameter_initializer_initialize_sequential() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6)))
     recursive_constant_(engine.model, 1)
     XavierNormalParameterInitializer().initialize(engine)
@@ -77,7 +77,7 @@ def test_xavier_normal_parameter_initializer_initialize_sequential():
 @mark.parametrize("learnable_only", (True, False))
 def test_xavier_normal_parameter_initializer_initialize(
     gain: Union[int, float], learnable_only: bool
-):
+) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch("gravitorch.utils.parameter_initializers.xavier.recursive_xavier_normal_") as xavier:
@@ -94,41 +94,41 @@ def test_xavier_normal_parameter_initializer_initialize(
 #######################################################
 
 
-def test_xavier_uniform_parameter_initializer_str():
+def test_xavier_uniform_parameter_initializer_str() -> None:
     assert str(XavierUniformParameterInitializer()).startswith("XavierUniformParameterInitializer(")
 
 
 @mark.parametrize("gain", (1, 2.0))
-def test_xavier_uniform_parameter_initializer_gain(gain: Union[int, float]):
+def test_xavier_uniform_parameter_initializer_gain(gain: Union[int, float]) -> None:
     assert XavierUniformParameterInitializer(gain=gain)._gain == gain
 
 
-def test_xavier_uniform_parameter_initializer_gain_default():
+def test_xavier_uniform_parameter_initializer_gain_default() -> None:
     assert XavierUniformParameterInitializer()._gain == 1.0
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_xavier_uniform_parameter_initializer_learnable_only(learnable_only: bool):
+def test_xavier_uniform_parameter_initializer_learnable_only(learnable_only: bool) -> None:
     assert (
         XavierUniformParameterInitializer(learnable_only=learnable_only)._learnable_only
         == learnable_only
     )
 
 
-def test_xavier_uniform_parameter_initializer_learnable_only_default():
+def test_xavier_uniform_parameter_initializer_learnable_only_default() -> None:
     assert XavierUniformParameterInitializer()._learnable_only
 
 
 @mark.parametrize("show_stats", (True, False))
-def test_xavier_uniform_parameter_initializer_show_stats(show_stats: bool):
+def test_xavier_uniform_parameter_initializer_show_stats(show_stats: bool) -> None:
     assert XavierUniformParameterInitializer(show_stats=show_stats)._show_stats == show_stats
 
 
-def test_xavier_uniform_parameter_initializer_show_stats_default():
+def test_xavier_uniform_parameter_initializer_show_stats_default() -> None:
     assert XavierUniformParameterInitializer()._show_stats
 
 
-def test_xavier_uniform_parameter_initializer_initialize_linear():
+def test_xavier_uniform_parameter_initializer_initialize_linear() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     XavierUniformParameterInitializer().initialize(engine)
@@ -136,7 +136,7 @@ def test_xavier_uniform_parameter_initializer_initialize_linear():
     assert engine.model.bias.data.equal(torch.ones(6))
 
 
-def test_xavier_uniform_parameter_initializer_initialize_sequential():
+def test_xavier_uniform_parameter_initializer_initialize_sequential() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6)))
     recursive_constant_(engine.model, 1)
     XavierUniformParameterInitializer().initialize(engine)
@@ -150,7 +150,7 @@ def test_xavier_uniform_parameter_initializer_initialize_sequential():
 @mark.parametrize("learnable_only", (True, False))
 def test_xavier_uniform_parameter_initializer_initialize(
     gain: Union[int, float], learnable_only: bool
-):
+) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -171,7 +171,7 @@ def test_xavier_uniform_parameter_initializer_initialize(
 ##############################################
 
 
-def test_recursive_xavier_normal_linear():
+def test_recursive_xavier_normal_linear() -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 0)
     recursive_xavier_normal_(module)
@@ -181,7 +181,7 @@ def test_recursive_xavier_normal_linear():
 
 
 @mark.parametrize("gain", (1.0, 2.0))
-def test_recursive_xavier_normal_gain(gain: float):
+def test_recursive_xavier_normal_gain(gain: float) -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_xavier_normal_(module, gain=gain)
@@ -189,7 +189,7 @@ def test_recursive_xavier_normal_gain(gain: float):
     assert math.isclose(module.weight.data.std().item(), gain * 0.1, rel_tol=0.02)  # 2% tolerance
 
 
-def test_recursive_xavier_normal_sequential_learnable_only_true():
+def test_recursive_xavier_normal_sequential_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])
@@ -201,7 +201,7 @@ def test_recursive_xavier_normal_sequential_learnable_only_true():
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_xavier_normal_sequential_learnable_only_false():
+def test_recursive_xavier_normal_sequential_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])
@@ -217,7 +217,7 @@ def test_recursive_xavier_normal_sequential_learnable_only_false():
 ###############################################
 
 
-def test_recursive_xavier_uniform_linear():
+def test_recursive_xavier_uniform_linear() -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 0)
     recursive_xavier_uniform_(module)
@@ -227,7 +227,7 @@ def test_recursive_xavier_uniform_linear():
 
 
 @mark.parametrize("gain", (0.1, 1.0, 2.0))
-def test_recursive_xavier_uniform_gain(gain: float):
+def test_recursive_xavier_uniform_gain(gain: float) -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_xavier_uniform_(module, gain=gain)
@@ -236,7 +236,7 @@ def test_recursive_xavier_uniform_gain(gain: float):
     assert module.weight.data.min().item() >= -gain * 0.17320508075688773
 
 
-def test_recursive_xavier_uniform_sequential_learnable_only_true():
+def test_recursive_xavier_uniform_sequential_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])
@@ -248,7 +248,7 @@ def test_recursive_xavier_uniform_sequential_learnable_only_true():
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_xavier_uniform_sequential_learnable_only_false():
+def test_recursive_xavier_uniform_sequential_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])

@@ -17,15 +17,15 @@ EVENTS = ("my_event", "my_other_event")
 ###############################################
 
 
-def test_model_architecture_analyzer_str():
+def test_model_architecture_analyzer_str() -> None:
     assert str(ModelArchitectureAnalyzer()).startswith("ModelArchitectureAnalyzer(")
 
 
-def test_model_architecture_analyzer_events():
+def test_model_architecture_analyzer_events() -> None:
     assert ModelArchitectureAnalyzer("my_event")._events == ("my_event",)
 
 
-def test_model_architecture_analyzer_events_default():
+def test_model_architecture_analyzer_events_default() -> None:
     assert ModelArchitectureAnalyzer()._events == (EngineEvents.STARTED,)
 
 
@@ -40,7 +40,7 @@ def test_model_architecture_analyzer_attach(event: str):
     )
 
 
-def test_model_architecture_analyzer_attach_2_events():
+def test_model_architecture_analyzer_attach_2_events() -> None:
     handler = ModelArchitectureAnalyzer(EVENTS)
     engine = Mock(spec=BaseEngine)
     handler.attach(engine)
@@ -54,7 +54,7 @@ def test_model_architecture_analyzer_attach_2_events():
     )
 
 
-def test_model_architecture_analyzer_analyze():
+def test_model_architecture_analyzer_analyze() -> None:
     handler = ModelArchitectureAnalyzer()
     engine = Mock(spec=BaseEngine)
     with patch(
@@ -69,7 +69,7 @@ def test_model_architecture_analyzer_analyze():
 ######################################################
 
 
-def test_model_network_architecture_analyzer_analyze():
+def test_model_network_architecture_analyzer_analyze() -> None:
     handler = ModelNetworkArchitectureAnalyzer()
     engine = Mock(spec=BaseEngine)
     with patch(

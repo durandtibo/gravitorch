@@ -18,6 +18,7 @@ class VanillaLRScheduler(BaseHandler):
     monitor the LR value.
 
     Args:
+    ----
         lr_scheduler_updater (``BaseHandler`` or dict): Specifies the
             learning rate scheduler updater or its configuration. The
             LR scheduler updater is responsible to update the LR
@@ -30,7 +31,7 @@ class VanillaLRScheduler(BaseHandler):
         self,
         lr_scheduler_updater: Union[BaseHandler, dict],
         lr_monitor: Union[BaseHandler, dict],
-    ):
+    ) -> None:
         self._lr_scheduler_updater = setup_handler(lr_scheduler_updater)
         self._lr_monitor = setup_handler(lr_monitor)
 
@@ -47,6 +48,7 @@ class VanillaLRScheduler(BaseHandler):
         value.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         self._lr_scheduler_updater.attach(engine)
@@ -65,7 +67,7 @@ class EpochLRScheduler(VanillaLRScheduler):
             beginning of each training epoch
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             lr_scheduler_updater=EpochLRSchedulerUpdater(), lr_monitor=EpochLRMonitor()
         )
@@ -83,11 +85,12 @@ class IterationLRScheduler(VanillaLRScheduler):
             beginning of each training iteration
 
     Args:
+    ----
         freq (int, optional): Specifies the iteration frequency used
             to monitor the learning rate. Default: ``10``
     """
 
-    def __init__(self, freq: int = 10):
+    def __init__(self, freq: int = 10) -> None:
         super().__init__(
             lr_scheduler_updater=IterationLRSchedulerUpdater(),
             lr_monitor=IterationLRMonitor(freq=freq),

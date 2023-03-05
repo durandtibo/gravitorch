@@ -19,6 +19,7 @@ class BarronRobustLoss(Module):
         CVPR 2019 (https://arxiv.org/abs/1701.03077)
 
     Args:
+    ----
         alpha (float, optional): Specifies the shape parameter that
             controls the robustness of the loss. Default: ``2.0``
         scale (float, optional): Specifies the scale parameter that
@@ -41,7 +42,7 @@ class BarronRobustLoss(Module):
         scale: float = 1.0,
         max_value: Optional[float] = None,
         reduction: str = "mean",
-    ):
+    ) -> None:
         super().__init__()
         self._alpha = float(alpha)
         if scale <= 0:
@@ -65,10 +66,12 @@ class BarronRobustLoss(Module):
         r"""Computes the loss values and reduces them.
 
         Args:
+        ----
             prediction (``torch.Tensor``): Specifies the predictions.
             target (``torch.Tensor``): Specifies the targets.
 
         Returns:
+        -------
             ``torch.Tensor``: The computed loss value.
         """
         return barron_robust_loss(
@@ -89,10 +92,12 @@ class AsinhBarronRobustLoss(BarronRobustLoss):
         r"""Computes the loss values and reduces them.
 
         Args:
+        ----
             prediction (``torch.Tensor``): Specifies the predictions.
             target (``torch.Tensor``): Specifies the targets.
 
         Returns:
+        -------
             ``torch.Tensor``: The computed loss value.
         """
         return asinh_barron_robust_loss(

@@ -19,11 +19,13 @@ def setup_device_placement(
     by using the ``BaseDevicePlacement`` factory function.
 
     Args:
+    ----
         device_placement (``BaseDevicePlacement`` or dict or ``None``):
             Specifies the device placement module or its configuration.
             If ``None``, the ``NoOpDevicePlacement`` is instantiated.
 
     Returns:
+    -------
         ``BaseDevicePlacement``: The device placement module.
     """
     if device_placement is None:

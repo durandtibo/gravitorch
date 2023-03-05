@@ -19,12 +19,14 @@ def setup_parameter_initializer(
     r"""Sets up the model parameter initializer.
 
     Args:
+    ----
         parameter_initializer (``BaseParameterInitializer`` or dict or
             ``None``): Specifies the model parameter initializer or
             its configuration. If ``None``, the
             ``NoParameterInitializer`` will be instantiated.
 
     Returns:
+    -------
         ``BaseParameterInitializer``: The instantiated model parameter
             initializer.
     """

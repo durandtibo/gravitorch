@@ -27,7 +27,8 @@ from importlib.util import find_spec
 def check_accelerate() -> None:
     r"""Checks if the ``accelerate`` package is installed.
 
-    Raises:
+    Raises
+    ------
         RuntimeError if the ``accelerate`` package is not installed.
     """
     if not is_accelerate_available():
@@ -54,7 +55,8 @@ def is_accelerate_available() -> bool:
 def check_fairscale() -> None:
     r"""Checks if the ``fairscale`` package is installed.
 
-    Raises:
+    Raises
+    ------
         RuntimeError if the ``fairscale`` package is not installed.
     """
     if not is_fairscale_available():
@@ -78,7 +80,8 @@ def is_fairscale_available() -> bool:
 def check_matplotlib() -> None:
     r"""Checks if the ``matplotlib`` package is installed.
 
-    Raises:
+    Raises
+    ------
         RuntimeError if the ``matplotlib`` package is not installed.
     """
     if not is_matplotlib_available():
@@ -102,7 +105,8 @@ def is_matplotlib_available() -> bool:
 def check_pillow() -> None:
     r"""Checks if the pillow package is installed.
 
-    Raises:
+    Raises
+    ------
         RuntimeError if the ``pillow`` package is not installed.
     """
     if not is_pillow_available():
@@ -136,7 +140,8 @@ def is_psutil_available() -> bool:
 def check_tensorboard() -> None:
     r"""Checks if the ``tensorboard`` package is installed.
 
-    Raises:
+    Raises
+    ------
         RuntimeError if the ``tensorboard`` package is not installed.
     """
     if not is_tensorboard_available():
@@ -160,7 +165,8 @@ def is_tensorboard_available() -> bool:
 def check_torchvision() -> None:
     r"""Checks if the ``torchvision`` package is installed.
 
-    Raises:
+    Raises
+    ------
         RuntimeError if the ``torchvision`` package is not installed.
     """
     if not is_torchvision_available():

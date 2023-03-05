@@ -17,11 +17,13 @@ def setup_exp_tracker(exp_tracker: Union[BaseExpTracker, dict, None]) -> BaseExp
     r"""Sets up the experiment tracker.
 
     Args:
+    ----
         exp_tracker (``BaseExpTracker`` or dict or None): Specifies
             the experiment tracker or its configuration. if ``None``,
             the ``NoOpExpTracker`` is instantiated.
 
     Returns:
+    -------
         ``BaseExpTracker``: The experiment tracker
     """
     if exp_tracker is None:
@@ -41,11 +43,13 @@ def main_process_only(exp_tracker: Union[BaseExpTracker, dict, None]) -> BaseExp
     The non-main processes use the no-op experiment tracker.
 
     Args:
+    ----
         exp_tracker (``BaseExpTracker`` or dict or None): Specifies
             the experiment tracker or its configuration. if ``None``,
             the ``NoOpExpTracker`` is instantiated.
 
     Returns:
+    -------
         ``BaseExpTracker``: The instantiated experiment tracker
     """
     if dist.is_main_process():
@@ -60,9 +64,11 @@ def sanitize_metrics(metrics: dict) -> dict[str, Union[int, float]]:
     float.
 
     Args:
+    ----
         metrics (dict): Specifies the metrics to sanitize.
 
     Returns:
+    -------
         dict: The sanitized metrics.
     """
     return {str(key): value for key, value in metrics.items() if isinstance(value, (int, float))}

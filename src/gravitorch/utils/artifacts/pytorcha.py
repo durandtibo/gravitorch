@@ -11,13 +11,14 @@ class PyTorchArtifact(BaseArtifact):
     r"""Implements a PyTorch artifact.
 
     Args:
+    ----
         tag (str): Specifies the artifact tag. The tag is used to
             define the PyTorch filename.
         data: Specifies the data to save in the PyTorch artifact. The
             data should be PyTorch compatible.
     """
 
-    def __init__(self, tag: str, data: Any):
+    def __init__(self, tag: str, data: Any) -> None:
         self._tag = str(tag)
         self._data = data
 

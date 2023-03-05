@@ -14,7 +14,7 @@ from gravitorch.utils.history import MinScalarHistory
 
 
 class FakeMetricWithOutput(nn.Module):
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         super().__init__()
         self._name = name
 

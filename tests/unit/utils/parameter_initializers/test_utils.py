@@ -10,11 +10,11 @@ from gravitorch.utils.parameter_initializers import (
 #################################################
 
 
-def test_setup_parameter_initializer_none():
+def test_setup_parameter_initializer_none() -> None:
     assert isinstance(setup_parameter_initializer(None), NoParameterInitializer)
 
 
-def test_setup_parameter_initializer_dict():
+def test_setup_parameter_initializer_dict() -> None:
     assert isinstance(
         setup_parameter_initializer(
             {OBJECT_TARGET: "gravitorch.utils.parameter_initializers.NoParameterInitializer"}
@@ -23,6 +23,6 @@ def test_setup_parameter_initializer_dict():
     )
 
 
-def test_setup_parameter_initializer_object():
+def test_setup_parameter_initializer_object() -> None:
     initializer = NoParameterInitializer()
     assert setup_parameter_initializer(initializer) is initializer

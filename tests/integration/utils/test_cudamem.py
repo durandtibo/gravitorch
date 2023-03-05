@@ -14,7 +14,7 @@ from gravitorch.utils.cudamem import (
 
 
 @cuda_available
-def test_log_cuda_memory_summary_cuda(caplog: LogCaptureFixture):
+def test_log_cuda_memory_summary_cuda(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         log_cuda_memory_summary()
         assert len(caplog.messages) == 2
@@ -26,7 +26,7 @@ def test_log_cuda_memory_summary_cuda(caplog: LogCaptureFixture):
 
 
 @cuda_available
-def test_log_max_cuda_memory_allocated_cuda(caplog: LogCaptureFixture):
+def test_log_max_cuda_memory_allocated_cuda(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         log_max_cuda_memory_allocated()
         assert len(caplog.messages) == 1

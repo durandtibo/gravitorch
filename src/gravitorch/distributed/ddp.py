@@ -29,6 +29,7 @@ def broadcast_object_list(
     information.
 
     Args:
+    ----
         object_list (List[Any]): List of input objects to broadcast.
             Each object must be picklable. Only objects on the
             ``src`` rank will be broadcast, but each rank must provide
@@ -90,6 +91,7 @@ def sync_reduce(variable: Union[Tensor, int, float], op: str) -> Union[Tensor, i
     ``sync_reduce_``.
 
     Args:
+    ----
         variable (``torch.Tensor`` or int or float): Specifies the
             variable to reduce.
         op (str): Specifies the reduction operation.
@@ -97,6 +99,7 @@ def sync_reduce(variable: Union[Tensor, int, float], op: str) -> Union[Tensor, i
             ``MAX``, ``MIN``, ``PRODUCT`` and ``SUM``.
 
     Returns:
+    -------
         ``torch.Tensor`` or int or float: The reduced variable.
 
     Example usage:
@@ -128,15 +131,18 @@ def sync_reduce_(tensor: Tensor, op: str) -> Tensor:
     r"""In-place version of ``sync_reduce`` but it works only for a tensor.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the tensor to reduce.
         op (str): Specifies the reduction operation.
             The available operations are: ``AVG``, ``AND``, ``OR``,
             ``MAX``, ``MIN``, ``PRODUCT`` and ``SUM``.
 
     Returns:
+    -------
         The reduced tensor which is also the input tensor.
 
     Raises:
+    ------
         ``TypeError`` if the input is not a tensor.
 
     Example usage:
@@ -172,10 +178,12 @@ def all_gather_tensor_varshape(tensor: Tensor) -> list[Tensor]:
     dimension.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the tensor to collect
             across participating processes.
 
     Returns:
+    -------
         list: The list of collected tensors.
 
     Example usage:

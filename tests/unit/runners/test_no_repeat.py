@@ -11,11 +11,11 @@ from gravitorch.utils.io import save_text
 ####################################
 
 
-def test_no_repeat_runner_str(tmp_path: Path):
+def test_no_repeat_runner_str(tmp_path: Path) -> None:
     assert str(NoRepeatRunner(path=tmp_path, runner=Mock())).startswith("NoRepeatRunner(")
 
 
-def test_no_repeat_runner_run_successful(tmp_path: Path):
+def test_no_repeat_runner_run_successful(tmp_path: Path) -> None:
     internal_runner = Mock(run=Mock())
     runner = NoRepeatRunner(path=tmp_path, runner=internal_runner)
     runner.run()
@@ -23,7 +23,7 @@ def test_no_repeat_runner_run_successful(tmp_path: Path):
     assert runner._success_path.is_file()
 
 
-def test_no_repeat_runner_run_already_successful(tmp_path: Path):
+def test_no_repeat_runner_run_already_successful(tmp_path: Path) -> None:
     internal_runner = Mock(run=Mock())
     runner = NoRepeatRunner(path=tmp_path, runner=internal_runner)
     save_text("something", runner._success_path)
@@ -32,7 +32,7 @@ def test_no_repeat_runner_run_already_successful(tmp_path: Path):
     internal_runner.run.assert_not_called()
 
 
-def test_no_repeat_runner_run_not_successful(tmp_path: Path):
+def test_no_repeat_runner_run_not_successful(tmp_path: Path) -> None:
     internal_runner = Mock(run=Mock(side_effect=RuntimeError("Test")))
     runner = NoRepeatRunner(path=tmp_path, runner=internal_runner)
     with raises(Exception):

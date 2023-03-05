@@ -44,7 +44,7 @@ def test_alpha_engine_str(core_creator: BaseCoreCreator):
     assert str(AlphaEngine(core_creator)).startswith("AlphaEngine(")
 
 
-def test_alpha_engine_core_creator_dict():
+def test_alpha_engine_core_creator_dict() -> None:
     engine = AlphaEngine(
         core_creator={
             OBJECT_TARGET: "gravitorch.creators.core.AdvancedCoreCreator",

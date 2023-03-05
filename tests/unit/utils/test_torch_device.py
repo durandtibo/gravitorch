@@ -16,13 +16,13 @@ from gravitorch.utils.torch_device import get_available_devices, move_to_device
 
 
 @patch("torch.cuda.is_available", lambda *args, **kwargs: False)
-def test_get_available_devices_cpu():
+def test_get_available_devices_cpu() -> None:
     assert get_available_devices() == ("cpu",)
 
 
 @patch("torch.cuda.is_available", lambda *args, **kwargs: True)
 @patch("torch.cuda.device_count", lambda *args, **kwargs: 1)
-def test_get_available_devices_cpu_and_gpu():
+def test_get_available_devices_cpu_and_gpu() -> None:
     assert get_available_devices() == ("cpu", "cuda:0")
 
 
@@ -32,7 +32,7 @@ def test_get_available_devices_cpu_and_gpu():
 
 
 @mark.parametrize("device", get_available_devices())
-def test_send_to_device_tensor(device: str):
+def test_send_to_device_tensor(device: str) -> None:
     device = torch.device(device)
     obj = move_to_device(torch.ones(2, 3), device)
     assert torch.is_tensor(obj)
@@ -40,7 +40,7 @@ def test_send_to_device_tensor(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_send_to_device_packed_sequence(device: str):
+def test_send_to_device_packed_sequence(device: str) -> None:
     device = torch.device(device)
     obj = move_to_device(pack_sequence([torch.ones(2, 4, device=device) for _ in range(2)]), device)
     assert isinstance(obj, PackedSequence)
@@ -48,7 +48,7 @@ def test_send_to_device_packed_sequence(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_send_to_device_nn_module(device: str):
+def test_send_to_device_nn_module(device: str) -> None:
     device = torch.device(device)
     obj = move_to_device(nn.Linear(4, 6), device)
     assert isinstance(obj, nn.Module)
@@ -56,7 +56,7 @@ def test_send_to_device_nn_module(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_send_to_device_list(device: str):
+def test_send_to_device_list(device: str) -> None:
     device = torch.device(device)
     obj = move_to_device([torch.ones(2, 3), torch.ones(4)], device)
     assert isinstance(obj, list)
@@ -64,7 +64,7 @@ def test_send_to_device_list(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_send_to_device_tuple(device: str):
+def test_send_to_device_tuple(device: str) -> None:
     device = torch.device(device)
     obj = move_to_device((torch.ones(2, 3), torch.ones(4)), device)
     assert isinstance(obj, tuple)
@@ -72,7 +72,7 @@ def test_send_to_device_tuple(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_send_to_device_set(device: str):
+def test_send_to_device_set(device: str) -> None:
     device = torch.device(device)
     obj = move_to_device({torch.ones(2, 3), torch.ones(2, 3)}, device)
     assert isinstance(obj, set)
@@ -89,7 +89,7 @@ def test_send_to_device_set(device: str):
         (OrderedDict({"tensor1": torch.ones(2, 3), "tensor2": torch.ones(4)}), OrderedDict),
     ),
 )
-def test_send_to_device_dict(device: str, obj: Mapping, obj_cls: type[object]):
+def test_send_to_device_dict(device: str, obj: Mapping, obj_cls: type[object]) -> None:
     print(obj, obj_cls)
     device = torch.device(device)
     obj = move_to_device(obj, device)
@@ -101,7 +101,7 @@ def test_send_to_device_dict(device: str, obj: Mapping, obj_cls: type[object]):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_send_to_device_dict_nested(device: str):
+def test_send_to_device_dict_nested(device: str) -> None:
     device = torch.device(device)
     obj = move_to_device({"list": [1, torch.zeros(2, 3)], "tensor": torch.ones(4)}, device)
     assert isinstance(obj, dict)

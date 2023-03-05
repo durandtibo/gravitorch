@@ -106,7 +106,7 @@ MY_NETWORK_TABLE_FULL_STR = (
 
 
 class MyNetwork(nn.Module):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.fusion = ConcatFusion()
         self.decoder = BetaMLP(input_size=20, hidden_sizes=(16, 7))

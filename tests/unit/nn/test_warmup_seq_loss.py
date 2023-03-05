@@ -26,7 +26,7 @@ SIZES = (1, 2)
 )
 def test_warmup_sequence_loss_criterion(
     criterion: Union[dict, nn.Module], criterion_cls: type[nn.Module]
-):
+) -> None:
     assert isinstance(WarmupSequenceLoss(criterion=criterion).criterion, criterion_cls)
 
 

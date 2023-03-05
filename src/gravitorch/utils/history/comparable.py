@@ -21,6 +21,7 @@ class ComparableHistory(GenericHistory[T]):
     r"""Implements a comparable history.
 
     Args:
+    ----
         name (str): Specifies the name of the history.
         comparator (BaseComparator): Specifies the comparator to use
             to find the best value.
@@ -40,11 +41,11 @@ class ComparableHistory(GenericHistory[T]):
         self,
         name: str,
         comparator: BaseComparator[T],
-        elements: Iterable[tuple[Optional[int], T]] = tuple(),
+        elements: Iterable[tuple[Optional[int], T]] = (),
         max_size: int = 10,
         best_value: Optional[T] = None,
         improved: bool = False,
-    ):
+    ) -> None:
         super().__init__(name=name, elements=elements, max_size=max_size)
         self._comparator = comparator
         self._best_value = best_value or self._comparator.get_initial_best_value()
@@ -62,10 +63,12 @@ class ComparableHistory(GenericHistory[T]):
         r"""Indicates if the new value is better than the old value.
 
         Args:
+        ----
             old_value: Specifies the old value to compare.
             new_value: Specifies the new value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the new value is better than the old
                 value, otherwise ``False``.
 
@@ -122,6 +125,7 @@ class MaxScalarHistory(ComparableHistory[Number]):
     best value of the history.
 
     Args:
+    ----
         name (str): Specifies the name of the history.
         elements (iterable, optional): Specifies the initial elements.
             Each element is a tuple with the step and its associated
@@ -138,11 +142,11 @@ class MaxScalarHistory(ComparableHistory[Number]):
     def __init__(
         self,
         name: str,
-        elements: Iterable[tuple[Optional[int], T]] = tuple(),
+        elements: Iterable[tuple[Optional[int], T]] = (),
         max_size: int = 10,
         best_value: Optional[T] = None,
         improved: bool = False,
-    ):
+    ) -> None:
         super().__init__(
             name=name,
             comparator=MaxScalarComparator(),
@@ -165,6 +169,7 @@ class MinScalarHistory(ComparableHistory[Number]):
     best value of the history.
 
     Args:
+    ----
         name (str): Specifies the name of the history.
         elements (iterable, optional): Specifies the initial elements.
             Each element is a tuple with the step and its associated
@@ -181,11 +186,11 @@ class MinScalarHistory(ComparableHistory[Number]):
     def __init__(
         self,
         name: str,
-        elements: Iterable[tuple[Optional[int], T]] = tuple(),
+        elements: Iterable[tuple[Optional[int], T]] = (),
         max_size: int = 10,
         best_value: Optional[T] = None,
         improved: bool = False,
-    ):
+    ) -> None:
         super().__init__(
             name=name,
             comparator=MinScalarComparator(),

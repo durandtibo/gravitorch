@@ -37,6 +37,7 @@ class AlphaEngine(BaseEngine):
     engine modules creator.
 
     Args:
+    ----
         core_creator (``BaseCoreCreator`` or dict):
             Specifies the core engine modules creators or its
             configuration. This object creates the data module, model,
@@ -70,7 +71,7 @@ class AlphaEngine(BaseEngine):
         exp_tracker: BaseExpTracker | dict | None = None,
         training_loop: BaseTrainingLoop | dict | None = None,
         evaluation_loop: BaseEvaluationLoop | dict | None = None,
-    ):
+    ) -> None:
         self._event_manager = EventManager()
         self._state = self._setup_state(state)
         self._exp_tracker = self._setup_exp_tracker(exp_tracker)
@@ -277,12 +278,14 @@ class AlphaEngine(BaseEngine):
         by using the ``BaseEvaluationLoop`` factory function.
 
         Args:
+        ----
             evaluation_loop (``BaseEvaluationLoop`` or dict or None):
                 Specifies the evaluation loop or its configuration.
                 If ``None``, the ``VanillaEvaluationLoop`` is
                 instantiated.
 
         Returns:
+        -------
             ``BaseEvaluationLoop``: The evaluation loop.
         """
         evaluation_loop = setup_evaluation_loop(evaluation_loop)
@@ -298,10 +301,12 @@ class AlphaEngine(BaseEngine):
         configuration by using the ``BaseExpTracker`` factory function.
 
         Args:
+        ----
             exp_tracker (``BaseExpTracker`` or dict or None):
                 Specifies the experiment tracker or its configuration.
 
         Returns:
+        -------
             ``BaseExpTracker``: The (instantiated) experiment tracker.
         """
         exp_tracker = setup_exp_tracker(exp_tracker)
@@ -317,12 +322,14 @@ class AlphaEngine(BaseEngine):
         using the ``BaseEngineState`` factory function.
 
         Args:
+        ----
             state (``BaseEngineState`` or dict or None):
                 Specifies the engine state or its configuration.
                 If ``None``, the ``VanillaEngineState`` is
                 instantiated.
 
         Returns:
+        -------
             ``BaseEngineState``: The engine state.
         """
         state = setup_engine_state(state)
@@ -338,12 +345,14 @@ class AlphaEngine(BaseEngine):
         using the ``BaseTrainingLoop`` factory function.
 
         Args:
+        ----
             training_loop (``BaseTrainingLoop`` or dict or None):
                 Specifies the training loop or its configuration.
                 If ``None``, the ``VanillaTrainingLoop`` is
                 instantiated.
 
         Returns:
+        -------
             ``BaseTrainingLoop``: The training loop.
         """
         training_loop = setup_training_loop(training_loop)

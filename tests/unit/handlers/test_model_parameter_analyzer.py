@@ -14,15 +14,15 @@ EVENTS = ("my_event", "my_other_event")
 ############################################
 
 
-def test_model_parameter_analyzer_str():
+def test_model_parameter_analyzer_str() -> None:
     assert str(ModelParameterAnalyzer()).startswith("ModelParameterAnalyzer(")
 
 
-def test_model_parameter_analyzer_events():
+def test_model_parameter_analyzer_events() -> None:
     assert ModelParameterAnalyzer("my_event")._events == ("my_event",)
 
 
-def test_model_parameter_analyzer_events_default():
+def test_model_parameter_analyzer_events_default() -> None:
     assert ModelParameterAnalyzer()._events == (EngineEvents.STARTED, EngineEvents.TRAIN_COMPLETED)
 
 
@@ -31,7 +31,7 @@ def test_model_parameter_analyzer_tablefmt(tablefmt: str):
     assert ModelParameterAnalyzer(tablefmt=tablefmt)._tablefmt == tablefmt
 
 
-def test_model_parameter_analyzer_tablefmt_default():
+def test_model_parameter_analyzer_tablefmt_default() -> None:
     assert ModelParameterAnalyzer()._tablefmt == "rst"
 
 
@@ -46,7 +46,7 @@ def test_model_parameter_analyzer_attach(event: str):
     )
 
 
-def test_model_parameter_analyzer_attach_2_events():
+def test_model_parameter_analyzer_attach_2_events() -> None:
     handler = ModelParameterAnalyzer()
     engine = Mock(spec=BaseEngine)
     handler.attach(engine)

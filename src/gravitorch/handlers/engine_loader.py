@@ -27,6 +27,7 @@ class EngineStateLoader(BaseHandler):
     the engine.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the
             PyTorch file.
         event (str): Specifies the event used to load the engine
@@ -38,7 +39,7 @@ class EngineStateLoader(BaseHandler):
             to load the state dict. Default: ``False``
     """
 
-    def __init__(self, path: Union[Path, str], event: str, missing_ok: bool = False):
+    def __init__(self, path: Union[Path, str], event: str, missing_ok: bool = False) -> None:
         self._path = sanitize_path(path)
         self._event = str(event)
         self._missing_ok = bool(missing_ok)
@@ -62,6 +63,7 @@ class EngineStateLoader(BaseHandler):
         r"""Loads an engine state dict from a PyTorch file.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if not self._path.is_file():
@@ -77,9 +79,11 @@ class EngineStateLoader(BaseHandler):
         r"""Prepares the state dict before to load it in the engine.
 
         Args:
+        ----
             state_dict (dict): The state dict to prepare.
 
         Returns:
+        -------
             dict: The prepared state dict.
         """
         return state_dict
@@ -93,6 +97,7 @@ class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
     compatible with the engine.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the
             PyTorch file.
         event (str): Specifies the event used to load the engine
@@ -112,7 +117,7 @@ class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
         event: str,
         exclude_keys: Union[tuple[str, ...], list[str]],
         missing_ok: bool = False,
-    ):
+    ) -> None:
         super().__init__(path=path, event=event, missing_ok=missing_ok)
         self._exclude_keys = tuple(exclude_keys)
 
@@ -126,9 +131,11 @@ class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
         r"""Prepares the state dict before to load it in the engine.
 
         Args:
+        ----
             state_dict (dict): The state dict to prepare.
 
         Returns:
+        -------
             dict: The prepared state dict.
         """
         new_state_dict = {}
@@ -155,6 +162,7 @@ class EngineStateLoaderWithIncludeKeys(EngineStateLoader):
     compatible with the engine.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the
             PyTorch file.
         event (str): Specifies the event used to load the engine state
@@ -175,7 +183,7 @@ class EngineStateLoaderWithIncludeKeys(EngineStateLoader):
         event: str,
         include_keys: Union[tuple[str, ...], list[str]],
         missing_ok: bool = False,
-    ):
+    ) -> None:
         super().__init__(path=path, event=event, missing_ok=missing_ok)
         self._include_keys = tuple(include_keys)
 
@@ -189,9 +197,11 @@ class EngineStateLoaderWithIncludeKeys(EngineStateLoader):
         r"""Prepares the state dict before to load it in the engine.
 
         Args:
+        ----
             state_dict (dict): The state dict to prepare.
 
         Returns:
+        -------
             dict: The prepared state dict.
         """
         new_state_dict = {}

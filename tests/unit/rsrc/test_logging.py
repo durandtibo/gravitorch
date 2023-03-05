@@ -11,13 +11,13 @@ from gravitorch.rsrc.logging import Logging, LoggingState
 ##################################
 
 
-def test_logging_state_create():
+def test_logging_state_create() -> None:
     state = LoggingState.create()
     assert isinstance(state, LoggingState)
     assert isinstance(state.disabled_level, int)
 
 
-def test_logging_state_restore():
+def test_logging_state_restore() -> None:
     with Logging():
         LoggingState(disabled_level=42).restore()
         assert logging.root.manager.disable == 42
@@ -28,7 +28,7 @@ def test_logging_state_restore():
 #############################
 
 
-def test_logging_str():
+def test_logging_str() -> None:
     assert str(Logging()).startswith("Logging(")
 
 
@@ -65,7 +65,7 @@ def test_logging_non_main_process_only_main_process_false(disabled_level: int):
     assert logging.root.manager.disable == default
 
 
-def test_logging_reentrant():
+def test_logging_reentrant() -> None:
     default = logging.root.manager.disable
     resource = Logging()
     with resource:

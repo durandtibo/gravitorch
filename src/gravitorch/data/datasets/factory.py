@@ -20,12 +20,14 @@ def setup_dataset(dataset: Union[Dataset, dict, None]) -> Optional[Dataset]:
     r"""Sets up a dataset.
 
     Args:
+    ----
         dataset (``Dataset`` or dict or ``None``): Specifies the
             dataset or its configuration (dictionary). If a
             configuration is given, a dataset object is instantiated
             from the configuration.
 
     Returns:
+    -------
         ``torch.utils.data.Dataset`` or ``None``: A dataset object or
             ``None`` if there is no dataset.
 

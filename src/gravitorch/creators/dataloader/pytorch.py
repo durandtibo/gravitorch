@@ -32,6 +32,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
     loader creators.
 
     Args:
+    ----
         batch_size (int, optional): Specifies the number of examples
             per batch to load. Default: ``1``
         shuffle (bool, optional): Specifies of the examples are
@@ -68,7 +69,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
         drop_last: bool = False,
         seed: int = 0,
         collate_fn: Union[Callable, dict, None] = None,
-    ):
+    ) -> None:
         if dist.is_distributed():
             self._data_loader_creator = DistributedDataLoaderCreator(
                 batch_size=batch_size,
@@ -109,6 +110,7 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
     own data loader creator.
 
     Args:
+    ----
         batch_size (int, optional): Specifies the number of examples
             per batch to load. Default: ``1``
         shuffle (bool, optional): Specifies of the examples are
@@ -145,7 +147,7 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
         drop_last: bool = False,
         seed: int = 0,
         collate_fn: Union[Callable, dict, None] = None,
-    ):
+    ) -> None:
         self._batch_size = batch_size
         self._shuffle = shuffle
         self._num_workers = num_workers

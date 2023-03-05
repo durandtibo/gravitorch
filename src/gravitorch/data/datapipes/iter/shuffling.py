@@ -44,6 +44,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
             ``mapping``. See example in ``shuffle_tensor_mapping``.
 
     Args:
+    ----
         datapipe (``IterDataPipe``): Specifies the source
             iterable DataPipe.
         dim (int or dict, optional): Specifies the dimension used to
@@ -78,7 +79,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
         datapipe: IterDataPipe[Mapping],
         dim: Union[int, dict] = 0,
         random_seed: int = 3510637111256283951,
-    ):
+    ) -> None:
         self._datapipe = datapipe
         self._dim = dim
         self._generator = get_torch_generator(random_seed)
@@ -118,6 +119,7 @@ def shuffle_tensors(
     ``*`` means any number of dimensions.
 
     Args:
+    ----
         tensors (``Sequence``): Specifies the tensors to shuffle.
         dim (int, optional): Specifies the dimension used to shuffle
             the tensors. Default: ``0``
@@ -125,9 +127,11 @@ def shuffle_tensors(
             Specifies an optional random generator. Default: ``None``
 
     Returns:
+    -------
         ``list``: The shuffled tensors.
 
     Raises:
+    ------
         ValueError if the tensors do not have the same shape for the
             common dimension.
 
@@ -185,6 +189,7 @@ def shuffle_tensor_mapping(
             ``mapping``. See example below.
 
     Args:
+    ----
         mapping (``Mapping``): Specifies the mapping with the tensors
             to shuffle.
         dim (int or dict, optional): Specifies the dimension used to
@@ -193,9 +198,11 @@ def shuffle_tensor_mapping(
             Specifies an optional random generator. Default: ``None``
 
     Returns:
+    -------
         ``dict``: A dictionary with the shuffled tensors.
 
     Raises:
+    ------
         ValueError if the tensors do not have the same shape for the
             common dimension.
 
@@ -284,12 +291,15 @@ def get_first_dimension(data: Union[Tensor, np.ndarray, list, tuple]) -> int:
         - if the input is a list or tuple, the length is returned.
 
     Args:
+    ----
         data: Specifies the data to get the first dimension value.
 
     Returns:
+    -------
         int: The first dimension value.
 
     Raises:
+    ------
         TypeError: if the input type is not supported.
 
     Example usage:

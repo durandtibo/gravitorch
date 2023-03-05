@@ -33,10 +33,11 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         the engine.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import BaseDataSource
@@ -54,17 +55,20 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         that are not available before to load/preprocess the data.
 
         Args:
+        ----
             asset_id (str): Specifies the ID of the asset.
 
         Returns:
+        -------
             The asset.
 
         Raises:
+        ------
             ``AssetNotFoundError`` if you try to access an asset that
                 does not exist.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import BaseDataSource
@@ -77,13 +81,15 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         r"""Indicates if the asset exists or not.
 
         Args:
+        ----
             asset_id (str): Specifies the ID of the asset.
 
         Returns:
+        -------
             bool: ``True`` if the asset exists, otherwise ``False``.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import BaseDataSource
@@ -97,6 +103,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         r"""Gets a data loader.
 
         Args:
+        ----
             loader_id (str): Specifies the ID of the data loader to
                 get.
             engine (``BaseEngine`` or ``None``, optional): Specifies
@@ -105,13 +112,15 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
                 Default: ``None``
 
         Returns:
+        -------
             ``Iterable``: A data loader.
 
         Raises:
+        ------
             ``LoaderNotFoundError`` if the loader does not exist.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import BaseDataSource
@@ -129,14 +138,16 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         r"""Indicates if the data source has a data loader with the given ID.
 
         Args:
+        ----
             loader_id (str): Specifies the ID of the data loader.
 
         Returns:
+        -------
             bool: ``True`` if the data loader exists, ``False``
                 otherwise.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import BaseDataSource
@@ -153,10 +164,11 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         r"""Loads the state values from a dict.
 
         Args:
+        ----
             state_dict (dict): a dict with parameters
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import BaseDataSource
@@ -171,10 +183,11 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         r"""Returns a dictionary containing state values.
 
         Returns:
+        -------
             dict: the state values in a dict.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import BaseDataSource

@@ -32,6 +32,7 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
     r"""Implements a simple training loop to train a model on a dataset.
 
     Args:
+    ----
         set_grad_to_none (bool, optional): If ``True``, set the
             gradients to ``None``, otherwise set the gradients to
             zero. Setting the gradients to ``None`` will in general
@@ -66,7 +67,7 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
         clip_grad: Optional[dict] = None,
         observer: Union[BaseLoopObserver, dict, None] = None,
         profiler: Union[BaseProfiler, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(tag=tag, clip_grad=clip_grad, observer=observer, profiler=profiler)
         self._set_grad_to_none = bool(set_grad_to_none)
         self._batch_device_placement = setup_device_placement(

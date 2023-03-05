@@ -35,6 +35,7 @@ class BaseEngineSaver(BaseHandler):
     The child class has to implement the ``_save`` method.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the
             folder where to save the artifacts.
         event (str): Specifies the event used to save the artifacts.
@@ -49,7 +50,7 @@ class BaseEngineSaver(BaseHandler):
         path: Union[Path, str],
         event: str,
         only_main_process: bool = True,
-    ):
+    ) -> None:
         self._path = sanitize_path(path)
         self._event = str(event)
         self._only_main_process = only_main_process
@@ -74,6 +75,7 @@ class BaseEngineSaver(BaseHandler):
         r"""Saves the values associated to the histories.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if self._only_main_process and not dist.is_main_process():
@@ -85,6 +87,7 @@ class BaseEngineSaver(BaseHandler):
         r"""Saves the values associated to the histories.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
 
@@ -103,7 +106,7 @@ class BestHistorySaver(BaseEngineSaver):
         path: Union[Path, str],
         event: str = EngineEvents.COMPLETED,
         only_main_process: bool = True,
-    ):
+    ) -> None:
         super().__init__(path=path, event=event, only_main_process=only_main_process)
 
     def _save(self, engine: BaseEngine) -> None:
@@ -121,7 +124,7 @@ class LastHistorySaver(BaseEngineSaver):
         path: Union[Path, str],
         event: str = EngineEvents.EPOCH_COMPLETED,
         only_main_process: bool = True,
-    ):
+    ) -> None:
         super().__init__(path=path, event=event, only_main_process=only_main_process)
 
     def _save(self, engine: BaseEngine) -> None:
@@ -146,6 +149,7 @@ class BestEngineStateSaver(BaseEngineSaver):
     other handlers were run to capture the correct engine state.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the
             folder where to write the state dict.
         keys (tuple or list): Specifies the set of metrics to create
@@ -164,7 +168,7 @@ class BestEngineStateSaver(BaseEngineSaver):
         keys: Union[tuple[str, ...], list[str]],
         event: str = EngineEvents.EPOCH_COMPLETED,
         only_main_process: bool = True,
-    ):
+    ) -> None:
         super().__init__(path=path, event=event, only_main_process=only_main_process)
         self._keys = tuple(keys)
 
@@ -182,6 +186,7 @@ class BestEngineStateSaver(BaseEngineSaver):
         r"""Saves the engine state dict in a PyTorch file.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         logger.info("Saving the best checkpoints according to some metrics...")
@@ -227,13 +232,14 @@ class EpochEngineStateSaver(BaseEngineSaver):
         path: Union[Path, str],
         event: str = EngineEvents.EPOCH_COMPLETED,
         only_main_process: bool = True,
-    ):
+    ) -> None:
         super().__init__(path=path, event=event, only_main_process=only_main_process)
 
     def _save(self, engine: BaseEngine) -> None:
         r"""Saves the engine state dict in a PyTorch file.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         logger.info(f"Saving 'epoch {engine.epoch}' engine state dict")
@@ -253,6 +259,7 @@ class TagEngineStateSaver(BaseEngineSaver):
     other handlers were run to capture the correct engine state.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the
             folder where to save the state dict.
         event (str, optional): Specifies the event used to save the
@@ -270,7 +277,7 @@ class TagEngineStateSaver(BaseEngineSaver):
         event: str = EngineEvents.EPOCH_COMPLETED,
         tag: str = "last",
         only_main_process: bool = True,
-    ):
+    ) -> None:
         super().__init__(path=path, event=event, only_main_process=only_main_process)
         self._tag = str(tag)
 

@@ -35,6 +35,7 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
         r"""Creates an ``IterDataPipe`` object.
 
         Args:
+        ----
             engine (``BaseEngine`` or ``None``, optional): Specifies
                 an engine. The engine can be used to initialize the
                 ``IterDataPipe`` by using the current epoch value.
@@ -48,6 +49,7 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
                 is set to an empty tuple. Default: ``None``
 
         Returns:
+        -------
             ``IterDataPipe``: The created ``IterDataPipe`` object.
 
         Example usage:
@@ -78,10 +80,12 @@ def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> Base
     function.
 
     Args:
+    ----
         creator (``BaseIterDataPipeCreator`` or dict): Specifies the
             ``IterDataPipe`` creator or its configuration.
 
     Returns:
+    -------
         ``BaseIterDataPipeCreator``: The instantiated ``IterDataPipe``
             creator.
 

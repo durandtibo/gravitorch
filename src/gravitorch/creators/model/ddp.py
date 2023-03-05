@@ -19,6 +19,7 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
     ``DistributedDataParallel``.
 
     Args:
+    ----
         model_creator (``BaseModelCreator`` or dict): Specifies a
             model creator or its configuration. The created model
             should be compatible with ``DistributedDataParallel``.
@@ -33,7 +34,7 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
 
     def __init__(
         self, model_creator: Union[BaseModelCreator, dict], ddp_kwargs: Optional[dict] = None
-    ):
+    ) -> None:
         self._model_creator = setup_model_creator(model_creator)
         self._ddp_kwargs = ddp_kwargs or {}
 
@@ -54,6 +55,7 @@ def to_ddp(module: nn.Module, ddp_kwargs: Optional[dict] = None) -> nn.Module:
     r"""Wraps a module with the ``DistributedDataParallel`` module.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to wrap
             with ``DistributedDataParallel``. The module should be
             compatible with ``DistributedDataParallel``. If you use
@@ -67,6 +69,7 @@ def to_ddp(module: nn.Module, ddp_kwargs: Optional[dict] = None) -> nn.Module:
             Default: ``None``
 
     Returns:
+    -------
         ``torch.nn.Module``: The model wrapped in a
             ``DistributedDataParallel`` module.
     """

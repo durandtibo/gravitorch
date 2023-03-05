@@ -11,7 +11,7 @@ from gravitorch.data.datasets.utils import log_box_dataset_class
 ###########################################
 
 
-def test_log_box_dataset_class(caplog: LogCaptureFixture):
+def test_log_box_dataset_class(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         log_box_dataset_class(Mock(spec=Dataset))
         assert caplog.messages[0] == " ---------"

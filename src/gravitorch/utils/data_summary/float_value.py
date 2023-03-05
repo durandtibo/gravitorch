@@ -27,6 +27,7 @@ class FloatDataSummary(BaseContinuousDataSummary[float]):
         - ``quantiles``: the quantile values
 
     Args:
+    ----
         max_size (int, optional): Specifies the maximum size used to
             store the last values because it may not be possible to
             store all the values. This parameter is used to compute
@@ -41,6 +42,7 @@ class FloatDataSummary(BaseContinuousDataSummary[float]):
         r"""Adds new data to the summary.
 
         Args:
+        ----
             data (float): Specifies the data to add to the summary.
         """
         value = float(data)

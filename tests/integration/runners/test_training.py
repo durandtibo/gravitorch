@@ -107,17 +107,17 @@ def create_engine_config(random_seed: int) -> dict:
 
 
 @mark.parametrize("random_seed", (42, 1))
-def test_run_training_pipeline_reproducibility(random_seed: int):
+def test_run_training_pipeline_reproducibility(random_seed: int) -> None:
     # 2 models trained with the same random seed should be identical.
     engine1 = _run_training_pipeline(
         engine=create_engine_config(random_seed),
-        handlers=tuple(),
+        handlers=(),
         exp_tracker=None,
         random_seed=random_seed,
     )
     engine2 = _run_training_pipeline(
         engine=create_engine_config(random_seed),
-        handlers=tuple(),
+        handlers=(),
         exp_tracker=None,
         random_seed=random_seed,
     )

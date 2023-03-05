@@ -21,6 +21,7 @@ class VanillaMetric(BaseMetric):
     inputs: prediction and target.
 
     Args:
+    ----
         metric (``BaseMetric`` or dict): Specifies the metric function
             or its configuration.
         mode (str, optional): Specifies the mode (e.g train or eval).
@@ -55,7 +56,7 @@ class VanillaMetric(BaseMetric):
         mode: Optional[str] = None,
         prediction_key: str = ct.PREDICTION,
         target_key: str = ct.TARGET,
-    ):
+    ) -> None:
         super().__init__()
         self.metric = self._setup_metric(metric=metric, mode=mode)
         self._prediction_key = prediction_key
@@ -70,6 +71,7 @@ class VanillaMetric(BaseMetric):
             - set up history trackers
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         self.metric.attach(engine)
@@ -78,6 +80,7 @@ class VanillaMetric(BaseMetric):
         r"""Updates the metric given a mini-batch of examples.
 
         Args:
+        ----
             cri_out (dict): Specifies the criterion output. (not used
                 in this implementation)
             net_out (dict or ``torch.Tensor``): Specifies the network
@@ -86,6 +89,7 @@ class VanillaMetric(BaseMetric):
                 target.
 
         Returns:
+        -------
             dict or ``None``: A dict with the metric values. ``None``
                 means no metric value is returned.
         """
@@ -103,9 +107,11 @@ class VanillaMetric(BaseMetric):
         previously seen.
 
         Args:
+        ----
             engine (``BaseEngine`` or None): Specifies the engine.
 
         Returns:
+        -------
              dict: The results of the metric.
         """
         return self.metric.value(engine)
@@ -114,10 +120,12 @@ class VanillaMetric(BaseMetric):
         r"""Gets the prediction from the network output.
 
         Args:
+        ----
             net_out (dict): Specifies the network output which
                 contains the prediction.
 
         Returns:
+        -------
             ``torch.Tensor``: The tensor of predictions.
         """
         return net_out[self._prediction_key].detach()
@@ -127,9 +135,11 @@ class VanillaMetric(BaseMetric):
         key 'target'.
 
         Args:
+        ----
             batch (dict): Specifies the batch which contains the target.
 
         Returns:
+        -------
             ``torch.Tensor``: The tensor of targets.
         """
         return batch[self._target_key].detach()
@@ -142,12 +152,14 @@ class VanillaMetric(BaseMetric):
         using the ``factory`` method of ``BaseMetric``.
 
         Args:
+        ----
             metric (``BaseMetric`` or dict): Specifies the metric
                 function or its configuration.
             mode (str, optional): Specifies the mode (e.g train or
                 eval).
 
         Returns:
+        -------
             ``BaseMetric``: an instance of the metric.
         """
         if isinstance(metric, dict):
@@ -192,6 +204,7 @@ class PaddedSequenceMetric(VanillaMetric):
             otherwise ``True`` or ``1``.
 
     Args:
+    ----
         metric (``BaseMetric`` or dict): Specifies the metric function
             or its configuration.
         mode (str, optional): Specifies the mode (e.g train or eval).
@@ -246,7 +259,7 @@ class PaddedSequenceMetric(VanillaMetric):
         mask_key: str = ct.MASK,
         valid_value: bool = True,
         mask_in_batch: bool = True,
-    ):
+    ) -> None:
         super().__init__(
             metric=metric,
             mode=mode,
@@ -261,6 +274,7 @@ class PaddedSequenceMetric(VanillaMetric):
         r"""Updates the metric given a mini-batch of examples.
 
         Args:
+        ----
             cri_out (dict): Specifies the criterion output. (not used
                 in this implementation)
             net_out (dict): Specifies the network output which
@@ -269,6 +283,7 @@ class PaddedSequenceMetric(VanillaMetric):
                 target and the mask.
 
         Returns:
+        -------
             dict or ``None``: A dict with the metric values. ``None``
                 means no metric value is returned.
         """

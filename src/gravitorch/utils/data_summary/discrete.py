@@ -23,7 +23,7 @@ class BaseDiscreteDataSummary(BaseDataSummary[T]):
     A child class has to implement the ``add`` method.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._counter = Counter()
 
     def __repr__(self) -> str:
@@ -32,7 +32,8 @@ class BaseDiscreteDataSummary(BaseDataSummary[T]):
     def count(self) -> int:
         r"""Gets the number of values seen by the summary.
 
-        Returns:
+        Returns
+        -------
             int: The number of values seen by the summary.
         """
         return len(tuple(self._counter.elements()))
@@ -42,10 +43,12 @@ class BaseDiscreteDataSummary(BaseDataSummary[T]):
         the most common to the least.
 
         Args:
+        ----
             n (int or None, optional): Specifies the number of elements to return.
                 If ``n`` is ``None``, this method returns all elements in the counter.
 
         Returns:
+        -------
             list: The list of the ``n`` most common elements and their counts.
                 Elements with equal counts are ordered in the order first encountered.
         """
@@ -60,10 +63,12 @@ class BaseDiscreteDataSummary(BaseDataSummary[T]):
     def summary(self) -> dict:
         r"""Gets a descriptive summary of the data.
 
-        Returns:
+        Returns
+        -------
             dict: The data descriptive summary.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` is the data summary is empty.
         """
         if not self.count():

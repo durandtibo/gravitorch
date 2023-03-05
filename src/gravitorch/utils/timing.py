@@ -49,7 +49,8 @@ def sync_perf_counter() -> float:
     r"""Extension of ``time.perf_counter`` that waits for all kernels in all
     streams on a CUDA device to complete.
 
-    Returns:
+    Returns
+    -------
         float: Same as ``time.perf_counter()``.
             See https://docs.python.org/3/library/time.html#time.perf_counter
             for more information.
@@ -76,6 +77,7 @@ def timeblock(message: str = "Total time: {time}") -> Generator[None, None, None
     code.
 
     Args:
+    ----
         message (str, optional): Specifies the message displayed when
             the time is logged.
 
@@ -105,6 +107,7 @@ class BatchLoadingTimer(Iterable[T]):
     time performances.
 
     Args:
+    ----
         batch_loader (Iterable): Specifies the batch loader to measure
             the time performances.
         epoch (int): Specifies the epoch.
@@ -135,7 +138,7 @@ class BatchLoadingTimer(Iterable[T]):
         INFO:gravitorch.utils.timing:Batch loading time min/avg/median/max/stddev = 0.002/0.004/0.002/0.011/0.004 ms  # noqa: E501,B950
     """
 
-    def __init__(self, batch_loader: Iterable[T], epoch: int, prefix: str):
+    def __init__(self, batch_loader: Iterable[T], epoch: int, prefix: str) -> None:
         self._batch_loader = batch_loader
         self._epoch = epoch
         self._prefix = prefix
@@ -183,7 +186,8 @@ class BatchLoadingTimer(Iterable[T]):
         This method has to be called after the batches have been
         iterated.
 
-        Returns:
+        Returns
+        -------
             dict: The dictionary with the batch loading stats. The
                 dictionary is empty if there is no batches.
         """
@@ -211,6 +215,7 @@ class BatchLoadingTimer(Iterable[T]):
         iterated.
 
         Args:
+        ----
             engine (``BaseEngine`` or None): Specifies an engine if
                 you want to log the time metrics in the engine. If
                 ``None``, the time metrics are not logged in an

@@ -27,6 +27,7 @@ def concise_summary(value: Any, num_spaces: int = 2, max_length: int = 5) -> str
         - ``dict``
 
     Args:
+    ----
         value: Specifies the variable to summarize.
         num_spaces (int, optional): Specifies the number of spaces
             used for the indentation. Default: ``2``.
@@ -38,6 +39,7 @@ def concise_summary(value: Any, num_spaces: int = 2, max_length: int = 5) -> str
             sequence/mapping. Default: ``5``
 
     Returns:
+    -------
         str: The concise summary of the variable.
 
     Example usage:
@@ -69,9 +71,11 @@ def _concise_summary_tensor(tensor: Union[Tensor, np.ndarray]) -> str:
     r"""Creates a concise summary of a ``torch.Tensor`` or ``numpy.ndarray``.
 
     Args:
+    ----
        tensor: Specifies the tensor/array to summarize.
 
     Returns:
+    -------
        str: The concise summary of the tensor/array.
     """
     summary = [f"{type(tensor)}", f"shape={tensor.shape}", f"dtype={tensor.dtype}"]
@@ -102,6 +106,7 @@ def _concise_summary_sequence(sequence: Sequence, num_spaces: int = 2, max_lengt
     r"""Creates a concise summary of a sequence.
 
     Args:
+    ----
         sequence: Specifies the sequence to summarize.
         num_spaces (int, optional): Specifies the number of spaces
             used for the indentation. Default: ``2``.
@@ -113,6 +118,7 @@ def _concise_summary_sequence(sequence: Sequence, num_spaces: int = 2, max_lengt
             sequence. Default: ``5``
 
     Returns:
+    -------
         str: The concise summary of the sequence.
     """
     summary = to_torch_sequence_str(
@@ -131,6 +137,7 @@ def _concise_summary_mapping(mapping: Mapping, num_spaces: int = 2, max_length: 
     r"""Creates a concise summary of a mapping.
 
     Args:
+    ----
         mapping: Specifies the mapping to summarize.
         num_spaces (int, optional): Specifies the number of spaces
             used for the indentation. Default: ``2``.
@@ -143,6 +150,7 @@ def _concise_summary_mapping(mapping: Mapping, num_spaces: int = 2, max_length: 
             in the sequence. Default: ``5``
 
     Returns:
+    -------
         str: The concise summary of the mapping.
     """
     summary = to_torch_mapping_str(

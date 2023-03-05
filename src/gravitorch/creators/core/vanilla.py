@@ -25,6 +25,7 @@ class VanillaCoreCreator(BaseCoreCreator):
     modules to the engine state.
 
     Args:
+    ----
         data_source (``BaseDataSource`` or dict): Specifies the data
             source or its configuration.
         model (``BaseModelCreator`` or dict): Specifies the model
@@ -43,7 +44,7 @@ class VanillaCoreCreator(BaseCoreCreator):
         model: Union[nn.Module, dict],
         optimizer: Union[Optimizer, dict, None] = None,
         lr_scheduler: Union[LRSchedulerType, dict, None] = None,
-    ):
+    ) -> None:
         self._data_source = setup_data_source(data_source)
         self._model = setup_model(model)
         self._optimizer = setup_optimizer(model=self._model, optimizer=optimizer)

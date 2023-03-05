@@ -33,6 +33,7 @@ def analyze_module_architecture(
     ``torch.nn.Module``.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to analyze.
         engine (``BaseEngine`` or ``None``, optional): Specifies the
             engine to use to log the info. If ``None``, no metric will
@@ -59,6 +60,7 @@ def analyze_model_architecture(model: Module, engine: Optional[BaseEngine] = Non
     r"""Analyzes the architecture of a model.
 
     Args:
+    ----
         model (``torch.nn.Module``): Specifies the model to log info.
         engine (``BaseEngine`` or ``None``, optional): Specifies the
             engine to use to log the info. If ``None``, no metric
@@ -76,6 +78,7 @@ def analyze_model_network_architecture(model: Module, engine: Optional[BaseEngin
     ``torch.nn.Module``.
 
     Args:
+    ----
         model (``torch.nn.Module``): Specifies the model to analyze.
         engine (``BaseEngine`` or ``None``, optional): Specifies the
             engine to use to log the info. If ``None``, no metric

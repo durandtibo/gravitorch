@@ -23,6 +23,7 @@ class BaseAlphaActivation(Module):
     channel.
 
     Args:
+    ----
         num_parameters (int, optional): Specifies the number of
             learnable parameters. Although it takes an integer as
             input, there is only two values are legitimate: ``1``,
@@ -34,7 +35,7 @@ class BaseAlphaActivation(Module):
             Default: ``True``
     """
 
-    def __init__(self, num_parameters: int = 1, init: float = 1.0, learnable: bool = True):
+    def __init__(self, num_parameters: int = 1, init: float = 1.0, learnable: bool = True) -> None:
         super().__init__()
         self.alpha = Parameter(
             torch.full((num_parameters,), init, dtype=torch.float), requires_grad=learnable

@@ -17,6 +17,7 @@ class BaseMLP(nn.Module):
     r"""Defines a base class to implement a MLP architecture.
 
     Args:
+    ----
         input_size (int): Specifies the input size of the MLP network.
         input_name (str, optional): Specifies the name of the input.
             This name is used to identify the input in the batch and
@@ -31,7 +32,7 @@ class BaseMLP(nn.Module):
         input_size: int,
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
-    ):
+    ) -> None:
         super().__init__()
         self._input_size = input_size
         self._input_name = input_name
@@ -49,11 +50,13 @@ class BaseMLP(nn.Module):
         r"""Computes the predictions of the MLP network.
 
         Args:
+        ----
             inputs (``torch.Tensor`` of shape
                 ``(batch_size, input_size)`` and type ``float``):
                 Specifies the input of the MLP network.
 
         Returns:
+        -------
             ``torch.Tensor`` of shape ``(batch_size, output_size)``
                 and type ``float``: The predictions.
         """
@@ -63,10 +66,12 @@ class BaseMLP(nn.Module):
         r"""Generates a dummy input for the MLP.
 
         Args:
+        ----
             batch_size (int, optional): Specifies the batch size to
                 use to generate the dummy input. Default: ``1``
 
         Returns:
+        -------
             ``tuple[Tensor]``: A tuple with one tensor of shape
                 ``(batch_size, input_size)`` and type ``float``.
                 The tensor is on the same device that this network.
@@ -79,7 +84,8 @@ class BaseMLP(nn.Module):
         The order of the name should be the same that the order in the
         inputs of the forward function.
 
-        Returns:
+        Returns
+        -------
             tuple: The tuple of input names.
         """
         return (self._input_name,)
@@ -91,7 +97,8 @@ class BaseMLP(nn.Module):
         See https://pytorch.org/docs/stable/onnx.html#torch.onnx.export
         to have more information on how to create the ``dict``.
 
-        Returns:
+        Returns
+        -------
             dict: with the dynamic axes of the input/output.
         """
         return {self._input_name: {0: "batch"}, self._output_name: {0: "batch"}}
@@ -102,7 +109,8 @@ class BaseMLP(nn.Module):
         The order of the name should be the same that the order in
         the outputs of the forward function.
 
-        Returns:
+        Returns
+        -------
             tuple: The tuple of output names.
         """
         return (self._output_name,)
@@ -112,6 +120,7 @@ class AlphaMLP(BaseMLP):
     r"""Implements a MLP network where the last layer is an activation layer.
 
     Args:
+    ----
         input_size (int): Specifies the input size of the MLP network.
         hidden_sizes (sequence): Specifies the hidden sizes of the
             MLP network. The last size is the output size of the MLP.
@@ -137,7 +146,7 @@ class AlphaMLP(BaseMLP):
         dropout: float = 0.0,
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
-    ):
+    ) -> None:
         super().__init__(input_size=input_size, input_name=input_name, output_name=output_name)
         self.layers = create_alpha_mlp(
             input_size=input_size,
@@ -152,6 +161,7 @@ class BetaMLP(BaseMLP):
     activation).
 
     Args:
+    ----
         input_size (int): Specifies the input size of the MLP network.
         hidden_sizes (sequence): Specifies the hidden sizes of the
             MLP network. The last size is the output size of the MLP.
@@ -177,7 +187,7 @@ class BetaMLP(BaseMLP):
         dropout: float = 0.0,
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
-    ):
+    ) -> None:
         super().__init__(input_size=input_size, input_name=input_name, output_name=output_name)
         self.layers = create_beta_mlp(
             input_size=input_size,
@@ -196,6 +206,7 @@ def create_alpha_mlp(
     r"""Creates a MLP network where the last layer is an activation layer.
 
     Args:
+    ----
         input_size (int): Specifies the input size of the MLP network.
         hidden_sizes (sequence): Specifies the hidden sizes of the
             MLP network. The last size is the output size of the MLP.
@@ -206,6 +217,7 @@ def create_alpha_mlp(
             of an element to be zeroed. Default: ``0.0``
 
     Returns:
+    -------
         ``torch.nn.Sequential``: The instantiated MLP network.
     """
     activation = activation or {OBJECT_TARGET: "torch.nn.ReLU"}
@@ -230,6 +242,7 @@ def create_beta_mlp(
     activation).
 
     Args:
+    ----
         input_size (int): Specifies the input size of the MLP network.
         hidden_sizes (sequence): Specifies the hidden sizes of the
             MLP network. The last size is the output size of the MLP.
@@ -240,6 +253,7 @@ def create_beta_mlp(
             of an element to be zeroed. Default: ``0.0``
 
     Returns:
+    -------
         ``torch.nn.Sequential``: The instantiated MLP network.
     """
     activation = activation or {OBJECT_TARGET: "torch.nn.ReLU"}

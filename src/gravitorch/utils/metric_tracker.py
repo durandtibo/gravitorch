@@ -41,7 +41,7 @@ class ScalarMetricTracker:
         INFO:gravitorch.utils.metric_tracker:metric2: 12.0000
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._metrics = defaultdict(ScalarMeter)
 
     def update(self, data: dict) -> None:
@@ -51,6 +51,7 @@ class ScalarMetricTracker:
         Similarly, the NaN are ignored.
 
         Args:
+        ----
             data (dict): Specifies a dict with the metric values to
                 track.
 
@@ -72,6 +73,7 @@ class ScalarMetricTracker:
         r"""Logs the average value of the metrics to the engine.
 
         Args:
+        ----
             engine (``BaseEngine`` or None, optional): Specifies the
                 engine. Default: ``None``
             prefix (str, optional): Specifies the prefix used to log

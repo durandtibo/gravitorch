@@ -12,10 +12,12 @@ def create_sequential(modules: Sequence[Union[Module, dict]]) -> Sequential:
     r"""Creates a ``torch.nn.Sequential`` from a sequence of modules.
 
     Args:
+    ----
         modules (sequence): Specifies the sequence of modules or their
             configuration.
 
     Returns:
+    -------
         ``torch.nn.Sequential``: The instantiated
             ``torch.nn.Sequential`` module.
     """

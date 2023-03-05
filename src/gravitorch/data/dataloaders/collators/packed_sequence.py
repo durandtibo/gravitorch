@@ -1,4 +1,4 @@
-r"""This module defines some collators that use packed sequence (https:/
+r"""This module defines some collators that use packed sequence (https:/.
 
 /pytorch.org/docs/stable/generated/torch.nn.utils.rnn.PackedSequence.htm
 l) to deal with variable size data.
@@ -39,11 +39,12 @@ class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
     Note that every empty sequence if removed.
 
     Args:
+    ----
         length_key (``Hashable``, optional): Specifies the key with
             the length of each example. Default: ``'length'``
     """
 
-    def __init__(self, length_key: Hashable = ct.LENGTH):
+    def __init__(self, length_key: Hashable = ct.LENGTH) -> None:
         self._length_key = length_key
 
     def __call__(self, data: list[tuple[dict, dict]]) -> dict:
@@ -51,9 +52,11 @@ class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
         examples.
 
         Args:
+        ----
             data (list): The list of examples.
 
         Returns:
+        -------
             dict: The generated mini-batch.
         """
         # Sort the examples by the length of their sequence.
@@ -97,12 +100,13 @@ class DictPackedSequenceCollator(BaseCollator[dict, dict]):
         that is not in the keys of the batch.
 
     Args:
+    ----
         keys_to_pack (``Sequence``): Specifies the sequence of keys
             to pack. The first key is used to sort the examples by
             length.
     """
 
-    def __init__(self, keys_to_pack: Sequence[Hashable]):
+    def __init__(self, keys_to_pack: Sequence[Hashable]) -> None:
         self._keys_to_pack = tuple(keys_to_pack)
 
     def __call__(self, data: Sequence[dict]) -> dict:
@@ -110,9 +114,11 @@ class DictPackedSequenceCollator(BaseCollator[dict, dict]):
         examples.
 
         Args:
+        ----
             data (``Sequence``): The sequence of examples.
 
         Returns:
+        -------
             dict: The generated mini-batch.
         """
         # Remove the empty sequences.

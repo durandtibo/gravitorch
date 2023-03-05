@@ -44,9 +44,11 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
         associated to the core engine modules.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Returns:
+        -------
             tuple with 4 values with the following structure:
                 - ``gravitorch.datasources.BaseDataSource``: The
                     initialized data source.
@@ -68,10 +70,12 @@ def setup_core_creator(creator: BaseCoreCreator | dict) -> BaseCoreCreator:
     function.
 
     Args:
+    ----
         creator (``BaseCoreCreator`` or dict): Specifies the
             core engine modules creator or its configuration.
 
     Returns:
+    -------
         ``BaseCoreCreator``: The instantiated core engine
             modules creator.
     """

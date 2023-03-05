@@ -18,7 +18,7 @@ SIZES = (1, 2)
 
 
 class MyModule(nn.Module):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.embedding = nn.Embedding(num_embeddings=10, embedding_dim=8)
         # The parameters of the embedding layer should not appear in the learnable parameters.

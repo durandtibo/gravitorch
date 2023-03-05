@@ -20,7 +20,7 @@ from gravitorch.utils import get_available_devices
 
 
 class FakeModel(nn.Module):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.fc = nn.Linear(4, 5)
         self.bn = nn.BatchNorm1d(5)
@@ -30,7 +30,7 @@ class FakeModel(nn.Module):
 
 
 @patch("gravitorch.distributed.auto.dist.device", lambda *args: torch.device("cpu"))
-def test_auto_ddp_model_cpu():
+def test_auto_ddp_model_cpu() -> None:
     device = torch.device("cpu")
     model = nn.Linear(4, 5).to(device=device)
     model = auto_ddp_model(model)

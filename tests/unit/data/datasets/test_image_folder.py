@@ -17,6 +17,7 @@ def create_image_folder(path: Path) -> None:
     r"""Creates an image folder dataset with 2 classes: cat vs dog.
 
     Args:
+    ----
         path (str): Specifies the path where to write the images of the dataset.
     """
     cat_path = path.joinpath("cat")

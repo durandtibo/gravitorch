@@ -24,12 +24,12 @@ from gravitorch.distributed.utils import (
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_is_slurm_job_false():
+def test_is_slurm_job_false() -> None:
     assert not is_slurm_job()
 
 
 @patch.dict(os.environ, {"SLURM_JOB_ID": "12345"}, clear=True)
-def test_is_slurm_job_true():
+def test_is_slurm_job_true() -> None:
     assert is_slurm_job()
 
 
@@ -39,7 +39,7 @@ def test_is_slurm_job_true():
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_is_distributed_ready_false():
+def test_is_distributed_ready_false() -> None:
     assert not is_distributed_ready()
 
 
@@ -61,12 +61,12 @@ def test_is_distributed_ready_false():
     },
     clear=True,
 )
-def test_is_distributed_ready_true():
+def test_is_distributed_ready_true() -> None:
     assert is_distributed_ready()
 
 
 @patch.dict(os.environ, {dist.SLURM_JOB_ID: "123"}, clear=True)
-def test_is_distributed_ready_slurm_false():
+def test_is_distributed_ready_slurm_false() -> None:
     assert not is_distributed_ready()
 
 
@@ -81,7 +81,7 @@ def test_is_distributed_ready_slurm_false():
     },
     clear=True,
 )
-def test_is_distributed_ready_slurm_false_ntask_1():
+def test_is_distributed_ready_slurm_false_ntask_1() -> None:
     assert not is_distributed_ready()
 
 
@@ -96,7 +96,7 @@ def test_is_distributed_ready_slurm_false_ntask_1():
     },
     clear=True,
 )
-def test_is_distributed_ready_slurm_true():
+def test_is_distributed_ready_slurm_true() -> None:
     assert is_distributed_ready()
 
 
@@ -106,7 +106,7 @@ def test_is_distributed_ready_slurm_true():
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_has_slurm_distributed_env_vars_false():
+def test_has_slurm_distributed_env_vars_false() -> None:
     assert not has_slurm_distributed_env_vars()
 
 
@@ -120,7 +120,7 @@ def test_has_slurm_distributed_env_vars_false():
     },
     clear=True,
 )
-def test_has_slurm_distributed_env_vars_false_because_ntask_missing():
+def test_has_slurm_distributed_env_vars_false_because_ntask_missing() -> None:
     assert not has_slurm_distributed_env_vars()
 
 
@@ -135,7 +135,7 @@ def test_has_slurm_distributed_env_vars_false_because_ntask_missing():
     },
     clear=True,
 )
-def test_has_slurm_distributed_env_vars_true():
+def test_has_slurm_distributed_env_vars_true() -> None:
     assert has_slurm_distributed_env_vars()
 
 
@@ -145,7 +145,7 @@ def test_has_slurm_distributed_env_vars_true():
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_has_torch_distributed_env_vars_false():
+def test_has_torch_distributed_env_vars_false() -> None:
     assert not has_torch_distributed_env_vars()
 
 
@@ -166,7 +166,7 @@ def test_has_torch_distributed_env_vars_false():
     },
     clear=True,
 )
-def test_has_torch_distributed_env_vars_false_because_rank_missing():
+def test_has_torch_distributed_env_vars_false_because_rank_missing() -> None:
     assert not has_torch_distributed_env_vars()
 
 
@@ -197,14 +197,14 @@ def test_has_torch_distributed_env_vars_true():
 ###############################################
 
 
-def test_show_distributed_env_vars(caplog: LogCaptureFixture):
+def test_show_distributed_env_vars(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_distributed_env_vars()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
 
 
 @patch.dict(os.environ, {"SLURM_JOB_ID": "12345"}, clear=True)
-def test_show_distributed_env_vars_slurm_job(caplog: LogCaptureFixture):
+def test_show_distributed_env_vars_slurm_job(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_distributed_env_vars()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
@@ -216,14 +216,14 @@ def test_show_distributed_env_vars_slurm_job(caplog: LogCaptureFixture):
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_show_torch_distributed_env_vars_missing(caplog: LogCaptureFixture):
+def test_show_torch_distributed_env_vars_missing(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_torch_distributed_env_vars()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
 
 
 @patch.dict(os.environ, {dist.WORLD_SIZE: "4", dist.RANK: "1"}, clear=True)
-def test_show_torch_distributed_env_vars_partial(caplog: LogCaptureFixture):
+def test_show_torch_distributed_env_vars_partial(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_torch_distributed_env_vars()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
@@ -235,14 +235,14 @@ def test_show_torch_distributed_env_vars_partial(caplog: LogCaptureFixture):
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_show_all_slurm_env_vars_non_slurm_job(caplog: LogCaptureFixture):
+def test_show_all_slurm_env_vars_non_slurm_job(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_all_slurm_env_vars()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
 
 
 @patch.dict(os.environ, {"SLURM_JOB_ID": "12345"}, clear=True)
-def test_show_all_slurm_env_vars_slurm_job(caplog: LogCaptureFixture):
+def test_show_all_slurm_env_vars_slurm_job(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_all_slurm_env_vars()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
@@ -254,14 +254,14 @@ def test_show_all_slurm_env_vars_slurm_job(caplog: LogCaptureFixture):
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_show_slurm_env_vars_non_slurm_job(caplog: LogCaptureFixture):
+def test_show_slurm_env_vars_non_slurm_job(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_slurm_env_vars()
         assert len(caplog.messages[0].split("\n")) == 7
 
 
 @patch.dict(os.environ, {"SLURM_JOB_ID": "12345"}, clear=True)
-def test_show_slurm_env_vars_slurm_job(caplog: LogCaptureFixture):
+def test_show_slurm_env_vars_slurm_job(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_slurm_env_vars()
         assert len(caplog.messages[0].split("\n")) == 7
@@ -272,7 +272,7 @@ def test_show_slurm_env_vars_slurm_job(caplog: LogCaptureFixture):
 ###################################################
 
 
-def test_show_distributed_context_info(caplog: LogCaptureFixture):
+def test_show_distributed_context_info(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_distributed_context_info()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
@@ -283,20 +283,24 @@ def test_show_distributed_context_info(caplog: LogCaptureFixture):
 ############################################
 
 
-def test_conditional_evaluation_only_main_process_false(caplog: LogCaptureFixture):
+def test_conditional_evaluation_only_main_process_false(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         conditional_evaluation(False, logging.info, "hello")
         assert len(caplog.messages) == 1
 
 
-def test_conditional_evaluation_only_main_process_true_main_process(caplog: LogCaptureFixture):
+def test_conditional_evaluation_only_main_process_true_main_process(
+    caplog: LogCaptureFixture,
+) -> None:
     with caplog.at_level(logging.INFO):
         with patch("gravitorch.distributed.utils.dist.is_main_process", lambda *args: True):
             conditional_evaluation(True, logging.info, "hello")
             assert len(caplog.messages) == 1
 
 
-def test_conditional_evaluation_only_main_process_true_non_main_process(caplog: LogCaptureFixture):
+def test_conditional_evaluation_only_main_process_true_non_main_process(
+    caplog: LogCaptureFixture,
+) -> None:
     with caplog.at_level(logging.INFO):
         with patch("gravitorch.distributed.utils.dist.is_main_process", lambda *args: False):
             conditional_evaluation(True, logging.info, "hello")

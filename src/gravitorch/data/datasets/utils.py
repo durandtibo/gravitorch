@@ -11,6 +11,7 @@ def log_box_dataset_class(dataset: Dataset) -> None:
     r"""Logs the name of the dataset in a "box".
 
     Args:
+    ----
         dataset (``torch.utils.data.Dataset``): The dataset to log.
 
     Example usage:

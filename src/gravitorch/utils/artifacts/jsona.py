@@ -11,13 +11,14 @@ class JSONArtifact(BaseArtifact):
     r"""Implements a JSON artifact.
 
     Args:
+    ----
         tag (str): Specifies the artifact tag. The tag is used to
             define the JSON filename.
         data: Specifies the data to save in the JSON artifact. The data
             should be JSON compatible.
     """
 
-    def __init__(self, tag: str, data: Any):
+    def __init__(self, tag: str, data: Any) -> None:
         self._tag = str(tag)
         self._data = data
 

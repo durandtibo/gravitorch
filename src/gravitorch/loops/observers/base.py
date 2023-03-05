@@ -21,6 +21,7 @@ class BaseLoopObserver(ABC, metaclass=AbstractFactory):
         evaluation loop.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
 
@@ -29,6 +30,7 @@ class BaseLoopObserver(ABC, metaclass=AbstractFactory):
         r"""Performs an action at the end of each training or evaluation loop.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
 
@@ -37,6 +39,7 @@ class BaseLoopObserver(ABC, metaclass=AbstractFactory):
         r"""Update the observer.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
             model_input: Specifies a batch of model input.
             model_output: Specifies a batch of model output.

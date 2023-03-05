@@ -20,13 +20,13 @@ DTYPES = (torch.float, torch.long)
 
 
 @mark.parametrize("dtype", DTYPES)
-def test_scalable_quantile_dtype(dtype: torch.dtype):
+def test_scalable_quantile_dtype(dtype: torch.dtype) -> None:
     assert scalable_quantile(torch.arange(11).to(dtype=dtype), q=torch.tensor([0.1])).equal(
         torch.tensor([1], dtype=torch.float),
     )
 
 
-def test_scalable_quantile_q_multiple():
+def test_scalable_quantile_q_multiple() -> None:
     assert scalable_quantile(torch.arange(11), q=torch.tensor([0.1, 0.5, 0.9])).equal(
         torch.tensor([1, 5, 9], dtype=torch.float),
     )
@@ -37,13 +37,13 @@ def test_scalable_quantile_q_multiple():
 #############################
 
 
-def test_safeexp_max_value_default():
+def test_safeexp_max_value_default() -> None:
     assert safeexp(torch.tensor([-1, 0, 1, 10, 100], dtype=torch.float)).allclose(
         torch.tensor([0.3678794503211975, 1.0, 2.7182817459106445, 22026.46484375, 485165184.0]),
     )
 
 
-def test_safeexp_max_value_1():
+def test_safeexp_max_value_1() -> None:
     assert safeexp(torch.tensor([-1, 0, 1, 10, 100], dtype=torch.float), max_value=1.0).equal(
         torch.tensor(
             [0.3678794503211975, 1.0, 2.7182817459106445, 2.7182817459106445, 2.7182817459106445]
@@ -56,13 +56,13 @@ def test_safeexp_max_value_1():
 #############################
 
 
-def test_safelog_min_value_default():
+def test_safelog_min_value_default() -> None:
     assert safelog(torch.tensor([-1, 0, 1, 2], dtype=torch.float)).allclose(
         torch.tensor([-18.420680743952367, -18.420680743952367, 0.0, 0.6931471805599453]),
     )
 
 
-def test_safelog_min_value_1():
+def test_safelog_min_value_1() -> None:
     assert safelog(torch.tensor([-1, 0, 1, 2], dtype=torch.float), min_value=1.0).equal(
         torch.tensor([0.0, 0.0, 0.0, 0.6931471805599453]),
     )
@@ -73,7 +73,7 @@ def test_safelog_min_value_1():
 ############################
 
 
-def test_symlog():
+def test_symlog() -> None:
     assert symlog(torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float)).allclose(
         torch.tensor(
             [-1.0986122886681098, -0.6931471805599453, 0.0, 0.6931471805599453, 1.0986122886681098]
@@ -81,7 +81,7 @@ def test_symlog():
     )
 
 
-def test_symlog_():
+def test_symlog_() -> None:
     tensor = torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float)
     symlog_(tensor)
     assert tensor.allclose(
@@ -96,7 +96,7 @@ def test_symlog_():
 #############################
 
 
-def test_isymlog():
+def test_isymlog() -> None:
     assert isymlog(torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float)).allclose(
         torch.tensor(
             [-6.38905609893065, -1.718281828459045, 0, 1.718281828459045, 6.38905609893065],
@@ -105,13 +105,13 @@ def test_isymlog():
     )
 
 
-def test_isymlog_cycle():
+def test_isymlog_cycle() -> None:
     assert isymlog(symlog(torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float))).allclose(
         torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float),
     )
 
 
-def test_isymlog_():
+def test_isymlog_() -> None:
     tensor = torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float)
     isymlog_(tensor)
     assert tensor.allclose(

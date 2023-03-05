@@ -13,6 +13,7 @@ class BaseRunner(ABC, metaclass=AbstractFactory):
     def run(self) -> Any:
         r"""Executes the logic of the runner.
 
-        Returns:
+        Returns
+        -------
             Any artifact of the runner
         """

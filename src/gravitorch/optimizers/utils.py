@@ -28,10 +28,12 @@ def get_learning_rate_per_group(optimizer: Optimizer) -> dict[int, float]:
     r"""Gets the learning rates to an optimizer.
 
     Args:
+    ----
         optimizer (``torch.optim.Optimizer``): Specifies the
             optimizer.
 
     Returns:
+    -------
         set: The set of learning rates.
     """
     return _get_parameter_per_group(optimizer, "lr")
@@ -41,10 +43,12 @@ def get_weight_decay_per_group(optimizer: Optimizer) -> dict[int, float]:
     r"""Gets the weight decay for each group of an optimizer.
 
     Args:
+    ----
         optimizer (``torch.optim.Optimizer``): Specifies the
             optimizer.
 
     Returns:
+    -------
         set: The set of weight decays.
     """
     return _get_parameter_per_group(optimizer, "weight_decay")
@@ -67,6 +71,7 @@ def log_optimizer_parameters_per_group(
     r"""Logs the optimizer parameters for each group.
 
     Args:
+    ----
         optimizer (``torch.optim.Optimizer``): Specifies the
             optimizer.
         engine (``BaseEngine``): Specifies the engine used to log the
@@ -91,6 +96,7 @@ def show_optimizer_parameters_per_group(optimizer: Optimizer, tablefmt: str = "f
     a table.
 
     Args:
+    ----
         optimizer (``torch.optim.Optimizer``): Specifies the
             optimizer.
         tablefmt (str, optional): Specifies the table format to show

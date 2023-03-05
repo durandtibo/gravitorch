@@ -33,10 +33,12 @@ class BaseModelCreator(ABC, metaclass=AbstractFactory):
         move the model parameters to the device(s).
 
         Args:
+        ----
             engine (``gravitorch.engines.BaseEngine``): Specifies an
                 engine.
 
         Returns:
+        -------
             ``torch.nn.Module``: The created model.
         """
 
@@ -48,10 +50,12 @@ def setup_model_creator(creator: BaseModelCreator | dict) -> BaseModelCreator:
     the ``BaseModelCreator`` factory function.
 
     Args:
+    ----
         creator (``BaseModelCreator`` or dict): Specifies the model
             creator or its configuration.
 
     Returns:
+    -------
         ``BaseModelCreator``: The instantiated model creator.
     """
     if isinstance(creator, dict):

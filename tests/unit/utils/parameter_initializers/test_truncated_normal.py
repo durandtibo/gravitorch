@@ -19,68 +19,68 @@ from gravitorch.utils.parameter_initializers import (
 #####################################################
 
 
-def test_trunc_normal_parameter_initializer_str():
+def test_trunc_normal_parameter_initializer_str() -> None:
     assert str(TruncNormalParameterInitializer()).startswith("TruncNormalParameterInitializer(")
 
 
 @mark.parametrize("mean", (1, 2.0))
-def test_trunc_normal_parameter_initializer_mean(mean: Union[int, float]):
+def test_trunc_normal_parameter_initializer_mean(mean: Union[int, float]) -> None:
     assert TruncNormalParameterInitializer(mean=mean)._mean == mean
 
 
-def test_trunc_normal_parameter_initializer_mean_default():
+def test_trunc_normal_parameter_initializer_mean_default() -> None:
     assert TruncNormalParameterInitializer()._mean == 0.0
 
 
 @mark.parametrize("std", (1, 2.0))
-def test_trunc_normal_parameter_initializer_std(std: Union[int, float]):
+def test_trunc_normal_parameter_initializer_std(std: Union[int, float]) -> None:
     assert TruncNormalParameterInitializer(std=std)._std == std
 
 
-def test_trunc_normal_parameter_initializer_std_default():
+def test_trunc_normal_parameter_initializer_std_default() -> None:
     assert TruncNormalParameterInitializer()._std == 1.0
 
 
 @mark.parametrize("min_cutoff", (-1, -2.0))
-def test_trunc_normal_parameter_initializer_min_cutoff(min_cutoff: Union[int, float]):
+def test_trunc_normal_parameter_initializer_min_cutoff(min_cutoff: Union[int, float]) -> None:
     assert TruncNormalParameterInitializer(min_cutoff=min_cutoff)._min_cutoff == min_cutoff
 
 
-def test_trunc_normal_parameter_initializer_min_cutoff_default():
+def test_trunc_normal_parameter_initializer_min_cutoff_default() -> None:
     assert TruncNormalParameterInitializer()._min_cutoff == -2.0
 
 
 @mark.parametrize("max_cutoff", (1, 2.0))
-def test_trunc_normal_parameter_initializer_max_cutoff(max_cutoff: Union[int, float]):
+def test_trunc_normal_parameter_initializer_max_cutoff(max_cutoff: Union[int, float]) -> None:
     assert TruncNormalParameterInitializer(max_cutoff=max_cutoff)._max_cutoff == max_cutoff
 
 
-def test_trunc_normal_parameter_initializer_max_cutoff_default():
+def test_trunc_normal_parameter_initializer_max_cutoff_default() -> None:
     assert TruncNormalParameterInitializer()._max_cutoff == 2.0
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_trunc_normal_parameter_initializer_learnable_only(learnable_only: bool):
+def test_trunc_normal_parameter_initializer_learnable_only(learnable_only: bool) -> None:
     assert (
         TruncNormalParameterInitializer(learnable_only=learnable_only)._learnable_only
         == learnable_only
     )
 
 
-def test_trunc_normal_parameter_initializer_learnable_only_default():
+def test_trunc_normal_parameter_initializer_learnable_only_default() -> None:
     assert TruncNormalParameterInitializer()._learnable_only
 
 
 @mark.parametrize("show_stats", (True, False))
-def test_trunc_normal_parameter_initializer_show_stats(show_stats: bool):
+def test_trunc_normal_parameter_initializer_show_stats(show_stats: bool) -> None:
     assert TruncNormalParameterInitializer(show_stats=show_stats)._show_stats == show_stats
 
 
-def test_trunc_normal_parameter_initializer_show_stats_default():
+def test_trunc_normal_parameter_initializer_show_stats_default() -> None:
     assert TruncNormalParameterInitializer()._show_stats
 
 
-def test_trunc_normal_parameter_initializer_initialize_linear():
+def test_trunc_normal_parameter_initializer_initialize_linear() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 0)
     TruncNormalParameterInitializer().initialize(engine)
@@ -88,7 +88,7 @@ def test_trunc_normal_parameter_initializer_initialize_linear():
     assert not engine.model.bias.data.equal(torch.zeros(6))
 
 
-def test_trunc_normal_parameter_initializer_initialize_sequential():
+def test_trunc_normal_parameter_initializer_initialize_sequential() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6)))
     recursive_constant_(engine.model, 0)
     TruncNormalParameterInitializer().initialize(engine)
@@ -99,7 +99,7 @@ def test_trunc_normal_parameter_initializer_initialize_sequential():
 
 
 @mark.parametrize("mean", (0, 1.0))
-def test_trunc_normal_parameter_initializer_initialize_mean(mean: Union[int, float]):
+def test_trunc_normal_parameter_initializer_initialize_mean(mean: Union[int, float]) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     with patch(
         "gravitorch.utils.parameter_initializers.truncated_normal.recursive_trunc_normal_"
@@ -116,7 +116,7 @@ def test_trunc_normal_parameter_initializer_initialize_mean(mean: Union[int, flo
 
 
 @mark.parametrize("std", (0.1, 1.0))
-def test_trunc_normal_parameter_initializer_initialize_std(std: Union[int, float]):
+def test_trunc_normal_parameter_initializer_initialize_std(std: Union[int, float]) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     with patch(
         "gravitorch.utils.parameter_initializers.truncated_normal.recursive_trunc_normal_"
@@ -133,7 +133,9 @@ def test_trunc_normal_parameter_initializer_initialize_std(std: Union[int, float
 
 
 @mark.parametrize("min_cutoff", (-1, -2.0))
-def test_trunc_normal_parameter_initializer_initialize_min_cutoff(min_cutoff: Union[int, float]):
+def test_trunc_normal_parameter_initializer_initialize_min_cutoff(
+    min_cutoff: Union[int, float]
+) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     with patch(
         "gravitorch.utils.parameter_initializers.truncated_normal.recursive_trunc_normal_"
@@ -150,7 +152,9 @@ def test_trunc_normal_parameter_initializer_initialize_min_cutoff(min_cutoff: Un
 
 
 @mark.parametrize("max_cutoff", (1, 2.0))
-def test_trunc_normal_parameter_initializer_initialize_max_cutoff(max_cutoff: Union[int, float]):
+def test_trunc_normal_parameter_initializer_initialize_max_cutoff(
+    max_cutoff: Union[int, float]
+) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     with patch(
         "gravitorch.utils.parameter_initializers.truncated_normal.recursive_trunc_normal_"
@@ -167,7 +171,7 @@ def test_trunc_normal_parameter_initializer_initialize_max_cutoff(max_cutoff: Un
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_trunc_normal_parameter_initializer_initialize_learnable_only(learnable_only: bool):
+def test_trunc_normal_parameter_initializer_initialize_learnable_only(learnable_only: bool) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -189,7 +193,7 @@ def test_trunc_normal_parameter_initializer_initialize_learnable_only(learnable_
 #############################################
 
 
-def test_recursive_trunc_normal_linear():
+def test_recursive_trunc_normal_linear() -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 0)
     recursive_trunc_normal_(module)
@@ -198,7 +202,7 @@ def test_recursive_trunc_normal_linear():
 
 
 @mark.parametrize("mean", (0.0, 0.5, 1.0))
-def test_recursive_trunc_normal_mean(mean: float):
+def test_recursive_trunc_normal_mean(mean: float) -> None:
     module = nn.Linear(200, 200)
     recursive_constant_(module, 0)
     recursive_trunc_normal_(module, mean=mean, min_cutoff=mean - 2, max_cutoff=mean + 2)
@@ -206,7 +210,7 @@ def test_recursive_trunc_normal_mean(mean: float):
 
 
 @mark.parametrize("std", (0.1, 0.5, 1.0))
-def test_recursive_trunc_normal_std(std: float):
+def test_recursive_trunc_normal_std(std: float) -> None:
     module = nn.Linear(200, 200)
     recursive_constant_(module, 0)
     recursive_trunc_normal_(module, std=std, min_cutoff=-10, max_cutoff=10)
@@ -214,7 +218,7 @@ def test_recursive_trunc_normal_std(std: float):
 
 
 @mark.parametrize("min_cutoff", (-1.0, -0.5, -0.1))
-def test_recursive_trunc_normal_min_cutoff(min_cutoff: float):
+def test_recursive_trunc_normal_min_cutoff(min_cutoff: float) -> None:
     module = nn.Linear(200, 200)
     recursive_constant_(module, 0)
     recursive_trunc_normal_(module, min_cutoff=min_cutoff)
@@ -222,14 +226,14 @@ def test_recursive_trunc_normal_min_cutoff(min_cutoff: float):
 
 
 @mark.parametrize("max_cutoff", (1.0, 0.5, 0.1))
-def test_recursive_trunc_normal_max_cutoff(max_cutoff: float):
+def test_recursive_trunc_normal_max_cutoff(max_cutoff: float) -> None:
     module = nn.Linear(200, 200)
     recursive_constant_(module, 0)
     recursive_trunc_normal_(module, max_cutoff=max_cutoff)
     assert module.weight.data.max() <= max_cutoff
 
 
-def test_recursive_trunc_normal_sequential_learnable_only_true():
+def test_recursive_trunc_normal_sequential_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])
@@ -241,7 +245,7 @@ def test_recursive_trunc_normal_sequential_learnable_only_true():
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_trunc_normal_sequential_learnable_only_false():
+def test_recursive_trunc_normal_sequential_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])

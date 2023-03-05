@@ -19,11 +19,13 @@ def setup_training_loop(training_loop: Union[BaseTrainingLoop, dict, None]) -> B
     the ``BaseTrainingLoop`` factory function.
 
     Args:
+    ----
         training_loop (``BaseTrainingLoop`` or dict or None):
             Specifies the training loop or its configuration.
             If ``None``, the ``VanillaTrainingLoop`` is instantiated.
 
     Returns:
+    -------
         ``BaseTrainingLoop``: The training loop.
     """
     if training_loop is None:

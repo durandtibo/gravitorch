@@ -16,26 +16,26 @@ from gravitorch.utils.history.comparator import (
 #########################################
 
 
-def test_max_scalar_equal_true():
+def test_max_scalar_equal_true() -> None:
     assert MaxScalarComparator().equal(MaxScalarComparator())
 
 
-def test_max_scalar_equal_false():
+def test_max_scalar_equal_false() -> None:
     assert not MaxScalarComparator().equal(MinScalarComparator())
 
 
-def test_max_scalar_get_initial_best_value():
+def test_max_scalar_get_initial_best_value() -> None:
     assert MaxScalarComparator().get_initial_best_value() == -float("inf")
 
 
-def test_max_scalar_is_better_int():
+def test_max_scalar_is_better_int() -> None:
     comparator = MaxScalarComparator()
     assert comparator.is_better(5, 12)
     assert comparator.is_better(12, 12)
     assert not comparator.is_better(12, 5)
 
 
-def test_max_scalar_is_better_float():
+def test_max_scalar_is_better_float() -> None:
     comparator = MaxScalarComparator()
     assert comparator.is_better(5.2, 12.1)
     assert comparator.is_better(5.2, 5.2)
@@ -47,26 +47,26 @@ def test_max_scalar_is_better_float():
 #########################################
 
 
-def test_min_scalar_equal_true():
+def test_min_scalar_equal_true() -> None:
     assert MinScalarComparator().equal(MinScalarComparator())
 
 
-def test_min_scalar_equal_false():
+def test_min_scalar_equal_false() -> None:
     assert not MinScalarComparator().equal(MaxScalarComparator())
 
 
-def test_min_scalar_get_initial_best_value():
+def test_min_scalar_get_initial_best_value() -> None:
     assert MinScalarComparator().get_initial_best_value() == float("inf")
 
 
-def test_min_scalar_is_better_int():
+def test_min_scalar_is_better_int() -> None:
     comparator = MinScalarComparator()
     assert not comparator.is_better(5, 12)
     assert comparator.is_better(12, 12)
     assert comparator.is_better(12, 5)
 
 
-def test_min_scalar_is_better_float():
+def test_min_scalar_is_better_float() -> None:
     comparator = MinScalarComparator()
     assert not comparator.is_better(5.2, 12.1)
     assert comparator.is_better(5.2, 5.2)
@@ -78,17 +78,17 @@ def test_min_scalar_is_better_float():
 ################################################
 
 
-def test_comparator_allclose_operator_str():
+def test_comparator_allclose_operator_str() -> None:
     assert str(ComparatorAllCloseOperator()) == "ComparatorAllCloseOperator()"
 
 
-def test_comparator_allclose_operator_equal_true():
+def test_comparator_allclose_operator_equal_true() -> None:
     assert ComparatorAllCloseOperator().allclose(
         AllCloseTester(), MaxScalarComparator(), MaxScalarComparator()
     )
 
 
-def test_comparator_allclose_operator_equal_true_show_difference(caplog: LogCaptureFixture):
+def test_comparator_allclose_operator_equal_true_show_difference(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         assert ComparatorAllCloseOperator().allclose(
             tester=AllCloseTester(),
@@ -99,7 +99,7 @@ def test_comparator_allclose_operator_equal_true_show_difference(caplog: LogCapt
         assert not caplog.messages
 
 
-def test_comparator_allclose_operator_equal_false_different_value():
+def test_comparator_allclose_operator_equal_false_different_value() -> None:
     assert not ComparatorAllCloseOperator().allclose(
         AllCloseTester(), MaxScalarComparator(), MinScalarComparator()
     )
@@ -107,7 +107,7 @@ def test_comparator_allclose_operator_equal_false_different_value():
 
 def test_comparator_allclose_operator_equal_false_different_value_show_difference(
     caplog: LogCaptureFixture,
-):
+) -> None:
     with caplog.at_level(logging.INFO):
         assert not ComparatorAllCloseOperator().allclose(
             tester=AllCloseTester(),
@@ -118,13 +118,13 @@ def test_comparator_allclose_operator_equal_false_different_value_show_differenc
         assert caplog.messages[0].startswith("`BaseComparator` objects are different")
 
 
-def test_comparator_allclose_operator_equal_false_different_type():
+def test_comparator_allclose_operator_equal_false_different_type() -> None:
     assert not ComparatorAllCloseOperator().allclose(AllCloseTester(), MaxScalarComparator(), 42)
 
 
 def test_comparator_allclose_operator_equal_false_different_type_show_difference(
     caplog: LogCaptureFixture,
-):
+) -> None:
     with caplog.at_level(logging.INFO):
         assert not ComparatorAllCloseOperator().allclose(
             tester=AllCloseTester(),
@@ -140,17 +140,17 @@ def test_comparator_allclose_operator_equal_false_different_type_show_difference
 ################################################
 
 
-def test_comparator_equality_operator_str():
+def test_comparator_equality_operator_str() -> None:
     assert str(ComparatorEqualityOperator()) == "ComparatorEqualityOperator()"
 
 
-def test_comparator_equality_operator_equal_true():
+def test_comparator_equality_operator_equal_true() -> None:
     assert ComparatorEqualityOperator().equal(
         EqualityTester(), MaxScalarComparator(), MaxScalarComparator()
     )
 
 
-def test_comparator_equality_operator_equal_true_show_difference(caplog: LogCaptureFixture):
+def test_comparator_equality_operator_equal_true_show_difference(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         assert ComparatorEqualityOperator().equal(
             tester=EqualityTester(),
@@ -161,7 +161,7 @@ def test_comparator_equality_operator_equal_true_show_difference(caplog: LogCapt
         assert not caplog.messages
 
 
-def test_comparator_equality_operator_equal_false_different_value():
+def test_comparator_equality_operator_equal_false_different_value() -> None:
     assert not ComparatorEqualityOperator().equal(
         EqualityTester(), MaxScalarComparator(), MinScalarComparator()
     )
@@ -169,7 +169,7 @@ def test_comparator_equality_operator_equal_false_different_value():
 
 def test_comparator_equality_operator_equal_false_different_value_show_difference(
     caplog: LogCaptureFixture,
-):
+) -> None:
     with caplog.at_level(logging.INFO):
         assert not ComparatorEqualityOperator().equal(
             tester=EqualityTester(),
@@ -180,13 +180,13 @@ def test_comparator_equality_operator_equal_false_different_value_show_differenc
         assert caplog.messages[0].startswith("`BaseComparator` objects are different")
 
 
-def test_comparator_equality_operator_equal_false_different_type():
+def test_comparator_equality_operator_equal_false_different_type() -> None:
     assert not ComparatorEqualityOperator().equal(EqualityTester(), MaxScalarComparator(), 42)
 
 
 def test_comparator_equality_operator_equal_false_different_type_show_difference(
     caplog: LogCaptureFixture,
-):
+) -> None:
     with caplog.at_level(logging.INFO):
         assert not ComparatorEqualityOperator().equal(
             tester=EqualityTester(),
@@ -197,6 +197,6 @@ def test_comparator_equality_operator_equal_false_different_type_show_difference
         assert caplog.messages[0].startswith("object2 is not a `BaseComparator` object")
 
 
-def test_registered_operators():
+def test_registered_operators() -> None:
     assert isinstance(AllCloseTester.registry[BaseComparator], ComparatorAllCloseOperator)
     assert isinstance(EqualityTester.registry[BaseComparator], ComparatorEqualityOperator)

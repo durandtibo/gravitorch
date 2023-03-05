@@ -23,7 +23,7 @@ class ImageFolderDataset(ImageFolder):
     This dataset extends the ``torchvision.datasets.ImageFolder`` class.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         check_torchvision()
         check_pillow()
         super().__init__(*args, **kwargs)
@@ -32,9 +32,11 @@ class ImageFolderDataset(ImageFolder):
         r"""Get the image and the target of the index-th example.
 
         Args:
+        ----
             index (int): Specifies the index of the example.
 
         Returns:
+        -------
             dict: A dictionary with the image and the target of the
                 ``index``-th example.
         """

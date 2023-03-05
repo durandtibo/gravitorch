@@ -16,18 +16,18 @@ from gravitorch.utils.exp_trackers import (
 #######################################
 
 
-def test_setup_exp_tracker_none():
+def test_setup_exp_tracker_none() -> None:
     assert isinstance(setup_exp_tracker(None), NoOpExpTracker)
 
 
-def test_setup_exp_tracker_config():
+def test_setup_exp_tracker_config() -> None:
     assert isinstance(
         setup_exp_tracker({OBJECT_TARGET: "gravitorch.utils.exp_trackers.NoOpExpTracker"}),
         NoOpExpTracker,
     )
 
 
-def test_setup_exp_tracker_object():
+def test_setup_exp_tracker_object() -> None:
     exp_tracker = NoOpExpTracker()
     assert setup_exp_tracker(exp_tracker) is exp_tracker
 
@@ -37,7 +37,7 @@ def test_setup_exp_tracker_object():
 ######################################
 
 
-def test_sanitize_metrics():
+def test_sanitize_metrics() -> None:
     assert sanitize_metrics(
         {
             "bool": True,
@@ -54,7 +54,7 @@ def test_sanitize_metrics():
     }
 
 
-def test_sanitize_metrics_empty():
+def test_sanitize_metrics_empty() -> None:
     assert sanitize_metrics({}) == {}
 
 
@@ -64,13 +64,13 @@ def test_sanitize_metrics_empty():
 
 
 @patch("gravitorch.utils.exp_trackers.utils.dist.is_main_process", lambda *args: True)
-def test_main_process_only_main_process():
+def test_main_process_only_main_process() -> None:
     tracker = Mock(sepc=BaseExpTracker)
     assert main_process_only(tracker) is tracker
 
 
 @patch("gravitorch.utils.exp_trackers.utils.dist.is_main_process", lambda *args: False)
-def test_main_process_only_non_main_process():
+def test_main_process_only_non_main_process() -> None:
     assert isinstance(
         main_process_only({OBJECT_TARGET: "gravitorch.utils.exp_trackers.TensorBoardExpTracker"}),
         NoOpExpTracker,

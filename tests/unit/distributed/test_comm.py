@@ -20,7 +20,7 @@ from gravitorch.distributed.comm import BACKEND_TO_CONTEXT
 #####################################
 
 
-def test_is_main_process_true():
+def test_is_main_process_true() -> None:
     # By definition, a non-distributed process is the main process.
     assert is_main_process()
 
@@ -79,7 +79,7 @@ def test_distributed_context_backend_raise_error():
 
 
 @mark.parametrize("cuda_is_available", (True, False))
-@patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: ())
 def test_auto_backend_no_backend(cuda_is_available: bool):
     with patch("torch.cuda.is_available", lambda *args: cuda_is_available):
         assert auto_backend() is None
@@ -148,7 +148,7 @@ def test_gloocontext():
             mock.assert_called_once_with(Backend.GLOO)
 
 
-@patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: ())
 def test_gloocontext_no_gloo_backend():
     with raises(RuntimeError):
         with gloocontext():
@@ -172,7 +172,7 @@ def test_ncclcontext():
 
 
 @patch("torch.cuda.is_available", lambda *args: True)
-@patch("gravitorch.distributed.comm.available_backends", lambda *args: tuple())
+@patch("gravitorch.distributed.comm.available_backends", lambda *args: ())
 def test_ncclcontext_no_nccl_backend():
     with raises(RuntimeError):
         with ncclcontext():

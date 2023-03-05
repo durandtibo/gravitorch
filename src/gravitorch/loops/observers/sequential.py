@@ -16,11 +16,12 @@ class SequentialLoopObserver(BaseLoopObserver):
     This loop observer is designed to run multiple loop observers.
 
     Args:
+    ----
         observers (sequence): Specifies the loop observers or their
             configurations.
     """
 
-    def __init__(self, observers: Sequence[Union[BaseLoopObserver, dict]]):
+    def __init__(self, observers: Sequence[Union[BaseLoopObserver, dict]]) -> None:
         self._observers: tuple[BaseLoopObserver, ...] = tuple(
             setup_loop_observer(observer) for observer in observers
         )

@@ -7,16 +7,16 @@ from gravitorch.utils.engine_states import VanillaEngineState, setup_engine_stat
 ########################################
 
 
-def test_setup_engine_state_none():
+def test_setup_engine_state_none() -> None:
     assert isinstance(setup_engine_state(None), VanillaEngineState)
 
 
-def test_setup_engine_state_object():
+def test_setup_engine_state_object() -> None:
     state = VanillaEngineState()
     assert setup_engine_state(state) is state
 
 
-def test_setup_engine_state_dict():
+def test_setup_engine_state_dict() -> None:
     state = setup_engine_state(
         {OBJECT_TARGET: "gravitorch.utils.engine_states.VanillaEngineState", "max_epochs": 10}
     )

@@ -18,13 +18,14 @@ class NoRepeatRunner(BaseRunner):
     successful, this runner does not execute the logic again.
 
     Args:
+    ----
         runner (``BaseRunner`` or dict): Specifies the runner or its
             configuration.
         path (``Path`` or str): Specifies the path where to log a
             successful run.
     """
 
-    def __init__(self, runner: Union[Union[BaseRunner, dict]], path: Union[Path, str]):
+    def __init__(self, runner: Union[Union[BaseRunner, dict]], path: Union[Path, str]) -> None:
         self._path = sanitize_path(path)
         self._success_path = self._path.joinpath("_GRAVITORCH_SUCCESS_")
         self._runner = setup_runner(runner)

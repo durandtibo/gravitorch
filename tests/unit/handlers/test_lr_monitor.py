@@ -21,7 +21,7 @@ EVENTS = ("my_event", "my_other_event")
 ####################################
 
 
-def test_epoch_lr_monitor_str():
+def test_epoch_lr_monitor_str() -> None:
     assert str(EpochLRMonitor()).startswith("EpochLRMonitor(")
 
 
@@ -30,7 +30,7 @@ def test_epoch_lr_monitor_event(event: str):
     assert EpochLRMonitor(event)._event == event
 
 
-def test_epoch_lr_monitor_event_default():
+def test_epoch_lr_monitor_event_default() -> None:
     assert EpochLRMonitor()._event == EngineEvents.TRAIN_EPOCH_STARTED
 
 
@@ -45,7 +45,7 @@ def test_epoch_lr_monitor_incorrect_freq(freq: int):
         EpochLRMonitor(freq=freq)
 
 
-def test_epoch_lr_monitor_freq_default():
+def test_epoch_lr_monitor_freq_default() -> None:
     assert EpochLRMonitor()._freq == 1
 
 
@@ -65,13 +65,13 @@ def test_epoch_lr_monitor_attach(event: str, freq: int):
     )
 
 
-def test_epoch_lr_monitor_attach_duplicate():
+def test_epoch_lr_monitor_attach_duplicate() -> None:
     engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=True))
     EpochLRMonitor().attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_epoch_lr_monitor_monitor():
+def test_epoch_lr_monitor_monitor() -> None:
     engine = Mock(spec=BaseEngine, epoch=1, optimizer=SGD(nn.Linear(4, 6).parameters(), lr=0.01))
     EpochLRMonitor().monitor(engine)
     engine.log_metrics.assert_called_once_with(
@@ -79,7 +79,7 @@ def test_epoch_lr_monitor_monitor():
     )
 
 
-def test_epoch_lr_monitor_monitor_no_optimizer():
+def test_epoch_lr_monitor_monitor_no_optimizer() -> None:
     engine = Mock(spec=BaseEngine, epoch=1, optimizer=None)
     EpochLRMonitor().monitor(engine)
     engine.log_metrics.assert_not_called()
@@ -90,7 +90,7 @@ def test_epoch_lr_monitor_monitor_no_optimizer():
 ########################################
 
 
-def test_iteration_lr_monitor_str():
+def test_iteration_lr_monitor_str() -> None:
     assert str(IterationLRMonitor()).startswith("IterationLRMonitor(")
 
 
@@ -99,7 +99,7 @@ def test_iteration_lr_monitor_event(event: str):
     assert IterationLRMonitor(event)._event == event
 
 
-def test_iteration_lr_monitor_event_default():
+def test_iteration_lr_monitor_event_default() -> None:
     assert IterationLRMonitor()._event == EngineEvents.TRAIN_ITERATION_STARTED
 
 
@@ -114,7 +114,7 @@ def test_iteration_lr_monitor_incorrect_freq(freq: int):
         IterationLRMonitor(freq=freq)
 
 
-def test_iteration_lr_monitor_freq_default():
+def test_iteration_lr_monitor_freq_default() -> None:
     assert IterationLRMonitor()._freq == 10
 
 
@@ -134,13 +134,13 @@ def test_iteration_lr_monitor_attach(event: str, freq: int):
     )
 
 
-def test_iteration_lr_monitor_attach_duplicate():
+def test_iteration_lr_monitor_attach_duplicate() -> None:
     engine = Mock(spec=BaseEngine, iteration=-1, has_event_handler=Mock(return_value=True))
     IterationLRMonitor().attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_iteration_lr_monitor_monitor():
+def test_iteration_lr_monitor_monitor() -> None:
     engine = Mock(
         spec=BaseEngine, iteration=10, optimizer=SGD(nn.Linear(4, 6).parameters(), lr=0.01)
     )
@@ -150,7 +150,7 @@ def test_iteration_lr_monitor_monitor():
     )
 
 
-def test_iteration_lr_monitor_monitor_no_optimizer():
+def test_iteration_lr_monitor_monitor_no_optimizer() -> None:
     engine = Mock(spec=BaseEngine, iteration=10, optimizer=None)
     IterationLRMonitor().monitor(engine)
     engine.log_metrics.assert_not_called()

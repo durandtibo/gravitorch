@@ -21,12 +21,12 @@ from gravitorch.utils.path import (
 ######################################
 
 
-def test_get_original_cwd_no_hydra():
+def test_get_original_cwd_no_hydra() -> None:
     assert get_original_cwd() == Path.cwd()
 
 
 @patch("hydra.core.hydra_config.HydraConfig.initialized", lambda *args, **kwargs: True)
-def test_get_original_cwd_with_hydra(tmp_path: Path):
+def test_get_original_cwd_with_hydra(tmp_path: Path) -> None:
     with patch("hydra.utils.get_original_cwd", lambda *args, **kwargs: tmp_path.as_posix()):
         assert get_original_cwd() == tmp_path
 
@@ -36,13 +36,13 @@ def test_get_original_cwd_with_hydra(tmp_path: Path):
 ####################################
 
 
-def test_get_pythonpath_defined(tmp_path: Path):
+def test_get_pythonpath_defined(tmp_path: Path) -> None:
     with patch.dict(os.environ, {"PYTHONPATH": tmp_path.as_posix()}, clear=True):
         assert get_pythonpath() == tmp_path
 
 
 @patch.dict(os.environ, {}, clear=True)
-def test_get_pythonpath_not_defined(tmp_path: Path):
+def test_get_pythonpath_not_defined(tmp_path: Path) -> None:
     with patch("gravitorch.utils.path.get_original_cwd", lambda *args, **kwargs: tmp_path):
         assert get_pythonpath() == tmp_path
 
@@ -52,7 +52,7 @@ def test_get_pythonpath_not_defined(tmp_path: Path):
 #######################################
 
 
-def test_working_directory():
+def test_working_directory() -> None:
     cwd_before = Path.cwd()
     new_path = cwd_before.parent
     with working_directory(new_path):
@@ -61,7 +61,7 @@ def test_working_directory():
     assert Path.cwd() == cwd_before
 
 
-def test_working_directory_error():
+def test_working_directory_error() -> None:
     cwd_before = Path.cwd()
     with raises(RuntimeError):
         with working_directory(cwd_before.parent):
@@ -75,7 +75,7 @@ def test_working_directory_error():
 #########################################
 
 
-def test_get_number_of_files(tmp_path: Path):
+def test_get_number_of_files(tmp_path: Path) -> None:
     save_text("", tmp_path.joinpath("file1.txt"))
     save_text("", tmp_path.joinpath("file2.txt"))
     save_text("", tmp_path.joinpath("subdir", "file.txt"))
@@ -83,7 +83,7 @@ def test_get_number_of_files(tmp_path: Path):
     assert get_number_of_files(tmp_path.as_posix()) == 4
 
 
-def test_get_number_of_files_empty(tmp_path: Path):
+def test_get_number_of_files_empty(tmp_path: Path) -> None:
     assert get_number_of_files(tmp_path.as_posix()) == 0
 
 
@@ -107,7 +107,7 @@ def tar_path(tmp_path: Path) -> Path:
     return tmp_path
 
 
-def test_find_tar_files(tar_path: Path):
+def test_find_tar_files(tar_path: Path) -> None:
     assert sorted(find_tar_files(tar_path)) == [
         tar_path.joinpath("data.tar"),
         tar_path.joinpath("data2.tar.gz"),
@@ -116,20 +116,20 @@ def test_find_tar_files(tar_path: Path):
     ]
 
 
-def test_find_tar_files_recursive_false(tar_path: Path):
+def test_find_tar_files_recursive_false(tar_path: Path) -> None:
     paths = sorted(find_tar_files(tar_path, recursive=False))
     assert len(paths) == 2
     assert paths == [tar_path.joinpath("data.tar"), tar_path.joinpath("data2.tar.gz")]
 
 
-def test_find_tar_files_file(tar_path: Path):
+def test_find_tar_files_file(tar_path: Path) -> None:
     paths = sorted(find_tar_files(tar_path.joinpath("subfolder", "sub", "data.tar")))
     assert paths == [tar_path.joinpath("subfolder", "sub", "data.tar")]
 
 
-def test_find_tar_files_empty(tmp_path: Path):
+def test_find_tar_files_empty(tmp_path: Path) -> None:
     save_text("text", tmp_path.joinpath("file.txt"))
-    assert find_tar_files(tmp_path.joinpath("file.txt")) == tuple()
+    assert find_tar_files(tmp_path.joinpath("file.txt")) == ()
 
 
 ###################################
@@ -137,23 +137,23 @@ def test_find_tar_files_empty(tmp_path: Path):
 ###################################
 
 
-def test_sanitize_path_empty_str():
+def test_sanitize_path_empty_str() -> None:
     assert sanitize_path("") == Path.cwd()
 
 
-def test_sanitize_path_str():
+def test_sanitize_path_str() -> None:
     assert sanitize_path("something") == Path.cwd().joinpath("something")
 
 
-def test_sanitize_path_path(tmp_path: Path):
+def test_sanitize_path_path(tmp_path: Path) -> None:
     assert sanitize_path(tmp_path) == tmp_path
 
 
-def test_sanitize_path_resolve():
+def test_sanitize_path_resolve() -> None:
     assert sanitize_path(Path("something/./../")) == Path.cwd()
 
 
-def test_sanitize_path_uri():
+def test_sanitize_path_uri() -> None:
     assert sanitize_path("file:///my/path/something/./../") == Path("/my/path")
 
 
@@ -162,13 +162,13 @@ def test_sanitize_path_uri():
 ##################################################
 
 
-def test_get_human_readable_file_size(tmp_path: Path):
+def test_get_human_readable_file_size(tmp_path: Path) -> None:
     path = tmp_path.joinpath("data.txt")
     save_text("", path)
     assert get_human_readable_file_size(path, unit="MB") == "0.00 MB"
 
 
-def test_get_human_readable_file_size_2kb():
+def test_get_human_readable_file_size_2kb() -> None:
     path = Mock(spec=Path, stat=Mock(return_value=Mock(st_size=2048)))
     sanitize_mock = Mock(return_value=path)
     with patch("gravitorch.utils.path.sanitize_path", sanitize_mock):

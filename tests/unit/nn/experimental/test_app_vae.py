@@ -127,7 +127,7 @@ def test_app_vae_time_loss_module_forward_2d(device: str, batch_size: int, featu
         target=torch.rand(batch_size, feature_size, dtype=torch.float, device=device),
     )
     assert out.numel() == 1
-    assert out.shape == tuple()
+    assert out.shape == ()
     assert out.dtype == torch.float
     assert out.device == device
 

@@ -18,12 +18,13 @@ class BaseSequenceDataSummary(BaseDataSummary[T]):
     A child class has to implement the ``_get_sequence_length`` method.
 
     Args:
+    ----
         value_summary (``BaseDataSummary``): Specifies the summary
             object used to compute a descriptive summary of the
             values in the sequences.
     """
 
-    def __init__(self, value_summary: BaseDataSummary[T]):
+    def __init__(self, value_summary: BaseDataSummary[T]) -> None:
         self._value_summary = value_summary
         self._length_summary = FloatDataSummary()
 
@@ -39,6 +40,7 @@ class BaseSequenceDataSummary(BaseDataSummary[T]):
         r"""Adds new data to the summary.
 
         Args:
+        ----
             data: Specifies the data to add to the summary.
         """
         self._value_summary.add(data)
@@ -52,14 +54,16 @@ class BaseSequenceDataSummary(BaseDataSummary[T]):
     def summary(self) -> dict:
         r"""Gets a descriptive summary of the data.
 
-        Returns:
+        Returns
+        -------
             dict: The data descriptive summary. The dictionary has two
                 keys: ``'length'`` and ``'value'``. The key
                 ``'length'`` contains some information about the
                 sequence length. The key ``'value'`` contains some
                 information about the values in the sequence.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` is the data summary is empty.
         """
         return {
@@ -72,8 +76,10 @@ class BaseSequenceDataSummary(BaseDataSummary[T]):
         r"""Gets the sequence length of the data.
 
         Args:
+        ----
             data : Specifies the input sequence.
 
         Returns:
+        -------
             int: The sequence length.
         """

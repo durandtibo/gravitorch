@@ -13,6 +13,7 @@ class Clamp(Module):
     r"""Implements a layer to clamp the tensor values.
 
     Args:
+    ----
         min_value (float or ``None``, optional): Specifies the
             minimum value. ``None`` means there is no minimum
             value. Default: ``-1.0``
@@ -21,7 +22,7 @@ class Clamp(Module):
             value. Default: ``1.0``
     """
 
-    def __init__(self, min_value: Optional[float] = -1.0, max_value: Optional[float] = 1.0):
+    def __init__(self, min_value: Optional[float] = -1.0, max_value: Optional[float] = 1.0) -> None:
         super().__init__()
         self._min_value = min_value
         self._max_value = max_value
@@ -33,10 +34,12 @@ class Clamp(Module):
         r"""Applies the element-wise ReLU-n function.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of shape ``(*)``): Specifies the
                 input tensor.
 
         Returns:
+        -------
             ``torch.Tensor`` with same shape as the input: The output
                 tensor.
         """
@@ -47,6 +50,7 @@ class ClampLoss(Module):
     r"""Implements a loss function wrapper that clamps output values.
 
     Args:
+    ----
         criterion (``torch.nn.Module`` or dict): Specifies the loss
             function to wrap or its configuration.
         min_value (float or ``None``, optional): Specifies the
@@ -69,7 +73,7 @@ class ClampLoss(Module):
         min_value: Optional[float],
         max_value: Optional[float],
         reduction: str = "none",
-    ):
+    ) -> None:
         super().__init__()
         self.criterion = setup_module(criterion)
         self.clamp = Clamp(min_value=min_value, max_value=max_value)
@@ -81,10 +85,12 @@ class ClampLoss(Module):
         r"""Computes the loss values, then clamps the values and reduces them.
 
         Args:
+        ----
             prediction (``torch.Tensor``): Specifies the predictions.
             target (``torch.Tensor``): Specifies the targets.
 
         Returns:
+        -------
             ``torch.Tensor``: The computed loss value.
         """
         return basic_loss_reduction(self.clamp(self.criterion(prediction, target)), self.reduction)

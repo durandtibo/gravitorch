@@ -15,11 +15,12 @@ class NoOpOptimizer(Optimizer):
     parameters.
 
     Args:
+    ----
         params: This input is not used. It is here to make it
             compatible with the other optimizers.
     """
 
-    def __init__(self, params: Union[Iterable[Tensor], Iterable[dict]]):
+    def __init__(self, params: Union[Iterable[Tensor], Iterable[dict]]) -> None:
         r"""Do nothing."""
 
     def load_state_dict(self, state_dict: dict) -> None:

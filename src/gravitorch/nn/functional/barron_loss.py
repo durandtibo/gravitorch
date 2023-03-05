@@ -25,6 +25,7 @@ def barron_robust_loss(
         CVPR 2019 (https://arxiv.org/abs/1701.03077)
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -45,6 +46,7 @@ def barron_robust_loss(
             summed. Default: ``"mean"``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The computed loss. The shape
             of the tensor depends on the reduction strategy.
     """
@@ -73,6 +75,7 @@ def asinh_barron_robust_loss(
     transformed prediction and target.
 
     Args:
+    ----
         prediction (``torch.Tensor`` of type float and shape
             ``(d0, d1, ..., dn)``): Specifies the predictions.
         target (``torch.Tensor`` of type float and shape
@@ -93,6 +96,7 @@ def asinh_barron_robust_loss(
             summed. Default: ``"mean"``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The computed loss. The shape
             of the tensor depends on the reduction strategy.
     """

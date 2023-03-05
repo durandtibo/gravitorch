@@ -10,11 +10,11 @@ from gravitorch.utils.parameter_initializers import NoParameterInitializer
 ############################################
 
 
-def test_no_model_parameter_initializer_str():
+def test_no_model_parameter_initializer_str() -> None:
     assert str(NoParameterInitializer()).startswith("NoParameterInitializer(")
 
 
-def test_no_model_parameter_initializer():
+def test_no_model_parameter_initializer() -> None:
     initializer = NoParameterInitializer()
     engine = Mock()
     engine.model = nn.Linear(4, 6)

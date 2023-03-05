@@ -32,6 +32,7 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
     A child class has to implement the ``add`` method.
 
     Args:
+    ----
         max_size (int, optional): Specifies the maximum size used to
             store the last values because it may not be possible to
             store all the values. This parameter is used to compute
@@ -46,7 +47,7 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
         self,
         max_size: int = 10000,
         quantiles: Union[Tensor, tuple[float, ...], list[float]] = DEFAULT_QUANTILES,
-    ):
+    ) -> None:
         self._sum = 0.0
         self._count = 0.0
         self._min_value = float("inf")
@@ -65,7 +66,8 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
     def count(self) -> int:
         r"""Gets the number of values seen by the summary.
 
-        Returns:
+        Returns
+        -------
             int: The number of values seen by the summary.
         """
         return int(self._count)
@@ -73,10 +75,12 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
     def max(self) -> float:
         r"""Gets the max value.
 
-        Returns:
+        Returns
+        -------
             float: The max value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` if the summary is empty.
         """
         if not self._count:
@@ -88,10 +92,12 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
 
         This value is computed on all the values seen.
 
-        Returns:
+        Returns
+        -------
             float: The mean value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` if the summary is empty.
         """
         if not self._count:
@@ -108,10 +114,12 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
         an even number of elements. In this case the lower of the two
         medians is returned.
 
-        Returns:
+        Returns
+        -------
             float: The median value from the last values.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` if the summary is empty.
         """
         if not self._count:
@@ -121,10 +129,12 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
     def min(self) -> float:
         r"""Gets the min value.
 
-        Returns:
+        Returns
+        -------
             float: The min value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` if the summary is empty.
         """
         if not self._count:
@@ -139,10 +149,12 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
         track the last values and the quantiles are computed on the
         values in the deque.
 
-        Returns:
+        Returns
+        -------
             float: The standard deviation from the last values.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` if the summary is empty.
         """
         if not self._count:
@@ -165,10 +177,12 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
         track the last values and the standard deviation is computed
         on the values in the deque.
 
-        Returns:
+        Returns
+        -------
             float: The standard deviation from the last values.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` if the summary is empty.
         """
         if not self._count:
@@ -178,10 +192,12 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
     def sum(self) -> float:
         r"""Gets the sum value.
 
-        Returns:
+        Returns
+        -------
             float: The sum value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` if the summary is empty.
         """
         if not self._count:
@@ -191,10 +207,12 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
     def summary(self) -> dict:
         r"""Gets a descriptive summary of the data.
 
-        Returns:
+        Returns
+        -------
             dict: The data descriptive summary.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` is the data summary is empty.
         """
         if not self._count:
@@ -221,11 +239,13 @@ def prepare_quantiles(quantiles: Union[Tensor, tuple[float, ...], list[float]]) 
     r"""Prepares the quantiles to be comaptible with ``torch.quantile``.
 
     Args:
+    ----
         quantiles (``torch.Tensor``, tuple, list): Specifies a sequence
             of quantiles to compute, which must be between 0 and 1
             inclusive.
 
     Returns:
+    -------
         ``torch.Tensor`` of type float and shape ``(num_quantiles,)``:
             The prepare quantiles.
     """

@@ -15,6 +15,7 @@ def get_best_values(
     histories.
 
     Args:
+    ----
         histories (``Mapping``): Specifies the histories and their
             keys.
         prefix (str, optional): Specifies the prefix used to create
@@ -29,10 +30,11 @@ def get_best_values(
             the same name as the history. Default: ``''``
 
     Returns:
+    -------
         dict: The dict with the best value of each history.
 
     Example:
-
+    -------
     .. code-block:: python
 
         >>> from gravitorch.utils.history import (
@@ -71,6 +73,7 @@ def get_last_values(
     This function ignores the empty histories.
 
     Args:
+    ----
         histories (``Mapping``): Specifies the histories and their
             keys.
         prefix (str, optional): Specifies the prefix used to create
@@ -85,10 +88,11 @@ def get_last_values(
             the same name as the history. Default: ``''``
 
     Returns:
+    -------
         dict: The dict with the best value of each history.
 
     Example:
-
+    -------
     .. code-block:: python
 
         >>> from gravitorch.utils.history import (

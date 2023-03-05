@@ -26,6 +26,7 @@ class ParameterInitializer(BaseHandler):
     initialize parameters.
 
     Args:
+    ----
         parameter_initializer (``BaseParameterInitializer`` or dict):
             Specifies the parameter initializer or its configuration.
         event (str, optional): Specifies the event when to initialize
@@ -36,7 +37,7 @@ class ParameterInitializer(BaseHandler):
         self,
         parameter_initializer: Union[BaseParameterInitializer, dict],
         event: str = EngineEvents.TRAIN_STARTED,
-    ):
+    ) -> None:
         self._parameter_initializer = setup_parameter_initializer(parameter_initializer)
         self._event = event
 

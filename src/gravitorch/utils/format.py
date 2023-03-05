@@ -41,6 +41,7 @@ def human_byte_size(size: int, unit: Optional[str] = None) -> str:
     r"""Gets a human-readable representation of the byte size.
 
     Args:
+    ----
         size (int): Specifies the size in bytes.
         unit (str, optional): Specifies the unit. If ``None``, the
             best unit is found automatically. The supported units
@@ -48,6 +49,7 @@ def human_byte_size(size: int, unit: Optional[str] = None) -> str:
             Default: ``None``
 
     Returns:
+    -------
         str: The byte size in a human-readable format.
 
     Example usage:
@@ -84,10 +86,12 @@ def human_count(number: Union[int, float]) -> str:
     billions and trillions, respectively.
 
     Args:
+    ----
         number (int or float): A positive integer number. If the
             number is a float, it will be converted to an integer.
 
     Returns:
+    -------
         str: A string formatted according to the pattern described
             above.
 
@@ -133,9 +137,11 @@ def human_time(seconds: Union[int, float]) -> str:
     also encodes the number of days.
 
     Args:
+    ----
         seconds (integer or float): Specifies the number of seconds.
 
     Returns:
+    -------
         str: The number of seconds in a string format (hh:mm:ss).
 
     Example usage:
@@ -157,6 +163,7 @@ def str_indent(original: Any, num_spaces: int = 2) -> str:
     r"""Adds indentations if the original string is a multi-lines string.
 
     Args:
+    ----
         original: Specifies the original string. If the inputis not a
             string, it will be converted to a string with the function
             ``str``.
@@ -164,6 +171,7 @@ def str_indent(original: Any, num_spaces: int = 2) -> str:
             used for the indentation. Default: ``2``.
 
     Returns:
+    -------
         str: The indented string.
 
     Example usage:
@@ -196,9 +204,11 @@ def str_scalar(value: Union[int, float]) -> str:
     r"""Returns a string representation of a scalar value.
 
     Args:
+    ----
         value (int or float): Specifies the input value.
 
     Returns:
+    -------
         str: The string representation of the input value.
 
     Example usage:
@@ -226,11 +236,13 @@ def str_target_object(config: dict) -> str:
     r"""Gets a string that indicates the target object in the config.
 
     Args:
+    ----
         config (dict): Specifies a config using the ``object_factory``
             library. This dict is expected to have a key
             ``'_target_'`` to indicate the target object.
 
     Returns:
+    -------
         str: A string with the target object.
 
     Example usage:
@@ -255,6 +267,7 @@ def to_flat_dict(
     r"""Computes a flat representation of a nested dict with the dot format.
 
     Args:
+    ----
         data: Specifies the nested dict to flat.
         prefix (str, optional): Specifies the prefix to use to
             generate the name of the key. ``None`` means no prefix.
@@ -266,6 +279,7 @@ def to_flat_dict(
             string. Default: ``None``
 
     Returns:
+    -------
         dict: The flatted data.
 
     Example usage:
@@ -314,7 +328,7 @@ def to_flat_dict(
         }
     """
     flat_dict = {}
-    to_str = to_str or tuple()
+    to_str = to_str or ()
     if isinstance(data, to_str):
         flat_dict[prefix] = str(data)
     elif isinstance(data, dict):
@@ -348,6 +362,7 @@ def to_pretty_json_str(
     r"""Converts a data structure to a pretty JSON string.
 
     Args:
+    ----
         data: Specifies the input to convert to a pretty JSON string.
         sort_keys (bool, optional): Specifies if the keys are sorted
             or not. Default: ``True``
@@ -359,6 +374,7 @@ def to_pretty_json_str(
             representation. Default: ``80``
 
     Returns:
+    -------
         str: The string representation.
 
     Example usage:
@@ -385,6 +401,7 @@ def to_pretty_yaml_str(
     r"""Converts a data structure to a pretty YAML string.
 
     Args:
+    ----
         data: Specifies the input to convert to a pretty YAML string.
         sort_keys (bool, optional): Specifies if the keys are sorted
             or not. Default: ``True``
@@ -396,6 +413,7 @@ def to_pretty_yaml_str(
             representation. Default: ``max_len``
 
     Returns:
+    -------
         str: The string representation.
 
     Example usage:
@@ -425,6 +443,7 @@ def to_pretty_dict_str(data: dict[str, Any], sorted_keys: bool = False, indent: 
     nice.
 
     Args:
+    ----
         data (dict): Specifies the input dictionary.
         sorted_keys (bool, optional): Specifies if the key of the dict
             are sorted or not. Default: ``False``
@@ -432,6 +451,7 @@ def to_pretty_dict_str(data: dict[str, Any], sorted_keys: bool = False, indent: 
             should be greater or equal to 0. Default: ``0``
 
     Returns:
+    -------
         str: The string representation.
 
         Example usage:
@@ -461,6 +481,7 @@ def to_torch_mapping_str(mapping: Mapping, sorted_keys: bool = False, num_spaces
     mapping.
 
     Args:
+    ----
         mapping (``Mapping``): Specifies the mapping.
         sorted_keys (bool, optional): Specifies if the key of the dict
             are sorted or not. Default: ``False``
@@ -468,6 +489,7 @@ def to_torch_mapping_str(mapping: Mapping, sorted_keys: bool = False, num_spaces
             used for the indentation. Default: ``2``.
 
     Returns:
+    -------
         str: The string representation of the mapping.
 
     Example usage:
@@ -491,11 +513,13 @@ def to_torch_sequence_str(sequence: Sequence, num_spaces: int = 2) -> str:
     sequence.
 
     Args:
+    ----
         sequence (``Sequence``): Specifies the sequence.
         num_spaces (int, optional): Specifies the number of spaces
             used for the indentation. Default: ``2``.
 
     Returns:
+    -------
         str: The string representation of the sequence.
 
     Example usage:

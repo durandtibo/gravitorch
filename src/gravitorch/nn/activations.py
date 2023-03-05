@@ -12,11 +12,12 @@ class ReLUn(Module):
     ``ReLUn(x, n)=min(max(0,x),n)``
 
     Args:
+    ----
         max_value (float, optional): Specifies the maximum value.
             Default: ``1.0``
     """
 
-    def __init__(self, max_value: float = 1.0):
+    def __init__(self, max_value: float = 1.0) -> None:
         super().__init__()
         self._max_value = float(max_value)
 
@@ -27,10 +28,12 @@ class ReLUn(Module):
         r"""Applies the element-wise ReLU-n function.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of shape ``(*)``): Specifies the
                 input tensor.
 
         Returns:
+        -------
             ``torch.Tensor`` with same shape as the input: The output
                 tensor.
         """
@@ -47,10 +50,11 @@ class Snake(Module):
         NeurIPS, 2020. (http://arxiv.org/pdf/2006.08195)
 
     Args:
+    ----
         frequency (float, optional): Specifies the frequency. Default: ``1.0``
     """
 
-    def __init__(self, frequency: float = 1.0):
+    def __init__(self, frequency: float = 1.0) -> None:
         super().__init__()
         self._frequency = float(frequency)
 

@@ -27,6 +27,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
     ``IterDataPipe`` creators.
 
     Args:
+    ----
         datapipe_creators (dict): Specifies the ``IterDataPipe``
             creators. Each key is associated to a loader ID. For
             example if you want to use a ``'train'`` data loader,
@@ -36,7 +37,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
             recipe to create an ``IterDataPipe`` object.
 
     Example:
-
+    -------
     .. code-block:: python
 
         >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
@@ -90,7 +91,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         # Note that both examples lead to the same result.
     """
 
-    def __init__(self, datapipe_creators: dict[str, Union[BaseIterDataPipeCreator, dict]]):
+    def __init__(self, datapipe_creators: dict[str, Union[BaseIterDataPipeCreator, dict]]) -> None:
         self._asset_manager = AssetManager()
         logger.info("Initializing the IterDataPipe creators...")
         self._datapipe_creators = {
@@ -111,10 +112,11 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         to the engine.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
@@ -132,17 +134,20 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         that are not available before to load/preprocess the data.
 
         Args:
+        ----
             asset_id (str): Specifies the ID of the asset.
 
         Returns:
+        -------
             The asset.
 
         Raises:
+        ------
             ``AssetNotFoundError`` if you try to access an asset
                 that does not exist.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
@@ -155,13 +160,15 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         r"""Indicates if the asset exists or not.
 
         Args:
+        ----
             asset_id (str): Specifies the ID of the asset.
 
         Returns:
+        -------
             bool: ``True`` if the asset exists, otherwise ``False``.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
@@ -175,6 +182,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         r"""Gets a data loader.
 
         Args:
+        ----
             loader_id (str): Specifies the ID of the data loader to
                 get.
             engine (``BaseEngine`` or ``None``, optional): Specifies
@@ -183,13 +191,15 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
                 Default: ``None``
 
         Returns:
+        -------
             ``Iterable``: A data loader.
 
         Raises:
+        ------
             ``LoaderNotFoundError`` if the loader does not exist.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
@@ -209,14 +219,16 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         r"""Indicates if the data source has a data loader with the given ID.
 
         Args:
+        ----
             loader_id (str): Specifies the ID of the data loader.
 
         Returns:
+        -------
             bool: ``True`` if the data loader exists, ``False``
                 otherwise.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
@@ -236,6 +248,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         r"""Creates an ``IterDataPipe`` object.
 
         Args:
+        ----
             loader_id (str): Specifies the ID of the data loader to
                 get.
             engine (``BaseEngine`` or ``None``, optional): Specifies
@@ -244,6 +257,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
                 Default: ``None``
 
         Returns:
+        -------
             ``IterDataPipe``: An ``IterDataPipe`` object.
         """
         logger.info("Crating DataPipe...")
@@ -263,6 +277,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
     ``IterDataPipe`` creator is set to ``None``.
 
     Args:
+    ----
         datapipe_creators (dict): Specifies the ``IterDataPipe``
             creators or their configurations. Each key is associated
             to a loader ID. For example if you want to use a
@@ -281,7 +296,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         self,
         datapipe_creators: dict[str, Union[BaseIterDataPipeCreator, dict]],
         data_creators: dict[str, Union[BaseDataCreator, dict]],
-    ):
+    ) -> None:
         super().__init__(datapipe_creators)
         logger.info("Initializing the data creators...")
         self._data_creators = {
@@ -306,6 +321,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         r"""Creates an ``IterDataPipe`` object.
 
         Args:
+        ----
             loader_id (str): Specifies the ID of the data loader to
                 get.
             engine (``BaseEngine`` or ``None``, optional): Specifies
@@ -314,6 +330,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
                 Default: ``None``
 
         Returns:
+        -------
             ``IterDataPipe``: An ``IterDataPipe`` object.
         """
         source_input = self._data.get(loader_id, None)

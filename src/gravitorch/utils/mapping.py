@@ -14,10 +14,12 @@ def convert_to_dict_of_lists(seq_of_mappings: Sequence[Mapping]) -> dict[Hashabl
     dictionary in the sequence is used to find the keys.
 
     Args:
+    ----
         seq_of_mappings (sequence): Specifies the sequence of
             mappings.
 
     Returns:
+    -------
         dict: A dictionary of lists.
 
     Example usage:
@@ -41,10 +43,12 @@ def convert_to_list_of_dicts(mapping_of_seqs: Mapping[Hashable, Sequence]) -> li
     All the sequences should have the same length.
 
     Args:
+    ----
         mapping_of_seqs (``Mapping``): Specifies a mapping of
             sequences.
 
     Returns:
+    -------
         dict: A dictionary of lists.
 
     Example usage:
@@ -62,9 +66,11 @@ def remove_keys_starting_with(mapping: Mapping, prefix: str) -> dict:
     r"""Removes the keys that start with a given prefix.
 
     Args:
+    ----
         mapping (``Mapping``): Specifies the original mapping.
 
     Returns:
+    -------
         dict: A new dict without the removed keys.
 
     Example usage:
@@ -89,9 +95,11 @@ def get_first_value(data: Mapping) -> Any:
     r"""Gets the first value of a mapping.
 
     Args:
+    ----
         data (``Mapping``): Specifies the input mapping.
 
     Returns:
+    -------
         The first value in the mapping.
 
     Example usage:

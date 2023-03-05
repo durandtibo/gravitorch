@@ -57,6 +57,7 @@ class TensorBoardExpTracker(BaseBasicExpTracker):
     This module is under development and only supports some features.
 
     Args:
+    ----
         experiment_path (``pathlib.Path`` or str or ``None``,
             optional): Specifies the path where to write the
             experiment logs. If ``None``, a temporary directory is
@@ -72,7 +73,7 @@ class TensorBoardExpTracker(BaseBasicExpTracker):
         self,
         experiment_path: Union[Path, str, None] = None,
         remove_after_run: bool = False,
-    ):
+    ) -> None:
         check_tensorboard()
         self._experiment_path = sanitize_path(experiment_path) if experiment_path else None
         # Flag to indicate if the tracker is activated or not
@@ -246,6 +247,7 @@ class MLTorchSummaryWriter(SummaryWriter):
         r"""Add a set of hyperparameters to be compared in TensorBoard.
 
         Args:
+        ----
             hparam_dict (dict): Each key-value pair in the dictionary is the
               name of the hyper parameter and it's corresponding value.
               The type of the value can be one of `bool`, `string`, `float`,
@@ -283,9 +285,11 @@ def _sanitize_dict(hparams: dict[str, Any]) -> dict[str, Any]:
     to a string.
 
     Args:
+    ----
         hparams (dict): Specifies the hyper-parameters to sanitize.
 
     Returns:
+    -------
         dict: The sanitized hyper-parameters.
     """
     return {key: _sanitize_value(value) for key, value in to_flat_dict(hparams).items()}
@@ -298,9 +302,11 @@ def _sanitize_value(value: Any) -> Union[bool, int, float, str]:
     to a string.
 
     Args:
+    ----
         value (dict): Specifies the value to sanitize.
 
     Returns:
+    -------
         dict: The sanitized value.
     """
     if isinstance(value, (bool, int, float, str)):

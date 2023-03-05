@@ -22,7 +22,7 @@ METRICS = ("metric1", "metric2")
 ########################################
 
 
-def test_lr_scheduler_updater_str():
+def test_lr_scheduler_updater_str() -> None:
     assert str(LRSchedulerUpdater("my_event")).startswith("LRSchedulerUpdater(")
 
 
@@ -41,25 +41,25 @@ def test_lr_scheduler_updater_attach(event: str):
     )
 
 
-def test_lr_scheduler_updater_attach_duplicate():
+def test_lr_scheduler_updater_attach_duplicate() -> None:
     handler = LRSchedulerUpdater("my_event")
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_lr_scheduler_updater_attach_lr_scheduler_none():
+def test_lr_scheduler_updater_attach_lr_scheduler_none() -> None:
     handler = LRSchedulerUpdater("my_event")
     engine = Mock(spec=BaseEngine, lr_scheduler=None)
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_epoch_lr_scheduler_updater_event():
+def test_epoch_lr_scheduler_updater_event() -> None:
     assert EpochLRSchedulerUpdater()._event == EngineEvents.TRAIN_EPOCH_COMPLETED
 
 
-def test_iteration_lr_scheduler_updater_event():
+def test_iteration_lr_scheduler_updater_event() -> None:
     assert IterationLRSchedulerUpdater()._event == EngineEvents.TRAIN_ITERATION_COMPLETED
 
 
@@ -68,7 +68,7 @@ def test_iteration_lr_scheduler_updater_event():
 ##############################################
 
 
-def test_metric_lr_scheduler_updater_str():
+def test_metric_lr_scheduler_updater_str() -> None:
     assert str(MetricLRSchedulerUpdater("my_event")).startswith("MetricLRSchedulerUpdater(")
 
 
@@ -92,14 +92,14 @@ def test_metric_lr_scheduler_updater_attach(event: str):
     )
 
 
-def test_metric_lr_scheduler_updater_attach_duplicate():
+def test_metric_lr_scheduler_updater_attach_duplicate() -> None:
     handler = MetricLRSchedulerUpdater("my_event")
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_metric_lr_scheduler_updater_attach_lr_scheduler_none():
+def test_metric_lr_scheduler_updater_attach_lr_scheduler_none() -> None:
     handler = MetricLRSchedulerUpdater("my_event")
     engine = Mock(spec=BaseEngine, lr_scheduler=None)
     handler.attach(engine)
@@ -122,5 +122,5 @@ def test_metric_lr_scheduler_updater_step(metric_name: str):
 ###################################################
 
 
-def test_epoch_lr_scheduler_with_metric_updater_event():
+def test_epoch_lr_scheduler_with_metric_updater_event() -> None:
     assert MetricEpochLRSchedulerUpdater()._event == EngineEvents.EPOCH_COMPLETED

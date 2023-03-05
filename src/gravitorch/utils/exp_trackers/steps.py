@@ -12,9 +12,11 @@ class Step:
     A step should have a step number and a name.
 
     Args:
+    ----
         step (int): Specifies the step number.
         name (str): Specifies the name.
     """
+
     step: int
     name: str
 
@@ -23,10 +25,11 @@ class EpochStep(Step):
     r"""Defines the epoch step.
 
     Args:
+    ----
         step (int): Specifies the epoch number.
     """
 
-    def __init__(self, epoch: int):
+    def __init__(self, epoch: int) -> None:
         super().__init__(step=epoch, name="epoch")
 
 
@@ -34,8 +37,9 @@ class IterationStep(Step):
     r"""Defines the iteration step.
 
     Args:
+    ----
         step (int): Specifies the iteration number.
     """
 
-    def __init__(self, iteration: int):
+    def __init__(self, iteration: int) -> None:
         super().__init__(step=iteration, name="iteration")

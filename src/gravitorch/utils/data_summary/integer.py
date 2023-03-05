@@ -20,6 +20,7 @@ class IntegerDataSummary(BaseDiscreteDataSummary[int]):
         r"""Adds new data to the summary.
 
         Args:
+        ----
             data (int): Specifies the data to add to the summary.
         """
         self._counter[int(data)] += 1

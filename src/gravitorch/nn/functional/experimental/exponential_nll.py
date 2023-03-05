@@ -17,6 +17,7 @@ def exponential_nll_loss(
     of target.
 
     Args:
+    ----
         log_rate (``torch.Tensor`` of type float): Specifies the
             predicted rates (``lambda``).
         target (``torch.Tensor`` of type float and same shape as
@@ -39,6 +40,7 @@ def exponential_nll_loss(
             summed. Default: ``'mean'``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The negative log-likelihood
             with Exponential distribution of target. The shape of the
             tensor depends on the reduction strategy.

@@ -17,11 +17,13 @@ def setup_loop_observer(loop_observer: Union[BaseLoopObserver, dict, None]) -> B
     using the ``BaseLoopObserver`` factory function.
 
     Args:
+    ----
         loop_observer (``BaseLoopObserver`` or dict or None):
             Specifies the loop observer or its configuration.
             If ``None``, the ``NoOpLoopObserver`` is instantiated.
 
     Returns:
+    -------
         ``BaseLoopObserver``: The loop observer.
     """
     if loop_observer is None:

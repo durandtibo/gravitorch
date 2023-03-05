@@ -28,9 +28,11 @@ def has_parameters(module: nn.Module) -> bool:
     r"""Indicates if the module has parameters.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to test.
 
     Returns:
+    -------
         bool: ``True`` if the module has at least one parameter,
             ``False`` otherwise.
     """
@@ -45,9 +47,11 @@ def has_learnable_parameters(module: nn.Module) -> bool:
     r"""Indicates if the module has learnable parameters.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to test.
 
     Returns:
+    -------
         bool: ``True`` if the module has at least one learnable
             parameter, ``False`` otherwise.
     """
@@ -58,10 +62,12 @@ def num_parameters(module: nn.Module) -> int:
     r"""Computes the number of parameters.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to compute
             the number of parameters.
 
     Returns:
+    -------
         int: The number of parameters.
     """
     return sum(params.numel() for params in module.parameters())
@@ -71,10 +77,12 @@ def num_learnable_parameters(module: nn.Module) -> int:
     r"""Computes the number of learnable parameters.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to compute
             the number of learnable parameters..
 
     Returns:
+    -------
         int: The number of learnable parameters.
     """
     return sum(params.numel() for params in module.parameters() if params.requires_grad)
@@ -84,6 +92,7 @@ def freeze_module(module: nn.Module) -> None:
     r"""Freezes the parameters of the given module.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to freeze.
     """
     for param in module.parameters():
@@ -94,6 +103,7 @@ def unfreeze_module(module: nn.Module) -> None:
     r"""Unfreezes the parameters of the given module.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to
             unfreeze.
     """
@@ -110,9 +120,11 @@ def get_module_device(module: nn.Module) -> torch.device:
     the model does not have parameters.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module.
 
     Returns:
+    -------
         ``torch.device``: The device
     """
     if not has_parameters(module):
@@ -124,9 +136,11 @@ def get_module_devices(module: nn.Module) -> tuple[torch.device, ...]:
     r"""Get the devices used in a module.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module.
 
     Returns:
+    -------
         tuple: The tuple of ``torch.device``s used in the module.
     """
     devices = set()
@@ -139,10 +153,12 @@ def is_module_on_device(module: nn.Module, device: torch.device) -> bool:
     r"""Indicates if all the parameters of a module are on the specified device.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module.
         device (``torch.device``): Specifies the device.
 
     Returns:
+    -------
         bool: ``True`` if all the parameters of the module are on the
             specified device, otherwise ``False``.
     """
@@ -161,12 +177,15 @@ def get_module_input_size(module: nn.Module) -> int:
             input size.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the input module.
 
     Returns:
+    -------
         int: The input size of the module.
 
     Raises:
+    ------
         TypeError: if the module is not supported.
     """
     if hasattr(module, "input_size"):
@@ -196,14 +215,17 @@ def _get_sequential_input_size(sequential: nn.Sequential) -> int:
     for which it is possible to compute the input size.
 
     Args:
+    ----
         sequential (``torch.nn.Sequential``): Specifies the input
             module.
 
     Returns:
+    -------
         int: The input size of the ``torch.nn.Sequential`` object
             if possible.
 
     Raises:
+    ------
         TypeError if the input is not a ``torch.nn.Sequential`` or
             if none of the child modules are supported.
     """
@@ -233,12 +255,15 @@ def get_module_output_size(module: nn.Module) -> int:
             output  size.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the input module.
 
     Returns:
+    -------
         int: The output size of the module if possible.
 
     Raises:
+    ------
         TypeError: if the module is not supported.
     """
     if hasattr(module, "output_size"):
@@ -272,14 +297,17 @@ def _get_sequential_output_size(sequential: nn.Sequential) -> int:
     for which it is possible to compute the output size.
 
     Args:
+    ----
         sequential (``torch.nn.Sequential``): Specifies the input
             module.
 
     Returns:
+    -------
         int: The output size of the ``torch.nn.Sequential`` object
             if possible.
 
     Raises:
+    ------
         TypeError if the input is not a ``torch.nn.Sequential`` or
             if none of the child modules are supported.
     """
@@ -309,9 +337,11 @@ def has_batch_norm(module: nn.Module) -> bool:
         - ``torch.nn.SyncBatchNorm``
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the input module.
 
     Returns:
+    -------
         bool: ``True`` if the module has at least one batch norm layer,
             otherwise ``False``
     """
@@ -327,9 +357,11 @@ def get_module_name(layer: nn.Module) -> str:
     The name of the module is the class name lower case.
 
     Args:
+    ----
         layer (``torch.nn.Module``): Specifies the layer.
 
     Returns:
+    -------
         str: The layer name.
     """
     return layer.__class__.__qualname__
@@ -337,14 +369,16 @@ def get_module_name(layer: nn.Module) -> str:
 
 def is_batch_first(module: nn.Module) -> bool:
     r"""Indicates if the input and output tensors are provided as ``(batch_size,
-    seq_len, *)`` instead of ``(seq_len, batch_size,
+    seq_len, *)`` instead of ``(seq_len, batch_size,.
 
     *)``.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to check.
 
     Returns:
+    -------
         bool: ``True`` if batch first, otherwise ``False``.
 
     Example usage:
@@ -375,6 +409,7 @@ def module_mode(module: nn.Module) -> Generator[None, None, None]:
     This context manager only restores the mode at the top-level.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to restore
             the mode.
 
@@ -412,6 +447,7 @@ def top_module_mode(module: nn.Module) -> Generator[None, None, None]:
     This context manager only restores the mode at the top-level.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to restore
             the mode.
 

@@ -24,6 +24,7 @@ class BinaryAccuracy(BaseStateEpochMetric):
     r"""Implements the binary accuracy metric.
 
     Args:
+    ----
         mode (str): Specifies the mode.
         threshold (float or ``None``, optional): Specifies a threshold
             value to generate the predicted labels from the
@@ -42,7 +43,7 @@ class BinaryAccuracy(BaseStateEpochMetric):
         threshold: Optional[float] = None,
         name: str = "bin_acc",
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or AccuracyState())
         self.prediction_transform = Identity() if threshold is None else ToBinaryLabel(threshold)
 
@@ -50,6 +51,7 @@ class BinaryAccuracy(BaseStateEpochMetric):
         r"""Updates the binary accuracy metric given a mini-batch of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn)`` or ``(d0, d1, ..., dn, 1)``
                 and type bool or long or float):
@@ -68,6 +70,7 @@ class CategoricalAccuracy(BaseStateEpochMetric):
     r"""Implements a categorical accuracy metric.
 
     Args:
+    ----
         mode (str): Specifies the mode.
         name (str, optional): Specifies the name used to log the
             metric. Default: ``'cat_acc'``
@@ -81,7 +84,7 @@ class CategoricalAccuracy(BaseStateEpochMetric):
         mode: str,
         name: str = "cat_acc",
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or AccuracyState())
         self.prediction_transform = ToCategoricalLabel()
 
@@ -89,6 +92,7 @@ class CategoricalAccuracy(BaseStateEpochMetric):
         r"""Updates the accuracy metric given a mini-batch of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn, num_classes)`` and type float):
                 Specifies the predictions.
@@ -106,6 +110,7 @@ class TopKAccuracy(BaseEpochMetric):
     r"""Implements the accuracy at k metric a.k.a. top-k accuracy.
 
     Args:
+    ----
         mode (str): Specifies the mode.
         topk (list or tuple, optional): Specifies the k values used to
             evaluate the top-k accuracy metric. Default: ``(1, 5)``
@@ -119,7 +124,7 @@ class TopKAccuracy(BaseEpochMetric):
         topk: Sequence[int] = (1, 5),
         name: str = "acc_top",
         state_config: Optional[dict] = None,
-    ):
+    ) -> None:
         super().__init__(mode, name)
         self._topk = topk if isinstance(topk, tuple) else tuple(topk)
         self._maxk = max(self._topk)
@@ -150,6 +155,7 @@ class TopKAccuracy(BaseEpochMetric):
             - set up history trackers
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         super().attach(engine)
@@ -161,6 +167,7 @@ class TopKAccuracy(BaseEpochMetric):
         r"""Updates the accuracy metric given a mini-batch of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn, num_classes)`` and type float):
                 Specifies the predictions.
@@ -185,11 +192,13 @@ class TopKAccuracy(BaseEpochMetric):
         previously seen.
 
         Args:
+        ----
             engine (``BaseEngine``, optional): Specifies the engine.
                 This argument is required to log the results.
                 Default: ``None``.
 
         Returns:
+        -------
              dict: The results of the metric
         """
         results = {}

@@ -17,13 +17,14 @@ class PyTorchBatchSaver(BaseLoopObserver):
     (``torch.save``).
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path where to
             store the examples.
         max_num_batches (int, optional): Specifies the maximum number
             of batches to save. Default: ``1000``
     """
 
-    def __init__(self, path: Union[Path, str], max_num_batches: int = 1000):
+    def __init__(self, path: Union[Path, str], max_num_batches: int = 1000) -> None:
         self._path = sanitize_path(path)
         self._max_num_batches = max_num_batches
         self._batches = []
@@ -38,6 +39,7 @@ class PyTorchBatchSaver(BaseLoopObserver):
         r"""Update the observer.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
             model_input: Specifies a batch of model input.
             model_output: Specifies a batch of model output.
@@ -49,6 +51,7 @@ class PyTorchBatchSaver(BaseLoopObserver):
         r"""Resets the model batch saver.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         self._batches.clear()
@@ -57,6 +60,7 @@ class PyTorchBatchSaver(BaseLoopObserver):
         r"""Saves the batches in a PyTorch file.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         logger.info(f"Saving batches in {self._path}")

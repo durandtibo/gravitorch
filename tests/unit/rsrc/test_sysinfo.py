@@ -9,11 +9,11 @@ from gravitorch.rsrc import LogCudaMemory, LogSysInfo
 ###################################
 
 
-def test_log_cuda_memory_str():
+def test_log_cuda_memory_str() -> None:
     assert str(LogCudaMemory()).startswith("LogCudaMemory(")
 
 
-def test_log_cuda_memory(caplog: LogCaptureFixture):
+def test_log_cuda_memory(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with LogCudaMemory():
             pass
@@ -25,11 +25,11 @@ def test_log_cuda_memory(caplog: LogCaptureFixture):
 ################################
 
 
-def test_log_sys_info_str():
+def test_log_sys_info_str() -> None:
     assert str(LogSysInfo()).startswith("LogSysInfo(")
 
 
-def test_log_sys_info(caplog: LogCaptureFixture):
+def test_log_sys_info(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with LogSysInfo():
             pass

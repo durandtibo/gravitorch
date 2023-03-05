@@ -15,6 +15,7 @@ class PyTorchMnistNet(nn.Module):
     https://github.com/pytorch/examples/blob/master/mnist/main.py
 
     Args:
+    ----
         num_classes (int, optional): Specifies the number of classes.
             Default: 10
         input_name (str, optional): Specifies the name of the input.
@@ -25,7 +26,7 @@ class PyTorchMnistNet(nn.Module):
 
     def __init__(
         self, num_classes: int = 10, input_name: str = ct.INPUT, output_name: str = ct.PREDICTION
-    ):
+    ) -> None:
         super().__init__()
         self.net = nn.Sequential(
             OrderedDict(
@@ -51,11 +52,13 @@ class PyTorchMnistNet(nn.Module):
         r"""Computes the predictions.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of shape
                 ``(batch size, 1, 28, 28)`` and type float):
                 Specifies the input images.
 
         Returns:
+        -------
             ``torch.Tensor`` of shape ``(batch size, num classes)``
                 and type float: The logits for each class.
         """
@@ -65,10 +68,12 @@ class PyTorchMnistNet(nn.Module):
         r"""Generates a dummy input for the MLP.
 
         Args:
+        ----
             batch_size (int, optional): Specifies the batch size to
                 use to generate the dummy input. Default: ``1``
 
         Returns:
+        -------
             ``tuple[Tensor]``: A tuple with one tensor of shape
                 ``(batch_size, 1, 28, 28)`` and type ``float``.
                 The tensor is on the same device that this network.
@@ -81,7 +86,8 @@ class PyTorchMnistNet(nn.Module):
         The order of the name should be the same that the order in the
         inputs of the forward function.
 
-        Returns:
+        Returns
+        -------
             tuple: The tuple of input names.
         """
         return (self._input_name,)
@@ -93,7 +99,8 @@ class PyTorchMnistNet(nn.Module):
         See https://pytorch.org/docs/stable/onnx.html#torch.onnx.export
         to have more information on how to create the ``dict``.
 
-        Returns:
+        Returns
+        -------
             dict: with the dynamic axes of the input/output.
         """
         return {self._input_name: {0: "batch"}, self._output_name: {0: "batch"}}
@@ -104,7 +111,8 @@ class PyTorchMnistNet(nn.Module):
         The order of the name should be the same that the order in the
         outputs of the forward function.
 
-        Returns:
+        Returns
+        -------
             tuple: The tuple of output names.
         """
         return (self._output_name,)

@@ -22,6 +22,7 @@ class EpochShufflePartitioner(BasePartitioner[T]):
     the epoch value is set to ``0``.
 
     Args:
+    ----
         partitioner (``BasePartitioner`` or dict): Specifies a
             partitioner or its configuration.
         random_seed (int, optional): Specifies the base random seed.
@@ -32,7 +33,7 @@ class EpochShufflePartitioner(BasePartitioner[T]):
 
     def __init__(
         self, partitioner: Union[BasePartitioner, dict], random_seed: int = 7553907118525846636
-    ):
+    ) -> None:
         self._partitioner = setup_partitioner(partitioner)
         self._random_seed = random_seed
 

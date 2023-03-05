@@ -27,7 +27,7 @@ MODULE_CONSTRUCTORS: tuple[Callable, ...] = (
 )
 
 
-def test_asinh_scalar_encoder_str():
+def test_asinh_scalar_encoder_str() -> None:
     assert str(
         AsinhScalarEncoder.create_rand_scale(dim=5, min_scale=0.1, max_scale=10.0)
     ).startswith("AsinhScalarEncoder(")
@@ -45,7 +45,7 @@ def test_asinh_scalar_encoder_scale(scale: Union[Tensor, list[float], tuple[floa
     assert AsinhScalarEncoder(scale).scale.equal(torch.tensor([1.0, 2.0, 4.0], dtype=torch.float))
 
 
-def test_asinh_scalar_encoder_input_size():
+def test_asinh_scalar_encoder_input_size() -> None:
     assert (
         AsinhScalarEncoder.create_rand_scale(dim=5, min_scale=0.1, max_scale=10.0).input_size == 1
     )
@@ -157,25 +157,25 @@ def test_asinh_scalar_encoder_learnable(learnable: bool, module_init: Callable):
     "gravitorch.nn.scalar_encoding.torch.rand",
     lambda *args, **kwargs: torch.tensor([0.0, 0.5, 1.0]),
 )
-def test_asinh_scalar_encoder_create_rand_scale():
+def test_asinh_scalar_encoder_create_rand_scale() -> None:
     assert AsinhScalarEncoder.create_rand_scale(dim=3, min_scale=0.2, max_scale=1).scale.data.equal(
         torch.tensor([0.2, 0.6, 1.0])
     )
 
 
-def test_asinh_scalar_encoder_create_linspace_scale():
+def test_asinh_scalar_encoder_create_linspace_scale() -> None:
     assert AsinhScalarEncoder.create_linspace_scale(
         dim=3, min_scale=0.2, max_scale=1
     ).scale.data.equal(torch.tensor([0.2, 0.6, 1.0]))
 
 
-def test_asinh_scalar_encoder_create_logspace_scale():
+def test_asinh_scalar_encoder_create_logspace_scale() -> None:
     assert AsinhScalarEncoder.create_logspace_scale(
         dim=3, min_scale=0.01, max_scale=1
     ).scale.data.equal(torch.tensor([0.01, 0.1, 1.0]))
 
 
-def test_asinh_scalar_encoder_forward_scale():
+def test_asinh_scalar_encoder_forward_scale() -> None:
     module = AsinhScalarEncoder(scale=torch.tensor([1.0, 2.0, 3.0], dtype=torch.float))
     assert module(torch.tensor([[-1], [0], [1]], dtype=torch.float)).allclose(
         torch.tensor(
@@ -200,7 +200,7 @@ COSSIN_MODULE_CONSTRUCTORS: tuple[Callable, ...] = (
 )
 
 
-def test_cos_sin_scalar_encoder_str():
+def test_cos_sin_scalar_encoder_str() -> None:
     assert str(
         CosSinScalarEncoder.create_rand_frequency(
             num_frequencies=3, min_frequency=0.1, max_frequency=10.0
@@ -233,17 +233,17 @@ def test_cos_sin_scalar_encoder_frequency_phase_shift(
     assert module.phase_shift.equal(torch.tensor([1.0, 3.0, -2.0], dtype=torch.float))
 
 
-def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_dim():
+def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_dim() -> None:
     with raises(ValueError):
         CosSinScalarEncoder(torch.rand(1, 6), torch.rand(6))
 
 
-def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_shape():
+def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_shape() -> None:
     with raises(ValueError):
         CosSinScalarEncoder(torch.rand(6), torch.rand(4))
 
 
-def test_cos_sin_scalar_encoder_input_size():
+def test_cos_sin_scalar_encoder_input_size() -> None:
     assert (
         CosSinScalarEncoder.create_rand_frequency(
             num_frequencies=3, min_frequency=0.1, max_frequency=10.0
@@ -361,7 +361,7 @@ def test_cos_sin_scalar_encoder_learnable(learnable: bool, module_init: Callable
     "gravitorch.nn.scalar_encoding.torch.rand",
     lambda *args, **kwargs: torch.tensor([0.0, 0.5, 1.0]),
 )
-def test_cos_sin_scalar_encoder_create_rand_frequency():
+def test_cos_sin_scalar_encoder_create_rand_frequency() -> None:
     module = CosSinScalarEncoder.create_rand_frequency(
         num_frequencies=3, min_frequency=0.2, max_frequency=1
     )
@@ -373,7 +373,7 @@ def test_cos_sin_scalar_encoder_create_rand_frequency():
     "gravitorch.nn.scalar_encoding.torch.rand",
     lambda *args, **kwargs: torch.tensor([0.0, 0.5, 1.0]),
 )
-def test_cos_sin_scalar_encoder_create_rand_value_range():
+def test_cos_sin_scalar_encoder_create_rand_value_range() -> None:
     module = CosSinScalarEncoder.create_rand_value_range(
         num_frequencies=3, min_abs_value=0.2, max_abs_value=1
     )
@@ -381,7 +381,7 @@ def test_cos_sin_scalar_encoder_create_rand_value_range():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_create_linspace_frequency():
+def test_cos_sin_scalar_encoder_create_linspace_frequency() -> None:
     module = CosSinScalarEncoder.create_linspace_frequency(
         num_frequencies=3, min_frequency=0.2, max_frequency=1
     )
@@ -389,7 +389,7 @@ def test_cos_sin_scalar_encoder_create_linspace_frequency():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_create_linspace_value_range():
+def test_cos_sin_scalar_encoder_create_linspace_value_range() -> None:
     module = CosSinScalarEncoder.create_linspace_value_range(
         num_frequencies=3, min_abs_value=0.2, max_abs_value=1.0
     )
@@ -397,7 +397,7 @@ def test_cos_sin_scalar_encoder_create_linspace_value_range():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_create_logspace_frequency():
+def test_cos_sin_scalar_encoder_create_logspace_frequency() -> None:
     module = CosSinScalarEncoder.create_logspace_frequency(
         num_frequencies=3, min_frequency=0.01, max_frequency=1
     )
@@ -405,7 +405,7 @@ def test_cos_sin_scalar_encoder_create_logspace_frequency():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_create_logspace_value_range():
+def test_cos_sin_scalar_encoder_create_logspace_value_range() -> None:
     module = CosSinScalarEncoder.create_logspace_value_range(
         num_frequencies=3, min_abs_value=0.01, max_abs_value=1.0
     )
@@ -413,7 +413,7 @@ def test_cos_sin_scalar_encoder_create_logspace_value_range():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_forward_frequency_phase_shift():
+def test_cos_sin_scalar_encoder_forward_frequency_phase_shift() -> None:
     module = CosSinScalarEncoder(
         frequency=torch.tensor([1.0, 2.0, 3.0, 1.0, 2.0, 3.0], dtype=torch.float),
         phase_shift=torch.zeros(6),
@@ -523,7 +523,7 @@ def test_asinh_cos_sin_scalar_encoder_backward(
     assert out.dtype == torch.float
 
 
-def test_asinh_cos_sin_scalar_encoder_forward_frequency_phase_shift():
+def test_asinh_cos_sin_scalar_encoder_forward_frequency_phase_shift() -> None:
     module = AsinhCosSinScalarEncoder(
         frequency=torch.tensor([1.0, 2.0, 3.0, 1.0, 2.0, 3.0], dtype=torch.float),
         phase_shift=torch.zeros(6),

@@ -19,7 +19,7 @@ EVENTS = ("my_event", "my_other_event")
 ###########################################
 
 
-def test_epoch_optimizer_monitor_str():
+def test_epoch_optimizer_monitor_str() -> None:
     assert str(EpochOptimizerMonitor()).startswith("EpochOptimizerMonitor(")
 
 
@@ -28,7 +28,7 @@ def test_epoch_optimizer_monitor_event(event: str):
     assert EpochOptimizerMonitor(event)._event == event
 
 
-def test_epoch_optimizer_monitor_event_default():
+def test_epoch_optimizer_monitor_event_default() -> None:
     assert EpochOptimizerMonitor()._event == EngineEvents.TRAIN_EPOCH_STARTED
 
 
@@ -43,7 +43,7 @@ def test_epoch_optimizer_monitor_incorrect_freq(freq: int):
         EpochOptimizerMonitor(freq=freq)
 
 
-def test_epoch_optimizer_monitor_freq_default():
+def test_epoch_optimizer_monitor_freq_default() -> None:
     assert EpochOptimizerMonitor()._freq == 1
 
 
@@ -52,7 +52,7 @@ def test_epoch_optimizer_monitor_tablefmt(tablefmt: str):
     assert EpochOptimizerMonitor(tablefmt=tablefmt)._tablefmt == tablefmt
 
 
-def test_epoch_optimizer_monitor_tablefmt_default():
+def test_epoch_optimizer_monitor_tablefmt_default() -> None:
     assert EpochOptimizerMonitor()._tablefmt == "fancy_grid"
 
 
@@ -61,7 +61,7 @@ def test_epoch_optimizer_monitor_prefix(prefix: str):
     assert EpochOptimizerMonitor(prefix=prefix)._prefix == prefix
 
 
-def test_epoch_optimizer_monitor_prefix_default():
+def test_epoch_optimizer_monitor_prefix_default() -> None:
     assert EpochOptimizerMonitor()._prefix == "train/"
 
 
@@ -82,7 +82,7 @@ def test_epoch_optimizer_monitor_attach(event: str, freq: int):
     )
 
 
-def test_epoch_optimizer_monitor_attach_duplicate():
+def test_epoch_optimizer_monitor_attach_duplicate() -> None:
     handler = EpochOptimizerMonitor()
     engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
@@ -110,7 +110,7 @@ def test_epoch_optimizer_monitor_monitor(tablefmt: str, prefix: str):
             )
 
 
-def test_epoch_optimizer_monitor_monitor_no_optimizer():
+def test_epoch_optimizer_monitor_monitor_no_optimizer() -> None:
     optimizer_monitor = EpochOptimizerMonitor()
     engine = Mock(spec=BaseEngine, optimizer=None)
     with patch(
@@ -129,7 +129,7 @@ def test_epoch_optimizer_monitor_monitor_no_optimizer():
 ###############################################
 
 
-def test_iteration_optimizer_monitor_str():
+def test_iteration_optimizer_monitor_str() -> None:
     assert str(IterationOptimizerMonitor()).startswith("IterationOptimizerMonitor(")
 
 
@@ -138,7 +138,7 @@ def test_iteration_optimizer_monitor_event(event: str):
     assert IterationOptimizerMonitor(event)._event == event
 
 
-def test_iteration_optimizer_monitor_event_default():
+def test_iteration_optimizer_monitor_event_default() -> None:
     assert IterationOptimizerMonitor()._event == EngineEvents.TRAIN_ITERATION_STARTED
 
 
@@ -153,7 +153,7 @@ def test_iteration_optimizer_monitor_incorrect_freq(freq: int):
         IterationOptimizerMonitor(freq=freq)
 
 
-def test_iteration_optimizer_monitor_freq_default():
+def test_iteration_optimizer_monitor_freq_default() -> None:
     assert IterationOptimizerMonitor()._freq == 10
 
 
@@ -162,7 +162,7 @@ def test_iteration_optimizer_monitor_tablefmt(tablefmt: str):
     assert IterationOptimizerMonitor(tablefmt=tablefmt)._tablefmt == tablefmt
 
 
-def test_iteration_optimizer_monitor_tablefmt_default():
+def test_iteration_optimizer_monitor_tablefmt_default() -> None:
     assert IterationOptimizerMonitor()._tablefmt == "fancy_grid"
 
 
@@ -171,7 +171,7 @@ def test_iteration_optimizer_monitor_prefix(prefix: str):
     assert IterationOptimizerMonitor(prefix=prefix)._prefix == prefix
 
 
-def test_iteration_optimizer_monitor_prefix_default():
+def test_iteration_optimizer_monitor_prefix_default() -> None:
     assert IterationOptimizerMonitor()._prefix == "train/"
 
 
@@ -191,7 +191,7 @@ def test_iteration_optimizer_monitor_attach(event: str, freq: int):
     )
 
 
-def test_iteration_optimizer_monitor_attach_duplicate():
+def test_iteration_optimizer_monitor_attach_duplicate() -> None:
     handler = IterationOptimizerMonitor()
     engine = Mock(spec=BaseEngine, iteration=-1, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
@@ -219,7 +219,7 @@ def test_iteration_optimizer_monitor_monitor(tablefmt: str, prefix: str):
             )
 
 
-def test_iteration_optimizer_monitor_monitor_no_optimizer():
+def test_iteration_optimizer_monitor_monitor_no_optimizer() -> None:
     optimizer_monitor = IterationOptimizerMonitor()
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"

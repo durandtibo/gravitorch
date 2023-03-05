@@ -16,17 +16,19 @@ class PeriodicCondition:
     This condition is true every ``freq`` events.
 
     Args:
+    ----
         freq (int): Specifies the frequency.
     """
 
-    def __init__(self, freq: int):
+    def __init__(self, freq: int) -> None:
         self._freq = int(freq)
         self._step = 0
 
     def __call__(self) -> bool:
         r"""Evaluates the condition given the current state.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the condition is ``True``, otherwise
                 ``False``.
         """
@@ -54,18 +56,20 @@ class EpochPeriodicCondition:
     This condition is true every ``freq`` epochs.
 
     Args:
+    ----
         engine (``BaseEngine``): Specifies the engine.
         freq (int): Specifies the frequency.
     """
 
-    def __init__(self, engine: BaseEngine, freq: int):
+    def __init__(self, engine: BaseEngine, freq: int) -> None:
         self._engine = engine
         self._freq = int(freq)
 
     def __call__(self) -> bool:
         r"""Evaluates the condition given the current state.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the condition is ``True``, otherwise
                 ``False``.
         """
@@ -91,18 +95,20 @@ class IterationPeriodicCondition:
     This condition is true every ``freq`` iterations.
 
     Args:
+    ----
         engine (``BaseEngine``): Specifies the engine.
         freq (int): Specifies the frequency.
     """
 
-    def __init__(self, engine: BaseEngine, freq: int):
+    def __init__(self, engine: BaseEngine, freq: int) -> None:
         self._engine = engine
         self._freq = int(freq)
 
     def __call__(self) -> bool:
         r"""Evaluates the condition given the current state.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the condition is ``True``, otherwise ``False``.
         """
         return self._engine.iteration % self._freq == 0

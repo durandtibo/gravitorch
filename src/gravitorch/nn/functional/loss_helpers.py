@@ -11,6 +11,7 @@ def basic_loss_reduction(tensor: Tensor, reduction: str) -> Tensor:
     This function is designed to be used with loss functions.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the input tensor to
             reduce.
         reduction (str): Specifies the reduction strategy. The valid
@@ -20,10 +21,12 @@ def basic_loss_reduction(tensor: Tensor, reduction: str) -> Tensor:
             input, ``'sum'``: the output will be summed.
 
     Returns:
+    -------
         ``torch.Tensor``: The reduced tensor. The shape of the tensor
             depends on the reduction strategy.
 
     Raises:
+    ------
         ValueError if the reduction is not valid.
 
     Example usage:
@@ -59,9 +62,11 @@ def check_basic_loss_reduction(reduction: str) -> None:
     ``'sum'``.
 
     Args:
+    ----
         reduction (str): Specifies the reduction to check.
 
     Raises:
+    ------
         ValueError if the provided reduction is not valid.
 
     Example usage:

@@ -24,6 +24,7 @@ class EarlyStopping(BaseHandler):
     metrics.
 
     Args:
+    ----
         metric_name (str, optional): Specifies the metric name that
             is used to measure the improvement. By default, the metric
             is the loss on the evaluation data set.
@@ -59,7 +60,7 @@ class EarlyStopping(BaseHandler):
         patience: int = 5,
         delta: float = 0.0,
         cumulative_delta: bool = False,
-    ):
+    ) -> None:
         self._metric_name = str(metric_name)
         if patience < 1:
             raise ValueError(f"Argument patience should be positive integer (received: {patience})")
@@ -120,10 +121,11 @@ class EarlyStopping(BaseHandler):
         r"""Loads the state values from a dict.
 
         Args:
+        ----
             state_dict (dict): a dict with parameters
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> handler = EarlyStopping(...)
@@ -138,10 +140,11 @@ class EarlyStopping(BaseHandler):
         r"""Gets a dictionary containing state values.
 
         Returns:
+        -------
             dict: the state values in a dict.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> state = EarlyStopping(...)
@@ -158,6 +161,7 @@ class EarlyStopping(BaseHandler):
         already met.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         logger.info(
@@ -177,6 +181,7 @@ class EarlyStopping(BaseHandler):
         monitored metric.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         history = engine.get_history(self._metric_name)
@@ -218,10 +223,12 @@ class EarlyStopping(BaseHandler):
         r"""Checks the history.
 
         Args:
+        ----
             history (``BaseHistory``): Specifies the history
                 tracker to check.
 
         Raises:
+        ------
             RuntimeError if the history tracker is not valid.
         """
         if not isinstance(history, (MaxScalarHistory, MinScalarHistory)):
@@ -234,10 +241,12 @@ class EarlyStopping(BaseHandler):
         r"""Gets the comparator function from the history tracker type.
 
         Args:
+        ----
             history (``BaseHistory``): Specifies the history
                 tracker.
 
         Returns:
+        -------
             callable: The comparator.
         """
         if isinstance(history, MaxScalarHistory):
@@ -248,10 +257,12 @@ class EarlyStopping(BaseHandler):
         r"""Gets the minimum delta.
 
         Args:
+        ----
             history (``BaseHistory``): Specifies the history
                 tracker.
 
         Returns:
+        -------
             float: The minimum delta.
         """
         self._check_history(history)

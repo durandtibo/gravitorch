@@ -15,7 +15,7 @@ EVENTS = ("my_event", "my_other_event")
 ##########################################
 
 
-def test_parameter_initializer_str():
+def test_parameter_initializer_str() -> None:
     assert str(ParameterInitializer(parameter_initializer=Mock())).startswith(
         "ParameterInitializer("
     )
@@ -26,7 +26,7 @@ def test_parameter_initializer_event(event: str):
     assert ParameterInitializer(parameter_initializer=Mock(), event=event)._event == event
 
 
-def test_parameter_initializer_event_default():
+def test_parameter_initializer_event_default() -> None:
     assert ParameterInitializer(parameter_initializer=Mock())._event == EngineEvents.TRAIN_STARTED
 
 
@@ -42,7 +42,7 @@ def test_parameter_initializer_attach(event: str):
     )
 
 
-def test_parameter_initializer_attach_duplicate():
+def test_parameter_initializer_attach_duplicate() -> None:
     handler = ParameterInitializer(parameter_initializer=Mock(spec=BaseParameterInitializer))
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)

@@ -27,6 +27,7 @@ def is_loss_decreasing(
     r"""Checks if the loss decreased after some iterations.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to test.
         criterion (``torch.nn.Module`` or callable): Specifies the
             criterion.
@@ -42,6 +43,7 @@ def is_loss_decreasing(
             loss value is computed. Default: ``10772155803920552556``
 
     Returns:
+    -------
         bool: ``True`` if the loss decreased after some iterations,
             otherwise ``False``.
 
@@ -97,6 +99,7 @@ def is_loss_decreasing_with_adam(
     The module is trained with the Adam optimizer.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to test.
         criterion (``torch.nn.Module`` or callable): Specifies the
             criterion.
@@ -113,6 +116,7 @@ def is_loss_decreasing_with_adam(
             Default: ``10772155803920552556``
 
     Returns:
+    -------
         bool: ``True`` if the loss decreased after some iterations,
             otherwise ``False``.
 
@@ -157,6 +161,7 @@ def is_loss_decreasing_with_sgd(
     The module is trained with the ``torch.optim.SGD`` optimizer.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to test.
         criterion (``torch.nn.Module`` or callable): Specifies the
             criterion.
@@ -172,6 +177,7 @@ def is_loss_decreasing_with_sgd(
             value is computed. Default: ``10772155803920552556``
 
     Returns:
+    -------
         bool: ``True`` if the loss decreased after some iterations,
             otherwise ``False``.
 

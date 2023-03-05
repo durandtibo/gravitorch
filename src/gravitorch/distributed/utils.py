@@ -36,7 +36,8 @@ def is_slurm_job() -> bool:
     A process is considered connected to a SLURM job if the
     environment variable ``SLURM_JOB_ID`` exists.
 
-    Returns:
+    Returns
+    -------
         bool: ``True`` if the current process is connected to a SLURM
             job, otherwise ``False``.
     """
@@ -46,7 +47,8 @@ def is_slurm_job() -> bool:
 def is_distributed_ready() -> bool:
     r"""Indicates if the distributed context is ready to be activated or not.
 
-    Returns:
+    Returns
+    -------
         bool: ``True`` if the distributed context should be activated,
             otherwise ``False``.
     """
@@ -64,7 +66,8 @@ def has_torch_distributed_env_vars() -> bool:
     (https://github.com/pytorch/pytorch/blob/master/torch/distributed/run.py)
     or any other tools that setup the same environment variables.
 
-    Returns:
+    Returns
+    -------
         bool: ``True`` if all the environment variables are set,
             otherwise ``False``.
     """
@@ -78,7 +81,8 @@ def has_slurm_distributed_env_vars() -> bool:
     r"""Indicates if the environment variables required to initialize the native
     PyTorch distributed backends are set or not.
 
-    Returns:
+    Returns
+    -------
         bool: ``True`` if all the environment variables are set,
             otherwise ``False``.
     """
@@ -175,6 +179,7 @@ def conditional_evaluation(only_main_process: bool, callable: Callable, *args, *
     r"""Evaluates or not the callable based on the distributed context.
 
     Args:
+    ----
         only_main_process (bool, optional): If ``True``, only the
             main process evaluates the callable otherwise
             all the processes evaluate the callable.
@@ -183,7 +188,7 @@ def conditional_evaluation(only_main_process: bool, callable: Callable, *args, *
         **kwargs: Arbitrary keyword arguments.
 
     Example:
-
+    -------
     .. code-block:: python
 
         >>> from gravitorch.distributed.utils import conditional_evaluation

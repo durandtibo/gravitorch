@@ -16,13 +16,13 @@ from gravitorch.utils.exp_trackers import EpochStep
 #################################################
 
 
-def test_analyze_module_architecture_not_a_module(caplog: LogCaptureFixture):
+def test_analyze_module_architecture_not_a_module(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         analyze_module_architecture("abc")
         assert len(caplog.messages) == 0
 
 
-def test_analyze_module_architecture_without_engine(caplog: LogCaptureFixture):
+def test_analyze_module_architecture_without_engine(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         analyze_module_architecture(nn.Linear(4, 6))
         assert len(caplog.messages) == 3

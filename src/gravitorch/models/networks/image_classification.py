@@ -21,6 +21,7 @@ class ImageClassificationNetwork(Module):
     This network assumes that the input shape is ``224*224``.
 
     Args:
+    ----
         network (``torch.nn.Module`` or dict): Specifies the network
             module or its configuration.
         input_name (str, optional): Specifies the input name.
@@ -34,7 +35,7 @@ class ImageClassificationNetwork(Module):
         network: Union[Module, dict],
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
-    ):
+    ) -> None:
         super().__init__()
         self.network = setup_module(network)
         self._input_name = input_name
@@ -44,11 +45,13 @@ class ImageClassificationNetwork(Module):
         r"""Computes the predictions of the network.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of shape
                 ``(batch size, num channels, height, width)`` and
                 type float): Specifies the input images.
 
         Returns:
+        -------
             ``torch.Tensor`` of shape ``(batch size, num classes)``
                 and type float: The prediction for each class.
         """
@@ -58,10 +61,12 @@ class ImageClassificationNetwork(Module):
         r"""Generates a dummy input for the MLP.
 
         Args:
+        ----
             batch_size (int, optional): Specifies the batch size to
                 use to generate the dummy input. Default: ``1``
 
         Returns:
+        -------
             ``tuple[Tensor]``: A tuple with one tensor of shape
                 ``(batch_size, 3, 244, 244)`` and type ``float``.
                 The tensor is on the same device that this network.
@@ -74,7 +79,8 @@ class ImageClassificationNetwork(Module):
         The order of the name should be the same that the order in
         the inputs of the forward function.
 
-        Returns:
+        Returns
+        -------
             tuple: The tuple of input names.
         """
         return (self._input_name,)
@@ -86,7 +92,8 @@ class ImageClassificationNetwork(Module):
         See https://pytorch.org/docs/stable/onnx.html#torch.onnx.export
         to have more information on how to create the ``dict``.
 
-        Returns:
+        Returns
+        -------
             dict: with the dynamic axes of the input/output.
         """
         return {self._input_name: {0: "batch"}, self._output_name: {0: "batch"}}
@@ -97,7 +104,8 @@ class ImageClassificationNetwork(Module):
         The order of the name should be the same that the order in
         the outputs of the forward function.
 
-        Returns:
+        Returns
+        -------
             tuple: The tuple of output names.
         """
         return (self._output_name,)

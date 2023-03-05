@@ -94,7 +94,7 @@ def test_data_distributed_parallel_model_creator_create_ddp_kwargs():
 
 
 @patch("gravitorch.creators.model.ddp.isinstance", lambda *args, **kwargs: True)
-def test_to_ddp_already_ddp(caplog: LogCaptureFixture):
+def test_to_ddp_already_ddp(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.WARNING):
         module = nn.Linear(4, 5)
         assert to_ddp(module) is module

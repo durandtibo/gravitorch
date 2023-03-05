@@ -11,7 +11,7 @@ from gravitorch.utils.meters import EmptyMeterError, ScalarMeter
 #################################
 
 
-def test_scalar_meter_repr():
+def test_scalar_meter_repr() -> None:
     assert (
         repr(ScalarMeter())
         == "ScalarMeter(count=0, total=0.0, min_value=inf, max_value=-inf, max_size=100)"
@@ -19,7 +19,7 @@ def test_scalar_meter_repr():
 
 
 @patch("gravitorch.utils.meters.ScalarMeter.std", lambda *args: 1.5)
-def test_scalar_meter_str():
+def test_scalar_meter_str() -> None:
     assert str(
         ScalarMeter(total=6.0, count=2, max_value=4.0, min_value=2.0, values=(4.0, 2.0))
     ) == (
@@ -34,7 +34,7 @@ def test_scalar_meter_str():
     )
 
 
-def test_scalar_meter_str_empty():
+def test_scalar_meter_str_empty() -> None:
     assert str(ScalarMeter()) == (
         "ScalarMeter\n"
         "  average : N/A (empty)\n"
@@ -47,7 +47,7 @@ def test_scalar_meter_str_empty():
     )
 
 
-def test_scalar_meter_count():
+def test_scalar_meter_count() -> None:
     assert (
         ScalarMeter(
             total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
@@ -56,11 +56,11 @@ def test_scalar_meter_count():
     )
 
 
-def test_scalar_meter_count_empty():
+def test_scalar_meter_count_empty() -> None:
     assert ScalarMeter().count == 0
 
 
-def test_scalar_meter_total():
+def test_scalar_meter_total() -> None:
     assert (
         ScalarMeter(
             total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
@@ -69,21 +69,21 @@ def test_scalar_meter_total():
     )
 
 
-def test_scalar_meter_total_empty():
+def test_scalar_meter_total_empty() -> None:
     assert ScalarMeter().total == 0
 
 
-def test_scalar_meter_values():
+def test_scalar_meter_values() -> None:
     assert ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).values == (1.0, 3.0, 5.0, 4.0, 2.0)
 
 
-def test_scalar_meter_values_empty():
-    assert ScalarMeter().values == tuple()
+def test_scalar_meter_values_empty() -> None:
+    assert ScalarMeter().values == ()
 
 
-def test_scalar_meter_average():
+def test_scalar_meter_average() -> None:
     assert (
         ScalarMeter(
             total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
@@ -92,13 +92,13 @@ def test_scalar_meter_average():
     )
 
 
-def test_scalar_meter_average_empty():
+def test_scalar_meter_average_empty() -> None:
     meter = ScalarMeter()
     with raises(EmptyMeterError):
         meter.average()
 
 
-def test_scalar_meter_equal_true():
+def test_scalar_meter_equal_true() -> None:
     assert ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).equal(
@@ -108,11 +108,11 @@ def test_scalar_meter_equal_true():
     )
 
 
-def test_scalar_meter_equal_true_empty():
+def test_scalar_meter_equal_true_empty() -> None:
     assert ScalarMeter().equal(ScalarMeter())
 
 
-def test_scalar_meter_equal_false_different_count():
+def test_scalar_meter_equal_false_different_count() -> None:
     assert not ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).equal(
@@ -122,7 +122,7 @@ def test_scalar_meter_equal_false_different_count():
     )
 
 
-def test_scalar_meter_equal_false_different_total():
+def test_scalar_meter_equal_false_different_total() -> None:
     assert not ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).equal(
@@ -132,7 +132,7 @@ def test_scalar_meter_equal_false_different_total():
     )
 
 
-def test_scalar_meter_equal_false_different_max_value():
+def test_scalar_meter_equal_false_different_max_value() -> None:
     assert not ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).equal(
@@ -142,7 +142,7 @@ def test_scalar_meter_equal_false_different_max_value():
     )
 
 
-def test_scalar_meter_equal_false_different_min_value():
+def test_scalar_meter_equal_false_different_min_value() -> None:
     assert not ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).equal(
@@ -152,7 +152,7 @@ def test_scalar_meter_equal_false_different_min_value():
     )
 
 
-def test_scalar_meter_equal_false_different_values():
+def test_scalar_meter_equal_false_different_values() -> None:
     assert not ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).equal(
@@ -160,13 +160,13 @@ def test_scalar_meter_equal_false_different_values():
     )
 
 
-def test_scalar_meter_equal_false_different_type():
+def test_scalar_meter_equal_false_different_type() -> None:
     assert not ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).equal(1)
 
 
-def test_scalar_meter_load_state_dict():
+def test_scalar_meter_load_state_dict() -> None:
     meter = ScalarMeter()
     meter.load_state_dict(
         {
@@ -184,7 +184,7 @@ def test_scalar_meter_load_state_dict():
     )
 
 
-def test_scalar_meter_max():
+def test_scalar_meter_max() -> None:
     assert (
         ScalarMeter(
             total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
@@ -193,13 +193,13 @@ def test_scalar_meter_max():
     )
 
 
-def test_scalar_meter_max_empty():
+def test_scalar_meter_max_empty() -> None:
     meter = ScalarMeter()
     with raises(EmptyMeterError):
         meter.max()
 
 
-def test_scalar_meter_median():
+def test_scalar_meter_median() -> None:
     assert (
         ScalarMeter(
             total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
@@ -208,13 +208,13 @@ def test_scalar_meter_median():
     )
 
 
-def test_scalar_meter_median_empty():
+def test_scalar_meter_median_empty() -> None:
     meter = ScalarMeter()
     with raises(EmptyMeterError):
         meter.median()
 
 
-def test_scalar_meter_merge():
+def test_scalar_meter_merge() -> None:
     meter = ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     )
@@ -237,7 +237,7 @@ def test_scalar_meter_merge():
     )
 
 
-def test_scalar_meter_merge_():
+def test_scalar_meter_merge_() -> None:
     meter = ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     )
@@ -255,7 +255,7 @@ def test_scalar_meter_merge_():
     )
 
 
-def test_scalar_meter_min():
+def test_scalar_meter_min() -> None:
     assert (
         ScalarMeter(
             total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
@@ -264,13 +264,13 @@ def test_scalar_meter_min():
     )
 
 
-def test_scalar_meter_min_empty():
+def test_scalar_meter_min_empty() -> None:
     meter = ScalarMeter()
     with raises(EmptyMeterError):
         meter.min()
 
 
-def test_scalar_meter_reset():
+def test_scalar_meter_reset() -> None:
     meter = ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     )
@@ -278,13 +278,13 @@ def test_scalar_meter_reset():
     assert meter.equal(ScalarMeter())
 
 
-def test_scalar_meter_reset_empty():
+def test_scalar_meter_reset_empty() -> None:
     meter = ScalarMeter()
     meter.reset()
     assert meter.equal(ScalarMeter())
 
 
-def test_scalar_meter_state_dict():
+def test_scalar_meter_state_dict() -> None:
     assert ScalarMeter(
         total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
     ).state_dict() == {
@@ -296,17 +296,17 @@ def test_scalar_meter_state_dict():
     }
 
 
-def test_scalar_meter_state_dict_empty():
+def test_scalar_meter_state_dict_empty() -> None:
     assert ScalarMeter().state_dict() == {
         "count": 0,
         "total": 0.0,
-        "values": tuple(),
+        "values": (),
         "max_value": -float("inf"),
         "min_value": float("inf"),
     }
 
 
-def test_scalar_meter_std():
+def test_scalar_meter_std() -> None:
     assert (
         ScalarMeter(
             total=10.0, count=10, max_value=1.0, min_value=1.0, values=(1.0, 1.0, 1.0, 1.0, 1.0)
@@ -315,13 +315,13 @@ def test_scalar_meter_std():
     )
 
 
-def test_scalar_meter_std_empty():
+def test_scalar_meter_std_empty() -> None:
     meter = ScalarMeter()
     with raises(EmptyMeterError):
         meter.std()
 
 
-def test_scalar_meter_sum():
+def test_scalar_meter_sum() -> None:
     assert (
         ScalarMeter(
             total=122.0, count=10, max_value=6.0, min_value=-2.0, values=(1.0, 3.0, 5.0, 4.0, 2.0)
@@ -330,19 +330,19 @@ def test_scalar_meter_sum():
     )
 
 
-def test_scalar_meter_sum_empty():
+def test_scalar_meter_sum_empty() -> None:
     meter = ScalarMeter()
     with raises(EmptyMeterError):
         meter.sum()
 
 
-def test_scalar_meter_update_4():
+def test_scalar_meter_update_4() -> None:
     meter = ScalarMeter()
     meter.update(4)
     assert meter.equal(ScalarMeter(count=1, total=4.0, min_value=4.0, max_value=4.0, values=(4.0,)))
 
 
-def test_scalar_meter_update_4_and_2():
+def test_scalar_meter_update_4_and_2() -> None:
     meter = ScalarMeter()
     meter.update(4)
     meter.update(2)
@@ -351,7 +351,7 @@ def test_scalar_meter_update_4_and_2():
     )
 
 
-def test_scalar_meter_update_max_window_size_3():
+def test_scalar_meter_update_max_window_size_3() -> None:
     meter = ScalarMeter(max_size=3)
     meter.update(0)
     meter.update(3)
@@ -362,14 +362,14 @@ def test_scalar_meter_update_max_window_size_3():
     )
 
 
-def test_scalar_meter_update_nan():
+def test_scalar_meter_update_nan() -> None:
     meter = ScalarMeter()
     meter.update(float("NaN"))
     assert math.isnan(meter.total)
     assert meter.count == 1
 
 
-def test_scalar_meter_update_inf():
+def test_scalar_meter_update_inf() -> None:
     meter = ScalarMeter()
     meter.update(float("inf"))
     assert meter.equal(
@@ -384,7 +384,7 @@ def test_scalar_meter_update_inf():
 
 
 @mark.parametrize("values", ([3, 1, 2], (3, 1, 2), (3.0, 1.0, 2.0)))
-def test_scalar_meter_update_sequence(values: Union[list[float], tuple[float, ...]]):
+def test_scalar_meter_update_sequence(values: Union[list[float], tuple[float, ...]]) -> None:
     meter = ScalarMeter()
     meter.update_sequence(values)
     assert meter.equal(

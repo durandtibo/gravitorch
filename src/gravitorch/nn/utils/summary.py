@@ -62,10 +62,11 @@ class ModuleSummary:
         torch.float32
 
     Args:
+    ----
         module: A module to summarize
     """
 
-    def __init__(self, module: Module):
+    def __init__(self, module: Module) -> None:
         super().__init__()
         self._module = module
         self._hook_handle = self._register_hook()
@@ -86,6 +87,7 @@ class ModuleSummary:
         output shapes once.
 
         Return:
+        ------
             ``RemovableHandle``: A handle for the installed hook.
         """
 
@@ -147,9 +149,11 @@ def parse_batch_shape(batch: Any) -> Union[str, tuple]:
     and tuple of tensors.
 
     Args:
+    ----
         batch: Specifies the batch to parse.
 
     Returns:
+    -------
         str or tuple: The shapes in the batch or ``"?"`` if it cannot
             parse the input..
     """
@@ -167,9 +171,11 @@ def parse_batch_dtype(batch: Any) -> Union[str, tuple]:
     and tuple of tensors.
 
     Args:
+    ----
         batch: Specifies the batch to parse.
 
     Returns:
+    -------
         str or tuple: The data types in the batch.
     """
     if torch.is_tensor(batch):

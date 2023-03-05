@@ -21,7 +21,7 @@ SIZES = (1, 2)
 
 
 @mark.parametrize("module", (shift_scale, ShiftScale()))
-def test_shift_scale_change_scale(module: Callable):
+def test_shift_scale_change_scale(module: Callable) -> None:
     # 1 example: src range [0, 10] -> dst range [0, 1]
     # 1 example: src range [0, 1] -> dst range [0, 2]
     out = module(
@@ -35,7 +35,7 @@ def test_shift_scale_change_scale(module: Callable):
 
 
 @mark.parametrize("module", (shift_scale, ShiftScale()))
-def test_shift_scale_per_dimension(module: Callable):
+def test_shift_scale_per_dimension(module: Callable) -> None:
     src_range = torch.tensor(
         [[[-1, -2, -4], [1, 2, 4]], [[-1, -2, -4], [0, 0, 0]]], dtype=torch.float
     )
@@ -61,7 +61,7 @@ def test_shift_scale_per_dimension(module: Callable):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_shift_scale_forward(device: str, batch_size: int, feature_size: int):
+def test_shift_scale_forward(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     module = ShiftScale().to(device=device)
     src_range = torch.ones(batch_size, 2, feature_size)
@@ -77,12 +77,12 @@ def test_shift_scale_forward(device: str, batch_size: int, feature_size: int):
 ##########################################
 
 
-def test_sequence_shift_scale_str():
+def test_sequence_shift_scale_str() -> None:
     assert str(SequenceShiftScale()).startswith("SequenceShiftScale(")
 
 
 @mark.parametrize("batch_first", (True, False))
-def test_sequence_shift_scale_batch_first(batch_first: bool):
+def test_sequence_shift_scale_batch_first(batch_first: bool) -> None:
     assert SequenceShiftScale(batch_first).batch_first == batch_first
 
 
@@ -90,7 +90,7 @@ def test_sequence_shift_scale_batch_first(batch_first: bool):
     "module",
     (partial(sequence_shift_scale, batch_first=True), SequenceShiftScale(batch_first=True)),
 )
-def test_sequence_shift_scale_change_scale_batch_first(module: Callable):
+def test_sequence_shift_scale_change_scale_batch_first(module: Callable) -> None:
     # 1 example: src range [0, 10] -> dst range [0, 1]
     # 1 example: src range [0, 1] -> dst range [0, 2]
     out = module(
@@ -106,7 +106,7 @@ def test_sequence_shift_scale_change_scale_batch_first(module: Callable):
 
 
 @mark.parametrize("module", (sequence_shift_scale, SequenceShiftScale()))
-def test_sequence_shift_scale_change_scale_sequence_first(module: Callable):
+def test_sequence_shift_scale_change_scale_sequence_first(module: Callable) -> None:
     # 1 example: src range [0, 10] -> dst range [0, 1]
     # 1 example: src range [0, 1] -> dst range [0, 2]
     out = module(
@@ -125,7 +125,7 @@ def test_sequence_shift_scale_change_scale_sequence_first(module: Callable):
     "module",
     (partial(sequence_shift_scale, batch_first=True), SequenceShiftScale(batch_first=True)),
 )
-def test_sequence_shift_scale_per_dimension_batch_first(module: Callable):
+def test_sequence_shift_scale_per_dimension_batch_first(module: Callable) -> None:
     out = module(
         torch.tensor(
             [
@@ -151,7 +151,7 @@ def test_sequence_shift_scale_per_dimension_batch_first(module: Callable):
 
 
 @mark.parametrize("module", (sequence_shift_scale, SequenceShiftScale()))
-def test_sequence_shift_scale_per_dimension_sequence_first(module: Callable):
+def test_sequence_shift_scale_per_dimension_sequence_first(module: Callable) -> None:
     out = module(
         torch.tensor(
             [
@@ -186,7 +186,7 @@ def test_sequence_shift_scale_per_dimension_sequence_first(module: Callable):
 @mark.parametrize("feature_size", SIZES)
 def test_sequence_shift_scale_forward_batch_first(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     module = SequenceShiftScale(batch_first=True).to(device=device)
     src_range = torch.ones(batch_size, 2, feature_size, device=device)
@@ -205,7 +205,7 @@ def test_sequence_shift_scale_forward_batch_first(
 @mark.parametrize("feature_size", SIZES)
 def test_sequence_shift_scale_forward_sequence_first(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     module = SequenceShiftScale().to(device=device)
     src_range = torch.ones(batch_size, 2, feature_size, device=device)

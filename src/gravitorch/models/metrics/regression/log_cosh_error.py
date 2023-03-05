@@ -20,6 +20,7 @@ class LogCoshError(BaseStateEpochMetric):
     the prediction error.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g ``'train'`` or ``'eval'``).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -67,7 +68,7 @@ class LogCoshError(BaseStateEpochMetric):
         name: str = "log_cosh_err",
         scale: float = 1.0,
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
         if scale <= 0.0:
             raise ValueError(f"Incorrect scale {scale}. The scale has to be >0")
@@ -77,6 +78,7 @@ class LogCoshError(BaseStateEpochMetric):
         r"""Updates the metric given a mini-batch of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the predictions.

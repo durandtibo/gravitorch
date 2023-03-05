@@ -27,13 +27,14 @@ class DummyDataset(Dataset):
     r"""Implements a dummy map-style dataset for testing purpose.
 
     Args:
+    ----
         feature_size (dim, optional): Specifies the feature size.
             Default: ``4``
         num_examples (dim, optional): Specifies the number of
             examples. Default: ``8``
     """
 
-    def __init__(self, feature_size: int = 4, num_examples: int = 8):
+    def __init__(self, feature_size: int = 4, num_examples: int = 8) -> None:
         self._feature_size = int(feature_size)
         self._num_examples = int(num_examples)
 
@@ -54,6 +55,7 @@ class DummyIterableDataset(IterableDataset):
     r"""Implements a dummy iterable-style dataset for testing purpose.
 
     Args:
+    ----
         feature_size (dim, optional): Specifies the feature size.
             Default: ``4``
         num_examples (dim, optional): Specifies the number of
@@ -63,7 +65,9 @@ class DummyIterableDataset(IterableDataset):
             Default: ``False``
     """
 
-    def __init__(self, feature_size: int = 4, num_examples: int = 8, has_length: bool = False):
+    def __init__(
+        self, feature_size: int = 4, num_examples: int = 8, has_length: bool = False
+    ) -> None:
         self._feature_size = int(feature_size)
         self._num_examples = int(num_examples)
         self._has_length = bool(has_length)
@@ -96,6 +100,7 @@ class DummyDataSource(DatasetDataSource):
     r"""Implements a dummy data source for testing purpose.
 
     Args:
+    ----
         train_dataset (``Dataset`` or ``None``, optional): Specifies
             the training dataset. If ``None``, a dummy map-style
             dataset is automatically created. Default: ``None``
@@ -111,7 +116,7 @@ class DummyDataSource(DatasetDataSource):
         train_dataset: Optional[Dataset] = None,
         eval_dataset: Optional[Dataset] = None,
         batch_size: Optional[int] = 1,
-    ):
+    ) -> None:
         if train_dataset is None:
             train_dataset = DummyDataset()
         if eval_dataset is None:
@@ -132,6 +137,7 @@ class DummyClassificationModel(BaseModel):
     r"""Implements a dummy classification model for testing purpose.
 
     Args:
+    ----
         feature_size (dim, optional): Specifies the feature size.
             Default: ``4``
         num_classes (dim, optional): Specifies the number of classes.
@@ -140,7 +146,7 @@ class DummyClassificationModel(BaseModel):
             returns a loss filled with a NaN value.
     """
 
-    def __init__(self, feature_size: int = 4, num_classes: int = 3, loss_nan: bool = False):
+    def __init__(self, feature_size: int = 4, num_classes: int = 3, loss_nan: bool = False) -> None:
         super().__init__()
         self.linear = Linear(feature_size, num_classes)
         self.criterion = CrossEntropyLoss()
@@ -162,6 +168,7 @@ def create_dummy_engine(
     r"""Creates an engine with dummy components for testing purpose.
 
     Args:
+    ----
         data_source (``BaseDataSource`` or dict or ``None``): Specifies
             the data source or its configuration. If ``None``, a dummy
             data source is automatically created. Default: ``None``

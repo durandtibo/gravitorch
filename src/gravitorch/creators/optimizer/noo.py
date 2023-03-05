@@ -26,11 +26,13 @@ class NoOptimizerCreator(BaseOptimizerCreator):
         r"""Does not create an optimizer.
 
         Args:
+        ----
             engine (``gravitorch.engines.BaseEngine``): Specifies an
                 engine.
             model (``torch.nn.Module``): Specifies a model.
 
         Returns:
+        -------
             ``None``: because there is no optimizer to create.
         """
         logger.info("No optimizer")

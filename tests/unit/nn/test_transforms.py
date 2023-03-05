@@ -34,7 +34,7 @@ DTYPES = (torch.long, torch.float)
 
 
 @mark.parametrize("device", get_available_devices())
-def test_asinh_forward(device: str):
+def test_asinh_forward(device: str) -> None:
     device = torch.device(device)
     module = Asinh().to(device=device)
     assert module(torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float, device=device)).allclose(
@@ -52,7 +52,7 @@ def test_asinh_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sinh_forward(device: str):
+def test_sinh_forward(device: str) -> None:
     device = torch.device(device)
     module = Sinh().to(device=device)
     assert module(torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float, device=device)).allclose(
@@ -70,7 +70,7 @@ def test_sinh_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_log1p_forward(device: str):
+def test_log1p_forward(device: str) -> None:
     device = torch.device(device)
     module = Log1p().to(device=device)
     assert module(torch.tensor([0, 1, 2], dtype=torch.float, device=device)).allclose(
@@ -85,12 +85,12 @@ def test_log1p_forward(device: str):
 ###################################
 
 
-def test_one_polynomial_str():
+def test_one_polynomial_str() -> None:
     assert str(OnePolynomial()).startswith("OnePolynomial(")
 
 
 @mark.parametrize("device", get_available_devices())
-def test_one_polynomial_forward(device: str):
+def test_one_polynomial_forward(device: str) -> None:
     device = torch.device(device)
     module = OnePolynomial().to(device=device)
     assert module(torch.tensor([-1.0, 0.0, 1.0, 2.0], dtype=torch.float, device=device)).allclose(
@@ -99,7 +99,7 @@ def test_one_polynomial_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_one_polynomial_forward_alpha_2(device: str):
+def test_one_polynomial_forward_alpha_2(device: str) -> None:
     device = torch.device(device)
     module = OnePolynomial(alpha=2).to(device=device)
     assert module(torch.tensor([-1.0, 0.0, 1.0, 2.0], dtype=torch.float, device=device)).allclose(
@@ -108,7 +108,7 @@ def test_one_polynomial_forward_alpha_2(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_one_polynomial_forward_beta_1(device: str):
+def test_one_polynomial_forward_beta_1(device: str) -> None:
     device = torch.device(device)
     module = OnePolynomial(beta=1).to(device=device)
     assert module(torch.tensor([-1.0, 0.0, 1.0, 2.0], dtype=torch.float, device=device)).allclose(
@@ -117,7 +117,7 @@ def test_one_polynomial_forward_beta_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_one_polynomial_forward_gamma_2(device: str):
+def test_one_polynomial_forward_gamma_2(device: str) -> None:
     device = torch.device(device)
     module = OnePolynomial(gamma=2).to(device=device)
     assert module(torch.tensor([-1.0, 0.0, 1.0, 2.0], dtype=torch.float, device=device)).allclose(
@@ -128,7 +128,7 @@ def test_one_polynomial_forward_gamma_2(device: str):
 @mark.parametrize("alpha", (-1.0, 1.0, 2.0))
 @mark.parametrize("beta", (-1.0, 0.0, 1.0))
 @mark.parametrize("gamma", (0.5, 1.0))
-def test_one_polynomial_is_loss_decreasing(alpha: float, beta: float, gamma: float):
+def test_one_polynomial_is_loss_decreasing(alpha: float, beta: float, gamma: float) -> None:
     module = nn.Sequential(
         nn.Linear(4, 6),
         Clamp(min_value=0.0, max_value=1.0),
@@ -145,7 +145,7 @@ def test_one_polynomial_is_loss_decreasing(alpha: float, beta: float, gamma: flo
 
 
 @mark.parametrize("gamma", (-1.0, 0.1, 0.5, 1.0))
-def test_one_polynomial_is_loss_decreasing_range(gamma: float):
+def test_one_polynomial_is_loss_decreasing_range(gamma: float) -> None:
     module = nn.Sequential(
         nn.Linear(4, 6),
         Clamp(min_value=0.1, max_value=1.0),
@@ -167,7 +167,7 @@ def test_one_polynomial_is_loss_decreasing_range(gamma: float):
     )
 
 
-def test_one_polynomial_create_from_range():
+def test_one_polynomial_create_from_range() -> None:
     module = OnePolynomial.create_from_range(
         gamma=1.0,
         input_min_value=0.1,
@@ -184,21 +184,21 @@ def test_one_polynomial_create_from_range():
 #############################
 
 
-def test_safeexp_str():
+def test_safeexp_str() -> None:
     assert str(Safeexp()).startswith("Safeexp(")
 
 
 @mark.parametrize("max_value", (5.0, 10.0))
-def test_safeexp_max_value(max_value: float):
+def test_safeexp_max_value(max_value: float) -> None:
     assert Safeexp(max_value=max_value).max_value == max_value
 
 
-def test_safeexp_max_value_default():
+def test_safeexp_max_value_default() -> None:
     assert Safeexp().max_value == 20.0
 
 
 @mark.parametrize("device", get_available_devices())
-def test_safeexp_forward(device: str):
+def test_safeexp_forward(device: str) -> None:
     device = torch.device(device)
     module = Safeexp().to(device=device)
     assert module(torch.tensor([-1, 0, 1, 10, 100], dtype=torch.float, device=device)).allclose(
@@ -211,7 +211,7 @@ def test_safeexp_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_safeexp_forward_max_value_10(device: str):
+def test_safeexp_forward_max_value_10(device: str) -> None:
     device = torch.device(device)
     module = Safeexp(max_value=10).to(device=device)
     assert module(torch.tensor([-1, 0, 1, 10, 100], dtype=torch.float, device=device)).allclose(
@@ -228,21 +228,21 @@ def test_safeexp_forward_max_value_10(device: str):
 #############################
 
 
-def test_safelog_str():
+def test_safelog_str() -> None:
     assert str(Safelog()).startswith("Safelog(")
 
 
 @mark.parametrize("min_value", (0.1, 0.5))
-def test_safelog_min_value(min_value: float):
+def test_safelog_min_value(min_value: float) -> None:
     assert Safelog(min_value=min_value).min_value == min_value
 
 
-def test_safelog_min_value_default():
+def test_safelog_min_value_default() -> None:
     assert Safelog().min_value == 1e-8
 
 
 @mark.parametrize("device", get_available_devices())
-def test_safelog_forward(device: str):
+def test_safelog_forward(device: str) -> None:
     device = torch.device(device)
     module = Safelog().to(device=device)
     assert module(torch.tensor([-1, 0, 1, 2], dtype=torch.float, device=device)).allclose(
@@ -255,7 +255,7 @@ def test_safelog_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_safelog_forward_min_value_1(device: str):
+def test_safelog_forward_min_value_1(device: str) -> None:
     device = torch.device(device)
     module = Safelog(min_value=1).to(device=device)
     assert module(torch.tensor([-1, 0, 1, 2], dtype=torch.float, device=device)).allclose(
@@ -264,7 +264,7 @@ def test_safelog_forward_min_value_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_safelog_forward_min_value_minus_1(device: str):
+def test_safelog_forward_min_value_minus_1(device: str) -> None:
     device = torch.device(device)
     module = Safelog(min_value=-1).to(device=device)
     assert module(torch.tensor([-1, 0, 1, 2], dtype=torch.float, device=device)).allclose(
@@ -280,12 +280,12 @@ def test_safelog_forward_min_value_minus_1(device: str):
 #############################
 
 
-def test_squeeze_str():
+def test_squeeze_str() -> None:
     assert str(Squeeze()).startswith("Squeeze(")
 
 
 @mark.parametrize("device", get_available_devices())
-def test_squeeze_forward_dim_none(device: str):
+def test_squeeze_forward_dim_none(device: str) -> None:
     device = torch.device(device)
     module = Squeeze().to(device=device)
     assert module(torch.ones(2, 1, 3, 1, 4, dtype=torch.float, device=device)).equal(
@@ -294,7 +294,7 @@ def test_squeeze_forward_dim_none(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_squeeze_forward_dim_1(device: str):
+def test_squeeze_forward_dim_1(device: str) -> None:
     device = torch.device(device)
     module = Squeeze(dim=1).to(device=device)
     assert module(torch.ones(2, 1, 3, 1, 4, dtype=torch.float, device=device)).equal(
@@ -303,7 +303,7 @@ def test_squeeze_forward_dim_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_squeeze_forward_dim_2(device: str):
+def test_squeeze_forward_dim_2(device: str) -> None:
     device = torch.device(device)
     module = Squeeze(dim=2).to(device=device)
     assert module(torch.ones(2, 1, 3, 1, 4, dtype=torch.float, device=device)).equal(
@@ -317,7 +317,7 @@ def test_squeeze_forward_dim_2(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_symlog_forward(device: str):
+def test_symlog_forward(device: str) -> None:
     device = torch.device(device)
     module = Symlog().to(device=device)
     assert module(torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float, device=device)).allclose(
@@ -335,7 +335,7 @@ def test_symlog_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_isymlog_forward(device: str):
+def test_isymlog_forward(device: str) -> None:
     device = torch.device(device)
     module = Isymlog().to(device=device)
     assert module(torch.tensor([-2, -1, 0, 1, 2], dtype=torch.float, device=device)).allclose(
@@ -352,21 +352,21 @@ def test_isymlog_forward(device: str):
 ###################################
 
 
-def test_to_binary_label_str():
+def test_to_binary_label_str() -> None:
     assert str(ToBinaryLabel()).startswith("ToBinaryLabel(")
 
 
 @mark.parametrize("threshold", (0.0, 0.5))
-def test_to_binary_label_threshold(threshold: float):
+def test_to_binary_label_threshold(threshold: float) -> None:
     assert ToBinaryLabel(threshold=threshold).threshold == threshold
 
 
-def test_to_binary_label_threshold_default():
+def test_to_binary_label_threshold_default() -> None:
     assert ToBinaryLabel().threshold == 0.0
 
 
 @mark.parametrize("device", get_available_devices())
-def test_to_binary_label_forward(device: str):
+def test_to_binary_label_forward(device: str) -> None:
     device = torch.device(device)
     module = ToBinaryLabel().to(device=device)
     assert module(torch.tensor([-1.0, 1.0, -2.0, 1.0], dtype=torch.float, device=device)).equal(
@@ -375,7 +375,7 @@ def test_to_binary_label_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_to_binary_label_forward_threshold_0_5(device: str):
+def test_to_binary_label_forward_threshold_0_5(device: str) -> None:
     device = torch.device(device)
     module = ToBinaryLabel(threshold=0.5).to(device=device)
     assert module(torch.tensor([0.1, 0.6, 0.4, 1.0], dtype=torch.float, device=device)).equal(
@@ -384,7 +384,7 @@ def test_to_binary_label_forward_threshold_0_5(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_to_binary_label_forward_2d(device: str):
+def test_to_binary_label_forward_2d(device: str) -> None:
     device = torch.device(device)
     module = ToBinaryLabel().to(device=device)
     assert module(
@@ -400,7 +400,7 @@ def test_to_binary_label_forward_2d(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_to_float_forward(device: str):
+def test_to_float_forward(device: str) -> None:
     device = torch.device(device)
     module = ToFloat().to(device=device)
     assert module(torch.tensor([1, 2, 3, 4], dtype=torch.long, device=device)).equal(
@@ -414,7 +414,7 @@ def test_to_float_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_to_long_forward(device: str):
+def test_to_long_forward(device: str) -> None:
     device = torch.device(device)
     module = ToLong().to(device=device)
     assert module(torch.tensor([1.0, 2.0, 3.0, 4.0], dtype=torch.float, device=device)).equal(
@@ -428,7 +428,7 @@ def test_to_long_forward(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_to_categorical_label_forward_1d(device: str):
+def test_to_categorical_label_forward_1d(device: str) -> None:
     device = torch.device(device)
     module = ToCategoricalLabel().to(device=device)
     assert module(torch.tensor([1.0, 2.0, 3.0, 4.0], dtype=torch.float, device=device)).equal(
@@ -437,7 +437,7 @@ def test_to_categorical_label_forward_1d(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_to_categorical_label_forward_2d(device: str):
+def test_to_categorical_label_forward_2d(device: str) -> None:
     device = torch.device(device)
     module = ToCategoricalLabel().to(device=device)
     assert module(
@@ -451,7 +451,7 @@ def test_to_categorical_label_forward_2d(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequence_to_batch_2d(device: str):
+def test_sequence_to_batch_2d(device: str) -> None:
     device = torch.device(device)
     module = SequenceToBatch().to(device=device)
     assert module(torch.tensor([[1.0, 2.0, 3.0, 4.0], [5.0, 3.0, 2.0, 2.0]], device=device)).equal(
@@ -460,7 +460,7 @@ def test_sequence_to_batch_2d(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequence_to_batch_3d(device: str):
+def test_sequence_to_batch_3d(device: str) -> None:
     device = torch.device(device)
     module = SequenceToBatch().to(device=device)
     assert module(
@@ -470,7 +470,7 @@ def test_sequence_to_batch_3d(device: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_sequence_to_batch_dtype(device: str, dtype: torch.dtype):
+def test_sequence_to_batch_dtype(device: str, dtype: torch.dtype) -> None:
     device = torch.device(device)
     module = SequenceToBatch().to(device=device)
     assert module(torch.ones(2, 3, dtype=dtype, device=device)).equal(

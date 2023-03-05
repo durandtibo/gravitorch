@@ -16,6 +16,7 @@ class ModelFreezer(BaseHandler):
     r"""Implements a handler to freeze the model or one of its submodules.
 
     Args:
+    ----
         event (str, optional): Specifies the event when the model
             is frozen. Default: ``'train_started'``
         module_name (str, optional): Specifies the name of the module
@@ -27,7 +28,7 @@ class ModelFreezer(BaseHandler):
         self,
         event: str = EngineEvents.TRAIN_STARTED,
         module_name: str = "",
-    ):
+    ) -> None:
         self._module_name = str(module_name)
         self._event = str(event)
 
@@ -50,6 +51,7 @@ class ModelFreezer(BaseHandler):
         r"""Freezes the model or one of its submodules.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine with the
                 model.
         """

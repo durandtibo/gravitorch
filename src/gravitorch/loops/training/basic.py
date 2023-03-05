@@ -44,6 +44,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
     ``VanillaTrainingLoop`` and ``AccelerateTrainingLoop``.
 
     Args:
+    ----
         tag (str, optional): Specifies the tag which is used to log
             metrics. Default: ``"train"``
         clip_grad (dict or None, optional): Specifies the
@@ -66,7 +67,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         clip_grad: Optional[dict] = None,
         observer: Union[BaseLoopObserver, dict, None] = None,
         profiler: Union[BaseProfiler, dict, None] = None,
-    ):
+    ) -> None:
         self._tag = str(tag)
         self._clip_grad_fn, self._clip_grad_args = self._setup_clip_grad(clip_grad or {})
         self._observer = setup_loop_observer(observer)
@@ -118,6 +119,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         r"""Prepares the training.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         logger.info(f"Preparing training for epoch {engine.epoch}...")
@@ -148,9 +150,11 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         r"""Prepares the model, optimizer and data loader.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Returns:
+        -------
             ``torch.nn.Module``, ``torch.optim.Optimizer``,
                 ``Iterable``: A tuple with the model, the optimizer
                 and the data loader.
@@ -161,12 +165,15 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         r"""Initializes the clipping gradient strategy during training.
 
         Args:
+        ----
             clip_grad (dict): Specifies the clipping gradient option.
 
         Returns:
+        -------
             tuple: clip gradient function, clip gradient arguments.
 
         Raises:
+        ------
             ValueError: if it is an invalid clipping gradient option.
         """
 
@@ -177,6 +184,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         """Trains the model on the given batch.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
             model (``torch.nn.Module``): Specifies the model to train.
             optimizer (``torch.optim.optimizer``): Specifies the
@@ -184,6 +192,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
             batch: Specifies the batch of data.
 
         Returns:
+        -------
             dict: Some results (including the loss value) about the
                 batch.
         """

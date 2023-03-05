@@ -15,6 +15,7 @@ class LeNet5(nn.Module):
     The main target of this network is MNIST.
 
     Args:
+    ----
         num_classes (int): Specifies the number of classes.
         logits (bool, optional): Specifies if the output is the logits
             or the probabilities. By default, this network returns the
@@ -27,7 +28,7 @@ class LeNet5(nn.Module):
         logits: bool = True,
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
-    ):
+    ) -> None:
         super().__init__()
         self.feature_extractor = nn.Sequential(
             OrderedDict(
@@ -75,11 +76,13 @@ class LeNet5(nn.Module):
         r"""Computes the predictions of the LeNet network.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of shape
                 ``(batch size, 1, 32, 32)`` and type float): Specifies
                 the input images.
 
         Returns:
+        -------
             ``torch.Tensor`` of shape ``(batch size, num classes)``
                 and type float: The logits or the probabilities for
                 each class.
@@ -92,10 +95,12 @@ class LeNet5(nn.Module):
         r"""Generates a dummy input for the MLP.
 
         Args:
+        ----
             batch_size (int, optional): Specifies the batch size to
                 use to generate the dummy input. Default: ``1``
 
         Returns:
+        -------
             ``tuple[Tensor]``: A tuple with one tensor of shape
                 ``(batch_size, 1, 32, 32)`` and type ``float``.
                 The tensor is on the same device that this network.
@@ -109,7 +114,8 @@ class LeNet5(nn.Module):
         The order of the name should be the same that the order in
         the inputs of the forward function.
 
-        Returns:
+        Returns
+        -------
             tuple: The tuple of input names.
         """
         return (self._input_name,)
@@ -121,7 +127,8 @@ class LeNet5(nn.Module):
         See https://pytorch.org/docs/stable/onnx.html#torch.onnx.export
         to have more information on how to create the ``dict``.
 
-        Returns:
+        Returns
+        -------
             dict: with the dynamic axes of the input/output.
         """
         return {self._input_name: {0: "batch"}, self._output_name: {0: "batch"}}
@@ -132,7 +139,8 @@ class LeNet5(nn.Module):
         The order of the name should be the same that the order in the
         outputs of the forward function.
 
-        Returns:
+        Returns
+        -------
             tuple: The tuple of output names.
         """
         return (self._output_name,)

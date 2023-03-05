@@ -12,11 +12,13 @@ def setup_collator(collator: Union[Callable, dict, None]) -> Callable:
     r"""Sets up a data loader collator.
 
     Args:
+    ----
         collator (``Callable`` or dict or None): Specifies the
             data loader collator or its configuration. If ``None``,
             the default data loader collator is used.
 
     Returns:
+    -------
         ``Callable``: The data loader collator.
     """
     if collator is None:

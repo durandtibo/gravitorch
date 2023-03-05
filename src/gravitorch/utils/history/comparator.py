@@ -34,9 +34,11 @@ class BaseComparator(Generic[T], ABC):
         r"""Indicates if two comparators are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the comparators are equal,
                 ``False`` otherwise.
         """
@@ -45,7 +47,8 @@ class BaseComparator(Generic[T], ABC):
     def get_initial_best_value(self) -> T:
         r"""Gets the initial best value.
 
-        Returns:
+        Returns
+        -------
             The initial best value.
         """
 
@@ -54,10 +57,12 @@ class BaseComparator(Generic[T], ABC):
         r"""Indicates if the new value is better than the old value.
 
         Args:
+        ----
             old_value: Specifies the old value to compare.
             new_value: Specifies the new value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the new value is better than the old
                 value, otherwise ``False``.
         """

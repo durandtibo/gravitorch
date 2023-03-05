@@ -10,6 +10,7 @@ class SumFusion(Module):
     r"""Defines a layer to sum the inputs.
 
     Args:
+    ----
         normalized (bool, optional): Specifies the output is
             normalized by the number of inputs.
             Default: ``False``
@@ -32,7 +33,7 @@ class SumFusion(Module):
         >>> out.mean().backward()
     """
 
-    def __init__(self, normalized: bool = False):
+    def __init__(self, normalized: bool = False) -> None:
         super().__init__()
         self._normalized = normalized
 
@@ -43,6 +44,7 @@ class SumFusion(Module):
         r"""Sums the list or tuple of inputs.
 
         Args:
+        ----
             *inputs (list or tuple of tensors): Specifies the list or
                 tuple of tensors to sum. The shape of the tensors
                 should be the same. By default, this layer expects
@@ -53,6 +55,7 @@ class SumFusion(Module):
                 similar shapes.
 
         Returns:
+        -------
             ``torch.Tensor`` with the same shape that the input
                 tensor: The fused tensor.
         """
@@ -89,5 +92,5 @@ class AverageFusion(SumFusion):
         >>> out.mean().backward()
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(normalized=True)

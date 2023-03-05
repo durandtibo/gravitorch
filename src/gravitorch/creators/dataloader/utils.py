@@ -18,12 +18,14 @@ def setup_data_loader_creator(
     r"""Sets up a data loader creator.
 
     Args:
+    ----
         creator (``BaseDataLoaderCreator`` or dict or None):
             Specifies the data loader creator or its configuration.
             If ``None``, a data loader creator will be created
             automatically.
 
     Returns:
+    -------
         ``BaseDataLoaderCreator``: The data loader creator.
     """
     if creator is None:

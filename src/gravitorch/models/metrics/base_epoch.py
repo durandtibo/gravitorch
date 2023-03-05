@@ -26,11 +26,12 @@ class BaseEpochMetric(BaseMetric):
         - ``value``
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g train or eval).
         name (str): Specifies the name of the metric.
     """
 
-    def __init__(self, mode: str, name: str):
+    def __init__(self, mode: str, name: str) -> None:
         super().__init__()
         self._mode = str(mode)
         self._name = str(name)
@@ -42,6 +43,7 @@ class BaseEpochMetric(BaseMetric):
         This method adds event handlers to the engine.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if self._mode == ct.TRAIN:
@@ -65,6 +67,7 @@ class BaseStateEpochMetric(BaseEpochMetric):
         - ``forward``
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g ``'train'`` or ``'eval'``).
         name (str): Specifies the name of the metric. The name is used
             to log the metric results.
@@ -72,7 +75,7 @@ class BaseStateEpochMetric(BaseEpochMetric):
             its configuration.
     """
 
-    def __init__(self, mode: str, name: str, state: Union[BaseState, dict]):
+    def __init__(self, mode: str, name: str, state: Union[BaseState, dict]) -> None:
         super().__init__(mode=mode, name=name)
         self._state = setup_state(state)
 
@@ -88,6 +91,7 @@ class BaseStateEpochMetric(BaseEpochMetric):
             - set up history trackers
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         super().attach(engine)
@@ -103,11 +107,13 @@ class BaseStateEpochMetric(BaseEpochMetric):
         previously seen.
 
         Args:
+        ----
             engine (``BaseEngine`` or ``None``, optional): Specifies
                 the engine. This argument is required to log the
                 results in the engine. Default: ``None``.
 
         Returns:
+        -------
              dict: The results of the metric
         """
         results = self._state.value(f"{self._metric_name}_")

@@ -15,6 +15,7 @@ class FusionNorm(Module):
     normalization.
 
     Args:
+    ----
         fusion (``torch.nn.Module`` or dict): Specifies the fusion
             layer or its configuration.
         norm (``torch.nn.Module`` or dict): Specifies the
@@ -61,7 +62,7 @@ class FusionNorm(Module):
         fusion: Union[Module, dict],
         norm: Union[Module, dict],
         dropout: Union[Module, dict],
-    ):
+    ) -> None:
         super().__init__()
         self.fusion = setup_module(fusion)
         self.norm = setup_module(norm)
@@ -71,11 +72,13 @@ class FusionNorm(Module):
         r"""Fuses a list or tuple of inputs.
 
         Args:
+        ----
             *inputs (list or tuple of tensors): Specifies the list or
                 tuple of tensors to fuse. The shape of the tensors
                 should be the same.
 
         Returns:
+        -------
             ``torch.Tensor`` with the same shape that the input
                 tensors: The fused tensor.
         """
@@ -92,6 +95,7 @@ class FusionNorm(Module):
         norm.
 
         Args:
+        ----
             input_size (int): Specifies the input size.
             layer_norm_eps (float, optional): Specifies the ``eps``
                 value in the ``LayerNorm`` layer. Default: ``1e-6``
@@ -99,6 +103,7 @@ class FusionNorm(Module):
                 Default: ``0.1``
 
         Returns:
+        -------
             ``FusionNorm``: A ``FusionNorm`` layer with a sum fusion
                 and a layer norm.
         """
@@ -119,6 +124,7 @@ class FusionNorm(Module):
         a layer norm.
 
         Args:
+        ----
             input_size (int): Specifies the input size.
             layer_norm_eps (float, optional): Specifies the ``eps``
                 value in the ``LayerNorm`` layer. Default: ``1e-6``
@@ -126,6 +132,7 @@ class FusionNorm(Module):
                 Default: ``0.1``
 
         Returns:
+        -------
             ``FusionNorm``: A ``FusionNorm`` layer with a
                 multiplication fusion and a layer norm.
         """

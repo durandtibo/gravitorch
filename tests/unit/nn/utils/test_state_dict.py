@@ -163,7 +163,7 @@ def test_load_checkpoint_to_module_key_sequence(tmp_path: Path, key: Sequence[st
 
 
 class MyNetwork(nn.Module):
-    def __init__(self, checkpoint_path: Union[Path, str, None] = None):
+    def __init__(self, checkpoint_path: Union[Path, str, None] = None) -> None:
         super().__init__()
         self.fc = nn.Linear(4, 5)
         if checkpoint_path:
@@ -251,17 +251,17 @@ def test_state_dicts_are_equal_false():
 ##########################################
 
 
-def test_show_state_dict_info_empty(caplog: LogCaptureFixture):
+def test_show_state_dict_info_empty(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_state_dict_info({})
 
 
-def test_show_state_dict_info_linear(caplog: LogCaptureFixture):
+def test_show_state_dict_info_linear(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_state_dict_info(nn.Linear(4, 6).state_dict())
 
 
-def test_show_state_dict_info_no_tensor(caplog: LogCaptureFixture):
+def test_show_state_dict_info_no_tensor(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_state_dict_info({"a": 1})
 

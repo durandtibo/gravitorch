@@ -123,3 +123,64 @@ recursive = true
 wrap-summaries = 72
 wrap-descriptions = 72
 syntax = "google"
+
+
+[tool.ruff]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+#select = ["ANN", "B", "E", "F"]
+#select = ["ANN", "B", "C", "D", "E", "F", "S", "W"]
+select = [
+  "E",   # pycodestyle
+  "F",   # pyflakes
+  "UP",  # pyupgrade
+  "ANN",
+]
+ignore = [
+    "E501",
+    "B905",
+    "ANN002",  # Missing type annotation for `*args`
+    "ANN003",  # Missing type annotation for `**kwargs`
+    "ANN101",
+    "ANN401",
+]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["E", "F"]
+unfixable = []
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+line-length = 100
+target-version = "py39"
+src = ["src"]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402"]
+"tests/**.py" = ["S101", "D100", "D101", "D103", "D104"]
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.ruff.pydocstyle]
+convention = "google"

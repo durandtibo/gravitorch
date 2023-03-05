@@ -32,6 +32,7 @@ class VanillaEvaluationLoop(BaseBasicEvaluationLoop):
     dataset.
 
     Args:
+    ----
         grad_enabled (bool, optional): Specifies if the gradient is
             computed or not in the evaluation loop. By default, the
             gradient is not computed to reduce the memory footprint.
@@ -65,7 +66,7 @@ class VanillaEvaluationLoop(BaseBasicEvaluationLoop):
         condition: Union[BaseEvalCondition, dict, None] = None,
         observer: Union[BaseLoopObserver, dict, None] = None,
         profiler: Union[BaseProfiler, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(tag=tag, condition=condition, observer=observer, profiler=profiler)
         self._grad_enabled = bool(grad_enabled)
         self._batch_device_placement = setup_device_placement(

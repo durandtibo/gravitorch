@@ -18,12 +18,13 @@ class SequentialPartitioner(BasePartitioner[T]):
     for the first epoch, the second items for the second epoch, etc.
 
     Args:
+    ----
         partition_size (int, optional): Specifies the partition size
             i.e. the number of items in each partition.
             Default: ``1``
     """
 
-    def __init__(self, partition_size: int = 1):
+    def __init__(self, partition_size: int = 1) -> None:
         self._partition_size = int(partition_size)
 
     def __repr__(self) -> str:

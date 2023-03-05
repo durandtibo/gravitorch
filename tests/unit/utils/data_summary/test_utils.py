@@ -11,17 +11,17 @@ from gravitorch.utils.data_summary import (
 ########################################
 
 
-def test_setup_data_summary_object():
+def test_setup_data_summary_object() -> None:
     data_summary = FloatDataSummary()
     assert setup_data_summary(data_summary) is data_summary
 
 
-def test_setup_data_summary_dict():
+def test_setup_data_summary_dict() -> None:
     assert isinstance(
         setup_data_summary({OBJECT_TARGET: "gravitorch.utils.data_summary.FloatDataSummary"}),
         FloatDataSummary,
     )
 
 
-def test_setup_data_summary_none():
+def test_setup_data_summary_none() -> None:
     assert isinstance(setup_data_summary(None), NoOpDataSummary)

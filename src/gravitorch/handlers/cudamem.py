@@ -20,6 +20,7 @@ class EpochCudaMemoryMonitor(BaseHandler):
     epochs.
 
     Args:
+    ----
         event (str, optional): Specifies the epoch-based event when
             the CUDA memory usage should be capture.
             Default: ``'epoch_completed'``
@@ -27,7 +28,7 @@ class EpochCudaMemoryMonitor(BaseHandler):
             monitor the CUDA memory usage. Default: ``1``
     """
 
-    def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1):
+    def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
         self._event = str(event)
         if freq < 1:
             raise ValueError(f"freq has to be greater than 0 (received: {freq:,})")
@@ -51,6 +52,7 @@ class EpochCudaMemoryMonitor(BaseHandler):
         r"""Monitors the CUDA memory usage.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if torch.cuda.is_available():
@@ -72,6 +74,7 @@ class IterationCudaMemoryMonitor(BaseHandler):
     iterations.
 
     Args:
+    ----
         event (str, optional): Specifies the iteration-based event
             when the CUDA memory usage should be capture.
             Default: ``'epoch_completed'``
@@ -79,7 +82,7 @@ class IterationCudaMemoryMonitor(BaseHandler):
             to monitor the CUDA memory usage. Default: ``1``
     """
 
-    def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1):
+    def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1) -> None:
         self._event = str(event)
         if freq < 1:
             raise ValueError(f"freq has to be greater than 0 (received: {freq:,})")
@@ -103,6 +106,7 @@ class IterationCudaMemoryMonitor(BaseHandler):
         r"""Monitors the CUDA memory usage.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if torch.cuda.is_available():

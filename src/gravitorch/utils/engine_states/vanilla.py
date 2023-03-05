@@ -12,6 +12,7 @@ class VanillaEngineState(BaseEngineState):
     r"""Defines the vanilla engine state.
 
     Args:
+    ----
         epoch (int, optional): Specifies the number of epochs
             performed. Default: ``-1``.
         iteration (int, optional): Specifies the number of training
@@ -28,7 +29,7 @@ class VanillaEngineState(BaseEngineState):
         iteration: int = -1,
         max_epochs: int = 1,
         random_seed: int = 9984043075503325450,
-    ):
+    ) -> None:
         self._epoch = epoch
         self._iteration = iteration
         self._max_epochs = max_epochs

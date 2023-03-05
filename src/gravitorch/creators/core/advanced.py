@@ -27,6 +27,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
     r"""Implements an advanced core engine moules creator.
 
     Args:
+    ----
         data_source_creator (``BaseDataSourceCreator`` or dict):
             Specifies the data source creator or its configuration.
         model_creator (``BaseModelCreator`` or dict): Specifies the
@@ -45,7 +46,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
         model_creator: Union[BaseModelCreator, dict],
         optimizer_creator: Union[BaseOptimizerCreator, dict, None] = None,
         lr_scheduler_creator: Union[BaseLRSchedulerCreator, dict, None] = None,
-    ):
+    ) -> None:
         self._data_source_creator = setup_data_source_creator(data_source_creator)
         self._model_creator = setup_model_creator(model_creator)
         self._optimizer_creator = setup_optimizer_creator(optimizer_creator)

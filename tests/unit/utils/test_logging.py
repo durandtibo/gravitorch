@@ -8,7 +8,7 @@ from gravitorch.utils.logging import disable_logging
 logger = logging.getLogger(__name__)
 
 
-def log_something():
+def log_something() -> None:
     logger.debug("This is a debug message")
     logger.info("This is an info message")
     logger.warning("This is a warning message")
@@ -36,7 +36,9 @@ def log_something():
         ("CRITICAL", 0),
     ),
 )
-def test_disable_logging_level(caplog: LogCaptureFixture, level: Union[int, str], num_lines: int):
+def test_disable_logging_level(
+    caplog: LogCaptureFixture, level: Union[int, str], num_lines: int
+) -> None:
     with caplog.at_level(logging.NOTSET):
         with disable_logging(level):
             log_something()
@@ -46,7 +48,7 @@ def test_disable_logging_level(caplog: LogCaptureFixture, level: Union[int, str]
 @mark.parametrize(
     "level", (logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR, logging.CRITICAL)
 )
-def test_disable_logging_reset_level_info(level: Union[int, str]):
+def test_disable_logging_reset_level_info(level: Union[int, str]) -> None:
     prev_level = logger.level
     with disable_logging(level):
         log_something()

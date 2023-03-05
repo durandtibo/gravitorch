@@ -13,9 +13,9 @@ logger = logging.getLogger(__name__)
 EVENTS = ("my_event", "my_other_event")
 
 
-def trace(func) -> Any:
+def trace(func: Callable) -> Callable:
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs) -> Any:
         wrapper.called = True
         wrapper.call_count += 1
         wrapper.args = args
@@ -30,14 +30,14 @@ def trace(func) -> Any:
 
 
 @trace
-def hello_handler():
+def hello_handler() -> None:
     r"""Implements a simple handler that prints hello."""
     logger.info("Hello!")
 
 
 @fixture(scope="function", autouse=True)
-def reset_tracer():
-    def reset_func(func: Callable):
+def reset_tracer() -> None:
+    def reset_func(func: Callable) -> None:
         func.called = False
         func.call_count = 0
         func.args = ()
@@ -51,21 +51,21 @@ def reset_tracer():
 ##################################
 
 
-def test_event_manager_str_without_event_handler():
+def test_event_manager_str_without_event_handler() -> None:
     assert str(EventManager()).startswith("EventManager(")
 
 
-def test_event_manager_str_with_event_handler():
+def test_event_manager_str_with_event_handler() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     assert str(event_manager).startswith("EventManager(")
 
 
-def test_event_manager_last_fired_event_none():
+def test_event_manager_last_fired_event_none() -> None:
     assert EventManager().last_fired_event is None
 
 
-def test_last_fired_event_name_after_fire():
+def test_last_fired_event_name_after_fire() -> None:
     event_manager = EventManager()
     event_manager.fire_event("my_event")
     assert event_manager.last_fired_event == "my_event"
@@ -75,7 +75,7 @@ def test_last_fired_event_name_after_fire():
     assert event_manager.last_fired_event == "my_event"
 
 
-def test_event_manager_last_fired_event():
+def test_event_manager_last_fired_event() -> None:
     event_manager = EventManager()
     event_manager.fire_event("my_event")
     event_manager.fire_event("my_other_event")
@@ -83,13 +83,13 @@ def test_event_manager_last_fired_event():
 
 
 @mark.parametrize("event", EVENTS)
-def test_event_manager_add_event_handler_event(event: str):
+def test_event_manager_add_event_handler_event(event: str) -> None:
     event_manager = EventManager()
     event_manager.add_event_handler(event, VanillaEventHandler(hello_handler))
     assert len(event_manager._event_handlers[event]) == 1
 
 
-def test_event_manager_add_event_handler_duplicate_event_handlers():
+def test_event_manager_add_event_handler_duplicate_event_handlers() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
@@ -100,7 +100,7 @@ def test_event_manager_add_event_handler_duplicate_event_handlers():
 
 
 @mark.parametrize("event", EVENTS)
-def test_event_manager_fire_event(event: str):
+def test_event_manager_fire_event(event: str) -> None:
     event_manager = EventManager()
     event_manager.add_event_handler(event, VanillaEventHandler(hello_handler))
     event_manager.fire_event(event)
@@ -108,7 +108,7 @@ def test_event_manager_fire_event(event: str):
     assert hello_handler.call_count == 1
 
 
-def test_event_manager_fire_event_2_times():
+def test_event_manager_fire_event_2_times() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     event_manager.fire_event("my_event")
@@ -117,30 +117,30 @@ def test_event_manager_fire_event_2_times():
     assert hello_handler.call_count == 2
 
 
-def test_event_manager_fire_event_without_event_handler():
+def test_event_manager_fire_event_without_event_handler() -> None:
     event_manager = EventManager()
     event_manager.fire_event("my_event")
     assert event_manager.last_fired_event == "my_event"
 
 
-def test_event_manager_has_event_handler_true():
+def test_event_manager_has_event_handler_true() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     assert event_manager.has_event_handler(VanillaEventHandler(hello_handler))
 
 
-def test_event_manager_has_event_handler_true_with_event():
+def test_event_manager_has_event_handler_true_with_event() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     assert event_manager.has_event_handler(VanillaEventHandler(hello_handler), event="my_event")
 
 
-def test_event_manager_has_event_handler_false():
+def test_event_manager_has_event_handler_false() -> None:
     event_manager = EventManager()
     assert not event_manager.has_event_handler(VanillaEventHandler(hello_handler))
 
 
-def test_event_manager_has_event_handler_false_with_event():
+def test_event_manager_has_event_handler_false_with_event() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(lambda *args, **kwargs: True))
     event_manager.add_event_handler("my_other_event", VanillaEventHandler(hello_handler))
@@ -148,14 +148,14 @@ def test_event_manager_has_event_handler_false_with_event():
 
 
 @mark.parametrize("event", EVENTS)
-def test_event_manager_remove_event_handler(event: str):
+def test_event_manager_remove_event_handler(event: str) -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     event_manager.remove_event_handler("my_event", VanillaEventHandler(hello_handler))
     assert len(event_manager._event_handlers["my_event"]) == 0
 
 
-def test_event_manager_remove_event_handler_duplicate_handler():
+def test_event_manager_remove_event_handler_duplicate_handler() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     event_manager.add_event_handler("my_event", VanillaEventHandler(lambda *args, **kwargs: True))
@@ -164,7 +164,7 @@ def test_event_manager_remove_event_handler_duplicate_handler():
     assert len(event_manager._event_handlers["my_event"]) == 1
 
 
-def test_event_manager_remove_event_handler_multiple_events():
+def test_event_manager_remove_event_handler_multiple_events() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     event_manager.add_event_handler("my_other_event", VanillaEventHandler(hello_handler))
@@ -173,20 +173,20 @@ def test_event_manager_remove_event_handler_multiple_events():
     assert len(event_manager._event_handlers["my_other_event"]) == 1
 
 
-def test_event_manager_remove_event_handler_missing_event():
+def test_event_manager_remove_event_handler_missing_event() -> None:
     event_manager = EventManager()
     with raises(ValueError):
         event_manager.remove_event_handler("my_event", VanillaEventHandler(hello_handler))
 
 
-def test_event_manager_remove_event_handler_missing_handler():
+def test_event_manager_remove_event_handler_missing_handler() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(lambda *args, **kwargs: True))
     with raises(ValueError):
         event_manager.remove_event_handler("my_event", VanillaEventHandler(hello_handler))
 
 
-def test_event_manager_reset():
+def test_event_manager_reset() -> None:
     event_manager = EventManager()
     event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
     event_manager.add_event_handler("my_other_event", VanillaEventHandler(hello_handler))
@@ -196,13 +196,13 @@ def test_event_manager_reset():
     assert event_manager.last_fired_event is None
 
 
-def test_event_manager_reset_empty():
+def test_event_manager_reset_empty() -> None:
     event_manager = EventManager()
     assert len(event_manager._event_handlers) == 0
     assert event_manager.last_fired_event is None
 
 
-def test_event_manager_no_duplicate():
+def test_event_manager_no_duplicate() -> None:
     event_manager = EventManager()
     for _ in range(5):
         event_handler = VanillaEventHandler(hello_handler)
@@ -216,17 +216,17 @@ def test_event_manager_no_duplicate():
 ###########################################
 
 
-def test_to_event_handlers_str_empty():
+def test_to_event_handlers_str_empty() -> None:
     assert to_event_handlers_str({}) == ""
 
 
-def test_to_event_handlers_str():
+def test_to_event_handlers_str() -> None:
     assert to_event_handlers_str(
         {"event1": ["handler1"], "event2": ["handler21", "handler22\nblabla"]}
     ) == ("(event1)\n  (0) handler1\n(event2)\n  (0) handler21\n  (1) handler22\n    blabla")
 
 
-def test_to_event_handlers_str_num_spaces_4():
+def test_to_event_handlers_str_num_spaces_4() -> None:
     print(
         to_event_handlers_str(
             {"event1": ["handler1"], "event2": ["handler21", "handler22\nblabla"]},

@@ -13,7 +13,7 @@ from gravitorch.testing import create_dummy_engine
 ################################################
 
 
-def test_analyze_model_architecture():
+def test_analyze_model_architecture() -> None:
     engine = create_dummy_engine()
     analyze_model_architecture(model=nn.Linear(4, 6), engine=engine)
     assert engine.get_history("model.num_parameters").get_last_value() == 30
@@ -25,7 +25,7 @@ def test_analyze_model_architecture():
 ########################################################
 
 
-def test_analyze_model_network_architecture():
+def test_analyze_model_network_architecture() -> None:
     engine = create_dummy_engine()
     analyze_model_network_architecture(
         model=VanillaModel(
@@ -38,7 +38,7 @@ def test_analyze_model_network_architecture():
     assert engine.get_history("model.network.num_learnable_parameters").get_last_value() == 30
 
 
-def test_analyze_model_network_architecture_no_network():
+def test_analyze_model_network_architecture_no_network() -> None:
     engine = create_dummy_engine()
     analyze_model_network_architecture(
         model=nn.Linear(4, 6),

@@ -18,10 +18,12 @@ def setup_runner(runner: Union[BaseRunner, dict]) -> BaseRunner:
     ``BaseRunner`` factory function.
 
     Args:
+    ----
         runner (``BaseRunner`` or dict): Specifies the runner or its
             configuration.
 
     Returns:
+    -------
         ``BaseRunner``: The instantiated runner.
     """
     if isinstance(runner, dict):
@@ -34,6 +36,7 @@ def configure_pytorch(cudnn_benchmark: bool = False, cudnn_deterministic: bool =
     r"""Configure some PyTorch options.
 
     Args:
+    ----
         cudnn_benchmark (bool, optional): If True, causes cuDNN to
             benchmark multiple convolution algorithms and select the
             fastest. You should not set this option to true if you

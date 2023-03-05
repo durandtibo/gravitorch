@@ -42,6 +42,7 @@ class WarmupSequenceLoss(Module):
     Note: this is an experimental loss function.
 
     Args:
+    ----
         criterion (``torch.nn.Module`` or dict): Specifies the loss
             function/criterion or its configuration.
         warmup (int, optional): Specifies the number of warmup steps.
@@ -59,7 +60,7 @@ class WarmupSequenceLoss(Module):
         criterion: Union[Module, dict],
         warmup: int = 0,
         batch_first: bool = False,
-    ):
+    ) -> None:
         super().__init__()
         self.criterion = setup_module(criterion)
         self._warmup = int(warmup)
@@ -70,6 +71,7 @@ class WarmupSequenceLoss(Module):
         batch.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(sequence_length, batch_size, *)`` if
                 ``batch_size=False`` or
@@ -84,6 +86,7 @@ class WarmupSequenceLoss(Module):
                 loss function used.
 
         Returns:
+        -------
             ``torch.Tensor``: The computed loss value. The shape of
                 the tensor depends on the loss function used.
         """

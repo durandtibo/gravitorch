@@ -34,12 +34,14 @@ class BaseLRSchedulerCreator(ABC, metaclass=AbstractFactory):
         scheduler without an optimizer.
 
         Args:
+        ----
             engine (``gravitorch.engines.BaseEngine``): Specifies an
                 engine.
             optimizer (``torch.nn.Optimizer``): Specifies the
                 optimizer.
 
         Returns:
+        -------
             ``LRSchedulerType`` or ``None``: The created LR scheduler
                 or ``None`` if there is no LR scheduler to create.
         """

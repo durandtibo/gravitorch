@@ -9,12 +9,12 @@ from gravitorch.rsrc import BaseResource, PyTorchCudaBackend, setup_resource
 ####################################
 
 
-def test_setup_resource_object():
+def test_setup_resource_object() -> None:
     runner = Mock(spec=BaseResource)
     assert setup_resource(runner) is runner
 
 
-def test_setup_resource_dict():
+def test_setup_resource_dict() -> None:
     assert isinstance(
         setup_resource({OBJECT_TARGET: "gravitorch.rsrc.PyTorchCudaBackend"}),
         PyTorchCudaBackend,

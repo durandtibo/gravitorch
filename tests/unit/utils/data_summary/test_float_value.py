@@ -1,8 +1,10 @@
 import math
+from typing import Union
 
 import torch
 from coola import objects_are_allclose
 from pytest import mark, raises
+from torch import Tensor
 
 from gravitorch.utils.data_summary import EmptyDataSummaryError, FloatDataSummary
 
@@ -11,94 +13,94 @@ from gravitorch.utils.data_summary import EmptyDataSummaryError, FloatDataSummar
 ######################################
 
 
-def test_float_data_summary_str():
+def test_float_data_summary_str() -> None:
     assert str(FloatDataSummary()).startswith("FloatDataSummary(")
 
 
-def test_float_data_summary_add_one_call():
+def test_float_data_summary_add_one_call() -> None:
     summary = FloatDataSummary()
     summary.add(0.0)
     assert tuple(summary._values) == (0.0,)
 
 
-def test_float_data_summary_add_two_calls():
+def test_float_data_summary_add_two_calls() -> None:
     summary = FloatDataSummary()
     summary.add(3.0)
     summary.add(1.0)
     assert tuple(summary._values) == (3.0, 1.0)
 
 
-def test_float_data_summary_count_1():
+def test_float_data_summary_count_1() -> None:
     summary = FloatDataSummary()
     summary.add(0.0)
     assert summary.count() == 1
 
 
-def test_float_data_summary_count_2():
+def test_float_data_summary_count_2() -> None:
     summary = FloatDataSummary()
     summary.add(0.0)
     summary.add(0.0)
     assert summary.count() == 2
 
 
-def test_float_data_summary_count_empty():
+def test_float_data_summary_count_empty() -> None:
     summary = FloatDataSummary()
     assert summary.count() == 0
 
 
-def test_float_data_summary_max():
+def test_float_data_summary_max() -> None:
     summary = FloatDataSummary()
     summary.add(3.0)
     summary.add(1.0)
     assert summary.max() == 3.0
 
 
-def test_float_data_summary_max_empty():
+def test_float_data_summary_max_empty() -> None:
     summary = FloatDataSummary()
     with raises(EmptyDataSummaryError):
         summary.max()
 
 
-def test_float_data_summary_mean():
+def test_float_data_summary_mean() -> None:
     summary = FloatDataSummary()
     summary.add(3.0)
     summary.add(1.0)
     assert summary.mean() == 2.0
 
 
-def test_float_data_summary_mean_empty():
+def test_float_data_summary_mean_empty() -> None:
     summary = FloatDataSummary()
     with raises(EmptyDataSummaryError):
         summary.mean()
 
 
-def test_float_data_summary_median():
+def test_float_data_summary_median() -> None:
     summary = FloatDataSummary()
     summary.add(3.0)
     summary.add(1.0)
     assert summary.median() == 1.0
 
 
-def test_float_data_summary_median_empty():
+def test_float_data_summary_median_empty() -> None:
     summary = FloatDataSummary()
     with raises(EmptyDataSummaryError):
         summary.median()
 
 
-def test_float_data_summary_min():
+def test_float_data_summary_min() -> None:
     summary = FloatDataSummary()
     summary.add(3.0)
     summary.add(1.0)
     assert summary.min() == 1.0
 
 
-def test_float_data_summary_min_empty():
+def test_float_data_summary_min_empty() -> None:
     summary = FloatDataSummary()
     with raises(EmptyDataSummaryError):
         summary.min()
 
 
-def test_float_data_summary_quantiles_default_quantiles():
+def test_float_data_summary_quantiles_default_quantiles() -> None:
     summary = FloatDataSummary()
     for i in range(21):
         summary.add(i)
@@ -108,71 +110,73 @@ def test_float_data_summary_quantiles_default_quantiles():
 
 
 @mark.parametrize("quantiles", ([0.2, 0.8], (0.2, 0.8), torch.tensor([0.2, 0.8]), [0.8, 0.2]))
-def test_float_data_summary_quantiles_custom_quantiles(quantiles):
+def test_float_data_summary_quantiles_custom_quantiles(
+    quantiles: Union[Tensor, tuple[float, ...], list[float]]
+) -> None:
     summary = FloatDataSummary(quantiles=quantiles)
     for i in range(6):
         summary.add(i)
     assert summary.quantiles().equal(torch.tensor([1.0, 4.0]))
 
 
-def test_float_data_summary_quantiles_empty():
+def test_float_data_summary_quantiles_empty() -> None:
     summary = FloatDataSummary()
     with raises(EmptyDataSummaryError):
         summary.quantiles()
 
 
-def test_float_data_summary_std_1_value():
+def test_float_data_summary_std_1_value() -> None:
     summary = FloatDataSummary()
     summary.add(1.0)
     assert math.isnan(summary.std())
 
 
-def test_float_data_summary_std_0():
+def test_float_data_summary_std_0() -> None:
     summary = FloatDataSummary()
     summary.add(1.0)
     summary.add(1.0)
     assert summary.std() == 0.0
 
 
-def test_float_data_summary_std_2():
+def test_float_data_summary_std_2() -> None:
     summary = FloatDataSummary()
     summary.add(1.0)
     summary.add(-1.0)
     assert math.isclose(summary.std(), math.sqrt(2), abs_tol=1e-6)
 
 
-def test_float_data_summary_std_empty():
+def test_float_data_summary_std_empty() -> None:
     summary = FloatDataSummary()
     with raises(EmptyDataSummaryError):
         summary.std()
 
 
-def test_float_data_summary_sum():
+def test_float_data_summary_sum() -> None:
     summary = FloatDataSummary()
     summary.add(3.0)
     summary.add(1.0)
     assert summary.sum() == 4.0
 
 
-def test_float_data_summary_sum_empty():
+def test_float_data_summary_sum_empty() -> None:
     summary = FloatDataSummary()
     with raises(EmptyDataSummaryError):
         summary.sum()
 
 
-def test_float_data_summary_values_empty():
+def test_float_data_summary_values_empty() -> None:
     summary = FloatDataSummary()
     assert tuple(summary._values) == ()
 
 
-def test_float_data_summary_reset():
+def test_float_data_summary_reset() -> None:
     summary = FloatDataSummary()
     summary.add(1.0)
     summary.reset()
-    assert tuple(summary._values) == tuple()
+    assert tuple(summary._values) == ()
 
 
-def test_float_data_summary_summary_default_quantiles():
+def test_float_data_summary_summary_default_quantiles() -> None:
     summary = FloatDataSummary()
     for i in range(21):
         summary.add(i)
@@ -201,8 +205,10 @@ def test_float_data_summary_summary_default_quantiles():
     )
 
 
-@mark.parametrize("quantiles", ([], tuple(), torch.tensor([])))
-def test_float_data_summary_summary_default_no_quantile(quantiles):
+@mark.parametrize("quantiles", ([], (), torch.tensor([])))
+def test_float_data_summary_summary_default_no_quantile(
+    quantiles: Union[Tensor, tuple[float, ...], list[float]]
+) -> None:
     summary = FloatDataSummary(quantiles=quantiles)
     for _ in range(5):
         summary.add(1.0)
@@ -220,7 +226,7 @@ def test_float_data_summary_summary_default_no_quantile(quantiles):
     )
 
 
-def test_float_data_summary_summary_empty():
+def test_float_data_summary_summary_empty() -> None:
     summary = FloatDataSummary()
     with raises(EmptyDataSummaryError):
         summary.summary()

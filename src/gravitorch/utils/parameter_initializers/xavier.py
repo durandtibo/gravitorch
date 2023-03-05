@@ -21,6 +21,7 @@ class BaseXavierParameterInitializer(BaseDefaultParameterInitializer):
     uniform strategy.
 
     Args:
+    ----
         gain (float, optional): Specifies the gain or scaling factor.
             Default: ``1``
         learnable_only (bool, optional): If ``True``, only the
@@ -31,7 +32,9 @@ class BaseXavierParameterInitializer(BaseDefaultParameterInitializer):
             Default: ``True``
     """
 
-    def __init__(self, gain: float = 1.0, learnable_only: bool = True, show_stats: bool = True):
+    def __init__(
+        self, gain: float = 1.0, learnable_only: bool = True, show_stats: bool = True
+    ) -> None:
         super().__init__(show_stats=show_stats)
         self._gain = float(gain)
         self._learnable_only = bool(learnable_only)
@@ -72,6 +75,7 @@ def recursive_xavier_normal_(
     initialization.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to
             initialize.
         gain (float, optional): Specifies the gain or scaling factor.
@@ -102,6 +106,7 @@ def recursive_xavier_uniform_(
     initialization.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to
             initialize.
         gain (float, optional): Specifies the gain or scaling factor.

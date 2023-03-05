@@ -26,7 +26,7 @@ class AssetNotFoundError(Exception):
 class AssetManager:
     r"""Implements an asset manager."""
 
-    def __init__(self, assets: Optional[dict[str, Any]] = None):
+    def __init__(self, assets: Optional[dict[str, Any]] = None) -> None:
         self._assets = assets or {}
 
     def __repr__(self) -> str:
@@ -47,6 +47,7 @@ class AssetManager:
         old asset will be overwritten by the new asset.
 
         Args:
+        ----
             name (str): Specifies the name of the asset to add.
             asset: Specifies the asset to add.
             replace_ok (bool, optional): If ``False``,
@@ -71,7 +72,8 @@ class AssetManager:
     def clone(self) -> "AssetManager":
         r"""Creates a deep copy of the current asset manager.
 
-        Returns:
+        Returns
+        -------
             ``AssetManager``: A deep copy of the current asset manager.
 
         Example usage:
@@ -97,9 +99,11 @@ class AssetManager:
         r"""Indicates if two objects are equal.
 
         Args:
+        ----
             other: Specifies the object to compare with.
 
         Returns:
+        -------
             bool: ``True`` if the two objects are equal, otherwise
                 ``False``.
 
@@ -125,12 +129,15 @@ class AssetManager:
         r"""Gets an asset.
 
         Args:
+        ----
             name (str): Specifies the asset to get.
 
         Returns:
+        -------
             The asset
 
         Raises:
+        ------
             ``AssetNotFoundError`` if the asset does not exist.
 
         Example usage:
@@ -150,7 +157,8 @@ class AssetManager:
     def get_asset_names(self) -> tuple[str, ...]:
         r"""Gets all the asset names.
 
-        Returns:
+        Returns
+        -------
             tuple: The asset names.
 
         Example usage:
@@ -169,9 +177,11 @@ class AssetManager:
         r"""Indicates if the asset exists or not.
 
         Args:
+        ----
             name (str): Specifies the name of the asset.
 
         Returns:
+        -------
             bool: ``True`` if the asset exists, otherwise ``False``
 
         Example usage:
@@ -192,9 +202,11 @@ class AssetManager:
         r"""Removes an asset.
 
         Args:
+        ----
             name (str): Specifies the name of the asset to remove.
 
         Raises:
+        ------
             ``AssetNotFoundError`` if the asset does not exist.
 
         Example usage:
@@ -223,9 +235,11 @@ def get_asset_summary(asset: Any) -> str:
     r"""Gets a one line summary of an asset.
 
     Args:
+    ----
         asset: Specifies the asset.
 
     Returns:
+    -------
         str: A one line summary of an asset.
 
     Example usage:

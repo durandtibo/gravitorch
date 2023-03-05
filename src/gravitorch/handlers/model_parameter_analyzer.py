@@ -14,6 +14,7 @@ class ModelParameterAnalyzer(BaseHandler):
     r"""Implements a handler to analyze the model parameter values.
 
     Args:
+    ----
         events (str or tuple or list): Specifies the event(s) when to
             analyze the model parameter values. For example, it is
             usually a good idea to look at the model parameters at the
@@ -31,7 +32,7 @@ class ModelParameterAnalyzer(BaseHandler):
             EngineEvents.TRAIN_COMPLETED,
         ),
         tablefmt: str = "rst",
-    ):
+    ) -> None:
         self._events = to_events(events)
         self._tablefmt = tablefmt
 
@@ -49,6 +50,7 @@ class ModelParameterAnalyzer(BaseHandler):
         r"""Analyzes the model parameter values.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
         """

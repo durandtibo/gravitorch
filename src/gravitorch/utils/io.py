@@ -74,10 +74,12 @@ def load_text(path: Path) -> str:
     r"""Reads the data from a given text file.
 
     Args:
+    ----
         path (``pathlib.Path``): Specifies the path where to the text
             file.
 
     Returns:
+    -------
         The data from the text file.
 
     Example usage:
@@ -98,6 +100,7 @@ def save_text(to_save: str, path: Path) -> None:
     r"""Saves the given data in a text file.
 
     Args:
+    ----
         to_save: Specifies the data to write in a text file.
         path (``pathlib.Path``): Specifies the path where to write the
             text file.
@@ -142,9 +145,11 @@ def load_json(path: Path) -> dict:
     r"""Loads the data from a given json file.
 
     Args:
+    ----
         path (``pathlib.Path``): Specifies the path to the json file.
 
     Returns:
+    -------
         dict: The data from the json file.
 
     Example usage:
@@ -167,6 +172,7 @@ def save_json(to_save: Any, path: Path) -> None:
     Note: the keys are automatically converted to a string.
 
     Args:
+    ----
         to_save: Specifies the data to write in a json file. The data
             should be JSON compatible.
         path (``pathlib.Path``): Specifies the path where to write the
@@ -199,10 +205,12 @@ def load_pickle(path: Path) -> Any:
     r"""Loads the data from a given pickle file.
 
     Args:
+    ----
         path (``pathlib.Path``): Specifies the path to the pickle
             file.
 
     Returns:
+    -------
         The data from the pickle file.
 
     Example usage:
@@ -223,6 +231,7 @@ def save_pickle(to_save: Any, path: Path, protocol: int = pickle.HIGHEST_PROTOCO
     r"""Saves the given data in a pickle file.
 
     Args:
+    ----
         to_save: Specifies the data to write in a pickle file.
         path (``pathlib.Path``): Specifies the path where to write
             the pickle file.
@@ -256,6 +265,7 @@ def save_pytorch(to_save: Any, path: Path) -> None:
     r"""Saves the data in a PyTorch file.
 
     Args:
+    ----
         to_save: Specifies the data to write in the PyTorch file.
         path (``pathlib.Path``): Specifies the path where to write the
             PyTorch file.
@@ -286,9 +296,11 @@ def load_yaml(path: Path) -> Any:
     r"""Loads the data from a given yaml file.
 
     Args:
+    ----
         path (``pathlib.Path``): Specifies the path to the yaml file.
 
     Returns:
+    -------
         The data from the yaml file.
 
     Example usage:
@@ -309,6 +321,7 @@ def save_yaml(to_save: Any, path: Path) -> None:
     r"""Saves the data in a yaml file.
 
     Args:
+    ----
         to_save: Specifies the data to write in a yaml file.
         path (``pathlib.Path``): Specifies the path where to write the
             yaml file.

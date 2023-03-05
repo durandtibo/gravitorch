@@ -28,10 +28,12 @@ def get_random_seed(seed: int) -> int:
     r"""Gets a random seed.
 
     Args:
+    ----
         seed (int): Specifies a random seed to make the process
             reproducible.
 
     Returns:
+    -------
         int: A random seed. The value is between ``-2 ** 63`` and
             ``2 ** 63 - 1``.
 
@@ -54,6 +56,7 @@ def get_torch_generator(
     r"""Creates a ``torch.Generator`` initialized with a given seed.
 
     Args:
+    ----
         random_seed (int, optional): Specifies a random seed.
             Default: ``1``
         device (``torch.device`` or str or ``None``, optional):
@@ -61,6 +64,7 @@ def get_torch_generator(
             Default: ``'cpu'``
 
     Returns:
+    -------
         ``torch.Generator``
 
     Example usage:
@@ -94,6 +98,7 @@ class BaseRandomSeedSetter(ABC):
         r"""Sets the seed for generating random numbers.
 
         Args:
+        ----
             seed (int): Specifies the desired seed.
 
         Example usage:
@@ -173,6 +178,7 @@ class RandomSeedSetter(BaseRandomSeedSetter):
         r"""Adds a random seed setter for a given name.
 
         Args:
+        ----
             name (str): Specifies the name for the setter.
             setter (``BaseRandomSeedSetter``): Specifies the random
                 seed setter to add.
@@ -182,6 +188,7 @@ class RandomSeedSetter(BaseRandomSeedSetter):
                 a name. Default: ``False``.
 
         Raises:
+        ------
             ValueError if a random seed setter is already registered
                 for the name and ``exist_ok=False``.
 
@@ -209,9 +216,11 @@ class RandomSeedSetter(BaseRandomSeedSetter):
         r"""Indicates if a random seed setter is registered for the given name.
 
         Args:
+        ----
             name (str): Specifies the name to check.
 
         Returns:
+        -------
             bool: ``True`` if a random seed setter is registered,
                 otherwise ``False``.
 
@@ -232,6 +241,7 @@ def manual_seed(seed: int, setter: Optional[BaseRandomSeedSetter] = None) -> Non
     r"""Sets the seed for generating random numbers.
 
     Args:
+    ----
         seed (int): Specifies the desired seed.
         setter (``BaseRandomSeedSetter`` or ``None``, optional):
             Specifies the random seed setters. If ``None``, the
@@ -271,6 +281,7 @@ def numpy_seed(seed: int):
     restores the original RNG state afterward.
 
     Args:
+    ----
         seed (int): Specifies the random number generator seed to use
             while using this context manager.
 
@@ -306,6 +317,7 @@ def torch_seed(seed: int):
     restores the original RNG state afterward.
 
     Args:
+    ----
         seed (int): Specifies the random number generator seed to use
             while using this context manager.
 

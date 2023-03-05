@@ -22,6 +22,7 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
     DataPipe has ``M`` values, ``M`` pickle files are created.
 
     Args:
+    ----
         datapipe: Specifies the source DataPipe.
         root_path (``pathlib.Path`` or str): Specifies the directory
             where to save the pickle files.
@@ -36,7 +37,7 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
         datapipe: IterDataPipe,
         root_path: Union[Path, str],
         pattern: str = "data_{index:04d}.pkl",
-    ):
+    ) -> None:
         self._datapipe = datapipe
         self._root_path = sanitize_path(root_path)
         if not self._root_path.is_dir():
@@ -71,6 +72,7 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
     DataPipe has ``M`` values, ``M`` PyTorch files are created.
 
     Args:
+    ----
         datapipe: Specifies the source DataPipe.
         root_path (``pathlib.Path`` or str): Specifies the directory
             where to save the PyTorch files.
@@ -85,7 +87,7 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
         datapipe: IterDataPipe,
         root_path: Union[Path, str],
         pattern: str = "data_{index:04d}.pt",
-    ):
+    ) -> None:
         self._datapipe = datapipe
         self._root_path = sanitize_path(root_path)
         if not self._root_path.is_dir():

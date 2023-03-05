@@ -19,7 +19,7 @@ EVENTS = ("my_event", "my_other_event")
 ############################################
 
 
-def test_epoch_cuda_memory_monitor_str():
+def test_epoch_cuda_memory_monitor_str() -> None:
     assert str(EpochCudaMemoryMonitor()).startswith("EpochCudaMemoryMonitor(")
 
 
@@ -28,7 +28,7 @@ def test_epoch_cuda_memory_monitor_event(event: str):
     assert EpochCudaMemoryMonitor(event)._event == event
 
 
-def test_epoch_cuda_memory_monitor_event_default():
+def test_epoch_cuda_memory_monitor_event_default() -> None:
     assert EpochCudaMemoryMonitor()._event == EngineEvents.EPOCH_COMPLETED
 
 
@@ -43,7 +43,7 @@ def test_epoch_cuda_memory_monitor_incorrect_freq(freq: int):
         EpochCudaMemoryMonitor(freq=freq)
 
 
-def test_epoch_cuda_memory_monitor_freq_default():
+def test_epoch_cuda_memory_monitor_freq_default() -> None:
     assert EpochCudaMemoryMonitor()._freq == 1
 
 
@@ -63,7 +63,7 @@ def test_epoch_cuda_memory_monitor_attach(event: str, freq: int):
     )
 
 
-def test_epoch_cuda_memory_monitor_attach_duplicate():
+def test_epoch_cuda_memory_monitor_attach_duplicate() -> None:
     engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=True))
     EpochCudaMemoryMonitor().attach(engine)
     engine.add_event_handler.assert_not_called()
@@ -72,7 +72,7 @@ def test_epoch_cuda_memory_monitor_attach_duplicate():
 @patch("torch.cuda.is_available", lambda *args: True)
 @patch("torch.cuda.synchronize", lambda *args: None)
 @patch("torch.cuda.mem_get_info", lambda *args: (None, 1))
-def test_epoch_cuda_memory_monitor_monitor():
+def test_epoch_cuda_memory_monitor_monitor() -> None:
     engine = Mock(spec=BaseEngine, epoch=4)
     EpochCudaMemoryMonitor().monitor(engine)
     assert isinstance(engine.log_metrics.call_args.args[0]["epoch/max_cuda_memory_allocated"], int)
@@ -83,7 +83,7 @@ def test_epoch_cuda_memory_monitor_monitor():
 
 
 @patch("torch.cuda.is_available", lambda *args: False)
-def test_epoch_cuda_memory_monitor_monitor_no_cuda():
+def test_epoch_cuda_memory_monitor_monitor_no_cuda() -> None:
     engine = Mock(spec=BaseEngine)
     EpochCudaMemoryMonitor().monitor(engine)
     engine.log_metric.assert_not_called()
@@ -94,7 +94,7 @@ def test_epoch_cuda_memory_monitor_monitor_no_cuda():
 ################################################
 
 
-def test_iteration_cuda_memory_monitor_str():
+def test_iteration_cuda_memory_monitor_str() -> None:
     assert str(IterationCudaMemoryMonitor()).startswith("IterationCudaMemoryMonitor(")
 
 
@@ -103,7 +103,7 @@ def test_iteration_cuda_memory_monitor_event(event: str):
     assert IterationCudaMemoryMonitor(event)._event == event
 
 
-def test_iteration_cuda_memory_monitor_event_default():
+def test_iteration_cuda_memory_monitor_event_default() -> None:
     assert IterationCudaMemoryMonitor()._event == EngineEvents.TRAIN_ITERATION_COMPLETED
 
 
@@ -118,7 +118,7 @@ def test_iteration_cuda_memory_monitor_incorrect_freq(freq: int):
         IterationCudaMemoryMonitor(freq=freq)
 
 
-def test_iteration_cuda_memory_monitor_freq_default():
+def test_iteration_cuda_memory_monitor_freq_default() -> None:
     assert IterationCudaMemoryMonitor()._freq == 1
 
 
@@ -138,7 +138,7 @@ def test_iteration_cuda_memory_monitor_attach(event: str, freq: int):
     )
 
 
-def test_iteration_cuda_memory_monitor_attach_duplicate():
+def test_iteration_cuda_memory_monitor_attach_duplicate() -> None:
     engine = Mock(spec=BaseEngine, iteration=-1, has_event_handler=Mock(return_value=True))
     IterationCudaMemoryMonitor().attach(engine)
     engine.add_event_handler.assert_not_called()
@@ -147,7 +147,7 @@ def test_iteration_cuda_memory_monitor_attach_duplicate():
 @patch("torch.cuda.is_available", lambda *args: True)
 @patch("torch.cuda.synchronize", lambda *args: None)
 @patch("torch.cuda.mem_get_info", lambda *args: (None, 1))
-def test_iteration_cuda_memory_monitor_monitor():
+def test_iteration_cuda_memory_monitor_monitor() -> None:
     engine = Mock(spec=BaseEngine, iteration=4)
     IterationCudaMemoryMonitor().monitor(engine)
     assert isinstance(
@@ -160,7 +160,7 @@ def test_iteration_cuda_memory_monitor_monitor():
 
 
 @patch("torch.cuda.is_available", lambda *args: False)
-def test_iteration_cuda_memory_monitor_monitor_no_cuda():
+def test_iteration_cuda_memory_monitor_monitor_no_cuda() -> None:
     engine = Mock(spec=BaseEngine)
     IterationCudaMemoryMonitor().monitor(engine)
     engine.log_metric.assert_not_called()

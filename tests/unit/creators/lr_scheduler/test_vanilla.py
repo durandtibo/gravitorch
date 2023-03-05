@@ -82,7 +82,9 @@ def test_vanilla_lr_scheduler_creator_create_lr_scheduler_handler():
     lr_scheduler_handler.attach.assert_called_once_with(engine=engine)
 
 
-def test_vanilla_lr_scheduler_creator_create_no_lr_scheduler_handler(caplog: LogCaptureFixture):
+def test_vanilla_lr_scheduler_creator_create_no_lr_scheduler_handler(
+    caplog: LogCaptureFixture,
+) -> None:
     with caplog.at_level(logging.WARN):
         engine = Mock()
         creator = VanillaLRSchedulerCreator(

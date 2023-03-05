@@ -15,7 +15,7 @@ EVENTS = ("my_event", "my_other_event")
 #########################################
 
 
-def test_epoch_sysinfo_monitor_str():
+def test_epoch_sysinfo_monitor_str() -> None:
     assert str(EpochSysInfoMonitor()).startswith("EpochSysInfoMonitor(")
 
 
@@ -24,7 +24,7 @@ def test_epoch_sysinfo_monitor_event(event: str):
     assert EpochSysInfoMonitor(event)._event == event
 
 
-def test_epoch_sysinfo_monitor_event_default():
+def test_epoch_sysinfo_monitor_event_default() -> None:
     assert EpochSysInfoMonitor()._event == EngineEvents.EPOCH_COMPLETED
 
 
@@ -39,7 +39,7 @@ def test_epoch_sysinfo_monitor_incorrect_freq(freq: int):
         EpochSysInfoMonitor(freq=freq)
 
 
-def test_epoch_sysinfo_monitor_freq_default():
+def test_epoch_sysinfo_monitor_freq_default() -> None:
     assert EpochSysInfoMonitor()._freq == 1
 
 
@@ -59,13 +59,13 @@ def test_epoch_sysinfo_monitor_attach(event: str, freq: int):
     )
 
 
-def test_epoch_sysinfo_monitor_attach_duplicate():
+def test_epoch_sysinfo_monitor_attach_duplicate() -> None:
     engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=True))
     EpochSysInfoMonitor().attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_epoch_sysinfo_monitor_monitor(caplog: LogCaptureFixture):
+def test_epoch_sysinfo_monitor_monitor(caplog: LogCaptureFixture) -> None:
     engine = Mock(spec=BaseEngine, epoch=4)
     handler = EpochSysInfoMonitor()
     with caplog.at_level(logging.INFO):

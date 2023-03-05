@@ -25,6 +25,7 @@ class SquaredLogError(BaseStateEpochMetric):
     Note: this metric only works with positive value (0 included).
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g. train or eval).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -69,7 +70,7 @@ class SquaredLogError(BaseStateEpochMetric):
         mode: str,
         name: str = "sq_log_err",
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
@@ -77,6 +78,7 @@ class SquaredLogError(BaseStateEpochMetric):
         examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the predictions.
@@ -96,6 +98,7 @@ class SquaredSymlogError(BaseStateEpochMetric):
     instead of ``log1p`` because ``symlog`` works on negative values.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g. train or eval).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -140,7 +143,7 @@ class SquaredSymlogError(BaseStateEpochMetric):
         mode: str,
         name: str = "sq_symlog_err",
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
@@ -148,6 +151,7 @@ class SquaredSymlogError(BaseStateEpochMetric):
         targets given a mini-batch of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the predictions.
@@ -163,6 +167,7 @@ class SquaredAsinhError(BaseStateEpochMetric):
     hyperbolic sine (arcsinh) transformed predictions and targets.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g. train or eval).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -207,7 +212,7 @@ class SquaredAsinhError(BaseStateEpochMetric):
         mode: str,
         name: str = "sq_asinh_err",
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
@@ -215,6 +220,7 @@ class SquaredAsinhError(BaseStateEpochMetric):
         transformed predictions and targets given a mini-batch of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the predictions.

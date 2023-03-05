@@ -17,7 +17,7 @@ EVENTS = ("my_event", "my_other_event")
 ###############################################
 
 
-def test_consolidate_optimizer_state_str():
+def test_consolidate_optimizer_state_str() -> None:
     assert str(ConsolidateOptimizerState()).startswith("ConsolidateOptimizerState(")
 
 
@@ -26,7 +26,7 @@ def test_consolidate_optimizer_state_event(event: str):
     assert ConsolidateOptimizerState(event)._event == event
 
 
-def test_consolidate_optimizer_state_event_default():
+def test_consolidate_optimizer_state_event_default() -> None:
     assert ConsolidateOptimizerState()._event == EngineEvents.TRAIN_EPOCH_COMPLETED
 
 
@@ -35,7 +35,7 @@ def test_consolidate_optimizer_state_dict_recipient_rank(recipient_rank: int):
     assert ConsolidateOptimizerState()._recipient_rank == 0
 
 
-def test_consolidate_optimizer_state_dict_recipient_rank_default():
+def test_consolidate_optimizer_state_dict_recipient_rank_default() -> None:
     assert ConsolidateOptimizerState()._recipient_rank == 0
 
 
@@ -53,7 +53,7 @@ def test_consolidate_optimizer_state_attach(event: str):
     )
 
 
-def test_consolidate_optimizer_state_attach_duplicate():
+def test_consolidate_optimizer_state_attach_duplicate() -> None:
     engine = Mock(epoch=-1, has_event_handler=Mock(return_value=True))
     ConsolidateOptimizerState().attach(engine)
     engine.add_event_handler.assert_not_called()

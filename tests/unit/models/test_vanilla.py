@@ -28,7 +28,7 @@ SIZES = (1, 2)
 # TODO: add GRU based model
 
 
-def test_vanilla_model_init_mlp_without_metric():
+def test_vanilla_model_init_mlp_without_metric() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
         criterion=VanillaLoss(criterion=nn.CrossEntropyLoss()),
@@ -39,7 +39,7 @@ def test_vanilla_model_init_mlp_without_metric():
     assert len(model.metrics) == 0
 
 
-def test_vanilla_model_init_mlp_with_metrics():
+def test_vanilla_model_init_mlp_with_metrics() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
         criterion=VanillaLoss(criterion=nn.CrossEntropyLoss()),
@@ -58,7 +58,7 @@ def test_vanilla_model_init_mlp_with_metrics():
     assert len(model.metrics) == 2
 
 
-def test_vanilla_model_init_mlp_without_metric_from_config():
+def test_vanilla_model_init_mlp_without_metric_from_config() -> None:
     model = VanillaModel(
         network={
             OBJECT_TARGET: "gravitorch.models.networks.BetaMLP",
@@ -75,7 +75,7 @@ def test_vanilla_model_init_mlp_without_metric_from_config():
     assert len(model.metrics) == 0
 
 
-def test_vanilla_model_init_mlp_with_train_metric_from_config():
+def test_vanilla_model_init_mlp_with_train_metric_from_config() -> None:
     model = VanillaModel(
         network={
             OBJECT_TARGET: "gravitorch.models.networks.BetaMLP",
@@ -103,7 +103,7 @@ def test_vanilla_model_init_mlp_with_train_metric_from_config():
     assert len(model.metrics) == 1
 
 
-def test_vanilla_model_init_mlp_with_metrics_from_config():
+def test_vanilla_model_init_mlp_with_metrics_from_config() -> None:
     model = VanillaModel(
         network={
             OBJECT_TARGET: "gravitorch.models.networks.BetaMLP",
@@ -139,7 +139,7 @@ def test_vanilla_model_init_mlp_with_metrics_from_config():
     assert len(model.metrics) == 2
 
 
-def test_vanilla_model_init_mlp_with_hybrid_metrics():
+def test_vanilla_model_init_mlp_with_hybrid_metrics() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
         criterion=VanillaLoss(criterion=nn.CrossEntropyLoss()),
@@ -238,7 +238,7 @@ def test_vanilla_model_forward_mlp_with_metric_eval(device: str, batch_size: int
     assert model.metrics[f"{ct.EVAL}_metric"].metric._state.num_predictions == batch_size
 
 
-def test_attach_without_metric():
+def test_attach_without_metric() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
         criterion=VanillaLoss(criterion=nn.CrossEntropyLoss()),
@@ -248,7 +248,7 @@ def test_attach_without_metric():
     engine.add_event_handler.assert_not_called()
 
 
-def test_attach_with_metric():
+def test_attach_with_metric() -> None:
     engine = create_dummy_engine()
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
@@ -283,7 +283,7 @@ def test_attach_with_metric():
     )
 
 
-def test_vanilla_model_no_checkpoint_path():
+def test_vanilla_model_no_checkpoint_path() -> None:
     with patch("gravitorch.models.vanilla.load_checkpoint_to_module") as load_mock:
         VanillaModel(
             network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
@@ -304,14 +304,14 @@ def test_vanilla_model_checkpoint_path(tmp_path: Path):
         load_mock.assert_called_once_with(checkpoint_path, model)
 
 
-def test_vanilla_model_parse_net_out_torch_tensor():
+def test_vanilla_model_parse_net_out_torch_tensor() -> None:
     network = Mock()
     network.get_output_names.return_value = ("name1",)
     model = VanillaModel(network=network, criterion=Mock())
     assert objects_are_equal(model._parse_net_out(torch.ones(2, 3)), {"name1": torch.ones(2, 3)})
 
 
-def test_vanilla_model_parse_net_out_packed_sequence():
+def test_vanilla_model_parse_net_out_packed_sequence() -> None:
     network = Mock()
     network.get_output_names.return_value = ("name1",)
     model = VanillaModel(network=network, criterion=Mock())
@@ -319,14 +319,14 @@ def test_vanilla_model_parse_net_out_packed_sequence():
     assert objects_are_equal(model._parse_net_out(out), {"name1": out})
 
 
-def test_vanilla_model_parse_net_out_tuple_1():
+def test_vanilla_model_parse_net_out_tuple_1() -> None:
     network = Mock()
     network.get_output_names.return_value = ("name1",)
     model = VanillaModel(network=network, criterion=Mock())
     assert objects_are_equal(model._parse_net_out((torch.ones(2, 3),)), {"name1": torch.ones(2, 3)})
 
 
-def test_vanilla_model_parse_net_out_tuple_2():
+def test_vanilla_model_parse_net_out_tuple_2() -> None:
     network = Mock()
     network.get_output_names.return_value = ("name1", "name2")
     model = VanillaModel(network=network, criterion=Mock())

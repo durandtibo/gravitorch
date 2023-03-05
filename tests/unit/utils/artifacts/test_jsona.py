@@ -8,11 +8,11 @@ from gravitorch.utils.io import load_json
 ##################################
 
 
-def test_json_artifact_str():
+def test_json_artifact_str() -> None:
     assert str(JSONArtifact(tag="name", data={"a": 1, "b": 2})).startswith("JSONArtifact(")
 
 
-def test_json_artifact_create(tmp_path: Path):
+def test_json_artifact_create(tmp_path: Path) -> None:
     JSONArtifact(tag="name", data={"a": 1, "b": 2}).create(tmp_path)
     path = tmp_path.joinpath("name.json")
     assert path.is_file()

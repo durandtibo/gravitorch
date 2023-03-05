@@ -18,6 +18,7 @@ class VanillaOptimizerCreator(BaseOptimizerCreator):
     r"""Implements a vanilla optimizer creator.
 
     Args:
+    ----
         optimizer_config (dict or ``None``, optional): Specifies the
             optimizer configuration. If ``None``, no optimizer is
             created and ``None`` will be returned by the ``create``
@@ -28,7 +29,9 @@ class VanillaOptimizerCreator(BaseOptimizerCreator):
             Default: ``True``
     """
 
-    def __init__(self, optimizer_config: Optional[dict] = None, add_module_to_engine: bool = True):
+    def __init__(
+        self, optimizer_config: Optional[dict] = None, add_module_to_engine: bool = True
+    ) -> None:
         self._optimizer_config = optimizer_config
         self._add_module_to_engine = bool(add_module_to_engine)
 
@@ -42,11 +45,13 @@ class VanillaOptimizerCreator(BaseOptimizerCreator):
         associated to the optimizer.
 
         Args:
+        ----
             engine (``gravitorch.engines.BaseEngine``): Specifies an
                 engine.
             model (``torch.nn.Module``): Specifies a model.
 
         Returns:
+        -------
             ``torch.optim.Optimizer`` or ``None``: The created
                 optimizer or ``None`` if there is no optimizer to
                 create.

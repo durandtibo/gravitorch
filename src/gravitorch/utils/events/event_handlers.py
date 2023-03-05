@@ -35,6 +35,7 @@ class BaseEventHandlerWithArguments(BaseEventHandler):
     A child class has to implement the ``__eq__`` method.
 
     Args:
+    ----
         handler (callable): Specifies the handler.
         handler_args (tuple or ``None``, optional): Specifies the
             positional argument of the handler. Default: ``None``
@@ -48,9 +49,9 @@ class BaseEventHandlerWithArguments(BaseEventHandler):
         handler: Callable,
         handler_args: Optional[tuple] = None,
         handler_kwargs: Optional[dict] = None,
-    ):
+    ) -> None:
         self._handler = handler
-        self._handler_args = handler_args or tuple()
+        self._handler_args = handler_args or ()
         self._handler_kwargs = handler_kwargs or {}
 
     def __repr__(self) -> str:
@@ -99,6 +100,7 @@ class ConditionalEventHandler(BaseEventHandlerWithArguments):
     The handler is executed only if the condition is ``True``.
 
     Args:
+    ----
         handler (callable): Specifies the handler.
         condition (callable): Specifies the condition for this event
             handler. The condition should be callable without
@@ -115,7 +117,7 @@ class ConditionalEventHandler(BaseEventHandlerWithArguments):
         condition: Callable,
         handler_args: Optional[tuple] = None,
         handler_kwargs: Optional[dict] = None,
-    ):
+    ) -> None:
         super().__init__(handler=handler, handler_args=handler_args, handler_kwargs=handler_kwargs)
         if not callable(condition):
             raise ValueError(f"The condition is not callable (received: {condition})")

@@ -379,7 +379,7 @@ def test_get_first_dimension_numpy_array(array: np.ndarray, num_examples: int):
         ([], 0),
         ((1, 1), 2),
         ((1, 2, 3, 4), 4),
-        (tuple(), 0),
+        ((), 0),
     ),
 )
 def test_get_first_dimension_list_tuple(obj, num_examples: int):

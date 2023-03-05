@@ -19,11 +19,13 @@ def setup_data_summary(data_summary: Union[BaseDataSummary, dict, None]) -> Base
     using the ``BaseDataSummary`` factory function.
 
     Args:
+    ----
         data_summary (``BaseDataSummary`` or dict or ``None``):
             Specifies the data summary object or its configuration.
             If ``None``, a ``NoOpDataSummary`` object is returned.
 
     Returns:
+    -------
         ``BaseDataSummary``: The data summary object.
     """
     if data_summary is None:

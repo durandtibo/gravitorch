@@ -12,11 +12,12 @@ class DirFilterIterDataPipe(IterDataPipe[Path]):
     r"""Implements an ``IterDataPipe`` to keep only the directory.
 
     Args:
+    ----
         datapipe (``IterDataPipe``): Specifies the source
             ``IterDataPipe``.
     """
 
-    def __init__(self, datapipe: IterDataPipe[Path]):
+    def __init__(self, datapipe: IterDataPipe[Path]) -> None:
         self._datapipe = datapipe
 
     def __iter__(self) -> Iterator[Path]:
@@ -32,11 +33,12 @@ class FileFilterIterDataPipe(IterDataPipe[Path]):
     r"""Implements an ``IterDataPipe`` to keep only the files.
 
     Args:
+    ----
         datapipe (``IterDataPipe``): Specifies the source
             ``IterDataPipe``.
     """
 
-    def __init__(self, datapipe: IterDataPipe[Path]):
+    def __init__(self, datapipe: IterDataPipe[Path]) -> None:
         self._datapipe = datapipe
 
     def __iter__(self) -> Iterator[Path]:
@@ -52,6 +54,7 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
     r"""Implements an ``IterDataPipe`` to list the paths.
 
     Args:
+    ----
         datapipe (``IterDataPipe``): Specifies the source
             ``IterDataPipe`` with the root paths.
         pattern (str, optional): Specifies a glob pattern, to return
@@ -65,7 +68,7 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
         datapipe: IterDataPipe[Path],
         pattern: str = "*",
         deterministic: bool = True,
-    ):
+    ) -> None:
         self._datapipe = datapipe
         self._pattern = pattern
         self._deterministic = bool(deterministic)

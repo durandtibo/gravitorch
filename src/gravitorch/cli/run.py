@@ -29,6 +29,7 @@ def main(config: dict[str, Any]) -> None:
     r"""Initializes a runner given its configuration and executes its logic.
 
     Args:
+    ----
         config (dict): Specifies the dictionary with the configuration
             of the runner. This dictionary has to have a key
             ``'runner'``.
@@ -62,6 +63,7 @@ def run_cli(config: DictConfig) -> None:
     https://hydra.cc/
 
     Args:
+    ----
         config (``omegaconf.DictConfig``): Specifies the dictionary
             with the configuration of the runner. This dictionary has
             to have a key ``'runner'``.
