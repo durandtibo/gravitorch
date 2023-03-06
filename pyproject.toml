@@ -136,8 +136,8 @@ select = [
   "ANN",
 ]
 ignore = [
-    "E501",
-    "B905",
+    "E501",  # Line lengths are recommended to be no greater than 79 characters.
+    "B905",  # `zip()` without an explicit strict= parameter set. The `strict=` argument was added in Python 3.10
     "ANN002",  # Missing type annotation for `*args`
     "ANN003",  # Missing type annotation for `**kwargs`
     "ANN101",  # Missing type annotation for `self` in method
@@ -175,11 +175,27 @@ line-length = 100
 target-version = "py39"
 src = ["src"]
 
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["E402"]
+#[tool.ruff.per-file-ignores]
+#"__init__.py" = ["E402"]
 
 [tool.ruff.mccabe]
 max-complexity = 10
 
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.ruff.pycodestyle]
+max-doc-length = 72
+
+[tool.ruff.isort]
+force-sort-within-sections = true
+combine-as-imports = true
+known-first-party = ["src"]
+
+[tool.ruff.flake8-import-conventions]
+[tool.ruff.flake8-import-conventions.aliases]
+"matplotlib.pyplot" = "plt"
+numpy = "np"
+pandas = "pd"
+seaborn = "sns"
+scipy = "sp"

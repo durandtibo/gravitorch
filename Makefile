@@ -23,7 +23,7 @@ update :
 
 .PHONY : lint
 lint :
-	ruff check .
+	ruff check --format=github .
 
 .PHONY : format
 format :
