@@ -17,7 +17,7 @@ def test_demo_multiclass_cls_dataset_num_examples(num_examples: int):
     assert dataset._features.shape[0] == num_examples
 
 
-def test_demo_multiclass_cls_dataset_incorrect_num_examples():
+def test_demo_multiclass_cls_dataset_incorrect_num_examples() -> None:
     with raises(ValueError):
         DemoMultiClassClsDataset(num_examples=0)
 
@@ -30,7 +30,7 @@ def test_demo_multiclass_cls_dataset_num_classes(num_classes: int):
     assert torch.max(dataset._targets) < num_classes
 
 
-def test_demo_multiclass_cls_dataset_incorrect_num_classes():
+def test_demo_multiclass_cls_dataset_incorrect_num_classes() -> None:
     with raises(ValueError):
         DemoMultiClassClsDataset(num_classes=0)
 
@@ -42,7 +42,7 @@ def test_demo_multiclass_cls_dataset_feature_size(feature_size: int):
     assert dataset._features.shape[1] == feature_size
 
 
-def test_demo_multiclass_cls_dataset_incorrect_feature_size():
+def test_demo_multiclass_cls_dataset_incorrect_feature_size() -> None:
     with raises(ValueError):
         DemoMultiClassClsDataset(num_classes=50, feature_size=32)
 
@@ -52,18 +52,18 @@ def test_demo_multiclass_cls_dataset_noise_std(noise_std: float):
     assert DemoMultiClassClsDataset(num_examples=10, noise_std=noise_std).noise_std == noise_std
 
 
-def test_demo_multiclass_cls_dataset_noise_std_0():
+def test_demo_multiclass_cls_dataset_noise_std_0() -> None:
     dataset = DemoMultiClassClsDataset(num_examples=10, noise_std=0)
     assert torch.min(dataset._features) == 0
     assert torch.max(dataset._features) == 1
 
 
-def test_demo_multiclass_cls_dataset_incorrect_noise_std():
+def test_demo_multiclass_cls_dataset_incorrect_noise_std() -> None:
     with raises(ValueError):
         DemoMultiClassClsDataset(noise_std=-1)
 
 
-def test_demo_multiclass_cls_dataset_getitem():
+def test_demo_multiclass_cls_dataset_getitem() -> None:
     example = DemoMultiClassClsDataset(num_examples=10)[0]
     assert ct.INPUT in example
     assert torch.is_tensor(example[ct.INPUT])
@@ -80,5 +80,5 @@ def test_demo_multiclass_cls_dataset_len(num_examples: int):
     assert len(dataset) == num_examples
 
 
-def test_demo_multiclass_cls_dataset_str():
+def test_demo_multiclass_cls_dataset_str() -> None:
     assert str(DemoMultiClassClsDataset()).startswith("DemoMultiClassClsDataset(")

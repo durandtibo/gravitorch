@@ -44,11 +44,11 @@ def test_squared_error_str(mode: str):
     assert str(SquaredError(mode)).startswith("SquaredError(")
 
 
-def test_squared_error_init_state_default():
+def test_squared_error_init_state_default() -> None:
     assert isinstance(SquaredError(ct.EVAL)._state, ErrorState)
 
 
-def test_squared_error_init_state_mean():
+def test_squared_error_init_state_mean() -> None:
     assert isinstance(SquaredError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState)
 
 
@@ -328,7 +328,7 @@ def test_squared_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/sq_err_num_predictions").get_last_value() == 4
 
 
-def test_squared_error_reset():
+def test_squared_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = SquaredError(ct.EVAL, state=state)
     metric.reset()
@@ -557,7 +557,7 @@ def test_root_mean_squared_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/rmse_num_predictions").get_last_value() == 4
 
 
-def test_root_mean_squared_error_reset():
+def test_root_mean_squared_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = RootMeanSquaredError(ct.EVAL)
     metric._state = state

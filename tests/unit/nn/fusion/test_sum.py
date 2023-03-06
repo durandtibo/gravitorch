@@ -12,11 +12,11 @@ SIZES = (1, 2)
 ###############################
 
 
-def test_sum_fusion_str():
+def test_sum_fusion_str() -> None:
     assert str(SumFusion()).startswith("SumFusion(")
 
 
-def test_sum_fusion_0_input():
+def test_sum_fusion_0_input() -> None:
     module = SumFusion()
     with raises(ValueError):
         module()

@@ -293,7 +293,7 @@ def test_vanilla_model_no_checkpoint_path() -> None:
         load_mock.assert_not_called()
 
 
-def test_vanilla_model_checkpoint_path(tmp_path: Path):
+def test_vanilla_model_checkpoint_path(tmp_path: Path) -> None:
     checkpoint_path = tmp_path.joinpath("checkpoint.pt")
     with patch("gravitorch.models.vanilla.load_checkpoint_to_module") as load_mock:
         model = VanillaModel(

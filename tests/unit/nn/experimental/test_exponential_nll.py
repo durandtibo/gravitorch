@@ -20,7 +20,7 @@ SIZES = (1, 2)
 ########################################
 
 
-def test_exponential_nll_loss_module_str():
+def test_exponential_nll_loss_module_str() -> None:
     assert str(ExponentialNLLLoss())
 
 
@@ -29,11 +29,11 @@ def test_exponential_nll_loss_module_eps(eps: float):
     assert ExponentialNLLLoss(eps=eps)._eps == eps
 
 
-def test_exponential_nll_loss_module_eps_default():
+def test_exponential_nll_loss_module_eps_default() -> None:
     assert ExponentialNLLLoss()._eps == 1e-8
 
 
-def test_exponential_nll_loss_module_incorrect_eps():
+def test_exponential_nll_loss_module_incorrect_eps() -> None:
     with raises(ValueError):
         ExponentialNLLLoss(eps=-1)
 
@@ -43,7 +43,7 @@ def test_exponential_nll_loss_module_max_log_value(max_log_value: float):
     assert ExponentialNLLLoss(max_log_value=max_log_value)._max_log_value == max_log_value
 
 
-def test_exponential_nll_loss_module_max_log_value_default():
+def test_exponential_nll_loss_module_max_log_value_default() -> None:
     assert ExponentialNLLLoss()._max_log_value == 20.0
 
 
@@ -52,12 +52,12 @@ def test_exponential_nll_loss_module_reduction(reduction: str):
     assert ExponentialNLLLoss(reduction=reduction).reduction == reduction
 
 
-def test_exponential_nll_loss_module_incorrect_reduction():
+def test_exponential_nll_loss_module_incorrect_reduction() -> None:
     with raises(ValueError):
         ExponentialNLLLoss(reduction="incorrect")
 
 
-def test_exponential_nll_loss_module_forward_log_input_true():
+def test_exponential_nll_loss_module_forward_log_input_true() -> None:
     criterion = ExponentialNLLLoss()
     assert criterion(
         log_rate=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -67,7 +67,7 @@ def test_exponential_nll_loss_module_forward_log_input_true():
     )
 
 
-def test_exponential_nll_loss_module_forward_log_input_false():
+def test_exponential_nll_loss_module_forward_log_input_false() -> None:
     criterion = ExponentialNLLLoss(log_input=False)
     assert criterion(
         log_rate=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -77,7 +77,7 @@ def test_exponential_nll_loss_module_forward_log_input_false():
     )
 
 
-def test_exponential_nll_loss_module_forward_reduction_sum():
+def test_exponential_nll_loss_module_forward_reduction_sum() -> None:
     criterion = ExponentialNLLLoss(reduction="sum")
     assert criterion(
         log_rate=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -87,7 +87,7 @@ def test_exponential_nll_loss_module_forward_reduction_sum():
     )
 
 
-def test_exponential_nll_loss_module_forward_reduction_none():
+def test_exponential_nll_loss_module_forward_reduction_none() -> None:
     criterion = ExponentialNLLLoss(reduction="none")
     assert criterion(
         log_rate=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -115,7 +115,7 @@ def test_exponential_nll_loss_module_forward_2d(device: str, batch_size: int, fe
     assert out.device == device
 
 
-def test_exponential_nll_loss_module_forward_large_values():
+def test_exponential_nll_loss_module_forward_large_values() -> None:
     criterion = ExponentialNLLLoss()
     out = criterion(
         log_rate=100 * torch.randn(2, 3, dtype=torch.float),
@@ -125,7 +125,7 @@ def test_exponential_nll_loss_module_forward_large_values():
     assert not torch.isinf(out)
 
 
-def test_exponential_nll_loss_module_is_loss_decreasing():
+def test_exponential_nll_loss_module_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=BetaMLP(input_size=6, hidden_sizes=(8, 1)),

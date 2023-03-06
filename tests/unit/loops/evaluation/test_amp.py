@@ -15,7 +15,7 @@ from gravitorch.utils.device_placement import ManualDevicePlacement
 #######################################
 
 
-def test_amp_evaluation_loop_str():
+def test_amp_evaluation_loop_str() -> None:
     assert str(AMPEvaluationLoop()).startswith("AMPEvaluationLoop(")
 
 

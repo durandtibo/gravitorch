@@ -12,11 +12,11 @@ SIZES = (1, 2)
 ##################################
 
 
-def test_concat_fusion_str():
+def test_concat_fusion_str() -> None:
     assert str(ConcatFusion()).startswith("ConcatFusion(")
 
 
-def test_concat_fusion():
+def test_concat_fusion() -> None:
     x1 = torch.tensor([[2, 3, 4], [5, 6, 7]], dtype=torch.long)
     x2 = torch.tensor([[12, 13, 14], [15, 16, 17]], dtype=torch.long)
     net = ConcatFusion()

@@ -33,13 +33,13 @@ def test_logging_str() -> None:
 
 
 @mark.parametrize("disabled_level", ("WARNING", 30))
-def test_logging_disabled_level(disabled_level: Union[int, str]):
+def test_logging_disabled_level(disabled_level: Union[int, str]) -> None:
     assert Logging(disabled_level=disabled_level)._disabled_level == 30
 
 
 @mark.parametrize("disabled_level", (15, 42))
 @mark.parametrize("only_main_process", (True, False))
-def test_logging_main_process(disabled_level: int, only_main_process: bool):
+def test_logging_main_process(disabled_level: int, only_main_process: bool) -> None:
     default = logging.root.manager.disable
     with patch("gravitorch.distributed.comm.is_main_process", lambda *args: True):
         with Logging(only_main_process=only_main_process, disabled_level=disabled_level):
@@ -48,7 +48,7 @@ def test_logging_main_process(disabled_level: int, only_main_process: bool):
 
 
 @mark.parametrize("disabled_level", (15, 42))
-def test_logging_non_main_process_only_main_process_true(disabled_level: int):
+def test_logging_non_main_process_only_main_process_true(disabled_level: int) -> None:
     default = logging.root.manager.disable
     with patch("gravitorch.distributed.comm.is_main_process", lambda *args: False):
         with Logging(only_main_process=True, disabled_level=disabled_level):
@@ -57,7 +57,7 @@ def test_logging_non_main_process_only_main_process_true(disabled_level: int):
 
 
 @mark.parametrize("disabled_level", (15, 42))
-def test_logging_non_main_process_only_main_process_false(disabled_level: int):
+def test_logging_non_main_process_only_main_process_false(disabled_level: int) -> None:
     default = logging.root.manager.disable
     with patch("gravitorch.distributed.comm.is_main_process", lambda *args: False):
         with Logging(only_main_process=False, disabled_level=disabled_level):

@@ -12,7 +12,7 @@ SIZES = (1, 2)
 #######################################
 
 
-def test_app_vae_time_loss_log_input_true():
+def test_app_vae_time_loss_log_input_true() -> None:
     assert app_vae_time_loss(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -22,7 +22,7 @@ def test_app_vae_time_loss_log_input_true():
     )
 
 
-def test_app_vae_time_loss_reduction_mean():
+def test_app_vae_time_loss_reduction_mean() -> None:
     assert app_vae_time_loss(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -31,7 +31,7 @@ def test_app_vae_time_loss_reduction_mean():
     )
 
 
-def test_app_vae_time_loss_reduction_sum():
+def test_app_vae_time_loss_reduction_sum() -> None:
     assert app_vae_time_loss(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -41,7 +41,7 @@ def test_app_vae_time_loss_reduction_sum():
     )
 
 
-def test_app_vae_time_loss_reduction_none():
+def test_app_vae_time_loss_reduction_none() -> None:
     assert app_vae_time_loss(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -56,7 +56,7 @@ def test_app_vae_time_loss_reduction_none():
     )
 
 
-def test_app_vae_time_loss_incorrect_reduction():
+def test_app_vae_time_loss_incorrect_reduction() -> None:
     with raises(ValueError):
         app_vae_time_loss(
             lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -65,7 +65,7 @@ def test_app_vae_time_loss_incorrect_reduction():
         )
 
 
-def test_app_vae_time_loss_delta_1():
+def test_app_vae_time_loss_delta_1() -> None:
     assert app_vae_time_loss(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -75,7 +75,7 @@ def test_app_vae_time_loss_delta_1():
     )
 
 
-def test_app_vae_time_loss_incorrect_delta():
+def test_app_vae_time_loss_incorrect_delta() -> None:
     with raises(ValueError):
         app_vae_time_loss(
             lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -84,7 +84,7 @@ def test_app_vae_time_loss_incorrect_delta():
         )
 
 
-def test_app_vae_time_loss_eps_1():
+def test_app_vae_time_loss_eps_1() -> None:
     assert app_vae_time_loss(
         lmbda=torch.tensor(0.0, dtype=torch.float),
         target=torch.tensor(0.0, dtype=torch.float),
@@ -109,7 +109,7 @@ def test_app_vae_time_loss_2d(device: str, batch_size: int, feature_size: int):
     assert out.device == device
 
 
-def test_app_vae_time_loss_large_values():
+def test_app_vae_time_loss_large_values() -> None:
     out = app_vae_time_loss(
         lmbda=100 * torch.rand(2, 3, dtype=torch.float),
         target=torch.rand(2, 3, dtype=torch.float),

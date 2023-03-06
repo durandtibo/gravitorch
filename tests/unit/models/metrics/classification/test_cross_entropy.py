@@ -41,11 +41,11 @@ def test_categorical_cross_entropy_str(mode: str):
     assert str(CategoricalCrossEntropy(mode)).startswith("CategoricalCrossEntropy(")
 
 
-def test_categorical_cross_entropy_state_default():
+def test_categorical_cross_entropy_state_default() -> None:
     assert isinstance(CategoricalCrossEntropy(ct.EVAL)._state, MeanErrorState)
 
 
-def test_categorical_cross_entropy_state_extended():
+def test_categorical_cross_entropy_state_extended() -> None:
     assert isinstance(
         CategoricalCrossEntropy(ct.EVAL, state=ExtendedErrorState())._state,
         ExtendedErrorState,
@@ -347,7 +347,7 @@ def test_categorical_cross_entropy_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/cat_ce_num_predictions").get_last_value() == 2
 
 
-def test_categorical_cross_entropy_reset():
+def test_categorical_cross_entropy_reset() -> None:
     state = Mock(spec=BaseState)
     metric = CategoricalCrossEntropy(ct.EVAL, state=state)
     metric.reset()

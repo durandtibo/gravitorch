@@ -39,7 +39,7 @@ def test_log_cosh_error_str(mode: str):
     assert str(LogCoshError(mode)).startswith("LogCoshError(")
 
 
-def test_log_cosh_error_init_scale_default():
+def test_log_cosh_error_init_scale_default() -> None:
     assert LogCoshError(ct.EVAL)._scale == 1.0
 
 
@@ -48,16 +48,16 @@ def test_log_cosh_error_init_scale(scale: float):
     assert LogCoshError(ct.EVAL, scale=scale)._scale == scale
 
 
-def test_log_cosh_error_init_scale_incorrect():
+def test_log_cosh_error_init_scale_incorrect() -> None:
     with raises(ValueError):
         LogCoshError(ct.EVAL, scale=0.0)
 
 
-def test_log_cosh_error_init_state_default():
+def test_log_cosh_error_init_state_default() -> None:
     assert isinstance(LogCoshError(ct.EVAL)._state, ErrorState)
 
 
-def test_log_cosh_error_init_state_mean():
+def test_log_cosh_error_init_state_mean() -> None:
     assert isinstance(LogCoshError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState)
 
 
@@ -367,7 +367,7 @@ def test_log_cosh_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/log_cosh_err_num_predictions").get_last_value() == 4
 
 
-def test_log_cosh_error_reset():
+def test_log_cosh_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = LogCoshError(ct.EVAL, state=state)
     metric.reset()

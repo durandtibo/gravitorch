@@ -12,11 +12,11 @@ from gravitorch.utils.io import save_json, save_pickle, save_pytorch
 #####################################
 
 
-def test_in_memory_dataset_str():
+def test_in_memory_dataset_str() -> None:
     assert str(InMemoryDataset(())).startswith("InMemoryDataset")
 
 
-def test_in_memory_dataset_examples_list_to_tuple():
+def test_in_memory_dataset_examples_list_to_tuple() -> None:
     assert InMemoryDataset([1, 2])._examples == (1, 2)
 
 
@@ -25,7 +25,7 @@ def test_in_memory_dataset_len(examples, length):
     assert len(InMemoryDataset(examples)) == length
 
 
-def test_in_memory_dataset_getitem():
+def test_in_memory_dataset_getitem() -> None:
     dataset = InMemoryDataset((1, 2))
     assert dataset[0] == 1
     assert dataset[1] == 2
@@ -83,6 +83,6 @@ def test_load_examples_pt(tmp_path: Path, examples: Sequence):
     assert _load_examples(path) == (1, 2, 3)
 
 
-def test_load_examples_incorrect_extension(tmp_path: Path):
+def test_load_examples_incorrect_extension(tmp_path: Path) -> None:
     with raises(ValueError):
         _load_examples(tmp_path.joinpath("data.something"))

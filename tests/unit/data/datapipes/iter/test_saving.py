@@ -11,20 +11,20 @@ from gravitorch.utils.io import save_text
 #################################
 
 
-def test_pickle_saver_str(tmp_path: Path):
+def test_pickle_saver_str(tmp_path: Path) -> None:
     assert str(PickleSaver(SourceWrapper([]), root_path=tmp_path)).startswith(
         "PickleSaverIterDataPipe("
     )
 
 
-def test_pickle_saver_incorrect_root_path(tmp_path: Path):
+def test_pickle_saver_incorrect_root_path(tmp_path: Path) -> None:
     root_path = tmp_path.joinpath("file.txt")
     save_text("abc", root_path)
     with raises(ValueError):
         PickleSaver(SourceWrapper([1, 2]), root_path=root_path)
 
 
-def test_pickle_saver_incorrect_pattern(tmp_path: Path):
+def test_pickle_saver_incorrect_pattern(tmp_path: Path) -> None:
     with raises(ValueError):
         PickleSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="data.pkl")
 
@@ -38,7 +38,7 @@ def test_pickle_saver_iter(tmp_path: Path, num_samples: int):
         assert file.is_file()
 
 
-def test_pickle_saver_iter_pattern(tmp_path: Path):
+def test_pickle_saver_iter_pattern(tmp_path: Path) -> None:
     datapipe = PickleSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="file{index}.pkl")
     files = list(datapipe)
     assert files == [tmp_path.joinpath("file0.pkl"), tmp_path.joinpath("file1.pkl")]
@@ -46,18 +46,18 @@ def test_pickle_saver_iter_pattern(tmp_path: Path):
         assert file.is_file()
 
 
-def test_pickle_saver_iter_file(tmp_path: Path):
+def test_pickle_saver_iter_file(tmp_path: Path) -> None:
     datapipe = PickleSaver(SourceWrapper([1]), root_path=tmp_path)
     with patch("gravitorch.data.datapipes.iter.saving.save_pickle") as save_mock:
         list(datapipe)
         save_mock.assert_called_once_with(1, tmp_path.joinpath("data_0000.pkl"))
 
 
-def test_pickle_saver_len(tmp_path: Path):
+def test_pickle_saver_len(tmp_path: Path) -> None:
     assert len(PickleSaver(Mock(__len__=Mock(return_value=5)), root_path=tmp_path)) == 5
 
 
-def test_pickle_saver_no_len(tmp_path: Path):
+def test_pickle_saver_no_len(tmp_path: Path) -> None:
     with raises(TypeError):
         len(PickleSaver(SourceWrapper(Mock()), root_path=tmp_path))
 
@@ -67,20 +67,20 @@ def test_pickle_saver_no_len(tmp_path: Path):
 ##################################
 
 
-def test_pytorch_saver_str(tmp_path: Path):
+def test_pytorch_saver_str(tmp_path: Path) -> None:
     assert str(PyTorchSaver(SourceWrapper([]), root_path=tmp_path)).startswith(
         "PyTorchSaverIterDataPipe("
     )
 
 
-def test_pytorch_saver_incorrect_root_path(tmp_path: Path):
+def test_pytorch_saver_incorrect_root_path(tmp_path: Path) -> None:
     root_path = tmp_path.joinpath("file.txt")
     save_text("abc", root_path)
     with raises(ValueError):
         PyTorchSaver(SourceWrapper([1, 2]), root_path=root_path)
 
 
-def test_pytorch_saver_incorrect_pattern(tmp_path: Path):
+def test_pytorch_saver_incorrect_pattern(tmp_path: Path) -> None:
     with raises(ValueError):
         PyTorchSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="data.pt")
 
@@ -94,7 +94,7 @@ def test_pytorch_saver_iter(tmp_path: Path, num_samples: int):
         assert file.is_file()
 
 
-def test_pytorch_saver_iter_pattern(tmp_path: Path):
+def test_pytorch_saver_iter_pattern(tmp_path: Path) -> None:
     datapipe = PyTorchSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="file{index}.pt")
     files = list(datapipe)
     assert files == [tmp_path.joinpath("file0.pt"), tmp_path.joinpath("file1.pt")]
@@ -102,17 +102,17 @@ def test_pytorch_saver_iter_pattern(tmp_path: Path):
         assert file.is_file()
 
 
-def test_pytorch_saver_iter_file(tmp_path: Path):
+def test_pytorch_saver_iter_file(tmp_path: Path) -> None:
     datapipe = PyTorchSaver(SourceWrapper([1]), root_path=tmp_path)
     with patch("gravitorch.data.datapipes.iter.saving.save_pytorch") as save_mock:
         list(datapipe)
         save_mock.assert_called_once_with(1, tmp_path.joinpath("data_0000.pt"))
 
 
-def test_pytorch_saver_len(tmp_path: Path):
+def test_pytorch_saver_len(tmp_path: Path) -> None:
     assert len(PyTorchSaver(Mock(__len__=Mock(return_value=5)), root_path=tmp_path)) == 5
 
 
-def test_pytorch_saver_no_len(tmp_path: Path):
+def test_pytorch_saver_no_len(tmp_path: Path) -> None:
     with raises(TypeError):
         len(PyTorchSaver(SourceWrapper(Mock()), root_path=tmp_path))

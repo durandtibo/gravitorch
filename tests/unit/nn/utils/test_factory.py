@@ -17,6 +17,6 @@ def test_setup_module(module: Union[nn.Module, dict]):
     assert isinstance(setup_module(module), ReLU)
 
 
-def test_setup_module_object():
+def test_setup_module_object() -> None:
     module = ReLU()
     assert setup_module(module) is module

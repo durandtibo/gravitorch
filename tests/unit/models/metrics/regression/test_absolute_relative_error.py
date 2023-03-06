@@ -47,7 +47,7 @@ def test_absolute_relative_error_init_eps(eps: float):
     assert AbsoluteRelativeError(mode=ct.EVAL, eps=eps)._eps == eps
 
 
-def test_absolute_relative_error_init_eps_default():
+def test_absolute_relative_error_init_eps_default() -> None:
     assert AbsoluteRelativeError(mode=ct.EVAL)._eps == 1e-8
 
 
@@ -57,11 +57,11 @@ def test_absolute_relative_error_init_eps_incorrect(eps: float):
         AbsoluteRelativeError(mode=ct.EVAL, eps=eps)
 
 
-def test_absolute_relative_error_init_state_default():
+def test_absolute_relative_error_init_state_default() -> None:
     assert isinstance(AbsoluteRelativeError(ct.EVAL)._state, ErrorState)
 
 
-def test_absolute_relative_error_init_state_mean():
+def test_absolute_relative_error_init_state_mean() -> None:
     assert isinstance(AbsoluteRelativeError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState)
 
 
@@ -358,7 +358,7 @@ def test_absolute_relative_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/abs_rel_err_num_predictions").get_last_value() == 4
 
 
-def test_absolute_relative_error_reset():
+def test_absolute_relative_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = AbsoluteRelativeError(ct.EVAL, state=state)
     metric.reset()
@@ -380,7 +380,7 @@ def test_symmetric_absolute_relative_error_eps(eps: float):
     assert SymmetricAbsoluteRelativeError(mode=ct.EVAL, eps=eps)._eps == eps
 
 
-def test_symmetric_absolute_relative_error_eps_default():
+def test_symmetric_absolute_relative_error_eps_default() -> None:
     assert SymmetricAbsoluteRelativeError(mode=ct.EVAL)._eps == 1e-8
 
 
@@ -390,11 +390,11 @@ def test_symmetric_absolute_relative_error_eps_incorrect(eps: float):
         SymmetricAbsoluteRelativeError(mode=ct.EVAL, eps=eps)
 
 
-def test_symmetric_absolute_relative_error_init_state_default():
+def test_symmetric_absolute_relative_error_init_state_default() -> None:
     assert isinstance(SymmetricAbsoluteRelativeError(ct.EVAL)._state, ErrorState)
 
 
-def test_symmetric_absolute_relative_error_init_state_mean():
+def test_symmetric_absolute_relative_error_init_state_mean() -> None:
     assert isinstance(
         SymmetricAbsoluteRelativeError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState
     )
@@ -714,7 +714,7 @@ def test_symmetric_absolute_relative_error_events_eval(device: str, engine: Base
     assert engine.get_history(f"{ct.EVAL}/sym_abs_rel_err_num_predictions").get_last_value() == 4
 
 
-def test_symmetric_absolute_relative_error_reset():
+def test_symmetric_absolute_relative_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = SymmetricAbsoluteRelativeError(ct.EVAL, state=state)
     metric.reset()

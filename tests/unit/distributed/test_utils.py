@@ -188,7 +188,7 @@ def test_has_torch_distributed_env_vars_false_because_rank_missing() -> None:
     },
     clear=True,
 )
-def test_has_torch_distributed_env_vars_true():
+def test_has_torch_distributed_env_vars_true() -> None:
     assert has_torch_distributed_env_vars()
 
 

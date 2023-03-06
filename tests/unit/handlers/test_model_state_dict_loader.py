@@ -21,7 +21,7 @@ KEYS = (None, "my_key", ["key1", "key2"], ("key1", "key2"))
 ##########################################
 
 
-def test_model_state_dict_loader_str(tmp_path: Path):
+def test_model_state_dict_loader_str(tmp_path: Path) -> None:
     assert str(ModelStateDictLoader(checkpoint_path=tmp_path)).startswith("ModelStateDictLoader(")
 
 
@@ -30,7 +30,7 @@ def test_model_state_dict_loader_event(tmp_path: Path, event: str):
     assert ModelStateDictLoader(checkpoint_path=tmp_path, event=event)._event == event
 
 
-def test_model_state_dict_loader_event_default(tmp_path: Path):
+def test_model_state_dict_loader_event_default(tmp_path: Path) -> None:
     assert ModelStateDictLoader(checkpoint_path=tmp_path)._event == EngineEvents.STARTED
 
 
@@ -39,7 +39,7 @@ def test_model_state_dict_loader_strict(tmp_path: Path, strict: bool):
     assert ModelStateDictLoader(checkpoint_path=tmp_path, strict=strict)._strict == strict
 
 
-def test_model_state_dict_loader_strict_default(tmp_path: Path):
+def test_model_state_dict_loader_strict_default(tmp_path: Path) -> None:
     assert ModelStateDictLoader(checkpoint_path=tmp_path)._strict
 
 
@@ -50,7 +50,7 @@ def test_model_state_dict_loader_key(
     assert ModelStateDictLoader(checkpoint_path=tmp_path, key=key)._key == key
 
 
-def test_model_state_dict_loader_key_default(tmp_path: Path):
+def test_model_state_dict_loader_key_default(tmp_path: Path) -> None:
     assert ModelStateDictLoader(checkpoint_path=tmp_path)._key is None
 
 
@@ -65,7 +65,7 @@ def test_model_state_dict_loader_attach(tmp_path: Path, event: str):
     )
 
 
-def test_model_state_dict_loader_attach_duplicate(tmp_path: Path):
+def test_model_state_dict_loader_attach_duplicate(tmp_path: Path) -> None:
     handler = ModelStateDictLoader(checkpoint_path=tmp_path)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
@@ -96,7 +96,7 @@ def test_model_state_dict_loader_load(
 #################################################
 
 
-def test_partial_model_state_dict_loader_str(tmp_path: Path):
+def test_partial_model_state_dict_loader_str(tmp_path: Path) -> None:
     assert str(PartialModelStateDictLoader(checkpoint_path=tmp_path)).startswith(
         "PartialModelStateDictLoader("
     )
@@ -107,7 +107,7 @@ def test_partial_model_state_dict_loader_event(tmp_path: Path, event: str):
     assert PartialModelStateDictLoader(checkpoint_path=tmp_path, event=event)._event == event
 
 
-def test_partial_model_state_dict_loader_event_default(tmp_path: Path):
+def test_partial_model_state_dict_loader_event_default(tmp_path: Path) -> None:
     assert PartialModelStateDictLoader(checkpoint_path=tmp_path)._event == EngineEvents.STARTED
 
 
@@ -116,7 +116,7 @@ def test_partial_model_state_dict_loader_strict(tmp_path: Path, strict: bool):
     assert PartialModelStateDictLoader(checkpoint_path=tmp_path, strict=strict)._strict == strict
 
 
-def test_partial_model_state_dict_loader_strict_default(tmp_path: Path):
+def test_partial_model_state_dict_loader_strict_default(tmp_path: Path) -> None:
     assert PartialModelStateDictLoader(checkpoint_path=tmp_path)._strict
 
 
@@ -129,7 +129,7 @@ def test_partial_model_state_dict_loader_exclude_key_prefixes(tmp_path):
     )
 
 
-def test_partial_model_state_dict_loader_key_default(tmp_path: Path):
+def test_partial_model_state_dict_loader_key_default(tmp_path: Path) -> None:
     assert PartialModelStateDictLoader(checkpoint_path=tmp_path)._exclude_key_prefixes == []
 
 
@@ -144,7 +144,7 @@ def test_partial_model_state_dict_loader_attach(tmp_path: Path, event: str):
     )
 
 
-def test_partial_model_state_dict_loader_attach_duplicate(tmp_path: Path):
+def test_partial_model_state_dict_loader_attach_duplicate(tmp_path: Path) -> None:
     handler = PartialModelStateDictLoader(checkpoint_path=tmp_path)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
@@ -170,7 +170,7 @@ def test_partial_model_state_dict_loader_load_mock(
         )
 
 
-def test_partial_model_state_dict_loader_load(tmp_path: Path):
+def test_partial_model_state_dict_loader_load(tmp_path: Path) -> None:
     checkpoint_path = tmp_path.joinpath("checkpoint.pt")
     torch.save(
         {

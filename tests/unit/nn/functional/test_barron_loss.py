@@ -73,7 +73,7 @@ def test_barron_robust_loss_3d(
     assert out.device == device
 
 
-def test_barron_robust_loss_alpha_2_scale_1():
+def test_barron_robust_loss_alpha_2_scale_1() -> None:
     assert barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),
@@ -82,7 +82,7 @@ def test_barron_robust_loss_alpha_2_scale_1():
     ).equal(torch.tensor(4.0))
 
 
-def test_barron_robust_loss_alpha_2_scale_2():
+def test_barron_robust_loss_alpha_2_scale_2() -> None:
     assert barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),
@@ -91,7 +91,7 @@ def test_barron_robust_loss_alpha_2_scale_2():
     ).equal(torch.tensor(1.0))
 
 
-def test_barron_robust_loss_alpha_1_scale_1():
+def test_barron_robust_loss_alpha_1_scale_1() -> None:
     assert barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),
@@ -102,7 +102,7 @@ def test_barron_robust_loss_alpha_1_scale_1():
     )
 
 
-def test_barron_robust_loss_alpha_1_scale_2():
+def test_barron_robust_loss_alpha_1_scale_2() -> None:
     assert barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),
@@ -113,7 +113,7 @@ def test_barron_robust_loss_alpha_1_scale_2():
     )
 
 
-def test_barron_robust_loss_alpha_0_scale_1():
+def test_barron_robust_loss_alpha_0_scale_1() -> None:
     assert barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),
@@ -124,7 +124,7 @@ def test_barron_robust_loss_alpha_0_scale_1():
     )
 
 
-def test_barron_robust_loss_alpha_0_scale_2():
+def test_barron_robust_loss_alpha_0_scale_2() -> None:
     assert barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),
@@ -135,7 +135,7 @@ def test_barron_robust_loss_alpha_0_scale_2():
     )
 
 
-def test_barron_robust_loss_alpha_minus_2_scale_1():
+def test_barron_robust_loss_alpha_minus_2_scale_1() -> None:
     assert barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),
@@ -146,7 +146,7 @@ def test_barron_robust_loss_alpha_minus_2_scale_1():
     )
 
 
-def test_barron_robust_loss_alpha_minus_2_scale_2():
+def test_barron_robust_loss_alpha_minus_2_scale_2() -> None:
     assert barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),
@@ -157,7 +157,7 @@ def test_barron_robust_loss_alpha_minus_2_scale_2():
     )
 
 
-def test_barron_robust_loss_reduction_mean():
+def test_barron_robust_loss_reduction_mean() -> None:
     assert barron_robust_loss(
         prediction=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -167,7 +167,7 @@ def test_barron_robust_loss_reduction_mean():
     )
 
 
-def test_barron_robust_loss_reduction_sum():
+def test_barron_robust_loss_reduction_sum() -> None:
     assert barron_robust_loss(
         prediction=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -175,7 +175,7 @@ def test_barron_robust_loss_reduction_sum():
     ).equal(torch.tensor(2.0))
 
 
-def test_barron_robust_loss_reduction_none():
+def test_barron_robust_loss_reduction_none() -> None:
     assert barron_robust_loss(
         prediction=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -183,7 +183,7 @@ def test_barron_robust_loss_reduction_none():
     ).equal(torch.tensor([[0.0, 0.0, 0.0], [1.0, 0.0, 1.0]]))
 
 
-def test_barron_robust_loss_max_value():
+def test_barron_robust_loss_max_value() -> None:
     assert barron_robust_loss(
         prediction=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -254,21 +254,21 @@ def test_asinh_barron_robust_loss_3d(
     assert out.device == device
 
 
-def test_asinh_barron_robust_loss_correct():
+def test_asinh_barron_robust_loss_correct() -> None:
     assert asinh_barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=torch.ones(2, 3, dtype=torch.float),
     ).equal(torch.tensor(0.0))
 
 
-def test_asinh_barron_robust_loss_partially_correct():
+def test_asinh_barron_robust_loss_partially_correct() -> None:
     assert asinh_barron_robust_loss(
         prediction=torch.ones(2, 2, dtype=torch.float),
         target=torch.tensor([[1, -1], [-1, 1]], dtype=torch.float),
     ).allclose(torch.tensor(1.553638799791392))
 
 
-def test_asinh_barron_robust_loss_incorrect():
+def test_asinh_barron_robust_loss_incorrect() -> None:
     assert asinh_barron_robust_loss(
         prediction=torch.ones(2, 3, dtype=torch.float),
         target=-torch.ones(2, 3, dtype=torch.float),

@@ -12,7 +12,7 @@ SIZES = (1, 2)
 ##########################################
 
 
-def test_multiplication_fusion_forward_0_input():
+def test_multiplication_fusion_forward_0_input() -> None:
     module = MultiplicationFusion()
     with raises(ValueError, match="must have at least one tensor in the input"):
         module()

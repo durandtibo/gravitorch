@@ -37,7 +37,7 @@ def engine() -> BaseEngine:
 ######################################
 
 
-def test_sequential_metric_attach():
+def test_sequential_metric_attach() -> None:
     metrics = [Mock(spec=nn.Module, attach=Mock()), Mock(spec=nn.Module, attach=Mock())]
     metric = SequentialMetric(metrics)
     engine = Mock()
@@ -92,7 +92,7 @@ def test_sequential_metric_attach_eval(engine: BaseEngine):
     )
 
 
-def test_sequential_metric_forward():
+def test_sequential_metric_forward() -> None:
     metrics = [
         Mock(spec=nn.Module, return_value={"out1": 1}),
         Mock(spec=nn.Module, return_value={"out2": 2}),
@@ -106,7 +106,7 @@ def test_sequential_metric_forward():
     assert metrics[1].call_args.kwargs == {}
 
 
-def test_sequential_metric_forward_return_none():
+def test_sequential_metric_forward_return_none() -> None:
     metrics = [
         Mock(spec=nn.Module, return_value=None),
         Mock(spec=nn.Module, return_value={"out2": 2}),
@@ -130,7 +130,7 @@ def test_sequential_metric_forward_no_output(device: str, metric: SequentialMetr
     )
 
 
-def test_sequential_metric_forward_with_output():
+def test_sequential_metric_forward_with_output() -> None:
     metric = SequentialMetric(
         metrics=[
             Mock(spec=nn.Module, return_value={"some": 42}),
@@ -203,7 +203,7 @@ def test_sequential_metric_batches_with_reset(device: str, metric: SequentialMet
     }
 
 
-def test_sequential_metric_value_with_engine():
+def test_sequential_metric_value_with_engine() -> None:
     metrics = [
         Mock(spec=nn.Module, value=Mock(return_value={"out1": 1})),
         Mock(spec=nn.Module, value=Mock(return_value={"out2": 2})),
@@ -214,7 +214,7 @@ def test_sequential_metric_value_with_engine():
     metrics[1].value.assert_called_once_with(engine)
 
 
-def test_sequential_metric_value_without_engine():
+def test_sequential_metric_value_without_engine() -> None:
     metrics = [
         Mock(spec=nn.Module, value=Mock(return_value={"out1": 1})),
         Mock(spec=nn.Module, value=Mock(return_value={"out2": 2})),

@@ -54,13 +54,13 @@ def test_image_folder_dataset(dataset_path: Path):
         assert dataset[i][ct.TARGET] == 1
 
 
-def test_image_folder_dataset_without_torchvision():
+def test_image_folder_dataset_without_torchvision() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError):
             ImageFolderDataset()
 
 
-def test_image_folder_dataset_without_pillow():
+def test_image_folder_dataset_without_pillow() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: True):
         with patch("gravitorch.utils.integrations.is_pillow_available", lambda *args: False):
             with raises(RuntimeError):

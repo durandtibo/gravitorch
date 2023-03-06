@@ -19,7 +19,7 @@ from gravitorch.utils.exp_trackers import EpochStep
 
 
 @mark.parametrize("lr", (0.01, 0.0001))
-def test_get_learning_rate_per_group_single_value(lr: float):
+def test_get_learning_rate_per_group_single_value(lr: float) -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=lr)
     assert get_learning_rate_per_group(optimizer) == {0: lr}
@@ -39,7 +39,7 @@ def test_get_learning_rate_per_group_multiple_values() -> None:
 
 
 @mark.parametrize("weight_decay", (0.0001, 0.00001))
-def test_get_weight_decays_single_value(weight_decay: float):
+def test_get_weight_decays_single_value(weight_decay: float) -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=0.01, weight_decay=weight_decay)
     assert get_weight_decay_per_group(optimizer) == {0: weight_decay}

@@ -22,7 +22,7 @@ def test_lenet5_num_classes(num_classes: int):
     assert LeNet5(num_classes).classifier.linear5.out_features == num_classes
 
 
-def test_lenet5_with_softmax():
+def test_lenet5_with_softmax() -> None:
     assert isinstance(LeNet5(num_classes=10, logits=False).classifier.softmax, nn.Softmax)
 
 
@@ -88,14 +88,14 @@ def test_lenet5_get_onnx_dynamic_axis(input_name: str, output_name: str):
     }
 
 
-def test_lenet5_get_onnx_dynamic_axis_default():
+def test_lenet5_get_onnx_dynamic_axis_default() -> None:
     assert LeNet5(num_classes=10).get_onnx_dynamic_axis() == {
         ct.INPUT: {0: "batch"},
         ct.PREDICTION: {0: "batch"},
     }
 
 
-def test_lenet5_is_loss_decreasing():
+def test_lenet5_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=LeNet5(num_classes=10),

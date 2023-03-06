@@ -12,7 +12,7 @@ SIZES = (1, 2)
 ##########################################
 
 
-def test_exponential_nll_loss_log_input_true():
+def test_exponential_nll_loss_log_input_true() -> None:
     assert exponential_nll_loss(
         log_rate=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -21,7 +21,7 @@ def test_exponential_nll_loss_log_input_true():
     )
 
 
-def test_exponential_nll_loss_log_input_false():
+def test_exponential_nll_loss_log_input_false() -> None:
     assert exponential_nll_loss(
         log_rate=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -31,7 +31,7 @@ def test_exponential_nll_loss_log_input_false():
     )
 
 
-def test_exponential_nll_loss_log_reduction_sum():
+def test_exponential_nll_loss_log_reduction_sum() -> None:
     assert exponential_nll_loss(
         log_rate=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -41,7 +41,7 @@ def test_exponential_nll_loss_log_reduction_sum():
     )
 
 
-def test_exponential_nll_loss_log_reduction_none():
+def test_exponential_nll_loss_log_reduction_none() -> None:
     assert exponential_nll_loss(
         log_rate=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
         target=torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -53,7 +53,7 @@ def test_exponential_nll_loss_log_reduction_none():
     )
 
 
-def test_exponential_nll_loss_log_incorrect_reduction():
+def test_exponential_nll_loss_log_incorrect_reduction() -> None:
     with raises(ValueError):
         exponential_nll_loss(
             log_rate=torch.tensor([0, 1, 2], dtype=torch.float),
@@ -77,7 +77,7 @@ def test_exponential_nll_loss_2d(device: str, batch_size: int, feature_size: int
     assert out.device == device
 
 
-def test_exponential_nll_loss_large_values():
+def test_exponential_nll_loss_large_values() -> None:
     out = exponential_nll_loss(
         log_rate=100 * torch.randn(2, 3, dtype=torch.float),
         target=torch.rand(2, 3, dtype=torch.float),

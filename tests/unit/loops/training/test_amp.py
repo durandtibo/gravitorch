@@ -18,7 +18,7 @@ from gravitorch.utils.device_placement import ManualDevicePlacement
 #####################################
 
 
-def test_amp_training_loop_str():
+def test_amp_training_loop_str() -> None:
     assert str(AMPTrainingLoop()).startswith("AMPTrainingLoop(")
 
 
@@ -29,11 +29,11 @@ def test_amp_training_loop_amp_enabled(amp_enabled: bool):
         scaler_mock.assert_called_once_with(enabled=amp_enabled)
 
 
-def test_amp_training_loop_load_state_dict():
+def test_amp_training_loop_load_state_dict() -> None:
     AMPTrainingLoop(amp_enabled=False).load_state_dict({ct.SCALER: {}})
 
 
-def test_amp_training_loop_state_dict():
+def test_amp_training_loop_state_dict() -> None:
     assert ct.SCALER in AMPTrainingLoop().state_dict()
 
 

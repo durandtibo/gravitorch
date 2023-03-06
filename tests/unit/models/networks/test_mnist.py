@@ -38,7 +38,7 @@ def test_pytorch_mnist_net_get_onnx_dynamic_axis(input_name: str, output_name: s
     }
 
 
-def test_pytorch_mnist_net_get_onnx_dynamic_axis_default():
+def test_pytorch_mnist_net_get_onnx_dynamic_axis_default() -> None:
     assert PyTorchMnistNet().get_onnx_dynamic_axis() == {
         ct.INPUT: {0: "batch"},
         ct.PREDICTION: {0: "batch"},
@@ -69,7 +69,7 @@ def test_pytorch_mnist_net_get_dummy_input(device, batch_size):
     assert dummy_input[0].device == device
 
 
-def test_pytorch_mnist_net_is_loss_decreasing():
+def test_pytorch_mnist_net_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=PyTorchMnistNet(),

@@ -104,7 +104,7 @@ def test_accelerate_evaluation_loop_condition_default():
 
 
 @accelerate_available
-def test_accelerate_evaluation_loop_observer(tmp_path: Path):
+def test_accelerate_evaluation_loop_observer(tmp_path: Path) -> None:
     assert isinstance(
         AccelerateEvaluationLoop(observer=PyTorchBatchSaver(tmp_path))._observer,
         PyTorchBatchSaver,

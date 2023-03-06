@@ -90,7 +90,7 @@ def test_alpha_mlp_forward_2d(
     assert out.dtype == torch.float
 
 
-def test_alpha_mlp_is_loss_decreasing():
+def test_alpha_mlp_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=AlphaMLP(input_size=6, hidden_sizes=(8, 4)),
@@ -122,7 +122,7 @@ def test_beta_mlp_forward_2d(
     assert out.dtype == torch.float
 
 
-def test_beta_mlp_is_loss_decreasing():
+def test_beta_mlp_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=BetaMLP(input_size=6, hidden_sizes=(8, 4)),
@@ -172,13 +172,13 @@ def test_create_alpha_mlp_output_size(output_size: int):
     )
 
 
-def test_create_alpha_mlp_activation_relu():
+def test_create_alpha_mlp_activation_relu() -> None:
     mlp = create_alpha_mlp(input_size=16, hidden_sizes=(16, 4))
     assert isinstance(mlp.relu1, nn.ReLU)
     assert isinstance(mlp.relu2, nn.ReLU)
 
 
-def test_create_alpha_mlp_activation_gelu():
+def test_create_alpha_mlp_activation_gelu() -> None:
     mlp = create_alpha_mlp(
         input_size=16,
         hidden_sizes=(16, 4),
@@ -264,11 +264,11 @@ def test_create_beta_mlp_output_size(output_size: int):
     )
 
 
-def test_create_beta_mlp_activation_relu():
+def test_create_beta_mlp_activation_relu() -> None:
     assert isinstance(create_beta_mlp(input_size=16, hidden_sizes=(16, 4)).relu1, nn.ReLU)
 
 
-def test_create_beta_mlp_activation_elu():
+def test_create_beta_mlp_activation_elu() -> None:
     assert isinstance(
         create_beta_mlp(
             input_size=16,

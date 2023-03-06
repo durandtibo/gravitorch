@@ -45,7 +45,7 @@ def test_transformed_prediction_target_metric(metric: Union[BaseMetric, dict]):
     assert isinstance(TransformedPredictionTarget(metric).metric, AbsoluteError)
 
 
-def test_transformed_prediction_target_prediction_transform_default():
+def test_transformed_prediction_target_prediction_transform_default() -> None:
     assert isinstance(
         TransformedPredictionTarget(AbsoluteError(ct.EVAL)).prediction_transform, Identity
     )
@@ -63,7 +63,7 @@ def test_transformed_prediction_target_prediction_transform(
     )
 
 
-def test_transformed_prediction_target_target_transform_default():
+def test_transformed_prediction_target_target_transform_default() -> None:
     assert isinstance(
         TransformedPredictionTarget(AbsoluteError(ct.EVAL)).target_transform, Identity
     )
@@ -79,7 +79,7 @@ def test_transformed_prediction_target_target_transform(target_transform: Union[
     )
 
 
-def test_transformed_prediction_target_attach_mock():
+def test_transformed_prediction_target_attach_mock() -> None:
     engine = Mock(spec=BaseEngine)
     metric = Mock(spec=BaseMetric)
     assert TransformedPredictionTarget(metric).attach(engine) is None
@@ -173,26 +173,26 @@ def test_transformed_prediction_target_forward_transformations(
     }
 
 
-def test_transformed_prediction_target_reset_mock():
+def test_transformed_prediction_target_reset_mock() -> None:
     metric = Mock(spec=BaseMetric)
     assert TransformedPredictionTarget(metric).reset() is None
     metric.reset.assert_called_once_with()
 
 
-def test_transformed_prediction_target_reset_mse():
+def test_transformed_prediction_target_reset_mse() -> None:
     metric = AbsoluteError(ct.EVAL)
     metric._state._num_predictions = 5
     TransformedPredictionTarget(metric).reset()
     assert metric._state.num_predictions == 0
 
 
-def test_transformed_prediction_target_value_without_engine():
+def test_transformed_prediction_target_value_without_engine() -> None:
     metric = Mock(spec=BaseMetric, value=Mock(return_value={"metric": 42}))
     assert TransformedPredictionTarget(metric).value() == {"metric": 42}
     metric.value.assert_called_once_with(None)
 
 
-def test_transformed_prediction_target_value_with_engine():
+def test_transformed_prediction_target_value_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     metric = Mock(spec=BaseMetric, value=Mock(return_value={"metric": 42}))
     assert TransformedPredictionTarget(metric).value(engine) == {"metric": 42}
@@ -245,25 +245,25 @@ def test_transformed_prediction_target_events_eval(device: str, engine: BaseEngi
     assert engine.get_history(f"{ct.EVAL}/abs_err_num_predictions").get_last_value() == 4
 
 
-def test_transformed_prediction_target_create_asinh():
+def test_transformed_prediction_target_create_asinh() -> None:
     metric = TransformedPredictionTarget.create_asinh(AbsoluteError(ct.EVAL))
     assert isinstance(metric.prediction_transform, Asinh)
     assert isinstance(metric.target_transform, Asinh)
 
 
-def test_transformed_prediction_target_create_flatten():
+def test_transformed_prediction_target_create_flatten() -> None:
     metric = TransformedPredictionTarget.create_flatten(AbsoluteError(ct.EVAL))
     assert isinstance(metric.prediction_transform, Flatten)
     assert isinstance(metric.target_transform, Flatten)
 
 
-def test_transformed_prediction_target_create_log1p():
+def test_transformed_prediction_target_create_log1p() -> None:
     metric = TransformedPredictionTarget.create_log1p(AbsoluteError(ct.EVAL))
     assert isinstance(metric.prediction_transform, Log1p)
     assert isinstance(metric.target_transform, Log1p)
 
 
-def test_transformed_prediction_target_create_symlog():
+def test_transformed_prediction_target_create_symlog() -> None:
     metric = TransformedPredictionTarget.create_symlog(AbsoluteError(ct.EVAL))
     assert isinstance(metric.prediction_transform, Symlog)
     assert isinstance(metric.target_transform, Symlog)

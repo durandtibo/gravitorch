@@ -127,13 +127,13 @@ class MyNetwork(nn.Module):
 ##################################
 
 
-def test_model_summary_linear_invalid_mode():
+def test_model_summary_linear_invalid_mode() -> None:
     module = nn.Linear(4, 5)
     with raises(ValueError):
         ModelSummary(module, mode="invalid mode")
 
 
-def test_model_summary_linear_top():
+def test_model_summary_linear_top() -> None:
     module = nn.Linear(4, 5)
     summary = ModelSummary(module, mode=ModelSummary.MODE_TOP)
     assert summary.layer_names == ("[root module]",)
@@ -156,7 +156,7 @@ def test_model_summary_linear_top():
     )
 
 
-def test_model_summary_linear_with_get_dummy_input_top():
+def test_model_summary_linear_with_get_dummy_input_top() -> None:
     module = copy.deepcopy(nn.Linear(4, 5))
     module.get_dummy_input = lambda *args, **kwargs: torch.randn(1, 4)
     summary = ModelSummary(module, mode=ModelSummary.MODE_TOP)
@@ -171,7 +171,7 @@ def test_model_summary_linear_with_get_dummy_input_top():
     assert str(summary) == LINEAR_TABLE_STR
 
 
-def test_model_summary_linear_full():
+def test_model_summary_linear_full() -> None:
     module = copy.deepcopy(nn.Linear(4, 5))
     module.get_dummy_input = lambda *args, **kwargs: torch.randn(1, 4)
     summary = ModelSummary(module, mode=ModelSummary.MODE_FULL)
@@ -186,7 +186,7 @@ def test_model_summary_linear_full():
     assert str(summary) == LINEAR_TABLE_STR
 
 
-def test_model_summary_linear_get_dummy_input_tuple():
+def test_model_summary_linear_get_dummy_input_tuple() -> None:
     module = copy.deepcopy(nn.Linear(4, 5))
     module.get_dummy_input = lambda *args, **kwargs: (torch.randn(1, 4),)
     summary = ModelSummary(module, mode=ModelSummary.MODE_FULL)
@@ -201,7 +201,7 @@ def test_model_summary_linear_get_dummy_input_tuple():
     assert str(summary) == LINEAR_TABLE_STR
 
 
-def test_model_summary_linear_get_dummy_input_list():
+def test_model_summary_linear_get_dummy_input_list() -> None:
     module = copy.deepcopy(nn.Linear(4, 5))
     module.get_dummy_input = lambda *args, **kwargs: (torch.randn(1, 4),)
     summary = ModelSummary(module, mode=ModelSummary.MODE_FULL)
@@ -216,7 +216,7 @@ def test_model_summary_linear_get_dummy_input_list():
     assert str(summary) == LINEAR_TABLE_STR
 
 
-def test_model_summary_mlp_top():
+def test_model_summary_mlp_top() -> None:
     module = BetaMLP(input_size=32, hidden_sizes=(128, 128, 50))
     summary = ModelSummary(module, mode=ModelSummary.MODE_TOP)
     assert summary.layer_names == ("[root module]", "layers")
@@ -230,7 +230,7 @@ def test_model_summary_mlp_top():
     assert str(summary) == MLP_TABLE_TOP_STR
 
 
-def test_model_summary_mlp_full():
+def test_model_summary_mlp_full() -> None:
     module = BetaMLP(input_size=32, hidden_sizes=(128, 128, 50))
     summary = ModelSummary(module, mode=ModelSummary.MODE_FULL)
     assert summary.layer_names == (
@@ -276,7 +276,7 @@ def test_model_summary_mlp_full():
     assert str(summary) == MLP_TABLE_FULL_STR
 
 
-def test_model_summary_my_network_top():
+def test_model_summary_my_network_top() -> None:
     module = MyNetwork()
     summary = ModelSummary(module, mode=ModelSummary.MODE_TOP)
     assert summary.layer_names == ("[root module]", "fusion", "decoder")
@@ -298,7 +298,7 @@ def test_model_summary_my_network_top():
     assert str(summary) == MY_NETWORK_TABLE_TOP_STR
 
 
-def test_model_summary_my_network_full():
+def test_model_summary_my_network_full() -> None:
     module = MyNetwork()
     summary = ModelSummary(module, mode=ModelSummary.MODE_FULL)
     assert summary.layer_names == (
@@ -365,7 +365,7 @@ def test_model_summary_my_network_full():
 ###############################################
 
 
-def test_model_forward_dummy_input_without_get_dummy_input():
+def test_model_forward_dummy_input_without_get_dummy_input() -> None:
     module = nn.Linear(4, 6)
     summary = ModuleSummary(module)
     model_forward_dummy_input(module)
@@ -373,7 +373,7 @@ def test_model_forward_dummy_input_without_get_dummy_input():
     assert summary._hook_handle.id in module._forward_hooks
 
 
-def test_model_forward_dummy_input_with_get_dummy_input_tensor():
+def test_model_forward_dummy_input_with_get_dummy_input_tensor() -> None:
     module = copy.deepcopy(nn.Linear(4, 5))
     module.get_dummy_input = lambda *args, **kwargs: torch.randn(1, 4)
     summary = ModuleSummary(module)
@@ -382,7 +382,7 @@ def test_model_forward_dummy_input_with_get_dummy_input_tensor():
     assert summary._hook_handle.id not in module._forward_hooks
 
 
-def test_model_forward_dummy_input_with_get_dummy_input_tuple():
+def test_model_forward_dummy_input_with_get_dummy_input_tuple() -> None:
     module = copy.deepcopy(nn.Linear(4, 5))
     module.get_dummy_input = lambda *args, **kwargs: (torch.randn(1, 4),)
     summary = ModuleSummary(module)

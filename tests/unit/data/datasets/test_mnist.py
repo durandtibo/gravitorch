@@ -42,7 +42,7 @@ def test_mnist_dataset_getitem(mnist_path: Path):
     assert isinstance(example[ct.TARGET], int)
 
 
-def test_mnist_dataset_without_torchvision():
+def test_mnist_dataset_without_torchvision() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError):
             MNISTDataset()

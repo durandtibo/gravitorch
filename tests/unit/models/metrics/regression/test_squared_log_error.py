@@ -44,11 +44,11 @@ def test_squared_log_error_str(mode: str):
     assert str(SquaredLogError(mode)).startswith("SquaredLogError(")
 
 
-def test_squared_log_error_init_state_default():
+def test_squared_log_error_init_state_default() -> None:
     assert isinstance(SquaredLogError(ct.EVAL)._state, ErrorState)
 
 
-def test_squared_log_error_init_state_mean():
+def test_squared_log_error_init_state_mean() -> None:
     assert isinstance(SquaredLogError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState)
 
 
@@ -342,7 +342,7 @@ def test_squared_log_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/sq_log_err_num_predictions").get_last_value() == 4
 
 
-def test_squared_log_error_reset():
+def test_squared_log_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = SquaredLogError(ct.EVAL, state=state)
     metric.reset()
@@ -359,11 +359,11 @@ def test_squared_symlog_error_str(mode: str):
     assert str(SquaredSymlogError(mode)).startswith("SquaredSymlogError(")
 
 
-def test_squared_symlog_error_init_state_default():
+def test_squared_symlog_error_init_state_default() -> None:
     assert isinstance(SquaredSymlogError(ct.EVAL)._state, ErrorState)
 
 
-def test_squared_symlog_error_init_state_mean():
+def test_squared_symlog_error_init_state_mean() -> None:
     assert isinstance(SquaredSymlogError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState)
 
 
@@ -678,7 +678,7 @@ def test_squared_symlog_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/sq_symlog_err_num_predictions").get_last_value() == 4
 
 
-def test_squared_symlog_error_reset():
+def test_squared_symlog_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = SquaredSymlogError(ct.EVAL, state=state)
     metric.reset()
@@ -695,11 +695,11 @@ def test_squared_asinh_error_str(mode: str):
     assert str(SquaredAsinhError(mode)).startswith("SquaredAsinhError(")
 
 
-def test_squared_asinh_error_init_state_default():
+def test_squared_asinh_error_init_state_default() -> None:
     assert isinstance(SquaredAsinhError(ct.EVAL)._state, ErrorState)
 
 
-def test_squared_asinh_error_init_state_mean():
+def test_squared_asinh_error_init_state_mean() -> None:
     assert isinstance(SquaredAsinhError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState)
 
 
@@ -1014,7 +1014,7 @@ def test_squared_asinh_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/sq_asinh_err_num_predictions").get_last_value() == 4
 
 
-def test_squared_asinh_error_reset():
+def test_squared_asinh_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = SquaredAsinhError(ct.EVAL, state=state)
     metric.reset()

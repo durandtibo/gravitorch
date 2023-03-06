@@ -20,7 +20,7 @@ MODES = (ct.TRAIN, ct.EVAL)
 
 
 @fixture(scope="module")
-def cri_out():
+def cri_out() -> None:
     return {}
 
 

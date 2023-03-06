@@ -60,7 +60,7 @@ def test_image_classification_network_get_onnx_dynamic_axis(input_name: str, out
     ).get_onnx_dynamic_axis() == {input_name: {0: "batch"}, output_name: {0: "batch"}}
 
 
-def test_image_classification_network_get_onnx_dynamic_axis_default():
+def test_image_classification_network_get_onnx_dynamic_axis_default() -> None:
     assert ImageClassificationNetwork(Mock(spec=nn.Module)).get_onnx_dynamic_axis() == {
         ct.INPUT: {0: "batch"},
         ct.PREDICTION: {0: "batch"},

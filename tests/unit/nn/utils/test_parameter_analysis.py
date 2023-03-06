@@ -12,7 +12,7 @@ from gravitorch.utils import get_available_devices
 #############################################
 
 
-def test_compute_parameter_stats_linear():
+def test_compute_parameter_stats_linear() -> None:
     stats = compute_parameter_stats(nn.Linear(4, 6))
     assert len(stats) == 3
     assert stats[0] == ["parameter", "mean", "median", "std", "min", "max", "learnable"]
@@ -25,7 +25,7 @@ def test_compute_parameter_stats_linear():
     assert isinstance(stats[1][6], bool)  # learnable
 
 
-def test_compute_parameter_stats_empty_tensor():
+def test_compute_parameter_stats_empty_tensor() -> None:
     assert compute_parameter_stats(nn.Linear(4, 0)) == [
         ["parameter", "mean", "median", "std", "min", "max", "learnable"]
     ]

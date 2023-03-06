@@ -13,7 +13,7 @@ SIZES = (1, 2)
 ###############################
 
 
-def test_fusion_ffn_modules():
+def test_fusion_ffn_modules() -> None:
     module = FusionFFN(fusion=SumFusion(), ffn=nn.Linear(4, 7))
     assert isinstance(module.fusion, SumFusion)
     assert isinstance(module.ffn, nn.Linear)

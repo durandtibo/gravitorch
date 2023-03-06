@@ -321,7 +321,7 @@ def test_binary_confusion_matrix_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_num_predictions").get_last_value() == 4
 
 
-def test_binary_confusion_matrix_reset():
+def test_binary_confusion_matrix_reset() -> None:
     metric = BinaryConfusionMatrix(ct.EVAL)
     metric(torch.tensor([0, 1, 0, 1]), torch.tensor([0, 1, 0, 1]))
     assert metric._confusion_matrix.num_predictions == 4
@@ -671,7 +671,7 @@ def test_categorical_confusion_matrix_events_eval(device: str, engine: BaseEngin
     assert engine.get_history(f"{ct.EVAL}/cat_conf_mat_num_predictions").get_last_value() == 5
 
 
-def test_categorical_confusion_matrix_reset():
+def test_categorical_confusion_matrix_reset() -> None:
     metric = CategoricalConfusionMatrix(ct.EVAL, num_classes=3)
     metric(
         torch.tensor([[3, 2, 1], [1, 3, 2], [3, 2, 1], [1, 3, 2], [1, 2, 3]]),

@@ -13,7 +13,7 @@ from gravitorch.nn.utils import (
 ########################################
 
 
-def test_is_loss_decreasing_true():
+def test_is_loss_decreasing_true() -> None:
     module = nn.Linear(4, 2)
     assert is_loss_decreasing(
         module=module,
@@ -24,7 +24,7 @@ def test_is_loss_decreasing_true():
     )
 
 
-def test_is_loss_decreasing_false():
+def test_is_loss_decreasing_false() -> None:
     module = nn.Linear(4, 2)
     assert not is_loss_decreasing(
         module=module,
@@ -36,7 +36,7 @@ def test_is_loss_decreasing_false():
     )
 
 
-def test_is_loss_decreasing_train_mode():
+def test_is_loss_decreasing_train_mode() -> None:
     module = nn.Linear(4, 2)
     module.train()
     assert is_loss_decreasing(
@@ -49,7 +49,7 @@ def test_is_loss_decreasing_train_mode():
     assert module.training
 
 
-def test_is_loss_decreasing_eval_mode():
+def test_is_loss_decreasing_eval_mode() -> None:
     module = nn.Linear(4, 2)
     module.eval()
     assert is_loss_decreasing(
@@ -62,7 +62,7 @@ def test_is_loss_decreasing_eval_mode():
     assert not module.training
 
 
-def test_is_loss_decreasing_criterion_functional():
+def test_is_loss_decreasing_criterion_functional() -> None:
     module = nn.Linear(4, 2)
     optimizer = SGD(module.parameters(), lr=0.01)
     assert is_loss_decreasing(
@@ -79,7 +79,7 @@ def test_is_loss_decreasing_criterion_functional():
 ##################################################
 
 
-def test_is_loss_decreasing_with_adam_true():
+def test_is_loss_decreasing_with_adam_true() -> None:
     assert is_loss_decreasing_with_adam(
         module=nn.Linear(4, 2),
         criterion=nn.MSELoss(),
@@ -93,7 +93,7 @@ def test_is_loss_decreasing_with_adam_true():
 #################################################
 
 
-def test_is_loss_decreasing_with_sgd_true():
+def test_is_loss_decreasing_with_sgd_true() -> None:
     assert is_loss_decreasing_with_sgd(
         module=nn.Linear(4, 2),
         criterion=nn.MSELoss(),

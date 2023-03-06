@@ -33,11 +33,11 @@ def test_absolute_error_str(mode: str):
     assert str(AbsoluteError(mode)).startswith("AbsoluteError(")
 
 
-def test_absolute_error_init_state_default():
+def test_absolute_error_init_state_default() -> None:
     assert isinstance(AbsoluteError(ct.EVAL)._state, ErrorState)
 
 
-def test_absolute_error_init_state_mean():
+def test_absolute_error_init_state_mean() -> None:
     assert isinstance(AbsoluteError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState)
 
 
@@ -297,7 +297,7 @@ def test_absolute_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/abs_err_num_predictions").get_last_value() == 4
 
 
-def test_absolute_error_reset():
+def test_absolute_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = AbsoluteError(ct.EVAL, state=state)
     metric.reset()

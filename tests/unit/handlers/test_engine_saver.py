@@ -24,11 +24,11 @@ EVENTS = ("my_event", "my_other_event")
 ######################################
 
 
-def test_best_history_saver_str(tmp_path: Path):
+def test_best_history_saver_str(tmp_path: Path) -> None:
     assert str(BestHistorySaver(tmp_path)).startswith("BestHistorySaver(")
 
 
-def test_best_history_saver_path(tmp_path: Path):
+def test_best_history_saver_path(tmp_path: Path) -> None:
     assert BestHistorySaver(tmp_path)._path == tmp_path
 
 
@@ -37,7 +37,7 @@ def test_best_history_saver_event(tmp_path: Path, event: str):
     assert BestHistorySaver(tmp_path, event=event)._event == event
 
 
-def test_best_history_saver_event_default(tmp_path: Path):
+def test_best_history_saver_event_default(tmp_path: Path) -> None:
     assert BestHistorySaver(tmp_path)._event == EngineEvents.COMPLETED
 
 
@@ -52,14 +52,14 @@ def test_best_history_saver_attach(tmp_path: Path, event: str):
     )
 
 
-def test_best_history_saver_attach_duplicate(tmp_path: Path):
+def test_best_history_saver_attach_duplicate(tmp_path: Path) -> None:
     handler = BestHistorySaver(tmp_path, event="my_event")
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_best_history_saver_save_only_main_process_true_main_process(tmp_path: Path):
+def test_best_history_saver_save_only_main_process_true_main_process(tmp_path: Path) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, get_histories=Mock(return_value={}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: True):
@@ -69,7 +69,7 @@ def test_best_history_saver_save_only_main_process_true_main_process(tmp_path: P
             save_mock.assert_called_once_with({}, tmp_path.joinpath("history_best.pt"))
 
 
-def test_best_history_saver_save_only_main_process_true_not_main_process(tmp_path: Path):
+def test_best_history_saver_save_only_main_process_true_not_main_process(tmp_path: Path) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, get_histories=Mock(return_value={}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: False):
@@ -95,11 +95,11 @@ def test_best_history_saver_save_only_main_process_false(tmp_path: Path, main_pr
 ######################################
 
 
-def test_last_history_saver_str(tmp_path: Path):
+def test_last_history_saver_str(tmp_path: Path) -> None:
     assert str(LastHistorySaver(tmp_path)).startswith("LastHistorySaver(")
 
 
-def test_last_history_saver_path(tmp_path: Path):
+def test_last_history_saver_path(tmp_path: Path) -> None:
     assert LastHistorySaver(tmp_path)._path == tmp_path
 
 
@@ -108,7 +108,7 @@ def test_last_history_saver_event(tmp_path: Path, event: str):
     assert LastHistorySaver(tmp_path, event=event)._event == event
 
 
-def test_last_history_saver_event_default(tmp_path: Path):
+def test_last_history_saver_event_default(tmp_path: Path) -> None:
     assert LastHistorySaver(tmp_path)._event == EngineEvents.EPOCH_COMPLETED
 
 
@@ -123,14 +123,14 @@ def test_last_history_saver_attach(tmp_path: Path, event: str):
     )
 
 
-def test_last_history_saver_attach_duplicate(tmp_path: Path):
+def test_last_history_saver_attach_duplicate(tmp_path: Path) -> None:
     handler = LastHistorySaver(tmp_path, event="my_event")
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_last_history_saver_save_only_main_process_true_main_process(tmp_path: Path):
+def test_last_history_saver_save_only_main_process_true_main_process(tmp_path: Path) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, get_histories=Mock(return_value={}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: True):
@@ -140,7 +140,7 @@ def test_last_history_saver_save_only_main_process_true_main_process(tmp_path: P
             save_mock.assert_called_once_with({}, tmp_path.joinpath("history_last.pt"))
 
 
-def test_last_history_saver_save_only_main_process_true_not_main_process(tmp_path: Path):
+def test_last_history_saver_save_only_main_process_true_not_main_process(tmp_path: Path) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, get_histories=Mock(return_value={}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: False):
@@ -166,13 +166,13 @@ def test_last_history_saver_save_only_main_process_false(tmp_path: Path, main_pr
 ##########################################
 
 
-def test_best_engine_state_saver_str(tmp_path: Path):
+def test_best_engine_state_saver_str(tmp_path: Path) -> None:
     assert str(BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))).startswith(
         "BestEngineStateSaver("
     )
 
 
-def test_best_engine_state_saver_path(tmp_path: Path):
+def test_best_engine_state_saver_path(tmp_path: Path) -> None:
     assert BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))._path == tmp_path
 
 
@@ -181,7 +181,7 @@ def test_best_engine_state_saver_event(tmp_path: Path, event: str):
     assert BestEngineStateSaver(tmp_path, event=event, keys=("loss", "accuracy"))._event == event
 
 
-def test_best_engine_state_saver_event_default(tmp_path: Path):
+def test_best_engine_state_saver_event_default(tmp_path: Path) -> None:
     assert (
         BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))._event
         == EngineEvents.EPOCH_COMPLETED
@@ -204,14 +204,14 @@ def test_best_engine_state_saver_attach(tmp_path: Path, event: str):
     )
 
 
-def test_best_engine_state_saver_attach_duplicate(tmp_path: Path):
+def test_best_engine_state_saver_attach_duplicate(tmp_path: Path) -> None:
     handler = BestEngineStateSaver(tmp_path, event="my_event", keys=("loss", "accuracy"))
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_best_engine_state_saver_save_only_main_process_true_main_process(tmp_path: Path):
+def test_best_engine_state_saver_save_only_main_process_true_main_process(tmp_path: Path) -> None:
     save_mock = Mock()
     engine = Mock(
         spec=BaseEngine,
@@ -232,7 +232,9 @@ def test_best_engine_state_saver_save_only_main_process_true_main_process(tmp_pa
                 ]
 
 
-def test_best_engine_state_saver_save_only_main_process_true_not_main_process(tmp_path: Path):
+def test_best_engine_state_saver_save_only_main_process_true_not_main_process(
+    tmp_path: Path,
+) -> None:
     save_mock = Mock()
     engine = Mock(
         spec=BaseEngine,
@@ -337,11 +339,11 @@ def test_best_engine_state_saver_save_empty_history(tmp_path: Path, caplog: LogC
 ###########################################
 
 
-def test_epoch_engine_state_saver_str(tmp_path: Path):
+def test_epoch_engine_state_saver_str(tmp_path: Path) -> None:
     assert str(EpochEngineStateSaver(tmp_path)).startswith("EpochEngineStateSaver(")
 
 
-def test_epoch_engine_state_saver_path(tmp_path: Path):
+def test_epoch_engine_state_saver_path(tmp_path: Path) -> None:
     assert EpochEngineStateSaver(tmp_path)._path == tmp_path
 
 
@@ -350,7 +352,7 @@ def test_epoch_engine_state_saver_event(tmp_path: Path, event: str):
     assert EpochEngineStateSaver(tmp_path, event=event)._event == event
 
 
-def test_epoch_engine_state_saver_event_default(tmp_path: Path):
+def test_epoch_engine_state_saver_event_default(tmp_path: Path) -> None:
     assert EpochEngineStateSaver(tmp_path)._event == EngineEvents.EPOCH_COMPLETED
 
 
@@ -365,14 +367,14 @@ def test_epoch_engine_state_saver_attach(tmp_path: Path, event: str):
     )
 
 
-def test_epoch_engine_state_saver_attach_duplicate(tmp_path: Path):
+def test_epoch_engine_state_saver_attach_duplicate(tmp_path: Path) -> None:
     handler = EpochEngineStateSaver(tmp_path, event="my_event")
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_epoch_engine_state_saver_save_only_main_process_true_main_process(tmp_path: Path):
+def test_epoch_engine_state_saver_save_only_main_process_true_main_process(tmp_path: Path) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, epoch=0, state_dict=Mock(return_value={"key": 123}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: True):
@@ -385,7 +387,9 @@ def test_epoch_engine_state_saver_save_only_main_process_true_main_process(tmp_p
                 )
 
 
-def test_epoch_engine_state_saver_save_only_main_process_true_not_main_process(tmp_path: Path):
+def test_epoch_engine_state_saver_save_only_main_process_true_not_main_process(
+    tmp_path: Path,
+) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, epoch=0, state_dict=Mock(return_value={"key": 123}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: False):
@@ -415,11 +419,11 @@ def test_epoch_engine_state_saver_save_only_main_process_false(tmp_path: Path, m
 #########################################
 
 
-def test_tag_engine_state_saver_str(tmp_path: Path):
+def test_tag_engine_state_saver_str(tmp_path: Path) -> None:
     assert str(TagEngineStateSaver(tmp_path)).startswith("TagEngineStateSaver(")
 
 
-def test_tag_engine_state_saver_path(tmp_path: Path):
+def test_tag_engine_state_saver_path(tmp_path: Path) -> None:
     assert TagEngineStateSaver(tmp_path)._path == tmp_path
 
 
@@ -428,7 +432,7 @@ def test_tag_engine_state_saver_event(tmp_path: Path, event: str):
     assert TagEngineStateSaver(tmp_path, event=event)._event == event
 
 
-def test_tag_engine_state_saver_event_default(tmp_path: Path):
+def test_tag_engine_state_saver_event_default(tmp_path: Path) -> None:
     assert TagEngineStateSaver(tmp_path)._event == EngineEvents.EPOCH_COMPLETED
 
 
@@ -437,7 +441,7 @@ def test_tag_engine_state_saver_tag(tmp_path: Path, tag: str):
     assert TagEngineStateSaver(tmp_path, tag=tag)._tag == tag
 
 
-def test_tag_engine_state_saver_tag_default(tmp_path: Path):
+def test_tag_engine_state_saver_tag_default(tmp_path: Path) -> None:
     assert TagEngineStateSaver(tmp_path)._tag == "last"
 
 
@@ -452,14 +456,14 @@ def test_tag_engine_state_saver_attach(tmp_path: Path, event: str):
     )
 
 
-def test_tag_engine_state_saver_attach_duplicate(tmp_path: Path):
+def test_tag_engine_state_saver_attach_duplicate(tmp_path: Path) -> None:
     handler = TagEngineStateSaver(tmp_path, event="my_event")
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_tag_engine_state_saver_save_only_main_process_true_main_process(tmp_path: Path):
+def test_tag_engine_state_saver_save_only_main_process_true_main_process(tmp_path: Path) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, state_dict=Mock(return_value={"key": 123}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: True):
@@ -472,7 +476,9 @@ def test_tag_engine_state_saver_save_only_main_process_true_main_process(tmp_pat
                 )
 
 
-def test_tag_engine_state_saver_save_only_main_process_true_not_main_process(tmp_path: Path):
+def test_tag_engine_state_saver_save_only_main_process_true_not_main_process(
+    tmp_path: Path,
+) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, state_dict=Mock(return_value={"key": 123}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: False):

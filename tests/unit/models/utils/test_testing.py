@@ -17,7 +17,7 @@ from gravitorch.models.utils import (
 ########################################
 
 
-def test_is_loss_decreasing_true_train_mode():
+def test_is_loss_decreasing_true_train_mode() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=6, hidden_sizes=(8, 4)),
         criterion=VanillaLoss(criterion=nn.MSELoss()),
@@ -30,7 +30,7 @@ def test_is_loss_decreasing_true_train_mode():
     )
 
 
-def test_is_loss_decreasing_false():
+def test_is_loss_decreasing_false() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=6, hidden_sizes=(8, 4)),
         criterion=VanillaLoss(criterion=nn.MSELoss()),
@@ -44,7 +44,7 @@ def test_is_loss_decreasing_false():
     )
 
 
-def test_is_loss_decreasing_train_mode():
+def test_is_loss_decreasing_train_mode() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=6, hidden_sizes=(8, 4)),
         criterion=VanillaLoss(criterion=nn.MSELoss()),
@@ -59,7 +59,7 @@ def test_is_loss_decreasing_train_mode():
     assert model.training
 
 
-def test_is_loss_decreasing_eval_mode():
+def test_is_loss_decreasing_eval_mode() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=6, hidden_sizes=(8, 4)),
         criterion=VanillaLoss(criterion=nn.MSELoss()),
@@ -74,7 +74,7 @@ def test_is_loss_decreasing_eval_mode():
     assert not model.training
 
 
-def test_is_loss_decreasing_with_adam_true():
+def test_is_loss_decreasing_with_adam_true() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=6, hidden_sizes=(8, 4)),
         criterion=VanillaLoss(criterion=nn.MSELoss()),
@@ -84,7 +84,7 @@ def test_is_loss_decreasing_with_adam_true():
     )
 
 
-def test_is_loss_decreasing_with_sgd_true():
+def test_is_loss_decreasing_with_sgd_true() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=6, hidden_sizes=(8, 4)),
         criterion=VanillaLoss(criterion=nn.MSELoss()),

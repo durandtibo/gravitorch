@@ -11,11 +11,11 @@ from gravitorch.engines import BaseEngine
 #########################################
 
 
-def test_one_cache_data_creator_str():
+def test_one_cache_data_creator_str() -> None:
     assert str(OneCacheDataCreator(Mock(spec=BaseDataCreator))).startswith("OneCacheDataCreator(")
 
 
-def test_one_cache_data_creator_data_creator():
+def test_one_cache_data_creator_data_creator() -> None:
     creator = Mock(spec=BaseDataCreator)
     assert OneCacheDataCreator(creator).data_creator is creator
 
@@ -25,7 +25,7 @@ def test_one_cache_data_creator_deepcopy(deepcopy: bool):
     assert OneCacheDataCreator(Mock(spec=BaseDataCreator), deepcopy=deepcopy).deepcopy == deepcopy
 
 
-def test_one_cache_data_creator_create_no_engine():
+def test_one_cache_data_creator_create_no_engine() -> None:
     creator = Mock(spec=BaseDataCreator, create=Mock(return_value=torch.ones(2, 3)))
     data_creator = OneCacheDataCreator(creator)
     data_creator.create().equal(torch.ones(2, 3))
@@ -34,7 +34,7 @@ def test_one_cache_data_creator_create_no_engine():
     creator.create.assert_called_once_with(None)
 
 
-def test_one_cache_data_creator_create_engine():
+def test_one_cache_data_creator_create_engine() -> None:
     engine = Mock(spec=BaseEngine)
     creator = Mock(spec=BaseDataCreator, create=Mock(return_value=torch.ones(2, 3)))
     data_creator = OneCacheDataCreator(creator)
@@ -44,7 +44,7 @@ def test_one_cache_data_creator_create_engine():
     creator.create.assert_called_once_with(engine)
 
 
-def test_one_cache_data_creator_create_repeat_deepcopy_false():
+def test_one_cache_data_creator_create_repeat_deepcopy_false() -> None:
     creator = Mock(spec=BaseDataCreator, create=Mock(return_value=torch.ones(2, 3)))
     data_creator = OneCacheDataCreator(creator)
     data1 = data_creator.create()
@@ -54,7 +54,7 @@ def test_one_cache_data_creator_create_repeat_deepcopy_false():
     creator.create.assert_called_once_with(None)
 
 
-def test_one_cache_data_creator_create_repeat_deepcopy_true():
+def test_one_cache_data_creator_create_repeat_deepcopy_true() -> None:
     creator = Mock(spec=BaseDataCreator, create=Mock(return_value=torch.ones(2, 3)))
     data_creator = OneCacheDataCreator(creator, deepcopy=True)
     data1 = data_creator.create()
@@ -64,7 +64,7 @@ def test_one_cache_data_creator_create_repeat_deepcopy_true():
     creator.create.assert_called_once_with(None)
 
 
-def test_one_cache_data_creator_create_repeat_deepcopy_true_incorrect_type():
+def test_one_cache_data_creator_create_repeat_deepcopy_true_incorrect_type() -> None:
     creator = Mock(spec=BaseDataCreator, create=Mock(return_value=torch.ones(2, 3)))
     data_creator = OneCacheDataCreator(creator, deepcopy=True)
     with patch("gravitorch.data.datacreators.caching.copy.deepcopy", Mock(side_effect=TypeError)):

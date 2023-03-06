@@ -76,7 +76,7 @@ def test_vanilla_evaluation_loop_condition_default():
     assert isinstance(VanillaEvaluationLoop()._condition, EveryEpochEvalCondition)
 
 
-def test_vanilla_evaluation_loop_observer(tmp_path: Path):
+def test_vanilla_evaluation_loop_observer(tmp_path: Path) -> None:
     assert isinstance(
         VanillaEvaluationLoop(observer=PyTorchBatchSaver(tmp_path))._observer,
         PyTorchBatchSaver,

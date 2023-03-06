@@ -14,14 +14,14 @@ from gravitorch.models.utils import (
 #############################################
 
 
-def test_attach_module_to_engine_attach():
+def test_attach_module_to_engine_attach() -> None:
     engine = Mock()
     module = Mock()
     attach_module_to_engine(module, engine)
     module.attach.assert_called_once_with(engine)
 
 
-def test_attach_module_to_engine_no_attach():
+def test_attach_module_to_engine_no_attach() -> None:
     engine = Mock()
     module = Mock()
     with patch("gravitorch.models.utils.setup_and_attach.hasattr", lambda *args, **kwargs: False):
@@ -34,7 +34,7 @@ def test_attach_module_to_engine_no_attach():
 #################################
 
 
-def test_setup_model_object():
+def test_setup_model_object() -> None:
     model = nn.Linear(4, 6)
     assert setup_model(model) is model
 
@@ -51,14 +51,14 @@ def test_setup_model_dict(tmp_path):
 ############################################
 
 
-def test_setup_and_attach_model_with_attach():
+def test_setup_and_attach_model_with_attach() -> None:
     engine = Mock()
     model = Mock()
     assert setup_and_attach_model(engine, model) is model
     model.attach.assert_called_once_with(engine=engine)
 
 
-def test_setup_and_attach_model_without_attach():
+def test_setup_and_attach_model_without_attach() -> None:
     engine = Mock()
     model = nn.Linear(4, 6)
     assert setup_and_attach_model(engine, model) is model

@@ -53,15 +53,15 @@ def test_binary_accuracy_threshold(threshold: float):
     assert metric.prediction_transform.threshold == threshold
 
 
-def test_binary_accuracy_threshold_default():
+def test_binary_accuracy_threshold_default() -> None:
     assert isinstance(BinaryAccuracy(ct.EVAL).prediction_transform, Identity)
 
 
-def test_binary_accuracy_state_default():
+def test_binary_accuracy_state_default() -> None:
     assert isinstance(BinaryAccuracy(ct.EVAL)._state, AccuracyState)
 
 
-def test_binary_accuracy_state_extended():
+def test_binary_accuracy_state_extended() -> None:
     assert isinstance(
         BinaryAccuracy(ct.EVAL, state=ExtendedAccuracyState())._state, ExtendedAccuracyState
     )
@@ -348,7 +348,7 @@ def test_binary_accuracy_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/bin_acc_num_predictions").get_last_value() == 4
 
 
-def test_binary_accuracy_reset():
+def test_binary_accuracy_reset() -> None:
     state = Mock(spec=BaseState)
     metric = BinaryAccuracy(ct.EVAL, state=state)
     metric.reset()
@@ -365,11 +365,11 @@ def test_categorical_accuracy_str(mode: str):
     assert str(CategoricalAccuracy(mode)).startswith("CategoricalAccuracy(")
 
 
-def test_categorical_accuracy_state_default():
+def test_categorical_accuracy_state_default() -> None:
     assert isinstance(CategoricalAccuracy(ct.EVAL)._state, AccuracyState)
 
 
-def test_categorical_accuracy_state_extended():
+def test_categorical_accuracy_state_extended() -> None:
     assert isinstance(
         CategoricalAccuracy(ct.EVAL, state=ExtendedAccuracyState())._state,
         ExtendedAccuracyState,
@@ -629,7 +629,7 @@ def test_categorical_accuracy_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/cat_acc_num_predictions").get_last_value() == 2
 
 
-def test_categorical_accuracy_reset():
+def test_categorical_accuracy_reset() -> None:
     state = Mock(spec=BaseState)
     metric = CategoricalAccuracy(ct.EVAL, state=state)
     metric.reset()
@@ -659,7 +659,7 @@ def test_top_k_accuracy_tolerances(topk: Sequence[int], tuple_topk: tuple[int, .
     assert TopKAccuracy(mode=ct.TRAIN, topk=topk).topk == tuple_topk
 
 
-def test_top_k_accuracy_state_config_default():
+def test_top_k_accuracy_state_config_default() -> None:
     metric = TopKAccuracy(ct.EVAL, topk=(1, 5))
     assert len(metric._states) == 2
     assert isinstance(metric._states[1], AccuracyState)
@@ -668,7 +668,7 @@ def test_top_k_accuracy_state_config_default():
     assert metric._states[5].num_predictions == 0
 
 
-def test_top_k_accuracy_state_config_extended():
+def test_top_k_accuracy_state_config_extended() -> None:
     metric = TopKAccuracy(
         ct.EVAL,
         topk=(1, 5),
@@ -1056,7 +1056,7 @@ def test_top_k_accuracy_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/acc_top_3_num_predictions").get_last_value() == 2
 
 
-def test_top_k_accuracy_reset():
+def test_top_k_accuracy_reset() -> None:
     metric = TopKAccuracy(ct.EVAL, topk=(1, 3))
     metric(prediction=torch.eye(4), target=torch.ones(4))
     metric.reset()

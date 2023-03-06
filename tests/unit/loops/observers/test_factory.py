@@ -22,7 +22,7 @@ def test_setup_loop_observer_object():
     assert setup_loop_observer(loop_observer) is loop_observer
 
 
-def test_setup_loop_observer_dict(tmp_path: Path):
+def test_setup_loop_observer_dict(tmp_path: Path) -> None:
     assert isinstance(
         setup_loop_observer(
             {

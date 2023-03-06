@@ -22,11 +22,11 @@ EVENTS = ("my_event", "my_other_event")
 #######################################
 
 
-def test_engine_state_loader_str(tmp_path: Path):
+def test_engine_state_loader_str(tmp_path: Path) -> None:
     assert str(EngineStateLoader(tmp_path, event="my_event")).startswith("EngineStateLoader(")
 
 
-def test_engine_state_loader_path(tmp_path: Path):
+def test_engine_state_loader_path(tmp_path: Path) -> None:
     assert EngineStateLoader(tmp_path, event="my_event")._path == tmp_path
 
 
@@ -55,14 +55,14 @@ def test_engine_state_loader_attach(tmp_path: Path, event: str):
     )
 
 
-def test_engine_state_loader_attach_duplicate(tmp_path: Path):
+def test_engine_state_loader_attach_duplicate(tmp_path: Path) -> None:
     handler = EngineStateLoader(tmp_path, event="my_event")
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
 
 
-def test_engine_state_loader_load_engine_state_dict_file_exists(tmp_path: Path):
+def test_engine_state_loader_load_engine_state_dict_file_exists(tmp_path: Path) -> None:
     path = tmp_path.joinpath("state.pt")
     save_pytorch({"key", 1}, path)
     loader = EngineStateLoader(path, event="my_event")
@@ -71,7 +71,7 @@ def test_engine_state_loader_load_engine_state_dict_file_exists(tmp_path: Path):
     engine.load_state_dict.assert_called_once_with({"key", 1})
 
 
-def test_engine_state_loader_load_engine_state_dict_file_exists_tensor(tmp_path: Path):
+def test_engine_state_loader_load_engine_state_dict_file_exists_tensor(tmp_path: Path) -> None:
     path = tmp_path.joinpath("state.pt")
     save_pytorch({"key", torch.ones(2, 3)}, path)
     loader = EngineStateLoader(path, event="my_event")
@@ -102,7 +102,7 @@ def test_engine_state_loader_load_engine_state_dict_file_does_not_exist_missing_
 ######################################################
 
 
-def test_engine_state_loader_with_exclude_keys_str(tmp_path: Path):
+def test_engine_state_loader_with_exclude_keys_str(tmp_path: Path) -> None:
     assert str(
         EngineStateLoaderWithExcludeKeys(tmp_path, event="my_event", exclude_keys=("key1", "key2"))
     ).startswith("EngineStateLoaderWithExcludeKeys(")
@@ -152,7 +152,7 @@ def test_engine_state_loader_with_exclude_keys_load_engine_state_dict_file_exist
 ######################################################
 
 
-def test_engine_state_loader_with_include_keys_str(tmp_path: Path):
+def test_engine_state_loader_with_include_keys_str(tmp_path: Path) -> None:
     assert str(
         EngineStateLoaderWithIncludeKeys(tmp_path, event="my_event", include_keys=("key1", "key2"))
     ).startswith("EngineStateLoaderWithIncludeKeys(")
@@ -177,7 +177,9 @@ def test_engine_state_loader_with_include_keys_prepare_state_dict_remove_extra_k
     assert loader._prepare_state_dict({"key1": 1, "key2": 2, "key3": 3}) == {"key1": 1, "key2": 2}
 
 
-def test_engine_state_loader_with_include_keys_prepare_state_dict_partial_keys(tmp_path: Path):
+def test_engine_state_loader_with_include_keys_prepare_state_dict_partial_keys(
+    tmp_path: Path,
+) -> None:
     loader = EngineStateLoaderWithIncludeKeys(
         tmp_path, event="my_event", include_keys=("key1", "key2")
     )

@@ -65,7 +65,7 @@ def test_msle_loss_reduction_none(device: str):
     )
 
 
-def test_msle_loss_reduction_incorrect():
+def test_msle_loss_reduction_incorrect() -> None:
     with raises(ValueError):
         msle_loss(torch.ones(2, 2), torch.eye(2), reduction="incorrect")
 
@@ -79,7 +79,7 @@ def test_msle_loss_shape(device: str, shape: tuple[int, ...]):
     )
 
 
-def test_msle_loss_is_loss_decreasing():
+def test_msle_loss_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         module=nn.Sequential(nn.Linear(4, 2), nn.Sigmoid()),
         criterion=msle_loss,
@@ -139,7 +139,7 @@ def test_asinh_mse_loss_reduction_none(device: str):
     )
 
 
-def test_asinh_mse_loss_reduction_incorrect():
+def test_asinh_mse_loss_reduction_incorrect() -> None:
     with raises(ValueError):
         asinh_mse_loss(torch.ones(2, 2), torch.eye(2), reduction="incorrect")
 
@@ -153,7 +153,7 @@ def test_asinh_mse_loss_shape(device: str, shape: tuple[int, ...]):
     ).equal(torch.tensor(0.0, device=device))
 
 
-def test_asinh_mse_loss_is_loss_decreasing():
+def test_asinh_mse_loss_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         module=nn.Linear(4, 2),
         criterion=asinh_mse_loss,
@@ -213,7 +213,7 @@ def test_symlog_mse_loss_reduction_none(device: str):
     )
 
 
-def test_symlog_mse_loss_reduction_incorrect():
+def test_symlog_mse_loss_reduction_incorrect() -> None:
     with raises(ValueError):
         symlog_mse_loss(torch.ones(2, 2), torch.eye(2), reduction="incorrect")
 
@@ -227,7 +227,7 @@ def test_symlog_mse_loss_shape(device: str, shape: tuple[int, ...]):
     ).equal(torch.tensor(0.0, device=device))
 
 
-def test_symlog_mse_loss_is_loss_decreasing():
+def test_symlog_mse_loss_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         module=nn.Linear(4, 2),
         criterion=symlog_mse_loss,
@@ -293,7 +293,7 @@ def test_relative_mse_loss_reduction_none(device: str):
     ).equal(torch.tensor([[0.0, 4.0], [4.0, 0.0]], device=device))
 
 
-def test_relative_mse_loss_reduction_incorrect():
+def test_relative_mse_loss_reduction_incorrect() -> None:
     with raises(ValueError):
         relative_mse_loss(torch.ones(2, 2), torch.ones(2, 2), reduction="incorrect")
 
@@ -307,7 +307,7 @@ def test_relative_mse_loss_shape(device: str, shape: tuple[int, ...]):
     ).equal(torch.tensor(0.0, device=device))
 
 
-def test_relative_mse_loss_is_loss_decreasing():
+def test_relative_mse_loss_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         module=nn.Linear(4, 2),
         criterion=relative_mse_loss,
@@ -373,7 +373,7 @@ def test_relative_smooth_l1_loss_reduction_none(device: str):
     ).equal(torch.tensor([[0.0, 0.5], [0.5, 0.0]], device=device))
 
 
-def test_relative_smooth_l1_loss_reduction_incorrect():
+def test_relative_smooth_l1_loss_reduction_incorrect() -> None:
     with raises(ValueError):
         relative_smooth_l1_loss(torch.ones(2, 2), torch.ones(2, 2), reduction="incorrect")
 
@@ -387,7 +387,7 @@ def test_relative_smooth_l1_loss_shape(device: str, shape: tuple[int, ...]):
     ).equal(torch.tensor(0.0, device=device))
 
 
-def test_relative_smooth_l1_loss_is_loss_decreasing():
+def test_relative_smooth_l1_loss_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         module=nn.Linear(4, 2),
         criterion=relative_smooth_l1_loss,
@@ -453,7 +453,7 @@ def test_symmetric_relative_smooth_l1_loss_reduction_none(device: str):
     ).equal(torch.tensor([[0.0, 1.0], [1.0, 0.0]], device=device))
 
 
-def test_symmetric_relative_smooth_l1_loss_reduction_incorrect():
+def test_symmetric_relative_smooth_l1_loss_reduction_incorrect() -> None:
     with raises(ValueError):
         symmetric_relative_smooth_l1_loss(torch.ones(2, 2), torch.ones(2, 2), reduction="incorrect")
 
@@ -467,7 +467,7 @@ def test_symmetric_relative_smooth_l1_loss_shape(device: str, shape: tuple[int, 
     ).equal(torch.tensor(0.0, device=device))
 
 
-def test_symmetric_relative_smooth_l1_loss_is_loss_decreasing():
+def test_symmetric_relative_smooth_l1_loss_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         module=nn.Linear(4, 2),
         criterion=symmetric_relative_smooth_l1_loss,
@@ -549,7 +549,7 @@ def test_log_cosh_loss_reduction_none(device: str):
     ).allclose(torch.tensor([[0.0, 0.4337808304830271], [0.4337808304830271, 0.0]], device=device))
 
 
-def test_log_cosh_loss_reduction_incorrect():
+def test_log_cosh_loss_reduction_incorrect() -> None:
     with raises(ValueError):
         log_cosh_loss(torch.ones(2, 2), torch.ones(2, 2), reduction="incorrect")
 
@@ -574,7 +574,7 @@ def test_log_cosh_loss_dtype(device: str, dtype_prediction: torch.dtype, dtype_t
     ).equal(torch.tensor(0.0, device=device, dtype=torch.float))
 
 
-def test_log_cosh_loss_is_loss_decreasing():
+def test_log_cosh_loss_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         module=nn.Linear(4, 2),
         criterion=log_cosh_loss,

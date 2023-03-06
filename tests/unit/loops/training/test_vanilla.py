@@ -39,7 +39,7 @@ def increment_epoch_handler(engine: BaseEngine) -> None:
 #########################################
 
 
-def test_vanilla_training_loop_str():
+def test_vanilla_training_loop_str() -> None:
     assert str(VanillaTrainingLoop()).startswith("VanillaTrainingLoop(")
 
 
@@ -50,18 +50,18 @@ def test_vanilla_training_loop_set_grad_to_none(set_grad_to_none: bool):
     )
 
 
-def test_vanilla_training_loop_set_grad_to_none_default():
+def test_vanilla_training_loop_set_grad_to_none_default() -> None:
     assert not VanillaTrainingLoop()._set_grad_to_none
 
 
-def test_vanilla_training_loop_batch_device_placement_cpu():
+def test_vanilla_training_loop_batch_device_placement_cpu() -> None:
     assert isinstance(
         VanillaTrainingLoop(batch_device_placement=CpuDevicePlacement())._batch_device_placement,
         CpuDevicePlacement,
     )
 
 
-def test_vanilla_training_loop_batch_device_placement_default():
+def test_vanilla_training_loop_batch_device_placement_default() -> None:
     assert isinstance(VanillaTrainingLoop()._batch_device_placement, AutoDevicePlacement)
 
 
@@ -70,17 +70,17 @@ def test_vanilla_training_loop_prefix(tag: str):
     assert VanillaTrainingLoop(tag=tag)._tag == tag
 
 
-def test_vanilla_training_loop_prefix_default():
+def test_vanilla_training_loop_prefix_default() -> None:
     assert VanillaTrainingLoop()._tag == "train"
 
 
-def test_vanilla_training_loop_clip_grad_none():
+def test_vanilla_training_loop_clip_grad_none() -> None:
     training_loop = VanillaTrainingLoop()
     assert training_loop._clip_grad_fn is None
     assert training_loop._clip_grad_args == ()
 
 
-def test_vanilla_training_loop_clip_grad_clip_grad_value_without_clip_value():
+def test_vanilla_training_loop_clip_grad_clip_grad_value_without_clip_value() -> None:
     training_loop = VanillaTrainingLoop(clip_grad={"name": "clip_grad_value"})
     assert callable(training_loop._clip_grad_fn)
     assert training_loop._clip_grad_args == (0.25,)
@@ -95,7 +95,7 @@ def test_vanilla_training_loop_clip_grad_clip_grad_value_with_clip_value(clip_va
     assert training_loop._clip_grad_args == (clip_value,)
 
 
-def test_vanilla_training_loop_clip_grad_clip_grad_norm_without_max_norm_and_norm_type():
+def test_vanilla_training_loop_clip_grad_clip_grad_norm_without_max_norm_and_norm_type() -> None:
     training_loop = VanillaTrainingLoop(clip_grad={"name": "clip_grad_norm"})
     assert callable(training_loop._clip_grad_fn)
     assert training_loop._clip_grad_args == (1, 2)
@@ -113,7 +113,7 @@ def test_vanilla_training_loop_clip_grad_clip_grad_norm_with_max_norm_and_norm_t
     assert training_loop._clip_grad_args == (max_norm, norm_type)
 
 
-def test_vanilla_training_loop_clip_grad_incorrect_name():
+def test_vanilla_training_loop_clip_grad_incorrect_name() -> None:
     with raises(ValueError):
         VanillaTrainingLoop(clip_grad={"name": "incorrect name"})
 
@@ -122,7 +122,7 @@ def test_vanilla_training_loop_observer_default():
     assert isinstance(VanillaTrainingLoop()._observer, NoOpLoopObserver)
 
 
-def test_vanilla_training_loop_observer(tmp_path: Path):
+def test_vanilla_training_loop_observer(tmp_path: Path) -> None:
     assert isinstance(
         VanillaTrainingLoop(observer=PyTorchBatchSaver(tmp_path))._observer,
         PyTorchBatchSaver,

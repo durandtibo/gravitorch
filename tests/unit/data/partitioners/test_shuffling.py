@@ -17,18 +17,18 @@ from gravitorch.engines import BaseEngine
 #############################################
 
 
-def test_epoch_shuffle_partitioner_str():
+def test_epoch_shuffle_partitioner_str() -> None:
     assert str(EpochShufflePartitioner(Mock(spec=BasePartitioner))).startswith(
         "EpochShufflePartitioner("
     )
 
 
-def test_epoch_shuffle_partitioner_partitioner():
+def test_epoch_shuffle_partitioner_partitioner() -> None:
     partitioner = FixedSizePartitioner(partition_size=4)
     assert EpochShufflePartitioner(partitioner).partitioner is partitioner
 
 
-def test_epoch_shuffle_partitioner_dict():
+def test_epoch_shuffle_partitioner_dict() -> None:
     assert isinstance(
         EpochShufflePartitioner(
             {
@@ -54,12 +54,12 @@ def test_epoch_shuffle_partitioner_random_seed(random_seed: int):
     "gravitorch.data.partitioners.shuffling.torch.randperm",
     lambda *args, **kwargs: torch.tensor([9, 8, 7, 6, 5, 4, 3, 2, 1, 0]),
 )
-def test_epoch_shuffle_partitioner_partition():
+def test_epoch_shuffle_partitioner_partition() -> None:
     partitioner = EpochShufflePartitioner(FixedSizePartitioner(partition_size=4))
     assert partitioner.partition(list(range(10))) == [[9, 8, 7, 6], [5, 4, 3, 2], [1, 0]]
 
 
-def test_epoch_shuffle_partitioner_partition_same_random_seed():
+def test_epoch_shuffle_partitioner_partition_same_random_seed() -> None:
     items = list(range(10))
     assert objects_are_equal(
         EpochShufflePartitioner(FixedSizePartitioner(partition_size=4)).partition(items),
@@ -67,7 +67,7 @@ def test_epoch_shuffle_partitioner_partition_same_random_seed():
     )
 
 
-def test_epoch_shuffle_partitioner_partition_different_random_seeds():
+def test_epoch_shuffle_partitioner_partition_different_random_seeds() -> None:
     items = list(range(10))
     assert not objects_are_equal(
         EpochShufflePartitioner(
@@ -79,7 +79,7 @@ def test_epoch_shuffle_partitioner_partition_different_random_seeds():
     )
 
 
-def test_epoch_shuffle_partitioner_partition_same_random_seed_and_epoch():
+def test_epoch_shuffle_partitioner_partition_same_random_seed_and_epoch() -> None:
     engine = Mock(spec=BaseEngine, epoch=42)
     items = list(range(10))
     assert objects_are_equal(
@@ -88,7 +88,7 @@ def test_epoch_shuffle_partitioner_partition_same_random_seed_and_epoch():
     )
 
 
-def test_epoch_shuffle_partitioner_partition_same_random_seed_and_different_epochs():
+def test_epoch_shuffle_partitioner_partition_same_random_seed_and_different_epochs() -> None:
     items = list(range(10))
     assert not objects_are_equal(
         EpochShufflePartitioner(FixedSizePartitioner(partition_size=4)).partition(
@@ -100,7 +100,7 @@ def test_epoch_shuffle_partitioner_partition_same_random_seed_and_different_epoc
     )
 
 
-def test_epoch_shuffle_partitioner_partition_different_random_seeds_and_same_epoch():
+def test_epoch_shuffle_partitioner_partition_different_random_seeds_and_same_epoch() -> None:
     engine = Mock(spec=BaseEngine, epoch=42)
     items = list(range(10))
     assert not objects_are_equal(
@@ -113,7 +113,7 @@ def test_epoch_shuffle_partitioner_partition_different_random_seeds_and_same_epo
     )
 
 
-def test_epoch_shuffle_partitioner_partition_different_random_seeds_and_epochs():
+def test_epoch_shuffle_partitioner_partition_different_random_seeds_and_epochs() -> None:
     items = list(range(10))
     assert not objects_are_equal(
         EpochShufflePartitioner(

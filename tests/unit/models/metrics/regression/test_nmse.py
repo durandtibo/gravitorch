@@ -30,7 +30,7 @@ def test_normalized_mean_squared_error_str(mode: str):
     assert str(NormalizedMeanSquaredError(mode)).startswith("NormalizedMeanSquaredError(")
 
 
-def test_normalized_mean_squared_error_init():
+def test_normalized_mean_squared_error_init() -> None:
     metric = NormalizedMeanSquaredError(ct.EVAL)
     assert metric._sum_squared_errors == 0.0
     assert metric._sum_squared_targets == 0.0
@@ -224,7 +224,7 @@ def test_normalized_mean_squared_error_events_eval(device: str, engine: BaseEngi
     assert engine.get_history(f"{ct.EVAL}/nmse_num_predictions").get_last_value() == 4
 
 
-def test_normalized_mean_squared_error_reset():
+def test_normalized_mean_squared_error_reset() -> None:
     metric = NormalizedMeanSquaredError(ct.EVAL)
     metric._sum_squared_errors = 10.0
     metric._sum_squared_targets = 15.0

@@ -40,23 +40,23 @@ def increment_epoch_handler(engine: BaseEngine) -> None:
 
 
 @accelerate_available
-def test_accelerate_training_loop_str():
+def test_accelerate_training_loop_str() -> None:
     assert str(AccelerateTrainingLoop()).startswith("AccelerateTrainingLoop(")
 
 
-def test_accelerate_training_loop_missing_package():
+def test_accelerate_training_loop_missing_package() -> None:
     with patch("gravitorch.utils.integrations.is_accelerate_available", lambda *args: False):
         with raises(RuntimeError):
             AccelerateTrainingLoop()
 
 
 @accelerate_available
-def test_accelerate_training_loop_accelerator_none():
+def test_accelerate_training_loop_accelerator_none() -> None:
     assert isinstance(AccelerateTrainingLoop()._accelerator, Accelerator)
 
 
 @accelerate_available
-def test_accelerate_training_loop_accelerator_object():
+def test_accelerate_training_loop_accelerator_object() -> None:
     training_loop = AccelerateTrainingLoop(accelerator=Accelerator(cpu=True))
     assert isinstance(training_loop._accelerator, Accelerator)
     assert training_loop._accelerator.state.device.type == "cpu"
@@ -149,7 +149,7 @@ def test_accelerate_training_loop_observer_default():
 
 
 @accelerate_available
-def test_accelerate_training_loop_observer(tmp_path: Path):
+def test_accelerate_training_loop_observer(tmp_path: Path) -> None:
     assert isinstance(
         AccelerateTrainingLoop(observer=PyTorchBatchSaver(tmp_path))._observer,
         PyTorchBatchSaver,
