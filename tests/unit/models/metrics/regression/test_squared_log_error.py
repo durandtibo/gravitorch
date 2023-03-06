@@ -40,7 +40,7 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_str(mode: str):
+def test_squared_log_error_str(mode: str) -> None:
     assert str(SquaredLogError(mode)).startswith("SquaredLogError(")
 
 
@@ -148,7 +148,7 @@ def test_squared_log_error_forward_incorrect(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_forward_partially_correct(device: str, mode: str):
+def test_squared_log_error_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredLogError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.eye(2, device=device))
@@ -166,7 +166,7 @@ def test_squared_log_error_forward_partially_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_forward_1d(device: str, mode: str):
+def test_squared_log_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredLogError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -181,7 +181,7 @@ def test_squared_log_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_forward_2d(device: str, mode: str):
+def test_squared_log_error_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredLogError(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -196,7 +196,7 @@ def test_squared_log_error_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_forward_3d(device: str, mode: str):
+def test_squared_log_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredLogError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -236,7 +236,7 @@ def test_squared_log_error_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_forward_state(device: str, mode: str):
+def test_squared_log_error_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredLogError(mode, state=ExtendedErrorState()).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -253,7 +253,7 @@ def test_squared_log_error_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_forward_multiple_batches(device: str, mode: str):
+def test_squared_log_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredLogError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -272,7 +272,7 @@ def test_squared_log_error_forward_multiple_batches(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_squared_log_error_forward_multiple_batches_with_reset(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredLogError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -291,7 +291,7 @@ def test_squared_log_error_forward_multiple_batches_with_reset(device: str, mode
 
 
 @mark.parametrize("mode", MODES)
-def test_squared_log_error_value_empty(mode: str):
+def test_squared_log_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         SquaredLogError(mode).value()
 
@@ -355,7 +355,7 @@ def test_squared_log_error_reset() -> None:
 
 
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_str(mode: str):
+def test_squared_symlog_error_str(mode: str) -> None:
     assert str(SquaredSymlogError(mode)).startswith("SquaredSymlogError(")
 
 
@@ -463,7 +463,7 @@ def test_squared_symlog_error_forward_incorrect(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_forward_incorrect_negative(device: str, mode: str):
+def test_squared_symlog_error_forward_incorrect_negative(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredSymlogError(mode).to(device=device)
     metric(
@@ -484,7 +484,7 @@ def test_squared_symlog_error_forward_incorrect_negative(device: str, mode: str)
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_forward_partially_correct(device: str, mode: str):
+def test_squared_symlog_error_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredSymlogError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.eye(2, device=device))
@@ -502,7 +502,7 @@ def test_squared_symlog_error_forward_partially_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_forward_1d(device: str, mode: str):
+def test_squared_symlog_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredSymlogError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -517,7 +517,7 @@ def test_squared_symlog_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_forward_2d(device: str, mode: str):
+def test_squared_symlog_error_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredSymlogError(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -532,7 +532,7 @@ def test_squared_symlog_error_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_forward_3d(device: str, mode: str):
+def test_squared_symlog_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredSymlogError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -572,7 +572,7 @@ def test_squared_symlog_error_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_forward_state(device: str, mode: str):
+def test_squared_symlog_error_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredSymlogError(mode, state=ExtendedErrorState()).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -589,7 +589,7 @@ def test_squared_symlog_error_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_forward_multiple_batches(device: str, mode: str):
+def test_squared_symlog_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredSymlogError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -608,7 +608,7 @@ def test_squared_symlog_error_forward_multiple_batches(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_squared_symlog_error_forward_multiple_batches_with_reset(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredSymlogError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -627,7 +627,7 @@ def test_squared_symlog_error_forward_multiple_batches_with_reset(device: str, m
 
 
 @mark.parametrize("mode", MODES)
-def test_squared_symlog_error_value_empty(mode: str):
+def test_squared_symlog_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         SquaredSymlogError(mode).value()
 
@@ -691,7 +691,7 @@ def test_squared_symlog_error_reset() -> None:
 
 
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_str(mode: str):
+def test_squared_asinh_error_str(mode: str) -> None:
     assert str(SquaredAsinhError(mode)).startswith("SquaredAsinhError(")
 
 
@@ -799,7 +799,7 @@ def test_squared_asinh_error_forward_incorrect(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_forward_incorrect_negative(device: str, mode: str):
+def test_squared_asinh_error_forward_incorrect_negative(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredAsinhError(mode).to(device=device)
     metric(
@@ -820,7 +820,7 @@ def test_squared_asinh_error_forward_incorrect_negative(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_forward_partially_correct(device: str, mode: str):
+def test_squared_asinh_error_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredAsinhError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.eye(2, device=device))
@@ -838,7 +838,7 @@ def test_squared_asinh_error_forward_partially_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_forward_1d(device: str, mode: str):
+def test_squared_asinh_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredAsinhError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -853,7 +853,7 @@ def test_squared_asinh_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_forward_2d(device: str, mode: str):
+def test_squared_asinh_error_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredAsinhError(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -868,7 +868,7 @@ def test_squared_asinh_error_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_forward_3d(device: str, mode: str):
+def test_squared_asinh_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredAsinhError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -908,7 +908,7 @@ def test_squared_asinh_error_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_forward_state(device: str, mode: str):
+def test_squared_asinh_error_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredAsinhError(mode, state=ExtendedErrorState()).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -925,7 +925,7 @@ def test_squared_asinh_error_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_forward_multiple_batches(device: str, mode: str):
+def test_squared_asinh_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredAsinhError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -944,7 +944,7 @@ def test_squared_asinh_error_forward_multiple_batches(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_squared_asinh_error_forward_multiple_batches_with_reset(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredAsinhError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -963,7 +963,7 @@ def test_squared_asinh_error_forward_multiple_batches_with_reset(device: str, mo
 
 
 @mark.parametrize("mode", MODES)
-def test_squared_asinh_error_value_empty(mode: str):
+def test_squared_asinh_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         SquaredAsinhError(mode).value()
 

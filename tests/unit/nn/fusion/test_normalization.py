@@ -15,7 +15,7 @@ SIZES = (1, 2)
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_fusion_norm_sum_layer_norm(device: str, batch_size: int, input_size: int):
+def test_fusion_norm_sum_layer_norm(device: str, batch_size: int, input_size: int) -> None:
     device = torch.device(device)
     net = FusionNorm.create_sum_layer_norm(input_size=input_size).to(device=device)
     y = net(
@@ -30,7 +30,9 @@ def test_fusion_norm_sum_layer_norm(device: str, batch_size: int, input_size: in
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_fusion_norm_multiplication_layer_norm(device: str, batch_size: int, input_size: int):
+def test_fusion_norm_multiplication_layer_norm(
+    device: str, batch_size: int, input_size: int
+) -> None:
     device = torch.device(device)
     net = FusionNorm.create_multiplication_layer_norm(input_size=input_size).to(device=device)
     y = net(

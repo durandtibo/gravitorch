@@ -52,7 +52,7 @@ def test_padded_sequence_collator_length_key(length_key: Hashable):
 
 
 @mark.parametrize("padding_value", [0, 1, -1])
-def test_padded_sequence_collator_padding_value(padding_value: float):
+def test_padded_sequence_collator_padding_value(padding_value: float) -> None:
     data = [
         ({ct.LENGTH: 2}, {FEATURE: torch.full((2,), 2, dtype=torch.float)}),
         ({ct.LENGTH: 3}, {FEATURE: torch.full((3,), 3, dtype=torch.float)}),
@@ -528,7 +528,7 @@ def test_dict_padded_sequence_collator_batch_first_3d():
 
 
 @mark.parametrize("padding_value", [0, 1, -1])
-def test_dict_padded_sequence_collator_padding_value(padding_value: float):
+def test_dict_padded_sequence_collator_padding_value(padding_value: float) -> None:
     data = [
         {FEATURE: torch.full((2,), 2, dtype=torch.float)},
         {FEATURE: torch.full((3,), 3, dtype=torch.float)},

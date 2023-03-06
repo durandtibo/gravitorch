@@ -10,7 +10,7 @@ from gravitorch.data.datasets.demo_map_style import DemoMultiClassClsDataset
 
 
 @mark.parametrize("num_examples", (1, 4, 8))
-def test_demo_multiclass_cls_dataset_num_examples(num_examples: int):
+def test_demo_multiclass_cls_dataset_num_examples(num_examples: int) -> None:
     dataset = DemoMultiClassClsDataset(num_examples)
     assert dataset.num_examples == num_examples
     assert dataset._targets.shape[0] == num_examples
@@ -23,7 +23,7 @@ def test_demo_multiclass_cls_dataset_incorrect_num_examples() -> None:
 
 
 @mark.parametrize("num_classes", (1, 4, 8))
-def test_demo_multiclass_cls_dataset_num_classes(num_classes: int):
+def test_demo_multiclass_cls_dataset_num_classes(num_classes: int) -> None:
     dataset = DemoMultiClassClsDataset(num_examples=10, num_classes=num_classes)
     assert dataset.num_classes == num_classes
     assert torch.min(dataset._targets) >= 0
@@ -36,7 +36,7 @@ def test_demo_multiclass_cls_dataset_incorrect_num_classes() -> None:
 
 
 @mark.parametrize("feature_size", [1, 4, 8])
-def test_demo_multiclass_cls_dataset_feature_size(feature_size: int):
+def test_demo_multiclass_cls_dataset_feature_size(feature_size: int) -> None:
     dataset = DemoMultiClassClsDataset(num_examples=10, num_classes=1, feature_size=feature_size)
     assert dataset.feature_size == feature_size
     assert dataset._features.shape[1] == feature_size
@@ -48,7 +48,7 @@ def test_demo_multiclass_cls_dataset_incorrect_feature_size() -> None:
 
 
 @mark.parametrize("noise_std", (0, 0.1, 1))
-def test_demo_multiclass_cls_dataset_noise_std(noise_std: float):
+def test_demo_multiclass_cls_dataset_noise_std(noise_std: float) -> None:
     assert DemoMultiClassClsDataset(num_examples=10, noise_std=noise_std).noise_std == noise_std
 
 
@@ -75,7 +75,7 @@ def test_demo_multiclass_cls_dataset_getitem() -> None:
 
 
 @mark.parametrize("num_examples", (1, 4, 8))
-def test_demo_multiclass_cls_dataset_len(num_examples: int):
+def test_demo_multiclass_cls_dataset_len(num_examples: int) -> None:
     dataset = DemoMultiClassClsDataset(num_examples)
     assert len(dataset) == num_examples
 

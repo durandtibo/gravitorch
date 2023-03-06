@@ -30,7 +30,7 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_str(mode: str):
+def test_binary_confusion_matrix_str(mode: str) -> None:
     assert str(BinaryConfusionMatrix(mode)).startswith("BinaryConfusionMatrix(")
 
 
@@ -84,7 +84,7 @@ def test_binary_confusion_matrix_attach_eval(name: str, engine: BaseEngine):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_forward_correct(device: str, mode: str):
+def test_binary_confusion_matrix_forward_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(mode).to(device=device)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([0, 1, 0, 1], device=device))
@@ -105,7 +105,7 @@ def test_binary_confusion_matrix_forward_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_forward_incorrect(device: str, mode: str):
+def test_binary_confusion_matrix_forward_incorrect(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(mode).to(device=device)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([1, 0, 1, 0], device=device))
@@ -126,7 +126,7 @@ def test_binary_confusion_matrix_forward_incorrect(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_forward_betas(device: str, mode: str):
+def test_binary_confusion_matrix_forward_betas(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(mode, betas=(0.5, 1, 2)).to(device=device)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([0, 1, 0, 1], device=device))
@@ -149,7 +149,7 @@ def test_binary_confusion_matrix_forward_betas(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_forward_2d(device: str, mode: str):
+def test_binary_confusion_matrix_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(mode).to(device=device)
     metric(
@@ -204,7 +204,7 @@ def test_binary_confusion_matrix_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_forward_multiple_batches(device: str, mode: str):
+def test_binary_confusion_matrix_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(mode).to(device=device)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([0, 1, 0, 1], device=device))
@@ -226,7 +226,9 @@ def test_binary_confusion_matrix_forward_multiple_batches(device: str, mode: str
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_binary_confusion_matrix_forward_multiple_batches_with_reset(
+    device: str, mode: str
+) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(mode).to(device=device)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([0, 1, 0, 1], device=device))
@@ -335,7 +337,7 @@ def test_binary_confusion_matrix_reset() -> None:
 
 
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_str(mode: str):
+def test_categorical_confusion_matrix_str(mode: str) -> None:
     assert str(CategoricalConfusionMatrix(mode, num_classes=3)).startswith(
         "CategoricalConfusionMatrix("
     )
@@ -391,7 +393,7 @@ def test_categorical_confusion_matrix_attach_eval(name: str, engine: BaseEngine)
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_forward_correct(device: str, mode: str):
+def test_categorical_confusion_matrix_forward_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(mode, num_classes=3).to(device=device)
     metric(
@@ -416,7 +418,7 @@ def test_categorical_confusion_matrix_forward_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_forward_incorrect(device: str, mode: str):
+def test_categorical_confusion_matrix_forward_incorrect(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(mode, num_classes=3).to(device=device)
     metric(
@@ -441,7 +443,7 @@ def test_categorical_confusion_matrix_forward_incorrect(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_forward_betas(device: str, mode: str):
+def test_categorical_confusion_matrix_forward_betas(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(mode, num_classes=3, betas=(0.5, 1, 2)).to(device=device)
     metric(
@@ -472,7 +474,7 @@ def test_categorical_confusion_matrix_forward_betas(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_forward_2d(device: str, mode: str):
+def test_categorical_confusion_matrix_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(mode, num_classes=3).to(device=device)
     metric(
@@ -535,7 +537,7 @@ def test_categorical_confusion_matrix_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_forward_multiple_batches(device: str, mode: str):
+def test_categorical_confusion_matrix_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(mode, num_classes=3).to(device=device)
     metric(
@@ -561,7 +563,9 @@ def test_categorical_confusion_matrix_forward_multiple_batches(device: str, mode
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_categorical_confusion_matrix_forward_multiple_batches_with_reset(
+    device: str, mode: str
+) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(mode, num_classes=3).to(device=device)
     metric(

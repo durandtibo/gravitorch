@@ -27,7 +27,7 @@ def test_model_parameter_analyzer_events_default() -> None:
 
 
 @mark.parametrize("tablefmt", ("rst", "github"))
-def test_model_parameter_analyzer_tablefmt(tablefmt: str):
+def test_model_parameter_analyzer_tablefmt(tablefmt: str) -> None:
     assert ModelParameterAnalyzer(tablefmt=tablefmt)._tablefmt == tablefmt
 
 
@@ -36,7 +36,7 @@ def test_model_parameter_analyzer_tablefmt_default() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_model_parameter_analyzer_attach(event: str):
+def test_model_parameter_analyzer_attach(event: str) -> None:
     handler = ModelParameterAnalyzer(events=event)
     engine = Mock(spec=BaseEngine)
     handler.attach(engine)
@@ -61,7 +61,7 @@ def test_model_parameter_analyzer_attach_2_events() -> None:
 
 
 @mark.parametrize("tablefmt", ("rst", "github"))
-def test_model_parameter_analyzer_analyze(tablefmt: str):
+def test_model_parameter_analyzer_analyze(tablefmt: str) -> None:
     handler = ModelParameterAnalyzer(tablefmt=tablefmt)
     engine = Mock(spec=BaseEngine)
     with patch("gravitorch.handlers.model_parameter_analyzer.show_parameter_stats") as analyze_mock:

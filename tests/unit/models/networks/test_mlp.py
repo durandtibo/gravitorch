@@ -27,14 +27,14 @@ DROPOUT_VALUES = (0.1, 0.5)
 
 
 @mark.parametrize("input_size", SIZES)
-def test_alpha_mlp_input_size(input_size: int):
+def test_alpha_mlp_input_size(input_size: int) -> None:
     net = AlphaMLP(input_size=input_size, hidden_sizes=(16, 4))
     assert net.input_size == input_size
     assert net.layers.linear1.in_features == input_size
 
 
 @mark.parametrize("hidden_sizes,num_layers", (((8,), 2), ((16, 4), 4), ((16, 16, 4), 6)))
-def test_alpha_mlp_num_layers(hidden_sizes: Sequence[int], num_layers: int):
+def test_alpha_mlp_num_layers(hidden_sizes: Sequence[int], num_layers: int) -> None:
     assert len(AlphaMLP(input_size=16, hidden_sizes=hidden_sizes)) == num_layers
 
 
@@ -53,14 +53,14 @@ def test_alpha_mlp_get_dummy_input(device: str, batch_size: int, input_size: int
 
 
 @mark.parametrize("input_name", ("name", ct.INPUT))
-def test_alpha_mlp_get_input_names(input_name: str):
+def test_alpha_mlp_get_input_names(input_name: str) -> None:
     net = AlphaMLP(input_size=16, hidden_sizes=(16, 4), input_name=input_name)
     assert net.get_input_names() == (input_name,)
 
 
 @mark.parametrize("input_name", ("name", ct.INPUT))
 @mark.parametrize("output_name", ("name", ct.PREDICTION))
-def test_alpha_mlp_get_onnx_dynamic_axis(input_name: str, output_name: str):
+def test_alpha_mlp_get_onnx_dynamic_axis(input_name: str, output_name: str) -> None:
     net = AlphaMLP(
         input_size=16, hidden_sizes=(16, 4), input_name=input_name, output_name=output_name
     )
@@ -68,7 +68,7 @@ def test_alpha_mlp_get_onnx_dynamic_axis(input_name: str, output_name: str):
 
 
 @mark.parametrize("output_name", ("name", ct.PREDICTION))
-def test_alpha_mlp_get_output_names(output_name: str):
+def test_alpha_mlp_get_output_names(output_name: str) -> None:
     net = AlphaMLP(input_size=16, hidden_sizes=(16, 4), output_name=output_name)
     assert net.get_output_names() == (output_name,)
 
@@ -189,7 +189,7 @@ def test_create_alpha_mlp_activation_gelu() -> None:
 
 
 @mark.parametrize("dropout", DROPOUT_VALUES)
-def test_create_alpha_mlp_dropout(dropout: float):
+def test_create_alpha_mlp_dropout(dropout: float) -> None:
     mlp = create_alpha_mlp(input_size=16, hidden_sizes=(16, 4), dropout=dropout)
     assert mlp.dropout1.p == dropout
     assert mlp.dropout2.p == dropout
@@ -280,7 +280,7 @@ def test_create_beta_mlp_activation_elu() -> None:
 
 
 @mark.parametrize("dropout", DROPOUT_VALUES)
-def test_create_beta_mlp_dropout(dropout: float):
+def test_create_beta_mlp_dropout(dropout: float) -> None:
     mlp = create_beta_mlp(input_size=16, hidden_sizes=(16, 4), dropout=dropout)
     assert mlp.dropout1.p == dropout
     assert mlp.dropout2.p == dropout

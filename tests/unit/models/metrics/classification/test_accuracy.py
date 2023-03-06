@@ -42,12 +42,12 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_str(mode: str):
+def test_binary_accuracy_str(mode: str) -> None:
     assert str(BinaryAccuracy(mode)).startswith("BinaryAccuracy(")
 
 
 @mark.parametrize("threshold", (0.0, 0.5))
-def test_binary_accuracy_threshold(threshold: float):
+def test_binary_accuracy_threshold(threshold: float) -> None:
     metric = BinaryAccuracy(ct.EVAL, threshold=threshold)
     assert isinstance(metric.prediction_transform, ToBinaryLabel)
     assert metric.prediction_transform.threshold == threshold
@@ -120,7 +120,7 @@ def test_binary_accuracy_attach_state_extended(engine: BaseEngine):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
-def test_binary_accuracy_forward_correct(device: str, mode: str, batch_size: int):
+def test_binary_accuracy_forward_correct(device: str, mode: str, batch_size: int) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.ones(batch_size, device=device), torch.ones(batch_size, device=device))
@@ -133,7 +133,7 @@ def test_binary_accuracy_forward_correct(device: str, mode: str, batch_size: int
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
-def test_binary_accuracy_forward_incorrect(device: str, mode: str, batch_size: int):
+def test_binary_accuracy_forward_incorrect(device: str, mode: str, batch_size: int) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.zeros(batch_size, device=device), torch.ones(batch_size, device=device))
@@ -145,7 +145,7 @@ def test_binary_accuracy_forward_incorrect(device: str, mode: str, batch_size: i
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_partially_correct(device: str, mode: str):
+def test_binary_accuracy_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([1, 1, 0, 0], device=device))
@@ -157,7 +157,7 @@ def test_binary_accuracy_forward_partially_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_1d(device: str, mode: str):
+def test_binary_accuracy_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -169,7 +169,7 @@ def test_binary_accuracy_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_1d_and_2d(device: str, mode: str):
+def test_binary_accuracy_forward_1d_and_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, 1, device=device))
@@ -181,7 +181,7 @@ def test_binary_accuracy_forward_1d_and_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_2d_and_1d(device: str, mode: str):
+def test_binary_accuracy_forward_2d_and_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.ones(2, 1, device=device), torch.ones(2, device=device))
@@ -193,7 +193,7 @@ def test_binary_accuracy_forward_2d_and_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_2d(device: str, mode: str):
+def test_binary_accuracy_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -205,7 +205,7 @@ def test_binary_accuracy_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_3d(device: str, mode: str):
+def test_binary_accuracy_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -239,7 +239,7 @@ def test_binary_accuracy_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_state(device: str, mode: str):
+def test_binary_accuracy_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode, state=ExtendedAccuracyState()).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -254,7 +254,7 @@ def test_binary_accuracy_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_threshold_0(device: str, mode: str):
+def test_binary_accuracy_forward_threshold_0(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode, threshold=0.0).to(device=device)
     metric(torch.tensor([-1, 1, -2, 1], device=device), torch.tensor([1, 1, 0, 0], device=device))
@@ -266,7 +266,7 @@ def test_binary_accuracy_forward_threshold_0(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_threshold_0_5(device: str, mode: str):
+def test_binary_accuracy_forward_threshold_0_5(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode, threshold=0.5).to(device=device)
     metric(
@@ -280,7 +280,7 @@ def test_binary_accuracy_forward_threshold_0_5(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_multiple_batches(device: str, mode: str):
+def test_binary_accuracy_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.zeros(4, device=device), torch.ones(4, device=device))
@@ -293,7 +293,7 @@ def test_binary_accuracy_forward_multiple_batches(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_binary_accuracy_forward_multiple_batches_with_reset(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.zeros(4, device=device), torch.ones(4, device=device))
@@ -361,7 +361,7 @@ def test_binary_accuracy_reset() -> None:
 
 
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_str(mode: str):
+def test_categorical_accuracy_str(mode: str) -> None:
     assert str(CategoricalAccuracy(mode)).startswith("CategoricalAccuracy(")
 
 
@@ -456,7 +456,7 @@ def test_categorical_accuracy_forward_incorrect(device: str, mode: str, batch_si
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_forward_partially_correct(device: str, mode: str):
+def test_categorical_accuracy_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.zeros(2, device=device))
@@ -468,7 +468,7 @@ def test_categorical_accuracy_forward_partially_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_forward_prediction_2d(device: str, mode: str):
+def test_categorical_accuracy_forward_prediction_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     prediction = torch.rand(2, 3, device=device)
@@ -482,7 +482,7 @@ def test_categorical_accuracy_forward_prediction_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_forward_prediction_2d_target_2d(device: str, mode: str):
+def test_categorical_accuracy_forward_prediction_2d_target_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     prediction = torch.rand(2, 3, device=device)
@@ -496,7 +496,7 @@ def test_categorical_accuracy_forward_prediction_2d_target_2d(device: str, mode:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_forward_prediction_3d(device: str, mode: str):
+def test_categorical_accuracy_forward_prediction_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     prediction = torch.rand(2, 3, 4, device=device)
@@ -510,7 +510,7 @@ def test_categorical_accuracy_forward_prediction_3d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_forward_prediction_4d(device: str, mode: str):
+def test_categorical_accuracy_forward_prediction_4d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     prediction = torch.rand(2, 3, 4, 5, device=device)
@@ -546,7 +546,7 @@ def test_categorical_accuracy_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_forward_state(device: str, mode: str):
+def test_categorical_accuracy_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode, state=ExtendedAccuracyState()).to(device=device)
     metric(torch.eye(2, device=device), torch.zeros(2, device=device))
@@ -561,7 +561,7 @@ def test_categorical_accuracy_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_forward_multiple_batches(device: str, mode: str):
+def test_categorical_accuracy_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.zeros(2, device=device))
@@ -574,7 +574,7 @@ def test_categorical_accuracy_forward_multiple_batches(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_categorical_accuracy_forward_multiple_batches_with_reset(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.zeros(2, device=device))
@@ -642,7 +642,7 @@ def test_categorical_accuracy_reset() -> None:
 
 
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_str(mode: str):
+def test_top_k_accuracy_str(mode: str) -> None:
     assert str(TopKAccuracy(mode)).startswith("TopKAccuracy(")
 
 
@@ -655,7 +655,7 @@ def test_top_k_accuracy_str(mode: str):
         ([1, 5], (1, 5)),
     ),
 )
-def test_top_k_accuracy_tolerances(topk: Sequence[int], tuple_topk: tuple[int, ...]):
+def test_top_k_accuracy_tolerances(topk: Sequence[int], tuple_topk: tuple[int, ...]) -> None:
     assert TopKAccuracy(mode=ct.TRAIN, topk=topk).topk == tuple_topk
 
 
@@ -763,7 +763,7 @@ def test_top_k_accuracy_forward_top1_correct(device: str, mode: str, batch_size:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_top_1_5_correct(device: str, mode: str):
+def test_top_k_accuracy_forward_top_1_5_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1, 5)).to(device=device)
     metric(prediction=torch.eye(10, device=device), target=torch.arange(10, device=device))
@@ -777,7 +777,7 @@ def test_top_k_accuracy_forward_top_1_5_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_top_1_partially_correct(device: str, mode: str):
+def test_top_k_accuracy_forward_top_1_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     metric(
@@ -792,7 +792,7 @@ def test_top_k_accuracy_forward_top_1_partially_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_top_1_2_3_partially_correct(device: str, mode: str):
+def test_top_k_accuracy_forward_top_1_2_3_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1, 2, 3)).to(device=device)
     metric(
@@ -811,7 +811,7 @@ def test_top_k_accuracy_forward_top_1_2_3_partially_correct(device: str, mode: s
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_top_1_incorrect(device: str, mode: str):
+def test_top_k_accuracy_forward_top_1_incorrect(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     metric(
@@ -826,7 +826,7 @@ def test_top_k_accuracy_forward_top_1_incorrect(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_top_1_2_3_incorrect(device: str, mode: str):
+def test_top_k_accuracy_forward_top_1_2_3_incorrect(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1, 2, 3)).to(device=device)
     metric(
@@ -845,7 +845,7 @@ def test_top_k_accuracy_forward_top_1_2_3_incorrect(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_prediction_2d(device: str, mode: str):
+def test_top_k_accuracy_forward_prediction_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     prediction = torch.rand(2, 3, device=device)
@@ -859,7 +859,7 @@ def test_top_k_accuracy_forward_prediction_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_prediction_2d_target_2d(device: str, mode: str):
+def test_top_k_accuracy_forward_prediction_2d_target_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     prediction = torch.rand(2, 3, device=device)
@@ -873,7 +873,7 @@ def test_top_k_accuracy_forward_prediction_2d_target_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_prediction_3d(device: str, mode: str):
+def test_top_k_accuracy_forward_prediction_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     prediction = torch.rand(2, 3, 4, device=device)
@@ -887,7 +887,7 @@ def test_top_k_accuracy_forward_prediction_3d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_prediction_4d(device: str, mode: str):
+def test_top_k_accuracy_forward_prediction_4d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     prediction = torch.rand(2, 3, 4, 5, device=device)
@@ -923,7 +923,7 @@ def test_top_k_accuracy_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_state(device: str, mode: str):
+def test_top_k_accuracy_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(
         mode,
@@ -955,7 +955,7 @@ def test_top_k_accuracy_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_top_1_multiple_batches(device: str, mode: str):
+def test_top_k_accuracy_forward_top_1_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     metric(
@@ -974,7 +974,7 @@ def test_top_k_accuracy_forward_top_1_multiple_batches(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_forward_top_1_multiple_batches_with_reset(device: str, mode: str):
+def test_top_k_accuracy_forward_top_1_multiple_batches_with_reset(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     metric(
@@ -993,7 +993,7 @@ def test_top_k_accuracy_forward_top_1_multiple_batches_with_reset(device: str, m
 
 
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_value_empty(mode: str):
+def test_top_k_accuracy_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         TopKAccuracy(mode).value()
 

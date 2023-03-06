@@ -19,7 +19,7 @@ def test_vanilla_data_source_creator_str():
 
 
 @mark.parametrize("attach_to_engine", (True, False))
-def test_vanilla_data_source_creator_attach_to_engine(attach_to_engine: bool):
+def test_vanilla_data_source_creator_attach_to_engine(attach_to_engine: bool) -> None:
     assert (
         VanillaDataSourceCreator(
             config={},
@@ -30,7 +30,7 @@ def test_vanilla_data_source_creator_attach_to_engine(attach_to_engine: bool):
 
 
 @mark.parametrize("add_module_to_engine", (True, False))
-def test_vanilla_data_source_creator_add_module_to_engine(add_module_to_engine: bool):
+def test_vanilla_data_source_creator_add_module_to_engine(add_module_to_engine: bool) -> None:
     assert (
         VanillaDataSourceCreator(
             config={}, add_module_to_engine=add_module_to_engine

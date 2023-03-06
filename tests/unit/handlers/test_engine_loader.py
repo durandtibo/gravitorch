@@ -31,12 +31,12 @@ def test_engine_state_loader_path(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_engine_state_loader_event(tmp_path: Path, event: str):
+def test_engine_state_loader_event(tmp_path: Path, event: str) -> None:
     assert EngineStateLoader(tmp_path, event=event)._event == event
 
 
 @mark.parametrize("missing_ok", (True, False))
-def test_engine_state_loader_missing_ok(tmp_path: Path, missing_ok: bool):
+def test_engine_state_loader_missing_ok(tmp_path: Path, missing_ok: bool) -> None:
     assert (
         EngineStateLoader(tmp_path, event="my_event", missing_ok=missing_ok)._missing_ok
         == missing_ok
@@ -44,7 +44,7 @@ def test_engine_state_loader_missing_ok(tmp_path: Path, missing_ok: bool):
 
 
 @mark.parametrize("event", EVENTS)
-def test_engine_state_loader_attach(tmp_path: Path, event: str):
+def test_engine_state_loader_attach(tmp_path: Path, event: str) -> None:
     loader = EngineStateLoader(tmp_path, event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     engine.has_event_handler.return_value = False

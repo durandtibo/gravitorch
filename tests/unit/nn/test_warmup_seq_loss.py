@@ -31,12 +31,12 @@ def test_warmup_sequence_loss_criterion(
 
 
 @mark.parametrize("warmup", (0, 1, 2))
-def test_warmup_sequence_loss_warmup(warmup: int):
+def test_warmup_sequence_loss_warmup(warmup: int) -> None:
     assert WarmupSequenceLoss(criterion=nn.MSELoss(), warmup=warmup)._warmup == warmup
 
 
 @mark.parametrize("batch_first", (True, False))
-def test_warmup_sequence_loss_batch_first(batch_first: bool):
+def test_warmup_sequence_loss_batch_first(batch_first: bool) -> None:
     assert (
         WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=batch_first)._batch_first
         == batch_first
@@ -46,7 +46,7 @@ def test_warmup_sequence_loss_batch_first(batch_first: bool):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_first", (True, False))
 @mark.parametrize("warmup", (0, 1, 2))
-def test_warmup_sequence_mse_2d(device: str, batch_first: bool, warmup: int):
+def test_warmup_sequence_mse_2d(device: str, batch_first: bool, warmup: int) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(
         criterion=nn.MSELoss(), batch_first=batch_first, warmup=warmup
@@ -56,7 +56,7 @@ def test_warmup_sequence_mse_2d(device: str, batch_first: bool, warmup: int):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_mse_2d_batch_first_warmup_1(device: str):
+def test_warmup_sequence_mse_2d_batch_first_warmup_1(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=True, warmup=1).to(
         device=device
@@ -69,7 +69,7 @@ def test_warmup_sequence_mse_2d_batch_first_warmup_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_mse_2d_batch_first_warmup_2(device: str):
+def test_warmup_sequence_mse_2d_batch_first_warmup_2(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=True, warmup=2).to(
         device=device
@@ -84,7 +84,7 @@ def test_warmup_sequence_mse_2d_batch_first_warmup_2(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_first", (True, False))
 @mark.parametrize("warmup", (0, 1, 2))
-def test_warmup_sequence_mse_3d(device: str, batch_first: bool, warmup: int):
+def test_warmup_sequence_mse_3d(device: str, batch_first: bool, warmup: int) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(
         criterion=nn.MSELoss(), batch_first=batch_first, warmup=warmup
@@ -99,7 +99,7 @@ def test_warmup_sequence_mse_3d(device: str, batch_first: bool, warmup: int):
 @mark.parametrize("feature_size", SIZES)
 def test_warmup_sequence_mse_batch_first_3d(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=True).to(device=device)
     loss = criterion(
@@ -110,7 +110,7 @@ def test_warmup_sequence_mse_batch_first_3d(
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_mse_3d_batch_first_warmup_1(device: str):
+def test_warmup_sequence_mse_3d_batch_first_warmup_1(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=True, warmup=1).to(
         device=device
@@ -123,7 +123,7 @@ def test_warmup_sequence_mse_3d_batch_first_warmup_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_mse_3d_batch_first_warmup_2(device: str):
+def test_warmup_sequence_mse_3d_batch_first_warmup_2(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=True, warmup=2).to(
         device=device
@@ -141,7 +141,7 @@ def test_warmup_sequence_mse_3d_batch_first_warmup_2(device: str):
 @mark.parametrize("feature_size", SIZES)
 def test_warmup_sequence_mse_sequence_first_3d(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=True).to(device=device)
     loss = criterion(
@@ -152,7 +152,7 @@ def test_warmup_sequence_mse_sequence_first_3d(
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_mse_3d_sequence_first_warmup_1(device: str):
+def test_warmup_sequence_mse_3d_sequence_first_warmup_1(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=False, warmup=1).to(
         device=device
@@ -165,7 +165,7 @@ def test_warmup_sequence_mse_3d_sequence_first_warmup_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_mse_3d_sequence_first_warmup_2(device: str):
+def test_warmup_sequence_mse_3d_sequence_first_warmup_2(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.MSELoss(), batch_first=False, warmup=2).to(
         device=device
@@ -180,7 +180,7 @@ def test_warmup_sequence_mse_3d_sequence_first_warmup_2(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_first", (True, False))
 @mark.parametrize("warmup", (0, 1, 2))
-def test_warmup_sequence_mse_4d(device: str, batch_first: bool, warmup: int):
+def test_warmup_sequence_mse_4d(device: str, batch_first: bool, warmup: int) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(
         criterion=nn.MSELoss(), batch_first=batch_first, warmup=warmup
@@ -192,7 +192,7 @@ def test_warmup_sequence_mse_4d(device: str, batch_first: bool, warmup: int):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_first", (True, False))
 @mark.parametrize("warmup", (0, 1, 2))
-def test_warmup_sequence_cross_entropy(device: str, batch_first: bool, warmup: int):
+def test_warmup_sequence_cross_entropy(device: str, batch_first: bool, warmup: int) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(
         criterion=nn.CrossEntropyLoss(), batch_first=batch_first, warmup=warmup
@@ -206,7 +206,7 @@ def test_warmup_sequence_cross_entropy(device: str, batch_first: bool, warmup: i
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_cross_entropy_batch_first_warmup_1(device: str):
+def test_warmup_sequence_cross_entropy_batch_first_warmup_1(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.CrossEntropyLoss(), batch_first=True, warmup=1).to(
         device=device
@@ -221,7 +221,7 @@ def test_warmup_sequence_cross_entropy_batch_first_warmup_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_cross_entropy_batch_first_warmup_1_reduction_none(device: str):
+def test_warmup_sequence_cross_entropy_batch_first_warmup_1_reduction_none(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(
         criterion=nn.CrossEntropyLoss(reduction="none"), batch_first=True, warmup=1
@@ -238,7 +238,7 @@ def test_warmup_sequence_cross_entropy_batch_first_warmup_1_reduction_none(devic
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_cross_entropy_sequence_first_warmup_1(device: str):
+def test_warmup_sequence_cross_entropy_sequence_first_warmup_1(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(criterion=nn.CrossEntropyLoss(), batch_first=False, warmup=1).to(
         device=device
@@ -253,7 +253,7 @@ def test_warmup_sequence_cross_entropy_sequence_first_warmup_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_warmup_sequence_cross_entropy_sequence_first_warmup_1_reduction_none(device: str):
+def test_warmup_sequence_cross_entropy_sequence_first_warmup_1_reduction_none(device: str) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(
         criterion=nn.CrossEntropyLoss(reduction="none"), batch_first=False, warmup=1
@@ -278,7 +278,7 @@ def test_warmup_sequence_cross_entropy_batch_first_reduction_none(
     batch_size: int,
     seq_len: int,
     feature_size: int,
-):
+) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(
         criterion=nn.CrossEntropyLoss(reduction="none"), batch_first=True
@@ -299,7 +299,7 @@ def test_warmup_sequence_cross_entropy_sequence_first_reduction_none(
     batch_size: int,
     seq_len: int,
     feature_size: int,
-):
+) -> None:
     device = torch.device(device)
     criterion = WarmupSequenceLoss(
         criterion=nn.CrossEntropyLoss(reduction="none"), batch_first=False

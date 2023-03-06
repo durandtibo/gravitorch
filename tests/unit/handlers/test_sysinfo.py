@@ -20,7 +20,7 @@ def test_epoch_sysinfo_monitor_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_epoch_sysinfo_monitor_event(event: str):
+def test_epoch_sysinfo_monitor_event(event: str) -> None:
     assert EpochSysInfoMonitor(event)._event == event
 
 
@@ -29,12 +29,12 @@ def test_epoch_sysinfo_monitor_event_default() -> None:
 
 
 @mark.parametrize("freq", (1, 2))
-def test_epoch_sysinfo_monitor_freq(freq: int):
+def test_epoch_sysinfo_monitor_freq(freq: int) -> None:
     assert EpochSysInfoMonitor(freq=freq)._freq == freq
 
 
 @mark.parametrize("freq", (0, -1))
-def test_epoch_sysinfo_monitor_incorrect_freq(freq: int):
+def test_epoch_sysinfo_monitor_incorrect_freq(freq: int) -> None:
     with raises(ValueError):
         EpochSysInfoMonitor(freq=freq)
 
@@ -45,7 +45,7 @@ def test_epoch_sysinfo_monitor_freq_default() -> None:
 
 @mark.parametrize("event", EVENTS)
 @mark.parametrize("freq", (1, 2))
-def test_epoch_sysinfo_monitor_attach(event: str, freq: int):
+def test_epoch_sysinfo_monitor_attach(event: str, freq: int) -> None:
     handler = EpochSysInfoMonitor(event=event, freq=freq)
     engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=False))
     handler.attach(engine)

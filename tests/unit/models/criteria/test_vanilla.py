@@ -33,7 +33,7 @@ def test_vanilla_sequence_loss_criterion(
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_loss_mse_correct(device: str):
+def test_vanilla_loss_mse_correct(device: str) -> None:
     device = torch.device(device)
     criterion = VanillaLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -46,7 +46,7 @@ def test_vanilla_loss_mse_correct(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_loss_mse_incorrect(device: str):
+def test_vanilla_loss_mse_incorrect(device: str) -> None:
     device = torch.device(device)
     criterion = VanillaLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -59,7 +59,7 @@ def test_vanilla_loss_mse_incorrect(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_loss_l1_correct(device: str):
+def test_vanilla_loss_l1_correct(device: str) -> None:
     device = torch.device(device)
     criterion = VanillaLoss(L1Loss()).to(device=device)
     assert objects_are_equal(
@@ -72,7 +72,7 @@ def test_vanilla_loss_l1_correct(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_loss_l1_incorrect(device: str):
+def test_vanilla_loss_l1_incorrect(device: str) -> None:
     device = torch.device(device)
     criterion = VanillaLoss(L1Loss()).to(device=device)
     assert objects_are_equal(
@@ -85,7 +85,7 @@ def test_vanilla_loss_l1_incorrect(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_loss_cross_entropy(device: str):
+def test_vanilla_loss_cross_entropy(device: str) -> None:
     device = torch.device(device)
     criterion = VanillaLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -100,7 +100,7 @@ def test_vanilla_loss_cross_entropy(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("prediction_key", ("my_prediction", "output"))
 @mark.parametrize("target_key", ("my_target", "target"))
-def test_vanilla_loss_mse_custom_keys(device: str, prediction_key: str, target_key: str):
+def test_vanilla_loss_mse_custom_keys(device: str, prediction_key: str, target_key: str) -> None:
     device = torch.device(device)
     criterion = VanillaLoss(MSELoss(), prediction_key=prediction_key, target_key=target_key).to(
         device=device

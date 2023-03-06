@@ -97,7 +97,7 @@ def test_app_vae_time_loss_eps_1() -> None:
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_app_vae_time_loss_2d(device: str, batch_size: int, feature_size: int):
+def test_app_vae_time_loss_2d(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     out = app_vae_time_loss(
         lmbda=torch.randn(batch_size, feature_size, dtype=torch.float, device=device),

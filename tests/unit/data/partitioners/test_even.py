@@ -12,7 +12,7 @@ def test_fixed_size_partitioner_str() -> None:
 
 
 @mark.parametrize("drop_remainder", (True, False))
-def test_even_partitioner_drop_remainder(drop_remainder: bool):
+def test_even_partitioner_drop_remainder(drop_remainder: bool) -> None:
     assert (
         EvenPartitioner(num_partitions=2, drop_remainder=drop_remainder).drop_remainder
         == drop_remainder
@@ -20,7 +20,7 @@ def test_even_partitioner_drop_remainder(drop_remainder: bool):
 
 
 @mark.parametrize("num_partitions", (1, 2, 3))
-def test_even_partitioner_num_partitions(num_partitions: int):
+def test_even_partitioner_num_partitions(num_partitions: int) -> None:
     assert EvenPartitioner(num_partitions=num_partitions).num_partitions == num_partitions
 
 

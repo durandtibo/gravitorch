@@ -35,7 +35,7 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_str(mode: str):
+def test_log_cosh_error_str(mode: str) -> None:
     assert str(LogCoshError(mode)).startswith("LogCoshError(")
 
 
@@ -44,7 +44,7 @@ def test_log_cosh_error_init_scale_default() -> None:
 
 
 @mark.parametrize("scale", (0.5, 2.0))
-def test_log_cosh_error_init_scale(scale: float):
+def test_log_cosh_error_init_scale(scale: float) -> None:
     assert LogCoshError(ct.EVAL, scale=scale)._scale == scale
 
 
@@ -112,7 +112,9 @@ def test_log_cosh_error_attach_state_mean(engine: BaseEngine):
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_log_cosh_error_forward_correct(device: str, mode: str, batch_size: int, feature_size: int):
+def test_log_cosh_error_forward_correct(
+    device: str, mode: str, batch_size: int, feature_size: int
+) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode).to(device=device)
     metric(
@@ -155,7 +157,7 @@ def test_log_cosh_error_forward_incorrect(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_forward_partially_correct(device: str, mode: str):
+def test_log_cosh_error_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.ones(2, 2, device=device))
@@ -173,7 +175,7 @@ def test_log_cosh_error_forward_partially_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_forward_1d(device: str, mode: str):
+def test_log_cosh_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -188,7 +190,7 @@ def test_log_cosh_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_forward_2d(device: str, mode: str):
+def test_log_cosh_error_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -203,7 +205,7 @@ def test_log_cosh_error_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_forward_3d(device: str, mode: str):
+def test_log_cosh_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -218,7 +220,7 @@ def test_log_cosh_error_forward_3d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_forward_scale_2(device: str, mode: str):
+def test_log_cosh_error_forward_scale_2(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode, scale=2.0).to(device=device)
     metric(torch.eye(2, device=device), torch.ones(2, 2, device=device))
@@ -261,7 +263,7 @@ def test_log_cosh_error_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_forward_state(device: str, mode: str):
+def test_log_cosh_error_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode, state=ExtendedErrorState()).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -278,7 +280,7 @@ def test_log_cosh_error_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_forward_multiple_batches(device: str, mode: str):
+def test_log_cosh_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -297,7 +299,7 @@ def test_log_cosh_error_forward_multiple_batches(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_log_cosh_error_forward_multiple_batches_with_reset(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = LogCoshError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -316,7 +318,7 @@ def test_log_cosh_error_forward_multiple_batches_with_reset(device: str, mode: s
 
 
 @mark.parametrize("mode", MODES)
-def test_log_cosh_error_value_empty(mode: str):
+def test_log_cosh_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         LogCoshError(mode).value()
 

@@ -21,7 +21,7 @@ EVENTS = ("my_event", "my_other_event")
 
 
 @mark.parametrize("event", EVENTS)
-def test_add_unique_event_handler_has_event_handler_false(event: str):
+def test_add_unique_event_handler_has_event_handler_false(event: str) -> None:
     engine = Mock()
     engine.has_event_handler.return_value = False
     event_handler = VanillaEventHandler(Mock())
@@ -30,7 +30,7 @@ def test_add_unique_event_handler_has_event_handler_false(event: str):
 
 
 @mark.parametrize("event", EVENTS)
-def test_add_unique_event_handler_has_event_handler_true(event: str):
+def test_add_unique_event_handler_has_event_handler_true(event: str) -> None:
     engine = Mock()
     engine.has_event_handler.return_value = True
     event_handler = VanillaEventHandler(Mock())

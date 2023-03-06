@@ -24,7 +24,7 @@ def test_tensor_dict_shuffler_str():
 
 
 @mark.parametrize("random_seed", (1, 2))
-def test_tensor_dict_shuffler_iter_random_seed(random_seed: int):
+def test_tensor_dict_shuffler_iter_random_seed(random_seed: int) -> None:
     assert TensorDictShuffler(SourceWrapper([]), random_seed=random_seed).random_seed == random_seed
 
 
@@ -45,7 +45,7 @@ def test_tensor_dict_shuffler_iter():
 
 
 @mark.parametrize("dim", (0, 1, 2))
-def test_tensor_dict_shuffler_iter_dim_int(dim: int):
+def test_tensor_dict_shuffler_iter_dim_int(dim: int) -> None:
     source = SourceWrapper([{"key": torch.arange(4) + i} for i in range(3)])
     with patch("gravitorch.data.datapipes.iter.shuffling.shuffle_tensor_mapping") as shuffle_mock:
         next(iter(TensorDictShuffler(source, dim=dim)))
@@ -53,7 +53,7 @@ def test_tensor_dict_shuffler_iter_dim_int(dim: int):
 
 
 @mark.parametrize("dim", (0, 1, 2))
-def test_tensor_dict_shuffler_iter_dim_dict(dim: int):
+def test_tensor_dict_shuffler_iter_dim_dict(dim: int) -> None:
     source = SourceWrapper([{"key": torch.arange(4) + i} for i in range(3)])
     with patch("gravitorch.data.datapipes.iter.shuffling.shuffle_tensor_mapping") as shuffle_mock:
         next(iter(TensorDictShuffler(source, dim={"key": dim})))
@@ -155,7 +155,7 @@ def test_shuffle_tensors_dim_2():
 
 
 @mark.parametrize("dim", (0, 1, 2, 3))
-def test_shuffle_tensors_dim(dim: int):
+def test_shuffle_tensors_dim(dim: int) -> None:
     out = shuffle_tensors([torch.rand(1, 2, 3, 4), torch.ones(1, 2, 3, 4)], dim=dim)
     assert len(out) == 2
     assert out[0].shape == (1, 2, 3, 4)
@@ -262,7 +262,7 @@ def test_shuffle_tensor_mapping_dim_int_2():
 
 
 @mark.parametrize("dim", (0, 1, 2, 3))
-def test_shuffle_tensor_mapping_dim(dim: int):
+def test_shuffle_tensor_mapping_dim(dim: int) -> None:
     out = shuffle_tensor_mapping(
         {"key1": torch.rand(1, 2, 3, 4), "key2": torch.ones(1, 2, 3, 4)}, dim=dim
     )
@@ -362,12 +362,12 @@ def test_shuffle_tensor_mapping_different_random_seeds():
 
 
 @mark.parametrize("tensor,num_examples", ((torch.ones(4), 4), (torch.ones(5, 4), 5)))
-def test_get_first_dimension_torch_tensor(tensor: Tensor, num_examples: int):
+def test_get_first_dimension_torch_tensor(tensor: Tensor, num_examples: int) -> None:
     assert get_first_dimension(tensor) == num_examples
 
 
 @mark.parametrize("array,num_examples", ((np.ones(4), 4), (np.ones((5, 4)), 5)))
-def test_get_first_dimension_numpy_array(array: np.ndarray, num_examples: int):
+def test_get_first_dimension_numpy_array(array: np.ndarray, num_examples: int) -> None:
     assert get_first_dimension(array) == num_examples
 
 
@@ -382,7 +382,7 @@ def test_get_first_dimension_numpy_array(array: np.ndarray, num_examples: int):
         ((), 0),
     ),
 )
-def test_get_first_dimension_list_tuple(obj, num_examples: int):
+def test_get_first_dimension_list_tuple(obj, num_examples: int) -> None:
     assert get_first_dimension(obj) == num_examples
 
 

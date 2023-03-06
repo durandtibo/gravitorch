@@ -19,7 +19,7 @@ SIZES = (1, 2)
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("alpha", (0, 1, 2))
-def test_barron_robust_loss_1d(device: str, batch_size: int, alpha: float):
+def test_barron_robust_loss_1d(device: str, batch_size: int, alpha: float) -> None:
     device = torch.device(device)
     out = barron_robust_loss(
         prediction=torch.randn(batch_size, dtype=torch.float, device=device, requires_grad=True),
@@ -36,7 +36,9 @@ def test_barron_robust_loss_1d(device: str, batch_size: int, alpha: float):
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
 @mark.parametrize("alpha", (0, 1, 2))
-def test_barron_robust_loss_2d(device: str, batch_size: int, feature_size: int, alpha: float):
+def test_barron_robust_loss_2d(
+    device: str, batch_size: int, feature_size: int, alpha: float
+) -> None:
     device = torch.device(device)
     out = barron_robust_loss(
         prediction=torch.randn(
@@ -58,7 +60,7 @@ def test_barron_robust_loss_2d(device: str, batch_size: int, feature_size: int, 
 @mark.parametrize("alpha", (0, 1, 2))
 def test_barron_robust_loss_3d(
     device: str, batch_size: int, seq_len: int, feature_size: int, alpha: float
-):
+) -> None:
     device = torch.device(device)
     out = barron_robust_loss(
         prediction=torch.randn(
@@ -200,7 +202,7 @@ def test_barron_robust_loss_max_value() -> None:
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("alpha", (0, 1, 2))
-def test_asinh_barron_robust_loss_1d(device: str, batch_size: int, alpha: float):
+def test_asinh_barron_robust_loss_1d(device: str, batch_size: int, alpha: float) -> None:
     device = torch.device(device)
     out = asinh_barron_robust_loss(
         prediction=torch.randn(batch_size, dtype=torch.float, device=device, requires_grad=True),
@@ -217,7 +219,9 @@ def test_asinh_barron_robust_loss_1d(device: str, batch_size: int, alpha: float)
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
 @mark.parametrize("alpha", (0, 1, 2))
-def test_asinh_barron_robust_loss_2d(device: str, batch_size: int, feature_size: int, alpha: float):
+def test_asinh_barron_robust_loss_2d(
+    device: str, batch_size: int, feature_size: int, alpha: float
+) -> None:
     device = torch.device(device)
     out = asinh_barron_robust_loss(
         prediction=torch.randn(
@@ -239,7 +243,7 @@ def test_asinh_barron_robust_loss_2d(device: str, batch_size: int, feature_size:
 @mark.parametrize("alpha", (0, 1, 2))
 def test_asinh_barron_robust_loss_3d(
     device: str, batch_size: int, seq_len: int, feature_size: int, alpha: float
-):
+) -> None:
     device = torch.device(device)
     out = asinh_barron_robust_loss(
         prediction=torch.randn(
@@ -281,7 +285,7 @@ def test_asinh_barron_robust_loss_incorrect() -> None:
 @mark.parametrize("reduction", ("mean", "sum"))
 def test_asinh_barron_robust_loss_mock(
     alpha: float, scale: float, max_value: Optional[float], reduction: str
-):
+) -> None:
     with patch("gravitorch.nn.functional.barron_loss.barron_robust_loss") as loss_mock:
         asinh_barron_robust_loss(
             prediction=torch.tensor([0.0]),

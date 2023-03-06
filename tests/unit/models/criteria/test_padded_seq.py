@@ -202,7 +202,7 @@ def test_padded_sequence_loss_mse_4d_sequence_first_reduction_none(
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_mse_mask_all_valid(device: str):
+def test_padded_sequence_loss_mse_mask_all_valid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -218,7 +218,7 @@ def test_padded_sequence_loss_mse_mask_all_valid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_mse_mask_1_invalid(device: str):
+def test_padded_sequence_loss_mse_mask_1_invalid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -240,7 +240,7 @@ def test_padded_sequence_loss_mse_mask_1_invalid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_mse_mask_2_invalid(device: str):
+def test_padded_sequence_loss_mse_mask_2_invalid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -262,7 +262,7 @@ def test_padded_sequence_loss_mse_mask_2_invalid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_mse_mask_4_invalid(device: str):
+def test_padded_sequence_loss_mse_mask_4_invalid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -284,7 +284,7 @@ def test_padded_sequence_loss_mse_mask_4_invalid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_mse_2d_mask_2_invalid(device: str):
+def test_padded_sequence_loss_mse_2d_mask_2_invalid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -300,7 +300,7 @@ def test_padded_sequence_loss_mse_2d_mask_2_invalid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_mse_2d_mask_4_invalid(device: str):
+def test_padded_sequence_loss_mse_2d_mask_4_invalid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -338,7 +338,7 @@ def test_padded_sequence_loss_cross_entropy(
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_cross_entropy_mask_all_valid(device: str):
+def test_padded_sequence_loss_cross_entropy_mask_all_valid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -360,7 +360,7 @@ def test_padded_sequence_loss_cross_entropy_mask_all_valid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_cross_entropy_mask_1_invalid(device: str):
+def test_padded_sequence_loss_cross_entropy_mask_1_invalid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -382,7 +382,7 @@ def test_padded_sequence_loss_cross_entropy_mask_1_invalid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_cross_entropy_mask_2_invalid(device: str):
+def test_padded_sequence_loss_cross_entropy_mask_2_invalid(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -404,7 +404,7 @@ def test_padded_sequence_loss_cross_entropy_mask_2_invalid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_no_mask(device: str):
+def test_padded_sequence_loss_no_mask(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -448,7 +448,7 @@ def test_padded_sequence_loss_mask_dtype(device: str, mask: Tensor):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_forward_l1_correct_with_mask_true_bool(device: str):
+def test_padded_sequence_loss_forward_l1_correct_with_mask_true_bool(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(L1Loss(reduction="sum")).to(device=device)
     assert objects_are_equal(
@@ -468,7 +468,7 @@ def test_padded_sequence_loss_forward_l1_correct_with_mask_true_bool(device: str
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_forward_l1_correct_with_mask_true_long(device: str):
+def test_padded_sequence_loss_forward_l1_correct_with_mask_true_long(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(L1Loss(reduction="sum")).to(device=device)
     assert objects_are_equal(
@@ -486,7 +486,7 @@ def test_padded_sequence_loss_forward_l1_correct_with_mask_true_long(device: str
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_forward_l1_correct_with_mask_false_bool(device: str):
+def test_padded_sequence_loss_forward_l1_correct_with_mask_false_bool(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(L1Loss(reduction="sum"), valid_value=False).to(device=device)
     assert objects_are_equal(
@@ -506,7 +506,7 @@ def test_padded_sequence_loss_forward_l1_correct_with_mask_false_bool(device: st
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_forward_l1_correct_with_mask_false_long(device: str):
+def test_padded_sequence_loss_forward_l1_correct_with_mask_false_long(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(L1Loss(reduction="sum"), valid_value=False).to(device=device)
     assert objects_are_equal(
@@ -524,7 +524,7 @@ def test_padded_sequence_loss_forward_l1_correct_with_mask_false_long(device: st
 
 
 @mark.parametrize("device", get_available_devices())
-def test_padded_sequence_loss_mse_mask_in_batch_false(device: str):
+def test_padded_sequence_loss_mse_mask_in_batch_false(device: str) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss(), mask_in_batch=False).to(device=device)
     assert objects_are_equal(

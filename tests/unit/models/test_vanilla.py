@@ -165,7 +165,7 @@ def test_vanilla_model_init_mlp_with_hybrid_metrics() -> None:
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("mode", (True, False))
-def test_vanilla_model_forward_mlp_without_metric(device: str, batch_size: int, mode: bool):
+def test_vanilla_model_forward_mlp_without_metric(device: str, batch_size: int, mode: bool) -> None:
     device = torch.device(device)
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),

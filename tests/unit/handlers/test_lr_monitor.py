@@ -26,7 +26,7 @@ def test_epoch_lr_monitor_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_epoch_lr_monitor_event(event: str):
+def test_epoch_lr_monitor_event(event: str) -> None:
     assert EpochLRMonitor(event)._event == event
 
 
@@ -35,7 +35,7 @@ def test_epoch_lr_monitor_event_default() -> None:
 
 
 @mark.parametrize("freq", (1, 2))
-def test_epoch_lr_monitor_freq(freq: int):
+def test_epoch_lr_monitor_freq(freq: int) -> None:
     assert EpochLRMonitor(freq=freq)._freq == freq
 
 
@@ -95,7 +95,7 @@ def test_iteration_lr_monitor_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_iteration_lr_monitor_event(event: str):
+def test_iteration_lr_monitor_event(event: str) -> None:
     assert IterationLRMonitor(event)._event == event
 
 

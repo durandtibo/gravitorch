@@ -20,12 +20,12 @@ def test_amp_evaluation_loop_str() -> None:
 
 
 @mark.parametrize("amp_enabled", (True, False))
-def test_amp_evaluation_loop_amp_enabled(amp_enabled: bool):
+def test_amp_evaluation_loop_amp_enabled(amp_enabled: bool) -> None:
     assert AMPEvaluationLoop(amp_enabled=amp_enabled)._amp_enabled == amp_enabled
 
 
 @mark.parametrize("device", get_available_devices())
-def test_amp_evaluation_loop_eval_one_batch_fired_events(device: str):
+def test_amp_evaluation_loop_eval_one_batch_fired_events(device: str) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     AMPEvaluationLoop(batch_device_placement=ManualDevicePlacement(device))._eval_one_batch(
@@ -41,7 +41,7 @@ def test_amp_evaluation_loop_eval_one_batch_fired_events(device: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("amp_enabled", (True, False))
-def test_amp_evaluation_loop_eval_one_batch_amp_enabled(device: str, amp_enabled: bool):
+def test_amp_evaluation_loop_eval_one_batch_amp_enabled(device: str, amp_enabled: bool) -> None:
     device = torch.device(device)
     with patch("gravitorch.loops.evaluation.amp.autocast") as autocast_mock:
         AMPEvaluationLoop(

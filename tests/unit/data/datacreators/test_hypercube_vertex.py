@@ -18,18 +18,18 @@ def test_hypercube_vertex_data_creator_str() -> None:
 
 
 @mark.parametrize("num_examples", SIZES)
-def test_hypercube_vertex_data_creator_num_examples(num_examples: int):
+def test_hypercube_vertex_data_creator_num_examples(num_examples: int) -> None:
     assert HypercubeVertexDataCreator(num_examples).num_examples == num_examples
 
 
 @mark.parametrize("num_examples", (0, -1))
-def test_hypercube_vertex_data_creator_incorrect_num_examples(num_examples: int):
+def test_hypercube_vertex_data_creator_incorrect_num_examples(num_examples: int) -> None:
     with raises(ValueError, match="The number of examples .* has to be greater than 0"):
         HypercubeVertexDataCreator(num_examples=num_examples)
 
 
 @mark.parametrize("num_classes", SIZES)
-def test_hypercube_vertex_data_creator_num_classes(num_classes: int):
+def test_hypercube_vertex_data_creator_num_classes(num_classes: int) -> None:
     assert (
         HypercubeVertexDataCreator(num_examples=10, num_classes=num_classes).num_classes
         == num_classes
@@ -37,13 +37,13 @@ def test_hypercube_vertex_data_creator_num_classes(num_classes: int):
 
 
 @mark.parametrize("num_classes", (0, -1))
-def test_hypercube_vertex_data_creator_incorrect_num_classes(num_classes: int):
+def test_hypercube_vertex_data_creator_incorrect_num_classes(num_classes: int) -> None:
     with raises(ValueError, match="he number of classes .* has to be greater than 0"):
         HypercubeVertexDataCreator(num_classes=0)
 
 
 @mark.parametrize("feature_size", SIZES)
-def test_hypercube_vertex_data_creator_feature_size(feature_size: int):
+def test_hypercube_vertex_data_creator_feature_size(feature_size: int) -> None:
     assert (
         HypercubeVertexDataCreator(
             num_examples=10, num_classes=1, feature_size=feature_size
@@ -61,7 +61,7 @@ def test_hypercube_vertex_data_creator_incorrect_feature_size() -> None:
 
 
 @mark.parametrize("noise_std", (0, 0.1, 1))
-def test_hypercube_vertex_data_creator_noise_std(noise_std: float):
+def test_hypercube_vertex_data_creator_noise_std(noise_std: float) -> None:
     assert HypercubeVertexDataCreator(num_examples=10, noise_std=noise_std).noise_std == noise_std
 
 
@@ -74,7 +74,7 @@ def test_hypercube_vertex_data_creator_incorrect_noise_std() -> None:
 
 
 @mark.parametrize("random_seed", (42, 35))
-def test_hypercube_vertex_data_creator_random_seed(random_seed: int):
+def test_hypercube_vertex_data_creator_random_seed(random_seed: int) -> None:
     assert (
         HypercubeVertexDataCreator(num_examples=10, random_seed=random_seed).random_seed
         == random_seed
@@ -91,14 +91,14 @@ def test_hypercube_vertex_data_creator_create() -> None:
 
 
 @mark.parametrize("num_examples", SIZES)
-def test_hypercube_vertex_data_creator_create_num_examples(num_examples: int):
+def test_hypercube_vertex_data_creator_create_num_examples(num_examples: int) -> None:
     data = HypercubeVertexDataCreator(num_examples).create()
     assert data[ct.TARGET].shape[0] == num_examples
     assert data[ct.INPUT].shape[0] == num_examples
 
 
 @mark.parametrize("num_classes", SIZES)
-def test_hypercube_vertex_data_creator_create_num_classes(num_classes: int):
+def test_hypercube_vertex_data_creator_create_num_classes(num_classes: int) -> None:
     targets = HypercubeVertexDataCreator(num_examples=10, num_classes=num_classes).create()[
         ct.TARGET
     ]
@@ -107,7 +107,7 @@ def test_hypercube_vertex_data_creator_create_num_classes(num_classes: int):
 
 
 @mark.parametrize("feature_size", SIZES)
-def test_hypercube_vertex_data_creator_create_feature_size(feature_size: int):
+def test_hypercube_vertex_data_creator_create_feature_size(feature_size: int) -> None:
     data = HypercubeVertexDataCreator(
         num_examples=10, num_classes=1, feature_size=feature_size
     ).create()

@@ -12,12 +12,12 @@ def test_fixed_size_partitioner_str() -> None:
 
 
 @mark.parametrize("drop_last", (True, False))
-def test_fixed_size_partitioner_drop_last(drop_last: bool):
+def test_fixed_size_partitioner_drop_last(drop_last: bool) -> None:
     assert FixedSizePartitioner(partition_size=2, drop_last=drop_last).drop_last == drop_last
 
 
 @mark.parametrize("partition_size", (1, 2, 3))
-def test_fixed_size_partitioner_partition_size(partition_size: int):
+def test_fixed_size_partitioner_partition_size(partition_size: int) -> None:
     assert FixedSizePartitioner(partition_size=partition_size).partition_size == partition_size
 
 

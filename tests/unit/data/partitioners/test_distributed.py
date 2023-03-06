@@ -18,7 +18,7 @@ def test_ddp_partitioner_str() -> None:
 
 
 @mark.parametrize("partition_size", (1, 2, 3))
-def test_ddp_partitioner_partition_size(partition_size: int):
+def test_ddp_partitioner_partition_size(partition_size: int) -> None:
     assert DDPPartitioner(partition_size=partition_size).partition_size == partition_size
 
 

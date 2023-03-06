@@ -25,7 +25,7 @@ def test_vanilla_model_creator_str():
 
 
 @mark.parametrize("attach_model_to_engine", (True, False))
-def test_vanilla_model_creator_attach_model_to_engine(attach_model_to_engine: bool):
+def test_vanilla_model_creator_attach_model_to_engine(attach_model_to_engine: bool) -> None:
     assert (
         VanillaModelCreator(
             model_config={}, attach_model_to_engine=attach_model_to_engine
@@ -35,7 +35,7 @@ def test_vanilla_model_creator_attach_model_to_engine(attach_model_to_engine: bo
 
 
 @mark.parametrize("add_module_to_engine", (True, False))
-def test_vanilla_model_creator_add_module_to_engine(add_module_to_engine: bool):
+def test_vanilla_model_creator_add_module_to_engine(add_module_to_engine: bool) -> None:
     assert (
         VanillaModelCreator(
             model_config={}, add_module_to_engine=add_module_to_engine

@@ -36,14 +36,14 @@ def test_broadcast_object_list_distributed(object_list: list, src: int, device: 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("is_distributed", (True, False))
-def test_sync_reduce_sum_number(device: str, is_distributed: bool):
+def test_sync_reduce_sum_number(device: str, is_distributed: bool) -> None:
     with patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: is_distributed):
         assert ddp.sync_reduce(35, ddp.SUM) == 35
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("is_distributed", (True, False))
-def test_sync_reduce_sum_tensor(device: str, is_distributed: bool):
+def test_sync_reduce_sum_tensor(device: str, is_distributed: bool) -> None:
     with patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: is_distributed):
         var_reduced = ddp.sync_reduce(torch.ones(2, 3, device=device), ddp.SUM)
         assert var_reduced.equal(torch.ones(2, 3, device=device))
@@ -52,21 +52,21 @@ def test_sync_reduce_sum_tensor(device: str, is_distributed: bool):
 @mark.parametrize("device", get_available_devices())
 @patch("gravitorch.distributed.ddp.get_world_size", lambda *args, **kwargs: 2)
 @patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: True)
-def test_sync_reduce_avg_number_world_size_2_is_distributed(device: str):
+def test_sync_reduce_avg_number_world_size_2_is_distributed(device: str) -> None:
     assert ddp.sync_reduce(8, ddp.AVG) == 4
 
 
 @mark.parametrize("device", get_available_devices())
 @patch("gravitorch.distributed.ddp.get_world_size", lambda *args, **kwargs: 2)
 @patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: False)
-def test_sync_reduce_avg_number_world_size_2_is_not_distributed(device: str):
+def test_sync_reduce_avg_number_world_size_2_is_not_distributed(device: str) -> None:
     assert ddp.sync_reduce(8, ddp.AVG) == 8
 
 
 @mark.parametrize("device", get_available_devices())
 @patch("gravitorch.distributed.ddp.get_world_size", lambda *args, **kwargs: 2)
 @patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: True)
-def test_sync_reduce_avg_tensor_world_size_2_is_distributed(device: str):
+def test_sync_reduce_avg_tensor_world_size_2_is_distributed(device: str) -> None:
     var_reduced = ddp.sync_reduce(torch.ones(2, 3, device=device), ddp.AVG)
     assert var_reduced.equal(0.5 * torch.ones(2, 3, device=device))
 
@@ -74,7 +74,7 @@ def test_sync_reduce_avg_tensor_world_size_2_is_distributed(device: str):
 @mark.parametrize("device", get_available_devices())
 @patch("gravitorch.distributed.ddp.get_world_size", lambda *args, **kwargs: 2)
 @patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: False)
-def test_sync_reduce_avg_tensor_world_size_2_is_not_distributed(device: str):
+def test_sync_reduce_avg_tensor_world_size_2_is_not_distributed(device: str) -> None:
     x = torch.ones(2, 3, device=device)
     x_reduced = ddp.sync_reduce(x, ddp.AVG)
     assert x_reduced.equal(x)  # no-op because not distributed
@@ -87,7 +87,7 @@ def test_sync_reduce_avg_tensor_world_size_2_is_not_distributed(device: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("is_distributed", (True, False))
-def test_sync_reduce__sum(device: str, is_distributed: bool):
+def test_sync_reduce__sum(device: str, is_distributed: bool) -> None:
     with patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: is_distributed):
         variable = torch.ones(2, 3, device=device)
         ddp.sync_reduce_(variable, ddp.SUM)
@@ -97,7 +97,7 @@ def test_sync_reduce__sum(device: str, is_distributed: bool):
 @mark.parametrize("device", get_available_devices())
 @patch("gravitorch.distributed.ddp.get_world_size", lambda *args, **kwargs: 2)
 @patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: True)
-def test_sync_reduce__avg_world_size_2_is_distributed(device: str):
+def test_sync_reduce__avg_world_size_2_is_distributed(device: str) -> None:
     variable = torch.ones(2, 3, device=device)
     ddp.sync_reduce_(variable, ddp.AVG)
     assert variable.equal(0.5 * torch.ones(2, 3, device=device))
@@ -106,7 +106,7 @@ def test_sync_reduce__avg_world_size_2_is_distributed(device: str):
 @mark.parametrize("device", get_available_devices())
 @patch("gravitorch.distributed.ddp.get_world_size", lambda *args, **kwargs: 2)
 @patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: False)
-def test_sync_reduce__avg_world_size_2_is_not_distributed(device: str):
+def test_sync_reduce__avg_world_size_2_is_not_distributed(device: str) -> None:
     variable = torch.ones(2, 3, device=device)
     ddp.sync_reduce_(variable, ddp.AVG)
     assert variable.equal(torch.ones(2, 3, device=device))  # no-op because not distributed

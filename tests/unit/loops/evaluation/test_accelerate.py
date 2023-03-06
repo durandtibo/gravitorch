@@ -81,7 +81,7 @@ def test_accelerate_evaluation_loop_accelerator_from_dict():
 
 @accelerate_available
 @mark.parametrize("tag", ("val", "test"))
-def test_accelerate_evaluation_loop_tag(tag: str):
+def test_accelerate_evaluation_loop_tag(tag: str) -> None:
     assert AccelerateEvaluationLoop(tag=tag)._tag == tag
 
 

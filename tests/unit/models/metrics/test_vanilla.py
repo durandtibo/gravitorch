@@ -35,14 +35,14 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_vanilla_metric_multiclass_accuracy_from_object(mode: str):
+def test_vanilla_metric_multiclass_accuracy_from_object(mode: str) -> None:
     metric = VanillaMetric(CategoricalAccuracy(mode))
     assert isinstance(metric.metric, CategoricalAccuracy)
     assert metric.metric._mode == mode
 
 
 @mark.parametrize("mode", MODES)
-def test_vanilla_metric_multiclass_accuracy_from_config(mode: str):
+def test_vanilla_metric_multiclass_accuracy_from_config(mode: str) -> None:
     metric = VanillaMetric(
         metric={OBJECT_TARGET: "gravitorch.models.metrics.CategoricalAccuracy"}, mode=mode
     )
@@ -51,7 +51,7 @@ def test_vanilla_metric_multiclass_accuracy_from_config(mode: str):
 
 
 @mark.parametrize("mode", MODES)
-def test_vanilla_metric_multiclass_accuracy_from_config_with_mode(mode: str):
+def test_vanilla_metric_multiclass_accuracy_from_config_with_mode(mode: str) -> None:
     metric = VanillaMetric(
         metric={OBJECT_TARGET: "gravitorch.models.metrics.CategoricalAccuracy", "mode": mode}
     )

@@ -20,7 +20,7 @@ def test_vanilla_lr_scheduler_creator_str():
 
 
 @mark.parametrize("add_module_to_engine", (True, False))
-def test_vanilla_lr_scheduler_creator_add_module_to_engine(add_module_to_engine: bool):
+def test_vanilla_lr_scheduler_creator_add_module_to_engine(add_module_to_engine: bool) -> None:
     assert (
         VanillaLRSchedulerCreator(add_module_to_engine=add_module_to_engine)._add_module_to_engine
         == add_module_to_engine
@@ -33,7 +33,7 @@ def test_vanilla_lr_scheduler_creator_create_lr_scheduler_config_none():
 
 
 @mark.parametrize("step_size", (1, 5))
-def test_vanilla_lr_scheduler_creator_create_lr_scheduler_config_dict(step_size: int):
+def test_vanilla_lr_scheduler_creator_create_lr_scheduler_config_dict(step_size: int) -> None:
     creator = VanillaLRSchedulerCreator(
         lr_scheduler_config={
             OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR",

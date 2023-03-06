@@ -22,7 +22,7 @@ def test_consolidate_optimizer_state_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_consolidate_optimizer_state_event(event: str):
+def test_consolidate_optimizer_state_event(event: str) -> None:
     assert ConsolidateOptimizerState(event)._event == event
 
 
@@ -31,7 +31,7 @@ def test_consolidate_optimizer_state_event_default() -> None:
 
 
 @mark.parametrize("recipient_rank", (-1, 0, 1))
-def test_consolidate_optimizer_state_dict_recipient_rank(recipient_rank: int):
+def test_consolidate_optimizer_state_dict_recipient_rank(recipient_rank: int) -> None:
     assert ConsolidateOptimizerState()._recipient_rank == 0
 
 
@@ -40,7 +40,7 @@ def test_consolidate_optimizer_state_dict_recipient_rank_default() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_consolidate_optimizer_state_attach(event: str):
+def test_consolidate_optimizer_state_attach(event: str) -> None:
     handler = ConsolidateOptimizerState(event=event)
     engine = Mock(epoch=-1, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
@@ -68,7 +68,7 @@ def test_consolidate_optimizer_state_consolidate_no_optimizer(
 
 
 @mark.parametrize("recipient_rank", (0, 1))
-def test_consolidate_optimizer_state_consolidate(recipient_rank: int):
+def test_consolidate_optimizer_state_consolidate(recipient_rank: int) -> None:
     engine = Mock(spec=BaseEngine)
     ConsolidateOptimizerState(recipient_rank=recipient_rank).consolidate(engine)
     engine.optimizer.consolidate_state_dict.assert_called_once_with(recipient_rank)

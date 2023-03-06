@@ -37,7 +37,7 @@ def test_compute_parameter_stats_empty_tensor() -> None:
 
 
 @mark.parametrize("device", get_available_devices())
-def test_show_parameter_stats_linear(device: str, caplog: LogCaptureFixture):
+def test_show_parameter_stats_linear(device: str, caplog: LogCaptureFixture) -> None:
     device = torch.device(device)
     with caplog.at_level(logging.DEBUG):
         show_parameter_stats(nn.Linear(4, 6).to(device=device))

@@ -26,7 +26,7 @@ def test_model_state_dict_loader_str(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_model_state_dict_loader_event(tmp_path: Path, event: str):
+def test_model_state_dict_loader_event(tmp_path: Path, event: str) -> None:
     assert ModelStateDictLoader(checkpoint_path=tmp_path, event=event)._event == event
 
 
@@ -35,7 +35,7 @@ def test_model_state_dict_loader_event_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("strict", (True, False))
-def test_model_state_dict_loader_strict(tmp_path: Path, strict: bool):
+def test_model_state_dict_loader_strict(tmp_path: Path, strict: bool) -> None:
     assert ModelStateDictLoader(checkpoint_path=tmp_path, strict=strict)._strict == strict
 
 
@@ -55,7 +55,7 @@ def test_model_state_dict_loader_key_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_model_state_dict_loader_attach(tmp_path: Path, event: str):
+def test_model_state_dict_loader_attach(tmp_path: Path, event: str) -> None:
     handler = ModelStateDictLoader(checkpoint_path=tmp_path, event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
@@ -103,7 +103,7 @@ def test_partial_model_state_dict_loader_str(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_partial_model_state_dict_loader_event(tmp_path: Path, event: str):
+def test_partial_model_state_dict_loader_event(tmp_path: Path, event: str) -> None:
     assert PartialModelStateDictLoader(checkpoint_path=tmp_path, event=event)._event == event
 
 
@@ -112,7 +112,7 @@ def test_partial_model_state_dict_loader_event_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("strict", (True, False))
-def test_partial_model_state_dict_loader_strict(tmp_path: Path, strict: bool):
+def test_partial_model_state_dict_loader_strict(tmp_path: Path, strict: bool) -> None:
     assert PartialModelStateDictLoader(checkpoint_path=tmp_path, strict=strict)._strict == strict
 
 
@@ -134,7 +134,7 @@ def test_partial_model_state_dict_loader_key_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_partial_model_state_dict_loader_attach(tmp_path: Path, event: str):
+def test_partial_model_state_dict_loader_attach(tmp_path: Path, event: str) -> None:
     handler = PartialModelStateDictLoader(checkpoint_path=tmp_path, event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)

@@ -44,7 +44,7 @@ def test_vanilla_training_loop_str() -> None:
 
 
 @mark.parametrize("set_grad_to_none", (True, False))
-def test_vanilla_training_loop_set_grad_to_none(set_grad_to_none: bool):
+def test_vanilla_training_loop_set_grad_to_none(set_grad_to_none: bool) -> None:
     assert (
         VanillaTrainingLoop(set_grad_to_none=set_grad_to_none)._set_grad_to_none == set_grad_to_none
     )
@@ -66,7 +66,7 @@ def test_vanilla_training_loop_batch_device_placement_default() -> None:
 
 
 @mark.parametrize("tag", ("pre-training", "custom name"))
-def test_vanilla_training_loop_prefix(tag: str):
+def test_vanilla_training_loop_prefix(tag: str) -> None:
     assert VanillaTrainingLoop(tag=tag)._tag == tag
 
 
@@ -87,7 +87,7 @@ def test_vanilla_training_loop_clip_grad_clip_grad_value_without_clip_value() ->
 
 
 @mark.parametrize("clip_value", (0.1, 1))
-def test_vanilla_training_loop_clip_grad_clip_grad_value_with_clip_value(clip_value: float):
+def test_vanilla_training_loop_clip_grad_clip_grad_value_with_clip_value(clip_value: float) -> None:
     training_loop = VanillaTrainingLoop(
         clip_grad={"name": "clip_grad_value", "clip_value": clip_value}
     )
@@ -141,7 +141,7 @@ def test_vanilla_training_loop_profiler_tensorboard():
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train(device: str):
+def test_vanilla_training_loop_train(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
@@ -155,7 +155,7 @@ def test_vanilla_training_loop_train(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_loss_nan(device: str):
+def test_vanilla_training_loop_train_loss_nan(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(model=DummyClassificationModel(loss_nan=True))
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
@@ -168,7 +168,7 @@ def test_vanilla_training_loop_train_loss_nan(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_with_loss_history(device: str):
+def test_vanilla_training_loop_train_with_loss_history(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_history(MinScalarHistory(f"train/{ct.LOSS}"))
@@ -181,7 +181,7 @@ def test_vanilla_training_loop_train_with_loss_history(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_set_grad_to_none_true(device: str):
+def test_vanilla_training_loop_train_set_grad_to_none_true(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     VanillaTrainingLoop(
@@ -196,7 +196,7 @@ def test_vanilla_training_loop_train_set_grad_to_none_true(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_with_clip_grad_value(device: str):
+def test_vanilla_training_loop_train_with_clip_grad_value(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     VanillaTrainingLoop(
@@ -209,7 +209,7 @@ def test_vanilla_training_loop_train_with_clip_grad_value(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_with_clip_grad_norm(device: str):
+def test_vanilla_training_loop_train_with_clip_grad_norm(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     VanillaTrainingLoop(
@@ -222,7 +222,7 @@ def test_vanilla_training_loop_train_with_clip_grad_norm(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_empty_map_dataset(device: str):
+def test_vanilla_training_loop_train_empty_map_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
         data_source=DummyDataSource(train_dataset=DummyDataset(num_examples=0)),
@@ -238,7 +238,7 @@ def test_vanilla_training_loop_train_empty_map_dataset(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_iterable_dataset(device: str):
+def test_vanilla_training_loop_train_iterable_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
         data_source=DummyDataSource(train_dataset=DummyIterableDataset(), batch_size=2),
@@ -251,7 +251,7 @@ def test_vanilla_training_loop_train_iterable_dataset(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_empty_iterable_dataset(device: str):
+def test_vanilla_training_loop_train_empty_iterable_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
         data_source=DummyDataSource(
@@ -269,7 +269,7 @@ def test_vanilla_training_loop_train_empty_iterable_dataset(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_batch_auto_device_placement(device: str):
+def test_vanilla_training_loop_train_batch_auto_device_placement(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     with patch("gravitorch.distributed.device", lambda *args, **kwargs: device):
@@ -285,7 +285,7 @@ def test_vanilla_training_loop_train_batch_auto_device_placement(device: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("event", (EngineEvents.TRAIN_EPOCH_STARTED, EngineEvents.TRAIN_EPOCH_COMPLETED))
-def test_vanilla_training_loop_fire_event_train_epoch_events(device: str, event: str):
+def test_vanilla_training_loop_fire_event_train_epoch_events(device: str, event: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_event_handler(
@@ -306,7 +306,7 @@ def test_vanilla_training_loop_fire_event_train_epoch_events(device: str, event:
         EngineEvents.TRAIN_ITERATION_COMPLETED,
     ),
 )
-def test_vanilla_training_loop_fire_event_train_iteration_events(device: str, event: str):
+def test_vanilla_training_loop_fire_event_train_iteration_events(device: str, event: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_event_handler(
@@ -318,7 +318,7 @@ def test_vanilla_training_loop_fire_event_train_iteration_events(device: str, ev
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_with_observer(device: str):
+def test_vanilla_training_loop_train_with_observer(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     observer = MagicMock()
@@ -331,7 +331,7 @@ def test_vanilla_training_loop_train_with_observer(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_with_profiler(device: str):
+def test_vanilla_training_loop_train_with_profiler(device: str) -> None:
     device = torch.device(device)
     profiler = MagicMock()
     VanillaTrainingLoop(
@@ -349,7 +349,7 @@ def test_vanilla_training_loop_state_dict():
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_one_batch_fired_events(device: str):
+def test_vanilla_training_loop_train_one_batch_fired_events(device: str) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel().to(device=device)
@@ -390,7 +390,7 @@ def test_vanilla_training_loop_train_one_batch_set_grad_to_none(
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_one_batch_clip_grad_value(device: str):
+def test_vanilla_training_loop_train_one_batch_clip_grad_value(device: str) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel().to(device=device)
@@ -409,7 +409,7 @@ def test_vanilla_training_loop_train_one_batch_clip_grad_value(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_vanilla_training_loop_train_one_batch_clip_grad_norm(device: str):
+def test_vanilla_training_loop_train_one_batch_clip_grad_norm(device: str) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel().to(device=device)

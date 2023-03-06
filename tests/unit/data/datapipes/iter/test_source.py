@@ -34,7 +34,7 @@ def test_source_wrapper_iter_deepcopy_false():
 
 
 @mark.parametrize("deepcopy", (True, False))
-def test_source_wrapper_iter_impossible_deepcopy(deepcopy: bool):
+def test_source_wrapper_iter_impossible_deepcopy(deepcopy: bool) -> None:
     datapipe = SourceWrapper(([0, i] for i in range(1, 4)), deepcopy=deepcopy)
     assert list(datapipe) == [[0, 1], [0, 2], [0, 3]]
     assert list(datapipe) == []

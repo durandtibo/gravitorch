@@ -36,7 +36,7 @@ def test_mean_error_state_get_histories() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_mean_error_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_mean_error_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = MeanErrorState().get_histories(prefix, suffix)
     assert len(histories) == 1
     assert isinstance(histories[0], MinScalarHistory)
@@ -85,7 +85,7 @@ def test_mean_error_state_value_track_num_predictions_false() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_mean_error_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_mean_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = MeanErrorState()
     state.update(torch.arange(6))
     assert state.value(prefix, suffix) == {
@@ -118,7 +118,7 @@ def test_root_mean_error_state_get_histories() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_root_mean_error_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_root_mean_error_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = RootMeanErrorState().get_histories(prefix, suffix)
     assert len(histories) == 1
     assert isinstance(histories[0], MinScalarHistory)
@@ -167,7 +167,7 @@ def test_root_mean_error_state_value_track_num_predictions_false() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_root_mean_error_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_root_mean_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = RootMeanErrorState()
     state.update(torch.tensor([1, 9, 2, 7, 3, 2]))
     assert state.value(prefix, suffix) == {
@@ -206,7 +206,7 @@ def test_error_state_get_histories() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_error_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_error_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = ErrorState().get_histories(prefix, suffix)
     assert len(histories) == 4
     assert isinstance(histories[0], MinScalarHistory)
@@ -259,7 +259,7 @@ def test_error_state_value() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_error_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = ErrorState()
     state.update(torch.arange(6))
     assert state.value(prefix, suffix) == {
@@ -389,7 +389,7 @@ def test_extended_error_state_value_with_quantiles() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_extended_error_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_extended_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = ExtendedErrorState(quantiles=[0.5, 0.9])
     state.update(torch.arange(11))
     assert objects_are_allclose(
@@ -433,7 +433,7 @@ def test_accuracy_state_get_histories() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = AccuracyState().get_histories(prefix, suffix)
     assert len(histories) == 1
     assert isinstance(histories[0], MaxScalarHistory)
@@ -488,7 +488,7 @@ def test_accuracy_state_value_track_num_predictions_false() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_accuracy_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_accuracy_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = AccuracyState()
     state.update(torch.eye(2))
     assert state.value(prefix, suffix) == {
@@ -527,7 +527,7 @@ def test_extended_accuracy_state_get_histories() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_extended_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_extended_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = ExtendedAccuracyState().get_histories(prefix, suffix)
     assert len(histories) == 4
     assert isinstance(histories[0], MaxScalarHistory)
@@ -600,7 +600,7 @@ def test_extended_accuracy_state_value_incorrect() -> None:
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_extended_accuracy_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_extended_accuracy_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = ExtendedAccuracyState()
     state.update(torch.eye(2))
     assert state.value(prefix, suffix) == {

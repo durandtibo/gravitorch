@@ -26,7 +26,7 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_str(mode: str):
+def test_normalized_mean_squared_error_str(mode: str) -> None:
     assert str(NormalizedMeanSquaredError(mode)).startswith("NormalizedMeanSquaredError(")
 
 
@@ -107,7 +107,7 @@ def test_normalized_mean_squared_error_forward_incorrect(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_forward_partially_correct(device: str, mode: str):
+def test_normalized_mean_squared_error_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
@@ -116,7 +116,7 @@ def test_normalized_mean_squared_error_forward_partially_correct(device: str, mo
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_forward_1d(device: str, mode: str):
+def test_normalized_mean_squared_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -125,7 +125,7 @@ def test_normalized_mean_squared_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_forward_2d(device: str, mode: str):
+def test_normalized_mean_squared_error_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -134,7 +134,7 @@ def test_normalized_mean_squared_error_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_forward_3d(device: str, mode: str):
+def test_normalized_mean_squared_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -162,7 +162,7 @@ def test_normalized_mean_squared_error_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_forward_multiple_batches(device: str, mode: str):
+def test_normalized_mean_squared_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -172,7 +172,9 @@ def test_normalized_mean_squared_error_forward_multiple_batches(device: str, mod
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_normalized_mean_squared_error_forward_multiple_batches_with_reset(
+    device: str, mode: str
+) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -182,7 +184,7 @@ def test_normalized_mean_squared_error_forward_multiple_batches_with_reset(devic
 
 
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_value_empty(mode: str):
+def test_normalized_mean_squared_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         NormalizedMeanSquaredError(mode).value()
 

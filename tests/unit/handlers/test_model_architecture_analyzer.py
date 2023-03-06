@@ -30,7 +30,7 @@ def test_model_architecture_analyzer_events_default() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_model_architecture_analyzer_attach(event: str):
+def test_model_architecture_analyzer_attach(event: str) -> None:
     handler = ModelArchitectureAnalyzer(events=event)
     engine = Mock(spec=BaseEngine)
     handler.attach(engine)

@@ -19,7 +19,7 @@ def test_vanilla_optimizer_creator_str():
 
 
 @mark.parametrize("add_module_to_engine", (True, False))
-def test_vanilla_optimizer_creator_add_module_to_engine(add_module_to_engine: bool):
+def test_vanilla_optimizer_creator_add_module_to_engine(add_module_to_engine: bool) -> None:
     assert (
         VanillaOptimizerCreator(add_module_to_engine=add_module_to_engine)._add_module_to_engine
         == add_module_to_engine
@@ -32,7 +32,7 @@ def test_vanilla_optimizer_creator_create_optimizer_config_none():
 
 
 @mark.parametrize("lr", (0.01, 0.001))
-def test_vanilla_optimizer_creator_create_optimizer_config_dict(lr: float):
+def test_vanilla_optimizer_creator_create_optimizer_config_dict(lr: float) -> None:
     creator = VanillaOptimizerCreator(optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": lr})
     optimizer = creator.create(engine=Mock(), model=nn.Linear(4, 6))
     assert isinstance(optimizer, torch.optim.SGD)

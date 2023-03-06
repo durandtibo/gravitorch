@@ -25,7 +25,7 @@ def test_sum_fusion_0_input() -> None:
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_sum_fusion_1_input(device: str, batch_size: int, input_size: int):
+def test_sum_fusion_1_input(device: str, batch_size: int, input_size: int) -> None:
     device = torch.device(device)
     module = SumFusion().to(device=device)
     assert module(torch.ones(batch_size, input_size, device=device)).equal(
@@ -36,7 +36,7 @@ def test_sum_fusion_1_input(device: str, batch_size: int, input_size: int):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_sum_fusion_2_inputs(device: str, batch_size: int, input_size: int):
+def test_sum_fusion_2_inputs(device: str, batch_size: int, input_size: int) -> None:
     device = torch.device(device)
     module = SumFusion().to(device=device)
     assert module(
@@ -48,7 +48,7 @@ def test_sum_fusion_2_inputs(device: str, batch_size: int, input_size: int):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_sum_fusion_3_inputs(device: str, batch_size: int, input_size: int):
+def test_sum_fusion_3_inputs(device: str, batch_size: int, input_size: int) -> None:
     device = torch.device(device)
     module = SumFusion().to(device=device)
     assert module(
@@ -59,7 +59,7 @@ def test_sum_fusion_3_inputs(device: str, batch_size: int, input_size: int):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sum_fusion_backward(device: str):
+def test_sum_fusion_backward(device: str) -> None:
     device = torch.device(device)
     module = SumFusion().to(device=device)
     y = module(
@@ -79,7 +79,7 @@ def test_sum_fusion_backward(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_average_fusion_1_input(device: str, batch_size: int, input_size: int):
+def test_average_fusion_1_input(device: str, batch_size: int, input_size: int) -> None:
     device = torch.device(device)
     module = AverageFusion().to(device=device)
     assert module(torch.ones(batch_size, input_size, device=device)).equal(
@@ -90,7 +90,7 @@ def test_average_fusion_1_input(device: str, batch_size: int, input_size: int):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_average_fusion_2_inputs(device: str, batch_size: int, input_size: int):
+def test_average_fusion_2_inputs(device: str, batch_size: int, input_size: int) -> None:
     device = torch.device(device)
     module = AverageFusion().to(device=device)
     assert module(
@@ -102,7 +102,7 @@ def test_average_fusion_2_inputs(device: str, batch_size: int, input_size: int):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_average_fusion_3_inputs(device: str, batch_size: int, input_size: int):
+def test_average_fusion_3_inputs(device: str, batch_size: int, input_size: int) -> None:
     device = torch.device(device)
     module = AverageFusion().to(device=device)
     assert module(
@@ -113,7 +113,7 @@ def test_average_fusion_3_inputs(device: str, batch_size: int, input_size: int):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_average_fusion_backward(device: str):
+def test_average_fusion_backward(device: str) -> None:
     device = torch.device(device)
     module = AverageFusion().to(device=device)
     y = module(

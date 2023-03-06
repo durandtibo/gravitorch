@@ -21,7 +21,7 @@ def test_one_cache_data_creator_data_creator() -> None:
 
 
 @mark.parametrize("deepcopy", (True, False))
-def test_one_cache_data_creator_deepcopy(deepcopy: bool):
+def test_one_cache_data_creator_deepcopy(deepcopy: bool) -> None:
     assert OneCacheDataCreator(Mock(spec=BaseDataCreator), deepcopy=deepcopy).deepcopy == deepcopy
 
 

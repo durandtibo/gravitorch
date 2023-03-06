@@ -22,7 +22,7 @@ def test_zero_redundancy_optimizer_creator_str():
 
 
 @mark.parametrize("lr", (0.01, 0.001))
-def test_zero_redundancy_optimizer_creator_create_optimizer_config(lr: float):
+def test_zero_redundancy_optimizer_creator_create_optimizer_config(lr: float) -> None:
     creator = ZeroRedundancyOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": lr}
     )

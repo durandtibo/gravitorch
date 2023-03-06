@@ -20,7 +20,7 @@ def test_model_freezer_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_model_freezer_event(event: str):
+def test_model_freezer_event(event: str) -> None:
     assert ModelFreezer(event=event)._event == event
 
 
@@ -29,7 +29,7 @@ def test_model_freezer_event_default() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_model_freezer_attach(event: str):
+def test_model_freezer_attach(event: str) -> None:
     handler = ModelFreezer(event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)

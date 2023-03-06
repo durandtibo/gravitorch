@@ -30,7 +30,7 @@ def test_pickle_saver_incorrect_pattern(tmp_path: Path) -> None:
 
 
 @mark.parametrize("num_samples", (1, 2))
-def test_pickle_saver_iter(tmp_path: Path, num_samples: int):
+def test_pickle_saver_iter(tmp_path: Path, num_samples: int) -> None:
     datapipe = PickleSaver(SourceWrapper(list(range(num_samples))), root_path=tmp_path)
     files = list(datapipe)
     assert files == [tmp_path.joinpath(f"data_{i:04d}.pkl") for i in range(num_samples)]
@@ -86,7 +86,7 @@ def test_pytorch_saver_incorrect_pattern(tmp_path: Path) -> None:
 
 
 @mark.parametrize("num_samples", (1, 2))
-def test_pytorch_saver_iter(tmp_path: Path, num_samples: int):
+def test_pytorch_saver_iter(tmp_path: Path, num_samples: int) -> None:
     datapipe = PyTorchSaver(SourceWrapper(list(range(num_samples))), root_path=tmp_path)
     files = list(datapipe)
     assert files == [tmp_path.joinpath(f"data_{i:04d}.pt") for i in range(num_samples)]

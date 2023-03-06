@@ -24,7 +24,7 @@ def test_epoch_optimizer_monitor_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_epoch_optimizer_monitor_event(event: str):
+def test_epoch_optimizer_monitor_event(event: str) -> None:
     assert EpochOptimizerMonitor(event)._event == event
 
 
@@ -33,7 +33,7 @@ def test_epoch_optimizer_monitor_event_default() -> None:
 
 
 @mark.parametrize("freq", (1, 2))
-def test_epoch_optimizer_monitor_freq(freq: int):
+def test_epoch_optimizer_monitor_freq(freq: int) -> None:
     assert EpochOptimizerMonitor(freq=freq)._freq == freq
 
 
@@ -48,7 +48,7 @@ def test_epoch_optimizer_monitor_freq_default() -> None:
 
 
 @mark.parametrize("tablefmt", ("fancy_grid", "github"))
-def test_epoch_optimizer_monitor_tablefmt(tablefmt: str):
+def test_epoch_optimizer_monitor_tablefmt(tablefmt: str) -> None:
     assert EpochOptimizerMonitor(tablefmt=tablefmt)._tablefmt == tablefmt
 
 
@@ -57,7 +57,7 @@ def test_epoch_optimizer_monitor_tablefmt_default() -> None:
 
 
 @mark.parametrize("prefix", ("train/", "eval/"))
-def test_epoch_optimizer_monitor_prefix(prefix: str):
+def test_epoch_optimizer_monitor_prefix(prefix: str) -> None:
     assert EpochOptimizerMonitor(prefix=prefix)._prefix == prefix
 
 
@@ -91,7 +91,7 @@ def test_epoch_optimizer_monitor_attach_duplicate() -> None:
 
 @mark.parametrize("tablefmt", ("fancy_grid", "github"))
 @mark.parametrize("prefix", ("train/", "eval/"))
-def test_epoch_optimizer_monitor_monitor(tablefmt: str, prefix: str):
+def test_epoch_optimizer_monitor_monitor(tablefmt: str, prefix: str) -> None:
     optimizer_monitor = EpochOptimizerMonitor(tablefmt=tablefmt, prefix=prefix)
     engine = Mock(spec=BaseEngine, epoch=1)
     with patch(
@@ -134,7 +134,7 @@ def test_iteration_optimizer_monitor_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_iteration_optimizer_monitor_event(event: str):
+def test_iteration_optimizer_monitor_event(event: str) -> None:
     assert IterationOptimizerMonitor(event)._event == event
 
 
@@ -158,7 +158,7 @@ def test_iteration_optimizer_monitor_freq_default() -> None:
 
 
 @mark.parametrize("tablefmt", ("fancy_grid", "github"))
-def test_iteration_optimizer_monitor_tablefmt(tablefmt: str):
+def test_iteration_optimizer_monitor_tablefmt(tablefmt: str) -> None:
     assert IterationOptimizerMonitor(tablefmt=tablefmt)._tablefmt == tablefmt
 
 
@@ -167,7 +167,7 @@ def test_iteration_optimizer_monitor_tablefmt_default() -> None:
 
 
 @mark.parametrize("prefix", ("train/", "eval/"))
-def test_iteration_optimizer_monitor_prefix(prefix: str):
+def test_iteration_optimizer_monitor_prefix(prefix: str) -> None:
     assert IterationOptimizerMonitor(prefix=prefix)._prefix == prefix
 
 
@@ -200,7 +200,7 @@ def test_iteration_optimizer_monitor_attach_duplicate() -> None:
 
 @mark.parametrize("tablefmt", ("fancy_grid", "github"))
 @mark.parametrize("prefix", ("train/", "eval/"))
-def test_iteration_optimizer_monitor_monitor(tablefmt: str, prefix: str):
+def test_iteration_optimizer_monitor_monitor(tablefmt: str, prefix: str) -> None:
     optimizer_monitor = IterationOptimizerMonitor(tablefmt=tablefmt, prefix=prefix)
     engine = Mock(spec=BaseEngine, iteration=10)
     with patch(

@@ -21,7 +21,7 @@ def test_pytorch_batch_saver_path(tmp_path: Path) -> None:
 
 
 @mark.parametrize("max_num_batches", (0, 1, 2))
-def test_pytorch_batch_saver_max_num_batches(tmp_path: Path, max_num_batches: int):
+def test_pytorch_batch_saver_max_num_batches(tmp_path: Path, max_num_batches: int) -> None:
     assert (
         PyTorchBatchSaver(tmp_path.joinpath("batch.pt"), max_num_batches)._max_num_batches
         == max_num_batches

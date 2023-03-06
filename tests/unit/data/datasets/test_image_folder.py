@@ -41,7 +41,7 @@ def dataset_path(tmp_path_factory: TempPathFactory) -> Path:
 
 @torchvision_available
 @pillow_available
-def test_image_folder_dataset(dataset_path: Path):
+def test_image_folder_dataset(dataset_path: Path) -> None:
     dataset = ImageFolderDataset(dataset_path.as_posix())
     assert len(dataset) == 5
     for i in range(3):

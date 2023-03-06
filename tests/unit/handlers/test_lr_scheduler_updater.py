@@ -27,12 +27,12 @@ def test_lr_scheduler_updater_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_lr_scheduler_updater_event(event: str):
+def test_lr_scheduler_updater_event(event: str) -> None:
     assert LRSchedulerUpdater(event)._event == event
 
 
 @mark.parametrize("event", EVENTS)
-def test_lr_scheduler_updater_attach(event: str):
+def test_lr_scheduler_updater_attach(event: str) -> None:
     handler = LRSchedulerUpdater(event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
@@ -73,7 +73,7 @@ def test_metric_lr_scheduler_updater_str() -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_metric_lr_scheduler_updater_event(event: str):
+def test_metric_lr_scheduler_updater_event(event: str) -> None:
     assert MetricLRSchedulerUpdater(event)._event == event
 
 
@@ -83,7 +83,7 @@ def test_metric_lr_scheduler_updater_metric_name(metric_name):
 
 
 @mark.parametrize("event", EVENTS)
-def test_metric_lr_scheduler_updater_attach(event: str):
+def test_metric_lr_scheduler_updater_attach(event: str) -> None:
     handler = MetricLRSchedulerUpdater(event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
@@ -107,7 +107,7 @@ def test_metric_lr_scheduler_updater_attach_lr_scheduler_none() -> None:
 
 
 @mark.parametrize("metric_name", METRICS)
-def test_metric_lr_scheduler_updater_step(metric_name: str):
+def test_metric_lr_scheduler_updater_step(metric_name: str) -> None:
     handler = MetricLRSchedulerUpdater("my_event", metric_name)
     engine = Mock(
         spec=BaseEngine,

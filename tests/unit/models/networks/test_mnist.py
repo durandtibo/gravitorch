@@ -18,18 +18,18 @@ SIZES = (1, 2)
 
 
 @mark.parametrize("input_name", ("image", ct.INPUT))
-def test_pytorch_mnist_net_get_input_names(input_name: str):
+def test_pytorch_mnist_net_get_input_names(input_name: str) -> None:
     assert PyTorchMnistNet(input_name=input_name).get_input_names() == (input_name,)
 
 
 @mark.parametrize("output_name", ("output", ct.PREDICTION))
-def test_pytorch_mnist_net_get_output_names(output_name: str):
+def test_pytorch_mnist_net_get_output_names(output_name: str) -> None:
     assert PyTorchMnistNet(output_name=output_name).get_output_names() == (output_name,)
 
 
 @mark.parametrize("input_name", ("image", ct.INPUT))
 @mark.parametrize("output_name", ("output", ct.PREDICTION))
-def test_pytorch_mnist_net_get_onnx_dynamic_axis(input_name: str, output_name: str):
+def test_pytorch_mnist_net_get_onnx_dynamic_axis(input_name: str, output_name: str) -> None:
     assert PyTorchMnistNet(
         input_name=input_name, output_name=output_name
     ).get_onnx_dynamic_axis() == {

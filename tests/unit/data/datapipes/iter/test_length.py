@@ -24,11 +24,11 @@ def test_looper_iter_too_short():
 
 
 @mark.parametrize("length", (1, 2, 3))
-def test_looper_len(length: int):
+def test_looper_len(length: int) -> None:
     assert len(Looper(SourceWrapper([1, 2, 3, 4, 5]), length=length)) == length
 
 
 @mark.parametrize("length", (-1, 0))
-def test_looper_incorrect_length(length: int):
+def test_looper_incorrect_length(length: int) -> None:
     with raises(ValueError):
         Looper(SourceWrapper([1, 2, 3, 4, 5]), length=length)

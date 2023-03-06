@@ -80,7 +80,7 @@ def test_distributed_context_backend_raise_error() -> None:
 
 @mark.parametrize("cuda_is_available", (True, False))
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: ())
-def test_auto_backend_no_backend(cuda_is_available: bool):
+def test_auto_backend_no_backend(cuda_is_available: bool) -> None:
     with patch("torch.cuda.is_available", lambda *args: cuda_is_available):
         assert auto_backend() is None
 
@@ -126,7 +126,7 @@ def test_resolve_backend_auto_should_not_initialize() -> None:
 
 @mark.parametrize("backend", (Backend.GLOO, Backend.NCCL))
 @patch("gravitorch.distributed.comm.is_distributed_ready", lambda *args: True)
-def test_resolve_backend_auto_should_initialize(backend: str):
+def test_resolve_backend_auto_should_initialize(backend: str) -> None:
     with patch("gravitorch.distributed.comm.auto_backend", lambda *args: backend):
         assert resolve_backend("auto") == backend
 

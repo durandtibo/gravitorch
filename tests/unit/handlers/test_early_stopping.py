@@ -27,12 +27,12 @@ def test_early_stopping_str() -> None:
 
 
 @mark.parametrize("metric_name", METRICS)
-def test_early_stopping_metric_name(metric_name: str):
+def test_early_stopping_metric_name(metric_name: str) -> None:
     assert EarlyStopping(metric_name=metric_name)._metric_name == metric_name
 
 
 @mark.parametrize("patience", (1, 5))
-def test_early_stopping_patience(patience: int):
+def test_early_stopping_patience(patience: int) -> None:
     assert EarlyStopping(patience=patience)._patience == patience
 
 
@@ -42,7 +42,7 @@ def test_early_stopping_incorrect_patience() -> None:
 
 
 @mark.parametrize("delta", (0.0, 1.0))
-def test_early_stopping_delta(delta: float):
+def test_early_stopping_delta(delta: float) -> None:
     assert EarlyStopping(delta=delta)._delta == delta
 
 
@@ -52,7 +52,7 @@ def test_early_stopping_incorrect_delta() -> None:
 
 
 @mark.parametrize("cumulative_delta", (True, False))
-def test_early_stopping_cumulative_delta(cumulative_delta: bool):
+def test_early_stopping_cumulative_delta(cumulative_delta: bool) -> None:
     assert EarlyStopping(cumulative_delta=cumulative_delta)._cumulative_delta == cumulative_delta
 
 

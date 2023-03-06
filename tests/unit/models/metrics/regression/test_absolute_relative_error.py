@@ -38,12 +38,12 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_str(mode: str):
+def test_absolute_relative_error_str(mode: str) -> None:
     assert str(AbsoluteRelativeError(mode)).startswith("AbsoluteRelativeError(")
 
 
 @mark.parametrize("eps", (1e-5, 0.1))
-def test_absolute_relative_error_init_eps(eps: float):
+def test_absolute_relative_error_init_eps(eps: float) -> None:
     assert AbsoluteRelativeError(mode=ct.EVAL, eps=eps)._eps == eps
 
 
@@ -52,7 +52,7 @@ def test_absolute_relative_error_init_eps_default() -> None:
 
 
 @mark.parametrize("eps", (0.0, -0.1))
-def test_absolute_relative_error_init_eps_incorrect(eps: float):
+def test_absolute_relative_error_init_eps_incorrect(eps: float) -> None:
     with raises(ValueError):
         AbsoluteRelativeError(mode=ct.EVAL, eps=eps)
 
@@ -136,7 +136,7 @@ def test_absolute_relative_error_forward_correct(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_forward_correct_zero(device: str, mode: str):
+def test_absolute_relative_error_forward_correct_zero(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(torch.zeros(2, 2, device=device), torch.zeros(2, 2, device=device))
@@ -173,7 +173,9 @@ def test_absolute_relative_error_forward_incorrect(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_forward_partially_correct_zero_prediction(device: str, mode: str):
+def test_absolute_relative_error_forward_partially_correct_zero_prediction(
+    device: str, mode: str
+) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.ones(2, 2, device=device))
@@ -188,7 +190,9 @@ def test_absolute_relative_error_forward_partially_correct_zero_prediction(devic
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_forward_partially_correct_zero_target(device: str, mode: str):
+def test_absolute_relative_error_forward_partially_correct_zero_target(
+    device: str, mode: str
+) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.eye(2, device=device))
@@ -203,7 +207,7 @@ def test_absolute_relative_error_forward_partially_correct_zero_target(device: s
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_forward_1d(device: str, mode: str):
+def test_absolute_relative_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -218,7 +222,7 @@ def test_absolute_relative_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_forward_3d(device: str, mode: str):
+def test_absolute_relative_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -258,7 +262,7 @@ def test_absolute_relative_error_forward_dtype(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_forward_state(device: str, mode: str):
+def test_absolute_relative_error_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode, state=ExtendedErrorState()).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -275,7 +279,7 @@ def test_absolute_relative_error_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_forward_multiple_batches(device: str, mode: str):
+def test_absolute_relative_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -291,7 +295,9 @@ def test_absolute_relative_error_forward_multiple_batches(device: str, mode: str
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_absolute_relative_error_forward_multiple_batches_with_reset(
+    device: str, mode: str
+) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -307,7 +313,7 @@ def test_absolute_relative_error_forward_multiple_batches_with_reset(device: str
 
 
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_value_empty(mode: str):
+def test_absolute_relative_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         AbsoluteRelativeError(mode).value()
 
@@ -371,12 +377,12 @@ def test_absolute_relative_error_reset() -> None:
 
 
 @mark.parametrize("mode", MODES)
-def test_symmetric_absolute_relative_error_str(mode: str):
+def test_symmetric_absolute_relative_error_str(mode: str) -> None:
     assert str(SymmetricAbsoluteRelativeError(mode)).startswith("SymmetricAbsoluteRelativeError(")
 
 
 @mark.parametrize("eps", (1e-5, 0.1))
-def test_symmetric_absolute_relative_error_eps(eps: float):
+def test_symmetric_absolute_relative_error_eps(eps: float) -> None:
     assert SymmetricAbsoluteRelativeError(mode=ct.EVAL, eps=eps)._eps == eps
 
 
@@ -385,7 +391,7 @@ def test_symmetric_absolute_relative_error_eps_default() -> None:
 
 
 @mark.parametrize("eps", (0.0, -0.1))
-def test_symmetric_absolute_relative_error_eps_incorrect(eps: float):
+def test_symmetric_absolute_relative_error_eps_incorrect(eps: float) -> None:
     with raises(ValueError):
         SymmetricAbsoluteRelativeError(mode=ct.EVAL, eps=eps)
 
@@ -469,7 +475,7 @@ def test_symmetric_absolute_relative_error_forward_correct(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_symmetric_absolute_relative_error_forward_correct_zero(device: str, mode: str):
+def test_symmetric_absolute_relative_error_forward_correct_zero(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.zeros(2, 2, device=device), torch.zeros(2, 2, device=device))
@@ -540,7 +546,7 @@ def test_symmetric_absolute_relative_error_forward_partially_correct_zero_target
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_symmetric_absolute_relative_error_forward_1d(device: str, mode: str):
+def test_symmetric_absolute_relative_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -555,7 +561,7 @@ def test_symmetric_absolute_relative_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_symmetric_absolute_relative_error_forward_2d(device: str, mode: str):
+def test_symmetric_absolute_relative_error_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -570,7 +576,7 @@ def test_symmetric_absolute_relative_error_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_symmetric_absolute_relative_error_forward_3d(device: str, mode: str):
+def test_symmetric_absolute_relative_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -610,7 +616,7 @@ def test_symmetric_absolute_relative_error_forward_dtype(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_symmetric_absolute_relative_error_forward_state(device: str, mode: str):
+def test_symmetric_absolute_relative_error_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode, state=ExtendedErrorState()).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -627,7 +633,7 @@ def test_symmetric_absolute_relative_error_forward_state(device: str, mode: str)
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_symmetric_absolute_relative_error_forward_multiple_batches(device: str, mode: str):
+def test_symmetric_absolute_relative_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -661,7 +667,7 @@ def test_symmetric_absolute_relative_error_forward_multiple_batches_with_reset(
 
 
 @mark.parametrize("mode", MODES)
-def test_symmetric_absolute_relative_error_value_empty(mode: str):
+def test_symmetric_absolute_relative_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         SymmetricAbsoluteRelativeError(mode).value()
 

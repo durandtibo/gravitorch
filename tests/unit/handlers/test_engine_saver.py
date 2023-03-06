@@ -33,7 +33,7 @@ def test_best_history_saver_path(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_best_history_saver_event(tmp_path: Path, event: str):
+def test_best_history_saver_event(tmp_path: Path, event: str) -> None:
     assert BestHistorySaver(tmp_path, event=event)._event == event
 
 
@@ -42,7 +42,7 @@ def test_best_history_saver_event_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_best_history_saver_attach(tmp_path: Path, event: str):
+def test_best_history_saver_attach(tmp_path: Path, event: str) -> None:
     saver = BestHistorySaver(tmp_path, event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     saver.attach(engine)
@@ -80,7 +80,9 @@ def test_best_history_saver_save_only_main_process_true_not_main_process(tmp_pat
 
 
 @mark.parametrize("main_process", (True, False))
-def test_best_history_saver_save_only_main_process_false(tmp_path: Path, main_process: bool):
+def test_best_history_saver_save_only_main_process_false(
+    tmp_path: Path, main_process: bool
+) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, get_histories=Mock(return_value={}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: main_process):
@@ -104,7 +106,7 @@ def test_last_history_saver_path(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_last_history_saver_event(tmp_path: Path, event: str):
+def test_last_history_saver_event(tmp_path: Path, event: str) -> None:
     assert LastHistorySaver(tmp_path, event=event)._event == event
 
 
@@ -113,7 +115,7 @@ def test_last_history_saver_event_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_last_history_saver_attach(tmp_path: Path, event: str):
+def test_last_history_saver_attach(tmp_path: Path, event: str) -> None:
     saver = LastHistorySaver(tmp_path, event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     saver.attach(engine)
@@ -151,7 +153,9 @@ def test_last_history_saver_save_only_main_process_true_not_main_process(tmp_pat
 
 
 @mark.parametrize("main_process", (True, False))
-def test_last_history_saver_save_only_main_process_false(tmp_path: Path, main_process: bool):
+def test_last_history_saver_save_only_main_process_false(
+    tmp_path: Path, main_process: bool
+) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, get_histories=Mock(return_value={}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: main_process):
@@ -177,7 +181,7 @@ def test_best_engine_state_saver_path(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_best_engine_state_saver_event(tmp_path: Path, event: str):
+def test_best_engine_state_saver_event(tmp_path: Path, event: str) -> None:
     assert BestEngineStateSaver(tmp_path, event=event, keys=("loss", "accuracy"))._event == event
 
 
@@ -194,7 +198,7 @@ def test_best_engine_state_saver_keys(tmp_path: Path, keys: Union[tuple[str, ...
 
 
 @mark.parametrize("event", EVENTS)
-def test_best_engine_state_saver_attach(tmp_path: Path, event: str):
+def test_best_engine_state_saver_attach(tmp_path: Path, event: str) -> None:
     saver = BestEngineStateSaver(tmp_path, event=event, keys=("loss", "accuracy"))
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     saver.attach(engine)
@@ -253,7 +257,9 @@ def test_best_engine_state_saver_save_only_main_process_true_not_main_process(
 
 
 @mark.parametrize("main_process", (True, False))
-def test_best_engine_state_saver_save_only_main_process_false(tmp_path: Path, main_process: bool):
+def test_best_engine_state_saver_save_only_main_process_false(
+    tmp_path: Path, main_process: bool
+) -> None:
     save_mock = Mock()
     engine = Mock(
         spec=BaseEngine,
@@ -348,7 +354,7 @@ def test_epoch_engine_state_saver_path(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_epoch_engine_state_saver_event(tmp_path: Path, event: str):
+def test_epoch_engine_state_saver_event(tmp_path: Path, event: str) -> None:
     assert EpochEngineStateSaver(tmp_path, event=event)._event == event
 
 
@@ -357,7 +363,7 @@ def test_epoch_engine_state_saver_event_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_epoch_engine_state_saver_attach(tmp_path: Path, event: str):
+def test_epoch_engine_state_saver_attach(tmp_path: Path, event: str) -> None:
     saver = EpochEngineStateSaver(tmp_path, event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     saver.attach(engine)
@@ -401,7 +407,9 @@ def test_epoch_engine_state_saver_save_only_main_process_true_not_main_process(
 
 
 @mark.parametrize("main_process", (True, False))
-def test_epoch_engine_state_saver_save_only_main_process_false(tmp_path: Path, main_process: bool):
+def test_epoch_engine_state_saver_save_only_main_process_false(
+    tmp_path: Path, main_process: bool
+) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, epoch=0, state_dict=Mock(return_value={"key": 123}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: main_process):
@@ -428,7 +436,7 @@ def test_tag_engine_state_saver_path(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_tag_engine_state_saver_event(tmp_path: Path, event: str):
+def test_tag_engine_state_saver_event(tmp_path: Path, event: str) -> None:
     assert TagEngineStateSaver(tmp_path, event=event)._event == event
 
 
@@ -437,7 +445,7 @@ def test_tag_engine_state_saver_event_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("tag", ("tag1", "tag2"))
-def test_tag_engine_state_saver_tag(tmp_path: Path, tag: str):
+def test_tag_engine_state_saver_tag(tmp_path: Path, tag: str) -> None:
     assert TagEngineStateSaver(tmp_path, tag=tag)._tag == tag
 
 
@@ -446,7 +454,7 @@ def test_tag_engine_state_saver_tag_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("event", EVENTS)
-def test_tag_engine_state_saver_attach(tmp_path: Path, event: str):
+def test_tag_engine_state_saver_attach(tmp_path: Path, event: str) -> None:
     saver = TagEngineStateSaver(tmp_path, event=event)
     engine = Mock(has_event_handler=Mock(return_value=False))
     saver.attach(engine)
@@ -490,7 +498,9 @@ def test_tag_engine_state_saver_save_only_main_process_true_not_main_process(
 
 
 @mark.parametrize("main_process", (True, False))
-def test_tag_engine_state_saver_save_only_main_process_false(tmp_path: Path, main_process: bool):
+def test_tag_engine_state_saver_save_only_main_process_false(
+    tmp_path: Path, main_process: bool
+) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, state_dict=Mock(return_value={"key": 123}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: main_process):
@@ -504,7 +514,7 @@ def test_tag_engine_state_saver_save_only_main_process_false(tmp_path: Path, mai
 
 
 @mark.parametrize("tag", ("tag1", "tag2"))
-def test_tag_engine_state_saver_save_custom_tag(tmp_path: Path, tag: str):
+def test_tag_engine_state_saver_save_custom_tag(tmp_path: Path, tag: str) -> None:
     save_mock = Mock()
     engine = Mock(spec=BaseEngine, state_dict=Mock(return_value={"key": 123}))
     with patch("gravitorch.handlers.engine_saver.dist.is_main_process", lambda *args: True):

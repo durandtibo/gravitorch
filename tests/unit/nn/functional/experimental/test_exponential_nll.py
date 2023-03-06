@@ -65,7 +65,7 @@ def test_exponential_nll_loss_log_incorrect_reduction() -> None:
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_exponential_nll_loss_2d(device: str, batch_size: int, feature_size: int):
+def test_exponential_nll_loss_2d(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     out = exponential_nll_loss(
         log_rate=torch.randn(batch_size, feature_size, dtype=torch.float, device=device),

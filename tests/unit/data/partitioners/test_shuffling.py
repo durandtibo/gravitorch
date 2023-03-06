@@ -41,7 +41,7 @@ def test_epoch_shuffle_partitioner_dict() -> None:
 
 
 @mark.parametrize("random_seed", (1, 2))
-def test_epoch_shuffle_partitioner_random_seed(random_seed: int):
+def test_epoch_shuffle_partitioner_random_seed(random_seed: int) -> None:
     assert (
         EpochShufflePartitioner(
             FixedSizePartitioner(partition_size=4), random_seed=random_seed

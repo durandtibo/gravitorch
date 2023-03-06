@@ -19,7 +19,7 @@ def test_dict_batcher_str():
 
 
 @mark.parametrize("random_seed", (1, 2))
-def test_dict_batcher_iter_random_seed(random_seed: int):
+def test_dict_batcher_iter_random_seed(random_seed: int) -> None:
     assert DictBatcher({}, batch_size=32, random_seed=random_seed).random_seed == random_seed
 
 
@@ -214,7 +214,7 @@ def test_tuple_batcher_str():
 
 
 @mark.parametrize("random_seed", (1, 2))
-def test_tuple_batcher_random_seed(random_seed: int):
+def test_tuple_batcher_random_seed(random_seed: int) -> None:
     assert TupleBatcher([], batch_size=32, random_seed=random_seed).random_seed == random_seed
 
 

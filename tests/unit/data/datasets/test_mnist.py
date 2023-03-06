@@ -33,7 +33,7 @@ def mnist_path(tmp_path_factory: TempPathFactory) -> Path:
 
 
 @torchvision_available
-def test_mnist_dataset_getitem(mnist_path: Path):
+def test_mnist_dataset_getitem(mnist_path: Path) -> None:
     dataset = MNISTDataset(root=mnist_path.as_posix(), transform=ToTensor())
     example = dataset[0]
     assert isinstance(example, dict)

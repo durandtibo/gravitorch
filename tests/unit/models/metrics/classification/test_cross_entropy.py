@@ -37,7 +37,7 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_str(mode: str):
+def test_categorical_cross_entropy_str(mode: str) -> None:
     assert str(CategoricalCrossEntropy(mode)).startswith("CategoricalCrossEntropy(")
 
 
@@ -100,7 +100,7 @@ def test_categorical_cross_entropy_attach_state_extended(engine: BaseEngine):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
-def test_categorical_cross_entropy_forward_correct(device: str, mode: str, batch_size: int):
+def test_categorical_cross_entropy_forward_correct(device: str, mode: str, batch_size: int) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     prediction = torch.zeros(batch_size, 3, device=device)
@@ -119,7 +119,9 @@ def test_categorical_cross_entropy_forward_correct(device: str, mode: str, batch
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
-def test_categorical_cross_entropy_forward_incorrect(device: str, mode: str, batch_size: int):
+def test_categorical_cross_entropy_forward_incorrect(
+    device: str, mode: str, batch_size: int
+) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     prediction = torch.zeros(batch_size, 3, device=device)
@@ -137,7 +139,7 @@ def test_categorical_cross_entropy_forward_incorrect(device: str, mode: str, bat
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_forward_partially_correct(device: str, mode: str):
+def test_categorical_cross_entropy_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.zeros(2, device=device))
@@ -153,7 +155,7 @@ def test_categorical_cross_entropy_forward_partially_correct(device: str, mode: 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_forward_prediction_2d(device: str, mode: str):
+def test_categorical_cross_entropy_forward_prediction_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.zeros(2, device=device))
@@ -169,7 +171,7 @@ def test_categorical_cross_entropy_forward_prediction_2d(device: str, mode: str)
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_forward_prediction_2d_target_2d(device: str, mode: str):
+def test_categorical_cross_entropy_forward_prediction_2d_target_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.zeros(2, 1, device=device))
@@ -185,7 +187,7 @@ def test_categorical_cross_entropy_forward_prediction_2d_target_2d(device: str, 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_forward_prediction_3d(device: str, mode: str):
+def test_categorical_cross_entropy_forward_prediction_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.ones(2, 3, 3, device=device), torch.zeros(2, 3, device=device))
@@ -201,7 +203,7 @@ def test_categorical_cross_entropy_forward_prediction_3d(device: str, mode: str)
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_forward_prediction_4d(device: str, mode: str):
+def test_categorical_cross_entropy_forward_prediction_4d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.ones(2, 3, 4, 3, device=device), torch.zeros(2, 3, 4, device=device))
@@ -238,7 +240,7 @@ def test_categorical_cross_entropy_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_forward_state(device: str, mode: str):
+def test_categorical_cross_entropy_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode, state=ExtendedErrorState()).to(device=device)
     metric(torch.eye(4, device=device), torch.arange(4, device=device))
@@ -259,7 +261,7 @@ def test_categorical_cross_entropy_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_forward_multiple_batches(device: str, mode: str):
+def test_categorical_cross_entropy_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.eye(4, device=device), torch.arange(4, device=device))
@@ -276,7 +278,9 @@ def test_categorical_cross_entropy_forward_multiple_batches(device: str, mode: s
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_categorical_cross_entropy_forward_multiple_batches_with_reset(
+    device: str, mode: str
+) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.eye(4, device=device), torch.arange(4, device=device))

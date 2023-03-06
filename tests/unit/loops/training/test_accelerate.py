@@ -70,7 +70,7 @@ def test_accelerate_training_loop_accelerator_cpu_only():
 
 @accelerate_available
 @mark.parametrize("set_grad_to_none", (True, False))
-def test_accelerate_training_loop_set_grad_to_none(set_grad_to_none: bool):
+def test_accelerate_training_loop_set_grad_to_none(set_grad_to_none: bool) -> None:
     assert (
         AccelerateTrainingLoop(set_grad_to_none=set_grad_to_none)._set_grad_to_none
         == set_grad_to_none
@@ -84,7 +84,7 @@ def test_accelerate_training_loop_set_grad_to_none_default():
 
 @accelerate_available
 @mark.parametrize("tag", ("pre-training", "custom name"))
-def test_accelerate_training_loop_tag(tag: str):
+def test_accelerate_training_loop_tag(tag: str) -> None:
     assert AccelerateTrainingLoop(tag=tag)._tag == tag
 
 
@@ -109,7 +109,9 @@ def test_accelerate_training_loop_clip_grad_clip_grad_value_without_clip_value()
 
 @accelerate_available
 @mark.parametrize("clip_value", (0.1, 1))
-def test_accelerate_training_loop_clip_grad_clip_grad_value_with_clip_value(clip_value: float):
+def test_accelerate_training_loop_clip_grad_clip_grad_value_with_clip_value(
+    clip_value: float,
+) -> None:
     training_loop = AccelerateTrainingLoop(
         clip_grad={"name": "clip_grad_value", "clip_value": clip_value}
     )
@@ -278,7 +280,7 @@ def test_accelerate_training_loop_train_iterable_dataset():
 
 @accelerate_available
 @mark.parametrize("event", (EngineEvents.TRAIN_EPOCH_STARTED, EngineEvents.TRAIN_EPOCH_COMPLETED))
-def test_accelerate_training_loop_fire_event_train_epoch_events(event: str):
+def test_accelerate_training_loop_fire_event_train_epoch_events(event: str) -> None:
     engine = create_dummy_engine()
     engine.add_event_handler(
         event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
@@ -299,7 +301,7 @@ def test_accelerate_training_loop_fire_event_train_epoch_events(event: str):
         EngineEvents.TRAIN_ITERATION_COMPLETED,
     ),
 )
-def test_accelerate_training_loop_train_fire_event_train_iteration_events(event: str):
+def test_accelerate_training_loop_train_fire_event_train_iteration_events(event: str) -> None:
     engine = create_dummy_engine()
     engine.add_event_handler(
         event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})

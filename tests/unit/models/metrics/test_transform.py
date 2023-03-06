@@ -126,7 +126,7 @@ def test_transformed_prediction_target_forward(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_transformed_prediction_target_forward_symlog(device: str, mode: str):
+def test_transformed_prediction_target_forward_symlog(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(
         metric=AbsoluteError(mode),
