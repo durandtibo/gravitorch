@@ -1,7 +1,6 @@
 r"""This module defines some utility functions for distributed experiments."""
 
 __all__ = [
-    "conditional_evaluation",
     "has_slurm_distributed_env_vars",
     "has_torch_distributed_env_vars",
     "is_slurm_job",
@@ -15,7 +14,6 @@ __all__ = [
 
 import logging
 import os
-from typing import Callable
 
 from gravitorch.distributed import comm as dist
 from gravitorch.distributed._constants import (
@@ -173,33 +171,3 @@ def show_distributed_context_info() -> None:
         f"  get_nproc_per_node : {dist.get_nproc_per_node()}\n"
         f"  get_node_rank      : {dist.get_node_rank()}\n"
     )
-
-
-def conditional_evaluation(only_main_process: bool, callable: Callable, *args, **kwargs) -> None:
-    r"""Evaluates or not the callable based on the distributed context.
-
-    Args:
-    ----
-        only_main_process (bool, optional): If ``True``, only the
-            main process evaluates the callable otherwise
-            all the processes evaluate the callable.
-        callable (Callable): Specifies the callable to evaluate.
-        *args: Variable length argument list.
-        **kwargs: Arbitrary keyword arguments.
-
-    Example:
-    -------
-    .. code-block:: python
-
-        >>> from gravitorch.distributed.utils import conditional_evaluation
-        >>> conditional_evaluation(False, print, "hello")
-        hello
-        # If main process
-        >>> conditional_evaluation(True, print, "hello")
-        hello
-        # If non main process
-        >>> conditional_evaluation(True, print, "hello")
-    """
-    if only_main_process and not dist.is_main_process():
-        return
-    callable(*args, **kwargs)

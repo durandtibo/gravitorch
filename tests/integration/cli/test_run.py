@@ -1,4 +1,3 @@
-import os
 import subprocess
 from pathlib import Path
 
@@ -16,16 +15,19 @@ def test_run_cli_successful(tmp_path: Path) -> None:
         shell=True,
         check=True,
     )
-    assert os.path.isdir(os.path.join(tmp_path, ".hydra"))
-    assert os.path.exists(os.path.join(tmp_path, "run.log"))
+    assert tmp_path.joinpath(".hydra").is_dir()
+    assert tmp_path.joinpath("run.log").is_file()
 
 
-def test_run_cli_error() -> None:
+def test_run_cli_error(tmp_path: Path) -> None:
     with raises(subprocess.CalledProcessError):
         subprocess.run(
             [
-                r"python -m gravitorch.cli.run -cd=tests/integration/cli/conf -cn=simple num_classes=-1"
+                r"python -m gravitorch.cli.run -cd=tests/integration/cli/conf "
+                rf"-cn=simple num_classes=-1 hydra.run.dir={tmp_path}"
             ],
             shell=True,
             check=True,
         )
+    assert tmp_path.joinpath(".hydra").is_dir()
+    assert tmp_path.joinpath("run.log").is_file()

@@ -9,7 +9,7 @@ __all__ = [
 ]
 
 from torch import Tensor
-from torch.nn import functional as F
+from torch.nn.functional import mse_loss, smooth_l1_loss
 
 from gravitorch.nn.functional.loss_helpers import basic_loss_reduction
 from gravitorch.utils.tensor.math_ops import symlog
@@ -44,7 +44,7 @@ def msle_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") -> Te
             error. The shape of the tensor depends on the reduction
             strategy.
     """
-    return F.mse_loss(prediction.log1p(), target.log1p(), reduction=reduction)
+    return mse_loss(prediction.log1p(), target.log1p(), reduction=reduction)
 
 
 def asinh_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") -> Tensor:
@@ -74,7 +74,7 @@ def asinh_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") 
             on the arcsinh transformed prediction and target. The
             shape of the tensor depends on the reduction strategy.
     """
-    return F.mse_loss(prediction.asinh(), target.asinh(), reduction=reduction)
+    return mse_loss(prediction.asinh(), target.asinh(), reduction=reduction)
 
 
 def symlog_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") -> Tensor:
@@ -104,7 +104,7 @@ def symlog_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean")
             on the symlog transformed prediction and target. The shape
             of the tensor depends on the reduction strategy.
     """
-    return F.mse_loss(symlog(prediction), symlog(target), reduction=reduction)
+    return mse_loss(symlog(prediction), symlog(target), reduction=reduction)
 
 
 def relative_mse_loss(
@@ -143,7 +143,7 @@ def relative_mse_loss(
         >>> loss.backward()
     """
     return basic_loss_reduction(
-        F.mse_loss(prediction, target, reduction="none").div(target.detach().pow(2).clamp(min=eps)),
+        mse_loss(prediction, target, reduction="none").div(target.detach().pow(2).clamp(min=eps)),
         reduction=reduction,
     )
 
@@ -191,7 +191,7 @@ def relative_smooth_l1_loss(
         >>> loss.backward()
     """
     return basic_loss_reduction(
-        F.smooth_l1_loss(prediction, target, reduction="none", beta=beta).div(
+        smooth_l1_loss(prediction, target, reduction="none", beta=beta).div(
             target.detach().abs().clamp(min=eps)
         ),
         reduction=reduction,
@@ -243,7 +243,7 @@ def symmetric_relative_smooth_l1_loss(
         >>> loss.backward()
     """
     return basic_loss_reduction(
-        F.smooth_l1_loss(prediction, target, reduction="none", beta=beta).div(
+        smooth_l1_loss(prediction, target, reduction="none", beta=beta).div(
             target.abs().add(prediction.abs()).detach().mul(0.5).clamp(min=eps)
         ),
         reduction=reduction,

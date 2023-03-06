@@ -6,7 +6,7 @@ import logging
 from typing import Optional
 
 from torch import Tensor
-from torch.nn import functional as F
+from torch.nn.functional import mse_loss
 
 from gravitorch.distributed.ddp import SUM, sync_reduce
 from gravitorch.engines.base import BaseEngine
@@ -70,7 +70,7 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the tensor of targets.
         """
-        self._sum_squared_errors += F.mse_loss(
+        self._sum_squared_errors += mse_loss(
             prediction.float(), target.float(), reduction="sum"
         ).item()
         self._sum_squared_targets += target.pow(2).sum().item()
