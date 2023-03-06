@@ -53,7 +53,7 @@ def test_squared_error_init_state_mean() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_squared_error_attach_train(name: str, engine: BaseEngine):
+def test_squared_error_attach_train(name: str, engine: BaseEngine) -> None:
     metric = SquaredError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_mean"), MinScalarHistory)
@@ -70,7 +70,7 @@ def test_squared_error_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_squared_error_attach_eval(name: str, engine: BaseEngine):
+def test_squared_error_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = SquaredError(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_mean"), MinScalarHistory)
@@ -86,7 +86,7 @@ def test_squared_error_attach_eval(name: str, engine: BaseEngine):
     )
 
 
-def test_squared_error_attach_state_mean(engine: BaseEngine):
+def test_squared_error_attach_state_mean(engine: BaseEngine) -> None:
     metric = SquaredError(ct.EVAL, state=MeanErrorState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/sq_err_mean"), MinScalarHistory)
@@ -127,7 +127,7 @@ def test_squared_error_forward_correct(
 @mark.parametrize("feature_size", SIZES)
 def test_squared_error_forward_incorrect(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(
@@ -212,7 +212,7 @@ def test_squared_error_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(
@@ -286,7 +286,7 @@ def test_squared_error_value_empty(mode: str) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
@@ -299,7 +299,7 @@ def test_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngi
 
 
 @mark.parametrize("device", get_available_devices())
-def test_squared_error_events_train(device: str, engine: BaseEngine):
+def test_squared_error_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = SquaredError(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -315,7 +315,7 @@ def test_squared_error_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_squared_error_events_eval(device: str, engine: BaseEngine):
+def test_squared_error_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = SquaredError(ct.EVAL).to(device=device)
     metric.attach(engine)
@@ -348,7 +348,7 @@ def test_root_mean_squared_error_str(mode: str) -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_root_mean_squared_error_attach_train(name: str, engine: BaseEngine):
+def test_root_mean_squared_error_attach_train(name: str, engine: BaseEngine) -> None:
     metric = RootMeanSquaredError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_root_mean"), MinScalarHistory)
@@ -362,7 +362,7 @@ def test_root_mean_squared_error_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_root_mean_squared_error_attach_eval(name: str, engine: BaseEngine):
+def test_root_mean_squared_error_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = RootMeanSquaredError(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_root_mean"), MinScalarHistory)
@@ -381,7 +381,7 @@ def test_root_mean_squared_error_attach_eval(name: str, engine: BaseEngine):
 @mark.parametrize("feature_size", SIZES)
 def test_root_mean_squared_error_forward_correct(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(
@@ -400,7 +400,7 @@ def test_root_mean_squared_error_forward_correct(
 @mark.parametrize("feature_size", SIZES)
 def test_root_mean_squared_error_forward_incorrect(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(
@@ -473,7 +473,7 @@ def test_root_mean_squared_error_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(
@@ -526,7 +526,9 @@ def test_root_mean_squared_error_value_empty(mode: str) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_root_mean_squared_error_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
@@ -536,7 +538,7 @@ def test_root_mean_squared_error_value_log_engine(device: str, mode: str, engine
 
 
 @mark.parametrize("device", get_available_devices())
-def test_root_mean_squared_error_events_train(device: str, engine: BaseEngine):
+def test_root_mean_squared_error_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -549,7 +551,7 @@ def test_root_mean_squared_error_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_root_mean_squared_error_events_eval(device: str, engine: BaseEngine):
+def test_root_mean_squared_error_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(ct.EVAL).to(device=device)
     metric.attach(engine)

@@ -566,7 +566,9 @@ def test_log_cosh_loss_shape(device: str, shape: tuple[int, ...]) -> None:
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype_prediction", DTYPES)
 @mark.parametrize("dtype_target", DTYPES)
-def test_log_cosh_loss_dtype(device: str, dtype_prediction: torch.dtype, dtype_target: torch.dtype) -> None:
+def test_log_cosh_loss_dtype(
+    device: str, dtype_prediction: torch.dtype, dtype_target: torch.dtype
+) -> None:
     device = torch.device(device)
     assert log_cosh_loss(
         torch.ones(2, 3, device=device, dtype=dtype_prediction),

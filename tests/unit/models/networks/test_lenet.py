@@ -57,7 +57,7 @@ def test_lenet5_forward_without_logits(device: str, mode: bool) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_lenet5_get_dummy_input(device: str, batch_size: int):
+def test_lenet5_get_dummy_input(device: str, batch_size: int) -> None:
     device = torch.device(device)
     network = LeNet5(num_classes=10).to(device=device)
     dummy_input = network.get_dummy_input(batch_size)

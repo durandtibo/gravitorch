@@ -18,5 +18,5 @@ from gravitorch.models.metrics import BaseMetric, CategoricalAccuracy, setup_met
         {OBJECT_TARGET: "gravitorch.models.metrics.CategoricalAccuracy", "mode": ct.TRAIN},
     ),
 )
-def test_setup_metric(metric: Union[BaseMetric, dict]):
+def test_setup_metric(metric: Union[BaseMetric, dict]) -> None:
     assert isinstance(setup_metric(metric), CategoricalAccuracy)

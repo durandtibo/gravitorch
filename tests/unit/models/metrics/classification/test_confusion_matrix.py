@@ -35,7 +35,7 @@ def test_binary_confusion_matrix_str(mode: str) -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_binary_confusion_matrix_attach_train(name: str, engine: BaseEngine):
+def test_binary_confusion_matrix_attach_train(name: str, engine: BaseEngine) -> None:
     metric = BinaryConfusionMatrix(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_accuracy"), MaxScalarHistory)
@@ -61,7 +61,7 @@ def test_binary_confusion_matrix_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_binary_confusion_matrix_attach_eval(name: str, engine: BaseEngine):
+def test_binary_confusion_matrix_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = BinaryConfusionMatrix(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_accuracy"), MaxScalarHistory)
@@ -180,7 +180,7 @@ def test_binary_confusion_matrix_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(mode).to(device=device)
     metric(
@@ -250,14 +250,16 @@ def test_binary_confusion_matrix_forward_multiple_batches_with_reset(
 
 
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_value_empty(mode):
+def test_binary_confusion_matrix_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         BinaryConfusionMatrix(mode).value()
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_confusion_matrix_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_binary_confusion_matrix_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(mode).to(device=device)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([0, 1, 0, 1], device=device))
@@ -276,7 +278,7 @@ def test_binary_confusion_matrix_value_log_engine(device: str, mode: str, engine
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_confusion_matrix_events_train(device: str, engine: BaseEngine):
+def test_binary_confusion_matrix_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -302,7 +304,7 @@ def test_binary_confusion_matrix_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_confusion_matrix_events_eval(device: str, engine: BaseEngine):
+def test_binary_confusion_matrix_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = BinaryConfusionMatrix(ct.EVAL).to(device=device)
     metric.attach(engine)
@@ -344,7 +346,7 @@ def test_categorical_confusion_matrix_str(mode: str) -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_categorical_confusion_matrix_attach_train(name: str, engine: BaseEngine):
+def test_categorical_confusion_matrix_attach_train(name: str, engine: BaseEngine) -> None:
     metric = CategoricalConfusionMatrix(ct.TRAIN, num_classes=3, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_accuracy"), MaxScalarHistory)
@@ -368,7 +370,7 @@ def test_categorical_confusion_matrix_attach_train(name: str, engine: BaseEngine
 
 
 @mark.parametrize("name", NAMES)
-def test_categorical_confusion_matrix_attach_eval(name: str, engine: BaseEngine):
+def test_categorical_confusion_matrix_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = CategoricalConfusionMatrix(ct.EVAL, num_classes=3, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_accuracy"), MaxScalarHistory)
@@ -508,7 +510,7 @@ def test_categorical_confusion_matrix_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(mode, num_classes=3).to(device=device)
     metric(
@@ -594,14 +596,16 @@ def test_categorical_confusion_matrix_forward_multiple_batches_with_reset(
 
 
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_value_empty(mode):
+def test_categorical_confusion_matrix_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         CategoricalConfusionMatrix(mode, num_classes=3).value()
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_confusion_matrix_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_categorical_confusion_matrix_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(mode, num_classes=3).to(device=device)
     metric(
@@ -624,7 +628,7 @@ def test_categorical_confusion_matrix_value_log_engine(device: str, mode: str, e
 
 
 @mark.parametrize("device", get_available_devices())
-def test_categorical_confusion_matrix_events_train(device: str, engine: BaseEngine):
+def test_categorical_confusion_matrix_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(ct.TRAIN, num_classes=3).to(device=device)
     metric.attach(engine)
@@ -650,7 +654,7 @@ def test_categorical_confusion_matrix_events_train(device: str, engine: BaseEngi
 
 
 @mark.parametrize("device", get_available_devices())
-def test_categorical_confusion_matrix_events_eval(device: str, engine: BaseEngine):
+def test_categorical_confusion_matrix_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = CategoricalConfusionMatrix(ct.EVAL, num_classes=3).to(device=device)
     metric.attach(engine)

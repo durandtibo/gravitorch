@@ -40,7 +40,7 @@ def test_reproducible_batch_sampler_multiple_sampling(batch_sampler: BatchSample
 )
 def test_reproducible_batch_sampler_start_iteration(
     batch_sampler: BatchSampler, start_iteration: int, batch_indices: list[int]
-):
+) -> None:
     rbs = ReproducibleBatchSampler(batch_sampler, start_iteration=start_iteration)
     assert rbs._start_iteration == start_iteration
     assert list(rbs) == batch_indices

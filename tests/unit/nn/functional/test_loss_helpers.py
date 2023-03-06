@@ -17,7 +17,7 @@ DTYPES = (torch.long, torch.float)
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_basic_loss_reduction_mean(device: str, dtype: torch.dtype)-> None:
+def test_basic_loss_reduction_mean(device: str, dtype: torch.dtype) -> None:
     device = torch.device(device)
     assert basic_loss_reduction(
         torch.tensor([[3, 2, 1], [1, 0, -1]], dtype=dtype, device=device), reduction="mean"
@@ -26,7 +26,7 @@ def test_basic_loss_reduction_mean(device: str, dtype: torch.dtype)-> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_basic_loss_reduction_sum(device: str, dtype: torch.dtype)-> None:
+def test_basic_loss_reduction_sum(device: str, dtype: torch.dtype) -> None:
     device = torch.device(device)
     assert basic_loss_reduction(
         torch.tensor([[3, 2, 1], [1, 0, -1]], dtype=dtype, device=device), reduction="sum"
@@ -35,7 +35,7 @@ def test_basic_loss_reduction_sum(device: str, dtype: torch.dtype)-> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_basic_loss_reduction_none(device: str, dtype: torch.dtype)-> None:
+def test_basic_loss_reduction_none(device: str, dtype: torch.dtype) -> None:
     device = torch.device(device)
     assert basic_loss_reduction(
         torch.tensor([[3, 2, 1], [1, 0, -1]], dtype=dtype, device=device), reduction="none"

@@ -68,7 +68,7 @@ def test_binary_accuracy_state_extended() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_binary_accuracy_attach_train(name: str, engine: BaseEngine):
+def test_binary_accuracy_attach_train(name: str, engine: BaseEngine) -> None:
     metric = BinaryAccuracy(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_accuracy"), MaxScalarHistory)
@@ -82,7 +82,7 @@ def test_binary_accuracy_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_binary_accuracy_attach_eval(name: str, engine: BaseEngine):
+def test_binary_accuracy_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = BinaryAccuracy(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_accuracy"), MaxScalarHistory)
@@ -95,7 +95,7 @@ def test_binary_accuracy_attach_eval(name: str, engine: BaseEngine):
     )
 
 
-def test_binary_accuracy_attach_state_extended(engine: BaseEngine):
+def test_binary_accuracy_attach_state_extended(engine: BaseEngine) -> None:
     metric = BinaryAccuracy(ct.EVAL, state=ExtendedAccuracyState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/bin_acc_accuracy"), MaxScalarHistory)
@@ -224,7 +224,7 @@ def test_binary_accuracy_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(
@@ -306,14 +306,14 @@ def test_binary_accuracy_forward_multiple_batches_with_reset(device: str, mode: 
 
 
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_value_empty(mode):
+def test_binary_accuracy_value_empty(mode: bool) -> None:
     with raises(EmptyMetricError):
         BinaryAccuracy(mode).value()
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_binary_accuracy_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_binary_accuracy_value_log_engine(device: str, mode: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(mode).to(device=device)
     metric(torch.ones(4, device=device), torch.ones(4, device=device))
@@ -323,7 +323,7 @@ def test_binary_accuracy_value_log_engine(device: str, mode: str, engine: BaseEn
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_accuracy_events_train(device: str, engine: BaseEngine):
+def test_binary_accuracy_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -336,7 +336,7 @@ def test_binary_accuracy_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_accuracy_events_eval(device: str, engine: BaseEngine):
+def test_binary_accuracy_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = BinaryAccuracy(ct.EVAL).to(device=device)
     metric.attach(engine)
@@ -377,7 +377,7 @@ def test_categorical_accuracy_state_extended() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_categorical_accuracy_attach_train(name: str, engine: BaseEngine):
+def test_categorical_accuracy_attach_train(name: str, engine: BaseEngine) -> None:
     metric = CategoricalAccuracy(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_accuracy"), MaxScalarHistory)
@@ -391,7 +391,7 @@ def test_categorical_accuracy_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_categorical_accuracy_attach_eval(name: str, engine: BaseEngine):
+def test_categorical_accuracy_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = CategoricalAccuracy(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_accuracy"), MaxScalarHistory)
@@ -404,7 +404,7 @@ def test_categorical_accuracy_attach_eval(name: str, engine: BaseEngine):
     )
 
 
-def test_categorical_accuracy_attach_state_extended(engine: BaseEngine):
+def test_categorical_accuracy_attach_state_extended(engine: BaseEngine) -> None:
     metric = CategoricalAccuracy(ct.EVAL, state=ExtendedAccuracyState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/cat_acc_accuracy"), MaxScalarHistory)
@@ -429,7 +429,7 @@ def test_categorical_accuracy_attach_state_extended(engine: BaseEngine):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
-def test_categorical_accuracy_forward_correct(device: str, mode: str, batch_size: int):
+def test_categorical_accuracy_forward_correct(device: str, mode: str, batch_size: int) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     metric(torch.eye(batch_size, device=device), torch.arange(batch_size, device=device))
@@ -442,7 +442,7 @@ def test_categorical_accuracy_forward_correct(device: str, mode: str, batch_size
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
-def test_categorical_accuracy_forward_incorrect(device: str, mode: str, batch_size: int):
+def test_categorical_accuracy_forward_incorrect(device: str, mode: str, batch_size: int) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     prediction = torch.zeros(batch_size, 3, device=device)
@@ -531,7 +531,7 @@ def test_categorical_accuracy_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     metric(
@@ -587,14 +587,14 @@ def test_categorical_accuracy_forward_multiple_batches_with_reset(device: str, m
 
 
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_value_empty(mode):
+def test_categorical_accuracy_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         CategoricalAccuracy(mode).value()
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_accuracy_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_categorical_accuracy_value_log_engine(device: str, mode: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.zeros(2, device=device))
@@ -604,7 +604,7 @@ def test_categorical_accuracy_value_log_engine(device: str, mode: str, engine: B
 
 
 @mark.parametrize("device", get_available_devices())
-def test_categorical_accuracy_events_train(device: str, engine: BaseEngine):
+def test_categorical_accuracy_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -617,7 +617,7 @@ def test_categorical_accuracy_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_categorical_accuracy_events_eval(device: str, engine: BaseEngine):
+def test_categorical_accuracy_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = CategoricalAccuracy(ct.EVAL).to(device=device)
     metric.attach(engine)
@@ -682,7 +682,7 @@ def test_top_k_accuracy_state_config_extended() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_top_k_accuracy_attach_train(name: str, engine: BaseEngine):
+def test_top_k_accuracy_attach_train(name: str, engine: BaseEngine) -> None:
     metric = TopKAccuracy(ct.TRAIN, name=name, topk=(1, 5))
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_1_accuracy"), MaxScalarHistory)
@@ -697,7 +697,7 @@ def test_top_k_accuracy_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_top_k_accuracy_attach_eval(name: str, engine: BaseEngine):
+def test_top_k_accuracy_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = TopKAccuracy(ct.EVAL, name=name, topk=(1, 5))
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_1_accuracy"), MaxScalarHistory)
@@ -711,7 +711,7 @@ def test_top_k_accuracy_attach_eval(name: str, engine: BaseEngine):
     )
 
 
-def test_top_k_accuracy_attach_state_extended(engine: BaseEngine):
+def test_top_k_accuracy_attach_state_extended(engine: BaseEngine) -> None:
     metric = TopKAccuracy(
         ct.EVAL,
         topk=(1, 5),
@@ -748,7 +748,7 @@ def test_top_k_accuracy_attach_state_extended(engine: BaseEngine):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
-def test_top_k_accuracy_forward_top1_correct(device: str, mode: str, batch_size: int):
+def test_top_k_accuracy_forward_top1_correct(device: str, mode: str, batch_size: int) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     metric(
@@ -908,7 +908,7 @@ def test_top_k_accuracy_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1,)).to(device=device)
     metric(
@@ -1000,7 +1000,7 @@ def test_top_k_accuracy_value_empty(mode: str) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_top_k_accuracy_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_top_k_accuracy_value_log_engine(device: str, mode: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(mode, topk=(1, 2, 3)).to(device=device)
     metric(
@@ -1017,7 +1017,7 @@ def test_top_k_accuracy_value_log_engine(device: str, mode: str, engine: BaseEng
 
 
 @mark.parametrize("device", get_available_devices())
-def test_top_k_accuracy_events_train(device: str, engine: BaseEngine):
+def test_top_k_accuracy_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(ct.TRAIN, topk=(1, 2, 3)).to(device=device)
     metric.attach(engine)
@@ -1037,7 +1037,7 @@ def test_top_k_accuracy_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_top_k_accuracy_events_eval(device: str, engine: BaseEngine):
+def test_top_k_accuracy_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = TopKAccuracy(ct.EVAL, topk=(1, 2, 3)).to(device=device)
     metric.attach(engine)

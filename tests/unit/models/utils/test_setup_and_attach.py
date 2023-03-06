@@ -1,3 +1,4 @@
+from pathlib import Path
 from unittest.mock import Mock, patch
 
 from objectory import OBJECT_TARGET
@@ -39,7 +40,7 @@ def test_setup_model_object() -> None:
     assert setup_model(model) is model
 
 
-def test_setup_model_dict(tmp_path):
+def test_setup_model_dict(tmp_path: Path) -> None:
     assert isinstance(
         setup_model({OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6}),
         nn.Linear,

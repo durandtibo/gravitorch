@@ -53,7 +53,7 @@ def test_categorical_cross_entropy_state_extended() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_categorical_cross_entropy_attach_train(name: str, engine: BaseEngine):
+def test_categorical_cross_entropy_attach_train(name: str, engine: BaseEngine) -> None:
     metric = CategoricalCrossEntropy(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_mean"), MinScalarHistory)
@@ -67,7 +67,7 @@ def test_categorical_cross_entropy_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_categorical_cross_entropy_attach_eval(name: str, engine: BaseEngine):
+def test_categorical_cross_entropy_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = CategoricalCrossEntropy(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_mean"), MinScalarHistory)
@@ -80,7 +80,7 @@ def test_categorical_cross_entropy_attach_eval(name: str, engine: BaseEngine):
     )
 
 
-def test_categorical_cross_entropy_attach_state_extended(engine: BaseEngine):
+def test_categorical_cross_entropy_attach_state_extended(engine: BaseEngine) -> None:
     metric = CategoricalCrossEntropy(ct.EVAL, state=ExtendedErrorState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/cat_ce_mean"), MinScalarHistory)
@@ -224,7 +224,7 @@ def test_categorical_cross_entropy_forward_dtypes(
     device: str,
     mode: str,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.eye(4, device=device), torch.arange(4, device=device, dtype=dtype_target))
@@ -297,14 +297,16 @@ def test_categorical_cross_entropy_forward_multiple_batches_with_reset(
 
 
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_value_empty(mode):
+def test_categorical_cross_entropy_value_empty(mode: bool) -> None:
     with raises(EmptyMetricError):
         CategoricalCrossEntropy(mode).value()
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_categorical_cross_entropy_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_categorical_cross_entropy_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(mode).to(device=device)
     metric(torch.eye(4, device=device), torch.arange(4, device=device))
@@ -318,7 +320,7 @@ def test_categorical_cross_entropy_value_log_engine(device: str, mode: str, engi
 
 
 @mark.parametrize("device", get_available_devices())
-def test_categorical_cross_entropy_events_train(device: str, engine: BaseEngine):
+def test_categorical_cross_entropy_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -335,7 +337,7 @@ def test_categorical_cross_entropy_events_train(device: str, engine: BaseEngine)
 
 
 @mark.parametrize("device", get_available_devices())
-def test_categorical_cross_entropy_events_eval(device: str, engine: BaseEngine):
+def test_categorical_cross_entropy_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = CategoricalCrossEntropy(ct.EVAL).to(device=device)
     metric.attach(engine)

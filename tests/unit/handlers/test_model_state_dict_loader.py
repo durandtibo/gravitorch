@@ -46,7 +46,7 @@ def test_model_state_dict_loader_strict_default(tmp_path: Path) -> None:
 @mark.parametrize("key", KEYS)
 def test_model_state_dict_loader_key(
     tmp_path: Path, key: Union[str, list[str], tuple[str, ...], None]
-):
+) -> None:
     assert ModelStateDictLoader(checkpoint_path=tmp_path, key=key)._key == key
 
 
@@ -76,7 +76,7 @@ def test_model_state_dict_loader_attach_duplicate(tmp_path: Path) -> None:
 @mark.parametrize("key", KEYS)
 def test_model_state_dict_loader_load(
     tmp_path: Path, strict: bool, key: Union[str, list[str], tuple[str, ...], None]
-):
+) -> None:
     handler = ModelStateDictLoader(checkpoint_path=tmp_path, strict=strict, key=key)
     model = Mock(spec=nn.Module)
     with patch(
@@ -120,7 +120,7 @@ def test_partial_model_state_dict_loader_strict_default(tmp_path: Path) -> None:
     assert PartialModelStateDictLoader(checkpoint_path=tmp_path)._strict
 
 
-def test_partial_model_state_dict_loader_exclude_key_prefixes(tmp_path):
+def test_partial_model_state_dict_loader_exclude_key_prefixes(tmp_path: Path) -> None:
     assert (
         PartialModelStateDictLoader(
             checkpoint_path=tmp_path, exclude_key_prefixes="network.linear"
@@ -155,7 +155,7 @@ def test_partial_model_state_dict_loader_attach_duplicate(tmp_path: Path) -> Non
 @mark.parametrize("exclude_key_prefixes", ([], ("network.linear",)))
 def test_partial_model_state_dict_loader_load_mock(
     tmp_path: Path, strict: bool, exclude_key_prefixes: Sequence
-):
+) -> None:
     handler = PartialModelStateDictLoader(
         checkpoint_path=tmp_path, strict=strict, exclude_key_prefixes=exclude_key_prefixes
     )

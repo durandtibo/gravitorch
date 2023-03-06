@@ -244,7 +244,7 @@ def test_dict_packed_sequence_collator_str():
 @mark.parametrize("keys_to_pack", (("key", 1), ["key", 1]))
 def test_dict_packed_sequence_collator_keys_to_pack(
     keys_to_pack: Union[list[Hashable], tuple[Hashable, ...]]
-):
+) -> None:
     assert DictPackedSequenceCollator(keys_to_pack)._keys_to_pack == ("key", 1)
 
 

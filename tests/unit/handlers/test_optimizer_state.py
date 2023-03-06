@@ -61,7 +61,7 @@ def test_consolidate_optimizer_state_attach_duplicate() -> None:
 
 def test_consolidate_optimizer_state_consolidate_no_optimizer(
     caplog: LogCaptureFixture,
-):
+) -> None:
     with caplog.at_level(logging.INFO):
         ConsolidateOptimizerState().consolidate(engine=Mock(optimizer=None))
         assert len(caplog.messages) == 1
@@ -76,7 +76,7 @@ def test_consolidate_optimizer_state_consolidate(recipient_rank: int) -> None:
 
 def test_consolidate_optimizer_state_consolidate_no_consolidate_state_dict(
     caplog: LogCaptureFixture,
-):
+) -> None:
     with caplog.at_level(logging.INFO):
         ConsolidateOptimizerState().consolidate(
             engine=Mock(spec=BaseEngine, optimizer=SGD(nn.Linear(4, 6).parameters(), lr=0.01))

@@ -287,7 +287,7 @@ def test_extended_error_state_str() -> None:
 
 
 @mark.parametrize("quantiles", (torch.tensor([0.5, 0.9]), [0.5, 0.9], (0.5, 0.9)))
-def test_extended_error_state_init_quantiles(quantiles: Union[Tensor, list, tuple]):
+def test_extended_error_state_init_quantiles(quantiles: Union[Tensor, list, tuple]) -> None:
     assert ExtendedErrorState(quantiles)._quantiles.equal(
         torch.tensor([0.5, 0.9], dtype=torch.float)
     )

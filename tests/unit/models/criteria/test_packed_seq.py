@@ -29,7 +29,7 @@ SIZES = (1, 2)
 )
 def test_packed_sequence_loss_criterion(
     criterion: Union[dict, Module], criterion_cls: type[Module]
-):
+) -> None:
     assert isinstance(PackedSequenceLoss(criterion).criterion, criterion_cls)
 
 
@@ -279,7 +279,7 @@ def test_packed_sequence_cross_entropy_with_mask(device: str) -> None:
 @mark.parametrize("mask_key", ("my_mask", "mask"))
 def test_packed_sequence_cross_entropy_custom_keys(
     device: str, prediction_key: str, target_key: str, mask_key: str
-):
+) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(
         CrossEntropyLoss(),

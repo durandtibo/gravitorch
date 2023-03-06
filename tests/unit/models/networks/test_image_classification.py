@@ -28,7 +28,7 @@ def test_image_classification_network_forward(batch_size: int) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_image_classification_network_get_dummy_input(device, batch_size):
+def test_image_classification_network_get_dummy_input(device: str, batch_size: int) -> None:
     device = torch.device(device)
     network = ImageClassificationNetwork(nn.Conv2d(3, 5, 1, 1)).to(device=device)
     dummy_input = network.get_dummy_input(batch_size)

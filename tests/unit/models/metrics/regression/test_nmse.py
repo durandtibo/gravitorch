@@ -38,7 +38,7 @@ def test_normalized_mean_squared_error_init() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_normalized_mean_squared_error_attach_train(name: str, engine: BaseEngine):
+def test_normalized_mean_squared_error_attach_train(name: str, engine: BaseEngine) -> None:
     metric = NormalizedMeanSquaredError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert engine.has_history(f"{ct.TRAIN}/{name}")
@@ -53,7 +53,7 @@ def test_normalized_mean_squared_error_attach_train(name: str, engine: BaseEngin
 
 
 @mark.parametrize("name", NAMES)
-def test_normalized_mean_squared_error_attach_eval(name: str, engine: BaseEngine):
+def test_normalized_mean_squared_error_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = NormalizedMeanSquaredError(ct.EVAL, name=name)
     metric.attach(engine)
     assert engine.has_history(f"{ct.EVAL}/{name}")
@@ -73,7 +73,7 @@ def test_normalized_mean_squared_error_attach_eval(name: str, engine: BaseEngine
 @mark.parametrize("feature_size", SIZES)
 def test_normalized_mean_squared_error_forward_correct(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(
@@ -92,7 +92,7 @@ def test_normalized_mean_squared_error_forward_correct(
 @mark.parametrize("feature_size", SIZES)
 def test_normalized_mean_squared_error_forward_incorrect(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(
@@ -150,7 +150,7 @@ def test_normalized_mean_squared_error_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(
@@ -191,7 +191,9 @@ def test_normalized_mean_squared_error_value_empty(mode: str) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_normalized_mean_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_normalized_mean_squared_error_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(mode).to(device=device)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
@@ -201,7 +203,7 @@ def test_normalized_mean_squared_error_value_log_engine(device: str, mode: str, 
 
 
 @mark.parametrize("device", get_available_devices())
-def test_normalized_mean_squared_error_events_train(device: str, engine: BaseEngine):
+def test_normalized_mean_squared_error_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -214,7 +216,7 @@ def test_normalized_mean_squared_error_events_train(device: str, engine: BaseEng
 
 
 @mark.parametrize("device", get_available_devices())
-def test_normalized_mean_squared_error_events_eval(device: str, engine: BaseEngine):
+def test_normalized_mean_squared_error_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = NormalizedMeanSquaredError(ct.EVAL).to(device=device)
     metric.attach(engine)

@@ -10,25 +10,25 @@ from gravitorch.loops.evaluation.conditions import (
 #############################################
 
 
-def test_every_epoch_2_str():
+def test_every_epoch_2_str() -> None:
     assert str(EveryEpochEvalCondition(every=2)) == "EveryEpochEvalCondition(every=2)"
 
 
-def test_every_epoch_true_every_2_epoch_0():
+def test_every_epoch_true_every_2_epoch_0() -> None:
     engine = Mock()
     engine.epoch = 0
     condition = EveryEpochEvalCondition(every=2)
     assert condition(engine)
 
 
-def test_every_epoch_true_every_2_epoch_2():
+def test_every_epoch_true_every_2_epoch_2() -> None:
     engine = Mock()
     engine.epoch = 2
     condition = EveryEpochEvalCondition(every=2)
     assert condition(engine)
 
 
-def test_every_epoch_false_every_2_epoch_1():
+def test_every_epoch_false_every_2_epoch_1() -> None:
     engine = Mock()
     engine.epoch = 1
     condition = EveryEpochEvalCondition(every=2)
@@ -40,11 +40,11 @@ def test_every_epoch_false_every_2_epoch_1():
 ############################################
 
 
-def test_last_epoch_2_str():
+def test_last_epoch_2_str() -> None:
     assert str(LastEpochEvalCondition()) == "LastEpochEvalCondition()"
 
 
-def test_last_epoch_true_max_epochs_1():
+def test_last_epoch_true_max_epochs_1() -> None:
     engine = Mock()
     engine.epoch = 0
     engine.max_epochs = 1
@@ -52,7 +52,7 @@ def test_last_epoch_true_max_epochs_1():
     assert condition(engine)
 
 
-def test_last_epoch_true_max_epochs_10():
+def test_last_epoch_true_max_epochs_10() -> None:
     engine = Mock()
     engine.epoch = 9
     engine.max_epochs = 10
@@ -60,7 +60,7 @@ def test_last_epoch_true_max_epochs_10():
     assert condition(engine)
 
 
-def test_last_epoch_false():
+def test_last_epoch_false() -> None:
     engine = Mock()
     engine.epoch = -1
     engine.max_epochs = 1

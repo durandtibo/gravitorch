@@ -141,7 +141,7 @@ def test_amp_training_loop_train_one_batch_clip_grad_norm(device: str) -> None:
     assert out[ct.LOSS].device == device
 
 
-def test_amp_training_loop_train_one_batch_loss_nan():
+def test_amp_training_loop_train_one_batch_loss_nan() -> None:
     engine = Mock(spec=BaseEngine)
     model = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(math.nan)})
     optimizer = Mock(spec=Optimizer)

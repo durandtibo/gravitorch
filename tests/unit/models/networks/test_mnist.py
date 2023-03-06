@@ -48,7 +48,7 @@ def test_pytorch_mnist_net_get_onnx_dynamic_axis_default() -> None:
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("mode", (True, False))
-def test_pytorch_mnist_net_forward(device, batch_size, mode):
+def test_pytorch_mnist_net_forward(device: str, batch_size: int, mode: bool) -> None:
     device = torch.device(device)
     network = PyTorchMnistNet().to(device=device)
     network.train(mode)
@@ -60,7 +60,7 @@ def test_pytorch_mnist_net_forward(device, batch_size, mode):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_pytorch_mnist_net_get_dummy_input(device, batch_size):
+def test_pytorch_mnist_net_get_dummy_input(device: str, batch_size: int) -> None:
     device = torch.device(device)
     dummy_input = PyTorchMnistNet().to(device=device).get_dummy_input(batch_size)
     assert len(dummy_input) == 1

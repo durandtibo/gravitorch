@@ -66,7 +66,7 @@ def test_absolute_relative_error_init_state_mean() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_absolute_relative_error_attach_train(name: str, engine: BaseEngine):
+def test_absolute_relative_error_attach_train(name: str, engine: BaseEngine) -> None:
     metric = AbsoluteRelativeError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_mean"), MinScalarHistory)
@@ -83,7 +83,7 @@ def test_absolute_relative_error_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_absolute_relative_error_attach_eval(name: str, engine: BaseEngine):
+def test_absolute_relative_error_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = AbsoluteRelativeError(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_mean"), MinScalarHistory)
@@ -99,7 +99,7 @@ def test_absolute_relative_error_attach_eval(name: str, engine: BaseEngine):
     )
 
 
-def test_absolute_relative_error_attach_state_mean(engine: BaseEngine):
+def test_absolute_relative_error_attach_state_mean(engine: BaseEngine) -> None:
     metric = AbsoluteRelativeError(ct.EVAL, state=MeanErrorState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/abs_rel_err_mean"), MinScalarHistory)
@@ -118,7 +118,7 @@ def test_absolute_relative_error_attach_state_mean(engine: BaseEngine):
 @mark.parametrize("feature_size", SIZES)
 def test_absolute_relative_error_forward_correct(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(
@@ -155,7 +155,7 @@ def test_absolute_relative_error_forward_correct_zero(device: str, mode: str) ->
 @mark.parametrize("feature_size", SIZES)
 def test_absolute_relative_error_forward_incorrect(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(
@@ -244,7 +244,7 @@ def test_absolute_relative_error_forward_dtype(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(
@@ -320,7 +320,9 @@ def test_absolute_relative_error_value_empty(mode: str) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_relative_error_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_absolute_relative_error_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -333,7 +335,7 @@ def test_absolute_relative_error_value_log_engine(device: str, mode: str, engine
 
 
 @mark.parametrize("device", get_available_devices())
-def test_absolute_relative_error_events_train(device: str, engine: BaseEngine):
+def test_absolute_relative_error_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -349,7 +351,7 @@ def test_absolute_relative_error_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_absolute_relative_error_events_eval(device: str, engine: BaseEngine):
+def test_absolute_relative_error_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = AbsoluteRelativeError(ct.EVAL).to(device=device)
     metric.attach(engine)
@@ -407,7 +409,7 @@ def test_symmetric_absolute_relative_error_init_state_mean() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_symmetric_absolute_relative_error_attach_train(name: str, engine: BaseEngine):
+def test_symmetric_absolute_relative_error_attach_train(name: str, engine: BaseEngine) -> None:
     metric = SymmetricAbsoluteRelativeError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_mean"), MinScalarHistory)
@@ -423,7 +425,7 @@ def test_symmetric_absolute_relative_error_attach_train(name: str, engine: BaseE
 
 
 @mark.parametrize("name", NAMES)
-def test_symmetric_absolute_relative_error_attach_eval(name: str, engine: BaseEngine):
+def test_symmetric_absolute_relative_error_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = SymmetricAbsoluteRelativeError(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_mean"), MinScalarHistory)
@@ -438,7 +440,7 @@ def test_symmetric_absolute_relative_error_attach_eval(name: str, engine: BaseEn
     )
 
 
-def test_symmetric_absolute_relative_error_attach_state_mean(engine: BaseEngine):
+def test_symmetric_absolute_relative_error_attach_state_mean(engine: BaseEngine) -> None:
     metric = SymmetricAbsoluteRelativeError(ct.EVAL, state=MeanErrorState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/sym_abs_rel_err_mean"), MinScalarHistory)
@@ -457,7 +459,7 @@ def test_symmetric_absolute_relative_error_attach_state_mean(engine: BaseEngine)
 @mark.parametrize("feature_size", SIZES)
 def test_symmetric_absolute_relative_error_forward_correct(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(
@@ -494,7 +496,7 @@ def test_symmetric_absolute_relative_error_forward_correct_zero(device: str, mod
 @mark.parametrize("feature_size", SIZES)
 def test_symmetric_absolute_relative_error_forward_incorrect(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(
@@ -514,7 +516,7 @@ def test_symmetric_absolute_relative_error_forward_incorrect(
 @mark.parametrize("mode", MODES)
 def test_symmetric_absolute_relative_error_forward_partially_correct_zero_prediction(
     device: str, mode: str
-):
+) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.ones(2, 2, device=device))
@@ -531,7 +533,7 @@ def test_symmetric_absolute_relative_error_forward_partially_correct_zero_predic
 @mark.parametrize("mode", MODES)
 def test_symmetric_absolute_relative_error_forward_partially_correct_zero_target(
     device: str, mode: str
-):
+) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.eye(2, device=device))
@@ -598,7 +600,7 @@ def test_symmetric_absolute_relative_error_forward_dtype(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(
@@ -651,7 +653,7 @@ def test_symmetric_absolute_relative_error_forward_multiple_batches(device: str,
 @mark.parametrize("mode", MODES)
 def test_symmetric_absolute_relative_error_forward_multiple_batches_with_reset(
     device: str, mode: str
-):
+) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -676,7 +678,7 @@ def test_symmetric_absolute_relative_error_value_empty(mode: str) -> None:
 @mark.parametrize("mode", MODES)
 def test_symmetric_absolute_relative_error_value_log_engine(
     device: str, mode: str, engine: BaseEngine
-):
+) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -689,7 +691,7 @@ def test_symmetric_absolute_relative_error_value_log_engine(
 
 
 @mark.parametrize("device", get_available_devices())
-def test_symmetric_absolute_relative_error_events_train(device: str, engine: BaseEngine):
+def test_symmetric_absolute_relative_error_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -705,7 +707,7 @@ def test_symmetric_absolute_relative_error_events_train(device: str, engine: Bas
 
 
 @mark.parametrize("device", get_available_devices())
-def test_symmetric_absolute_relative_error_events_eval(device: str, engine: BaseEngine):
+def test_symmetric_absolute_relative_error_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = SymmetricAbsoluteRelativeError(ct.EVAL).to(device=device)
     metric.attach(engine)

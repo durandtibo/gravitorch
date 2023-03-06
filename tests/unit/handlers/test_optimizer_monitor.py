@@ -38,7 +38,7 @@ def test_epoch_optimizer_monitor_freq(freq: int) -> None:
 
 
 @mark.parametrize("freq", (0, -1))
-def test_epoch_optimizer_monitor_incorrect_freq(freq: int):
+def test_epoch_optimizer_monitor_incorrect_freq(freq: int) -> None:
     with raises(ValueError):
         EpochOptimizerMonitor(freq=freq)
 
@@ -67,7 +67,7 @@ def test_epoch_optimizer_monitor_prefix_default() -> None:
 
 @mark.parametrize("event", EVENTS)
 @mark.parametrize("freq", (1, 2))
-def test_epoch_optimizer_monitor_attach(event: str, freq: int):
+def test_epoch_optimizer_monitor_attach(event: str, freq: int) -> None:
     handler = EpochOptimizerMonitor(event=event, freq=freq)
     engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=True))
     engine.has_event_handler.return_value = False
@@ -143,12 +143,12 @@ def test_iteration_optimizer_monitor_event_default() -> None:
 
 
 @mark.parametrize("freq", (1, 2))
-def test_iteration_optimizer_monitor_freq(freq: int):
+def test_iteration_optimizer_monitor_freq(freq: int) -> None:
     assert IterationOptimizerMonitor(freq=freq)._freq == freq
 
 
 @mark.parametrize("freq", (0, -1))
-def test_iteration_optimizer_monitor_incorrect_freq(freq: int):
+def test_iteration_optimizer_monitor_incorrect_freq(freq: int) -> None:
     with raises(ValueError):
         IterationOptimizerMonitor(freq=freq)
 
@@ -177,7 +177,7 @@ def test_iteration_optimizer_monitor_prefix_default() -> None:
 
 @mark.parametrize("event", EVENTS)
 @mark.parametrize("freq", (1, 2))
-def test_iteration_optimizer_monitor_attach(event: str, freq: int):
+def test_iteration_optimizer_monitor_attach(event: str, freq: int) -> None:
     handler = IterationOptimizerMonitor(event=event, freq=freq)
     engine = Mock(spec=BaseEngine, iteration=-1, has_event_handler=Mock(return_value=False))
     handler.attach(engine)

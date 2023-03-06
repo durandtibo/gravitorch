@@ -143,7 +143,7 @@ def test_exponential_nll_loss_module_is_loss_decreasing() -> None:
 @mark.parametrize("reduction", VALID_REDUCTIONS)
 def test_exponential_nll_loss_module_forward_mock(
     log_input: bool, eps: float, max_log_value: float, reduction: str
-):
+) -> None:
     criterion = ExponentialNLLLoss(
         log_input=log_input,
         eps=eps,

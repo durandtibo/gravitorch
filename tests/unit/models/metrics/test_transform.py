@@ -41,7 +41,7 @@ def engine() -> BaseEngine:
         {OBJECT_TARGET: "gravitorch.models.metrics.AbsoluteError", "mode": ct.EVAL},
     ),
 )
-def test_transformed_prediction_target_metric(metric: Union[BaseMetric, dict]):
+def test_transformed_prediction_target_metric(metric: Union[BaseMetric, dict]) -> None:
     assert isinstance(TransformedPredictionTarget(metric).metric, AbsoluteError)
 
 
@@ -54,7 +54,7 @@ def test_transformed_prediction_target_prediction_transform_default() -> None:
 @mark.parametrize("prediction_transform", (Symlog(), {OBJECT_TARGET: "gravitorch.nn.Symlog"}))
 def test_transformed_prediction_target_prediction_transform(
     prediction_transform: Union[Module, dict]
-):
+) -> None:
     assert isinstance(
         TransformedPredictionTarget(
             AbsoluteError(ct.EVAL), prediction_transform=prediction_transform
@@ -70,7 +70,9 @@ def test_transformed_prediction_target_target_transform_default() -> None:
 
 
 @mark.parametrize("target_transform", (Symlog(), {OBJECT_TARGET: "gravitorch.nn.Symlog"}))
-def test_transformed_prediction_target_target_transform(target_transform: Union[Module, dict]):
+def test_transformed_prediction_target_target_transform(
+    target_transform: Union[Module, dict]
+) -> None:
     assert isinstance(
         TransformedPredictionTarget(
             AbsoluteError(ct.EVAL), target_transform=target_transform
@@ -86,7 +88,7 @@ def test_transformed_prediction_target_attach_mock() -> None:
     metric.attach.assert_called_once_with(engine)
 
 
-def test_transformed_prediction_target_attach_abs_err(engine: BaseEngine):
+def test_transformed_prediction_target_attach_abs_err(engine: BaseEngine) -> None:
     metric = TransformedPredictionTarget(AbsoluteError(ct.TRAIN))
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/abs_err_mean"), MinScalarHistory)
@@ -108,7 +110,7 @@ def test_transformed_prediction_target_attach_abs_err(engine: BaseEngine):
 @mark.parametrize("feature_size", SIZES)
 def test_transformed_prediction_target_forward(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(AbsoluteError(mode)).to(device=device)
     metric(
@@ -159,7 +161,7 @@ def test_transformed_prediction_target_forward_symlog(device: str, mode: str) ->
 def test_transformed_prediction_target_forward_transformations(
     device: str,
     metric: BaseMetric,
-):
+) -> None:
     device = torch.device(device)
     metric.reset()
     metric = metric.to(device=device)
@@ -201,7 +203,9 @@ def test_transformed_prediction_target_value_with_engine() -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_transformed_prediction_target_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_transformed_prediction_target_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(AbsoluteError(mode)).to(device=device)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
@@ -214,7 +218,7 @@ def test_transformed_prediction_target_value_log_engine(device: str, mode: str, 
 
 
 @mark.parametrize("device", get_available_devices())
-def test_transformed_prediction_target_events_train(device: str, engine: BaseEngine):
+def test_transformed_prediction_target_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(AbsoluteError(ct.TRAIN)).to(device=device)
     metric.attach(engine)
@@ -230,7 +234,7 @@ def test_transformed_prediction_target_events_train(device: str, engine: BaseEng
 
 
 @mark.parametrize("device", get_available_devices())
-def test_transformed_prediction_target_events_eval(device: str, engine: BaseEngine):
+def test_transformed_prediction_target_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(AbsoluteError(ct.EVAL)).to(device=device)
     metric.attach(engine)

@@ -78,7 +78,7 @@ def test_metric_lr_scheduler_updater_event(event: str) -> None:
 
 
 @mark.parametrize("metric_name", METRICS)
-def test_metric_lr_scheduler_updater_metric_name(metric_name):
+def test_metric_lr_scheduler_updater_metric_name(metric_name: str) -> None:
     assert MetricLRSchedulerUpdater("my_event", metric_name)._metric_name == metric_name
 
 

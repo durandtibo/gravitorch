@@ -50,7 +50,7 @@ def test_absolute_error_shape(device: str, shape: tuple[int, ...]) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_absolute_error_dtypes(device: str, dtype: torch.dtype)-> None:
+def test_absolute_error_dtypes(device: str, dtype: torch.dtype) -> None:
     assert absolute_error(
         torch.ones(2, 3, dtype=dtype, device=device), torch.ones(2, 3, dtype=dtype, device=device)
     ).equal(torch.zeros(2, 3, dtype=dtype, device=device))
@@ -114,7 +114,7 @@ def test_absolute_relative_error_shape(device: str, shape: tuple[int, ...]) -> N
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_absolute_relative_error_dtypes(device: str, dtype: torch.dtype)-> None:
+def test_absolute_relative_error_dtypes(device: str, dtype: torch.dtype) -> None:
     assert absolute_relative_error(
         torch.ones(2, 3, dtype=dtype, device=device), torch.ones(2, 3, dtype=dtype, device=device)
     ).equal(torch.zeros(2, 3, dtype=torch.float, device=device))
@@ -178,7 +178,7 @@ def test_symmetric_absolute_relative_error_shape(device: str, shape: tuple[int, 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_symmetric_absolute_relative_error_dtypes(device: str, dtype: torch.dtype)-> None:
+def test_symmetric_absolute_relative_error_dtypes(device: str, dtype: torch.dtype) -> None:
     assert symmetric_absolute_relative_error(
         torch.ones(2, 3, dtype=dtype, device=device), torch.ones(2, 3, dtype=dtype, device=device)
     ).equal(torch.zeros(2, 3, dtype=torch.float, device=device))

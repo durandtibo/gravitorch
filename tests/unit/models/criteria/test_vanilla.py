@@ -28,7 +28,7 @@ SIZES = (1, 2)
 )
 def test_vanilla_sequence_loss_criterion(
     criterion: Union[dict, Module], criterion_cls: type[Module]
-):
+) -> None:
     assert isinstance(VanillaLoss(criterion).criterion, criterion_cls)
 
 

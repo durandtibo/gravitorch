@@ -193,7 +193,9 @@ def test_best_engine_state_saver_event_default(tmp_path: Path) -> None:
 
 
 @mark.parametrize("keys", (("loss", "accuracy"), ["loss", "accuracy"]))
-def test_best_engine_state_saver_keys(tmp_path: Path, keys: Union[tuple[str, ...], list[str]]):
+def test_best_engine_state_saver_keys(
+    tmp_path: Path, keys: Union[tuple[str, ...], list[str]]
+) -> None:
     assert BestEngineStateSaver(tmp_path, keys=keys)._keys == ("loss", "accuracy")
 
 
@@ -282,7 +284,7 @@ def test_best_engine_state_saver_save_only_main_process_false(
                 ]
 
 
-def test_best_engine_state_saver_save_no_history(tmp_path: Path, caplog: LogCaptureFixture):
+def test_best_engine_state_saver_save_no_history(tmp_path: Path, caplog: LogCaptureFixture) -> None:
     saver = BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))
     engine = Mock(spec=BaseEngine, has_history=Mock(return_value=False))
     with patch("gravitorch.handlers.engine_saver.save_pytorch") as save_mock:
@@ -294,7 +296,7 @@ def test_best_engine_state_saver_save_no_history(tmp_path: Path, caplog: LogCapt
 
 def test_best_engine_state_saver_save_non_comparable_history(
     tmp_path: Path, caplog: LogCaptureFixture
-):
+) -> None:
     saver = BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))
     engine = Mock(
         spec=BaseEngine,
@@ -310,7 +312,7 @@ def test_best_engine_state_saver_save_non_comparable_history(
 
 def test_best_engine_state_saver_save_history_has_not_improved(
     tmp_path: Path, caplog: LogCaptureFixture
-):
+) -> None:
     saver = BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))
     engine = Mock(
         spec=BaseEngine,
@@ -326,7 +328,9 @@ def test_best_engine_state_saver_save_history_has_not_improved(
             save_mock.assert_not_called()
 
 
-def test_best_engine_state_saver_save_empty_history(tmp_path: Path, caplog: LogCaptureFixture):
+def test_best_engine_state_saver_save_empty_history(
+    tmp_path: Path, caplog: LogCaptureFixture
+) -> None:
     saver = BestEngineStateSaver(tmp_path, keys=("loss", "accuracy"))
     engine = Mock(
         spec=BaseEngine,

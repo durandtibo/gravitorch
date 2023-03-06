@@ -46,7 +46,7 @@ def test_sequential_metric_attach() -> None:
     metrics[1].attach.assert_called_once_with(engine)
 
 
-def test_sequential_metric_attach_train(engine: BaseEngine):
+def test_sequential_metric_attach_train(engine: BaseEngine) -> None:
     metric = SequentialMetric(metrics=[AbsoluteError(mode=ct.TRAIN), SquaredError(mode=ct.TRAIN)])
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/abs_err_mean"), MinScalarHistory)
@@ -69,7 +69,7 @@ def test_sequential_metric_attach_train(engine: BaseEngine):
     )
 
 
-def test_sequential_metric_attach_eval(engine: BaseEngine):
+def test_sequential_metric_attach_eval(engine: BaseEngine) -> None:
     metric = SequentialMetric(metrics=[AbsoluteError(mode=ct.EVAL), SquaredError(mode=ct.EVAL)])
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/abs_err_mean"), MinScalarHistory)
@@ -121,7 +121,7 @@ def test_sequential_metric_forward_return_none() -> None:
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequential_metric_forward_no_output(device: str, metric: SequentialMetric):
+def test_sequential_metric_forward_no_output(device: str, metric: SequentialMetric) -> None:
     device = torch.device(device)
     metric.to(device=device)
     assert (
@@ -144,7 +144,7 @@ def test_sequential_metric_forward_with_output() -> None:
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequential_metric_value(device: str, metric: SequentialMetric):
+def test_sequential_metric_value(device: str, metric: SequentialMetric) -> None:
     device = torch.device(device)
     metric.to(device=device)
     metric(prediction=torch.ones(2, 3, device=device), target=torch.ones(2, 3, device=device))
@@ -163,7 +163,7 @@ def test_sequential_metric_value(device: str, metric: SequentialMetric):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequential_metric_batches(device: str, metric: SequentialMetric):
+def test_sequential_metric_batches(device: str, metric: SequentialMetric) -> None:
     device = torch.device(device)
     metric.to(device=device)
     metric(prediction=torch.ones(2, 3, device=device), target=torch.ones(2, 3, device=device))
@@ -183,7 +183,7 @@ def test_sequential_metric_batches(device: str, metric: SequentialMetric):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequential_metric_batches_with_reset(device: str, metric: SequentialMetric):
+def test_sequential_metric_batches_with_reset(device: str, metric: SequentialMetric) -> None:
     device = torch.device(device)
     metric.to(device=device)
     metric(prediction=torch.ones(2, 3, device=device), target=torch.ones(2, 3, device=device))

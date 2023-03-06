@@ -166,7 +166,7 @@ def test_app_vae_time_loss_module_forward_mock(
     eps: float,
     max_log_value: float,
     reduction: str,
-):
+) -> None:
     criterion = AppVAETimeLoss(
         log_input=log_input,
         delta=delta,

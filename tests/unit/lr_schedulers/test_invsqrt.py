@@ -19,7 +19,7 @@ def optimizer() -> Optimizer:
 ########################################
 
 
-def test_inverse_square_root_lr(optimizer: Optimizer):
+def test_inverse_square_root_lr(optimizer: Optimizer) -> None:
     scheduler = InverseSquareRootLR(optimizer)
     lrs = []
     for _ in range(11):

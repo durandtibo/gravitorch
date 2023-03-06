@@ -12,13 +12,13 @@ from gravitorch.loops.observers import (
 ############################################
 
 
-def test_sequential_loop_observer_str():
+def test_sequential_loop_observer_str() -> None:
     assert str(
         SequentialLoopObserver((NoOpLoopObserver(), Mock(spec=BaseLoopObserver)))
     ).startswith("SequentialLoopObserver(")
 
 
-def test_sequential_loop_observer_start():
+def test_sequential_loop_observer_start() -> None:
     engine = Mock(spec=BaseEngine)
     observer1 = Mock(spec=BaseLoopObserver)
     observer2 = Mock(spec=BaseLoopObserver)
@@ -27,7 +27,7 @@ def test_sequential_loop_observer_start():
     observer2.start.assert_called_once_with(engine)
 
 
-def test_sequential_loop_observer_end():
+def test_sequential_loop_observer_end() -> None:
     engine = Mock(spec=BaseEngine)
     observer1 = Mock(spec=BaseLoopObserver)
     observer2 = Mock(spec=BaseLoopObserver)
@@ -36,7 +36,7 @@ def test_sequential_loop_observer_end():
     observer2.end.assert_called_once_with(engine)
 
 
-def test_sequential_loop_observer_update():
+def test_sequential_loop_observer_update() -> None:
     engine = Mock(spec=BaseEngine)
     observer1 = Mock(spec=BaseLoopObserver)
     observer2 = Mock(spec=BaseLoopObserver)

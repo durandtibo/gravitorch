@@ -82,7 +82,7 @@ def test_engine_state_loader_load_engine_state_dict_file_exists_tensor(tmp_path:
 
 def test_engine_state_loader_load_engine_state_dict_file_does_not_exist_missing_ok_true(
     tmp_path: Path,
-):
+) -> None:
     loader = EngineStateLoader(tmp_path, event="my_event", missing_ok=True)
     engine = Mock(spec=BaseEngine)
     loader.load_engine_state_dict(engine)
@@ -91,7 +91,7 @@ def test_engine_state_loader_load_engine_state_dict_file_does_not_exist_missing_
 
 def test_engine_state_loader_load_engine_state_dict_file_does_not_exist_missing_ok_false(
     tmp_path: Path,
-):
+) -> None:
     loader = EngineStateLoader(tmp_path, event="my_event")
     with raises(FileNotFoundError):
         loader.load_engine_state_dict(engine=Mock())
@@ -112,7 +112,7 @@ def test_engine_state_loader_with_exclude_keys_str(tmp_path: Path) -> None:
 def test_engine_state_loader_with_exclude_keys_include_keys(
     tmp_path: Path,
     exclude_keys: Union[tuple[str, ...], list[str]],
-):
+) -> None:
     assert EngineStateLoaderWithExcludeKeys(
         tmp_path, event="my_event", exclude_keys=exclude_keys
     )._exclude_keys == ("key1", "key2")
@@ -120,7 +120,7 @@ def test_engine_state_loader_with_exclude_keys_include_keys(
 
 def test_engine_state_loader_with_exclude_keys_prepare_state_dict_remove_extra_keys(
     tmp_path: Path,
-):
+) -> None:
     loader = EngineStateLoaderWithExcludeKeys(
         tmp_path, event="my_event", exclude_keys=("key3", "key4")
     )
@@ -129,7 +129,7 @@ def test_engine_state_loader_with_exclude_keys_prepare_state_dict_remove_extra_k
 
 def test_engine_state_loader_with_exclude_keys_prepare_state_dict_all_keys_removed(
     tmp_path: Path,
-):
+) -> None:
     loader = EngineStateLoaderWithExcludeKeys(
         tmp_path, event="my_event", exclude_keys=("key1", "key2")
     )
@@ -138,7 +138,7 @@ def test_engine_state_loader_with_exclude_keys_prepare_state_dict_all_keys_remov
 
 def test_engine_state_loader_with_exclude_keys_load_engine_state_dict_file_exists(
     tmp_path: Path,
-):
+) -> None:
     path = tmp_path.joinpath("state.pt")
     save_pytorch({"key1": 1, "key2": 2, "key3": 3}, path)
     loader = EngineStateLoaderWithExcludeKeys(path, event="my_event", exclude_keys=("key3", "key4"))
@@ -162,7 +162,7 @@ def test_engine_state_loader_with_include_keys_str(tmp_path: Path) -> None:
 def test_engine_state_loader_with_include_keys_include_keys(
     tmp_path: Path,
     include_keys: Union[tuple[str, ...], list[str]],
-):
+) -> None:
     assert EngineStateLoaderWithIncludeKeys(
         tmp_path, event="my_event", include_keys=include_keys
     )._include_keys == ("key1", "key2")
@@ -170,7 +170,7 @@ def test_engine_state_loader_with_include_keys_include_keys(
 
 def test_engine_state_loader_with_include_keys_prepare_state_dict_remove_extra_keys(
     tmp_path: Path,
-):
+) -> None:
     loader = EngineStateLoaderWithIncludeKeys(
         tmp_path, event="my_event", include_keys=("key1", "key2")
     )
@@ -188,7 +188,7 @@ def test_engine_state_loader_with_include_keys_prepare_state_dict_partial_keys(
 
 def test_engine_state_loader_with_include_keys_prepare_state_dict_all_keys_missing(
     tmp_path: Path,
-):
+) -> None:
     loader = EngineStateLoaderWithIncludeKeys(
         tmp_path, event="my_event", include_keys=("key1", "key2")
     )
@@ -197,7 +197,7 @@ def test_engine_state_loader_with_include_keys_prepare_state_dict_all_keys_missi
 
 def test_engine_state_loader_with_include_keys_load_engine_state_dict_file_exists(
     tmp_path: Path,
-):
+) -> None:
     path = tmp_path.joinpath("state.pt")
     save_pytorch({"key1": 1, "key2": 2, "key3": 3}, path)
     loader = EngineStateLoaderWithIncludeKeys(path, event="my_event", include_keys=("key1", "key2"))

@@ -41,7 +41,7 @@ def increment_epoch_handler(engine: BaseEngine) -> None:
 ###########################################
 
 
-def test_vanilla_evaluation_loop_str():
+def test_vanilla_evaluation_loop_str() -> None:
     assert str(VanillaEvaluationLoop()).startswith("VanillaEvaluationLoop(")
 
 
@@ -50,29 +50,29 @@ def test_vanilla_evaluation_loop_tag(tag: str) -> None:
     assert VanillaEvaluationLoop(tag=tag)._tag == tag
 
 
-def test_vanilla_evaluation_loop_tag_default():
+def test_vanilla_evaluation_loop_tag_default() -> None:
     assert VanillaEvaluationLoop()._tag == "eval"
 
 
-def test_vanilla_evaluation_loop_batch_device_placement_cpu():
+def test_vanilla_evaluation_loop_batch_device_placement_cpu() -> None:
     assert isinstance(
         VanillaEvaluationLoop(batch_device_placement=CpuDevicePlacement())._batch_device_placement,
         CpuDevicePlacement,
     )
 
 
-def test_vanilla_evaluation_loop_batch_device_placement_default():
+def test_vanilla_evaluation_loop_batch_device_placement_default() -> None:
     assert isinstance(VanillaEvaluationLoop()._batch_device_placement, AutoDevicePlacement)
 
 
-def test_vanilla_evaluation_loop_condition():
+def test_vanilla_evaluation_loop_condition() -> None:
     evaluation_loop = VanillaEvaluationLoop(
         condition={OBJECT_TARGET: "gravitorch.loops.evaluation.conditions.LastEpochEvalCondition"}
     )
     assert isinstance(evaluation_loop._condition, LastEpochEvalCondition)
 
 
-def test_vanilla_evaluation_loop_condition_default():
+def test_vanilla_evaluation_loop_condition_default() -> None:
     assert isinstance(VanillaEvaluationLoop()._condition, EveryEpochEvalCondition)
 
 
@@ -83,15 +83,15 @@ def test_vanilla_evaluation_loop_observer(tmp_path: Path) -> None:
     )
 
 
-def test_vanilla_evaluation_loop_observer_default():
+def test_vanilla_evaluation_loop_observer_default() -> None:
     assert isinstance(VanillaEvaluationLoop()._observer, NoOpLoopObserver)
 
 
-def test_vanilla_evaluation_loop_no_profiler():
+def test_vanilla_evaluation_loop_no_profiler() -> None:
     assert isinstance(VanillaEvaluationLoop()._profiler, NoOpProfiler)
 
 
-def test_vanilla_evaluation_loop_profiler_tensorboard():
+def test_vanilla_evaluation_loop_profiler_tensorboard() -> None:
     assert isinstance(
         VanillaEvaluationLoop(profiler=PyTorchProfiler(torch.profiler.profile()))._profiler,
         PyTorchProfiler,
@@ -138,7 +138,7 @@ def test_vanilla_evaluation_loop_eval_with_loss_history(device: str) -> None:
     assert len(loss_history.get_recent_history()) == 2
 
 
-def test_vanilla_evaluation_loop_eval_no_dataset():
+def test_vanilla_evaluation_loop_eval_no_dataset() -> None:
     engine = create_dummy_engine(data_source=Mock(has_data_loader=Mock(return_value=False)))
     VanillaEvaluationLoop().eval(engine)
     assert engine.epoch == -1
@@ -273,11 +273,11 @@ def test_vanilla_evaluation_loop_eval_with_profiler(device: str) -> None:
     assert profiler.__enter__().step.call_count == 4
 
 
-def test_vanilla_evaluation_loop_load_state_dict():
+def test_vanilla_evaluation_loop_load_state_dict() -> None:
     VanillaEvaluationLoop().load_state_dict({})  # Verify it does not raise error
 
 
-def test_vanilla_evaluation_loop_state_dict():
+def test_vanilla_evaluation_loop_state_dict() -> None:
     assert VanillaEvaluationLoop().state_dict() == {}
 
 

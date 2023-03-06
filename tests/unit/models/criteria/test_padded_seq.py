@@ -29,7 +29,7 @@ SIZES = (1, 2)
 )
 def test_padded_sequence_loss_criterion(
     criterion: Union[dict, Module], criterion_cls: type[Module]
-):
+) -> None:
     assert isinstance(PaddedSequenceLoss(criterion).criterion, criterion_cls)
 
 
@@ -39,7 +39,7 @@ def test_padded_sequence_loss_criterion(
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_mse_3d_batch_first_reduction_average(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -60,7 +60,7 @@ def test_padded_sequence_loss_mse_3d_batch_first_reduction_average(
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_mse_3d_batch_first_reduction_none(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss(reduction="none")).to(device=device)
     assert objects_are_equal(
@@ -81,7 +81,7 @@ def test_padded_sequence_loss_mse_3d_batch_first_reduction_none(
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_mse_3d_sequence_first_reduction_average(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -102,7 +102,7 @@ def test_padded_sequence_loss_mse_3d_sequence_first_reduction_average(
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_mse_3d_sequence_first_reduction_none(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss(reduction="none")).to(device=device)
     assert objects_are_equal(
@@ -123,7 +123,7 @@ def test_padded_sequence_loss_mse_3d_sequence_first_reduction_none(
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_mse_4d_batch_first_reduction_average(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -144,7 +144,7 @@ def test_padded_sequence_loss_mse_4d_batch_first_reduction_average(
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_mse_4d_batch_first_reduction_none(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss(reduction="none")).to(device=device)
     assert objects_are_equal(
@@ -165,7 +165,7 @@ def test_padded_sequence_loss_mse_4d_batch_first_reduction_none(
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_mse_4d_sequence_first_reduction_average(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -186,7 +186,7 @@ def test_padded_sequence_loss_mse_4d_sequence_first_reduction_average(
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_mse_4d_sequence_first_reduction_none(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss(reduction="none")).to(device=device)
     assert objects_are_equal(
@@ -321,7 +321,7 @@ def test_padded_sequence_loss_mse_2d_mask_4_invalid(device: str) -> None:
 @mark.parametrize("feature_size", SIZES)
 def test_padded_sequence_loss_cross_entropy(
     device: str, batch_size: int, seq_len: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(CrossEntropyLoss()).to(device=device)
     loss = criterion(
@@ -426,7 +426,7 @@ def test_padded_sequence_loss_no_mask(device: str) -> None:
         torch.tensor([[1, 0], [1, 0], [0, 0]], dtype=torch.float),
     ),
 )
-def test_padded_sequence_loss_mask_dtype(device: str, mask: Tensor):
+def test_padded_sequence_loss_mask_dtype(device: str, mask: Tensor) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -551,7 +551,7 @@ def test_padded_sequence_loss_mse_mask_in_batch_false(device: str) -> None:
 @mark.parametrize("mask_key", ("my_mask", "mask"))
 def test_padded_sequence_loss_custom_keys(
     device: str, prediction_key: str, target_key: str, mask_key: str
-):
+) -> None:
     device = torch.device(device)
     criterion = PaddedSequenceLoss(
         MSELoss(),

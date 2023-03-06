@@ -105,7 +105,7 @@ def test_vanilla_training_loop_clip_grad_clip_grad_norm_without_max_norm_and_nor
 @mark.parametrize("norm_type", (1, 2))
 def test_vanilla_training_loop_clip_grad_clip_grad_norm_with_max_norm_and_norm_type(
     max_norm: float, norm_type: float
-):
+) -> None:
     training_loop = VanillaTrainingLoop(
         clip_grad={"name": "clip_grad_norm", "max_norm": max_norm, "norm_type": norm_type}
     )
@@ -118,7 +118,7 @@ def test_vanilla_training_loop_clip_grad_incorrect_name() -> None:
         VanillaTrainingLoop(clip_grad={"name": "incorrect name"})
 
 
-def test_vanilla_training_loop_observer_default():
+def test_vanilla_training_loop_observer_default() -> None:
     assert isinstance(VanillaTrainingLoop()._observer, NoOpLoopObserver)
 
 
@@ -129,11 +129,11 @@ def test_vanilla_training_loop_observer(tmp_path: Path) -> None:
     )
 
 
-def test_vanilla_training_loop_no_profiler():
+def test_vanilla_training_loop_no_profiler() -> None:
     assert isinstance(VanillaTrainingLoop()._profiler, NoOpProfiler)
 
 
-def test_vanilla_training_loop_profiler_tensorboard():
+def test_vanilla_training_loop_profiler_tensorboard() -> None:
     assert isinstance(
         VanillaTrainingLoop(profiler=PyTorchProfiler(torch.profiler.profile()))._profiler,
         PyTorchProfiler,
@@ -340,11 +340,11 @@ def test_vanilla_training_loop_train_with_profiler(device: str) -> None:
     assert profiler.__enter__().step.call_count == 4
 
 
-def test_vanilla_training_loop_load_state_dict():
+def test_vanilla_training_loop_load_state_dict() -> None:
     VanillaTrainingLoop().load_state_dict({})  # Verify it does not raise error
 
 
-def test_vanilla_training_loop_state_dict():
+def test_vanilla_training_loop_state_dict() -> None:
     assert VanillaTrainingLoop().state_dict() == {}
 
 
@@ -371,7 +371,7 @@ def test_vanilla_training_loop_train_one_batch_fired_events(device: str) -> None
 @mark.parametrize("set_grad_to_none", (True, False))
 def test_vanilla_training_loop_train_one_batch_set_grad_to_none(
     device: str, set_grad_to_none: bool
-):
+) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel().to(device=device)
@@ -427,7 +427,7 @@ def test_vanilla_training_loop_train_one_batch_clip_grad_norm(device: str) -> No
     assert out[ct.LOSS].device == device
 
 
-def test_vanilla_training_loop_train_one_batch_loss_nan():
+def test_vanilla_training_loop_train_one_batch_loss_nan() -> None:
     engine = Mock(spec=BaseEngine)
     model = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(math.nan)})
     optimizer = Mock(spec=Optimizer)

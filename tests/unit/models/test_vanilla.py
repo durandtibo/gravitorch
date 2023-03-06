@@ -185,7 +185,7 @@ def test_vanilla_model_forward_mlp_without_metric(device: str, batch_size: int, 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_vanilla_model_forward_mlp_with_metric_train(device: str, batch_size: int):
+def test_vanilla_model_forward_mlp_with_metric_train(device: str, batch_size: int) -> None:
     device = torch.device(device)
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
@@ -212,7 +212,7 @@ def test_vanilla_model_forward_mlp_with_metric_train(device: str, batch_size: in
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_vanilla_model_forward_mlp_with_metric_eval(device: str, batch_size: int):
+def test_vanilla_model_forward_mlp_with_metric_eval(device: str, batch_size: int) -> None:
     device = torch.device(device)
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),

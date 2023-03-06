@@ -22,7 +22,7 @@ def _check_broadcast_object_list(local_rank: int) -> None:
 
     Args:
     ----
-        local_rank (int): Specifies the local rank.
+        local_rank (int)-> None: Specifies the local rank.
     """
     assert dist.get_world_size() == 2  # This test is valid only for 2 processes.
     device = dist.device()

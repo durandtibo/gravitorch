@@ -365,7 +365,7 @@ def test_dict_packed_sequence_collator_str():
 @mark.parametrize("keys_to_pad", (("key", 1), ["key", 1]))
 def test_dict_packed_sequence_collator_keys_to_pad(
     keys_to_pad: Union[list[Hashable], tuple[Hashable, ...]]
-):
+) -> None:
     assert DictPaddedSequenceCollator(keys_to_pad)._keys_to_pad == ("key", 1)
 
 

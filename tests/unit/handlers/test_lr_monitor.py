@@ -40,7 +40,7 @@ def test_epoch_lr_monitor_freq(freq: int) -> None:
 
 
 @mark.parametrize("freq", (0, -1))
-def test_epoch_lr_monitor_incorrect_freq(freq: int):
+def test_epoch_lr_monitor_incorrect_freq(freq: int) -> None:
     with raises(ValueError):
         EpochLRMonitor(freq=freq)
 
@@ -51,7 +51,7 @@ def test_epoch_lr_monitor_freq_default() -> None:
 
 @mark.parametrize("event", EVENTS)
 @mark.parametrize("freq", (1, 2))
-def test_epoch_lr_monitor_attach(event: str, freq: int):
+def test_epoch_lr_monitor_attach(event: str, freq: int) -> None:
     handler = EpochLRMonitor(event=event, freq=freq)
     engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
@@ -104,12 +104,12 @@ def test_iteration_lr_monitor_event_default() -> None:
 
 
 @mark.parametrize("freq", (1, 2))
-def test_iteration_lr_monitor_freq(freq: int):
+def test_iteration_lr_monitor_freq(freq: int) -> None:
     assert IterationLRMonitor(freq=freq)._freq == freq
 
 
 @mark.parametrize("freq", (0, -1))
-def test_iteration_lr_monitor_incorrect_freq(freq: int):
+def test_iteration_lr_monitor_incorrect_freq(freq: int) -> None:
     with raises(ValueError):
         IterationLRMonitor(freq=freq)
 
@@ -120,7 +120,7 @@ def test_iteration_lr_monitor_freq_default() -> None:
 
 @mark.parametrize("event", EVENTS)
 @mark.parametrize("freq", (1, 2))
-def test_iteration_lr_monitor_attach(event: str, freq: int):
+def test_iteration_lr_monitor_attach(event: str, freq: int) -> None:
     handler = IterationLRMonitor(event=event, freq=freq)
     engine = Mock(spec=BaseEngine, iteration=-1, has_event_handler=Mock(return_value=False))
     handler.attach(engine)

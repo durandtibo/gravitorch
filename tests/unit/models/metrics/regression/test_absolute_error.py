@@ -42,7 +42,7 @@ def test_absolute_error_init_state_mean() -> None:
 
 
 @mark.parametrize("name", NAMES)
-def test_absolute_error_attach_train(name: str, engine: BaseEngine):
+def test_absolute_error_attach_train(name: str, engine: BaseEngine) -> None:
     metric = AbsoluteError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_mean"), MinScalarHistory)
@@ -59,7 +59,7 @@ def test_absolute_error_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_absolute_error_attach_eval(name: str, engine: BaseEngine):
+def test_absolute_error_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = AbsoluteError(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_mean"), MinScalarHistory)
@@ -75,7 +75,7 @@ def test_absolute_error_attach_eval(name: str, engine: BaseEngine):
     )
 
 
-def test_absolute_error_attach_state_mean(engine: BaseEngine):
+def test_absolute_error_attach_state_mean(engine: BaseEngine) -> None:
     metric = AbsoluteError(ct.EVAL, state=MeanErrorState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/abs_err_mean"), MinScalarHistory)
@@ -116,7 +116,7 @@ def test_absolute_error_forward_correct(
 @mark.parametrize("feature_size", SIZES)
 def test_absolute_error_forward_incorrect(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = AbsoluteError(mode).to(device=device)
     metric(
@@ -186,7 +186,7 @@ def test_absolute_error_forward_dtype(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = AbsoluteError(mode).to(device=device)
     metric(
@@ -255,7 +255,7 @@ def test_absolute_error_value_empty(mode: str) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_absolute_error_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_absolute_error_value_log_engine(device: str, mode: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = AbsoluteError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -268,7 +268,7 @@ def test_absolute_error_value_log_engine(device: str, mode: str, engine: BaseEng
 
 
 @mark.parametrize("device", get_available_devices())
-def test_absolute_error_events_train(device: str, engine: BaseEngine):
+def test_absolute_error_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = AbsoluteError(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -284,7 +284,7 @@ def test_absolute_error_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_absolute_error_events_eval(device: str, engine: BaseEngine):
+def test_absolute_error_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = AbsoluteError(ct.EVAL).to(device=device)
     metric.attach(engine)

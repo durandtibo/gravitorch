@@ -57,7 +57,7 @@ def test_iter_data_pipe_creator_data_source_str() -> None:
 
 def test_iter_data_pipe_creator_data_source_attach(
     caplog: LogCaptureFixture, data_source: IterDataPipeCreatorDataSource
-):
+) -> None:
     with caplog.at_level(logging.INFO):
         data_source.attach(engine=Mock(spec=BaseEngine))
         assert len(caplog.messages) >= 1
@@ -65,34 +65,34 @@ def test_iter_data_pipe_creator_data_source_attach(
 
 def test_iter_data_pipe_creator_data_source_get_asset_exists(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     data_source._asset_manager.add_asset("something", 2)
     assert data_source.get_asset("something") == 2
 
 
 def test_iter_data_pipe_creator_data_source_get_asset_does_not_exist(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     with raises(AssetNotFoundError):
         data_source.get_asset("something")
 
 
 def test_iter_data_pipe_creator_data_source_has_asset_true(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     data_source._asset_manager.add_asset("something", 1)
     assert data_source.has_asset("something")
 
 
 def test_iter_data_pipe_creator_data_source_has_asset_false(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     assert not data_source.has_asset("something")
 
 
 def test_iter_data_pipe_creator_data_source_get_data_loader_train(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     loader = data_source.get_data_loader("train")
     assert isinstance(loader, SourceWrapper)
     assert tuple(loader) == (1, 2, 3, 4)
@@ -100,7 +100,7 @@ def test_iter_data_pipe_creator_data_source_get_data_loader_train(
 
 def test_iter_data_pipe_creator_data_source_get_data_loader_val(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     loader = data_source.get_data_loader("val")
     assert isinstance(loader, SourceWrapper)
     assert tuple(loader) == ("a", "b", "c")
@@ -108,7 +108,7 @@ def test_iter_data_pipe_creator_data_source_get_data_loader_val(
 
 def test_iter_data_pipe_creator_data_source_get_data_loader_missing(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     with raises(LoaderNotFoundError):
         data_source.get_data_loader("missing")
 
@@ -130,19 +130,19 @@ def test_iter_data_pipe_creator_data_source_get_data_loader_without_engine() -> 
 
 def test_iter_data_pipe_creator_data_source_has_data_loader_true(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     assert data_source.has_data_loader("train")
 
 
 def test_iter_data_pipe_creator_data_source_has_data_loader_false(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     assert not data_source.has_data_loader("missing")
 
 
 def test_iter_data_pipe_creator_data_source_load_state_dict(
     data_source: IterDataPipeCreatorDataSource,
-):
+) -> None:
     data_source.load_state_dict({})
 
 

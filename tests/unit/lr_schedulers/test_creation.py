@@ -25,7 +25,7 @@ def optimizer() -> Optimizer:
 #########################################
 
 
-def test_create_sequential_lr(optimizer: Optimizer):
+def test_create_sequential_lr(optimizer: Optimizer) -> None:
     scheduler = create_sequential_lr(
         optimizer,
         schedulers=[
@@ -58,7 +58,7 @@ def test_create_sequential_lr(optimizer: Optimizer):
 @mark.parametrize("num_warmup_steps", (2, 5))
 def test_create_linear_warmup_cosine_decay_lr_num_warmup_steps(
     optimizer: Optimizer, num_warmup_steps: int
-):
+) -> None:
     scheduler = create_linear_warmup_cosine_decay_lr(
         optimizer, num_warmup_steps=num_warmup_steps, num_total_steps=10
     )
@@ -77,7 +77,7 @@ def test_create_linear_warmup_cosine_decay_lr_num_warmup_steps(
 @mark.parametrize("end_lr", (0.1, 0.01))
 def test_create_linear_warmup_cosine_decay_lr_factors(
     optimizer: Optimizer, start_factor: float, end_lr: float
-):
+) -> None:
     scheduler = create_linear_warmup_cosine_decay_lr(
         optimizer, num_warmup_steps=2, num_total_steps=10, start_factor=start_factor, end_lr=end_lr
     )
@@ -100,7 +100,7 @@ def test_create_linear_warmup_cosine_decay_lr_factors(
 @mark.parametrize("num_warmup_steps", (2, 5))
 def test_create_linear_warmup_linear_decay_lr_num_warmup_steps(
     optimizer: Optimizer, num_warmup_steps: int
-):
+) -> None:
     scheduler = create_linear_warmup_linear_decay_lr(
         optimizer, num_warmup_steps=num_warmup_steps, num_total_steps=10
     )
@@ -119,7 +119,7 @@ def test_create_linear_warmup_linear_decay_lr_num_warmup_steps(
 @mark.parametrize("end_factor", (0.1, 0.01))
 def test_create_linear_warmup_linear_decay_lr_factors(
     optimizer: Optimizer, start_factor: float, end_factor: float
-):
+) -> None:
     scheduler = create_linear_warmup_linear_decay_lr(
         optimizer,
         num_warmup_steps=2,

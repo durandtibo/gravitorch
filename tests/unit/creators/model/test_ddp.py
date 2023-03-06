@@ -46,7 +46,7 @@ def test_data_distributed_parallel_model_creator_str():
 )
 def test_data_distributed_parallel_model_creator_model_creator(
     model_creator: Union[BaseModelCreator, dict]
-):
+) -> None:
     assert isinstance(
         DataDistributedParallelModelCreator(model_creator=model_creator)._model_creator,
         VanillaModelCreator,

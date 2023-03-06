@@ -46,7 +46,7 @@ def test_analyze_module_architecture_with_engine() -> None:
     "gravitorch.models.utils.architecture_analysis.num_learnable_parameters",
     lambda *args, **kwargs: 10,
 )
-def test_analyze_module_architecture_with_engine_prefix(prefix):
+def test_analyze_module_architecture_with_engine_prefix(prefix: str) -> None:
     engine = Mock(epoch=0)
     analyze_module_architecture(nn.Linear(4, 6), engine, prefix)
     engine.log_metrics.assert_called_once_with(
