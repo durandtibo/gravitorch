@@ -20,11 +20,11 @@ def batch_sampler() -> BatchSampler:
     return BatchSampler(SequentialSampler(range(10)), batch_size=3, drop_last=False)
 
 
-def test_reproducible_batch_sampler(batch_sampler: BatchSampler):
+def test_reproducible_batch_sampler(batch_sampler: BatchSampler) -> None:
     assert list(ReproducibleBatchSampler(batch_sampler)) == [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
 
 
-def test_reproducible_batch_sampler_multiple_sampling(batch_sampler: BatchSampler):
+def test_reproducible_batch_sampler_multiple_sampling(batch_sampler: BatchSampler) -> None:
     assert list(ReproducibleBatchSampler(batch_sampler)) == [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
 
 
@@ -53,7 +53,7 @@ def test_reproducible_batch_sampler_incorrect() -> None:
         ReproducibleBatchSampler([1, 2, 3], start_iteration=-1)
 
 
-def test_reproducible_batch_sampler_start_iteration_incorrect(batch_sampler):
+def test_reproducible_batch_sampler_start_iteration_incorrect(batch_sampler: BatchSampler) -> None:
     with raises(ValueError, match="Argument start_iteration should be positive integer"):
         ReproducibleBatchSampler(batch_sampler, start_iteration=-1)
 

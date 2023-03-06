@@ -23,7 +23,8 @@ def test_broadcast_object_list_not_distributed() -> None:
 @mark.parametrize("src", (0, 1))
 @mark.parametrize("device", get_available_devices())
 @patch("gravitorch.distributed.ddp.is_distributed", lambda *args, **kwargs: True)
-def test_broadcast_object_list_distributed(object_list: list, src: int, device: torch.device):
+def test_broadcast_object_list_distributed(object_list: list, src: int, device: str) -> None:
+    device = torch.device(device)
     with patch("gravitorch.distributed.ddp.tdist.broadcast_object_list") as broadcast_mock:
         ddp.broadcast_object_list(object_list=object_list, src=src, device=device)
         broadcast_mock.assert_called_once_with(object_list=object_list, src=src, device=device)

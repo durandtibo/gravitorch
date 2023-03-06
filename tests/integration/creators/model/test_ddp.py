@@ -25,7 +25,9 @@ def model_creator() -> BaseModelCreator:
 
 
 @gloo_available
-def test_data_distributed_parallel_model_creator_create_gloo(model_creator) -> None:
+def test_data_distributed_parallel_model_creator_create_gloo(
+    model_creator: BaseModelCreator,
+) -> None:
     with gloocontext():
         creator = DataDistributedParallelModelCreator(model_creator=model_creator)
         model = creator.create(engine=Mock())
@@ -36,7 +38,9 @@ def test_data_distributed_parallel_model_creator_create_gloo(model_creator) -> N
 @cuda_available
 @nccl_available
 @patch("gravitorch.creators.model.ddp.dist.get_world_size", lambda *args: 2)
-def test_data_distributed_parallel_model_creator_create_nccl(model_creator) -> None:
+def test_data_distributed_parallel_model_creator_create_nccl(
+    model_creator: BaseModelCreator,
+) -> None:
     with ncclcontext():
         creator = DataDistributedParallelModelCreator(model_creator=model_creator)
         model = creator.create(engine=Mock())

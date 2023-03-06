@@ -10,12 +10,12 @@ from gravitorch.data.datapipes.iter.factory import create_sequential_iter_datapi
 #####################################################
 
 
-def test_create_sequential_iter_datapipe_empty():
+def test_create_sequential_iter_datapipe_empty() -> None:
     with raises(ValueError):
         create_sequential_iter_datapipe([])
 
 
-def test_create_sequential_iter_datapipe_1():
+def test_create_sequential_iter_datapipe_1() -> None:
     datapipe = create_sequential_iter_datapipe(
         [{OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper", "source": [1, 2, 3, 4]}]
     )
@@ -23,7 +23,7 @@ def test_create_sequential_iter_datapipe_1():
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_create_sequential_iter_datapipe_2():
+def test_create_sequential_iter_datapipe_2() -> None:
     datapipe = create_sequential_iter_datapipe(
         [
             {
@@ -42,12 +42,12 @@ def test_create_sequential_iter_datapipe_2():
 #########################################
 
 
-def test_setup_iter_datapipe_object():
+def test_setup_iter_datapipe_object() -> None:
     datapipe = SourceWrapper([1, 2, 3, 4])
     assert setup_iter_datapipe(datapipe) is datapipe
 
 
-def test_setup_iter_datapipe_sequence():
+def test_setup_iter_datapipe_sequence() -> None:
     datapipe = setup_iter_datapipe(
         [{OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper", "source": [1, 2, 3, 4]}]
     )

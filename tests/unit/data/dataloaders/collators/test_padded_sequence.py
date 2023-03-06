@@ -21,12 +21,12 @@ NAME = "name"
 ##################################
 
 
-def test_padded_sequence_collator_collator_str():
+def test_padded_sequence_collator_collator_str() -> None:
     assert str(PaddedSequenceCollator()).startswith("PaddedSequenceCollator(")
 
 
 @mark.parametrize("length_key", ("length", "abc", 1))
-def test_padded_sequence_collator_length_key(length_key: Hashable):
+def test_padded_sequence_collator_length_key(length_key: Hashable) -> None:
     data = [
         ({length_key: 2}, {FEATURE: torch.full((2,), 2, dtype=torch.float)}),
         ({length_key: 3}, {FEATURE: torch.full((3,), 3, dtype=torch.float)}),
@@ -77,7 +77,7 @@ def test_padded_sequence_collator_padding_value(padding_value: float) -> None:
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_padded_sequence_collator_batch_first_collate_1d():
+def test_padded_sequence_collator_batch_first_collate_1d() -> None:
     data = [
         ({ct.LENGTH: 2}, {FEATURE: torch.full((2,), 2, dtype=torch.float)}),
         ({ct.LENGTH: 3}, {FEATURE: torch.full((3,), 3, dtype=torch.float)}),
@@ -101,7 +101,7 @@ def test_padded_sequence_collator_batch_first_collate_1d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_padded_sequence_collator_2d():
+def test_padded_sequence_collator_2d() -> None:
     data = [
         (
             {ct.LENGTH: 2, INDEX: 0, NAME: "item0"},
@@ -137,7 +137,7 @@ def test_padded_sequence_collator_2d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_padded_sequence_collator_batch_first_collate_2d():
+def test_padded_sequence_collator_batch_first_collate_2d() -> None:
     data = [
         (
             {ct.LENGTH: 2, INDEX: 0, NAME: "item0"},
@@ -172,7 +172,7 @@ def test_padded_sequence_collator_batch_first_collate_2d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_padded_sequence_collator_3d():
+def test_padded_sequence_collator_3d() -> None:
     data = [
         (
             {ct.LENGTH: 2, INDEX: 0, NAME: "item0"},
@@ -216,7 +216,7 @@ def test_padded_sequence_collator_3d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_padded_sequence_collator_batch_first_collate_3d():
+def test_padded_sequence_collator_batch_first_collate_3d() -> None:
     data = [
         (
             {ct.LENGTH: 2, INDEX: 0, NAME: "item0"},
@@ -260,7 +260,7 @@ def test_padded_sequence_collator_batch_first_collate_3d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_padded_sequence_collator_empty():
+def test_padded_sequence_collator_empty() -> None:
     data = [
         (
             {ct.LENGTH: 0, INDEX: 0, NAME: "item0"},
@@ -296,7 +296,7 @@ def test_padded_sequence_collator_empty():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_padded_sequence_collator_mask():
+def test_padded_sequence_collator_mask() -> None:
     data = [
         (
             {ct.LENGTH: 2, INDEX: 0, NAME: "item0"},
@@ -358,7 +358,7 @@ def test_padded_sequence_collator_mask():
 ######################################
 
 
-def test_dict_packed_sequence_collator_str():
+def test_dict_packed_sequence_collator_str() -> None:
     assert str(DictPaddedSequenceCollator(["something"])).startswith("DictPaddedSequenceCollator(")
 
 
@@ -369,7 +369,7 @@ def test_dict_packed_sequence_collator_keys_to_pad(
     assert DictPaddedSequenceCollator(keys_to_pad)._keys_to_pad == ("key", 1)
 
 
-def test_dict_padded_sequence_collator_1d():
+def test_dict_padded_sequence_collator_1d() -> None:
     data = [
         {FEATURE: torch.full((2,), 2, dtype=torch.float)},
         {FEATURE: torch.full((3,), 3, dtype=torch.float)},
@@ -393,7 +393,7 @@ def test_dict_padded_sequence_collator_1d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_dict_padded_sequence_collator_batch_first_1d():
+def test_dict_padded_sequence_collator_batch_first_1d() -> None:
     data = [
         {FEATURE: torch.full((2,), 2, dtype=torch.float)},
         {FEATURE: torch.full((3,), 3, dtype=torch.float)},
@@ -416,7 +416,7 @@ def test_dict_padded_sequence_collator_batch_first_1d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_dict_padded_sequence_collator_2d():
+def test_dict_padded_sequence_collator_2d() -> None:
     data = [
         {INDEX: 0, NAME: "item0", FEATURE: torch.full((2, 2), 2, dtype=torch.float)},
         {INDEX: 1, NAME: "item1", FEATURE: torch.full((3, 2), 3, dtype=torch.float)},
@@ -440,7 +440,7 @@ def test_dict_padded_sequence_collator_2d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_dict_padded_sequence_collator_batch_first_2d():
+def test_dict_padded_sequence_collator_batch_first_2d() -> None:
     data = [
         {INDEX: 0, NAME: "item0", FEATURE: torch.full((2, 2), 2, dtype=torch.float)},
         {INDEX: 1, NAME: "item1", FEATURE: torch.full((3, 2), 3, dtype=torch.float)},
@@ -463,7 +463,7 @@ def test_dict_padded_sequence_collator_batch_first_2d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_dict_padded_sequence_collator_3d():
+def test_dict_padded_sequence_collator_3d() -> None:
     data = [
         {INDEX: 0, NAME: "item0", FEATURE: torch.full((2, 2, 3), 2, dtype=torch.float)},
         {INDEX: 1, NAME: "item1", FEATURE: torch.full((3, 2, 3), 3, dtype=torch.float)},
@@ -495,7 +495,7 @@ def test_dict_padded_sequence_collator_3d():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_dict_padded_sequence_collator_batch_first_3d():
+def test_dict_padded_sequence_collator_batch_first_3d() -> None:
     data = [
         {INDEX: 0, NAME: "item0", FEATURE: torch.full((2, 2, 3), 2, dtype=torch.float)},
         {INDEX: 1, NAME: "item1", FEATURE: torch.full((3, 2, 3), 3, dtype=torch.float)},
@@ -552,7 +552,7 @@ def test_dict_padded_sequence_collator_padding_value(padding_value: float) -> No
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_dict_padded_sequence_collator_empty():
+def test_dict_padded_sequence_collator_empty() -> None:
     data = [
         {INDEX: 0, NAME: "item0", FEATURE: torch.full((0, 2), 2, dtype=torch.float)},
         {INDEX: 1, NAME: "item1", FEATURE: torch.full((3, 2), 3, dtype=torch.float)},
@@ -578,7 +578,7 @@ def test_dict_padded_sequence_collator_empty():
     assert torch.equal(batch[FEATURE], gt_feature)
 
 
-def test_dict_padded_sequence_collator_ignore_extra_key():
+def test_dict_padded_sequence_collator_ignore_extra_key() -> None:
     data = [
         {FEATURE: torch.full((2,), 2, dtype=torch.float)},
         {FEATURE: torch.full((3,), 3, dtype=torch.float)},

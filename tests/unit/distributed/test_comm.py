@@ -115,7 +115,7 @@ def test_auto_backend_gpu_and_nccl() -> None:
 
 @mark.parametrize("backend", (Backend.GLOO, Backend.NCCL, None))
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.GLOO, Backend.NCCL))
-def test_resolve_backend(backend: Optional[str]):
+def test_resolve_backend(backend: Optional[str]) -> None:
     assert resolve_backend(backend) == backend
 
 

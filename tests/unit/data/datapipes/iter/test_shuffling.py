@@ -1,3 +1,4 @@
+from typing import Any, Union
 from unittest.mock import Mock, patch
 
 import numpy as np
@@ -19,7 +20,7 @@ from gravitorch.utils.seed import get_torch_generator
 ########################################
 
 
-def test_tensor_dict_shuffler_str():
+def test_tensor_dict_shuffler_str() -> None:
     assert str(TensorDictShuffler(SourceWrapper([]))).startswith("TensorDictShufflerIterDataPipe(")
 
 
@@ -32,7 +33,7 @@ def test_tensor_dict_shuffler_iter_random_seed(random_seed: int) -> None:
     "gravitorch.data.datapipes.iter.shuffling.torch.randperm",
     lambda *args, **kwargs: torch.tensor([0, 2, 1, 3]),
 )
-def test_tensor_dict_shuffler_iter():
+def test_tensor_dict_shuffler_iter() -> None:
     source = SourceWrapper([{"key": torch.arange(4) + i} for i in range(3)])
     assert objects_are_equal(
         list(TensorDictShuffler(source)),
@@ -60,7 +61,7 @@ def test_tensor_dict_shuffler_iter_dim_dict(dim: int) -> None:
         assert shuffle_mock.call_args.kwargs["dim"] == {"key": dim}
 
 
-def test_tensor_dict_shuffler_iter_same_random_seed():
+def test_tensor_dict_shuffler_iter_same_random_seed() -> None:
     source = SourceWrapper([{"key": torch.arange(4) + i} for i in range(3)])
     assert objects_are_equal(
         list(TensorDictShuffler(source, random_seed=1)),
@@ -68,7 +69,7 @@ def test_tensor_dict_shuffler_iter_same_random_seed():
     )
 
 
-def test_tensor_dict_shuffler_iter_different_random_seeds():
+def test_tensor_dict_shuffler_iter_different_random_seeds() -> None:
     source = SourceWrapper([{"key": torch.arange(4) + i} for i in range(3)])
     assert not objects_are_equal(
         list(TensorDictShuffler(source, random_seed=1)),
@@ -76,11 +77,11 @@ def test_tensor_dict_shuffler_iter_different_random_seeds():
     )
 
 
-def test_tensor_dict_shuffler_len():
+def test_tensor_dict_shuffler_len() -> None:
     assert len(TensorDictShuffler(Mock(__len__=Mock(return_value=5)))) == 5
 
 
-def test_tensor_dict_shuffler_no_len():
+def test_tensor_dict_shuffler_no_len() -> None:
     source = SourceWrapper({"key": torch.arange(4) + i} for i in range(3))
     with raises(TypeError):
         len(TensorDictShuffler(source))
@@ -91,7 +92,7 @@ def test_tensor_dict_shuffler_no_len():
 #####################################
 
 
-def test_shuffle_tensors_generator():
+def test_shuffle_tensors_generator() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     generator = Mock(spec=torch.Generator)
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
@@ -99,14 +100,14 @@ def test_shuffle_tensors_generator():
         randperm_mock.assert_called_once_with(4, generator=generator)
 
 
-def test_shuffle_tensors_generator_default():
+def test_shuffle_tensors_generator_default() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)])
         randperm_mock.assert_called_once_with(4, generator=None)
 
 
-def test_shuffle_tensors_dim_0():
+def test_shuffle_tensors_dim_0() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -120,7 +121,7 @@ def test_shuffle_tensors_dim_0():
         )
 
 
-def test_shuffle_tensors_dim_1():
+def test_shuffle_tensors_dim_1() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -134,7 +135,7 @@ def test_shuffle_tensors_dim_1():
         )
 
 
-def test_shuffle_tensors_dim_2():
+def test_shuffle_tensors_dim_2() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -162,12 +163,12 @@ def test_shuffle_tensors_dim(dim: int) -> None:
     assert out[1].equal(torch.ones(1, 2, 3, 4))
 
 
-def test_shuffle_tensors_incorrect_shape():
+def test_shuffle_tensors_incorrect_shape() -> None:
     with raises(ValueError):
         shuffle_tensors([torch.rand(1), torch.ones(4)])
 
 
-def test_shuffle_tensors_same_random_seed():
+def test_shuffle_tensors_same_random_seed() -> None:
     batch = [torch.arange(4), torch.arange(20).view(4, 5)]
     assert objects_are_equal(
         shuffle_tensors(batch, generator=get_torch_generator(1)),
@@ -175,7 +176,7 @@ def test_shuffle_tensors_same_random_seed():
     )
 
 
-def test_shuffle_tensors_different_random_seeds():
+def test_shuffle_tensors_different_random_seeds() -> None:
     batch = [torch.arange(4), torch.arange(20).view(4, 5)]
     assert not objects_are_equal(
         shuffle_tensors(batch, generator=get_torch_generator(1)),
@@ -188,7 +189,7 @@ def test_shuffle_tensors_different_random_seeds():
 ############################################
 
 
-def test_shuffle_tensor_mapping_generator():
+def test_shuffle_tensor_mapping_generator() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     generator = Mock(spec=torch.Generator)
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
@@ -199,7 +200,7 @@ def test_shuffle_tensor_mapping_generator():
         randperm_mock.assert_called_once_with(4, generator=generator)
 
 
-def test_shuffle_tensor_mapping_generator_default():
+def test_shuffle_tensor_mapping_generator_default() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         shuffle_tensor_mapping(
@@ -208,7 +209,7 @@ def test_shuffle_tensor_mapping_generator_default():
         randperm_mock.assert_called_once_with(4, generator=None)
 
 
-def test_shuffle_tensor_mapping_dim_int_0():
+def test_shuffle_tensor_mapping_dim_int_0() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -222,7 +223,7 @@ def test_shuffle_tensor_mapping_dim_int_0():
         )
 
 
-def test_shuffle_tensor_mapping_dim_int_1():
+def test_shuffle_tensor_mapping_dim_int_1() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -238,7 +239,7 @@ def test_shuffle_tensor_mapping_dim_int_1():
         )
 
 
-def test_shuffle_tensor_mapping_dim_int_2():
+def test_shuffle_tensor_mapping_dim_int_2() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -271,7 +272,7 @@ def test_shuffle_tensor_mapping_dim(dim: int) -> None:
     assert out["key2"].equal(torch.ones(1, 2, 3, 4))
 
 
-def test_shuffle_tensor_mapping_dim_dict_same_dimension():
+def test_shuffle_tensor_mapping_dim_dict_same_dimension() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -288,7 +289,7 @@ def test_shuffle_tensor_mapping_dim_dict_same_dimension():
         )
 
 
-def test_shuffle_tensor_mapping_dim_dict_different_dimensions():
+def test_shuffle_tensor_mapping_dim_dict_different_dimensions() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -305,7 +306,7 @@ def test_shuffle_tensor_mapping_dim_dict_different_dimensions():
         )
 
 
-def test_shuffle_tensor_mapping_dim_dict_single_tensor():
+def test_shuffle_tensor_mapping_dim_dict_single_tensor() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
@@ -321,7 +322,7 @@ def test_shuffle_tensor_mapping_dim_dict_single_tensor():
         )
 
 
-def test_shuffle_tensor_mapping_dim_dict_empty():
+def test_shuffle_tensor_mapping_dim_dict_empty() -> None:
     assert objects_are_equal(
         shuffle_tensor_mapping(
             {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)}, dim={}
@@ -335,12 +336,12 @@ def test_shuffle_tensor_mapping_dim_dict_empty():
     )
 
 
-def test_shuffle_tensor_mapping_incorrect_shape():
+def test_shuffle_tensor_mapping_incorrect_shape() -> None:
     with raises(ValueError):
         shuffle_tensor_mapping(mapping={"key1": torch.rand(1), "key2": torch.ones(4)})
 
 
-def test_shuffle_tensor_mapping_same_random_seed():
+def test_shuffle_tensor_mapping_same_random_seed() -> None:
     mapping = {"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)}
     assert objects_are_equal(
         shuffle_tensor_mapping(mapping, generator=get_torch_generator(1)),
@@ -348,7 +349,7 @@ def test_shuffle_tensor_mapping_same_random_seed():
     )
 
 
-def test_shuffle_tensor_mapping_different_random_seeds():
+def test_shuffle_tensor_mapping_different_random_seeds() -> None:
     mapping = {"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)}
     assert not objects_are_equal(
         shuffle_tensor_mapping(mapping, generator=get_torch_generator(1)),
@@ -372,7 +373,7 @@ def test_get_first_dimension_numpy_array(array: np.ndarray, num_examples: int) -
 
 
 @mark.parametrize(
-    "obj,num_examples",
+    "sequence,num_examples",
     (
         ([1, 1, 1], 3),
         ([1, 2, 3, 4], 4),
@@ -382,11 +383,11 @@ def test_get_first_dimension_numpy_array(array: np.ndarray, num_examples: int) -
         ((), 0),
     ),
 )
-def test_get_first_dimension_list_tuple(obj, num_examples: int) -> None:
-    assert get_first_dimension(obj) == num_examples
+def test_get_first_dimension_list_tuple(sequence: Union[list, tuple], num_examples: int) -> None:
+    assert get_first_dimension(sequence) == num_examples
 
 
 @mark.parametrize("obj", (1, "abc", set()))
-def test_get_first_dimension_incorrect_type(obj):
+def test_get_first_dimension_incorrect_type(obj: Any) -> None:
     with raises(TypeError):
         get_first_dimension(obj)

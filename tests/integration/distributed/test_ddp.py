@@ -1,5 +1,8 @@
+from collections.abc import Callable
+
 import torch
 from coola import objects_are_equal
+from ignite.distributed import Parallel
 from pytest import mark, raises
 
 from gravitorch.distributed import comm as dist
@@ -17,7 +20,7 @@ from gravitorch.testing import (
 ###########################################
 
 
-def _check_broadcast_object_list(local_rank: int) -> None:
+def check_broadcast_object_list(local_rank: int) -> None:
     r"""Checks the ``broadcast_object_list``.
 
     Args:
@@ -53,20 +56,20 @@ def _check_broadcast_object_list(local_rank: int) -> None:
 
 @distributed_available
 @gloo_available
-def test_broadcast_object_list_gloo(parallel_gloo_2) -> None:
+def test_broadcast_object_list_gloo(parallel_gloo_2: Parallel) -> None:
     with parallel_gloo_2 as parallel:
-        parallel.run(_test_sync_reduce_inplace)
+        parallel.run(check_sync_reduce_inplace)
 
 
 @two_gpus_available
 @distributed_available
 @nccl_available
-def test_broadcast_object_list_nccl(parallel_nccl_2) -> None:
+def test_broadcast_object_list_nccl(parallel_nccl_2: Parallel) -> None:
     with parallel_nccl_2 as parallel:
-        parallel.run(_test_sync_reduce_inplace)
+        parallel.run(check_sync_reduce_inplace)
 
 
-def _check_sync_reduce_tensor_int(local_rank: int) -> None:
+def check_sync_reduce_tensor_int(local_rank: int) -> None:
     r"""This function checks the sync_reduce for an integer tensor input.
 
     Args:
@@ -106,7 +109,7 @@ def _check_sync_reduce_tensor_int(local_rank: int) -> None:
         assert x_tensor.equal(torch.tensor([2, 2], device=device))
 
 
-def _check_sync_reduce_tensor_float(local_rank: int) -> None:
+def check_sync_reduce_tensor_float(local_rank: int) -> None:
     r"""This function checks the sync_reduce for a float tensor input.
 
     Args:
@@ -149,7 +152,7 @@ def _check_sync_reduce_tensor_float(local_rank: int) -> None:
         assert x_tensor.equal(torch.tensor([2.0, 2.0], device=device))
 
 
-def _check_sync_reduce_int(local_rank: int) -> None:
+def check_sync_reduce_int(local_rank: int) -> None:
     r"""This function checks the sync_reduce for a python integer input.
 
     Args:
@@ -176,7 +179,7 @@ def _check_sync_reduce_int(local_rank: int) -> None:
         assert x_int == 5
 
 
-def _check_sync_reduce_float(local_rank: int) -> None:
+def sync_reduce_float(local_rank: int) -> None:
     r"""This function checks the sync_reduce for a python integer float.
 
     It also checks that the operations are not done in-place i.e. the original value did not change.
@@ -206,7 +209,7 @@ def _check_sync_reduce_float(local_rank: int) -> None:
         assert x_float == 3.5
 
 
-def _test_sync_reduce_inplace(local_rank: int) -> None:
+def check_sync_reduce_inplace(local_rank: int) -> None:
     assert dist.get_world_size() == 2
     device = dist.device()
 
@@ -285,39 +288,39 @@ def _test_sync_reduce_inplace(local_rank: int) -> None:
 @mark.parametrize(
     "func",
     [
-        _check_sync_reduce_tensor_int,
-        _check_sync_reduce_tensor_float,
-        _check_sync_reduce_int,
-        _check_sync_reduce_float,
+        check_sync_reduce_tensor_int,
+        check_sync_reduce_tensor_float,
+        check_sync_reduce_int,
+        sync_reduce_float,
     ],
 )
 @distributed_available
 @gloo_available
-def test_sync_reduce_gloo(parallel_gloo_2, func) -> None:
+def test_sync_reduce_gloo(parallel_gloo_2: Parallel, func: Callable) -> None:
     with parallel_gloo_2 as parallel:
         parallel.run(func)
 
 
 @distributed_available
 @gloo_available
-def test_sync_reduce_inplace_gloo(parallel_gloo_2) -> None:
+def test_sync_reduce_inplace_gloo(parallel_gloo_2: Parallel) -> None:
     with parallel_gloo_2 as parallel:
-        parallel.run(_test_sync_reduce_inplace)
+        parallel.run(check_sync_reduce_inplace)
 
 
 @mark.parametrize(
     "func",
     [
-        _check_sync_reduce_tensor_int,
-        _check_sync_reduce_tensor_float,
-        _check_sync_reduce_int,
-        _check_sync_reduce_float,
+        check_sync_reduce_tensor_int,
+        check_sync_reduce_tensor_float,
+        check_sync_reduce_int,
+        sync_reduce_float,
     ],
 )
 @two_gpus_available
 @distributed_available
 @nccl_available
-def test_sync_reduce_nccl(parallel_nccl_2, func) -> None:
+def test_sync_reduce_nccl(parallel_nccl_2: Parallel, func: Callable) -> None:
     with parallel_nccl_2 as parallel:
         parallel.run(func)
 
@@ -325,9 +328,9 @@ def test_sync_reduce_nccl(parallel_nccl_2, func) -> None:
 @two_gpus_available
 @distributed_available
 @nccl_available
-def test_sync_reduce_inplace_nccl(parallel_nccl_2) -> None:
+def test_sync_reduce_inplace_nccl(parallel_nccl_2: Parallel) -> None:
     with parallel_nccl_2 as parallel:
-        parallel.run(_test_sync_reduce_inplace)
+        parallel.run(check_sync_reduce_inplace)
 
 
 ################################################
@@ -335,7 +338,7 @@ def test_sync_reduce_inplace_nccl(parallel_nccl_2) -> None:
 ################################################
 
 
-def _check_all_gather_tensor_varshape(local_rank: int) -> None:
+def check_all_gather_tensor_varshape(local_rank: int) -> None:
     assert dist.get_world_size() == 2
     device = dist.device()
 
@@ -370,14 +373,14 @@ def _check_all_gather_tensor_varshape(local_rank: int) -> None:
 
 @distributed_available
 @gloo_available
-def test_all_gather_tensor_varshape_gloo(parallel_gloo_2) -> None:
+def test_all_gather_tensor_varshape_gloo(parallel_gloo_2: Parallel) -> None:
     with parallel_gloo_2 as parallel:
-        parallel.run(_check_all_gather_tensor_varshape)
+        parallel.run(check_all_gather_tensor_varshape)
 
 
 @two_gpus_available
 @distributed_available
 @nccl_available
-def test_all_gather_tensor_varshape_nccl(parallel_nccl_2) -> None:
+def test_all_gather_tensor_varshape_nccl(parallel_nccl_2: Parallel) -> None:
     with parallel_nccl_2 as parallel:
-        parallel.run(_check_all_gather_tensor_varshape)
+        parallel.run(check_all_gather_tensor_varshape)

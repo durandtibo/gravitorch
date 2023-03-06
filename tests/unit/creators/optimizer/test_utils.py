@@ -13,16 +13,16 @@ from gravitorch.creators.optimizer import (
 #############################################
 
 
-def test_setup_optimizer_creator_none():
+def test_setup_optimizer_creator_none() -> None:
     assert isinstance(setup_optimizer_creator(None), NoOptimizerCreator)
 
 
-def test_setup_optimizer_creator_object():
+def test_setup_optimizer_creator_object() -> None:
     optimizer_creator = VanillaOptimizerCreator()
     assert setup_optimizer_creator(optimizer_creator) is optimizer_creator
 
 
-def test_setup_optimizer_creator_dict():
+def test_setup_optimizer_creator_dict() -> None:
     assert isinstance(
         setup_optimizer_creator(
             {
@@ -33,7 +33,7 @@ def test_setup_optimizer_creator_dict():
     )
 
 
-def test_setup_optimizer_creator_dict_mock():
+def test_setup_optimizer_creator_dict_mock() -> None:
     creator_mock = Mock(factory=Mock(return_value="abc"))
     with patch("gravitorch.creators.optimizer.utils.BaseOptimizerCreator", creator_mock):
         assert setup_optimizer_creator({"_target_": "name"}) == "abc"

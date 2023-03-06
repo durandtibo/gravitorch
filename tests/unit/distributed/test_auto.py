@@ -108,7 +108,7 @@ def test_auto_ddp_model_ddp_distributed_data_parallel() -> None:
 
 
 @mark.parametrize("device", get_available_devices())
-def test_manage_model_device_same_device(device):
+def test_manage_model_device_same_device(device: str) -> None:
     device = torch.device(device)
     model = nn.Linear(4, 6).to(device=device)
     with patch("gravitorch.distributed.auto.dist.device", lambda *args, **kwargs: device):
@@ -117,7 +117,7 @@ def test_manage_model_device_same_device(device):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_manage_model_device_different_device(device):
+def test_manage_model_device_different_device(device: str) -> None:
     device = torch.device(device)
     model = nn.Linear(4, 6).cpu()
     with patch("gravitorch.distributed.auto.dist.device", lambda *args, **kwargs: device):

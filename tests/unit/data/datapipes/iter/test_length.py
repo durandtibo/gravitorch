@@ -7,19 +7,19 @@ from gravitorch.data.datapipes.iter import Looper, SourceWrapper
 ############################
 
 
-def test_looper_str():
+def test_looper_str() -> None:
     assert str(Looper(SourceWrapper([]), length=42)).startswith("LooperIterDataPipe(")
 
 
-def test_looper_iter_exact_length():
+def test_looper_iter_exact_length() -> None:
     assert tuple(Looper(SourceWrapper([1, 2, 3]), length=3)) == (1, 2, 3)
 
 
-def test_looper_iter_too_long():
+def test_looper_iter_too_long() -> None:
     assert tuple(Looper(SourceWrapper([1, 2, 3, 4, 5]), length=3)) == (1, 2, 3)
 
 
-def test_looper_iter_too_short():
+def test_looper_iter_too_short() -> None:
     assert tuple(Looper(SourceWrapper([1, 2, 3]), length=5)) == (1, 2, 3, 1, 2)
 
 

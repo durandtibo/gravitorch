@@ -146,7 +146,9 @@ def test_iter_data_pipe_creator_data_source_load_state_dict(
     data_source.load_state_dict({})
 
 
-def test_iter_data_pipe_creator_data_source_state_dict(data_source: IterDataPipeCreatorDataSource):
+def test_iter_data_pipe_creator_data_source_state_dict(
+    data_source: IterDataPipeCreatorDataSource,
+) -> None:
     assert data_source.state_dict() == {}
 
 

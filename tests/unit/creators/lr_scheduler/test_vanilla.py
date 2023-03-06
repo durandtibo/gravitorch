@@ -15,7 +15,7 @@ from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
 ###############################################
 
 
-def test_vanilla_lr_scheduler_creator_str():
+def test_vanilla_lr_scheduler_creator_str() -> None:
     assert str(VanillaLRSchedulerCreator()).startswith("VanillaLRSchedulerCreator(")
 
 
@@ -27,7 +27,7 @@ def test_vanilla_lr_scheduler_creator_add_module_to_engine(add_module_to_engine:
     )
 
 
-def test_vanilla_lr_scheduler_creator_create_lr_scheduler_config_none():
+def test_vanilla_lr_scheduler_creator_create_lr_scheduler_config_none() -> None:
     creator = VanillaLRSchedulerCreator()
     assert creator.create(engine=Mock(), optimizer=Mock()) is None
 
@@ -46,7 +46,7 @@ def test_vanilla_lr_scheduler_creator_create_lr_scheduler_config_dict(step_size:
     assert lr_scheduler.step_size == step_size
 
 
-def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_true():
+def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_true() -> None:
     engine = Mock()
     creator = VanillaLRSchedulerCreator(
         lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
@@ -57,7 +57,7 @@ def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_true():
     engine.add_module.assert_called_once_with(ct.LR_SCHEDULER, lr_scheduler)
 
 
-def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_false():
+def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_false() -> None:
     engine = Mock()
     creator = VanillaLRSchedulerCreator(
         lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
@@ -69,7 +69,7 @@ def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_false():
     engine.add_module.assert_not_called()
 
 
-def test_vanilla_lr_scheduler_creator_create_lr_scheduler_handler():
+def test_vanilla_lr_scheduler_creator_create_lr_scheduler_handler() -> None:
     engine = Mock()
     lr_scheduler_handler = Mock()
     creator = VanillaLRSchedulerCreator(
@@ -96,7 +96,7 @@ def test_vanilla_lr_scheduler_creator_create_no_lr_scheduler_handler(
         assert len(caplog.messages) == 1  # The user should see a warning
 
 
-def test_vanilla_lr_scheduler_creator_create_optimizer_none():
+def test_vanilla_lr_scheduler_creator_create_optimizer_none() -> None:
     creator = VanillaLRSchedulerCreator(
         lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
     )

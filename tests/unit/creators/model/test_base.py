@@ -7,12 +7,12 @@ from gravitorch.creators.model import VanillaModelCreator, setup_model_creator
 #########################################
 
 
-def test_setup_model_creator_object():
+def test_setup_model_creator_object() -> None:
     model_creator = VanillaModelCreator(model_config={})
     assert setup_model_creator(model_creator) is model_creator
 
 
-def test_setup_model_creator_dict():
+def test_setup_model_creator_dict() -> None:
     assert isinstance(
         setup_model_creator(
             {

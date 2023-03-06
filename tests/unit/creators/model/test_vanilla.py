@@ -20,7 +20,7 @@ from gravitorch.utils.device_placement import (
 #########################################
 
 
-def test_vanilla_model_creator_str():
+def test_vanilla_model_creator_str() -> None:
     assert str(VanillaModelCreator(model_config={})).startswith("VanillaModelCreator(")
 
 
@@ -44,11 +44,11 @@ def test_vanilla_model_creator_add_module_to_engine(add_module_to_engine: bool) 
     )
 
 
-def test_vanilla_model_creator_device_placement_default():
+def test_vanilla_model_creator_device_placement_default() -> None:
     assert isinstance(VanillaModelCreator(model_config={})._device_placement, AutoDevicePlacement)
 
 
-def test_vanilla_model_creator_device_placement_cpu():
+def test_vanilla_model_creator_device_placement_cpu() -> None:
     assert isinstance(
         VanillaModelCreator(
             model_config={}, device_placement=CpuDevicePlacement()
@@ -57,7 +57,7 @@ def test_vanilla_model_creator_device_placement_cpu():
     )
 
 
-def test_vanilla_model_creator_create_attach_model_to_engine_true():
+def test_vanilla_model_creator_create_attach_model_to_engine_true() -> None:
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2}
     )
@@ -65,7 +65,7 @@ def test_vanilla_model_creator_create_attach_model_to_engine_true():
     assert isinstance(model, nn.Linear)
 
 
-def test_vanilla_model_creator_create_attach_model_to_engine_false():
+def test_vanilla_model_creator_create_attach_model_to_engine_false() -> None:
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
         attach_model_to_engine=False,
@@ -74,7 +74,7 @@ def test_vanilla_model_creator_create_attach_model_to_engine_false():
     assert isinstance(model, nn.Linear)
 
 
-def test_vanilla_model_creator_create_add_module_to_engine_true():
+def test_vanilla_model_creator_create_add_module_to_engine_true() -> None:
     engine = Mock()
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2}
@@ -84,7 +84,7 @@ def test_vanilla_model_creator_create_add_module_to_engine_true():
     engine.add_module.assert_called_once_with(ct.MODEL, model)
 
 
-def test_vanilla_model_creator_create_add_module_to_engine_false():
+def test_vanilla_model_creator_create_add_module_to_engine_false() -> None:
     engine = Mock()
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
@@ -95,7 +95,7 @@ def test_vanilla_model_creator_create_add_module_to_engine_false():
     engine.add_module.assert_not_called()
 
 
-def test_vanilla_model_creator_create_device_placement_cpu():
+def test_vanilla_model_creator_create_device_placement_cpu() -> None:
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
         device_placement=CpuDevicePlacement(),
@@ -106,7 +106,7 @@ def test_vanilla_model_creator_create_device_placement_cpu():
 
 
 @cuda_available
-def test_vanilla_model_creator_create_device_placement_cuda():
+def test_vanilla_model_creator_create_device_placement_cuda() -> None:
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
         device_placement=CudaDevicePlacement(),

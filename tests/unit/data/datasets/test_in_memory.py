@@ -21,7 +21,7 @@ def test_in_memory_dataset_examples_list_to_tuple() -> None:
 
 
 @mark.parametrize("examples,length", (((), 0), ((1,), 1), ((1, 2), 2)))
-def test_in_memory_dataset_len(examples, length):
+def test_in_memory_dataset_len(examples: Sequence, length: int) -> None:
     assert len(InMemoryDataset(examples)) == length
 
 
@@ -36,20 +36,20 @@ def test_in_memory_dataset_getitem() -> None:
 ###########################################
 
 
-def test_file_to_in_memory_dataset_str(tmp_path):
+def test_file_to_in_memory_dataset_str(tmp_path: Path) -> None:
     path = tmp_path.joinpath("data.pt")
     save_pytorch((1, 2), path)
     assert str(FileToInMemoryDataset(path)).startswith("FileToInMemoryDataset")
 
 
 @mark.parametrize("examples,length", (((), 0), ((1,), 1), ((1, 2), 2)))
-def test_file_to_in_memory_dataset_len(tmp_path, examples, length):
+def test_file_to_in_memory_dataset_len(tmp_path: Path, examples: Sequence, length: int) -> None:
     path = tmp_path.joinpath("data.pt")
     save_pytorch(examples, path)
     assert len(FileToInMemoryDataset(path)) == length
 
 
-def test_file_to_in_memory_dataset_getitem(tmp_path):
+def test_file_to_in_memory_dataset_getitem(tmp_path: Path) -> None:
     path = tmp_path.joinpath("data.pt")
     save_pytorch((1, 2), path)
     dataset = FileToInMemoryDataset(path)
@@ -63,21 +63,21 @@ def test_file_to_in_memory_dataset_getitem(tmp_path):
 
 
 @mark.parametrize("examples", ((1, 2, 3), [1, 2, 3]))
-def test_load_examples_json(tmp_path: Path, examples: Sequence):
+def test_load_examples_json(tmp_path: Path, examples: Sequence) -> None:
     path = tmp_path.joinpath("data.json")
     save_json(examples, path)
     assert _load_examples(path) == (1, 2, 3)
 
 
 @mark.parametrize("examples", ((1, 2, 3), [1, 2, 3]))
-def test_load_examples_pkl(tmp_path: Path, examples: Sequence):
+def test_load_examples_pkl(tmp_path: Path, examples: Sequence) -> None:
     path = tmp_path.joinpath("data.pkl")
     save_pickle(examples, path)
     assert _load_examples(path) == (1, 2, 3)
 
 
 @mark.parametrize("examples", ((1, 2, 3), [1, 2, 3]))
-def test_load_examples_pt(tmp_path: Path, examples: Sequence):
+def test_load_examples_pt(tmp_path: Path, examples: Sequence) -> None:
     path = tmp_path.joinpath("data.pt")
     save_pytorch(examples, path)
     assert _load_examples(path) == (1, 2, 3)
