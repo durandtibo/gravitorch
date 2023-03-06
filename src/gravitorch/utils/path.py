@@ -13,6 +13,7 @@ __all__ = [
 import contextlib
 import os
 import tarfile
+from collections.abc import Generator
 from pathlib import Path
 from typing import Optional, Union
 from urllib.parse import unquote, urlparse
@@ -53,7 +54,7 @@ def get_pythonpath() -> Path:
 
 
 @contextlib.contextmanager
-def working_directory(path: Path):
+def working_directory(path: Path) -> Generator[None, None, None]:
     r"""A context manager which changes the working directory to the given path,
     and then changes it back to its previous value on exit.
 

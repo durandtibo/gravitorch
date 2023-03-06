@@ -530,7 +530,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def log_metric(self, key: str, value: int | float, step: Step | None = None):
+    def log_metric(self, key: str, value: int | float, step: Step | None = None) -> None:
         r"""Logs a single metric.
 
         It is possible to have access to the last logged values by

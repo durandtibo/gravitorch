@@ -17,7 +17,7 @@ __all__ = [
 
 import logging
 import time
-from collections.abc import Generator, Iterable
+from collections.abc import Generator, Iterable, Iterator
 from contextlib import contextmanager
 from typing import TYPE_CHECKING, Any, TypeVar
 
@@ -147,7 +147,7 @@ class BatchLoadingTimer(Iterable[T]):
         self._start_time: float | None = None
         self._end_time: float | None = None
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[T]:
         self._start_time = sync_perf_counter()
         tic = self._start_time
         for batch in self._batch_loader:

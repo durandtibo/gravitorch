@@ -23,7 +23,7 @@ update :
 
 .PHONY : lint
 lint :
-	flake8 .
+	ruff check .
 
 .PHONY : format
 format :

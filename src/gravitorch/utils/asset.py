@@ -95,7 +95,7 @@ class AssetManager:
         """
         return AssetManager(copy.deepcopy(self._assets))
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two objects are equal.
 
         Args:

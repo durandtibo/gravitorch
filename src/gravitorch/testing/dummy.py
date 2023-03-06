@@ -9,6 +9,7 @@ __all__ = [
     "create_dummy_engine",
 ]
 
+from collections.abc import Iterator
 from typing import Optional, Union
 
 import torch
@@ -73,11 +74,11 @@ class DummyIterableDataset(IterableDataset):
         self._has_length = bool(has_length)
         self._iteration = 0
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         self._iteration = 0
         return self
 
-    def __next__(self):
+    def __next__(self) -> dict:
         self._iteration += 1
         if self._iteration > self._num_examples:
             raise StopIteration

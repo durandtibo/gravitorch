@@ -131,7 +131,7 @@ class ScalarMeter:
             raise EmptyMeterError("The meter is empty")
         return self._total / float(self._count)
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:

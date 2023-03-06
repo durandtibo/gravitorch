@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.8a9"
+version = "0.0.8a10"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -140,8 +140,9 @@ ignore = [
     "B905",
     "ANN002",  # Missing type annotation for `*args`
     "ANN003",  # Missing type annotation for `**kwargs`
-    "ANN101",
-    "ANN401",
+    "ANN101",  # Missing type annotation for `self` in method
+    "ANN102",  # Missing type annotation for `cls` in classmethod
+    "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed.
 ]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
@@ -176,10 +177,8 @@ src = ["src"]
 
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["E402"]
-"tests/**.py" = ["S101", "D100", "D101", "D103", "D104"]
 
 [tool.ruff.mccabe]
-# Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
 
 [tool.ruff.pydocstyle]

@@ -109,7 +109,7 @@ def symlog_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean")
 
 def relative_mse_loss(
     prediction: Tensor, target: Tensor, reduction: str = "mean", eps: float = 1e-8
-):
+) -> Tensor:
     r"""Computes the relative mean squared error loss.
 
     Args:
@@ -154,7 +154,7 @@ def relative_smooth_l1_loss(
     reduction: str = "mean",
     beta: float = 1.0,
     eps: float = 1e-8,
-):
+) -> Tensor:
     r"""Computes the relative smooth l1 loss.
 
     Args:
@@ -204,7 +204,7 @@ def symmetric_relative_smooth_l1_loss(
     reduction: str = "mean",
     beta: float = 1.0,
     eps: float = 1e-8,
-):
+) -> Tensor:
     r"""Computes the symmetric relative smooth l1 loss.
 
     Args:
@@ -255,7 +255,7 @@ def log_cosh_loss(
     target: Tensor,
     reduction: str = "mean",
     scale: float = 1.0,
-):
+) -> Tensor:
     r"""Computes the logarithm of the hyperbolic cosine of the prediction error.
 
     Args:

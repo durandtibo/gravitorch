@@ -161,7 +161,7 @@ class MeanTensorMeter:
         """
         return MeanTensorMeter(count=self._count, total=self._total)
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
@@ -371,7 +371,7 @@ class ExtremaTensorMeter:
             count=self._count, min_value=self._min_value, max_value=self._max_value
         )
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
@@ -572,7 +572,7 @@ class TensorMeter:
             max_value=self._max_value,
         )
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
@@ -975,7 +975,7 @@ class TensorMeter2:
         """
         return TensorMeter2(self._values.clone().values())
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:

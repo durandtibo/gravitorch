@@ -15,6 +15,7 @@ __all__ = [
 
 import random
 from abc import ABC, abstractmethod
+from collections.abc import Generator
 from contextlib import contextmanager
 from typing import Optional, Union
 
@@ -273,7 +274,7 @@ def manual_seed(seed: int, setter: Optional[BaseRandomSeedSetter] = None) -> Non
 
 
 @contextmanager
-def numpy_seed(seed: int):
+def numpy_seed(seed: int) -> Generator[None, None, None]:
     r"""Implements a context manager to manage the NumPy random seed and random
     number generator (RNG) state.
 
@@ -309,7 +310,7 @@ def numpy_seed(seed: int):
 
 
 @contextmanager
-def torch_seed(seed: int):
+def torch_seed(seed: int) -> Generator[None, None, None]:
     r"""Implements a context manager to manage the PyTorch random seed and
     random number generator (RNG) state.
 

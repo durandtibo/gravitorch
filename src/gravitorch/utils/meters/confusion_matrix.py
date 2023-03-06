@@ -1,7 +1,7 @@
 __all__ = ["BaseConfusionMatrix", "BinaryConfusionMatrix", "MulticlassConfusionMatrix"]
 
 from collections.abc import Iterable, Sequence
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 import torch
 from torch import Tensor
@@ -164,7 +164,7 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         """
         return BinaryConfusionMatrix(self.matrix.clone())
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two confusion matrices are equal or not.
 
         Args:
@@ -200,14 +200,14 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     #     Transformation     #
     ##########################
 
-    def __add__(self, other):
+    def __add__(self, other: Any) -> "BinaryConfusionMatrix":
         return self.add(other)
 
-    def __iadd__(self, other):
+    def __iadd__(self, other: Any) -> "BinaryConfusionMatrix":
         self.add_(other)
         return self
 
-    def __sub__(self, other):
+    def __sub__(self, other: Any) -> "BinaryConfusionMatrix":
         return self.sub(other)
 
     def add(self, other: "BinaryConfusionMatrix") -> "BinaryConfusionMatrix":
@@ -608,7 +608,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         """
         return MulticlassConfusionMatrix(self.matrix.clone())
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two confusion matrices are equal or not.
 
         Args:
@@ -688,14 +688,14 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     #     Transformation     #
     ##########################
 
-    def __add__(self, other):
+    def __add__(self, other: Any) -> "MulticlassConfusionMatrix":
         return self.add(other)
 
-    def __iadd__(self, other):
+    def __iadd__(self, other: Any) -> "MulticlassConfusionMatrix":
         self.add_(other)
         return self
 
-    def __sub__(self, other):
+    def __sub__(self, other: Any) -> "MulticlassConfusionMatrix":
         return self.sub(other)
 
     def add(self, other: "MulticlassConfusionMatrix") -> "MulticlassConfusionMatrix":

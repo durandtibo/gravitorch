@@ -113,7 +113,7 @@ class AverageMeter:
         """
         return AverageMeter(total=self.total, count=self.count)
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:

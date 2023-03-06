@@ -243,7 +243,7 @@ class MLTorchSummaryWriter(SummaryWriter):
     https://github.com/pytorch/pyt
     """
 
-    def add_hparams(self, hparam_dict, metric_dict):
+    def add_hparams(self, hparam_dict, metric_dict):  # noqa: ANN001, ANN201
         r"""Add a set of hyperparameters to be compared in TensorBoard.
 
         Args:

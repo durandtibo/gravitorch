@@ -75,7 +75,7 @@ class ModuleSummary:
         self._in_dtype = None
         self._out_dtype = None
 
-    def __del__(self):
+    def __del__(self) -> None:
         self.detach_hook()
 
     def _register_hook(self) -> RemovableHandle:
@@ -91,7 +91,7 @@ class ModuleSummary:
             ``RemovableHandle``: A handle for the installed hook.
         """
 
-        def hook(module, inp, out):
+        def hook(module: Module, inp: Any, out: Any) -> None:
             if len(inp) == 1:
                 inp = inp[0]
             self._in_size = parse_batch_shape(inp)

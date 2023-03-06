@@ -44,7 +44,7 @@ class MovingAverage:
         """
         return MovingAverage(values=tuple(self._deque), window_size=self.window_size)
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
@@ -159,7 +159,7 @@ class ExponentialMovingAverage:
             smoothed_average=self._smoothed_average,
         )
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:

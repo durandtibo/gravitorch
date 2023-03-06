@@ -91,7 +91,7 @@ def is_main_process() -> bool:
     return get_rank() == 0
 
 
-def is_distributed():
+def is_distributed() -> bool:
     r"""Indicates if the current process is part of a distributed group.
 
     Returns

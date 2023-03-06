@@ -1,7 +1,7 @@
 __all__ = ["NoOpOptimizer"]
 
-from collections.abc import Iterable
-from typing import Union
+from collections.abc import Callable, Iterable
+from typing import Optional, Union
 
 from torch import Tensor
 from torch.optim import Optimizer
@@ -29,5 +29,5 @@ class NoOpOptimizer(Optimizer):
     def state_dict(self) -> dict:
         return {}
 
-    def step(self, closure=None):
+    def step(self, closure: Optional[Callable] = None) -> None:
         r"""Do nothing."""

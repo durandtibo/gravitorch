@@ -61,7 +61,7 @@ class DemoMultiClassClsDataset(Dataset):
         self._targets = data[ct.TARGET]
         self._features = data[ct.INPUT]
 
-    def __getitem__(self, item: int):
+    def __getitem__(self, item: int) -> dict:
         return {
             ct.INPUT: self._features[item],
             ct.TARGET: self._targets[item],

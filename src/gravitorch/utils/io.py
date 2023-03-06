@@ -26,7 +26,7 @@ from torch import Tensor
 logger = logging.getLogger(__name__)
 
 
-def numpy_array_yaml_representer(dumper: yaml.Dumper, data: Union[np.ndarray, Tensor]):
+def numpy_array_yaml_representer(dumper: yaml.Dumper, data: Union[np.ndarray, Tensor]) -> Any:
     r"""This function computes the yaml representation of a numpy array or
     torch tensor."""
     if data.ndim == 0:
@@ -37,19 +37,19 @@ def numpy_array_yaml_representer(dumper: yaml.Dumper, data: Union[np.ndarray, Te
     return dumper.represent_list(data.tolist())
 
 
-def numpy_datetime_yaml_representer(dumper: yaml.Dumper, data: np.datetime64):
+def numpy_datetime_yaml_representer(dumper: yaml.Dumper, data: np.datetime64) -> Any:
     r"""This function computes the yaml representation of a numpy
     datetime64."""
     return dumper.represent_str(str(data))
 
 
-def numpy_float_yaml_representer(dumper: yaml.Dumper, data: np.floating):
+def numpy_float_yaml_representer(dumper: yaml.Dumper, data: np.floating) -> Any:
     r"""This function computes the yaml representation of a numpy
     float64/float32."""
     return dumper.represent_float(float(data))
 
 
-def numpy_int_yaml_representer(dumper: yaml.Dumper, data: np.integer):
+def numpy_int_yaml_representer(dumper: yaml.Dumper, data: np.integer) -> Any:
     r"""This function computes the yaml representation of a numpy
     int64/int32."""
     return dumper.represent_int(int(data))

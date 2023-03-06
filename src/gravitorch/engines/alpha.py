@@ -209,7 +209,7 @@ class AlphaEngine(BaseEngine):
     ) -> None:
         self._exp_tracker.log_figures(figures, step)
 
-    def log_metric(self, key: str, value: int | float, step: Step | None = None):
+    def log_metric(self, key: str, value: int | float, step: Step | None = None) -> None:
         self._state.get_history(key).add_value(value, step.step if step else step)
         self._exp_tracker.log_metric(key, value, step)
 

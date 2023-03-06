@@ -256,7 +256,7 @@ class EventManager:
         self._last_fired_event = None
 
 
-def to_event_handlers_str(event_handlers: dict[str, list], num_spaces: int = 2):
+def to_event_handlers_str(event_handlers: dict[str, list], num_spaces: int = 2) -> str:
     r"""Computes a string representation of the event handlers.
 
     Args:

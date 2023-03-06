@@ -8,6 +8,7 @@ __all__ = [
 
 from abc import ABC, abstractmethod
 from pathlib import Path
+from types import TracebackType
 from typing import Any, Optional, Union
 
 from objectory import AbstractFactory
@@ -67,7 +68,12 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         self.start()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
         self.end()
 
     @property

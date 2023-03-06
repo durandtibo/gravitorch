@@ -44,7 +44,7 @@ class AsinhScalarEncoder(Module):
     def extra_repr(self) -> str:
         return f"dim={self.scale.shape[0]}, learnable={self.scale.requires_grad}"
 
-    def forward(self, scalar: Tensor):
+    def forward(self, scalar: Tensor) -> Tensor:
         r"""Computes a scalar representation.
 
         Args:
@@ -228,7 +228,7 @@ class CosSinScalarEncoder(Module):
     def extra_repr(self) -> str:
         return f"dim={self.frequency.shape[0]}, learnable={self.frequency.requires_grad}"
 
-    def forward(self, scalar: Tensor):
+    def forward(self, scalar: Tensor) -> Tensor:
         r"""Computes a scalar representation.
 
         Args:
@@ -503,7 +503,7 @@ class AsinhCosSinScalarEncoder(CosSinScalarEncoder):
     the inverse hyperbolic sine (arcsinh) of the input.
     """
 
-    def forward(self, scalar: Tensor):
+    def forward(self, scalar: Tensor) -> Tensor:
         r"""Computes a scalar representation.
 
         Args:
@@ -550,7 +550,7 @@ class ScalarEncoderFFN(Module):
         r"""int: The input feature size."""
         return self.encoder.input_size
 
-    def forward(self, scalar: Tensor) -> torch.Tensor:
+    def forward(self, scalar: Tensor) -> Tensor:
         r"""Computes a scalar representation.
 
         Args:

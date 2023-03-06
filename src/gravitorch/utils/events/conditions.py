@@ -4,7 +4,7 @@ from __future__ import annotations
 
 __all__ = ["EpochPeriodicCondition", "IterationPeriodicCondition", "PeriodicCondition"]
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -36,7 +36,7 @@ class PeriodicCondition:
         self._step += 1
         return condition
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, PeriodicCondition):
             return self.freq == other.freq
         return False
@@ -75,7 +75,7 @@ class EpochPeriodicCondition:
         """
         return self._engine.epoch % self._freq == 0
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, EpochPeriodicCondition):
             return self.freq == other.freq
         return False
@@ -113,7 +113,7 @@ class IterationPeriodicCondition:
         """
         return self._engine.iteration % self._freq == 0
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, IterationPeriodicCondition):
             return self.freq == other.freq
         return False
