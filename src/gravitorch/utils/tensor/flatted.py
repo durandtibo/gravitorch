@@ -30,6 +30,7 @@ class LazyFlattedTensor:
     for more information).
 
     Args:
+    ----
         values (``torch.Tensor`` or ``None``, optional): Specifies the
             initial values. The tensor is flattened if necessary.
             ``None`` means no initial values. Default: ``None``
@@ -54,7 +55,7 @@ class LazyFlattedTensor:
         >>> lazy_tensor.update(torch.arange(6))
     """
 
-    def __init__(self, values: Optional[Tensor] = None):
+    def __init__(self, values: Optional[Tensor] = None) -> None:
         if values is None:
             values = torch.tensor([])
         self._values = values.flatten()
@@ -71,7 +72,8 @@ class LazyFlattedTensor:
         r"""Reduces the values across all machines in such a way that all get
         the all the values.
 
-        Returns:
+        Returns
+        -------
             ``LazyFlattedTensor``: The reduced flatted tensor.
 
         Example usage:
@@ -94,7 +96,8 @@ class LazyFlattedTensor:
     def clone(self) -> "LazyFlattedTensor":
         r"""Creates a copy of the current lazy flatted tensor.
 
-        Returns:
+        Returns
+        -------
             ``LazyFlattedTensor``: A copy of the current lazy flatted
                 tensor.
         """
@@ -122,9 +125,11 @@ class LazyFlattedTensor:
         r"""Indicates if two lazy flatted tensors are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the two lazy flatted tensors are equal,
                 ``False`` otherwise.
         """
@@ -137,7 +142,8 @@ class LazyFlattedTensor:
     def numel(self) -> int:
         r"""Gets the total number of elements.
 
-        Returns:
+        Returns
+        -------
             int: The total number of elements.
         """
         return self._values.numel() + sum([tensor.numel() for tensor in self._buffer])
@@ -146,6 +152,7 @@ class LazyFlattedTensor:
         r"""Updates the internal buffer by adding a new tensor.
 
         Args:
+        ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the internal buffer. The tensor is flatted if
                 necessary.
@@ -155,7 +162,8 @@ class LazyFlattedTensor:
     def values(self) -> Tensor:
         r"""Gets a flatted tensor with all the values.
 
-        Returns:
+        Returns
+        -------
             ``torch.Tensor``: The flatted tensor with all the values.
         """
         self.consolidate()

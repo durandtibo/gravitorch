@@ -20,58 +20,58 @@ SIZES = (1, 2)
 ####################################
 
 
-def test_app_vae_time_loss_module_str():
+def test_app_vae_time_loss_module_str() -> None:
     assert str(AppVAETimeLoss())
 
 
 @mark.parametrize("delta", (0.01, 1))
-def test_app_vae_time_loss_module_delta(delta: float):
+def test_app_vae_time_loss_module_delta(delta: float) -> None:
     assert AppVAETimeLoss(delta=delta)._delta == delta
 
 
-def test_app_vae_time_loss_module_delta_default():
+def test_app_vae_time_loss_module_delta_default() -> None:
     assert AppVAETimeLoss()._delta == 0.1
 
 
-def test_app_vae_time_loss_module_incorrect_delta():
+def test_app_vae_time_loss_module_incorrect_delta() -> None:
     with raises(ValueError):
         AppVAETimeLoss(delta=-1)
 
 
 @mark.parametrize("eps", (1e-4, 1))
-def test_app_vae_time_loss_module_eps(eps: float):
+def test_app_vae_time_loss_module_eps(eps: float) -> None:
     assert AppVAETimeLoss(eps=eps)._eps == eps
 
 
-def test_app_vae_time_loss_module_eps_default():
+def test_app_vae_time_loss_module_eps_default() -> None:
     assert AppVAETimeLoss()._eps == 1e-8
 
 
-def test_app_vae_time_loss_module_incorrect_eps():
+def test_app_vae_time_loss_module_incorrect_eps() -> None:
     with raises(ValueError):
         AppVAETimeLoss(eps=-1)
 
 
 @mark.parametrize("max_log_value", (1, 2))
-def test_app_vae_time_loss_module_max_log_value(max_log_value: float):
+def test_app_vae_time_loss_module_max_log_value(max_log_value: float) -> None:
     assert AppVAETimeLoss(max_log_value=max_log_value)._max_log_value == max_log_value
 
 
-def test_app_vae_time_loss_module_max_log_value_default():
+def test_app_vae_time_loss_module_max_log_value_default() -> None:
     assert AppVAETimeLoss()._max_log_value == 20.0
 
 
 @mark.parametrize("reduction", VALID_REDUCTIONS)
-def test_app_vae_time_loss_module_reduction(reduction: str):
+def test_app_vae_time_loss_module_reduction(reduction: str) -> None:
     assert AppVAETimeLoss(reduction=reduction).reduction == reduction
 
 
-def test_app_vae_time_loss_module_incorrect_reduction():
+def test_app_vae_time_loss_module_incorrect_reduction() -> None:
     with raises(ValueError):
         AppVAETimeLoss(reduction="incorrect")
 
 
-def test_app_vae_time_loss_module_forward_log_input_true():
+def test_app_vae_time_loss_module_forward_log_input_true() -> None:
     criterion = AppVAETimeLoss(log_input=True)
     assert criterion(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -81,7 +81,7 @@ def test_app_vae_time_loss_module_forward_log_input_true():
     )
 
 
-def test_app_vae_time_loss_module_forward_reduction_mean():
+def test_app_vae_time_loss_module_forward_reduction_mean() -> None:
     criterion = AppVAETimeLoss(log_input=False)
     assert criterion(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -91,7 +91,7 @@ def test_app_vae_time_loss_module_forward_reduction_mean():
     )
 
 
-def test_app_vae_time_loss_module_forward_reduction_sum():
+def test_app_vae_time_loss_module_forward_reduction_sum() -> None:
     criterion = AppVAETimeLoss(reduction="sum")
     assert criterion(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -101,7 +101,7 @@ def test_app_vae_time_loss_module_forward_reduction_sum():
     )
 
 
-def test_app_vae_time_loss_module_forward_reduction_none():
+def test_app_vae_time_loss_module_forward_reduction_none() -> None:
     criterion = AppVAETimeLoss(reduction="none")
     assert criterion(
         lmbda=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -119,7 +119,9 @@ def test_app_vae_time_loss_module_forward_reduction_none():
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_app_vae_time_loss_module_forward_2d(device: str, batch_size: int, feature_size: int):
+def test_app_vae_time_loss_module_forward_2d(
+    device: str, batch_size: int, feature_size: int
+) -> None:
     device = torch.device(device)
     criterion = AppVAETimeLoss()
     out = criterion(
@@ -127,12 +129,12 @@ def test_app_vae_time_loss_module_forward_2d(device: str, batch_size: int, featu
         target=torch.rand(batch_size, feature_size, dtype=torch.float, device=device),
     )
     assert out.numel() == 1
-    assert out.shape == tuple()
+    assert out.shape == ()
     assert out.dtype == torch.float
     assert out.device == device
 
 
-def test_app_vae_time_loss_module_forward_large_values():
+def test_app_vae_time_loss_module_forward_large_values() -> None:
     criterion = AppVAETimeLoss()
     out = criterion(
         lmbda=100 * torch.rand(2, 3, dtype=torch.float),
@@ -142,7 +144,7 @@ def test_app_vae_time_loss_module_forward_large_values():
     assert not torch.isinf(out)
 
 
-def test_app_vae_time_loss_module_is_loss_decreasing():
+def test_app_vae_time_loss_module_is_loss_decreasing() -> None:
     # Use log_lambda because the network output can be negative
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
@@ -164,7 +166,7 @@ def test_app_vae_time_loss_module_forward_mock(
     eps: float,
     max_log_value: float,
     reduction: str,
-):
+) -> None:
     criterion = AppVAETimeLoss(
         log_input=log_input,
         delta=delta,

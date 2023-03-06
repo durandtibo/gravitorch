@@ -15,9 +15,11 @@ def compute_parameter_stats(module: Module) -> list[list]:
     r"""Computes the parameter statistics of a ``torch.nn.Module``.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to analyze.
 
     Returns:
+    -------
         list: The list of statistics per parameters.
     """
     stats = [["parameter", "mean", "median", "std", "min", "max", "learnable"]]
@@ -42,6 +44,7 @@ def show_parameter_stats(module: Module, tablefmt: str = "rst") -> None:
     r"""Shows some statistics about the model parameters.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to analyze.
         tablefmt (str, optional): Specifies the table format.
             Default: ``'rst'``

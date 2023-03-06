@@ -13,7 +13,7 @@ class FakeParameterInitializer(BaseDefaultParameterInitializer):
         pass
 
 
-def test_base_default_model_parameter_initializer_show_stats_true():
+def test_base_default_model_parameter_initializer_show_stats_true() -> None:
     engine = Mock()
     with patch("gravitorch.utils.parameter_initializers.base.show_parameter_stats") as mock_show:
         parameter_initializer = FakeParameterInitializer()
@@ -21,7 +21,7 @@ def test_base_default_model_parameter_initializer_show_stats_true():
         mock_show.assert_called_once_with(engine.model)
 
 
-def test_base_default_model_parameter_initializer_show_stats_false():
+def test_base_default_model_parameter_initializer_show_stats_false() -> None:
     engine = Mock()
     with patch("gravitorch.utils.parameter_initializers.base.show_parameter_stats") as mock_show:
         parameter_initializer = FakeParameterInitializer(show_stats=False)

@@ -23,11 +23,11 @@ def create_files(path: Path) -> None:
 ###############################
 
 
-def test_dir_filter_str():
+def test_dir_filter_str() -> None:
     assert str(DirFilter(Mock(spec=IterDataPipe))).startswith("DirFilterIterDataPipe(")
 
 
-def test_dir_filter_iter_recursive(tmp_path: Path):
+def test_dir_filter_iter_recursive(tmp_path: Path) -> None:
     create_files(tmp_path)
     assert list(
         DirFilter(
@@ -42,7 +42,7 @@ def test_dir_filter_iter_recursive(tmp_path: Path):
     ) == [tmp_path.joinpath("dir/")]
 
 
-def test_dir_filter_len(tmp_path: Path):
+def test_dir_filter_len(tmp_path: Path) -> None:
     with raises(TypeError):
         len(DirFilter(Mock(spec=IterDataPipe)))
 
@@ -52,11 +52,11 @@ def test_dir_filter_len(tmp_path: Path):
 ################################
 
 
-def test_file_filter_str():
+def test_file_filter_str() -> None:
     assert str(FileFilter(Mock(spec=IterDataPipe))).startswith("FileFilterIterDataPipe(")
 
 
-def test_file_filter_iter_recursive(tmp_path: Path):
+def test_file_filter_iter_recursive(tmp_path: Path) -> None:
     create_files(tmp_path)
     assert list(
         FileFilter(
@@ -74,7 +74,7 @@ def test_file_filter_iter_recursive(tmp_path: Path):
     ]
 
 
-def test_file_filter_len(tmp_path: Path):
+def test_file_filter_len(tmp_path: Path) -> None:
     with raises(TypeError):
         len(FileFilter(Mock(spec=IterDataPipe)))
 
@@ -84,22 +84,22 @@ def test_file_filter_len(tmp_path: Path):
 ################################
 
 
-def test_path_lister_str():
+def test_path_lister_str() -> None:
     assert str(PathLister(Mock(spec=IterDataPipe))).startswith("PathListerIterDataPipe(")
 
 
-def test_path_lister_iter_empty(tmp_path: Path):
+def test_path_lister_iter_empty(tmp_path: Path) -> None:
     assert list(PathLister(SourceWrapper([tmp_path]))) == []
 
 
-def test_path_lister_iter(tmp_path: Path):
+def test_path_lister_iter(tmp_path: Path) -> None:
     create_files(tmp_path)
     assert list(PathLister(SourceWrapper([tmp_path]), pattern="*.txt")) == [
         tmp_path.joinpath("file.txt")
     ]
 
 
-def test_path_lister_iter_recursive(tmp_path: Path):
+def test_path_lister_iter_recursive(tmp_path: Path) -> None:
     create_files(tmp_path)
     assert list(PathLister(SourceWrapper([tmp_path]), pattern="**/*.txt")) == [
         tmp_path.joinpath("dir/file.txt"),
@@ -107,7 +107,7 @@ def test_path_lister_iter_recursive(tmp_path: Path):
     ]
 
 
-def test_path_lister_iter_deterministic_false(tmp_path: Path):
+def test_path_lister_iter_deterministic_false(tmp_path: Path) -> None:
     create_files(tmp_path)
     assert set(PathLister(SourceWrapper([tmp_path]), pattern="**/*.txt", deterministic=False)) == {
         tmp_path.joinpath("dir/file.txt"),
@@ -115,6 +115,6 @@ def test_path_lister_iter_deterministic_false(tmp_path: Path):
     }
 
 
-def test_path_lister_len(tmp_path: Path):
+def test_path_lister_len(tmp_path: Path) -> None:
     with raises(TypeError):
         len(PathLister(tmp_path))

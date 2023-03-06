@@ -26,7 +26,7 @@ from gravitorch.testing import gloo_available
     },
     clear=True,
 )
-def test_consolidate_optimizer_state_consolidate_zero():
+def test_consolidate_optimizer_state_consolidate_zero() -> None:
     with gloocontext():
         optimizer = ZeroRedundancyOptimizer(
             params=torch.nn.Linear(4, 5).parameters(), optimizer_class=torch.optim.SGD, lr=0.01

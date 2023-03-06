@@ -16,13 +16,13 @@ SIZES = (1, 2)
 #########################
 
 
-def test_exu_str():
+def test_exu_str() -> None:
     assert str(ExU(input_size=4, output_size=6)).startswith("ExU(")
 
 
 @mark.parametrize("input_size", SIZES)
 @mark.parametrize("output_size", SIZES)
-def test_exu_input_output_sizes(input_size: int, output_size: int):
+def test_exu_input_output_sizes(input_size: int, output_size: int) -> None:
     module = ExU(input_size=input_size, output_size=output_size)
     assert module.input_size == input_size
     assert module.output_size == output_size
@@ -30,18 +30,18 @@ def test_exu_input_output_sizes(input_size: int, output_size: int):
     assert module.bias.shape == (input_size,)
 
 
-def test_exu_activation_default():
+def test_exu_activation_default() -> None:
     assert isinstance(ExU(input_size=4, output_size=6).activation, ReLU)
 
 
 @mark.parametrize("activation", (GELU(), {OBJECT_TARGET: "torch.nn.GELU"}))
-def test_exu_activation_gelu(activation: Union[Module, dict]):
+def test_exu_activation_gelu(activation: Union[Module, dict]) -> None:
     assert isinstance(ExU(input_size=4, output_size=6).activation, ReLU)
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_exu_forward_2d(device: str, batch_size: int):
+def test_exu_forward_2d(device: str, batch_size: int) -> None:
     device = torch.device(device)
     module = ExU(input_size=4, output_size=6).to(device=device)
     output = module(torch.randn(batch_size, 4, device=device))
@@ -52,7 +52,7 @@ def test_exu_forward_2d(device: str, batch_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_exu_forward_3d(device: str, batch_size: int):
+def test_exu_forward_3d(device: str, batch_size: int) -> None:
     device = torch.device(device)
     module = ExU(input_size=4, output_size=6).to(device=device)
     output = module(torch.randn(batch_size, 3, 4, device=device))
@@ -63,7 +63,7 @@ def test_exu_forward_3d(device: str, batch_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_exu_forward_4d(device: str, batch_size: int):
+def test_exu_forward_4d(device: str, batch_size: int) -> None:
     device = torch.device(device)
     module = ExU(input_size=4, output_size=6).to(device=device)
     output = module(torch.randn(batch_size, 3, 4, 4, device=device))

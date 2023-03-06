@@ -17,6 +17,7 @@ def app_vae_time_loss(
     r"""Computes the APP-VAE time loss value.
 
     Args:
+    ----
         lmbda (``torch.Tensor`` of type float): Specifies the
             predicted lambda i.e. the rate of the Exponential
             distribution.
@@ -41,6 +42,7 @@ def app_vae_time_loss(
             summed. Default: ``'mean'``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float: The negative log-likelihood
             with Exponential distribution of target. The shape of
             the tensor depends on the reduction strategy.

@@ -13,7 +13,7 @@ from gravitorch.models.criteria import VanillaLoss, WeightedSumLoss
 #####################################
 
 
-def test_weighted_sum_loss_str():
+def test_weighted_sum_loss_str() -> None:
     assert str(
         WeightedSumLoss(
             {
@@ -24,7 +24,7 @@ def test_weighted_sum_loss_str():
     ).startswith("WeightedSumLoss(")
 
 
-def test_weighted_sum_loss_from_dict():
+def test_weighted_sum_loss_from_dict() -> None:
     criterion = WeightedSumLoss(
         {"value": {OBJECT_TARGET: "torch.nn.MSELoss"}, "time": {OBJECT_TARGET: "torch.nn.L1Loss"}}
     )
@@ -33,7 +33,7 @@ def test_weighted_sum_loss_from_dict():
     assert criterion._weights == {"value": 1.0, "time": 1.0}
 
 
-def test_weighted_sum_loss_tensor():
+def test_weighted_sum_loss_tensor() -> None:
     value_criterion = Mock(spec=nn.Module, return_value=torch.tensor(0.8))
     time_criterion = Mock(spec=nn.Module, return_value=torch.tensor(0.2))
     criterion = WeightedSumLoss(nn.ModuleDict({"value": value_criterion, "time": time_criterion}))
@@ -51,7 +51,7 @@ def test_weighted_sum_loss_tensor():
     assert objects_are_equal(time_criterion.call_args.args, (prediction, target))
 
 
-def test_weighted_sum_loss_dict():
+def test_weighted_sum_loss_dict() -> None:
     value_criterion = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(0.8)})
     time_criterion = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(0.2)})
     criterion = WeightedSumLoss(nn.ModuleDict({"value": value_criterion, "time": time_criterion}))
@@ -69,7 +69,7 @@ def test_weighted_sum_loss_dict():
     assert objects_are_equal(time_criterion.call_args.args, (prediction, target))
 
 
-def test_weighted_sum_loss_one_weight():
+def test_weighted_sum_loss_one_weight() -> None:
     value_criterion = Mock(spec=nn.Module, return_value=torch.tensor(0.8))
     time_criterion = Mock(spec=nn.Module, return_value=torch.tensor(0.2))
     criterion = WeightedSumLoss(
@@ -95,7 +95,7 @@ def test_weighted_sum_loss_one_weight():
     assert objects_are_equal(time_criterion.call_args.args, (prediction, target))
 
 
-def test_weighted_sum_loss_both_weight():
+def test_weighted_sum_loss_both_weight() -> None:
     value_criterion = Mock(spec=nn.Module, return_value=torch.tensor(0.8))
     time_criterion = Mock(spec=nn.Module, return_value=torch.tensor(0.2))
     criterion = WeightedSumLoss(
@@ -121,7 +121,7 @@ def test_weighted_sum_loss_both_weight():
     assert objects_are_equal(time_criterion.call_args.args, (prediction, target))
 
 
-def test_weighted_sum_loss_pytorch_losses():
+def test_weighted_sum_loss_pytorch_losses() -> None:
     criterion = WeightedSumLoss(nn.ModuleDict({"value": nn.MSELoss(), "time": nn.L1Loss()}))
     target = torch.rand(2, 3)
     out = criterion(target, target)
@@ -130,7 +130,7 @@ def test_weighted_sum_loss_pytorch_losses():
     assert out[f"{ct.LOSS}_value"].equal(torch.tensor(0.0))
 
 
-def test_weighted_sum_loss_gravitorch_losses():
+def test_weighted_sum_loss_gravitorch_losses() -> None:
     criterion = WeightedSumLoss(
         nn.ModuleDict({"value": VanillaLoss(nn.MSELoss()), "time": VanillaLoss(nn.L1Loss())})
     )

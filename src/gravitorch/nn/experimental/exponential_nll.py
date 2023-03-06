@@ -12,6 +12,7 @@ class ExponentialNLLLoss(Module):
     Exponential distribution of target.
 
     Args:
+    ----
         log_input (bool, optional): If ``True``, the expected input
             is ``log(lambda)``, otherwise it is ``lambda``.
             Default: ``True``
@@ -36,7 +37,7 @@ class ExponentialNLLLoss(Module):
         eps: float = 1e-8,
         max_log_value: float = 20.0,
         reduction: str = "mean",
-    ):
+    ) -> None:
         super().__init__()
         self._log_input = bool(log_input)
 
@@ -59,12 +60,14 @@ class ExponentialNLLLoss(Module):
         distribution of target.
 
         Args:
+        ----
             log_rate (``torch.Tensor`` of type float): Specifies the
                 predicted rates (``lambda``).
             target (``torch.Tensor`` of type float and same shape as
                 ``log_rate``): Specifies the target values.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float: The negative
                 log-likelihood with Exponential distribution of
                 target. The shape of the tensor depends on the

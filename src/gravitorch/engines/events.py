@@ -6,6 +6,7 @@ class EngineEvents:
 
     Every engine should fire these events.
     """
+
     # Generic. These events are used in both ``train`` and ``eval``
     STARTED: str = "started"
     EPOCH_STARTED: str = "epoch_started"

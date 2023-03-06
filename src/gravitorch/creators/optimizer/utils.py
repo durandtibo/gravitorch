@@ -19,11 +19,13 @@ def setup_optimizer_creator(
     by using the ``BaseOptimizerCreator`` factory function.
 
     Args:
+    ----
         creator (``BaseOptimizerCreator`` or dict or ``None``):
             Specifies the optimizer creator or its configuration.
             If ``None``, a ``NoOptimizerCreator`` is created.
 
     Returns:
+    -------
         ``BaseOptimizerCreator``: The instantiated optimizer creator.
     """
     if creator is None:

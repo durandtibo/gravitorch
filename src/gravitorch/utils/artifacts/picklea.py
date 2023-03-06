@@ -12,6 +12,7 @@ class PickleArtifact(BaseArtifact):
     r"""Implements a Pickle artifact.
 
     Args:
+    ----
         tag (str): Specifies the artifact tag. The tag is used to
             define the Pickle filename.
         data: Specifies the data to save in the Pickle artifact. The
@@ -20,7 +21,7 @@ class PickleArtifact(BaseArtifact):
             Default: highest protocol available.
     """
 
-    def __init__(self, tag: str, data: Any, protocol: int = HIGHEST_PROTOCOL):
+    def __init__(self, tag: str, data: Any, protocol: int = HIGHEST_PROTOCOL) -> None:
         self._tag = str(tag)
         self._data = data
         self._protocol = protocol

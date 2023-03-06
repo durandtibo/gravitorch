@@ -27,6 +27,7 @@ class VanillaModelCreator(BaseModelCreator):
     function ``gravitorch.distributed.device()``.
 
     Args:
+    ----
         model_config (dict): Specifies the model configuration.
         attach_model_to_engine (bool, optional): If ``True``, the
             model is attached to the engine. Default: ``True``
@@ -45,7 +46,7 @@ class VanillaModelCreator(BaseModelCreator):
         attach_model_to_engine: bool = True,
         add_module_to_engine: bool = True,
         device_placement: Union[BaseDevicePlacement, dict, None] = None,
-    ):
+    ) -> None:
         self._model_config = model_config
         self._attach_model_to_engine = bool(attach_model_to_engine)
         self._add_module_to_engine = bool(add_module_to_engine)

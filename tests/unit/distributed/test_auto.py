@@ -20,7 +20,7 @@ from gravitorch.utils import get_available_devices
 
 
 class FakeModel(nn.Module):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.fc = nn.Linear(4, 5)
         self.bn = nn.BatchNorm1d(5)
@@ -30,7 +30,7 @@ class FakeModel(nn.Module):
 
 
 @patch("gravitorch.distributed.auto.dist.device", lambda *args: torch.device("cpu"))
-def test_auto_ddp_model_cpu():
+def test_auto_ddp_model_cpu() -> None:
     device = torch.device("cpu")
     model = nn.Linear(4, 5).to(device=device)
     model = auto_ddp_model(model)
@@ -40,7 +40,7 @@ def test_auto_ddp_model_cpu():
 
 @patch("gravitorch.distributed.auto.dist.device", lambda *args: torch.device("cuda"))
 @cuda_available
-def test_auto_ddp_model_move_cuda():
+def test_auto_ddp_model_move_cuda() -> None:
     model = nn.Linear(4, 5).to(device=torch.device("cpu"))
     model = auto_ddp_model(model)
     # Verify all the parameters are on the CUDA device.
@@ -49,14 +49,14 @@ def test_auto_ddp_model_move_cuda():
 
 @distributed_available
 @patch("gravitorch.distributed.auto.dist.get_world_size", lambda *args: 2)
-def test_auto_ddp_model_ddp_gloo():
+def test_auto_ddp_model_ddp_gloo() -> None:
     with dist.distributed_context(backend=dist.Backend.GLOO):
         assert isinstance(auto_ddp_model(FakeModel()), nn.parallel.DistributedDataParallel)
 
 
 @distributed_available
 @patch("gravitorch.distributed.auto.dist.get_world_size", lambda *args: 2)
-def test_auto_ddp_model_ddp_gloo_sync_bn():
+def test_auto_ddp_model_ddp_gloo_sync_bn() -> None:
     with dist.distributed_context(backend=dist.Backend.GLOO):
         model = FakeModel()
         model = auto_ddp_model(model, sync_batch_norm=True)
@@ -68,7 +68,7 @@ def test_auto_ddp_model_ddp_gloo_sync_bn():
 @cuda_available
 @nccl_available
 @patch("gravitorch.distributed.auto.dist.get_world_size", lambda *args: 2)
-def test_auto_ddp_model_ddp_nccl():
+def test_auto_ddp_model_ddp_nccl() -> None:
     with dist.distributed_context(backend=dist.Backend.NCCL):
         model = auto_ddp_model(FakeModel())
         assert isinstance(model, nn.parallel.DistributedDataParallel)
@@ -78,7 +78,7 @@ def test_auto_ddp_model_ddp_nccl():
 @cuda_available
 @nccl_available
 @patch("gravitorch.distributed.auto.dist.get_world_size", lambda *args: 2)
-def test_auto_ddp_model_ddp_nccl_sync_bn():
+def test_auto_ddp_model_ddp_nccl_sync_bn() -> None:
     with dist.distributed_context(backend=dist.Backend.NCCL):
         model = FakeModel()
         model = auto_ddp_model(model, sync_batch_norm=True)
@@ -87,13 +87,13 @@ def test_auto_ddp_model_ddp_nccl_sync_bn():
 
 
 @patch("gravitorch.distributed.auto.dist.get_world_size", lambda *args: 2)
-def test_auto_ddp_model_ddp_no_learnable_parameters():
+def test_auto_ddp_model_ddp_no_learnable_parameters() -> None:
     with dist.distributed_context(backend=dist.Backend.GLOO):
         assert isinstance(auto_ddp_model(nn.Tanh()), nn.Tanh)
 
 
 @patch("gravitorch.distributed.auto.dist.get_world_size", lambda *args: 2)
-def test_auto_ddp_model_ddp_distributed_data_parallel():
+def test_auto_ddp_model_ddp_distributed_data_parallel() -> None:
     with dist.distributed_context(backend=dist.Backend.GLOO):
         model = nn.parallel.DistributedDataParallel(nn.Linear(4, 5))
         model = auto_ddp_model(model)
@@ -108,7 +108,7 @@ def test_auto_ddp_model_ddp_distributed_data_parallel():
 
 
 @mark.parametrize("device", get_available_devices())
-def test_manage_model_device_same_device(device):
+def test_manage_model_device_same_device(device: str) -> None:
     device = torch.device(device)
     model = nn.Linear(4, 6).to(device=device)
     with patch("gravitorch.distributed.auto.dist.device", lambda *args, **kwargs: device):
@@ -117,7 +117,7 @@ def test_manage_model_device_same_device(device):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_manage_model_device_different_device(device):
+def test_manage_model_device_different_device(device: str) -> None:
     device = torch.device(device)
     model = nn.Linear(4, 6).cpu()
     with patch("gravitorch.distributed.auto.dist.device", lambda *args, **kwargs: device):
@@ -134,12 +134,12 @@ def test_manage_model_device_different_device(device):
 
 
 @patch("gravitorch.distributed.auto.dist.backend", lambda *args, **kwargs: "UNKNOWN_BACKEND")
-def test_wrap_distributed_data_parallel_unknown_backend():
+def test_wrap_distributed_data_parallel_unknown_backend() -> None:
     assert isinstance(_wrap_distributed_data_parallel(nn.Linear(4, 6)), nn.Linear)
 
 
 @patch("gravitorch.distributed.auto.dist.backend", lambda *args, **kwargs: dist.Backend.GLOO)
-def test_wrap_distributed_data_parallel_gloo_backend():
+def test_wrap_distributed_data_parallel_gloo_backend() -> None:
     with patch("gravitorch.distributed.auto.DistributedDataParallel") as mocked_ddp:
         model = nn.Linear(4, 6)
         _wrap_distributed_data_parallel(model)
@@ -147,7 +147,7 @@ def test_wrap_distributed_data_parallel_gloo_backend():
 
 
 @patch("gravitorch.distributed.auto.dist.backend", lambda *args, **kwargs: dist.Backend.GLOO)
-def test_wrap_distributed_data_parallel_gloo_backend_extra_args():
+def test_wrap_distributed_data_parallel_gloo_backend_extra_args() -> None:
     with patch("gravitorch.distributed.auto.DistributedDataParallel") as mocked_ddp:
         model = nn.Linear(4, 6)
         _wrap_distributed_data_parallel(model, find_unused_parameters=True)
@@ -156,7 +156,7 @@ def test_wrap_distributed_data_parallel_gloo_backend_extra_args():
 
 @patch("gravitorch.distributed.auto.dist.backend", lambda *args, **kwargs: dist.Backend.NCCL)
 @patch("gravitorch.distributed.auto.dist.get_local_rank", lambda *args, **kwargs: 1)
-def test_wrap_distributed_data_parallel_nccl_backend():
+def test_wrap_distributed_data_parallel_nccl_backend() -> None:
     with patch("gravitorch.distributed.auto.DistributedDataParallel") as mocked_ddp:
         model = nn.Linear(4, 6)
         _wrap_distributed_data_parallel(model)
@@ -165,7 +165,7 @@ def test_wrap_distributed_data_parallel_nccl_backend():
 
 @patch("gravitorch.distributed.auto.dist.backend", lambda *args, **kwargs: dist.Backend.NCCL)
 @patch("gravitorch.distributed.auto.dist.get_local_rank", lambda *args, **kwargs: 1)
-def test_wrap_distributed_data_parallel_nccl_backend_extra_args():
+def test_wrap_distributed_data_parallel_nccl_backend_extra_args() -> None:
     with patch("gravitorch.distributed.auto.DistributedDataParallel") as mocked_ddp:
         model = nn.Linear(4, 6)
         _wrap_distributed_data_parallel(model, find_unused_parameters=True)
@@ -174,7 +174,7 @@ def test_wrap_distributed_data_parallel_nccl_backend_extra_args():
 
 @patch("gravitorch.distributed.auto.dist.backend", lambda *args, **kwargs: dist.Backend.NCCL)
 @patch("gravitorch.distributed.auto.dist.get_local_rank", lambda *args, **kwargs: 1)
-def test_wrap_distributed_data_parallel_nccl_backend_sync_batch_norm():
+def test_wrap_distributed_data_parallel_nccl_backend_sync_batch_norm() -> None:
     with patch("gravitorch.distributed.auto.DistributedDataParallel") as mocked_ddp:
         model = nn.Linear(4, 6)
         _wrap_distributed_data_parallel(model, sync_batch_norm=True)

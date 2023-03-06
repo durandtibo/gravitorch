@@ -59,10 +59,11 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
     You may also need to extend the ``config_dict`` method.
 
     Args:
+    ----
         name (str): Specifies the name of the history.
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         self._name = name
 
     @property
@@ -75,6 +76,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         r"""Adds a new value to the history.
 
         Args:
+        ----
             value: Specifies the value to add to the history.
             step (int or None, optional): Specifies the step value to
                 record. Default: ``None``.
@@ -93,7 +95,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
     def clone(self) -> "BaseHistory":
         r"""Clones the current history.
 
-        Returns:
+        Returns
+        -------
             ``BaseHistory``: A copy of the current history.
 
         Example usage:
@@ -111,9 +114,11 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         r"""Indicates if two histories are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the histories are equal,
                 ``False`` otherwise.
 
@@ -135,10 +140,12 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         comparable history i.e. it is possible to compare the
         values in the history.
 
-        Returns:
+        Returns
+        -------
             The best value of this history.
 
-        Raises:
+        Raises
+        ------
             ``NotAComparableHistory``: if it is not a comparable
                 history.
             ``EmptyHistoryError``: if the history is empty
@@ -166,10 +173,12 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         You need to implement this method for a comparable history.
 
-        Returns:
+        Returns
+        -------
             The best value of this history.
 
-        Raises:
+        Raises
+        ------
             ``NotImplementedError``: if this method is not implemented.
         """
         raise NotImplementedError
@@ -178,7 +187,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
     def get_last_value(self) -> T:
         r"""Gets the last value.
 
-        Returns:
+        Returns
+        -------
             The last value added in the history.
 
         Example usage:
@@ -204,7 +214,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         history. The length of the recent history depends on the
         concrete implementation.
 
-        Returns:
+        Returns
+        -------
             tuple: A tuple of the recent history.
 
         Example usage:
@@ -227,11 +238,13 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         history i.e. it is possible to compare the values in
         the history.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the last value is the best value,
                 otherwise ``False``.
 
-        Raises:
+        Raises
+        ------
             ``NotAComparableHistory``: if it is not a comparable
                 history.
             ``EmptyHistoryError``: if the history is empty
@@ -257,11 +270,13 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         You need to implement this method for a comparable history.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the last value is the best value,
                 otherwise ``False``.
 
-        Raises:
+        Raises
+        ------
             ``NotImplementedError``: if this method is not implemented
         """
         raise NotImplementedError
@@ -273,7 +288,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         Note that it is possible to compute the best value only for
         histories that are comparable.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if it is possible to compare the values in
             the history, otherwise ``False``.
 
@@ -289,7 +305,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
     def is_empty(self) -> bool:
         r"""Indicates if the history is empty or not.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the history is empty, otherwise
                 ``False``.
 
@@ -312,7 +329,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         values. It is possible to get the state values with the
         ``state_dict`` method.
 
-        Returns:
+        Returns
+        -------
             dict: The config of the history
 
         Example usage:
@@ -333,6 +351,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         r"""Sets up the history from a dictionary containing the state values.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
 
@@ -349,7 +368,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
     def state_dict(self) -> dict[str, Any]:
         r"""Gets a dictionary containing the state values of the history.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
 
         Example usage:
@@ -365,6 +385,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         r"""Instantiates a history from a dictionary.
 
         Args:
+        ----
             data (dict): Specifies the dictionary that is used to
                 instantiate the history. The dictionary is
                 expected to contain the parameters to create
@@ -372,6 +393,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
                 history.
 
         Returns:
+        -------
             ``BaseHistory``: The instantiated history.
 
         Example usage:
@@ -403,7 +425,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         can be used as input of the ``from_dict`` method to resume the
         history.
 
-        Returns:
+        Returns
+        -------
             dict: A dictionary with the config and the state of the
                 history.
 

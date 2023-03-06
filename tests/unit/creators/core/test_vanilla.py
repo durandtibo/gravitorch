@@ -15,13 +15,13 @@ from gravitorch.testing import DummyDataSource
 ########################################
 
 
-def test_vanilla_core_creator_str():
+def test_vanilla_core_creator_str() -> None:
     assert str(VanillaCoreCreator(DummyDataSource(), nn.Linear(4, 6))).startswith(
         "VanillaCoreCreator("
     )
 
 
-def test_vanilla_core_creator_create():
+def test_vanilla_core_creator_create() -> None:
     engine = Mock()
     creator = VanillaCoreCreator(
         data_source=DummyDataSource(),
@@ -37,7 +37,7 @@ def test_vanilla_core_creator_create():
     assert engine.add_module.call_args_list[1].args == (ct.MODEL, model)
 
 
-def test_vanilla_core_creator_create_optimizer():
+def test_vanilla_core_creator_create_optimizer() -> None:
     engine = Mock()
     creator = VanillaCoreCreator(
         data_source=DummyDataSource(),
@@ -55,7 +55,7 @@ def test_vanilla_core_creator_create_optimizer():
     assert engine.add_module.call_args_list[2].args == (ct.OPTIMIZER, optimizer)
 
 
-def test_vanilla_core_creator_create_lr_scheduler():
+def test_vanilla_core_creator_create_lr_scheduler() -> None:
     engine = Mock()
     creator = VanillaCoreCreator(
         data_source=DummyDataSource(),

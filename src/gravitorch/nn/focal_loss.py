@@ -16,6 +16,7 @@ class _BinaryFocalLoss(Module):
     (https://arxiv.org/pdf/1708.02002.pdf)
 
     Args:
+    ----
         alpha (float, optional): Specifies the weighting factor in
             ``[0, 1]``.
         gamma (float, optional): Specifies the focusing parameter
@@ -34,7 +35,7 @@ class _BinaryFocalLoss(Module):
         alpha: float,
         gamma: float,
         reduction: str,
-    ):
+    ) -> None:
         super().__init__()
         self.bce = bce
 
@@ -62,6 +63,7 @@ class _BinaryFocalLoss(Module):
         r"""Computes the binary Focal Loss.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(batch size, num classes)`` and type float):
                 Specifies the predicted probabilities. All elements
@@ -72,6 +74,7 @@ class _BinaryFocalLoss(Module):
                 positive (resp. negative) example.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float: The loss value(s). The
                 shape of the tensor depends on the reduction. If the
                 reduction is ``mean`` or ``sum``, the tensor has a
@@ -94,6 +97,7 @@ class BinaryFocalLoss(_BinaryFocalLoss):
     (https://arxiv.org/pdf/1708.02002.pdf)
 
     Args:
+    ----
         alpha (float, optional): Specifies the weighting factor in
             ``[0, 1]``. Default: ``0.5``
         gamma (float, optional): Specifies the focusing parameter
@@ -111,7 +115,7 @@ class BinaryFocalLoss(_BinaryFocalLoss):
         alpha: float = 0.5,
         gamma: float = 2.0,
         reduction: str = "mean",
-    ):
+    ) -> None:
         super().__init__(
             bce=BCELoss(reduction="none"),
             alpha=alpha,
@@ -130,6 +134,7 @@ class BinaryFocalLossWithLogits(_BinaryFocalLoss):
     they will be converted to probability.
 
     Args:
+    ----
         alpha (float, optional): Specifies the weighting factor in
             ``[0, 1]``. Default: ``0.5``
         gamma (float, optional): Specifies the focusing parameter
@@ -147,7 +152,7 @@ class BinaryFocalLossWithLogits(_BinaryFocalLoss):
         alpha: float = 0.5,
         gamma: float = 2.0,
         reduction: str = "mean",
-    ):
+    ) -> None:
         super().__init__(
             bce=BCEWithLogitsLoss(reduction="none"),
             alpha=alpha,

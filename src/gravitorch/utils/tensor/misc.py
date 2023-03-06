@@ -23,9 +23,11 @@ def str_full_tensor(tensor: Tensor) -> str:
     r"""Computes a string representation of the tensor with all the values.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the input tensor.
 
     Returns:
+    -------
          str: The string representation of the tensor with all the
             values.
     """
@@ -39,9 +41,11 @@ def has_name(tensor: Tensor) -> bool:
     r"""Indicates it the tensor has at least one name or not.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the tensor to check.
 
     Returns:
+    -------
         bool: ``True`` if tensor has at least one name, otherwise
             ``False``.
 
@@ -64,6 +68,7 @@ def permute(tensor: Tensor, permutation: Tensor, dim: int = 0) -> Tensor:
     r"""Permutes a tensor on a given dimension and a permutation.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the tensor to permute.
         permutation (``torch.Tensor`` of type long and shape
             ``(dimension,)``): Specifies the permutation to use on the
@@ -73,6 +78,7 @@ def permute(tensor: Tensor, permutation: Tensor, dim: int = 0) -> Tensor:
             tensor. Default: ``0``
 
     Returns:
+    -------
         ``torch.Tensor``: The permuted tensor.
 
     Example usage:
@@ -113,6 +119,7 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
     tensors.
 
     Args:
+    ----
         data (dict): Specifies the dictionary with the tensors to
             transpose.
         config (dict): Specifies the tensors to transpose. The keys
@@ -122,6 +129,7 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
             details.
 
     Returns:
+    -------
         dict: A dictionary with some transposed tensors.
 
     Example usage:
@@ -207,12 +215,15 @@ def to_tensor(value: Any) -> Tensor:
     r"""Converts the input to a ``torch.Tensor``.
 
     Args:
+    ----
         value: Specifies the input to convert to ``torch.Tensor``.
 
     Returns:
+    -------
         ``torch.Tensor``: The tensor.
 
     Raises:
+    ------
         TypeError if the type cannot be converted to ``torch.Tensor``.
 
     Example usage:
@@ -248,9 +259,11 @@ def shapes_are_equal(tensors: Sequence[Tensor]) -> bool:
     tensors.
 
     Args:
+    ----
         tensors (sequence): Specifies the tensors to check.
 
     Returns:
+    -------
         bool: ``True`` if all the tensors have the same shape,
             otherwise ``False``. By design, this function returns
             ``False`` if no tensor is provided.

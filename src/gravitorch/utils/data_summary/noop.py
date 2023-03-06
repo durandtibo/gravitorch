@@ -19,6 +19,7 @@ class NoOpDataSummary(BaseDataSummary[T]):
         r"""Adds new data to the summary.
 
         Args:
+        ----
             data: Specifies the data to add to the summary.
         """
 

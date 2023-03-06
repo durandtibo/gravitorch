@@ -13,19 +13,19 @@ from gravitorch.creators.datapipe import (
 #################################################
 
 
-def test_setup_iter_datapipe_creator_object():
+def test_setup_iter_datapipe_creator_object() -> None:
     creator = Mock(spec=BaseIterDataPipeCreator)
     assert setup_iter_datapipe_creator(creator) is creator
 
 
-def test_setup_iter_datapipe_creator_dict_mock():
+def test_setup_iter_datapipe_creator_dict_mock() -> None:
     creator_mock = Mock(factory=Mock(return_value="abc"))
     with patch("gravitorch.creators.datapipe.base.BaseIterDataPipeCreator", creator_mock):
         assert setup_iter_datapipe_creator({"_target_": "name"}) == "abc"
         creator_mock.factory.assert_called_once_with(_target_="name")
 
 
-def test_setup_iter_datapipe_creator_dict():
+def test_setup_iter_datapipe_creator_dict() -> None:
     assert isinstance(
         setup_iter_datapipe_creator(
             {

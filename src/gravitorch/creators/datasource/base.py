@@ -33,10 +33,12 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
         associated to the data source.
 
         Args:
+        ----
             engine (``gravitorch.engines.BaseEngine``): Specifies an
                 engine.
 
         Returns:
+        -------
             ``gravitorch.datasources.BaseDataSource``: The created data
                 source.
         """
@@ -49,10 +51,12 @@ def setup_data_source_creator(creator: BaseDataSourceCreator | dict) -> BaseData
     using the ``BaseDataSourceCreator`` factory function.
 
     Args:
+    ----
         creator (``BaseDataSourceCreator`` or dict): Specifies the
             data source creator or its configuration.
 
     Returns:
+    -------
         ``BaseDataSourceCreator``: The instantiated data source
             creator.
     """

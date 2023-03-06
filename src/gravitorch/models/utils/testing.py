@@ -24,6 +24,7 @@ def is_loss_decreasing(
     r"""Checks if the loss decreased after some iterations.
 
     Args:
+    ----
         model (``BaseModel``): Specifies the model to test.
         optimizer (``torch.optim.Optimizer``): Specifies the optimizer
             to update the weights of the model.
@@ -35,6 +36,7 @@ def is_loss_decreasing(
             value is computed. Default: ``11409583194270223596``
 
     Returns:
+    -------
         bool: ``True`` if the loss decreased after some iterations,
             otherwise ``False``.
 
@@ -94,6 +96,7 @@ def is_loss_decreasing_with_adam(
     The weights of the model are updated with Adam.
 
     Args:
+    ----
         model (``BaseModel``): Specifies the model to test.
         batch: Specifies the batch used to train the model.
         lr (float, optional): Specifies the learning rate.
@@ -105,6 +108,7 @@ def is_loss_decreasing_with_adam(
             value is computed. Default: ``11409583194270223596``
 
     Returns:
+    -------
         bool: ``True`` if the loss decreased after some iterations,
             otherwise ``False``.
 
@@ -149,6 +153,7 @@ def is_loss_decreasing_with_sgd(
     The weights of the model are updated with SGD.
 
     Args:
+    ----
         model (``BaseModel``): Specifies the model to test.
         batch: Specifies the batch used to train the model.
         lr (float, optional): Specifies the learning rate. Default: ``0.01``
@@ -159,6 +164,7 @@ def is_loss_decreasing_with_sgd(
             value is computed. Default: ``11409583194270223596``
 
     Returns:
+    -------
         bool: ``True`` if the loss decreased after some iterations,
             otherwise ``False``.
 

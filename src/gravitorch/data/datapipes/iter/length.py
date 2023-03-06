@@ -19,6 +19,7 @@ class LooperIterDataPipe(IterDataPipe[T]):
         the source DataPipe are repeated until ``length`` items.
 
     Args:
+    ----
         datapipe (``torch.utils.data.IterDataPipe``): Specifies
             the source iterable DataPipe.
         length (int): Specifies the length of the DataPipe.
@@ -36,7 +37,7 @@ class LooperIterDataPipe(IterDataPipe[T]):
         [1, 2, 3, 4]
     """
 
-    def __init__(self, datapipe: IterDataPipe[T], length: int):
+    def __init__(self, datapipe: IterDataPipe[T], length: int) -> None:
         self._datapipe = datapipe
         if length < 1:
             raise ValueError(

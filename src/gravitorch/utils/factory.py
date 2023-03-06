@@ -15,10 +15,12 @@ def setup_distribution(distribution: Union[Distribution, dict]) -> Distribution:
     r"""Sets up a distribution.
 
     Args:
+    ----
         distribution (``torch.distributions.Distribution`` or dict
             or None): Specifies the distribution or its configuration.
 
     Returns:
+    -------
         ``torch.distributions.Distribution``: The distribution.
     """
     if isinstance(distribution, dict):

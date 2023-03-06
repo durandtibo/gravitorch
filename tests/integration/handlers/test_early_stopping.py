@@ -21,7 +21,7 @@ def create_engine(**kwargs) -> BaseEngine:
 ##########################################
 
 
-def test_early_stopping_simulation_min():
+def test_early_stopping_simulation_min() -> None:
     engine = create_engine()
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
     handler = EarlyStopping(delta=0)
@@ -41,7 +41,7 @@ def test_early_stopping_simulation_min():
     }
 
 
-def test_early_stopping_simulation_max():
+def test_early_stopping_simulation_max() -> None:
     engine = create_engine()
     engine.add_history(MaxScalarHistory("accuracy"))
     handler = EarlyStopping(metric_name="accuracy", delta=0)
@@ -61,7 +61,7 @@ def test_early_stopping_simulation_max():
     }
 
 
-def test_early_stopping_simulation_delta():
+def test_early_stopping_simulation_delta() -> None:
     engine = create_engine()
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
     handler = EarlyStopping(delta=0.15)
@@ -81,7 +81,7 @@ def test_early_stopping_simulation_delta():
     }
 
 
-def test_early_stopping_simulation_delta_and_cumulative_delta():
+def test_early_stopping_simulation_delta_and_cumulative_delta() -> None:
     engine = create_engine()
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
     handler = EarlyStopping(delta=0.15, cumulative_delta=True)
@@ -101,7 +101,7 @@ def test_early_stopping_simulation_delta_and_cumulative_delta():
     }
 
 
-def test_early_stopping_simulation_resume():
+def test_early_stopping_simulation_resume() -> None:
     engine = create_engine(state=VanillaEngineState(epoch=10))
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
     handler = EarlyStopping()
@@ -128,7 +128,7 @@ def test_early_stopping_simulation_resume():
     }
 
 
-def test_early_stopping_simulation_resume_cumulative_delta():
+def test_early_stopping_simulation_resume_cumulative_delta() -> None:
     engine = create_engine(state=VanillaEngineState(epoch=10))
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
     handler = EarlyStopping(delta=0.5, cumulative_delta=True)

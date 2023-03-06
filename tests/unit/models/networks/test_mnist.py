@@ -18,18 +18,18 @@ SIZES = (1, 2)
 
 
 @mark.parametrize("input_name", ("image", ct.INPUT))
-def test_pytorch_mnist_net_get_input_names(input_name: str):
+def test_pytorch_mnist_net_get_input_names(input_name: str) -> None:
     assert PyTorchMnistNet(input_name=input_name).get_input_names() == (input_name,)
 
 
 @mark.parametrize("output_name", ("output", ct.PREDICTION))
-def test_pytorch_mnist_net_get_output_names(output_name: str):
+def test_pytorch_mnist_net_get_output_names(output_name: str) -> None:
     assert PyTorchMnistNet(output_name=output_name).get_output_names() == (output_name,)
 
 
 @mark.parametrize("input_name", ("image", ct.INPUT))
 @mark.parametrize("output_name", ("output", ct.PREDICTION))
-def test_pytorch_mnist_net_get_onnx_dynamic_axis(input_name: str, output_name: str):
+def test_pytorch_mnist_net_get_onnx_dynamic_axis(input_name: str, output_name: str) -> None:
     assert PyTorchMnistNet(
         input_name=input_name, output_name=output_name
     ).get_onnx_dynamic_axis() == {
@@ -38,7 +38,7 @@ def test_pytorch_mnist_net_get_onnx_dynamic_axis(input_name: str, output_name: s
     }
 
 
-def test_pytorch_mnist_net_get_onnx_dynamic_axis_default():
+def test_pytorch_mnist_net_get_onnx_dynamic_axis_default() -> None:
     assert PyTorchMnistNet().get_onnx_dynamic_axis() == {
         ct.INPUT: {0: "batch"},
         ct.PREDICTION: {0: "batch"},
@@ -48,7 +48,7 @@ def test_pytorch_mnist_net_get_onnx_dynamic_axis_default():
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("mode", (True, False))
-def test_pytorch_mnist_net_forward(device, batch_size, mode):
+def test_pytorch_mnist_net_forward(device: str, batch_size: int, mode: bool) -> None:
     device = torch.device(device)
     network = PyTorchMnistNet().to(device=device)
     network.train(mode)
@@ -60,7 +60,7 @@ def test_pytorch_mnist_net_forward(device, batch_size, mode):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_pytorch_mnist_net_get_dummy_input(device, batch_size):
+def test_pytorch_mnist_net_get_dummy_input(device: str, batch_size: int) -> None:
     device = torch.device(device)
     dummy_input = PyTorchMnistNet().to(device=device).get_dummy_input(batch_size)
     assert len(dummy_input) == 1
@@ -69,7 +69,7 @@ def test_pytorch_mnist_net_get_dummy_input(device, batch_size):
     assert dummy_input[0].device == device
 
 
-def test_pytorch_mnist_net_is_loss_decreasing():
+def test_pytorch_mnist_net_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=PyTorchMnistNet(),

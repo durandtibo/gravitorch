@@ -13,28 +13,28 @@ from gravitorch.utils.events import (
 #######################################
 
 
-def test_periodic_condition_str():
+def test_periodic_condition_str() -> None:
     assert str(PeriodicCondition(3)).startswith("PeriodicCondition(freq=3,")
 
 
 @mark.parametrize("freq", (1, 2, 3))
-def test_periodic_condition_freq(freq: int):
+def test_periodic_condition_freq(freq: int) -> None:
     assert PeriodicCondition(freq).freq == freq
 
 
-def test_periodic_condition_eq_true():
+def test_periodic_condition_eq_true() -> None:
     assert PeriodicCondition(3) == PeriodicCondition(3)
 
 
-def test_periodic_condition_eq_false_different_freq():
+def test_periodic_condition_eq_false_different_freq() -> None:
     assert PeriodicCondition(3) != PeriodicCondition(2)
 
 
-def test_periodic_condition_eq_false_different_classes():
+def test_periodic_condition_eq_false_different_classes() -> None:
     assert PeriodicCondition(3) != EpochPeriodicCondition(engine=Mock(), freq=3)
 
 
-def test_periodic_condition_freq_1():
+def test_periodic_condition_freq_1() -> None:
     condition = PeriodicCondition(1)
     assert [condition() for _ in range(10)] == [
         True,
@@ -50,7 +50,7 @@ def test_periodic_condition_freq_1():
     ]
 
 
-def test_periodic_condition_freq_2():
+def test_periodic_condition_freq_2() -> None:
     condition = PeriodicCondition(2)
     assert [condition() for _ in range(10)] == [
         True,
@@ -66,7 +66,7 @@ def test_periodic_condition_freq_2():
     ]
 
 
-def test_periodic_condition_freq_3():
+def test_periodic_condition_freq_3() -> None:
     condition = PeriodicCondition(3)
     assert [condition() for _ in range(10)] == [
         True,
@@ -87,34 +87,34 @@ def test_periodic_condition_freq_3():
 ############################################
 
 
-def test_epoch_periodic_condition_str():
+def test_epoch_periodic_condition_str() -> None:
     engine = Mock()
     engine.epoch = -1
     assert str(EpochPeriodicCondition(engine, freq=2)).startswith("EpochPeriodicCondition(freq=2,")
 
 
 @mark.parametrize("freq", (1, 2, 3))
-def test_epoch_periodic_condition_freq(freq: int):
+def test_epoch_periodic_condition_freq(freq: int) -> None:
     assert EpochPeriodicCondition(engine=Mock(), freq=freq).freq == freq
 
 
-def test_epoch_periodic_condition_eq_true():
+def test_epoch_periodic_condition_eq_true() -> None:
     assert EpochPeriodicCondition(engine=Mock(), freq=3) == EpochPeriodicCondition(
         engine=Mock(), freq=3
     )
 
 
-def test_epoch_periodic_condition_eq_false_different_freq():
+def test_epoch_periodic_condition_eq_false_different_freq() -> None:
     assert EpochPeriodicCondition(engine=Mock(), freq=3) != EpochPeriodicCondition(
         engine=Mock(), freq=2
     )
 
 
-def test_epoch_periodic_condition_eq_false_different_classes():
+def test_epoch_periodic_condition_eq_false_different_classes() -> None:
     assert EpochPeriodicCondition(engine=Mock(), freq=3) != PeriodicCondition(3)
 
 
-def test_epoch_periodic_condition_true():
+def test_epoch_periodic_condition_true() -> None:
     engine = Mock()
     condition = EpochPeriodicCondition(engine, 2)
     engine.epoch = 0
@@ -123,7 +123,7 @@ def test_epoch_periodic_condition_true():
     assert condition()
 
 
-def test_epoch_periodic_condition_false():
+def test_epoch_periodic_condition_false() -> None:
     engine = Mock()
     condition = EpochPeriodicCondition(engine, 2)
     engine.epoch = -1
@@ -137,7 +137,7 @@ def test_epoch_periodic_condition_false():
 ################################################
 
 
-def test_iteration_periodic_condition_str():
+def test_iteration_periodic_condition_str() -> None:
     engine = Mock()
     engine.iteration = -1
     assert str(IterationPeriodicCondition(engine, freq=2)).startswith(
@@ -146,27 +146,27 @@ def test_iteration_periodic_condition_str():
 
 
 @mark.parametrize("freq", (1, 2, 3))
-def test_iteration_periodic_condition_freq(freq: int):
+def test_iteration_periodic_condition_freq(freq: int) -> None:
     assert IterationPeriodicCondition(engine=Mock(), freq=freq).freq == freq
 
 
-def test_iteration_periodic_condition_eq_true():
+def test_iteration_periodic_condition_eq_true() -> None:
     assert IterationPeriodicCondition(engine=Mock(), freq=3) == IterationPeriodicCondition(
         engine=Mock(), freq=3
     )
 
 
-def test_iteration_periodic_condition_eq_false_different_freq():
+def test_iteration_periodic_condition_eq_false_different_freq() -> None:
     assert IterationPeriodicCondition(engine=Mock(), freq=3) != IterationPeriodicCondition(
         engine=Mock(), freq=2
     )
 
 
-def test_iteration_periodic_condition_eq_false_different_classes():
+def test_iteration_periodic_condition_eq_false_different_classes() -> None:
     assert IterationPeriodicCondition(engine=Mock(), freq=3) != PeriodicCondition(3)
 
 
-def test_iteration_periodic_condition_true():
+def test_iteration_periodic_condition_true() -> None:
     engine = Mock()
     condition = IterationPeriodicCondition(engine, 2)
     engine.iteration = 0
@@ -175,7 +175,7 @@ def test_iteration_periodic_condition_true():
     assert condition()
 
 
-def test_iteration_periodic_condition_false():
+def test_iteration_periodic_condition_false() -> None:
     engine = Mock()
     condition = IterationPeriodicCondition(engine, 2)
     engine.iteration = -1

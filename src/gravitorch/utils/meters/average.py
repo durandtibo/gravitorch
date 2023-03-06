@@ -12,6 +12,7 @@ class AverageMeter:
     r"""Defines a class to compute and store the average value of float number.
 
     Args:
+    ----
         total (float, optional): Specifies the initial total value.
             Default: ``0.0``
         count (int, optional): Specifies the initial count value.
@@ -29,7 +30,7 @@ class AverageMeter:
         5.0
     """
 
-    def __init__(self, total: float = 0.0, count: int = 0):
+    def __init__(self, total: float = 0.0, count: int = 0) -> None:
         self._total = float(total)
         self._count = int(count)
 
@@ -50,13 +51,15 @@ class AverageMeter:
     @property
     def count(self) -> int:
         r"""int: The number of examples in the meter since the last
-        reset."""
+        reset.
+        """
         return self._count
 
     @property
     def total(self) -> float:
         r"""float: The total of the values added to the meter since the
-        last reset."""
+        last reset.
+        """
         return self._total
 
     def all_reduce(self) -> "AverageMeter":
@@ -68,7 +71,8 @@ class AverageMeter:
         The count value is reduced by summing all the count values
         (1 count value per distributed process).
 
-        Returns:
+        Returns
+        -------
             ``AverageMeter``: The reduced meter.
 
         Example usage:
@@ -88,10 +92,12 @@ class AverageMeter:
     def average(self) -> float:
         r"""Computes the average value.
 
-        Returns:
+        Returns
+        -------
             float: The average value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -101,18 +107,21 @@ class AverageMeter:
     def clone(self) -> "AverageMeter":
         r"""Creates a copy of the current meter.
 
-        Returns:
+        Returns
+        -------
             ``AverageMeter``: A copy of the current meter.
         """
         return AverageMeter(total=self.total, count=self.count)
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
         """
@@ -125,10 +134,12 @@ class AverageMeter:
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``AverageMeter``: The merged meter.
         """
         count, total = self.count, self.total
@@ -143,6 +154,7 @@ class AverageMeter:
         In-place version of ``merge``.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
         """
@@ -154,6 +166,7 @@ class AverageMeter:
         r"""Loads a state to the history tracker.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
         """
@@ -168,7 +181,8 @@ class AverageMeter:
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """
         return {"count": self._count, "total": self._total}
@@ -176,10 +190,12 @@ class AverageMeter:
     def sum(self) -> float:
         r"""Computes the sum value.
 
-        Returns:
+        Returns
+        -------
             float: The sum value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -190,6 +206,7 @@ class AverageMeter:
         r"""Updates the meter given a new value and the number of examples.
 
         Args:
+        ----
             value (float): Specifies the value to add to the meter.
             num_examples (int, optional): Specifies the number of
                 examples. This argument is mainly used to deal with

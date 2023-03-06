@@ -18,6 +18,7 @@ class AbsoluteError(BaseStateEpochMetric):
     r"""Implements the absolute error metric.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g ``'train'`` or ``'eval'``).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -64,7 +65,7 @@ class AbsoluteError(BaseStateEpochMetric):
         mode: str,
         name: str = "abs_err",
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
@@ -72,6 +73,7 @@ class AbsoluteError(BaseStateEpochMetric):
         examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the predictions.

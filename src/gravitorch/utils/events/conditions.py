@@ -4,7 +4,7 @@ from __future__ import annotations
 
 __all__ = ["EpochPeriodicCondition", "IterationPeriodicCondition", "PeriodicCondition"]
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -16,17 +16,19 @@ class PeriodicCondition:
     This condition is true every ``freq`` events.
 
     Args:
+    ----
         freq (int): Specifies the frequency.
     """
 
-    def __init__(self, freq: int):
+    def __init__(self, freq: int) -> None:
         self._freq = int(freq)
         self._step = 0
 
     def __call__(self) -> bool:
         r"""Evaluates the condition given the current state.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the condition is ``True``, otherwise
                 ``False``.
         """
@@ -34,7 +36,7 @@ class PeriodicCondition:
         self._step += 1
         return condition
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, PeriodicCondition):
             return self.freq == other.freq
         return False
@@ -54,24 +56,26 @@ class EpochPeriodicCondition:
     This condition is true every ``freq`` epochs.
 
     Args:
+    ----
         engine (``BaseEngine``): Specifies the engine.
         freq (int): Specifies the frequency.
     """
 
-    def __init__(self, engine: BaseEngine, freq: int):
+    def __init__(self, engine: BaseEngine, freq: int) -> None:
         self._engine = engine
         self._freq = int(freq)
 
     def __call__(self) -> bool:
         r"""Evaluates the condition given the current state.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the condition is ``True``, otherwise
                 ``False``.
         """
         return self._engine.epoch % self._freq == 0
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, EpochPeriodicCondition):
             return self.freq == other.freq
         return False
@@ -91,23 +95,25 @@ class IterationPeriodicCondition:
     This condition is true every ``freq`` iterations.
 
     Args:
+    ----
         engine (``BaseEngine``): Specifies the engine.
         freq (int): Specifies the frequency.
     """
 
-    def __init__(self, engine: BaseEngine, freq: int):
+    def __init__(self, engine: BaseEngine, freq: int) -> None:
         self._engine = engine
         self._freq = int(freq)
 
     def __call__(self) -> bool:
         r"""Evaluates the condition given the current state.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the condition is ``True``, otherwise ``False``.
         """
         return self._engine.iteration % self._freq == 0
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, IterationPeriodicCondition):
             return self.freq == other.freq
         return False

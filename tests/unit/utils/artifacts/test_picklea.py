@@ -11,11 +11,11 @@ from gravitorch.utils.io import load_pickle
 ####################################
 
 
-def test_pickle_artifact_str():
+def test_pickle_artifact_str() -> None:
     assert str(PickleArtifact(tag="name", data={"a": 1, "b": 2})).startswith("PickleArtifact(")
 
 
-def test_pickle_artifact_create(tmp_path: Path):
+def test_pickle_artifact_create(tmp_path: Path) -> None:
     PickleArtifact(tag="name", data={"a": 1, "b": 2}).create(tmp_path)
     path = tmp_path.joinpath("name.pkl")
     assert path.is_file()
@@ -23,7 +23,7 @@ def test_pickle_artifact_create(tmp_path: Path):
 
 
 @mark.parametrize("protocol", (4, 5))
-def test_pickle_artifact_create_protocol(tmp_path: Path, protocol: int):
+def test_pickle_artifact_create_protocol(tmp_path: Path, protocol: int) -> None:
     with patch("gravitorch.utils.artifacts.picklea.save_pickle") as save_mock:
         PickleArtifact(tag="name", data={"a": 1, "b": 2}, protocol=protocol).create(tmp_path)
         save_mock.assert_called_once_with(

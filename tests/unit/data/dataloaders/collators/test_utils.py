@@ -8,12 +8,12 @@ from gravitorch.data.dataloaders.collators import PaddedSequenceCollator, setup_
 ####################################
 
 
-def test_setup_collator_object():
+def test_setup_collator_object() -> None:
     collator = PaddedSequenceCollator()
     assert setup_collator(collator) is collator
 
 
-def test_setup_collator_dict():
+def test_setup_collator_dict() -> None:
     assert isinstance(
         setup_collator(
             {OBJECT_TARGET: "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"}
@@ -22,5 +22,5 @@ def test_setup_collator_dict():
     )
 
 
-def test_setup_collator_none():
+def test_setup_collator_none() -> None:
     assert setup_collator(None) == default_collate

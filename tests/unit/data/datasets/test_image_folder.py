@@ -17,6 +17,7 @@ def create_image_folder(path: Path) -> None:
     r"""Creates an image folder dataset with 2 classes: cat vs dog.
 
     Args:
+    ----
         path (str): Specifies the path where to write the images of the dataset.
     """
     cat_path = path.joinpath("cat")
@@ -40,7 +41,7 @@ def dataset_path(tmp_path_factory: TempPathFactory) -> Path:
 
 @torchvision_available
 @pillow_available
-def test_image_folder_dataset(dataset_path: Path):
+def test_image_folder_dataset(dataset_path: Path) -> None:
     dataset = ImageFolderDataset(dataset_path.as_posix())
     assert len(dataset) == 5
     for i in range(3):
@@ -53,13 +54,13 @@ def test_image_folder_dataset(dataset_path: Path):
         assert dataset[i][ct.TARGET] == 1
 
 
-def test_image_folder_dataset_without_torchvision():
+def test_image_folder_dataset_without_torchvision() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError):
             ImageFolderDataset()
 
 
-def test_image_folder_dataset_without_pillow():
+def test_image_folder_dataset_without_pillow() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: True):
         with patch("gravitorch.utils.integrations.is_pillow_available", lambda *args: False):
             with raises(RuntimeError):

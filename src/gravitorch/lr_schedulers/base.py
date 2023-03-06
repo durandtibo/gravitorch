@@ -31,6 +31,7 @@ def setup_lr_scheduler(
     r"""Sets up a learning rate scheduler.
 
     Args:
+    ----
         optimizer (``torch.optim.Optimizer`` or ``None``): Specifies
             the optimizer.
         lr_scheduler (``torch.optim.lr_scheduler._LRScheduler`` or dict
@@ -38,6 +39,7 @@ def setup_lr_scheduler(
             configuration.
 
     Returns:
+    -------
         ``torch.optim.lr_scheduler._LRScheduler`` or ``None``: An
             instantiated learning rate scheduler or ``None`` if it is
             not possible to instantiate a learning rate scheduler.

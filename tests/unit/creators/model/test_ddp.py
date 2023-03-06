@@ -26,7 +26,7 @@ def model_creator() -> BaseModelCreator:
     )
 
 
-def test_data_distributed_parallel_model_creator_str():
+def test_data_distributed_parallel_model_creator_str() -> None:
     assert str(DataDistributedParallelModelCreator(model_creator=Mock())).startswith(
         "DataDistributedParallelModelCreator("
     )
@@ -46,24 +46,28 @@ def test_data_distributed_parallel_model_creator_str():
 )
 def test_data_distributed_parallel_model_creator_model_creator(
     model_creator: Union[BaseModelCreator, dict]
-):
+) -> None:
     assert isinstance(
         DataDistributedParallelModelCreator(model_creator=model_creator)._model_creator,
         VanillaModelCreator,
     )
 
 
-def test_data_distributed_parallel_model_creator_ddp_kwargs_default(model_creator):
+def test_data_distributed_parallel_model_creator_ddp_kwargs_default(
+    model_creator: BaseModelCreator,
+) -> None:
     assert DataDistributedParallelModelCreator(model_creator=model_creator)._ddp_kwargs == {}
 
 
-def test_data_distributed_parallel_model_creator_ddp_kwargs(model_creator):
+def test_data_distributed_parallel_model_creator_ddp_kwargs(
+    model_creator: BaseModelCreator,
+) -> None:
     assert DataDistributedParallelModelCreator(
         model_creator=model_creator, ddp_kwargs={"find_unused_parameters": True}
     )._ddp_kwargs == {"find_unused_parameters": True}
 
 
-def test_data_distributed_parallel_model_creator_create():
+def test_data_distributed_parallel_model_creator_create() -> None:
     model = nn.Linear(4, 6)
     model_creator = Mock()
     model_creator.create.return_value = model
@@ -74,7 +78,7 @@ def test_data_distributed_parallel_model_creator_create():
         ddp_mock.assert_called_once_with(module=model, ddp_kwargs={})
 
 
-def test_data_distributed_parallel_model_creator_create_ddp_kwargs():
+def test_data_distributed_parallel_model_creator_create_ddp_kwargs() -> None:
     model = nn.Linear(4, 6)
     model_creator = Mock()
     model_creator.create.return_value = model
@@ -94,7 +98,7 @@ def test_data_distributed_parallel_model_creator_create_ddp_kwargs():
 
 
 @patch("gravitorch.creators.model.ddp.isinstance", lambda *args, **kwargs: True)
-def test_to_ddp_already_ddp(caplog: LogCaptureFixture):
+def test_to_ddp_already_ddp(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.WARNING):
         module = nn.Linear(4, 5)
         assert to_ddp(module) is module
@@ -103,7 +107,7 @@ def test_to_ddp_already_ddp(caplog: LogCaptureFixture):
 
 @patch("gravitorch.creators.model.ddp.isinstance", lambda *args, **kwargs: False)
 @patch("gravitorch.creators.model.ddp.dist.backend", lambda *args, **kwargs: dist.Backend.GLOO)
-def test_to_ddp_gloo():
+def test_to_ddp_gloo() -> None:
     ddp_mock = Mock()
     with patch("gravitorch.creators.model.ddp.DistributedDataParallel", ddp_mock):
         module = nn.Linear(4, 5)
@@ -113,7 +117,7 @@ def test_to_ddp_gloo():
 
 @patch("gravitorch.creators.model.ddp.isinstance", lambda *args, **kwargs: False)
 @patch("gravitorch.creators.model.ddp.dist.backend", lambda *args, **kwargs: dist.Backend.GLOO)
-def test_to_ddp_gloo_ddp_kwargs():
+def test_to_ddp_gloo_ddp_kwargs() -> None:
     ddp_mock = Mock()
     with patch("gravitorch.creators.model.ddp.DistributedDataParallel", ddp_mock):
         module = nn.Linear(4, 5)
@@ -124,7 +128,7 @@ def test_to_ddp_gloo_ddp_kwargs():
 @patch("gravitorch.creators.model.ddp.isinstance", lambda *args, **kwargs: False)
 @patch("gravitorch.creators.model.ddp.dist.backend", lambda *args, **kwargs: dist.Backend.NCCL)
 @patch("gravitorch.creators.model.ddp.dist.get_local_rank", lambda *args, **kwargs: 1)
-def test_to_ddp_nccl():
+def test_to_ddp_nccl() -> None:
     ddp_mock = Mock()
     with patch("gravitorch.creators.model.ddp.DistributedDataParallel", ddp_mock):
         module = nn.Linear(4, 5)
@@ -135,7 +139,7 @@ def test_to_ddp_nccl():
 @patch("gravitorch.creators.model.ddp.isinstance", lambda *args, **kwargs: False)
 @patch("gravitorch.creators.model.ddp.dist.backend", lambda *args, **kwargs: dist.Backend.NCCL)
 @patch("gravitorch.creators.model.ddp.dist.get_local_rank", lambda *args, **kwargs: 1)
-def test_to_ddp_nccl_ddp_kwargs():
+def test_to_ddp_nccl_ddp_kwargs() -> None:
     ddp_mock = Mock()
     with patch("gravitorch.creators.model.ddp.DistributedDataParallel", ddp_mock):
         module = nn.Linear(4, 5)
@@ -144,5 +148,5 @@ def test_to_ddp_nccl_ddp_kwargs():
 
 
 @patch("gravitorch.creators.model.ddp.dist.backend", lambda *args, **kwargs: "UNKNOWN_BACKEND")
-def test_to_ddp_unknown_backend():
+def test_to_ddp_unknown_backend() -> None:
     assert isinstance(to_ddp(nn.Linear(4, 6)), nn.Linear)

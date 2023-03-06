@@ -15,6 +15,7 @@ def scalable_quantile(tensor: Tensor, q: Tensor, method: str = "linear") -> Tens
     https://github.com/pytorch/pytorch/issues/64947
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the tensor of values.
         q (``torch.Tensor`` of type float and shape
             ``(num_q_values,)``): Specifies the ``q``-values in
@@ -26,6 +27,7 @@ def scalable_quantile(tensor: Tensor, q: Tensor, method: str = "linear") -> Tens
             Default: ``'linear'``.
 
     Returns:
+    -------
         ``torch.Tensor`` of shape  ``(num_q_values,)`` and type float:
             The ``q``-th quantiles.
     """
@@ -42,11 +44,13 @@ def safeexp(tensor: Tensor, max_value: float = 20.0) -> Tensor:
     leads to an output tensor without Inf.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the input tensor.
         max_value (float, optional): Specifies the maximum value.
             Default: ``20.0``
 
     Returns:
+    -------
         ``torch.Tensor``: A new tensor with the exponential of the
             elements.
     """
@@ -61,11 +65,13 @@ def safelog(tensor: Tensor, min_value: float = 1e-8) -> Tensor:
     output tensor without NaN or Inf.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the input tensor.
         min_value (float, optional): Specifies the minimum value.
             Default: ``1e-8``
 
     Returns:
+    -------
         ``torch.Tensor``: A new tensor with the natural logarithm
             of the elements.
     """
@@ -78,9 +84,11 @@ def symlog(tensor: Tensor) -> Tensor:
     Note this transformation supports negative values.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the input tensor.
 
     Returns:
+    -------
         ``torch.Tensor``: A new tensor with the symmetric natural
             logarithm of the elements.
     """
@@ -95,6 +103,7 @@ def symlog_(tensor: Tensor) -> None:
     Note this transformation supports negative values.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the input tensor.
     """
     sign = tensor.sign()
@@ -107,9 +116,11 @@ def isymlog(tensor: Tensor, max_value: float = 10) -> Tensor:
     r"""Computes the inverse of the symmetric logarithm natural of the elements.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the input tensor.
 
     Returns:
+    -------
         ``torch.Tensor``: A new tensor with the inverse of the
             symmetric natural logarithm of the elements.
     """
@@ -123,6 +134,7 @@ def isymlog_(tensor: Tensor, max_value: float = 10) -> None:
     In-place version of ``isymlog``.
 
     Args:
+    ----
         tensor (``torch.Tensor``): Specifies the input tensor.
     """
     sign = tensor.sign()

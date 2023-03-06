@@ -20,9 +20,11 @@ class NoOpDevicePlacement(BaseDevicePlacement):
         r"""Sends the object on a target device.
 
         Args:
+        ----
             obj: The object to send to the target device.
 
         Returns:
+        -------
             The object on the target device.
         """
         return obj

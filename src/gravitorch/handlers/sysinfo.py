@@ -13,6 +13,7 @@ class EpochSysInfoMonitor(BaseHandler):
     epochs.
 
     Args:
+    ----
         event (str, optional): Specifies the epoch-based event when
             the system metrics should be capture.
             Default: ``'epoch_completed'``
@@ -20,7 +21,7 @@ class EpochSysInfoMonitor(BaseHandler):
             monitor the system metrics. Default: ``1``
     """
 
-    def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1):
+    def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
         self._event = str(event)
         if freq < 1:
             raise ValueError(f"freq has to be greater than 0 (received: {freq:,})")
@@ -44,6 +45,7 @@ class EpochSysInfoMonitor(BaseHandler):
         r"""Monitors some system metrics.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         log_system_info()

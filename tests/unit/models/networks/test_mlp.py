@@ -27,21 +27,21 @@ DROPOUT_VALUES = (0.1, 0.5)
 
 
 @mark.parametrize("input_size", SIZES)
-def test_alpha_mlp_input_size(input_size: int):
+def test_alpha_mlp_input_size(input_size: int) -> None:
     net = AlphaMLP(input_size=input_size, hidden_sizes=(16, 4))
     assert net.input_size == input_size
     assert net.layers.linear1.in_features == input_size
 
 
 @mark.parametrize("hidden_sizes,num_layers", (((8,), 2), ((16, 4), 4), ((16, 16, 4), 6)))
-def test_alpha_mlp_num_layers(hidden_sizes: Sequence[int], num_layers: int):
+def test_alpha_mlp_num_layers(hidden_sizes: Sequence[int], num_layers: int) -> None:
     assert len(AlphaMLP(input_size=16, hidden_sizes=hidden_sizes)) == num_layers
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_alpha_mlp_get_dummy_input(device: str, batch_size: int, input_size: int):
+def test_alpha_mlp_get_dummy_input(device: str, batch_size: int, input_size: int) -> None:
     device = torch.device(device)
     net = AlphaMLP(input_size=input_size, hidden_sizes=(16, 4)).to(device=device)
     dummy_input = net.get_dummy_input(batch_size)
@@ -53,14 +53,14 @@ def test_alpha_mlp_get_dummy_input(device: str, batch_size: int, input_size: int
 
 
 @mark.parametrize("input_name", ("name", ct.INPUT))
-def test_alpha_mlp_get_input_names(input_name: str):
+def test_alpha_mlp_get_input_names(input_name: str) -> None:
     net = AlphaMLP(input_size=16, hidden_sizes=(16, 4), input_name=input_name)
     assert net.get_input_names() == (input_name,)
 
 
 @mark.parametrize("input_name", ("name", ct.INPUT))
 @mark.parametrize("output_name", ("name", ct.PREDICTION))
-def test_alpha_mlp_get_onnx_dynamic_axis(input_name: str, output_name: str):
+def test_alpha_mlp_get_onnx_dynamic_axis(input_name: str, output_name: str) -> None:
     net = AlphaMLP(
         input_size=16, hidden_sizes=(16, 4), input_name=input_name, output_name=output_name
     )
@@ -68,7 +68,7 @@ def test_alpha_mlp_get_onnx_dynamic_axis(input_name: str, output_name: str):
 
 
 @mark.parametrize("output_name", ("name", ct.PREDICTION))
-def test_alpha_mlp_get_output_names(output_name: str):
+def test_alpha_mlp_get_output_names(output_name: str) -> None:
     net = AlphaMLP(input_size=16, hidden_sizes=(16, 4), output_name=output_name)
     assert net.get_output_names() == (output_name,)
 
@@ -80,7 +80,7 @@ def test_alpha_mlp_get_output_names(output_name: str):
 @mark.parametrize("mode", (True, False))
 def test_alpha_mlp_forward_2d(
     device: str, batch_size: int, input_size: int, output_size: int, mode: bool
-):
+) -> None:
     device = torch.device(device)
     mlp = AlphaMLP(input_size=input_size, hidden_sizes=(16, output_size)).to(device=device)
     mlp.train(mode)
@@ -90,7 +90,7 @@ def test_alpha_mlp_forward_2d(
     assert out.dtype == torch.float
 
 
-def test_alpha_mlp_is_loss_decreasing():
+def test_alpha_mlp_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=AlphaMLP(input_size=6, hidden_sizes=(8, 4)),
@@ -112,7 +112,7 @@ def test_alpha_mlp_is_loss_decreasing():
 @mark.parametrize("mode", (True, False))
 def test_beta_mlp_forward_2d(
     device: str, batch_size: int, input_size: int, output_size: int, mode: bool
-):
+) -> None:
     device = torch.device(device)
     mlp = BetaMLP(input_size=input_size, hidden_sizes=(16, output_size)).to(device=device)
     mlp.train(mode)
@@ -122,7 +122,7 @@ def test_beta_mlp_forward_2d(
     assert out.dtype == torch.float
 
 
-def test_beta_mlp_is_loss_decreasing():
+def test_beta_mlp_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=BetaMLP(input_size=6, hidden_sizes=(8, 4)),
@@ -138,7 +138,7 @@ def test_beta_mlp_is_loss_decreasing():
 
 
 @mark.parametrize("input_size", SIZES)
-def test_create_alpha_mlp_input_size(input_size: int):
+def test_create_alpha_mlp_input_size(input_size: int) -> None:
     assert (
         create_alpha_mlp(input_size=input_size, hidden_sizes=(16, 4)).linear1.in_features
         == input_size
@@ -146,39 +146,41 @@ def test_create_alpha_mlp_input_size(input_size: int):
 
 
 @mark.parametrize("hidden_sizes,num_layers", (((8,), 2), ((16, 4), 4), ((16, 16, 4), 6)))
-def test_create_alpha_mlp_num_layers(hidden_sizes: Sequence[int], num_layers: int):
+def test_create_alpha_mlp_num_layers(hidden_sizes: Sequence[int], num_layers: int) -> None:
     assert len(create_alpha_mlp(input_size=16, hidden_sizes=hidden_sizes)) == num_layers
 
 
 @mark.parametrize("hidden_sizes,num_layers", (((8,), 3), ((16, 4), 6), ((16, 16, 4), 9)))
-def test_create_alpha_mlp_num_layers_with_dropout(hidden_sizes: Sequence[int], num_layers: int):
+def test_create_alpha_mlp_num_layers_with_dropout(
+    hidden_sizes: Sequence[int], num_layers: int
+) -> None:
     assert (
         len(create_alpha_mlp(input_size=16, hidden_sizes=hidden_sizes, dropout=0.5)) == num_layers
     )
 
 
 @mark.parametrize("hidden_size", SIZES)
-def test_create_alpha_mlp_hidden_size(hidden_size: int):
+def test_create_alpha_mlp_hidden_size(hidden_size: int) -> None:
     mlp = create_alpha_mlp(input_size=16, hidden_sizes=(hidden_size, 8))
     assert mlp.linear1.out_features == hidden_size
     assert mlp.linear2.in_features == hidden_size
 
 
 @mark.parametrize("output_size", SIZES)
-def test_create_alpha_mlp_output_size(output_size: int):
+def test_create_alpha_mlp_output_size(output_size: int) -> None:
     assert (
         create_alpha_mlp(input_size=16, hidden_sizes=(32, output_size)).linear2.out_features
         == output_size
     )
 
 
-def test_create_alpha_mlp_activation_relu():
+def test_create_alpha_mlp_activation_relu() -> None:
     mlp = create_alpha_mlp(input_size=16, hidden_sizes=(16, 4))
     assert isinstance(mlp.relu1, nn.ReLU)
     assert isinstance(mlp.relu2, nn.ReLU)
 
 
-def test_create_alpha_mlp_activation_gelu():
+def test_create_alpha_mlp_activation_gelu() -> None:
     mlp = create_alpha_mlp(
         input_size=16,
         hidden_sizes=(16, 4),
@@ -189,7 +191,7 @@ def test_create_alpha_mlp_activation_gelu():
 
 
 @mark.parametrize("dropout", DROPOUT_VALUES)
-def test_create_alpha_mlp_dropout(dropout: float):
+def test_create_alpha_mlp_dropout(dropout: float) -> None:
     mlp = create_alpha_mlp(input_size=16, hidden_sizes=(16, 4), dropout=dropout)
     assert mlp.dropout1.p == dropout
     assert mlp.dropout2.p == dropout
@@ -201,7 +203,7 @@ def test_create_alpha_mlp_dropout(dropout: float):
 @mark.parametrize("output_size", SIZES)
 def test_create_alpha_mlp_forward_2d(
     device: str, batch_size: int, input_size: int, output_size: int
-):
+) -> None:
     device = torch.device(device)
     mlp = create_alpha_mlp(input_size=input_size, hidden_sizes=(4, output_size)).to(device=device)
     out = mlp(torch.randn(batch_size, input_size, device=device))
@@ -217,7 +219,7 @@ def test_create_alpha_mlp_forward_2d(
 @mark.parametrize("output_size", SIZES)
 def test_create_alpha_mlp_forward_3d(
     device: str, seq_len: int, batch_size: int, input_size: int, output_size: int
-):
+) -> None:
     device = torch.device(device)
     mlp = create_alpha_mlp(input_size=input_size, hidden_sizes=(4, output_size)).to(device=device)
     out = mlp(torch.randn(seq_len, batch_size, input_size, device=device))
@@ -232,7 +234,7 @@ def test_create_alpha_mlp_forward_3d(
 
 
 @mark.parametrize("input_size", SIZES)
-def test_create_beta_mlp_input_size(input_size: int):
+def test_create_beta_mlp_input_size(input_size: int) -> None:
     assert (
         create_beta_mlp(input_size=input_size, hidden_sizes=(16, 4)).linear1.in_features
         == input_size
@@ -240,35 +242,37 @@ def test_create_beta_mlp_input_size(input_size: int):
 
 
 @mark.parametrize("hidden_sizes,num_layers", (((8,), 1), ((16, 4), 3), ((16, 16, 4), 5)))
-def test_create_beta_mlp_num_layers(hidden_sizes: Sequence[int], num_layers: int):
+def test_create_beta_mlp_num_layers(hidden_sizes: Sequence[int], num_layers: int) -> None:
     assert len(create_beta_mlp(input_size=16, hidden_sizes=hidden_sizes)) == num_layers
 
 
 @mark.parametrize("hidden_sizes,num_layers", (((8,), 2), ((16, 4), 5), ((16, 16, 4), 8)))
-def test_create_beta_mlp_num_layers_with_dropout(hidden_sizes: Sequence[int], num_layers: int):
+def test_create_beta_mlp_num_layers_with_dropout(
+    hidden_sizes: Sequence[int], num_layers: int
+) -> None:
     assert len(create_beta_mlp(input_size=16, hidden_sizes=hidden_sizes, dropout=0.5)) == num_layers
 
 
 @mark.parametrize("hidden_size", SIZES)
-def test_create_beta_mlp_hidden_size(hidden_size: int):
+def test_create_beta_mlp_hidden_size(hidden_size: int) -> None:
     mlp = create_beta_mlp(input_size=16, hidden_sizes=(hidden_size, 8))
     assert mlp.linear1.out_features == hidden_size
     assert mlp.linear2.in_features == hidden_size
 
 
 @mark.parametrize("output_size", SIZES)
-def test_create_beta_mlp_output_size(output_size: int):
+def test_create_beta_mlp_output_size(output_size: int) -> None:
     assert (
         create_beta_mlp(input_size=16, hidden_sizes=(32, output_size)).linear2.out_features
         == output_size
     )
 
 
-def test_create_beta_mlp_activation_relu():
+def test_create_beta_mlp_activation_relu() -> None:
     assert isinstance(create_beta_mlp(input_size=16, hidden_sizes=(16, 4)).relu1, nn.ReLU)
 
 
-def test_create_beta_mlp_activation_elu():
+def test_create_beta_mlp_activation_elu() -> None:
     assert isinstance(
         create_beta_mlp(
             input_size=16,
@@ -280,7 +284,7 @@ def test_create_beta_mlp_activation_elu():
 
 
 @mark.parametrize("dropout", DROPOUT_VALUES)
-def test_create_beta_mlp_dropout(dropout: float):
+def test_create_beta_mlp_dropout(dropout: float) -> None:
     mlp = create_beta_mlp(input_size=16, hidden_sizes=(16, 4), dropout=dropout)
     assert mlp.dropout1.p == dropout
     assert mlp.dropout2.p == dropout
@@ -292,7 +296,7 @@ def test_create_beta_mlp_dropout(dropout: float):
 @mark.parametrize("output_size", SIZES)
 def test_create_beta_mlp_forward_2d(
     device: str, batch_size: int, input_size: int, output_size: int
-):
+) -> None:
     device = torch.device(device)
     mlp = create_beta_mlp(input_size=input_size, hidden_sizes=(4, output_size)).to(device=device)
     out = mlp(torch.randn(batch_size, input_size, device=device))
@@ -308,7 +312,7 @@ def test_create_beta_mlp_forward_2d(
 @mark.parametrize("output_size", SIZES)
 def test_create_beta_mlp_forward_3d(
     device: str, seq_len: int, batch_size: int, input_size: int, output_size: int
-):
+) -> None:
     device = torch.device(device)
     mlp = create_beta_mlp(input_size=input_size, hidden_sizes=(4, output_size)).to(device=device)
     out = mlp(torch.randn(seq_len, batch_size, input_size, device=device))

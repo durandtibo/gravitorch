@@ -32,6 +32,7 @@ class BaseParameterInitializer(ABC, metaclass=AbstractFactory):
         should be updated in-place.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
 
@@ -45,12 +46,13 @@ class BaseDefaultParameterInitializer(BaseParameterInitializer):
     in the model.
 
     Args:
+    ----
         show_stats (bool, optional): If ``True``, the parameter
             statistics are shown at the end of the initialization.
             Default: ``True``
     """
 
-    def __init__(self, show_stats: bool = True):
+    def __init__(self, show_stats: bool = True) -> None:
         self._show_stats = show_stats
 
     def initialize(self, engine: BaseEngine) -> None:
@@ -62,6 +64,7 @@ class BaseDefaultParameterInitializer(BaseParameterInitializer):
         should be updated in-place.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         self._initialize(engine)
@@ -78,5 +81,6 @@ class BaseDefaultParameterInitializer(BaseParameterInitializer):
         should be updated in-place.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """

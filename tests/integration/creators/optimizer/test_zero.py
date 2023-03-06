@@ -28,7 +28,7 @@ from gravitorch.testing import gloo_available
     },
     clear=True,
 )
-def test_zero_redundancy_optimizer_creator_create():
+def test_zero_redundancy_optimizer_creator_create() -> None:
     creator = ZeroRedundancyOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
     )

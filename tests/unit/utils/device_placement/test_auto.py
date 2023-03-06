@@ -13,7 +13,7 @@ from gravitorch.utils.device_placement import AutoDevicePlacement
     "gravitorch.utils.device_placement.auto.dist.device",
     lambda *args, **kwargs: torch.device("cpu"),
 )
-def test_auto_device_placement_device_cpu():
+def test_auto_device_placement_device_cpu() -> None:
     assert AutoDevicePlacement().device == torch.device("cpu")
 
 
@@ -21,5 +21,5 @@ def test_auto_device_placement_device_cpu():
     "gravitorch.utils.device_placement.auto.dist.device",
     lambda *args, **kwargs: torch.device("cuda:0"),
 )
-def test_auto_device_placement_device_cuda():
+def test_auto_device_placement_device_cuda() -> None:
     assert AutoDevicePlacement().device == torch.device("cuda:0")

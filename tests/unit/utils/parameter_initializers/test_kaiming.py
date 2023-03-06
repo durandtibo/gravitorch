@@ -20,61 +20,61 @@ from gravitorch.utils.parameter_initializers import (
 #######################################################
 
 
-def test_kaiming_normal_parameter_initializer_str():
+def test_kaiming_normal_parameter_initializer_str() -> None:
     assert str(KaimingNormalParameterInitializer()).startswith("KaimingNormalParameterInitializer(")
 
 
 @mark.parametrize("neg_slope", (1, 2.0))
-def test_kaiming_normal_parameter_initializer_neg_slope(neg_slope: float):
+def test_kaiming_normal_parameter_initializer_neg_slope(neg_slope: float) -> None:
     assert KaimingNormalParameterInitializer(neg_slope=neg_slope)._neg_slope == neg_slope
 
 
-def test_kaiming_normal_parameter_initializer_neg_slope_default():
+def test_kaiming_normal_parameter_initializer_neg_slope_default() -> None:
     assert KaimingNormalParameterInitializer()._neg_slope == 0.0
 
 
 @mark.parametrize("mode", ("fan_in", "fan_out"))
-def test_kaiming_normal_parameter_initializer_mode(mode: str):
+def test_kaiming_normal_parameter_initializer_mode(mode: str) -> None:
     assert KaimingNormalParameterInitializer(mode=mode)._mode == mode
 
 
-def test_kaiming_normal_parameter_initializer_default():
+def test_kaiming_normal_parameter_initializer_default() -> None:
     assert KaimingNormalParameterInitializer()._mode == "fan_in"
 
 
 @mark.parametrize("nonlinearity", ("relu", "leaky_relu"))
-def test_kaiming_normal_parameter_initializer_nonlinearity(nonlinearity: str):
+def test_kaiming_normal_parameter_initializer_nonlinearity(nonlinearity: str) -> None:
     assert (
         KaimingNormalParameterInitializer(nonlinearity=nonlinearity)._nonlinearity == nonlinearity
     )
 
 
-def test_kaiming_normal_parameter_initializer_nonlinearity_default():
+def test_kaiming_normal_parameter_initializer_nonlinearity_default() -> None:
     assert KaimingNormalParameterInitializer()._nonlinearity == "leaky_relu"
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_kaiming_normal_parameter_initializer_learnable_only(learnable_only: bool):
+def test_kaiming_normal_parameter_initializer_learnable_only(learnable_only: bool) -> None:
     assert (
         KaimingNormalParameterInitializer(learnable_only=learnable_only)._learnable_only
         == learnable_only
     )
 
 
-def test_kaiming_normal_parameter_initializer_learnable_only_default():
+def test_kaiming_normal_parameter_initializer_learnable_only_default() -> None:
     assert KaimingNormalParameterInitializer()._learnable_only
 
 
 @mark.parametrize("show_stats", (True, False))
-def test_kaiming_normal_parameter_initializer_show_stats(show_stats: bool):
+def test_kaiming_normal_parameter_initializer_show_stats(show_stats: bool) -> None:
     assert KaimingNormalParameterInitializer(show_stats=show_stats)._show_stats == show_stats
 
 
-def test_kaiming_normal_parameter_initializer_show_stats_default():
+def test_kaiming_normal_parameter_initializer_show_stats_default() -> None:
     assert KaimingNormalParameterInitializer()._show_stats
 
 
-def test_kaiming_normal_parameter_initializer_initialize_linear():
+def test_kaiming_normal_parameter_initializer_initialize_linear() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     KaimingNormalParameterInitializer().initialize(engine)
@@ -82,7 +82,7 @@ def test_kaiming_normal_parameter_initializer_initialize_linear():
     assert engine.model.bias.data.equal(torch.ones(6))
 
 
-def test_kaiming_normal_parameter_initializer_initialize_sequential():
+def test_kaiming_normal_parameter_initializer_initialize_sequential() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6)))
     recursive_constant_(engine.model, 1)
     KaimingNormalParameterInitializer().initialize(engine)
@@ -93,7 +93,7 @@ def test_kaiming_normal_parameter_initializer_initialize_sequential():
 
 
 @mark.parametrize("neg_slope", (1, 2.0))
-def test_kaiming_normal_parameter_initializer_initialize_neg_slope(neg_slope: float):
+def test_kaiming_normal_parameter_initializer_initialize_neg_slope(neg_slope: float) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -110,7 +110,7 @@ def test_kaiming_normal_parameter_initializer_initialize_neg_slope(neg_slope: fl
 
 
 @mark.parametrize("mode", ("fan_in", "fan_out"))
-def test_kaiming_normal_parameter_initializer_initialize_mode(mode: str):
+def test_kaiming_normal_parameter_initializer_initialize_mode(mode: str) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -127,7 +127,7 @@ def test_kaiming_normal_parameter_initializer_initialize_mode(mode: str):
 
 
 @mark.parametrize("nonlinearity", ("relu", "leaky_relu"))
-def test_kaiming_normal_parameter_initializer_initialize_nonlinearity(nonlinearity: str):
+def test_kaiming_normal_parameter_initializer_initialize_nonlinearity(nonlinearity: str) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -144,7 +144,9 @@ def test_kaiming_normal_parameter_initializer_initialize_nonlinearity(nonlineari
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_kaiming_normal_parameter_initializer_initialize_learnable_only(learnable_only: bool):
+def test_kaiming_normal_parameter_initializer_initialize_learnable_only(
+    learnable_only: bool,
+) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -165,63 +167,63 @@ def test_kaiming_normal_parameter_initializer_initialize_learnable_only(learnabl
 #######################################################
 
 
-def test_kaiming_uniform_parameter_initializer_str():
+def test_kaiming_uniform_parameter_initializer_str() -> None:
     assert str(KaimingUniformParameterInitializer()).startswith(
         "KaimingUniformParameterInitializer("
     )
 
 
 @mark.parametrize("neg_slope", (1, 2.0))
-def test_kaiming_uniform_parameter_initializer_neg_slope(neg_slope: float):
+def test_kaiming_uniform_parameter_initializer_neg_slope(neg_slope: float) -> None:
     assert KaimingUniformParameterInitializer(neg_slope=neg_slope)._neg_slope == neg_slope
 
 
-def test_kaiming_uniform_parameter_initializer_neg_slope_default():
+def test_kaiming_uniform_parameter_initializer_neg_slope_default() -> None:
     assert KaimingUniformParameterInitializer()._neg_slope == 0.0
 
 
 @mark.parametrize("mode", ("fan_in", "fan_out"))
-def test_kaiming_uniform_parameter_initializer_mode(mode: str):
+def test_kaiming_uniform_parameter_initializer_mode(mode: str) -> None:
     assert KaimingUniformParameterInitializer(mode=mode)._mode == mode
 
 
-def test_kaiming_uniform_parameter_initializer_default():
+def test_kaiming_uniform_parameter_initializer_default() -> None:
     assert KaimingUniformParameterInitializer()._mode == "fan_in"
 
 
 @mark.parametrize("nonlinearity", ("relu", "leaky_relu"))
-def test_kaiming_uniform_parameter_initializer_nonlinearity(nonlinearity: str):
+def test_kaiming_uniform_parameter_initializer_nonlinearity(nonlinearity: str) -> None:
     assert (
         KaimingUniformParameterInitializer(nonlinearity=nonlinearity)._nonlinearity == nonlinearity
     )
 
 
-def test_kaiming_uniform_parameter_initializer_nonlinearity_default():
+def test_kaiming_uniform_parameter_initializer_nonlinearity_default() -> None:
     assert KaimingUniformParameterInitializer()._nonlinearity == "leaky_relu"
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_kaiming_uniform_parameter_initializer_learnable_only(learnable_only: bool):
+def test_kaiming_uniform_parameter_initializer_learnable_only(learnable_only: bool) -> None:
     assert (
         KaimingUniformParameterInitializer(learnable_only=learnable_only)._learnable_only
         == learnable_only
     )
 
 
-def test_kaiming_uniform_parameter_initializer_learnable_only_default():
+def test_kaiming_uniform_parameter_initializer_learnable_only_default() -> None:
     assert KaimingUniformParameterInitializer()._learnable_only
 
 
 @mark.parametrize("show_stats", (True, False))
-def test_kaiming_uniform_parameter_initializer_show_stats(show_stats: bool):
+def test_kaiming_uniform_parameter_initializer_show_stats(show_stats: bool) -> None:
     assert KaimingUniformParameterInitializer(show_stats=show_stats)._show_stats == show_stats
 
 
-def test_kaiming_uniform_parameter_initializer_show_stats_default():
+def test_kaiming_uniform_parameter_initializer_show_stats_default() -> None:
     assert KaimingUniformParameterInitializer()._show_stats
 
 
-def test_kaiming_uniform_parameter_initializer_initialize_linear():
+def test_kaiming_uniform_parameter_initializer_initialize_linear() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     KaimingUniformParameterInitializer().initialize(engine)
@@ -229,7 +231,7 @@ def test_kaiming_uniform_parameter_initializer_initialize_linear():
     assert engine.model.bias.data.equal(torch.ones(6))
 
 
-def test_kaiming_uniform_parameter_initializer_initialize_sequential():
+def test_kaiming_uniform_parameter_initializer_initialize_sequential() -> None:
     engine = Mock(spec=BaseEngine, model=nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6)))
     recursive_constant_(engine.model, 1)
     KaimingUniformParameterInitializer().initialize(engine)
@@ -240,7 +242,7 @@ def test_kaiming_uniform_parameter_initializer_initialize_sequential():
 
 
 @mark.parametrize("neg_slope", (1, 2.0))
-def test_kaiming_uniform_parameter_initializer_initialize_neg_slope(neg_slope: float):
+def test_kaiming_uniform_parameter_initializer_initialize_neg_slope(neg_slope: float) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -257,7 +259,7 @@ def test_kaiming_uniform_parameter_initializer_initialize_neg_slope(neg_slope: f
 
 
 @mark.parametrize("mode", ("fan_in", "fan_out"))
-def test_kaiming_uniform_parameter_initializer_initialize_mode(mode: str):
+def test_kaiming_uniform_parameter_initializer_initialize_mode(mode: str) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -274,7 +276,7 @@ def test_kaiming_uniform_parameter_initializer_initialize_mode(mode: str):
 
 
 @mark.parametrize("nonlinearity", ("relu", "leaky_relu"))
-def test_kaiming_uniform_parameter_initializer_initialize_nonlinearity(nonlinearity: str):
+def test_kaiming_uniform_parameter_initializer_initialize_nonlinearity(nonlinearity: str) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -291,7 +293,9 @@ def test_kaiming_uniform_parameter_initializer_initialize_nonlinearity(nonlinear
 
 
 @mark.parametrize("learnable_only", (True, False))
-def test_kaiming_uniform_parameter_initializer_initialize_learnable_only(learnable_only: bool):
+def test_kaiming_uniform_parameter_initializer_initialize_learnable_only(
+    learnable_only: bool,
+) -> None:
     engine = Mock(spec=BaseEngine, model=nn.Linear(4, 6))
     recursive_constant_(engine.model, 1)
     with patch(
@@ -312,7 +316,7 @@ def test_kaiming_uniform_parameter_initializer_initialize_learnable_only(learnab
 ###############################################
 
 
-def test_recursive_kaiming_normal_linear():
+def test_recursive_kaiming_normal_linear() -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 0)
     recursive_kaiming_normal_(module)
@@ -321,7 +325,7 @@ def test_recursive_kaiming_normal_linear():
     assert module.bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_kaiming_normal_nonlinearity_mode_fan_in():
+def test_recursive_kaiming_normal_nonlinearity_mode_fan_in() -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_kaiming_normal_(module, mode="fan_in")
@@ -331,7 +335,7 @@ def test_recursive_kaiming_normal_nonlinearity_mode_fan_in():
     )  # 2% tolerance
 
 
-def test_recursive_kaiming_normal_nonlinearity_mode_fan_out():
+def test_recursive_kaiming_normal_nonlinearity_mode_fan_out() -> None:
     module = nn.Linear(10, 1000)
     recursive_constant_(module, 0)
     recursive_kaiming_normal_(module, mode="fan_out")
@@ -341,7 +345,7 @@ def test_recursive_kaiming_normal_nonlinearity_mode_fan_out():
     )  # 2% tolerance
 
 
-def test_recursive_kaiming_normal_nonlinearity_relu():
+def test_recursive_kaiming_normal_nonlinearity_relu() -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_kaiming_normal_(module, nonlinearity="relu")
@@ -351,7 +355,7 @@ def test_recursive_kaiming_normal_nonlinearity_relu():
     )  # 2% tolerance
 
 
-def test_recursive_kaiming_normal_nonlinearity_leaky_relu():
+def test_recursive_kaiming_normal_nonlinearity_leaky_relu() -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_kaiming_normal_(module, nonlinearity="leaky_relu")
@@ -361,7 +365,7 @@ def test_recursive_kaiming_normal_nonlinearity_leaky_relu():
     )  # 2% tolerance
 
 
-def test_recursive_kaiming_normal_nonlinearity_leaky_relu_neg_slope_1():
+def test_recursive_kaiming_normal_nonlinearity_leaky_relu_neg_slope_1() -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_kaiming_normal_(module, neg_slope=-1, nonlinearity="leaky_relu")
@@ -369,7 +373,7 @@ def test_recursive_kaiming_normal_nonlinearity_leaky_relu_neg_slope_1():
     assert math.isclose(module.weight.data.std().item(), 0.1, rel_tol=0.02)  # 2% tolerance
 
 
-def test_recursive_kaiming_normal_sequential_learnable_only_true():
+def test_recursive_kaiming_normal_sequential_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])
@@ -381,7 +385,7 @@ def test_recursive_kaiming_normal_sequential_learnable_only_true():
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_kaiming_normal_sequential_learnable_only_false():
+def test_recursive_kaiming_normal_sequential_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])
@@ -397,7 +401,7 @@ def test_recursive_kaiming_normal_sequential_learnable_only_false():
 ################################################
 
 
-def test_recursive_kaiming_uniform_linear():
+def test_recursive_kaiming_uniform_linear() -> None:
     module = nn.Linear(4, 6)
     recursive_constant_(module, 0)
     recursive_kaiming_uniform_(module)
@@ -406,7 +410,7 @@ def test_recursive_kaiming_uniform_linear():
     assert module.bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_kaiming_uniform_nonlinearity_mode_fan_in():
+def test_recursive_kaiming_uniform_nonlinearity_mode_fan_in() -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_kaiming_uniform_(module, mode="fan_in")
@@ -415,7 +419,7 @@ def test_recursive_kaiming_uniform_nonlinearity_mode_fan_in():
     assert module.weight.data.max().item() <= 0.2449489742783178
 
 
-def test_recursive_kaiming_uniform_nonlinearity_mode_fan_out():
+def test_recursive_kaiming_uniform_nonlinearity_mode_fan_out() -> None:
     module = nn.Linear(10, 1000)
     recursive_constant_(module, 0)
     recursive_kaiming_uniform_(module, mode="fan_out")
@@ -424,7 +428,7 @@ def test_recursive_kaiming_uniform_nonlinearity_mode_fan_out():
     assert module.weight.data.max().item() <= 0.07745966692414834
 
 
-def test_recursive_kaiming_uniform_nonlinearity_relu():
+def test_recursive_kaiming_uniform_nonlinearity_relu() -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_kaiming_uniform_(module, nonlinearity="relu")
@@ -433,7 +437,7 @@ def test_recursive_kaiming_uniform_nonlinearity_relu():
     assert module.weight.data.max().item() <= 0.2449489742783178
 
 
-def test_recursive_kaiming_uniform_nonlinearity_leaky_relu():
+def test_recursive_kaiming_uniform_nonlinearity_leaky_relu() -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_kaiming_uniform_(module, nonlinearity="leaky_relu")
@@ -442,7 +446,7 @@ def test_recursive_kaiming_uniform_nonlinearity_leaky_relu():
     assert module.weight.data.max().item() <= 0.2449489742783178
 
 
-def test_recursive_kaiming_uniform_nonlinearity_leaky_relu_neg_slope_1():
+def test_recursive_kaiming_uniform_nonlinearity_leaky_relu_neg_slope_1() -> None:
     module = nn.Linear(100, 100)
     recursive_constant_(module, 0)
     recursive_kaiming_uniform_(module, neg_slope=-1, nonlinearity="leaky_relu")
@@ -451,7 +455,7 @@ def test_recursive_kaiming_uniform_nonlinearity_leaky_relu_neg_slope_1():
     assert module.weight.data.max().item() <= 0.17320508075688773
 
 
-def test_recursive_kaiming_uniform_sequential_learnable_only_true():
+def test_recursive_kaiming_uniform_sequential_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])
@@ -463,7 +467,7 @@ def test_recursive_kaiming_uniform_sequential_learnable_only_true():
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_recursive_kaiming_uniform_sequential_learnable_only_false():
+def test_recursive_kaiming_uniform_sequential_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     recursive_constant_(module, 0)
     freeze_module(module[1])

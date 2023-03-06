@@ -13,7 +13,7 @@ from gravitorch.rsrc.pytorch import PyTorchCudaBackendState, PyTorchCudnnBackend
 ###################################
 
 
-def test_pytorch_config_str():
+def test_pytorch_config_str() -> None:
     assert str(PyTorchConfig()).startswith("PyTorchConfig(")
 
 
@@ -21,7 +21,7 @@ def test_pytorch_config_str():
 @patch("torch.cuda.current_device", lambda *args: torch.device("cuda:0"))
 @patch("torch.cuda.get_device_capability", lambda *args: (1, 2))
 @patch("torch.cuda.get_device_name", lambda *args: "meow")
-def test_pytorch_config_with_cuda(caplog: LogCaptureFixture):
+def test_pytorch_config_with_cuda(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with PyTorchConfig():
             pass
@@ -29,7 +29,7 @@ def test_pytorch_config_with_cuda(caplog: LogCaptureFixture):
 
 
 @patch("torch.cuda.is_available", lambda *args: False)
-def test_pytorch_config_without_cuda(caplog: LogCaptureFixture):
+def test_pytorch_config_without_cuda(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with PyTorchConfig():
             pass
@@ -41,7 +41,7 @@ def test_pytorch_config_without_cuda(caplog: LogCaptureFixture):
 #############################################
 
 
-def test_pytorch_cuda_backend_state_create():
+def test_pytorch_cuda_backend_state_create() -> None:
     state = PyTorchCudaBackendState.create()
     assert isinstance(state.allow_tf32, bool)
     assert isinstance(state.allow_fp16_reduced_precision_reduction, bool)
@@ -50,7 +50,7 @@ def test_pytorch_cuda_backend_state_create():
     assert isinstance(state.preferred_linalg_backend, torch._C._LinalgBackend)
 
 
-def test_pytorch_cuda_backend_state_restore():
+def test_pytorch_cuda_backend_state_restore() -> None:
     with PyTorchCudaBackend():
         PyTorchCudaBackendState(
             allow_tf32=True,
@@ -71,12 +71,12 @@ def test_pytorch_cuda_backend_state_restore():
 ########################################
 
 
-def test_pytorch_cuda_backend_str():
+def test_pytorch_cuda_backend_str() -> None:
     assert str(PyTorchCudaBackend()).startswith("PyTorchCudaBackend(")
 
 
 @mark.parametrize("allow_tf32", (True, False))
-def test_pytorch_cuda_backend_allow_tf32(allow_tf32: bool):
+def test_pytorch_cuda_backend_allow_tf32(allow_tf32: bool) -> None:
     default = cuda.matmul.allow_tf32
     with PyTorchCudaBackend(allow_tf32=allow_tf32):
         assert cuda.matmul.allow_tf32 == allow_tf32
@@ -86,7 +86,7 @@ def test_pytorch_cuda_backend_allow_tf32(allow_tf32: bool):
 @mark.parametrize("allow_fp16_reduced_precision_reduction", (True, False))
 def test_pytorch_cuda_backend_allow_fp16_reduced_precision_reduction(
     allow_fp16_reduced_precision_reduction: bool,
-):
+) -> None:
     default = cuda.matmul.allow_fp16_reduced_precision_reduction
     with PyTorchCudaBackend(
         allow_fp16_reduced_precision_reduction=allow_fp16_reduced_precision_reduction
@@ -99,7 +99,7 @@ def test_pytorch_cuda_backend_allow_fp16_reduced_precision_reduction(
 
 
 @mark.parametrize("flash_sdp_enabled", (True, False))
-def test_pytorch_cuda_backend_flash_sdp_enabled(flash_sdp_enabled: bool):
+def test_pytorch_cuda_backend_flash_sdp_enabled(flash_sdp_enabled: bool) -> None:
     default = cuda.flash_sdp_enabled()
     with PyTorchCudaBackend(flash_sdp_enabled=flash_sdp_enabled):
         assert cuda.flash_sdp_enabled() == flash_sdp_enabled
@@ -107,7 +107,7 @@ def test_pytorch_cuda_backend_flash_sdp_enabled(flash_sdp_enabled: bool):
 
 
 @mark.parametrize("math_sdp_enabled", (True, False))
-def test_pytorch_cuda_backend_math_sdp_enabled(math_sdp_enabled: bool):
+def test_pytorch_cuda_backend_math_sdp_enabled(math_sdp_enabled: bool) -> None:
     default = cuda.math_sdp_enabled()
     with PyTorchCudaBackend(math_sdp_enabled=math_sdp_enabled):
         assert cuda.math_sdp_enabled() == math_sdp_enabled
@@ -115,14 +115,16 @@ def test_pytorch_cuda_backend_math_sdp_enabled(math_sdp_enabled: bool):
 
 
 @mark.parametrize("preferred_linalg_backend", ("cusolver", "magma", "default"))
-def test_pytorch_cuda_backend_preferred_linalg_backend(preferred_linalg_backend: str):
+def test_pytorch_cuda_backend_preferred_linalg_backend(preferred_linalg_backend: str) -> None:
     with patch("torch.backends.cuda.preferred_linalg_library") as mock:
         with PyTorchCudaBackend(preferred_linalg_backend=preferred_linalg_backend):
             mock.assert_called()
 
 
 @mark.parametrize("preferred_linalg_backend", ("cusolver", "magma", "default"))
-def test_pytorch_cuda_backend_configure_preferred_linalg_backend(preferred_linalg_backend: str):
+def test_pytorch_cuda_backend_configure_preferred_linalg_backend(
+    preferred_linalg_backend: str,
+) -> None:
     with patch("torch.backends.cuda.preferred_linalg_library"):
         with PyTorchCudaBackend(preferred_linalg_backend=preferred_linalg_backend) as resource:
             with patch("torch.backends.cuda.preferred_linalg_library") as mock:
@@ -130,21 +132,21 @@ def test_pytorch_cuda_backend_configure_preferred_linalg_backend(preferred_linal
                 mock.assert_called_once_with(preferred_linalg_backend)
 
 
-def test_pytorch_cuda_backend_log_info_true(caplog: LogCaptureFixture):
+def test_pytorch_cuda_backend_log_info_true(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with PyTorchCudaBackend(log_info=True):
             pass
         assert len(caplog.messages) == 3
 
 
-def test_pytorch_cuda_backend_log_info_false(caplog: LogCaptureFixture):
+def test_pytorch_cuda_backend_log_info_false(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with PyTorchCudaBackend():
             pass
         assert len(caplog.messages) == 2
 
 
-def test_pytorch_cuda_backend_reentrant():
+def test_pytorch_cuda_backend_reentrant() -> None:
     default = cuda.matmul.allow_tf32
     resource = PyTorchCudaBackend(allow_tf32=True)
     with resource:
@@ -158,7 +160,7 @@ def test_pytorch_cuda_backend_reentrant():
 ##############################################
 
 
-def test_pytorch_cudnn_backend_state_create():
+def test_pytorch_cudnn_backend_state_create() -> None:
     state = PyTorchCudnnBackendState.create()
     assert isinstance(state.allow_tf32, bool)
     assert isinstance(state.benchmark, bool)
@@ -167,7 +169,7 @@ def test_pytorch_cudnn_backend_state_create():
     assert isinstance(state.enabled, bool)
 
 
-def test_pytorch_cudnn_backend_state_restore():
+def test_pytorch_cudnn_backend_state_restore() -> None:
     with PyTorchCudaBackend():
         PyTorchCudnnBackendState(
             allow_tf32=True,
@@ -188,12 +190,12 @@ def test_pytorch_cudnn_backend_state_restore():
 #########################################
 
 
-def test_pytorch_cudnn_backend_str():
+def test_pytorch_cudnn_backend_str() -> None:
     assert str(PyTorchCudnnBackend()).startswith("PyTorchCudnnBackend(")
 
 
 @mark.parametrize("allow_tf32", (True, False))
-def test_pytorch_cudnn_backend_allow_tf32(allow_tf32: bool):
+def test_pytorch_cudnn_backend_allow_tf32(allow_tf32: bool) -> None:
     default = cudnn.allow_tf32
     with PyTorchCudnnBackend(allow_tf32=allow_tf32):
         assert cudnn.allow_tf32 == allow_tf32
@@ -201,7 +203,7 @@ def test_pytorch_cudnn_backend_allow_tf32(allow_tf32: bool):
 
 
 @mark.parametrize("benchmark", (True, False))
-def test_pytorch_cudnn_backend_benchmark(benchmark: bool):
+def test_pytorch_cudnn_backend_benchmark(benchmark: bool) -> None:
     default = cudnn.benchmark
     with PyTorchCudnnBackend(benchmark=benchmark):
         assert cudnn.benchmark == benchmark
@@ -209,7 +211,7 @@ def test_pytorch_cudnn_backend_benchmark(benchmark: bool):
 
 
 @mark.parametrize("benchmark_limit", (0, 1))
-def test_pytorch_cudnn_backend_benchmark_limit(benchmark_limit: int):
+def test_pytorch_cudnn_backend_benchmark_limit(benchmark_limit: int) -> None:
     default = cudnn.benchmark_limit
     with PyTorchCudnnBackend(benchmark_limit=benchmark_limit):
         assert cudnn.benchmark_limit == benchmark_limit
@@ -217,7 +219,7 @@ def test_pytorch_cudnn_backend_benchmark_limit(benchmark_limit: int):
 
 
 @mark.parametrize("deterministic", (True, False))
-def test_pytorch_cudnn_backend_deterministic(deterministic: bool):
+def test_pytorch_cudnn_backend_deterministic(deterministic: bool) -> None:
     default = cudnn.deterministic
     with PyTorchCudnnBackend(deterministic=deterministic):
         assert cudnn.deterministic == deterministic
@@ -225,28 +227,28 @@ def test_pytorch_cudnn_backend_deterministic(deterministic: bool):
 
 
 @mark.parametrize("enabled", (True, False))
-def test_pytorch_cudnn_backend_enabled(enabled: bool):
+def test_pytorch_cudnn_backend_enabled(enabled: bool) -> None:
     default = cudnn.enabled
     with PyTorchCudnnBackend(enabled=enabled):
         assert cudnn.enabled == enabled
     assert cudnn.enabled == default
 
 
-def test_pytorch_cudnn_backend_log_info_true(caplog: LogCaptureFixture):
+def test_pytorch_cudnn_backend_log_info_true(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with PyTorchCudnnBackend(log_info=True):
             pass
         assert len(caplog.messages) == 3
 
 
-def test_pytorch_cudnn_backend_log_info_false(caplog: LogCaptureFixture):
+def test_pytorch_cudnn_backend_log_info_false(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with PyTorchCudnnBackend():
             pass
         assert len(caplog.messages) == 2
 
 
-def test_pytorch_cudnn_backend_reentrant():
+def test_pytorch_cudnn_backend_reentrant() -> None:
     default = cudnn.allow_tf32
     resource = PyTorchCudnnBackend(allow_tf32=True)
     with resource:

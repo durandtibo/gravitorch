@@ -15,10 +15,12 @@ def setup_module(module: Union[Module, dict]) -> Module:
     r"""Sets up a ``torch.nn.Module`` object.
 
     Args:
+    ----
         module (``torch.nn.Module`` or dict): Specifies the module or
             its configuration (dictionary).
 
     Returns:
+    -------
         ``torch.nn.Module``: The instantiated ``torch.nn.Module``
             object.
 

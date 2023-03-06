@@ -20,8 +20,10 @@ class BaseCollator(Generic[T, R], Callable[[list[T]], R], ABC, metaclass=Abstrac
         r"""Creates a batch given a list of examples.
 
         Args:
+        ----
             data (list): Specifies a list of examples.
 
         Returns:
+        -------
              A batch of examples.
         """

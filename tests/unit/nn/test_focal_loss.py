@@ -15,28 +15,28 @@ TOLERANCE = 1e-6
 ####################################
 
 
-def test_binary_focal_loss_str():
+def test_binary_focal_loss_str() -> None:
     assert str(BinaryFocalLoss()).startswith("BinaryFocalLoss(")
 
 
 @mark.parametrize("alpha", (0, 0.5, 1))
-def test_binary_focal_loss_valid_alpha(alpha: float):
+def test_binary_focal_loss_valid_alpha(alpha: float) -> None:
     assert BinaryFocalLoss(alpha=alpha)._alpha == alpha
 
 
 @mark.parametrize("alpha", (-1, 2))
-def test_binary_focal_loss_invalid_alpha(alpha: float):
+def test_binary_focal_loss_invalid_alpha(alpha: float) -> None:
     with raises(ValueError):
         BinaryFocalLoss(alpha=alpha)
 
 
 @mark.parametrize("gamma", (0, 0.5, 1))
-def test_binary_focal_loss_valid_gamma(gamma: float):
+def test_binary_focal_loss_valid_gamma(gamma: float) -> None:
     assert BinaryFocalLoss(gamma=gamma)._gamma == gamma
 
 
 @mark.parametrize("gamma", (-1, -0.5))
-def test_binary_focal_loss_invalid_gamma(gamma: float):
+def test_binary_focal_loss_invalid_gamma(gamma: float) -> None:
     with raises(ValueError):
         BinaryFocalLoss(gamma=gamma)
 
@@ -47,7 +47,7 @@ def test_binary_focal_loss_invalid_gamma(gamma: float):
 @mark.parametrize("num_classes", SIZES)
 def test_binary_focal_loss_forward_with_reduction(
     device: str, reduction: str, batch_size: int, num_classes: int
-):
+) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLoss(alpha=0.25, reduction=reduction).to(device=device)
     loss = criterion(
@@ -62,7 +62,7 @@ def test_binary_focal_loss_forward_with_reduction(
 @mark.parametrize("num_classes", SIZES)
 def test_binary_focal_loss_forward_without_reduction(
     device: str, batch_size: int, num_classes: int
-):
+) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLoss(alpha=0.25, reduction="none").to(device=device)
     loss = criterion(
@@ -73,7 +73,7 @@ def test_binary_focal_loss_forward_without_reduction(
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_focal_loss_forward_without_reduction_alpha_0_25(device: str):
+def test_binary_focal_loss_forward_without_reduction_alpha_0_25(device: str) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLoss(alpha=0.25, reduction="none").to(device=device)
     loss = criterion(
@@ -97,7 +97,7 @@ def test_binary_focal_loss_forward_without_reduction_alpha_0_25(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_focal_loss_forward_without_reduction_alpha_0_5(device: str):
+def test_binary_focal_loss_forward_without_reduction_alpha_0_5(device: str) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLoss(alpha=0.5, reduction="none").to(device=device)
     loss = criterion(
@@ -121,7 +121,7 @@ def test_binary_focal_loss_forward_without_reduction_alpha_0_5(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_focal_loss_forward_without_reduction_gamma_1(device: str):
+def test_binary_focal_loss_forward_without_reduction_gamma_1(device: str) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLoss(alpha=0.25, gamma=1, reduction="none").to(device=device)
     loss = criterion(
@@ -145,7 +145,7 @@ def test_binary_focal_loss_forward_without_reduction_gamma_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_focal_loss_forward_sum_reduction_alpha_0_25(device: str):
+def test_binary_focal_loss_forward_sum_reduction_alpha_0_25(device: str) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLoss(alpha=0.25, reduction="sum").to(device=device)
     loss = criterion(
@@ -156,7 +156,7 @@ def test_binary_focal_loss_forward_sum_reduction_alpha_0_25(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_binary_focal_loss_forward_mean_reduction_alpha_0_25(device: str):
+def test_binary_focal_loss_forward_mean_reduction_alpha_0_25(device: str) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLoss(alpha=0.25, reduction="mean").to(device=device)
     loss = criterion(
@@ -166,7 +166,7 @@ def test_binary_focal_loss_forward_mean_reduction_alpha_0_25(device: str):
     assert math.isclose(loss.item(), 0.13025230206769836, abs_tol=TOLERANCE)
 
 
-def test_binary_focal_loss_forward_incorrect_reduction():
+def test_binary_focal_loss_forward_incorrect_reduction() -> None:
     with raises(ValueError):
         BinaryFocalLoss(alpha=0.25, reduction="incorrect reduction")
 
@@ -185,7 +185,7 @@ def test_binary_focal_loss_with_logits_forward_with_reduction(
     reduction: str,
     batch_size: int,
     num_classes: int,
-):
+) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLossWithLogits(alpha=0.25, reduction=reduction).to(device=device)
     loss = criterion(
@@ -200,7 +200,7 @@ def test_binary_focal_loss_with_logits_forward_with_reduction(
 @mark.parametrize("num_classes", SIZES)
 def test_binary_focal_loss_with_logits_forward_without_reduction(
     device: str, batch_size: int, num_classes: int
-):
+) -> None:
     device = torch.device(device)
     criterion = BinaryFocalLossWithLogits(alpha=0.25, reduction="none").to(device=device)
     loss = criterion(

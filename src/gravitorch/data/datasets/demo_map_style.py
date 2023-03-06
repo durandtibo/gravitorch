@@ -18,6 +18,7 @@ class DemoMultiClassClsDataset(Dataset):
     format.
 
     Args:
+    ----
         num_examples (int, optional): Specifies the number of
             examples. Default: ``1000``
         num_classes (int, optional): Specifies the number of classes.
@@ -39,7 +40,7 @@ class DemoMultiClassClsDataset(Dataset):
         feature_size: int = 64,
         noise_std: float = 0.2,
         random_seed: int = 10169389905513828140,
-    ):
+    ) -> None:
         log_box_dataset_class(self)
 
         logger.info("Initializing the data creator...")
@@ -60,7 +61,7 @@ class DemoMultiClassClsDataset(Dataset):
         self._targets = data[ct.TARGET]
         self._features = data[ct.INPUT]
 
-    def __getitem__(self, item: int):
+    def __getitem__(self, item: int) -> dict:
         return {
             ct.INPUT: self._features[item],
             ct.TARGET: self._targets[item],
@@ -103,5 +104,6 @@ class DemoMultiClassClsDataset(Dataset):
     @property
     def random_seed(self) -> int:
         r"""int: The random seed used to initialize a
-        ``torch.Generator`` object."""
+        ``torch.Generator`` object.
+        """
         return self._data_creator.random_seed

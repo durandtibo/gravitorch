@@ -16,6 +16,7 @@ class TruncNormalParameterInitializer(BaseDefaultParameterInitializer):
     strategy.
 
     Args:
+    ----
         mean (int or float, optional): Specifies the mean of the
             Normal distribution. Default: ``0.0``
         std (int or float, optional): Specifies the standard
@@ -40,7 +41,7 @@ class TruncNormalParameterInitializer(BaseDefaultParameterInitializer):
         max_cutoff: Union[int, float] = 2.0,
         learnable_only: bool = True,
         show_stats: bool = True,
-    ):
+    ) -> None:
         super().__init__(show_stats=show_stats)
         self._mean = float(mean)
         self._std = float(std)
@@ -82,6 +83,7 @@ def recursive_trunc_normal_(
     initialization.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to
             initialize.
         mean (float, optional): Specifies the mean of the Normal

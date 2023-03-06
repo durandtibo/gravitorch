@@ -15,6 +15,7 @@ class BaseArtifact(Generic[T], ABC):
         r"""Creates the artifact.
 
         Args:
+        ----
             path (``pathlib.Path``): Specifies the path where to write
                 the artifact.
         """

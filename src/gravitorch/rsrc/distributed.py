@@ -15,6 +15,7 @@ class DistributedContext(BaseResource):
     r"""Implements a context manager to initialize the distributed backend.
 
     Args:
+    ----
         backend (str or ``None``, optional): Specifies the distributed
             backend. If ``'auto'``, this function will find the best
             option for the distributed backend according to the
@@ -24,7 +25,7 @@ class DistributedContext(BaseResource):
             Default: ``False``
     """
 
-    def __init__(self, backend: Optional[str] = "auto", log_info: bool = False):
+    def __init__(self, backend: Optional[str] = "auto", log_info: bool = False) -> None:
         self._backend = resolve_backend(backend)
         self._context = BACKEND_TO_CONTEXT[self._backend]
 

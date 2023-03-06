@@ -8,6 +8,7 @@ __all__ = [
 
 from abc import ABC, abstractmethod
 from pathlib import Path
+from types import TracebackType
 from typing import Any, Optional, Union
 
 from objectory import AbstractFactory
@@ -67,7 +68,12 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         self.start()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
         self.end()
 
     @property
@@ -75,11 +81,13 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
     def artifact_path(self) -> Path:
         r"""Gets the path to the artifacts.
 
-        Returns:
+        Returns
+        -------
             ``pathlib.Path``: The path where you can write some
                 artifacts related to the experiment.
 
-        Raises:
+        Raises
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
@@ -89,11 +97,13 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
     def checkpoint_path(self) -> Path:
         r"""Gets the path to the checkpoints.
 
-        Returns:
+        Returns
+        -------
             ``pathlib.Path``: The path where you can write the
                 checkpoints.
 
-        Raises:
+        Raises
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
@@ -103,10 +113,12 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
     def experiment_id(self) -> str:
         r"""Gets the experiment ID.
 
-        Returns:
+        Returns
+        -------
             str: The experiment ID.
 
-        Raises:
+        Raises
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
@@ -124,11 +136,13 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         epoch.
 
         Args:
+        ----
             upload_checkpoints (bool): Indicates if the checkpoints
                 are uploaded or not when this method is called.
                 Default: ``True``
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
@@ -137,7 +151,8 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
     def end(self) -> None:
         r"""Ends the tracking of the current experiment.
 
-        Raises:
+        Raises
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
@@ -146,11 +161,13 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
     def is_activated(self) -> bool:
         r"""Indicates if the tracker is activated or not.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the tracker is activated, otherwise
                 ``False``
 
-        Raises:
+        Raises
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -168,11 +185,13 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
     def is_resumed(self) -> bool:
         r"""Indicates if the experiment was resumed or not.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the experiment was resumed, otherwise
                 ``False``
 
-        Raises:
+        Raises
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -190,11 +209,13 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Adds a tag to the experiment.
 
         Args:
+        ----
             name (str): Specifies the name of the tag.
             value: Specifies the value of the tag. The value should be
                 convertibled to a string  with the ``str`` function.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -212,11 +233,13 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Adds tags to the experiment.
 
         Args:
+        ----
             tags (dict): Specifies the tags to add to the experiment.
                 The value should be convertibled to a string with the
                 ``str`` function.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -234,10 +257,12 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Creates an artifact.
 
         Args:
+        ----
             artifact (``BaseArtifact``): Specifies the artifact to
                 create.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -255,6 +280,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs the best value of a metric.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the metric.
                 Please do not use the names `'epoch'`, `'iteration'`
                 and `'step'` because they are reserved for specific
@@ -262,6 +288,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             value (int or float): Specifies the best value to log.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -279,12 +306,14 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs a dictionary of the best metrics.
 
         Args:
+        ----
             metrics (dict): Specifies the dictionary of the best
                 metrics to log. Please do not use the keys
                 ``'epoch'``,  ``'iteration'`` and ``'step'``
                 because they are reserved for specific uses.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -302,6 +331,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs a figure for the given key and step.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the figure.
             figure (``matplotlib.pyplot.Figure``): Specifies the
                 figure to log.
@@ -310,6 +340,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
                 Default: ``None``
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -331,12 +362,14 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs a dictionary of figures for a given step.
 
         Args:
+        ----
             figures (dict): Specifies the dictionary of figures to log.
             step (``Step``, optional): Specifies the step value to
                 record. If ``None``, it will use the default step.
                 Default: ``None``
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -358,10 +391,12 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs a single hyper-parameter.
 
         Args:
+        ----
             key (str): Specifies the name of the hyper-parameter.
             value (str): Specifies the value of the hyper-parameter.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -379,9 +414,11 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs a dictionary of multiple hyper-parameters.
 
         Args:
+        ----
             params (dict): Specifies the hyper-parameters to log.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -399,12 +436,14 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs an image for the given key and step.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the image.
             image (``PIL.Image.Image``): Specifies the image to log.
             step (``Step``, optional): Specifies the step value to
                 record. Default: ``None``.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -427,12 +466,14 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs a dictionary of images for a given step.
 
         Args:
+        ----
             images (dict): Specifies the dictionary of images to log.
             step (``Step``, optional): Specifies the step value to
                 record. If ``None``, it will use the default step.
                 Default: ``None``.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -455,6 +496,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs a single metric.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the metric.
                 Please do not use the names ``'epoch'``,
                 ``'iteration'`` and ``'step'`` because they are
@@ -465,6 +507,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
                 Default: ``None``.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -486,6 +529,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         r"""Logs a dictionary of multiple metrics.
 
         Args:
+        ----
             metrics (dict): Specifies the dictionary of metrics to log.
                 Please do not use the keys ``'epoch'``, ``'iteration'``
                 and ``'step'`` because they are reserved for specific
@@ -495,6 +539,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
                 Default: ``None``.
 
         Raises:
+        ------
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
 
@@ -568,6 +613,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         epoch.
 
         Args:
+        ----
             upload_checkpoints (bool, optional): Indicates if the
                 checkpoints are uploaded or not when this method is
                 called. Default: ``True``
@@ -596,7 +642,8 @@ class BaseBasicExpTracker(BaseExpTracker):
     def _is_resumed(self) -> bool:
         r"""Indicates if the experiment was resumed or not.
 
-        Returns:
+        Returns
+        -------
             bool: ``True`` if the experiment was resumed, otherwise
                 ``False``.
         """
@@ -614,6 +661,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Adds a tag to the experiment.
 
         Args:
+        ----
             name (str): Specifies the name of the tag.
             value: Specifies the value of the tag. The value should be
                 convertible to a string with the ``str`` function.
@@ -632,6 +680,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Adds tags to the experiment.
 
         Args:
+        ----
             tags (dict): Specifies the tags to add to the experiment.
                 The value should be convertible to a string with the
                 ``str`` function.
@@ -650,6 +699,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Creates an artifact.
 
         Args:
+        ----
             artifact (``BaseArtifact``): Specifies the artifact to
                 create.
         """
@@ -667,6 +717,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs the best value of a metric.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the metric.
                 Please do not use the names ``'epoch'``,
                 ``'iteration'`` and ``'step'`` because they are
@@ -687,6 +738,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs a dictionary of the best metrics.
 
         Args:
+        ----
             metrics (dict): Specifies the dictionary of the best
                 metrics to log. Please do not use the keys ``'epoch'``,
                 ``'iteration'``, and ``'step'`` because they are
@@ -706,6 +758,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs a figure for the given key and step.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the figure.
             figure (``matplotlib.pyplot.Figure``): Specifies the
                 figure to log.
@@ -727,6 +780,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs a dictionary of figures for a given step.
 
         Args:
+        ----
             figures (dict): Specifies the dictionary of figures to log.
             step (``Step``, optional): Specifies the step value to
                 record. If ``None``, it will use the default step.
@@ -746,6 +800,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs a single hyper-parameter.
 
         Args:
+        ----
             key (str): Specifies the name of the hyper-parameter.
             value (str): Specifies the value of the hyper-parameter.
         """
@@ -763,6 +818,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs a dictionary of multiple hyper-parameters.
 
         Args:
+        ----
             params (dict): Specifies the hyper-parameters to log.
         """
 
@@ -789,6 +845,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs an image for the given key and step.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the image.
             image (``PIL.Image.Image``): Specifies the image to log.
             step (``Step``, optional): Specifies the step value to
@@ -809,6 +866,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs a dictionary of images for a given step.
 
         Args:
+        ----
             images (dict): Specifies the dictionary of images to log.
             step (``Step``, optional): Specifies the step value to
                 record. If ``None``, it will use the default step.
@@ -828,6 +886,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs a single metric.
 
         Args:
+        ----
             key (str): Specifies the key used to identify the metric.
                 Please do not use the names ``'epoch'``,
                 ``'iteration'`` and ``'step'`` because they are
@@ -854,6 +913,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         r"""Logs a dictionary of multiple metrics.
 
         Args:
+        ----
             metrics (dict): Specifies the dictionary of metrics to log.
                 Please do not use the keys ``'epoch'``,
                 ``'iteration'`` and ``'step'`` because they are

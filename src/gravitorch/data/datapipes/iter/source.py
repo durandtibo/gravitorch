@@ -18,6 +18,7 @@ class SourceWrapperIterDataPipe(IterDataPipe):
     Based on https://github.com/pytorch/pytorch/blob/3c2199b159b6ec57af3f7ea22d61ace9ce5cf5bc/torch/utils/data/datapipes/iter/utils.py#L8-L50  # noqa: B950
 
     Args:
+    ----
         source (``iterable``): Specifies the input iterable.
         deepcopy (bool, optional): If ``True``, the input iterable
             object is deep-copied before to iterate over the data.
@@ -25,7 +26,7 @@ class SourceWrapperIterDataPipe(IterDataPipe):
             operations are performed on the data. Default: ``False``
     """
 
-    def __init__(self, source: Iterable, deepcopy: bool = False):
+    def __init__(self, source: Iterable, deepcopy: bool = False) -> None:
         self._source = source
         self._deepcopy = bool(deepcopy)
 

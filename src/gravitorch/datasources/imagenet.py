@@ -49,6 +49,7 @@ class ImageNetDataSource(DatasetDataSource):
             http://arxiv.org/pdf/2110.00476
 
         Args:
+        ----
             train_path (``pathlib.Path`` or str or ``None``):
                 Specifies the path to the training dataset.
                 If ``None``, the training dataset is set to ``None``.
@@ -69,6 +70,7 @@ class ImageNetDataSource(DatasetDataSource):
                 the image. Default: ``224``
 
         Returns:
+        -------
             ``ImageNetDataSource``: A data source for the ImageNet datasets.
         """
         train_dataset, eval_dataset = create_train_eval_datasets_v1(
@@ -104,6 +106,7 @@ def create_train_eval_datasets_v1(
         http://arxiv.org/pdf/2110.00476
 
     Args:
+    ----
         train_path (``pathlib.Path`` or str or ``None``): Specifies
             the path to the training dataset. If ``None``, the
             training dataset is set to ``None``.
@@ -114,6 +117,7 @@ def create_train_eval_datasets_v1(
             image. Default: ``224``
 
     Returns:
+    -------
         (``Dataset`` or ``None``, ``Dataset`` or ``None``):
             The training and evaluation datasets. The datasets use the
             original image data augmentation (V1).

@@ -13,6 +13,7 @@ class WeightedSumLoss(Module):
     sum of multiple loss functions.
 
     Args:
+    ----
         criteria (``torch.nn.ModuleDict`` or dict): Specifies the
             loss functions (a.k.a. criteria)
             or their configuration.
@@ -79,7 +80,7 @@ class WeightedSumLoss(Module):
         self,
         criteria: Union[ModuleDict, dict[str, Union[Module, dict]]],
         weights: Optional[dict[str, Union[int, float]]] = None,
-    ):
+    ) -> None:
         super().__init__()
         if not isinstance(criteria, ModuleDict):
             criteria = ModuleDict({key: setup_module(value) for key, value in criteria.items()})

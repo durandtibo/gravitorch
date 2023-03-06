@@ -18,6 +18,7 @@ class OneCacheDataCreator(BaseDataCreator[T]):
     them and return them.
 
     Args:
+    ----
         data_creator (``BaseDataCreator`` or dict): Specifies a data
             creator or its configuration.
         deepcopy (bool, optional): If ``True``, a deepcopy of the data
@@ -28,7 +29,9 @@ class OneCacheDataCreator(BaseDataCreator[T]):
             ``create`` method is called multiple times.
     """
 
-    def __init__(self, data_creator: Union[BaseDataCreator[T], dict], deepcopy: bool = False):
+    def __init__(
+        self, data_creator: Union[BaseDataCreator[T], dict], deepcopy: bool = False
+    ) -> None:
         self._data_creator = setup_data_creator(data_creator)
         self._deepcopy = bool(deepcopy)
         self._is_cache_created = False
@@ -53,17 +56,20 @@ class OneCacheDataCreator(BaseDataCreator[T]):
     @property
     def deepcopy(self) -> bool:
         r"""bool: Indicates if a deepcopy of the data is done before
-        to return the data."""
+        to return the data.
+        """
         return self._deepcopy
 
     def create(self, engine: Optional[BaseEngine] = None) -> T:
         r"""Creates data.
 
         Args:
+        ----
             engine (``BaseEngine`` or ``None``): Specifies an engine.
             Default: ``None``
 
         Return:
+        ------
             The created data. The returned data depends on the data
                 creator.
         """

@@ -35,19 +35,19 @@ def histories() -> dict[str, BaseHistory]:
 #####################################
 
 
-def test_get_best_values(histories: dict[str, BaseHistory]):
+def test_get_best_values(histories: dict[str, BaseHistory]) -> None:
     assert get_best_values(histories) == {"loss": 1.2, "accuracy": 42}
 
 
-def test_get_best_values_prefix(histories: dict[str, BaseHistory]):
+def test_get_best_values_prefix(histories: dict[str, BaseHistory]) -> None:
     assert get_best_values(histories, prefix="best/") == {"best/loss": 1.2, "best/accuracy": 42}
 
 
-def test_get_best_values_suffix(histories: dict[str, BaseHistory]):
+def test_get_best_values_suffix(histories: dict[str, BaseHistory]) -> None:
     assert get_best_values(histories, suffix="/best") == {"loss/best": 1.2, "accuracy/best": 42}
 
 
-def test_get_best_values_empty():
+def test_get_best_values_empty() -> None:
     assert get_best_values({}) == {}
 
 
@@ -56,11 +56,11 @@ def test_get_best_values_empty():
 #####################################
 
 
-def test_get_last_values(histories: dict[str, BaseHistory]):
+def test_get_last_values(histories: dict[str, BaseHistory]) -> None:
     assert get_last_values(histories) == {"loss": 1.2, "accuracy": 35, "epoch": 1}
 
 
-def test_get_last_values_prefix(histories: dict[str, BaseHistory]):
+def test_get_last_values_prefix(histories: dict[str, BaseHistory]) -> None:
     assert get_last_values(histories, prefix="last/") == {
         "last/loss": 1.2,
         "last/accuracy": 35,
@@ -68,7 +68,7 @@ def test_get_last_values_prefix(histories: dict[str, BaseHistory]):
     }
 
 
-def test_get_last_values_suffix(histories: dict[str, BaseHistory]):
+def test_get_last_values_suffix(histories: dict[str, BaseHistory]) -> None:
     assert get_last_values(histories, suffix="/last") == {
         "loss/last": 1.2,
         "accuracy/last": 35,
@@ -76,5 +76,5 @@ def test_get_last_values_suffix(histories: dict[str, BaseHistory]):
     }
 
 
-def test_get_last_values_empty():
+def test_get_last_values_empty() -> None:
     assert get_last_values({}) == {}

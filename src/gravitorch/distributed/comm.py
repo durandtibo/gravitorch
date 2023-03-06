@@ -46,6 +46,7 @@ logger = logging.getLogger(__name__)
 
 class Backend:
     r"""Defines the name of the distributed backends currently supported."""
+
     NCCL = "nccl"
     GLOO = "gloo"
 
@@ -83,16 +84,18 @@ def is_main_process() -> bool:
     By definition, the main process is the process with the global
     rank 0.
 
-    Returns:
+    Returns
+    -------
         bool: ``True`` if it is the main process, otherwise ``False``.
     """
     return get_rank() == 0
 
 
-def is_distributed():
+def is_distributed() -> bool:
     r"""Indicates if the current process is part of a distributed group.
 
-    Returns:
+    Returns
+    -------
         bool: ``True`` if the current process is part of a distributed
             group, otherwise ``False``.
     """
@@ -105,6 +108,7 @@ def distributed_context(backend: str) -> Generator[None, None, None]:
     backend.
 
     Args:
+    ----
         backend (str): Specifies the distributed backend to use.
             You can find more information on the distributed backends
             at https://pytorch.org/docs/stable/distributed.html#backends
@@ -156,7 +160,8 @@ def auto_backend() -> Optional[str]:
         - Otherwise, ``None`` is returned because there is no
             best distributed backend
 
-    Returns:
+    Returns
+    -------
         str or ``None``: The name of the best distributed backend.
 
     Example usage:
@@ -178,12 +183,14 @@ def resolve_backend(backend: Optional[str]) -> Optional[str]:
     r"""Resolves the distributed backend if ``'auto'``.
 
     Args:
+    ----
         backend (str or ``None``): Specifies the distributed
             backend. If ``'auto'``, this function will find the best
             option for the distributed backend according to the
             context and some rules.
 
     Returns:
+    -------
         str or ``None``: The distributed backend or ``None`` if it
             should not use a distributed backend.
 
@@ -235,7 +242,8 @@ def gloocontext() -> Generator[None, None, None]:
 def ncclcontext() -> Generator[None, None, None]:
     r"""Context manager to initialize the NCCL distributed context.
 
-    Raises:
+    Raises
+    ------
         RuntimeError if CUDA is not available
 
     Example usage:

@@ -41,6 +41,7 @@ class NoOpExpTracker(BaseBasicExpTracker):
     trackers.
 
     Args:
+    ----
         experiment_path (``pathlib.Path`` or str or ``None``,
             optional): Specifies the path where to write the
             experiment logs. If ``None``, a temporary directory is
@@ -48,7 +49,7 @@ class NoOpExpTracker(BaseBasicExpTracker):
             of the experiment. Default: ``None``
     """
 
-    def __init__(self, experiment_path: Union[Path, str, None] = None):
+    def __init__(self, experiment_path: Union[Path, str, None] = None) -> None:
         self._experiment_path = sanitize_path(experiment_path) if experiment_path else None
         # Flag to indicate if the tracker is activated or not
         self._is_activated = False

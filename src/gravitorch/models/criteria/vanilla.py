@@ -24,6 +24,7 @@ class VanillaLoss(Module):
     The shape and type of the tensors depend on the loss function used.
 
     Args:
+    ----
         criterion (``torch.nn.Module`` or dict): Specifies the loss
             function (a.k.a. criterion) or its configuration.
         prediction_key (str): Specifies the prediction key.
@@ -58,7 +59,7 @@ class VanillaLoss(Module):
         criterion: Union[Module, dict],
         prediction_key: str = ct.PREDICTION,
         target_key: str = ct.TARGET,
-    ):
+    ) -> None:
         super().__init__()
         self.criterion = setup_module(criterion)
         self._prediction_key = prediction_key
@@ -68,11 +69,13 @@ class VanillaLoss(Module):
         r"""Computes the loss value given the network output and the batch.
 
         Args:
+        ----
             net_out (dict): Specifies the network output
                 which contains the prediction.
             batch (dict): Specifies the batch which contains the target.
 
         Returns:
+        -------
             dict: a dict with the loss value.
         """
         prediction = self._get_prediction_from_net_out(net_out)
@@ -83,10 +86,12 @@ class VanillaLoss(Module):
         r"""Gets the prediction from the network output.
 
         Args:
+        ----
             net_out (dict): Specifies the network output
                 which contains the prediction.
 
         Returns:
+        -------
             ``torch.Tensor``: The prediction
         """
         return net_out[self._prediction_key]
@@ -96,9 +101,11 @@ class VanillaLoss(Module):
         key 'target'.
 
         Args:
+        ----
             batch (dict): Specifies the batch which contains the target.
 
         Returns:
+        -------
             ``torch.Tensor``: The target
         """
         return batch[self._target_key]

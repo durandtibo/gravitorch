@@ -25,6 +25,7 @@ class GenericHistory(BaseHistory[T]):
     scalars.
 
     Args:
+    ----
         name (str): Specifies the name of the history.
         elements (iterable, optional): Specifies the initial elements.
             Each element is a tuple with the step and its associated
@@ -36,9 +37,9 @@ class GenericHistory(BaseHistory[T]):
     def __init__(
         self,
         name: str,
-        elements: Iterable[tuple[Optional[int], T]] = tuple(),
+        elements: Iterable[tuple[Optional[int], T]] = (),
         max_size: int = 10,
-    ):
+    ) -> None:
         super().__init__(name)
         if max_size <= 0:
             raise ValueError(f"History size must be greater than 0! (received: {max_size})")
@@ -52,7 +53,7 @@ class GenericHistory(BaseHistory[T]):
 
     @property
     def max_size(self) -> int:
-        r"""int: The maximum size of the history"""
+        r"""int: The maximum size of the history."""
         return self._history.maxlen
 
     def add_value(self, value: T, step: Optional[int] = None) -> None:

@@ -12,36 +12,36 @@ SIZES = (1, 2)
 ##############################
 
 
-def test_gaussian_str():
+def test_gaussian_str() -> None:
     assert str(Gaussian()).startswith("Gaussian(")
 
 
 @mark.parametrize("num_parameters", SIZES)
-def test_gaussian_num_parameters(num_parameters: int):
+def test_gaussian_num_parameters(num_parameters: int) -> None:
     assert Gaussian(num_parameters).alpha.shape == (num_parameters,)
 
 
-def test_gaussian_num_parameters_default():
+def test_gaussian_num_parameters_default() -> None:
     assert Gaussian().alpha.shape == (1,)
 
 
 @mark.parametrize("init", (0.5, 1.0))
-def test_gaussian_init(init: float):
+def test_gaussian_init(init: float) -> None:
     assert Gaussian(init=init).alpha.item() == init
 
 
-def test_gaussian_learnable_true():
+def test_gaussian_learnable_true() -> None:
     assert Gaussian().alpha.requires_grad
 
 
-def test_gaussian_learnable_false():
+def test_gaussian_learnable_false() -> None:
     assert not Gaussian(learnable=False).alpha.requires_grad
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_gaussian_forward(device: str, batch_size: int, feature_size: int):
+def test_gaussian_forward(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     module = Gaussian(num_parameters=feature_size).to(device=device)
     out = module(torch.randn(batch_size, feature_size, device=device, requires_grad=True))
@@ -53,7 +53,7 @@ def test_gaussian_forward(device: str, batch_size: int, feature_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("shape", ((2,), (2, 3), (2, 3, 4)))
-def test_gaussian_forward_shape(device: str, shape: tuple[int, ...]):
+def test_gaussian_forward_shape(device: str, shape: tuple[int, ...]) -> None:
     device = torch.device(device)
     module = Gaussian().to(device=device)
     assert module(torch.zeros(*shape, dtype=torch.float, device=device)).equal(
@@ -63,7 +63,7 @@ def test_gaussian_forward_shape(device: str, shape: tuple[int, ...]):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("num_parameters", (1, 4))
-def test_gaussian_forward_num_parameters(device: str, num_parameters: int):
+def test_gaussian_forward_num_parameters(device: str, num_parameters: int) -> None:
     device = torch.device(device)
     module = Gaussian(num_parameters).to(device=device)
     assert module(torch.zeros(2, 4, dtype=torch.float, device=device)).equal(
@@ -72,7 +72,7 @@ def test_gaussian_forward_num_parameters(device: str, num_parameters: int):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_gaussian_forward_init_1(device: str):
+def test_gaussian_forward_init_1(device: str) -> None:
     device = torch.device(device)
     module = Gaussian().to(device=device)
     assert module(
@@ -87,7 +87,7 @@ def test_gaussian_forward_init_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_gaussian_forward_init_2(device: str):
+def test_gaussian_forward_init_2(device: str) -> None:
     device = torch.device(device)
     module = Gaussian(init=2).to(device=device)
     assert module(
@@ -109,7 +109,7 @@ def test_gaussian_forward_init_2(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_exp_sin_forward(device: str, batch_size: int, feature_size: int):
+def test_exp_sin_forward(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     module = ExpSin(num_parameters=feature_size).to(device=device)
     out = module(torch.randn(batch_size, feature_size, device=device, requires_grad=True))
@@ -121,7 +121,7 @@ def test_exp_sin_forward(device: str, batch_size: int, feature_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("shape", ((2,), (2, 3), (2, 3, 4)))
-def test_exp_sin_forward_shape(device: str, shape: tuple[int, ...]):
+def test_exp_sin_forward_shape(device: str, shape: tuple[int, ...]) -> None:
     device = torch.device(device)
     module = ExpSin().to(device=device)
     assert module(torch.zeros(*shape, dtype=torch.float, device=device)).equal(
@@ -131,7 +131,7 @@ def test_exp_sin_forward_shape(device: str, shape: tuple[int, ...]):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("num_parameters", (1, 4))
-def test_exp_sin_forward_num_parameters(device: str, num_parameters: int):
+def test_exp_sin_forward_num_parameters(device: str, num_parameters: int) -> None:
     device = torch.device(device)
     module = ExpSin(num_parameters).to(device=device)
     assert module(torch.zeros(2, 4, dtype=torch.float, device=device)).equal(
@@ -140,7 +140,7 @@ def test_exp_sin_forward_num_parameters(device: str, num_parameters: int):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_exp_sin_forward_init_1(device: str):
+def test_exp_sin_forward_init_1(device: str) -> None:
     device = torch.device(device)
     module = ExpSin().to(device=device)
     assert module(
@@ -155,7 +155,7 @@ def test_exp_sin_forward_init_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_exp_sin_forward_init_2(device: str):
+def test_exp_sin_forward_init_2(device: str) -> None:
     device = torch.device(device)
     module = ExpSin(init=2).to(device=device)
     assert module(
@@ -177,7 +177,7 @@ def test_exp_sin_forward_init_2(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_sin_forward(device: str, batch_size: int, feature_size: int):
+def test_sin_forward(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     module = Sin(num_parameters=feature_size).to(device=device)
     out = module(torch.randn(batch_size, feature_size, device=device, requires_grad=True))
@@ -189,7 +189,7 @@ def test_sin_forward(device: str, batch_size: int, feature_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("shape", ((2,), (2, 3), (2, 3, 4)))
-def test_sin_forward_shape(device: str, shape: tuple[int, ...]):
+def test_sin_forward_shape(device: str, shape: tuple[int, ...]) -> None:
     device = torch.device(device)
     module = Sin().to(device=device)
     assert module(torch.zeros(*shape, dtype=torch.float, device=device)).equal(
@@ -199,7 +199,7 @@ def test_sin_forward_shape(device: str, shape: tuple[int, ...]):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("num_parameters", (1, 4))
-def test_sin_forward_num_parameters(device: str, num_parameters: int):
+def test_sin_forward_num_parameters(device: str, num_parameters: int) -> None:
     device = torch.device(device)
     module = Sin(num_parameters).to(device=device)
     assert module(torch.zeros(2, 4, dtype=torch.float, device=device)).equal(
@@ -208,7 +208,7 @@ def test_sin_forward_num_parameters(device: str, num_parameters: int):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sin_forward_init_1(device: str):
+def test_sin_forward_init_1(device: str) -> None:
     device = torch.device(device)
     module = Sin().to(device=device)
     assert module(
@@ -223,7 +223,7 @@ def test_sin_forward_init_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sin_forward_init_2(device: str):
+def test_sin_forward_init_2(device: str) -> None:
     device = torch.device(device)
     module = Sin(init=2).to(device=device)
     assert module(
@@ -245,7 +245,7 @@ def test_sin_forward_init_2(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_laplacian_forward(device: str, batch_size: int, feature_size: int):
+def test_laplacian_forward(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     module = Laplacian(num_parameters=feature_size).to(device=device)
     out = module(torch.randn(batch_size, feature_size, device=device, requires_grad=True))
@@ -257,7 +257,7 @@ def test_laplacian_forward(device: str, batch_size: int, feature_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("shape", ((2,), (2, 3), (2, 3, 4)))
-def test_laplacian_forward_shape(device: str, shape: tuple[int, ...]):
+def test_laplacian_forward_shape(device: str, shape: tuple[int, ...]) -> None:
     device = torch.device(device)
     module = Laplacian().to(device=device)
     assert module(torch.zeros(*shape, dtype=torch.float, device=device)).equal(
@@ -267,7 +267,7 @@ def test_laplacian_forward_shape(device: str, shape: tuple[int, ...]):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("num_parameters", (1, 4))
-def test_laplacian_forward_num_parameters(device: str, num_parameters: int):
+def test_laplacian_forward_num_parameters(device: str, num_parameters: int) -> None:
     device = torch.device(device)
     module = Laplacian(num_parameters).to(device=device)
     assert module(torch.zeros(2, 4, dtype=torch.float, device=device)).equal(
@@ -276,7 +276,7 @@ def test_laplacian_forward_num_parameters(device: str, num_parameters: int):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_laplacian_forward_init_1(device: str):
+def test_laplacian_forward_init_1(device: str) -> None:
     device = torch.device(device)
     module = Laplacian().to(device=device)
     assert module(
@@ -291,7 +291,7 @@ def test_laplacian_forward_init_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_laplacian_forward_init_2(device: str):
+def test_laplacian_forward_init_2(device: str) -> None:
     device = torch.device(device)
     module = Laplacian(init=2).to(device=device)
     assert module(
@@ -313,7 +313,7 @@ def test_laplacian_forward_init_2(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_quadratic_forward(device: str, batch_size: int, feature_size: int):
+def test_quadratic_forward(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     module = Quadratic(num_parameters=feature_size).to(device=device)
     out = module(torch.randn(batch_size, feature_size, device=device, requires_grad=True))
@@ -325,7 +325,7 @@ def test_quadratic_forward(device: str, batch_size: int, feature_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("shape", ((2,), (2, 3), (2, 3, 4)))
-def test_quadratic_forward_shape(device: str, shape: tuple[int, ...]):
+def test_quadratic_forward_shape(device: str, shape: tuple[int, ...]) -> None:
     device = torch.device(device)
     module = Quadratic().to(device=device)
     assert module(torch.zeros(*shape, dtype=torch.float, device=device)).equal(
@@ -335,7 +335,7 @@ def test_quadratic_forward_shape(device: str, shape: tuple[int, ...]):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("num_parameters", (1, 4))
-def test_quadratic_forward_num_parameters(device: str, num_parameters: int):
+def test_quadratic_forward_num_parameters(device: str, num_parameters: int) -> None:
     device = torch.device(device)
     module = Quadratic(num_parameters).to(device=device)
     assert module(torch.zeros(2, 4, dtype=torch.float, device=device)).equal(
@@ -344,7 +344,7 @@ def test_quadratic_forward_num_parameters(device: str, num_parameters: int):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_quadratic_forward_init_1(device: str):
+def test_quadratic_forward_init_1(device: str) -> None:
     device = torch.device(device)
     module = Quadratic().to(device=device)
     assert module(
@@ -353,7 +353,7 @@ def test_quadratic_forward_init_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_quadratic_forward_init_2(device: str):
+def test_quadratic_forward_init_2(device: str) -> None:
     device = torch.device(device)
     module = Quadratic(init=2).to(device=device)
     assert module(
@@ -375,7 +375,7 @@ def test_quadratic_forward_init_2(device: str):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_multi_quadratic_forward(device: str, batch_size: int, feature_size: int):
+def test_multi_quadratic_forward(device: str, batch_size: int, feature_size: int) -> None:
     device = torch.device(device)
     module = MultiQuadratic(num_parameters=feature_size).to(device=device)
     out = module(torch.randn(batch_size, feature_size, device=device, requires_grad=True))
@@ -387,7 +387,7 @@ def test_multi_quadratic_forward(device: str, batch_size: int, feature_size: int
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("shape", ((2,), (2, 3), (2, 3, 4)))
-def test_multi_quadratic_forward_shape(device: str, shape: tuple[int, ...]):
+def test_multi_quadratic_forward_shape(device: str, shape: tuple[int, ...]) -> None:
     device = torch.device(device)
     module = MultiQuadratic().to(device=device)
     assert module(torch.zeros(*shape, dtype=torch.float, device=device)).equal(
@@ -397,7 +397,7 @@ def test_multi_quadratic_forward_shape(device: str, shape: tuple[int, ...]):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("num_parameters", (1, 4))
-def test_multi_quadratic_forward_num_parameters(device: str, num_parameters: int):
+def test_multi_quadratic_forward_num_parameters(device: str, num_parameters: int) -> None:
     device = torch.device(device)
     module = MultiQuadratic(num_parameters).to(device=device)
     assert module(torch.zeros(2, 4, dtype=torch.float, device=device)).equal(
@@ -406,7 +406,7 @@ def test_multi_quadratic_forward_num_parameters(device: str, num_parameters: int
 
 
 @mark.parametrize("device", get_available_devices())
-def test_multi_quadratic_forward_init_1(device: str):
+def test_multi_quadratic_forward_init_1(device: str) -> None:
     device = torch.device(device)
     module = MultiQuadratic().to(device=device)
     assert module(
@@ -421,7 +421,7 @@ def test_multi_quadratic_forward_init_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_multi_quadratic_forward_init_2(device: str):
+def test_multi_quadratic_forward_init_2(device: str) -> None:
     device = torch.device(device)
     module = MultiQuadratic(init=2).to(device=device)
     assert module(

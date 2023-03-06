@@ -25,7 +25,8 @@ class NoOpTrainingLoop(BaseTrainingLoop):
 
         It is a no-operation method.
 
-         Args:
+        Args:
+        ----
              engine (``BaseEngine``): Specifies the engine.
         """
 

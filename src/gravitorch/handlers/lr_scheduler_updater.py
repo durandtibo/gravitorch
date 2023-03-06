@@ -25,11 +25,12 @@ class LRSchedulerUpdater(BaseHandler):
     given event.
 
     Args:
+    ----
         event (str): Specifies the event when the learning rate
             scheduler is updated.
     """
 
-    def __init__(self, event: str):
+    def __init__(self, event: str) -> None:
         self._event = str(event)
 
     def __repr__(self) -> str:
@@ -50,7 +51,7 @@ class EpochLRSchedulerUpdater(LRSchedulerUpdater):
     r"""Implements a handler to update the learning rate (LR) scheduler at the
     end of each training epoch."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(event=EngineEvents.TRAIN_EPOCH_COMPLETED)
 
 
@@ -58,7 +59,7 @@ class IterationLRSchedulerUpdater(LRSchedulerUpdater):
     r"""Implements a handler to update the learning rate (LR) scheduler at the
     end of each training iteration."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(event=EngineEvents.TRAIN_ITERATION_COMPLETED)
 
 
@@ -71,6 +72,7 @@ class MetricLRSchedulerUpdater(BaseHandler):
     ``step`` method.
 
     Args:
+    ----
         event (str): Specifies the event when the learning rate
             scheduler is updated. The event should happen after the
             metric was computed.
@@ -80,7 +82,7 @@ class MetricLRSchedulerUpdater(BaseHandler):
             Default: ``'eval/loss'``
     """
 
-    def __init__(self, event: str, metric_name: str = f"{ct.EVAL}/loss"):
+    def __init__(self, event: str, metric_name: str = f"{ct.EVAL}/loss") -> None:
         self._event = event
         self._metric_name = metric_name
 
@@ -105,6 +107,7 @@ class MetricLRSchedulerUpdater(BaseHandler):
         r"""Updates the LR scheduler with a metric value.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine with the LR
                 scheduler to update and the metric used to update the
                 LR scheduler.
@@ -123,11 +126,12 @@ class MetricEpochLRSchedulerUpdater(MetricLRSchedulerUpdater):
     updated before this event.
 
     Args:
+    ----
         metric_name (str, optional): Specifies the metric to use to
             control the LR scheduler. This metric should be accessible
             with the ``get_history`` method of the engine.
             Default: ``'eval/loss'``
     """
 
-    def __init__(self, metric_name: str = f"{ct.EVAL}/loss"):
+    def __init__(self, metric_name: str = f"{ct.EVAL}/loss") -> None:
         super().__init__(event=EngineEvents.EPOCH_COMPLETED, metric_name=metric_name)

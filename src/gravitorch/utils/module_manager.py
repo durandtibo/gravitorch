@@ -17,7 +17,7 @@ class ModuleManager:
     and ``load_state_dict`` methods.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._modules = {}
 
     def __len__(self) -> int:
@@ -38,6 +38,7 @@ class ModuleManager:
         old module will be overwritten by the new module.
 
         Args:
+        ----
             name (str): Specifies the name of the module to add.
             module: Specifies the module to add.
 
@@ -58,12 +59,15 @@ class ModuleManager:
         r"""Gets a module.
 
         Args:
+        ----
             name (str): Specifies the module to get.
 
         Returns:
+        -------
             The module
 
         Raises:
+        ------
             ValueError if the module does not exist.
 
         Example usage:
@@ -85,9 +89,11 @@ class ModuleManager:
         r"""Indicates if there is module for the given name.
 
         Args:
+        ----
             name (str): Specifies the name to check.
 
         Returns:
+        -------
             bool: ``True`` if the module exists, otherwise ``False``
 
         Example usage:
@@ -109,9 +115,11 @@ class ModuleManager:
         r"""Removes a module.
 
         Args:
+        ----
             name (str): Specifies the name of the module to remove.
 
         Raises:
+        ------
             ValueError if the module does not exist.
 
         Example usage:
@@ -139,6 +147,7 @@ class ModuleManager:
         the optimizer module.
 
         Args:
+        ----
             state_dict (dict): Specifies the state dict to load.
             keys (list or tuple or ``None``): Specifies the keys to
                 load. If ``None``, it loads all the keys associated
@@ -165,7 +174,8 @@ class ModuleManager:
         The state of each module is store with the associated key of
         the module.
 
-        Returns:
+        Returns
+        -------
             dict: The state dict of all the modules.
 
         Example usage:

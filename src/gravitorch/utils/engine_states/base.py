@@ -35,10 +35,11 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         started.
 
         Returns:
+        -------
             int: The epoch value.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -57,10 +58,11 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         started.
 
         Returns:
+        -------
             int: The iteration value.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -75,10 +77,11 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Gets the maximum number of training epochs.
 
         Returns:
+        -------
             int: The maximum number of training epochs.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -93,10 +96,11 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Gets the random seed.
 
         Returns:
+        -------
             int: The random seed.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -110,6 +114,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Adds a history to the state.
 
         Args:
+        ----
             history (``BaseHistory``): Specifies the history
                 to add to the state.
             key (str or ``None``, optional): Specifies the key to store
@@ -117,7 +122,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
                 used. Default: ``None``
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -135,6 +140,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         old module will be overwritten by the new module.
 
         Args:
+        ----
             name (str): Specifies the name of the module to add to
                 the engine state.
             module: Specifies the module to add to the enfine state.
@@ -157,6 +163,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         non-comparable history.
 
         Args:
+        ----
             prefix (str): Specifies the prefix used to create the dict
                 of best values. The goal of this prefix is to generate
                 a name which is different from the metric name to
@@ -169,10 +176,11 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
                 name as the metric. Default: ``''``
 
         Returns:
+        -------
             dict: The dict with the best value of each metric.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -191,15 +199,17 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Gets the history associated to a key.
 
         Args:
+        ----
             key (str): Specifies the key of the history to retrieve.
 
-        Returns
+        Returns:
+        -------
             ``BaseHistory``: The history if it exists,
                 otherwise it returns an empty history. The created
                 empty history is a ``GenericHistory``.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -216,11 +226,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
     def get_histories(self) -> dict[str, BaseHistory]:
         r"""Gets all histories in the state.
 
-        Returns
+        Returns:
+        -------
             ``dict``: The histories with their keys.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -236,16 +247,19 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Gets a module.
 
         Args:
+        ----
             name (str): Specifies the module to get.
 
         Returns:
+        -------
             The module
 
         Raises:
+        ------
             ValueError if the module does not exist.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from torch import nn
@@ -263,13 +277,15 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Indicates if the state has a history for the given key.
 
         Args:
+        ----
             key (str): Specifies the key of the history.
 
-        Returns
+        Returns:
+        -------
             bool: ``True`` if the history exists, ``False`` otherwise.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -287,13 +303,15 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Indicates if there is module for the given name.
 
         Args:
+        ----
             name (str): Specifies the name to check.
 
         Returns:
+        -------
             bool: ``True`` if the module exists, otherwise ``False``.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from torch import nn
@@ -311,11 +329,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Increments the epoch value by the given value.
 
         Args:
+        ----
             increment (int, optional): Specifies the increment for the
                 epoch value. Default: ``1``
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -337,11 +356,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Increments the iteration value by the given value.
 
         Args:
+        ----
             increment (int, optional): Specifies the increment for the
                 iteration value. Default: ``1``
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -363,10 +383,11 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Loads the state values from a dict.
 
         Args:
+        ----
             state_dict (dict): A dict with parameters.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
@@ -382,13 +403,15 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Removes a module from the state.
 
         Args:
+        ----
             name (str): Specifies the name of the module to remove.
 
         Raises:
+        ------
             ValueError if the module name is not found.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from torch import nn
@@ -409,10 +432,11 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         r"""Returns a dictionary containing state values.
 
         Returns:
+        -------
             dict: the state values in a dict.
 
         Example:
-
+        -------
         .. code-block:: python
 
             >>> from gravitorch.utils.engine_states import BaseEngineState

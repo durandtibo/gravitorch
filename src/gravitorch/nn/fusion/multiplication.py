@@ -31,6 +31,7 @@ class MultiplicationFusion(Module):
         r"""Multiplies the list or tuple of inputs.
 
         Args:
+        ----
             *inputs (list or tuple of tensors): Specifies the list or
                 tuple of tensors to multiply. The shape of the tensors
                 should be the same. By default, this layer expects
@@ -41,6 +42,7 @@ class MultiplicationFusion(Module):
                 similar shapes.
 
         Returns:
+        -------
             ``torch.Tensor`` with the same shape that the input
                 tensor: The fused tensor.
         """

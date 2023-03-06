@@ -19,11 +19,13 @@ def setup_engine_state(state: Union[BaseEngineState, dict, None]) -> BaseEngineS
     ``BaseEngineState`` factory function.
 
     Args:
+    ----
         state (``BaseEngineState`` or dict or None): Specifies the
             engine state or its configuration. If ``None``, the
             ``VanillaEngineState`` is instantiated.
 
     Returns:
+    -------
         ``BaseEngineState``: The engine state.
     """
     if state is None:

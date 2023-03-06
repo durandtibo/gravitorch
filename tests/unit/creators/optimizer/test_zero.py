@@ -13,7 +13,7 @@ from gravitorch.engines import BaseEngine
 ####################################################
 
 
-def test_zero_redundancy_optimizer_creator_str():
+def test_zero_redundancy_optimizer_creator_str() -> None:
     assert str(
         ZeroRedundancyOptimizerCreator(
             optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
@@ -22,7 +22,7 @@ def test_zero_redundancy_optimizer_creator_str():
 
 
 @mark.parametrize("lr", (0.01, 0.001))
-def test_zero_redundancy_optimizer_creator_create_optimizer_config(lr: float):
+def test_zero_redundancy_optimizer_creator_create_optimizer_config(lr: float) -> None:
     creator = ZeroRedundancyOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": lr}
     )
@@ -32,7 +32,7 @@ def test_zero_redundancy_optimizer_creator_create_optimizer_config(lr: float):
         assert zero_mock.call_args.kwargs["lr"] == lr
 
 
-def test_zero_redundancy_optimizer_creator_create_zero_kwargs():
+def test_zero_redundancy_optimizer_creator_create_zero_kwargs() -> None:
     creator = ZeroRedundancyOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},
         zero_kwargs={"overlap_with_ddp": False},
@@ -43,7 +43,7 @@ def test_zero_redundancy_optimizer_creator_create_zero_kwargs():
         assert not zero_mock.call_args.kwargs["overlap_with_ddp"]
 
 
-def test_zero_redundancy_optimizer_creator_create_add_module_to_engine_true():
+def test_zero_redundancy_optimizer_creator_create_add_module_to_engine_true() -> None:
     creator = ZeroRedundancyOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},
     )
@@ -55,7 +55,7 @@ def test_zero_redundancy_optimizer_creator_create_add_module_to_engine_true():
         engine.add_module.assert_called_once_with(ct.OPTIMIZER, "my_optimizer")
 
 
-def test_zero_redundancy_optimizer_creator_create_add_module_to_engine_false():
+def test_zero_redundancy_optimizer_creator_create_add_module_to_engine_false() -> None:
     creator = ZeroRedundancyOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},
         add_module_to_engine=False,
@@ -66,7 +66,7 @@ def test_zero_redundancy_optimizer_creator_create_add_module_to_engine_false():
         engine.add_module.assert_not_called()
 
 
-def test_zero_redundancy_optimizer_creator_create_attach_handler_true():
+def test_zero_redundancy_optimizer_creator_create_attach_handler_true() -> None:
     creator = ZeroRedundancyOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},
     )
@@ -76,7 +76,7 @@ def test_zero_redundancy_optimizer_creator_create_attach_handler_true():
         engine.add_event_handler.assert_called_once()
 
 
-def test_zero_redundancy_optimizer_creator_create_attach_handler_false():
+def test_zero_redundancy_optimizer_creator_create_attach_handler_false() -> None:
     creator = ZeroRedundancyOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},
         attach_handler=False,

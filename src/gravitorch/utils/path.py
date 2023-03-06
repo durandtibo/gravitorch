@@ -13,6 +13,7 @@ __all__ = [
 import contextlib
 import os
 import tarfile
+from collections.abc import Generator
 from pathlib import Path
 from typing import Optional, Union
 from urllib.parse import unquote, urlparse
@@ -29,7 +30,8 @@ def get_original_cwd() -> Path:
     The problem is that Hydra change the working directory when the
     application is launched.
 
-    Returns:
+    Returns
+    -------
         ``pathlib.Path``: If Hydra is initialized, it returns the
             original working directory otherwise it returns the
             current working directory.
@@ -43,7 +45,8 @@ def get_pythonpath() -> Path:
     r"""Gets the value of PYTHONPATH or the original working directory if this
     value is not defined.
 
-    Returns:
+    Returns
+    -------
         ``pathlib.Path``: The value of the PYTHONPATH or the original
             working directory if it is not defined.
     """
@@ -51,13 +54,14 @@ def get_pythonpath() -> Path:
 
 
 @contextlib.contextmanager
-def working_directory(path: Path):
+def working_directory(path: Path) -> Generator[None, None, None]:
     r"""A context manager which changes the working directory to the given path,
     and then changes it back to its previous value on exit.
 
     SOURCE: https://gist.github.com/nottrobin/3d675653244f8814838a
 
     Args:
+    ----
         path (``pathlib.Path``): Specifies the path to the temporary
             working directory.
 
@@ -83,9 +87,11 @@ def get_number_of_files(path: str) -> int:
     r"""Gets the number of files in a folder and its sub-folders.
 
     Args:
+    ----
         path (str): Specifies the path to the folder.
 
     Returns:
+    -------
         int: The number of files.
     """
     return sum([len(files) for _, _, files in os.walk(path)])
@@ -98,12 +104,14 @@ def find_tar_files(path: Path, recursive: bool = True) -> tuple[Path, ...]:
     careful if you are using a path with symbolic links.
 
     Args:
+    ----
         path (``pathlib.Path``): Specifies the path where to look for
             the tar files.
         recursive (bool, optional): Specifies if it should also check
             the sub-folders.
 
     Returns:
+    -------
         tuple: The tuple of path of tar files.
     """
     path = sanitize_path(path)
@@ -118,17 +126,19 @@ def find_tar_files(path: Path, recursive: bool = True) -> tuple[Path, ...]:
         return tuple(list_files)
     if tarfile.is_tarfile(path):
         return (path,)
-    return tuple()
+    return ()
 
 
 def sanitize_path(path: Union[Path, str]) -> Path:
     r"""Sanitizes a given path.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to
             sanitize.
 
     Returns:
+    -------
         ``pathlib.Path``: The sanitized path.
 
     Example usage:
@@ -160,6 +170,7 @@ def get_human_readable_file_size(path: Union[Path, str], unit: Optional[str] = N
     r"""Gets a human-readable representation of a file size.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the file.
         unit (str, optional): Specifies the unit. If ``None``, the
             best unit is found automatically. The supported units
@@ -167,6 +178,7 @@ def get_human_readable_file_size(path: Union[Path, str], unit: Optional[str] = N
             Default: ``None``
 
     Returns:
+    -------
         str: The file size in a human-readable format.
 
     Example usage:

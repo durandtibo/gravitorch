@@ -27,6 +27,7 @@ class AMPTrainingLoop(VanillaTrainingLoop):
     training loop using automatic mixed precision (AMP).
 
     Args:
+    ----
         set_grad_to_none (bool, optional): If ``True``, set the
             gradients to ``None``, otherwise set the gradients to
             zero. Setting the gradients to ``None`` will in general
@@ -64,7 +65,7 @@ class AMPTrainingLoop(VanillaTrainingLoop):
         tag: str = "train",
         observer: Union[BaseLoopObserver, dict, None] = None,
         profiler: Union[BaseProfiler, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(
             clip_grad=clip_grad,
             set_grad_to_none=set_grad_to_none,

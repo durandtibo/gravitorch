@@ -17,12 +17,12 @@ from gravitorch.runners.utils import (
 ##################################
 
 
-def test_setup_runner_object():
+def test_setup_runner_object() -> None:
     runner = TrainingRunner(engine={})
     assert setup_runner(runner) is runner
 
 
-def test_setup_runner_dict():
+def test_setup_runner_dict() -> None:
     assert isinstance(
         setup_runner({OBJECT_TARGET: "gravitorch.runners.TrainingRunner", "engine": {}}),
         TrainingRunner,
@@ -35,13 +35,13 @@ def test_setup_runner_dict():
 
 
 @mark.parametrize("cudnn_benchmark", (True, False))
-def test_configure_pytorch_cudnn_benchmark(cudnn_benchmark):
+def test_configure_pytorch_cudnn_benchmark(cudnn_benchmark: bool) -> None:
     configure_pytorch(cudnn_benchmark=cudnn_benchmark)
     assert cudnn.benchmark == cudnn_benchmark
 
 
 @mark.parametrize("cudnn_deterministic", (True, False))
-def test_configure_pytorch_cudnn_deterministic(cudnn_deterministic):
+def test_configure_pytorch_cudnn_deterministic(cudnn_deterministic: bool) -> None:
     configure_pytorch(cudnn_deterministic=cudnn_deterministic)
     assert cudnn.deterministic == cudnn_deterministic
 
@@ -51,7 +51,7 @@ def test_configure_pytorch_cudnn_deterministic(cudnn_deterministic):
 #####################################
 
 
-def test_show_cuda_info(caplog: LogCaptureFixture):
+def test_show_cuda_info(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_cuda_info()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
@@ -62,7 +62,7 @@ def test_show_cuda_info(caplog: LogCaptureFixture):
 #####################################
 
 
-def test_show_cudnn_info(caplog: LogCaptureFixture):
+def test_show_cudnn_info(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_cudnn_info()
         assert len(caplog.messages[0]) > 0  # The message should not be empty

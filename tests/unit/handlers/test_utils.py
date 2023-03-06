@@ -21,7 +21,7 @@ EVENTS = ("my_event", "my_other_event")
 
 
 @mark.parametrize("event", EVENTS)
-def test_add_unique_event_handler_has_event_handler_false(event: str):
+def test_add_unique_event_handler_has_event_handler_false(event: str) -> None:
     engine = Mock()
     engine.has_event_handler.return_value = False
     event_handler = VanillaEventHandler(Mock())
@@ -30,7 +30,7 @@ def test_add_unique_event_handler_has_event_handler_false(event: str):
 
 
 @mark.parametrize("event", EVENTS)
-def test_add_unique_event_handler_has_event_handler_true(event: str):
+def test_add_unique_event_handler_has_event_handler_true(event: str) -> None:
     engine = Mock()
     engine.has_event_handler.return_value = True
     event_handler = VanillaEventHandler(Mock())
@@ -43,12 +43,12 @@ def test_add_unique_event_handler_has_event_handler_true(event: str):
 ###################################
 
 
-def test_setup_handler_from_object():
+def test_setup_handler_from_object() -> None:
     handler = setup_handler(handler=EpochLRMonitor())
     assert isinstance(handler, EpochLRMonitor)
 
 
-def test_setup_handler_from_config():
+def test_setup_handler_from_config() -> None:
     handler = setup_handler(handler={OBJECT_TARGET: "gravitorch.handlers.EpochLRMonitor"})
     assert isinstance(handler, EpochLRMonitor)
 
@@ -58,7 +58,7 @@ def test_setup_handler_from_config():
 ###############################################
 
 
-def test_setup_and_attach_handlers_from_config():
+def test_setup_and_attach_handlers_from_config() -> None:
     engine = Mock()
     engine.epoch = -1
     engine.has_event_handler.return_value = False
@@ -69,7 +69,7 @@ def test_setup_and_attach_handlers_from_config():
     assert isinstance(handlers[0], EpochLRMonitor)
 
 
-def test_setup_and_attach_handlers_2_handlers():
+def test_setup_and_attach_handlers_2_handlers() -> None:
     engine = Mock()
     handler1 = Mock()
     handler2 = Mock()
@@ -84,13 +84,13 @@ def test_setup_and_attach_handlers_2_handlers():
 ###############################
 
 
-def test_to_events_str():
+def test_to_events_str() -> None:
     assert to_events("my_event") == ("my_event",)
 
 
-def test_to_events_list():
+def test_to_events_list() -> None:
     assert to_events(["my_event", "my_other_event"]) == ("my_event", "my_other_event")
 
 
-def test_to_events_tuple():
+def test_to_events_tuple() -> None:
     assert to_events(("my_event", "my_other_event")) == ("my_event", "my_other_event")

@@ -19,13 +19,13 @@ from gravitorch.utils.exp_trackers import EpochStep
 
 
 @mark.parametrize("lr", (0.01, 0.0001))
-def test_get_learning_rate_per_group_single_value(lr: float):
+def test_get_learning_rate_per_group_single_value(lr: float) -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=lr)
     assert get_learning_rate_per_group(optimizer) == {0: lr}
 
 
-def test_get_learning_rate_per_group_multiple_values():
+def test_get_learning_rate_per_group_multiple_values() -> None:
     model = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     optimizer = SGD(
         [{"params": model[0].parameters(), "lr": 0.001}, {"params": model[1].parameters()}], lr=0.01
@@ -39,13 +39,13 @@ def test_get_learning_rate_per_group_multiple_values():
 
 
 @mark.parametrize("weight_decay", (0.0001, 0.00001))
-def test_get_weight_decays_single_value(weight_decay: float):
+def test_get_weight_decays_single_value(weight_decay: float) -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=0.01, weight_decay=weight_decay)
     assert get_weight_decay_per_group(optimizer) == {0: weight_decay}
 
 
-def test_get_weight_decays_multiple_value():
+def test_get_weight_decays_multiple_value() -> None:
     model = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     optimizer = SGD(
         [
@@ -58,7 +58,7 @@ def test_get_weight_decays_multiple_value():
     assert get_weight_decay_per_group(optimizer) == {0: 0.0002, 1: 0.0001}
 
 
-def test_get_weight_decays_no_weight_decay():
+def test_get_weight_decays_no_weight_decay() -> None:
     model = nn.Linear(4, 6)
     optimizer = Rprop(model.parameters(), lr=0.01)
     assert get_weight_decay_per_group(optimizer) == {}
@@ -69,7 +69,7 @@ def test_get_weight_decays_no_weight_decay():
 ########################################################
 
 
-def test_show_optimizer_parameters_per_group_sgd_1_group(caplog: LogCaptureFixture):
+def test_show_optimizer_parameters_per_group_sgd_1_group(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         model = nn.Linear(4, 6)
         optimizer = SGD(model.parameters(), lr=0.01)
@@ -84,7 +84,7 @@ def test_show_optimizer_parameters_per_group_sgd_1_group(caplog: LogCaptureFixtu
         )
 
 
-def test_show_optimizer_parameters_per_group_sgd_2_groups(caplog: LogCaptureFixture):
+def test_show_optimizer_parameters_per_group_sgd_2_groups(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         model = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
         optimizer = SGD(
@@ -108,7 +108,7 @@ def test_show_optimizer_parameters_per_group_sgd_2_groups(caplog: LogCaptureFixt
         )
 
 
-def test_show_optimizer_parameters_per_group_adam_1_group(caplog: LogCaptureFixture):
+def test_show_optimizer_parameters_per_group_adam_1_group(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         model = nn.Linear(4, 6)
         optimizer = Adam(model.parameters(), lr=0.01)
@@ -123,7 +123,7 @@ def test_show_optimizer_parameters_per_group_adam_1_group(caplog: LogCaptureFixt
         )
 
 
-def test_show_optimizer_parameters_per_group_adagrad_1_group(caplog: LogCaptureFixture):
+def test_show_optimizer_parameters_per_group_adagrad_1_group(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         model = nn.Linear(4, 6)
         optimizer = Adagrad(model.parameters(), lr=0.01)
@@ -143,7 +143,7 @@ def test_show_optimizer_parameters_per_group_adagrad_1_group(caplog: LogCaptureF
 #######################################################
 
 
-def test_log_optimizer_parameters_per_group_sgd_1_group():
+def test_log_optimizer_parameters_per_group_sgd_1_group() -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=0.01)
     engine = Mock()
@@ -162,7 +162,7 @@ def test_log_optimizer_parameters_per_group_sgd_1_group():
     )
 
 
-def test_log_optimizer_parameters_per_group_sgd_1_group_with_step():
+def test_log_optimizer_parameters_per_group_sgd_1_group_with_step() -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=0.01)
     engine = Mock()
@@ -181,7 +181,7 @@ def test_log_optimizer_parameters_per_group_sgd_1_group_with_step():
     )
 
 
-def test_log_optimizer_parameters_per_group_sgd_1_group_with_prefix():
+def test_log_optimizer_parameters_per_group_sgd_1_group_with_prefix() -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=0.01)
     engine = Mock()
@@ -200,7 +200,7 @@ def test_log_optimizer_parameters_per_group_sgd_1_group_with_prefix():
     )
 
 
-def test_log_optimizer_parameters_per_group_sgd_2_groups():
+def test_log_optimizer_parameters_per_group_sgd_2_groups() -> None:
     model = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     optimizer = SGD(
         [
@@ -233,7 +233,7 @@ def test_log_optimizer_parameters_per_group_sgd_2_groups():
     )
 
 
-def test_log_optimizer_parameters_per_group_adam_1_group():
+def test_log_optimizer_parameters_per_group_adam_1_group() -> None:
     model = nn.Linear(4, 6)
     optimizer = Adam(model.parameters(), lr=0.01)
     engine = Mock()
@@ -255,7 +255,7 @@ def test_log_optimizer_parameters_per_group_adam_1_group():
     )
 
 
-def test_log_optimizer_parameters_per_group_adagrad_1_group():
+def test_log_optimizer_parameters_per_group_adagrad_1_group() -> None:
     model = nn.Linear(4, 6)
     optimizer = Adagrad(model.parameters(), lr=0.01)
     engine = Mock()

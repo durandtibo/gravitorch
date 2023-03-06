@@ -23,6 +23,7 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
     the distributed rank.
 
     Args:
+    ----
         config (dict): Specifies the configuration of the
             ``IterDataPipe``.
         random_seed_key (str, optional): Specifies the key in the
@@ -32,7 +33,7 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
             state.
     """
 
-    def __init__(self, config: dict, random_seed_key: str = "random_seed"):
+    def __init__(self, config: dict, random_seed_key: str = "random_seed") -> None:
         self._config = config
         self._random_seed_key = str(random_seed_key)
 
@@ -50,7 +51,7 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
                 "engine cannot be None because the epoch value is used to create the "
                 "IterDataPipe object"
             )
-        source_inputs = source_inputs or tuple()
+        source_inputs = source_inputs or ()
         config = self._config.copy()  # Make a copy because the dict is modified below.
         target = config.pop(OBJECT_TARGET)
         config[self._random_seed_key] = (

@@ -25,11 +25,13 @@ class BasePartitioner(Generic[T], ABC, metaclass=AbstractFactory):
         r"""Creates data.
 
         Args:
+        ----
             items: Specifies the sequence to partition.
             engine (``BaseEngine`` or ``None``): Specifies an engine.
                 Default: ``None``
 
         Return:
+        ------
             list: The list of partitions.
         """
 
@@ -41,10 +43,12 @@ def setup_partitioner(partitioner: Union[BasePartitioner, dict]) -> BasePartitio
     the ``BasePartitioner`` factory function.
 
     Args:
+    ----
         partitioner (``BasePartitioner`` or dict): Specifies the
             partitioner or its configuration.
 
     Returns:
+    -------
         ``BasePartitioner``: The instantiated partitioner.
     """
     if isinstance(partitioner, dict):

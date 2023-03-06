@@ -22,6 +22,7 @@ class ExU(Module):
         NeurIPS 2021. (https://arxiv.org/pdf/2004.13912.pdf)
 
     Args:
+    ----
         input_size (int): Specifies the input size.
         output_size (int): Specifies the output size.
         activation (``torch.nn.Module`` or dict or ``None``):
@@ -34,7 +35,7 @@ class ExU(Module):
         input_size: int,
         output_size: int,
         activation: Union[Module, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__()
         self.weight = Parameter(torch.empty(input_size, output_size))
         self.bias = Parameter(torch.zeros(input_size))
@@ -44,12 +45,12 @@ class ExU(Module):
 
     @property
     def input_size(self) -> int:
-        r"""int: The input size"""
+        r"""int: The input size."""
         return self.weight.shape[0]
 
     @property
     def output_size(self) -> int:
-        r"""int: The output size"""
+        r"""int: The output size."""
         return self.weight.shape[1]
 
     def extra_repr(self) -> str:
@@ -59,11 +60,13 @@ class ExU(Module):
         r"""Computes the forward of the ExU layer.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn, input_size)``): Specifies the
                 input tensor.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn, output_size)``: The output
                 tensor.

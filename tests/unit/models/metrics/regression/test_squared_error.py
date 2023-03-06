@@ -40,20 +40,20 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_squared_error_str(mode: str):
+def test_squared_error_str(mode: str) -> None:
     assert str(SquaredError(mode)).startswith("SquaredError(")
 
 
-def test_squared_error_init_state_default():
+def test_squared_error_init_state_default() -> None:
     assert isinstance(SquaredError(ct.EVAL)._state, ErrorState)
 
 
-def test_squared_error_init_state_mean():
+def test_squared_error_init_state_mean() -> None:
     assert isinstance(SquaredError(ct.EVAL, state=MeanErrorState())._state, MeanErrorState)
 
 
 @mark.parametrize("name", NAMES)
-def test_squared_error_attach_train(name: str, engine: BaseEngine):
+def test_squared_error_attach_train(name: str, engine: BaseEngine) -> None:
     metric = SquaredError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_mean"), MinScalarHistory)
@@ -70,7 +70,7 @@ def test_squared_error_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_squared_error_attach_eval(name: str, engine: BaseEngine):
+def test_squared_error_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = SquaredError(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_mean"), MinScalarHistory)
@@ -86,7 +86,7 @@ def test_squared_error_attach_eval(name: str, engine: BaseEngine):
     )
 
 
-def test_squared_error_attach_state_mean(engine: BaseEngine):
+def test_squared_error_attach_state_mean(engine: BaseEngine) -> None:
     metric = SquaredError(ct.EVAL, state=MeanErrorState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/sq_err_mean"), MinScalarHistory)
@@ -103,7 +103,9 @@ def test_squared_error_attach_state_mean(engine: BaseEngine):
 @mark.parametrize("mode", MODES)
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("feature_size", SIZES)
-def test_squared_error_forward_correct(device: str, mode: str, batch_size: int, feature_size: int):
+def test_squared_error_forward_correct(
+    device: str, mode: str, batch_size: int, feature_size: int
+) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(
@@ -125,7 +127,7 @@ def test_squared_error_forward_correct(device: str, mode: str, batch_size: int, 
 @mark.parametrize("feature_size", SIZES)
 def test_squared_error_forward_incorrect(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(
@@ -143,7 +145,7 @@ def test_squared_error_forward_incorrect(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_forward_partially_correct(device: str, mode: str):
+def test_squared_error_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
@@ -158,7 +160,7 @@ def test_squared_error_forward_partially_correct(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_forward_1d(device: str, mode: str):
+def test_squared_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -173,7 +175,7 @@ def test_squared_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_forward_2d(device: str, mode: str):
+def test_squared_error_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -188,7 +190,7 @@ def test_squared_error_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_forward_3d(device: str, mode: str):
+def test_squared_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -210,7 +212,7 @@ def test_squared_error_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(
@@ -228,7 +230,7 @@ def test_squared_error_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_forward_state(device: str, mode: str):
+def test_squared_error_forward_state(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredError(mode, state=ExtendedErrorState()).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -245,7 +247,7 @@ def test_squared_error_forward_state(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_forward_multiple_batches(device: str, mode: str):
+def test_squared_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -261,7 +263,7 @@ def test_squared_error_forward_multiple_batches(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_squared_error_forward_multiple_batches_with_reset(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -277,14 +279,14 @@ def test_squared_error_forward_multiple_batches_with_reset(device: str, mode: st
 
 
 @mark.parametrize("mode", MODES)
-def test_squared_error_value_empty(mode: str):
+def test_squared_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         SquaredError(mode).value()
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = SquaredError(mode).to(device=device)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
@@ -297,7 +299,7 @@ def test_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngi
 
 
 @mark.parametrize("device", get_available_devices())
-def test_squared_error_events_train(device: str, engine: BaseEngine):
+def test_squared_error_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = SquaredError(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -313,7 +315,7 @@ def test_squared_error_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_squared_error_events_eval(device: str, engine: BaseEngine):
+def test_squared_error_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = SquaredError(ct.EVAL).to(device=device)
     metric.attach(engine)
@@ -328,7 +330,7 @@ def test_squared_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/sq_err_num_predictions").get_last_value() == 4
 
 
-def test_squared_error_reset():
+def test_squared_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = SquaredError(ct.EVAL, state=state)
     metric.reset()
@@ -341,12 +343,12 @@ def test_squared_error_reset():
 
 
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_str(mode: str):
+def test_root_mean_squared_error_str(mode: str) -> None:
     assert str(RootMeanSquaredError(mode)).startswith("RootMeanSquaredError(")
 
 
 @mark.parametrize("name", NAMES)
-def test_root_mean_squared_error_attach_train(name: str, engine: BaseEngine):
+def test_root_mean_squared_error_attach_train(name: str, engine: BaseEngine) -> None:
     metric = RootMeanSquaredError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_root_mean"), MinScalarHistory)
@@ -360,7 +362,7 @@ def test_root_mean_squared_error_attach_train(name: str, engine: BaseEngine):
 
 
 @mark.parametrize("name", NAMES)
-def test_root_mean_squared_error_attach_eval(name: str, engine: BaseEngine):
+def test_root_mean_squared_error_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = RootMeanSquaredError(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_root_mean"), MinScalarHistory)
@@ -379,7 +381,7 @@ def test_root_mean_squared_error_attach_eval(name: str, engine: BaseEngine):
 @mark.parametrize("feature_size", SIZES)
 def test_root_mean_squared_error_forward_correct(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(
@@ -398,7 +400,7 @@ def test_root_mean_squared_error_forward_correct(
 @mark.parametrize("feature_size", SIZES)
 def test_root_mean_squared_error_forward_incorrect(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(
@@ -413,7 +415,7 @@ def test_root_mean_squared_error_forward_incorrect(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_forward_partially_correct(device: str, mode: str):
+def test_root_mean_squared_error_forward_partially_correct(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
@@ -428,7 +430,7 @@ def test_root_mean_squared_error_forward_partially_correct(device: str, mode: st
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_forward_1d(device: str, mode: str):
+def test_root_mean_squared_error_forward_1d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, device=device), torch.ones(2, device=device))
@@ -440,7 +442,7 @@ def test_root_mean_squared_error_forward_1d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_forward_2d(device: str, mode: str):
+def test_root_mean_squared_error_forward_2d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, 3, device=device), torch.ones(2, 3, device=device))
@@ -452,7 +454,7 @@ def test_root_mean_squared_error_forward_2d(device: str, mode: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_forward_3d(device: str, mode: str):
+def test_root_mean_squared_error_forward_3d(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, 3, 4, device=device), torch.ones(2, 3, 4, device=device))
@@ -471,7 +473,7 @@ def test_root_mean_squared_error_forward_dtypes(
     mode: str,
     dtype_prediction: torch.dtype,
     dtype_target: torch.dtype,
-):
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(
@@ -486,7 +488,7 @@ def test_root_mean_squared_error_forward_dtypes(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_forward_multiple_batches(device: str, mode: str):
+def test_root_mean_squared_error_forward_multiple_batches(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -499,7 +501,9 @@ def test_root_mean_squared_error_forward_multiple_batches(device: str, mode: str
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_forward_multiple_batches_with_reset(device: str, mode: str):
+def test_root_mean_squared_error_forward_multiple_batches_with_reset(
+    device: str, mode: str
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
@@ -515,14 +519,16 @@ def test_root_mean_squared_error_forward_multiple_batches_with_reset(device: str
 
 
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_value_empty(mode: str):
+def test_root_mean_squared_error_value_empty(mode: str) -> None:
     with raises(EmptyMetricError):
         RootMeanSquaredError(mode).value()
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_root_mean_squared_error_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_root_mean_squared_error_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(mode).to(device=device)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
@@ -532,7 +538,7 @@ def test_root_mean_squared_error_value_log_engine(device: str, mode: str, engine
 
 
 @mark.parametrize("device", get_available_devices())
-def test_root_mean_squared_error_events_train(device: str, engine: BaseEngine):
+def test_root_mean_squared_error_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(ct.TRAIN).to(device=device)
     metric.attach(engine)
@@ -545,7 +551,7 @@ def test_root_mean_squared_error_events_train(device: str, engine: BaseEngine):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_root_mean_squared_error_events_eval(device: str, engine: BaseEngine):
+def test_root_mean_squared_error_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = RootMeanSquaredError(ct.EVAL).to(device=device)
     metric.attach(engine)
@@ -557,7 +563,7 @@ def test_root_mean_squared_error_events_eval(device: str, engine: BaseEngine):
     assert engine.get_history(f"{ct.EVAL}/rmse_num_predictions").get_last_value() == 4
 
 
-def test_root_mean_squared_error_reset():
+def test_root_mean_squared_error_reset() -> None:
     state = Mock(spec=BaseState)
     metric = RootMeanSquaredError(ct.EVAL)
     metric._state = state

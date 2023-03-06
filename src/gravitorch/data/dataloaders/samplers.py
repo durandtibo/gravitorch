@@ -2,7 +2,7 @@ r"""This module implements PyTorch sampler functions for data loaders."""
 
 __all__ = ["ReproducibleBatchSampler", "PartialSequentialSampler", "PartialRandomSampler"]
 
-from collections.abc import Generator, Iterator
+from collections.abc import Generator, Iterator, Sized
 
 import torch
 from torch.utils.data import BatchSampler, Sampler
@@ -15,6 +15,7 @@ class ReproducibleBatchSampler(BatchSampler):
     iterates and stores indices of the input batch sampler.
 
     Args:
+    ----
         batch_sampler (``torch.utils.data.BatchSampler``): batch
             sampler same as used with ``torch.utils.data.DataLoader``
         start_iteration (int, optional): Specifies the starting
@@ -42,7 +43,7 @@ class ReproducibleBatchSampler(BatchSampler):
         [[6, 7, 8], [9]]
     """
 
-    def __init__(self, batch_sampler: BatchSampler, start_iteration: int = 0):
+    def __init__(self, batch_sampler: BatchSampler, start_iteration: int = 0) -> None:
         if not isinstance(batch_sampler, BatchSampler):
             raise TypeError(
                 "Argument batch_sampler should be torch.utils.data.sampler.BatchSampler"
@@ -65,15 +66,16 @@ class PartialSequentialSampler(Sampler):
     items in the dataset.
 
     Args:
-        data_source (``torch.utils.data.Dataset``): Specifies the
-            dataset to sample from.
+    ----
+        data_source (``Sized``): Specifies the dataset to sample
+            from.
         num_samples (int): Specifies the number of samples to draw.
             If the number of samples is bigger than the number of
             samples in the dataset, the number of samples to draw
             is the dataset size.
     """
 
-    def __init__(self, data_source, num_samples: int):
+    def __init__(self, data_source: Sized, num_samples: int) -> None:
         super().__init__(data_source)
         self.data_source = data_source
         if not isinstance(num_samples, int) or num_samples <= 0:
@@ -91,16 +93,7 @@ class PartialSequentialSampler(Sampler):
 
 class PartialRandomSampler(PartialSequentialSampler):
     r"""Implements a partial random sampler that samples randomly some items of
-    the dataset.
-
-    Args:
-        data_source (``torch.utils.data.Dataset``): Specifies the
-            dataset to sample from.
-        nnum_samples (int): Specifies the number of samples to draw.
-            If the number of samples is bigger than the number of
-            samples in the dataset, the number of samples to draw
-            is the dataset size.
-    """
+    the dataset."""
 
     def __iter__(self) -> Iterator:
         return iter(torch.randperm(len(self.data_source))[: self.num_samples].tolist())

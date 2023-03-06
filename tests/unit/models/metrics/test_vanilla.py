@@ -20,7 +20,7 @@ MODES = (ct.TRAIN, ct.EVAL)
 
 
 @fixture(scope="module")
-def cri_out():
+def cri_out() -> None:
     return {}
 
 
@@ -35,14 +35,14 @@ def engine() -> BaseEngine:
 
 
 @mark.parametrize("mode", MODES)
-def test_vanilla_metric_multiclass_accuracy_from_object(mode: str):
+def test_vanilla_metric_multiclass_accuracy_from_object(mode: str) -> None:
     metric = VanillaMetric(CategoricalAccuracy(mode))
     assert isinstance(metric.metric, CategoricalAccuracy)
     assert metric.metric._mode == mode
 
 
 @mark.parametrize("mode", MODES)
-def test_vanilla_metric_multiclass_accuracy_from_config(mode: str):
+def test_vanilla_metric_multiclass_accuracy_from_config(mode: str) -> None:
     metric = VanillaMetric(
         metric={OBJECT_TARGET: "gravitorch.models.metrics.CategoricalAccuracy"}, mode=mode
     )
@@ -51,7 +51,7 @@ def test_vanilla_metric_multiclass_accuracy_from_config(mode: str):
 
 
 @mark.parametrize("mode", MODES)
-def test_vanilla_metric_multiclass_accuracy_from_config_with_mode(mode: str):
+def test_vanilla_metric_multiclass_accuracy_from_config_with_mode(mode: str) -> None:
     metric = VanillaMetric(
         metric={OBJECT_TARGET: "gravitorch.models.metrics.CategoricalAccuracy", "mode": mode}
     )
@@ -59,7 +59,7 @@ def test_vanilla_metric_multiclass_accuracy_from_config_with_mode(mode: str):
     assert metric.metric._mode == mode
 
 
-def test_vanilla_metric_multiclass_accuracy_attach_train(engine: BaseEngine):
+def test_vanilla_metric_multiclass_accuracy_attach_train(engine: BaseEngine) -> None:
     metric = VanillaMetric(CategoricalAccuracy(ct.TRAIN))
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/cat_acc_accuracy"), MaxScalarHistory)
@@ -72,7 +72,7 @@ def test_vanilla_metric_multiclass_accuracy_attach_train(engine: BaseEngine):
     )
 
 
-def test_vanilla_metric_multiclass_accuracy_attach_eval(engine: BaseEngine):
+def test_vanilla_metric_multiclass_accuracy_attach_eval(engine: BaseEngine) -> None:
     metric = VanillaMetric(CategoricalAccuracy(ct.EVAL))
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/cat_acc_accuracy"), MaxScalarHistory)
@@ -90,7 +90,7 @@ def test_vanilla_metric_multiclass_accuracy_attach_eval(engine: BaseEngine):
 @mark.parametrize("batch_size", SIZES)
 def test_vanilla_metric_multiclass_accuracy_forward_correct(
     device: str, mode: str, batch_size: int, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = VanillaMetric(CategoricalAccuracy(mode)).to(device=device)
     metric(
@@ -109,7 +109,7 @@ def test_vanilla_metric_multiclass_accuracy_forward_correct(
 @mark.parametrize("batch_size", SIZES)
 def test_vanilla_metric_multiclass_accuracy_forward_incorrect(
     device: str, mode: str, batch_size: int, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = VanillaMetric(CategoricalAccuracy(mode)).to(device=device)
     prediction = torch.zeros(batch_size, 3, device=device)
@@ -129,7 +129,7 @@ def test_vanilla_metric_multiclass_accuracy_forward_incorrect(
 @mark.parametrize("mode", MODES)
 def test_vanilla_metric_multiclass_accuracy_forward_multiple_batches_with_reset(
     device: str, mode: str, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = VanillaMetric(CategoricalAccuracy(mode)).to(device=device)
     metric(
@@ -160,7 +160,7 @@ def test_vanilla_metric_multiclass_accuracy_forward_multiple_batches_with_reset(
 @mark.parametrize("seq_len", SIZES)
 def test_padded_sequence_metric_forward_mae_correct(
     device: str, mode: str, batch_size: int, seq_len: int, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = PaddedSequenceMetric(AbsoluteError(mode)).to(device=device)
     assert (
@@ -186,7 +186,7 @@ def test_padded_sequence_metric_forward_mae_correct(
 @mark.parametrize("seq_len", SIZES)
 def test_padded_sequence_metric_forward_mae_incorrect(
     device: str, mode: str, batch_size: int, seq_len: int, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = PaddedSequenceMetric(AbsoluteError(mode)).to(device=device)
     assert (
@@ -210,7 +210,7 @@ def test_padded_sequence_metric_forward_mae_incorrect(
 @mark.parametrize("mode", MODES)
 def test_padded_sequence_metric_forward_mae_correct_with_mask_true_bool(
     device: str, mode: str, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = PaddedSequenceMetric(AbsoluteError(mode)).to(device=device)
     assert (
@@ -241,7 +241,7 @@ def test_padded_sequence_metric_forward_mae_correct_with_mask_true_bool(
 @mark.parametrize("mode", MODES)
 def test_padded_sequence_metric_forward_mae_correct_with_mask_true_long(
     device: str, mode: str, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = PaddedSequenceMetric(AbsoluteError(mode)).to(device=device)
     assert (
@@ -270,7 +270,7 @@ def test_padded_sequence_metric_forward_mae_correct_with_mask_true_long(
 @mark.parametrize("mode", MODES)
 def test_padded_sequence_metric_forward_mae_correct_with_mask_false_bool(
     device: str, mode: str, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = PaddedSequenceMetric(AbsoluteError(mode), valid_value=False).to(device=device)
     assert (
@@ -301,7 +301,7 @@ def test_padded_sequence_metric_forward_mae_correct_with_mask_false_bool(
 @mark.parametrize("mode", MODES)
 def test_padded_sequence_metric_forward_mae_correct_with_mask_false_long(
     device: str, mode: str, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = PaddedSequenceMetric(AbsoluteError(mode), valid_value=False).to(device=device)
     assert (
@@ -330,7 +330,7 @@ def test_padded_sequence_metric_forward_mae_correct_with_mask_false_long(
 @mark.parametrize("mode", MODES)
 def test_padded_sequence_metric_forward_mae_mask_in_batch_false(
     device: str, mode: str, cri_out: dict
-):
+) -> None:
     device = torch.device(device)
     metric = PaddedSequenceMetric(AbsoluteError(mode), mask_in_batch=False).to(device=device)
     assert (

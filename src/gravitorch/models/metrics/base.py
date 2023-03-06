@@ -36,6 +36,7 @@ class BaseMetric(Module, metaclass=AbstractFactory):
             - set up history trackers
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
 
@@ -44,6 +45,7 @@ class BaseMetric(Module, metaclass=AbstractFactory):
         r"""Updates the metric given a mini-batch of examples.
 
         Args:
+        ----
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
@@ -58,9 +60,11 @@ class BaseMetric(Module, metaclass=AbstractFactory):
         previously seen.
 
         Args:
+        ----
             engine (``BaseEngine`` or None): Specifies the engine.
 
         Returns:
+        -------
              dict: The results of the metric.
         """
 
@@ -73,10 +77,12 @@ def setup_metric(metric: Union[BaseMetric, dict]) -> BaseMetric:
     r"""Sets up the metric.
 
     Args:
+    ----
         metric (``BaseMetric`` or dict): Specifies the metric or its
             configuration.
 
     Returns:
+    -------
         ``BaseMetric``: The instantiated metric.
     """
     if isinstance(metric, dict):

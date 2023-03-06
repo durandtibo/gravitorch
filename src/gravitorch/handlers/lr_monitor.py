@@ -25,6 +25,7 @@ class EpochLRMonitor(BaseHandler):
     to monitor more information about the optimizer.
 
     Args:
+    ----
         event (str, optional): Specifies the epoch-based event when
             the learning rate should be capture.
             Default: ``'train_epoch_started'``
@@ -32,7 +33,7 @@ class EpochLRMonitor(BaseHandler):
             monitor the learning rate. Default: ``1``
     """
 
-    def __init__(self, event: str = EngineEvents.TRAIN_EPOCH_STARTED, freq: int = 1):
+    def __init__(self, event: str = EngineEvents.TRAIN_EPOCH_STARTED, freq: int = 1) -> None:
         self._event = str(event)
         if freq < 1:
             raise ValueError(f"freq has to be greater than 0 (received: {freq:,})")
@@ -56,6 +57,7 @@ class EpochLRMonitor(BaseHandler):
         r"""Monitors the learning rate.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if engine.optimizer:
@@ -79,6 +81,7 @@ class IterationLRMonitor(BaseHandler):
     want to monitor more information about the optimizer.
 
     Args:
+    ----
         event (str, optional): Specifies the iteration-based event
             when the learning rate should be capture.
             Default: ``'train_iteration_started'``
@@ -86,7 +89,7 @@ class IterationLRMonitor(BaseHandler):
             to monitor the learning rate. Default: ``10``
     """
 
-    def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_STARTED, freq: int = 10):
+    def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_STARTED, freq: int = 10) -> None:
         self._event = str(event)
         if freq < 1:
             raise ValueError(f"freq has to be greater than 0 (received: {freq:,})")
@@ -110,6 +113,7 @@ class IterationLRMonitor(BaseHandler):
         r"""Monitors the learning rate.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if engine.optimizer:

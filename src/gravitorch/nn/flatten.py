@@ -13,11 +13,12 @@ class FlattenModule(Module):
     r"""Implements a wrapper to flat the inputs of a ``torch.nn.Module``.
 
     Args:
+    ----
         module (``torch.nn.Module`` or dict): Specifies the module or
             its configuration.
     """
 
-    def __init__(self, module: Union[Module, dict]):
+    def __init__(self, module: Union[Module, dict]) -> None:
         super().__init__()
         self.module = setup_module(module)
 
@@ -27,10 +28,12 @@ class FlattenModule(Module):
         All the inputs are converted to a 1d tensor.
 
         Args:
+        ----
             *args: Same as ``module``
             **kwargs: Same as ``module``
 
         Returns:
+        -------
             Same as ``module``
         """
         return self.module(
@@ -47,6 +50,7 @@ class MulticlassFlattenModule(FlattenModule):
         r"""Computes the forward pass of the module.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(batch_size, d1, d2, ..., dn, C)``): Specifies the
                 predictions. This tensor will be reshaped to
@@ -57,6 +61,7 @@ class MulticlassFlattenModule(FlattenModule):
                 ``(batch_size * d1 * d2 * ... * dn,)``.
 
         Returns:
+        -------
             Same as ``module``
         """
         return self.module(prediction.view(-1, prediction.shape[-1]), torch.flatten(target))

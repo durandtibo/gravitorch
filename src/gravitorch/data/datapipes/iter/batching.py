@@ -26,6 +26,7 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
     dictionary of ``torch.Tensor``s.
 
     Args:
+    ----
         data (dict): Specifies a dictionary with the data. The
             generated batches have the same structure that this input.
         batch_size (int): Specifies the batch size.
@@ -41,7 +42,7 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
         batch_size: int,
         shuffle: bool = False,
         random_seed: int = 11918852809641073385,
-    ):
+    ) -> None:
         self._datapipe_or_data = datapipe_or_data
         self._batch_size = int(batch_size)
         self._shuffle = bool(shuffle)
@@ -92,6 +93,7 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
     of ``torch.Tensor``s.
 
     Args:
+    ----
         tensors (``IterDataPipe`` or sequence of ``torch.Tensor`` of
             shape ``(num_examples, *)`` where ``*`` means any number
             of dimensions): Specifies source DataPipe or a sequence of
@@ -111,7 +113,7 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
         batch_size: int,
         shuffle: bool = False,
         random_seed: int = 13382866045483866228,
-    ):
+    ) -> None:
         self._datapipe_or_tensors = datapipe_or_tensors
         self._batch_size = int(batch_size)
         self._shuffle = bool(shuffle)

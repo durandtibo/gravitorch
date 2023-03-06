@@ -15,13 +15,14 @@ class EvenPartitioner(BasePartitioner[T]):
     with (almost) equal number of items.
 
     Args:
+    ----
         num_partitions (int): Specifies the number of partitions.
         drop_remainder (bool, optional): If ``True``, it drops the
             last items if the number of items is not evenly divisible
             by ``num_partitions``.
     """
 
-    def __init__(self, num_partitions: int, drop_remainder: bool = False):
+    def __init__(self, num_partitions: int, drop_remainder: bool = False) -> None:
         self._num_partitions = int(num_partitions)
         self._drop_remainder = bool(drop_remainder)
 

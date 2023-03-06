@@ -14,6 +14,7 @@ def disable_logging(level: Union[int, str] = logging.CRITICAL) -> Generator[None
     disabled.
 
     Args:
+    ----
         level (int or str): Specifies the level.
 
     Example usage:

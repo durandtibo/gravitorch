@@ -26,10 +26,11 @@ class InMemoryDataset(Dataset[T]):
     in-memory.
 
     Args:
+    ----
         examples: Specifies the examples of the dataset.
     """
 
-    def __init__(self, examples: Sequence[T]):
+    def __init__(self, examples: Sequence[T]) -> None:
         log_box_dataset_class(self)
         self._examples = tuple(examples)
 
@@ -62,11 +63,12 @@ class FileToInMemoryDataset(Dataset[T]):
     The extension of the file is used to find the loader to use.
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the file
             to load.
     """
 
-    def __init__(self, path: Union[Path, str]):
+    def __init__(self, path: Union[Path, str]) -> None:
         log_box_dataset_class(self)
         self._path = sanitize_path(path)
         logger.info(f"Loading data from: {self._path}")
@@ -93,6 +95,7 @@ def _load_examples(path: Path) -> tuple[T, ...]:
         - json: the extension of the file has to be ``.json``
 
     Args:
+    ----
         path (``pathlib.Path`` or str): Specifies the path to the file
             to load.
     """

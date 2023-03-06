@@ -25,7 +25,9 @@ def model_creator() -> BaseModelCreator:
 
 
 @gloo_available
-def test_data_distributed_parallel_model_creator_create_gloo(model_creator):
+def test_data_distributed_parallel_model_creator_create_gloo(
+    model_creator: BaseModelCreator,
+) -> None:
     with gloocontext():
         creator = DataDistributedParallelModelCreator(model_creator=model_creator)
         model = creator.create(engine=Mock())
@@ -36,7 +38,9 @@ def test_data_distributed_parallel_model_creator_create_gloo(model_creator):
 @cuda_available
 @nccl_available
 @patch("gravitorch.creators.model.ddp.dist.get_world_size", lambda *args: 2)
-def test_data_distributed_parallel_model_creator_create_nccl(model_creator):
+def test_data_distributed_parallel_model_creator_create_nccl(
+    model_creator: BaseModelCreator,
+) -> None:
     with ncclcontext():
         creator = DataDistributedParallelModelCreator(model_creator=model_creator)
         model = creator.create(engine=Mock())
@@ -50,7 +54,7 @@ def test_data_distributed_parallel_model_creator_create_nccl(model_creator):
 
 
 @gloo_available
-def test_to_ddp_already_ddp():
+def test_to_ddp_already_ddp() -> None:
     with gloocontext():
         module = to_ddp(DistributedDataParallel(nn.Linear(4, 5)))
         assert isinstance(module, DistributedDataParallel)
@@ -58,7 +62,7 @@ def test_to_ddp_already_ddp():
 
 
 @gloo_available
-def test_to_ddp_linear_gloo():
+def test_to_ddp_linear_gloo() -> None:
     with gloocontext():
         module = to_ddp(nn.Linear(4, 5))
         assert isinstance(module, DistributedDataParallel)
@@ -68,7 +72,7 @@ def test_to_ddp_linear_gloo():
 @cuda_available
 @nccl_available
 @patch("gravitorch.creators.model.ddp.dist.get_world_size", lambda *args: 2)
-def test_to_ddp_linear_nccl():
+def test_to_ddp_linear_nccl() -> None:
     with ncclcontext():
         module = to_ddp(nn.Linear(4, 5).to(device=torch.device("cuda:0")))
         assert isinstance(module, DistributedDataParallel)

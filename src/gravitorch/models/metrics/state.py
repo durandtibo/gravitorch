@@ -61,12 +61,14 @@ class BaseState(ABC, metaclass=AbstractFactory):
         current state.
 
         Args:
+        ----
             prefix (str, optional): Specifies the key prefix in the
                 history tracker names. Default: ``''``
             suffix (str, optional): Specifies the key suffix in the
                 history tracker names. Default: ``''``
 
         Returns:
+        -------
             tuple: The history trackers.
         """
 
@@ -79,6 +81,7 @@ class BaseState(ABC, metaclass=AbstractFactory):
         r"""Updates the metric state.
 
         Args:
+        ----
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
@@ -88,12 +91,14 @@ class BaseState(ABC, metaclass=AbstractFactory):
         r"""Computes the metric values given the current state.
 
         Args:
+        ----
             prefix (str, optional): Specifies the key prefix in the
                 returned dictionary. Default: ``''``
             suffix (str, optional): Specifies the key suffix in the
                 returned dictionary. Default: ``''``
 
         Returns:
+        -------
             dict: The metric values.
         """
 
@@ -104,6 +109,7 @@ class MeanErrorState(BaseState):
     This state has a constant space complexity.
 
     Args:
+    ----
         track_num_predictions (bool, optional): If ``True``, the state
             tracks and returns the number of predictions.
             Default: ``True``
@@ -122,7 +128,7 @@ class MeanErrorState(BaseState):
         {'error_mean': 2.5, 'error_num_predictions': 6}
     """
 
-    def __init__(self, track_num_predictions: bool = True):
+    def __init__(self, track_num_predictions: bool = True) -> None:
         self._meter = MeanTensorMeter()
         self._track_num_predictions = bool(track_num_predictions)
 
@@ -134,7 +140,7 @@ class MeanErrorState(BaseState):
         return self._meter.count
 
     def get_histories(self, prefix: str = "", suffix: str = "") -> tuple[BaseHistory, ...]:
-        return tuple([MinScalarHistory(name=f"{prefix}mean{suffix}")])
+        return (MinScalarHistory(name=f"{prefix}mean{suffix}"),)
 
     def reset(self) -> None:
         self._meter.reset()
@@ -143,6 +149,7 @@ class MeanErrorState(BaseState):
         r"""Updates the metric state with a new tensor of errors.
 
         Args:
+        ----
             error (```torch.Tensor``): A tensor of errors.
         """
         self._meter.update(error.detach())
@@ -167,6 +174,7 @@ class RootMeanErrorState(BaseState):
     This state has a constant space complexity.
 
     Args:
+    ----
         track_num_predictions (bool, optional): If ``True``, the state
             tracks and returns the number of predictions.
             Default: ``True``
@@ -185,7 +193,7 @@ class RootMeanErrorState(BaseState):
         {'error_root_mean': 1.5811388300841898, 'error_num_predictions': 6}
     """
 
-    def __init__(self, track_num_predictions: bool = True):
+    def __init__(self, track_num_predictions: bool = True) -> None:
         self._meter = MeanTensorMeter()
         self._track_num_predictions = bool(track_num_predictions)
 
@@ -197,7 +205,7 @@ class RootMeanErrorState(BaseState):
         return self._meter.count
 
     def get_histories(self, prefix: str = "", suffix: str = "") -> tuple[BaseHistory, ...]:
-        return tuple([MinScalarHistory(name=f"{prefix}root_mean{suffix}")])
+        return (MinScalarHistory(name=f"{prefix}root_mean{suffix}"),)
 
     def reset(self) -> None:
         self._meter.reset()
@@ -206,6 +214,7 @@ class RootMeanErrorState(BaseState):
         r"""Updates the metric state with a new tensor of errors.
 
         Args:
+        ----
             error (```torch.Tensor``): A tensor of errors.
         """
         self._meter.update(error.detach())
@@ -250,7 +259,7 @@ class ErrorState(BaseState):
          'error_num_predictions': 6}
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._meter = TensorMeter()
 
     def __str__(self) -> str:
@@ -275,6 +284,7 @@ class ErrorState(BaseState):
         r"""Updates the metric state with a new tensor of errors.
 
         Args:
+        ----
             error (```torch.Tensor``): A tensor of errors.
         """
         self._meter.update(error.detach())
@@ -303,6 +313,7 @@ class ExtendedErrorState(BaseState):
     datasets. This state has a linear space complexity.
 
     Args:
+    ----
         quantiles (``torch.Tensor`` or list or tuple, optional):
             Specifies the quantile values to evaluate.
             Default: ``tuple()``
@@ -335,7 +346,7 @@ class ExtendedErrorState(BaseState):
          'error_num_predictions': 11}
     """
 
-    def __init__(self, quantiles: Union[Tensor, tuple[float, ...], list[float]] = tuple()):
+    def __init__(self, quantiles: Union[Tensor, tuple[float, ...], list[float]] = ()) -> None:
         self._meter = TensorMeter2()
         self._quantiles = to_tensor(quantiles)
 
@@ -371,6 +382,7 @@ class ExtendedErrorState(BaseState):
         r"""Updates the metric state with a new tensor of errors.
 
         Args:
+        ----
             error (```torch.Tensor``): A tensor of errors.
         """
         self._meter.update(error.detach().cpu())
@@ -404,6 +416,7 @@ class AccuracyState(BaseState):
     This state has a constant space complexity.
 
     Args:
+    ----
         track_num_predictions (bool, optional): If ``True``, the state
             tracks and returns the number of predictions.
             Default: ``True``
@@ -422,7 +435,7 @@ class AccuracyState(BaseState):
         {'accuracy': 0.25, 'num_predictions': 16}
     """
 
-    def __init__(self, track_num_predictions: bool = True):
+    def __init__(self, track_num_predictions: bool = True) -> None:
         self._meter = MeanTensorMeter()
         self._track_num_predictions = bool(track_num_predictions)
 
@@ -434,7 +447,7 @@ class AccuracyState(BaseState):
         return self._meter.count
 
     def get_histories(self, prefix: str = "", suffix: str = "") -> tuple[BaseHistory, ...]:
-        return tuple([MaxScalarHistory(name=f"{prefix}accuracy{suffix}")])
+        return (MaxScalarHistory(name=f"{prefix}accuracy{suffix}"),)
 
     def reset(self) -> None:
         self._meter.reset()
@@ -443,6 +456,7 @@ class AccuracyState(BaseState):
         r"""Updates the metric state with a new tensor of errors.
 
         Args:
+        ----
             correct (```torch.Tensor``): A tensor that indicates the
                 correct predictions. ``1`` indicates a correct
                 prediction and ``0`` indicates a bad prediction.
@@ -489,7 +503,7 @@ class ExtendedAccuracyState(BaseState):
          'num_predictions': 16}
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._meter = MeanTensorMeter()
 
     def __str__(self) -> str:
@@ -514,6 +528,7 @@ class ExtendedAccuracyState(BaseState):
         r"""Updates the metric state with a new tensor of errors.
 
         Args:
+        ----
             correct (```torch.Tensor``): A tensor that indicates the
                 correct predictions. ``1`` indicates a correct
                 prediction and ``0`` indicates a bad prediction.
@@ -544,10 +559,12 @@ def setup_state(state: Union[BaseState, dict]) -> BaseState:
     r"""Sets up the metric state.
 
     Args:
+    ----
         state (``BaseState`` or dict): Specifies the metric state or
             its configuration.
 
     Returns:
+    -------
         ``BaseState``: The instantiated metric state.
     """
     if isinstance(state, dict):

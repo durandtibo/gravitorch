@@ -27,7 +27,7 @@ MODULE_CONSTRUCTORS: tuple[Callable, ...] = (
 )
 
 
-def test_asinh_scalar_encoder_str():
+def test_asinh_scalar_encoder_str() -> None:
     assert str(
         AsinhScalarEncoder.create_rand_scale(dim=5, min_scale=0.1, max_scale=10.0)
     ).startswith("AsinhScalarEncoder(")
@@ -41,11 +41,11 @@ def test_asinh_scalar_encoder_str():
         (1.0, 2.0, 4.0),
     ),
 )
-def test_asinh_scalar_encoder_scale(scale: Union[Tensor, list[float], tuple[float, ...]]):
+def test_asinh_scalar_encoder_scale(scale: Union[Tensor, list[float], tuple[float, ...]]) -> None:
     assert AsinhScalarEncoder(scale).scale.equal(torch.tensor([1.0, 2.0, 4.0], dtype=torch.float))
 
 
-def test_asinh_scalar_encoder_input_size():
+def test_asinh_scalar_encoder_input_size() -> None:
     assert (
         AsinhScalarEncoder.create_rand_scale(dim=5, min_scale=0.1, max_scale=10.0).input_size == 1
     )
@@ -57,7 +57,7 @@ def test_asinh_scalar_encoder_input_size():
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
 def test_asinh_scalar_encoder_forward_2d(
     device: str, batch_size: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(dim=10, min_scale=0.1, max_scale=10.0).to(device=device)
     module.train(mode)
@@ -74,7 +74,7 @@ def test_asinh_scalar_encoder_forward_2d(
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
 def test_asinh_scalar_encoder_forward_3d_batch_first(
     device: str, batch_size: int, seq_len: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(dim=10, min_scale=0.1, max_scale=10.0).to(device=device)
     module.train(mode)
@@ -91,7 +91,7 @@ def test_asinh_scalar_encoder_forward_3d_batch_first(
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
 def test_asinh_scalar_encoder_forward_3d_seq_first(
     device: str, batch_size: int, seq_len: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(dim=10, min_scale=0.1, max_scale=10.0).to(device=device)
     module.train(mode)
@@ -107,7 +107,7 @@ def test_asinh_scalar_encoder_forward_3d_seq_first(
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
 def test_asinh_scalar_encoder_backward(
     device: str, batch_size: int, learnable: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(dim=10, min_scale=0.1, max_scale=10.0, learnable=learnable).to(
         device=device
@@ -121,32 +121,32 @@ def test_asinh_scalar_encoder_backward(
 
 @mark.parametrize("dim", SIZES)
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
-def test_asinh_scalar_encoder_dim(dim: int, module_init: Callable):
+def test_asinh_scalar_encoder_dim(dim: int, module_init: Callable) -> None:
     assert module_init(dim=dim, min_scale=0.1, max_scale=10.0).scale.shape == (dim,)
 
 
 @mark.parametrize("dim", (0, -1))
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
-def test_asinh_scalar_encoder_dim_incorrect(dim: int, module_init: Callable):
+def test_asinh_scalar_encoder_dim_incorrect(dim: int, module_init: Callable) -> None:
     with raises(ValueError):
         module_init(dim=dim, min_scale=0.1, max_scale=10.0)
 
 
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
-def test_asinh_scalar_encoder_min_scale_incorrect(module_init: Callable):
+def test_asinh_scalar_encoder_min_scale_incorrect(module_init: Callable) -> None:
     with raises(ValueError):
         module_init(dim=2, min_scale=0, max_scale=1)
 
 
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
-def test_asinh_scalar_encoder_max_scale_incorrect(module_init: Callable):
+def test_asinh_scalar_encoder_max_scale_incorrect(module_init: Callable) -> None:
     with raises(ValueError):
         module_init(dim=2, min_scale=0.1, max_scale=0.01)
 
 
 @mark.parametrize("learnable", (True, False))
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
-def test_asinh_scalar_encoder_learnable(learnable: bool, module_init: Callable):
+def test_asinh_scalar_encoder_learnable(learnable: bool, module_init: Callable) -> None:
     assert (
         module_init(dim=2, min_scale=0.01, max_scale=1, learnable=learnable).scale.requires_grad
         == learnable
@@ -157,25 +157,25 @@ def test_asinh_scalar_encoder_learnable(learnable: bool, module_init: Callable):
     "gravitorch.nn.scalar_encoding.torch.rand",
     lambda *args, **kwargs: torch.tensor([0.0, 0.5, 1.0]),
 )
-def test_asinh_scalar_encoder_create_rand_scale():
+def test_asinh_scalar_encoder_create_rand_scale() -> None:
     assert AsinhScalarEncoder.create_rand_scale(dim=3, min_scale=0.2, max_scale=1).scale.data.equal(
         torch.tensor([0.2, 0.6, 1.0])
     )
 
 
-def test_asinh_scalar_encoder_create_linspace_scale():
+def test_asinh_scalar_encoder_create_linspace_scale() -> None:
     assert AsinhScalarEncoder.create_linspace_scale(
         dim=3, min_scale=0.2, max_scale=1
     ).scale.data.equal(torch.tensor([0.2, 0.6, 1.0]))
 
 
-def test_asinh_scalar_encoder_create_logspace_scale():
+def test_asinh_scalar_encoder_create_logspace_scale() -> None:
     assert AsinhScalarEncoder.create_logspace_scale(
         dim=3, min_scale=0.01, max_scale=1
     ).scale.data.equal(torch.tensor([0.01, 0.1, 1.0]))
 
 
-def test_asinh_scalar_encoder_forward_scale():
+def test_asinh_scalar_encoder_forward_scale() -> None:
     module = AsinhScalarEncoder(scale=torch.tensor([1.0, 2.0, 3.0], dtype=torch.float))
     assert module(torch.tensor([[-1], [0], [1]], dtype=torch.float)).allclose(
         torch.tensor(
@@ -200,7 +200,7 @@ COSSIN_MODULE_CONSTRUCTORS: tuple[Callable, ...] = (
 )
 
 
-def test_cos_sin_scalar_encoder_str():
+def test_cos_sin_scalar_encoder_str() -> None:
     assert str(
         CosSinScalarEncoder.create_rand_frequency(
             num_frequencies=3, min_frequency=0.1, max_frequency=10.0
@@ -227,23 +227,23 @@ def test_cos_sin_scalar_encoder_str():
 def test_cos_sin_scalar_encoder_frequency_phase_shift(
     frequency: Union[Tensor, list[float], tuple[float, ...]],
     phase_shift: Union[Tensor, list[float], tuple[float, ...]],
-):
+) -> None:
     module = CosSinScalarEncoder(frequency, phase_shift)
     assert module.frequency.equal(torch.tensor([1.0, 2.0, 4.0], dtype=torch.float))
     assert module.phase_shift.equal(torch.tensor([1.0, 3.0, -2.0], dtype=torch.float))
 
 
-def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_dim():
+def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_dim() -> None:
     with raises(ValueError):
         CosSinScalarEncoder(torch.rand(1, 6), torch.rand(6))
 
 
-def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_shape():
+def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_shape() -> None:
     with raises(ValueError):
         CosSinScalarEncoder(torch.rand(6), torch.rand(4))
 
 
-def test_cos_sin_scalar_encoder_input_size():
+def test_cos_sin_scalar_encoder_input_size() -> None:
     assert (
         CosSinScalarEncoder.create_rand_frequency(
             num_frequencies=3, min_frequency=0.1, max_frequency=10.0
@@ -258,7 +258,7 @@ def test_cos_sin_scalar_encoder_input_size():
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
 def test_cos_sin_scalar_encoder_forward_2d(
     device: str, batch_size: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(num_frequencies=5, min_frequency=0.1, max_frequency=10.0).to(device=device)
     module.train(mode)
@@ -275,7 +275,7 @@ def test_cos_sin_scalar_encoder_forward_2d(
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
 def test_cos_sin_scalar_encoder_forward_3d_batch_first(
     device: str, batch_size: int, seq_len: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(num_frequencies=5, min_frequency=0.1, max_frequency=10.0).to(device=device)
     module.train(mode)
@@ -292,7 +292,7 @@ def test_cos_sin_scalar_encoder_forward_3d_batch_first(
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
 def test_cos_sin_scalar_encoder_forward_3d_seq_first(
     device: str, batch_size: int, seq_len: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(num_frequencies=5, min_frequency=0.1, max_frequency=10.0).to(device=device)
     module.train(mode)
@@ -308,7 +308,7 @@ def test_cos_sin_scalar_encoder_forward_3d_seq_first(
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
 def test_cos_sin_scalar_encoder_backward(
     device: str, batch_size: int, learnable: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(
         num_frequencies=5, min_frequency=0.1, max_frequency=10.0, learnable=learnable
@@ -322,7 +322,7 @@ def test_cos_sin_scalar_encoder_backward(
 
 @mark.parametrize("dim", SIZES)
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
-def test_cos_sin_scalar_encoder_dim(dim: int, module_init: Callable):
+def test_cos_sin_scalar_encoder_dim(dim: int, module_init: Callable) -> None:
     module = module_init(num_frequencies=dim, min_frequency=0.1, max_frequency=10.0)
     assert module.frequency.shape == (dim * 2,)
     assert module.phase_shift.shape == (dim * 2,)
@@ -330,26 +330,26 @@ def test_cos_sin_scalar_encoder_dim(dim: int, module_init: Callable):
 
 @mark.parametrize("dim", (0, -1))
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
-def test_cos_sin_scalar_encoder_dim_incorrect(dim: int, module_init: Callable):
+def test_cos_sin_scalar_encoder_dim_incorrect(dim: int, module_init: Callable) -> None:
     with raises(ValueError):
         module_init(num_frequencies=dim, min_frequency=0.1, max_frequency=10.0)
 
 
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
-def test_cos_sin_scalar_encoder_min_frequency_incorrect(module_init: Callable):
+def test_cos_sin_scalar_encoder_min_frequency_incorrect(module_init: Callable) -> None:
     with raises(ValueError):
         module_init(num_frequencies=2, min_frequency=0, max_frequency=1)
 
 
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
-def test_cos_sin_scalar_encoder_max_frequency_incorrect(module_init: Callable):
+def test_cos_sin_scalar_encoder_max_frequency_incorrect(module_init: Callable) -> None:
     with raises(ValueError):
         module_init(num_frequencies=2, min_frequency=0.1, max_frequency=0.01)
 
 
 @mark.parametrize("learnable", (True, False))
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
-def test_cos_sin_scalar_encoder_learnable(learnable: bool, module_init: Callable):
+def test_cos_sin_scalar_encoder_learnable(learnable: bool, module_init: Callable) -> None:
     module = module_init(
         num_frequencies=2, min_frequency=0.01, max_frequency=1, learnable=learnable
     )
@@ -361,7 +361,7 @@ def test_cos_sin_scalar_encoder_learnable(learnable: bool, module_init: Callable
     "gravitorch.nn.scalar_encoding.torch.rand",
     lambda *args, **kwargs: torch.tensor([0.0, 0.5, 1.0]),
 )
-def test_cos_sin_scalar_encoder_create_rand_frequency():
+def test_cos_sin_scalar_encoder_create_rand_frequency() -> None:
     module = CosSinScalarEncoder.create_rand_frequency(
         num_frequencies=3, min_frequency=0.2, max_frequency=1
     )
@@ -373,7 +373,7 @@ def test_cos_sin_scalar_encoder_create_rand_frequency():
     "gravitorch.nn.scalar_encoding.torch.rand",
     lambda *args, **kwargs: torch.tensor([0.0, 0.5, 1.0]),
 )
-def test_cos_sin_scalar_encoder_create_rand_value_range():
+def test_cos_sin_scalar_encoder_create_rand_value_range() -> None:
     module = CosSinScalarEncoder.create_rand_value_range(
         num_frequencies=3, min_abs_value=0.2, max_abs_value=1
     )
@@ -381,7 +381,7 @@ def test_cos_sin_scalar_encoder_create_rand_value_range():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_create_linspace_frequency():
+def test_cos_sin_scalar_encoder_create_linspace_frequency() -> None:
     module = CosSinScalarEncoder.create_linspace_frequency(
         num_frequencies=3, min_frequency=0.2, max_frequency=1
     )
@@ -389,7 +389,7 @@ def test_cos_sin_scalar_encoder_create_linspace_frequency():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_create_linspace_value_range():
+def test_cos_sin_scalar_encoder_create_linspace_value_range() -> None:
     module = CosSinScalarEncoder.create_linspace_value_range(
         num_frequencies=3, min_abs_value=0.2, max_abs_value=1.0
     )
@@ -397,7 +397,7 @@ def test_cos_sin_scalar_encoder_create_linspace_value_range():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_create_logspace_frequency():
+def test_cos_sin_scalar_encoder_create_logspace_frequency() -> None:
     module = CosSinScalarEncoder.create_logspace_frequency(
         num_frequencies=3, min_frequency=0.01, max_frequency=1
     )
@@ -405,7 +405,7 @@ def test_cos_sin_scalar_encoder_create_logspace_frequency():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_create_logspace_value_range():
+def test_cos_sin_scalar_encoder_create_logspace_value_range() -> None:
     module = CosSinScalarEncoder.create_logspace_value_range(
         num_frequencies=3, min_abs_value=0.01, max_abs_value=1.0
     )
@@ -413,7 +413,7 @@ def test_cos_sin_scalar_encoder_create_logspace_value_range():
     assert module.phase_shift.data.equal(torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 
 
-def test_cos_sin_scalar_encoder_forward_frequency_phase_shift():
+def test_cos_sin_scalar_encoder_forward_frequency_phase_shift() -> None:
     module = CosSinScalarEncoder(
         frequency=torch.tensor([1.0, 2.0, 3.0, 1.0, 2.0, 3.0], dtype=torch.float),
         phase_shift=torch.zeros(6),
@@ -461,7 +461,7 @@ ASINH_COSSIN_MODULE_CONSTRUCTORS: tuple[Callable, ...] = (
 @mark.parametrize("module_init", ASINH_COSSIN_MODULE_CONSTRUCTORS)
 def test_asinh_cos_sin_scalar_encoder_forward_2d(
     device: str, batch_size: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(num_frequencies=5, min_frequency=0.1, max_frequency=10.0).to(device=device)
     module.train(mode)
@@ -478,7 +478,7 @@ def test_asinh_cos_sin_scalar_encoder_forward_2d(
 @mark.parametrize("module_init", ASINH_COSSIN_MODULE_CONSTRUCTORS)
 def test_asinh_cos_sin_scalar_encoder_forward_3d_batch_first(
     device: str, batch_size: int, seq_len: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(num_frequencies=5, min_frequency=0.1, max_frequency=10.0).to(device=device)
     module.train(mode)
@@ -495,7 +495,7 @@ def test_asinh_cos_sin_scalar_encoder_forward_3d_batch_first(
 @mark.parametrize("module_init", ASINH_COSSIN_MODULE_CONSTRUCTORS)
 def test_asinh_cos_sin_scalar_encoder_forward_3d_seq_first(
     device: str, batch_size: int, seq_len: int, mode: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(num_frequencies=5, min_frequency=0.1, max_frequency=10.0).to(device=device)
     module.train(mode)
@@ -511,7 +511,7 @@ def test_asinh_cos_sin_scalar_encoder_forward_3d_seq_first(
 @mark.parametrize("module_init", ASINH_COSSIN_MODULE_CONSTRUCTORS)
 def test_asinh_cos_sin_scalar_encoder_backward(
     device: str, batch_size: int, learnable: bool, module_init: Callable
-):
+) -> None:
     device = torch.device(device)
     module = module_init(
         num_frequencies=5, min_frequency=0.1, max_frequency=10.0, learnable=learnable
@@ -523,7 +523,7 @@ def test_asinh_cos_sin_scalar_encoder_backward(
     assert out.dtype == torch.float
 
 
-def test_asinh_cos_sin_scalar_encoder_forward_frequency_phase_shift():
+def test_asinh_cos_sin_scalar_encoder_forward_frequency_phase_shift() -> None:
     module = AsinhCosSinScalarEncoder(
         frequency=torch.tensor([1.0, 2.0, 3.0, 1.0, 2.0, 3.0], dtype=torch.float),
         phase_shift=torch.zeros(6),
@@ -562,7 +562,7 @@ def test_asinh_cos_sin_scalar_encoder_forward_frequency_phase_shift():
 
 
 @mark.parametrize("input_size", SIZES)
-def test_scalar_encoder_ffn_input_size(input_size: int):
+def test_scalar_encoder_ffn_input_size(input_size: int) -> None:
     assert (
         ScalarEncoderFFN(
             encoder=Mock(spec=nn.Module, input_size=input_size), ffn=Mock(spec=nn.Module)
@@ -574,7 +574,7 @@ def test_scalar_encoder_ffn_input_size(input_size: int):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("mode", (True, False))
-def test_scalar_encoder_ffn_forward_2d(device: str, batch_size: int, mode: bool):
+def test_scalar_encoder_ffn_forward_2d(device: str, batch_size: int, mode: bool) -> None:
     device = torch.device(device)
     module = ScalarEncoderFFN(
         encoder=CosSinScalarEncoder.create_logspace_frequency(
@@ -598,7 +598,7 @@ def test_scalar_encoder_ffn_forward_3d_batch_first(
     batch_size: int,
     seq_len: int,
     mode: bool,
-):
+) -> None:
     device = torch.device(device)
     module = ScalarEncoderFFN(
         encoder=CosSinScalarEncoder.create_logspace_frequency(
@@ -622,7 +622,7 @@ def test_scalar_encoder_ffn_forward_3d_sequence_first(
     batch_size: int,
     seq_len: int,
     mode: bool,
-):
+) -> None:
     device = torch.device(device)
     module = ScalarEncoderFFN(
         encoder=CosSinScalarEncoder.create_logspace_frequency(

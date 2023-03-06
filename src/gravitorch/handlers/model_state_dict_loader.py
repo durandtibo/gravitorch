@@ -25,6 +25,7 @@ class ModelStateDictLoader(BaseHandler):
     r"""Implements a handler to load the model state dict.
 
     Args:
+    ----
         checkpoint_path (``pathlib.Path`` or str): Specifies a path
             to a model checkpoint. This weights in the checkpoint are
             used to initialize the model.
@@ -48,7 +49,7 @@ class ModelStateDictLoader(BaseHandler):
         event: str = EngineEvents.STARTED,
         strict: bool = True,
         key: Union[str, list[str], tuple[str, ...], None] = None,
-    ):
+    ) -> None:
         self._checkpoint_path = sanitize_path(checkpoint_path)
         self._event = str(event)
         self._strict = bool(strict)
@@ -74,6 +75,7 @@ class ModelStateDictLoader(BaseHandler):
         r"""Loads a model state dict.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine with the
                 model.
         """
@@ -89,6 +91,7 @@ class PartialModelStateDictLoader(BaseHandler):
     r"""Implements a handler to load some model weights from a checkpoint.
 
     Args:
+    ----
         checkpoint_path (``pathlib.Path`` or str): Specifies a path
             to a model checkpoint. This weights in the checkpoint are
             used to initialize the model.
@@ -109,7 +112,7 @@ class PartialModelStateDictLoader(BaseHandler):
         event: str = EngineEvents.STARTED,
         strict: bool = True,
         exclude_key_prefixes: Optional[Sequence[str]] = None,
-    ):
+    ) -> None:
         self._checkpoint_path = sanitize_path(checkpoint_path)
         self._event = str(event)
         self._strict = bool(strict)
@@ -135,6 +138,7 @@ class PartialModelStateDictLoader(BaseHandler):
         r"""Loads a model state dict.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine with the
                 model.
         """

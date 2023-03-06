@@ -24,6 +24,7 @@ class EpochOptimizerMonitor(BaseHandler):
     r"""Implements a handler to monitor the optimizer every ``freq`` epochs.
 
     Args:
+    ----
         event (str, optional): Specifies the epoch-based event when
             the optimizer information should be capture.
             Default: ``'train_epoch_started'``
@@ -43,7 +44,7 @@ class EpochOptimizerMonitor(BaseHandler):
         freq: int = 1,
         tablefmt: str = "fancy_grid",
         prefix: str = "train/",
-    ):
+    ) -> None:
         self._event = str(event)
         if freq < 1:
             raise ValueError(f"freq has to be greater than 0 (received: {freq:,})")
@@ -72,6 +73,7 @@ class EpochOptimizerMonitor(BaseHandler):
         r"""Monitors the current optimizer state.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if engine.optimizer:
@@ -93,6 +95,7 @@ class IterationOptimizerMonitor(BaseHandler):
     r"""Implements a handler to monitor the optimizer every ``freq`` iterations.
 
     Args:
+    ----
         event (str, optional): Specifies the iteration-based event
             when the optimizer information should be capture.
             Default: ``'train_iteration_started'``
@@ -112,7 +115,7 @@ class IterationOptimizerMonitor(BaseHandler):
         freq: int = 10,
         tablefmt: str = "fancy_grid",
         prefix: str = "train/",
-    ):
+    ) -> None:
         self._event = str(event)
         if freq < 1:
             raise ValueError(f"freq has to be greater than 0 (received: {freq:,})")
@@ -141,6 +144,7 @@ class IterationOptimizerMonitor(BaseHandler):
         r"""Monitors the current optimizer state.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if engine.optimizer:

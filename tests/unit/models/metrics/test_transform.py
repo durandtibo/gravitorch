@@ -41,11 +41,11 @@ def engine() -> BaseEngine:
         {OBJECT_TARGET: "gravitorch.models.metrics.AbsoluteError", "mode": ct.EVAL},
     ),
 )
-def test_transformed_prediction_target_metric(metric: Union[BaseMetric, dict]):
+def test_transformed_prediction_target_metric(metric: Union[BaseMetric, dict]) -> None:
     assert isinstance(TransformedPredictionTarget(metric).metric, AbsoluteError)
 
 
-def test_transformed_prediction_target_prediction_transform_default():
+def test_transformed_prediction_target_prediction_transform_default() -> None:
     assert isinstance(
         TransformedPredictionTarget(AbsoluteError(ct.EVAL)).prediction_transform, Identity
     )
@@ -54,7 +54,7 @@ def test_transformed_prediction_target_prediction_transform_default():
 @mark.parametrize("prediction_transform", (Symlog(), {OBJECT_TARGET: "gravitorch.nn.Symlog"}))
 def test_transformed_prediction_target_prediction_transform(
     prediction_transform: Union[Module, dict]
-):
+) -> None:
     assert isinstance(
         TransformedPredictionTarget(
             AbsoluteError(ct.EVAL), prediction_transform=prediction_transform
@@ -63,14 +63,16 @@ def test_transformed_prediction_target_prediction_transform(
     )
 
 
-def test_transformed_prediction_target_target_transform_default():
+def test_transformed_prediction_target_target_transform_default() -> None:
     assert isinstance(
         TransformedPredictionTarget(AbsoluteError(ct.EVAL)).target_transform, Identity
     )
 
 
 @mark.parametrize("target_transform", (Symlog(), {OBJECT_TARGET: "gravitorch.nn.Symlog"}))
-def test_transformed_prediction_target_target_transform(target_transform: Union[Module, dict]):
+def test_transformed_prediction_target_target_transform(
+    target_transform: Union[Module, dict]
+) -> None:
     assert isinstance(
         TransformedPredictionTarget(
             AbsoluteError(ct.EVAL), target_transform=target_transform
@@ -79,14 +81,14 @@ def test_transformed_prediction_target_target_transform(target_transform: Union[
     )
 
 
-def test_transformed_prediction_target_attach_mock():
+def test_transformed_prediction_target_attach_mock() -> None:
     engine = Mock(spec=BaseEngine)
     metric = Mock(spec=BaseMetric)
     assert TransformedPredictionTarget(metric).attach(engine) is None
     metric.attach.assert_called_once_with(engine)
 
 
-def test_transformed_prediction_target_attach_abs_err(engine: BaseEngine):
+def test_transformed_prediction_target_attach_abs_err(engine: BaseEngine) -> None:
     metric = TransformedPredictionTarget(AbsoluteError(ct.TRAIN))
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/abs_err_mean"), MinScalarHistory)
@@ -108,7 +110,7 @@ def test_transformed_prediction_target_attach_abs_err(engine: BaseEngine):
 @mark.parametrize("feature_size", SIZES)
 def test_transformed_prediction_target_forward(
     device: str, mode: str, batch_size: int, feature_size: int
-):
+) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(AbsoluteError(mode)).to(device=device)
     metric(
@@ -126,7 +128,7 @@ def test_transformed_prediction_target_forward(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_transformed_prediction_target_forward_symlog(device: str, mode: str):
+def test_transformed_prediction_target_forward_symlog(device: str, mode: str) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(
         metric=AbsoluteError(mode),
@@ -159,7 +161,7 @@ def test_transformed_prediction_target_forward_symlog(device: str, mode: str):
 def test_transformed_prediction_target_forward_transformations(
     device: str,
     metric: BaseMetric,
-):
+) -> None:
     device = torch.device(device)
     metric.reset()
     metric = metric.to(device=device)
@@ -173,26 +175,26 @@ def test_transformed_prediction_target_forward_transformations(
     }
 
 
-def test_transformed_prediction_target_reset_mock():
+def test_transformed_prediction_target_reset_mock() -> None:
     metric = Mock(spec=BaseMetric)
     assert TransformedPredictionTarget(metric).reset() is None
     metric.reset.assert_called_once_with()
 
 
-def test_transformed_prediction_target_reset_mse():
+def test_transformed_prediction_target_reset_mse() -> None:
     metric = AbsoluteError(ct.EVAL)
     metric._state._num_predictions = 5
     TransformedPredictionTarget(metric).reset()
     assert metric._state.num_predictions == 0
 
 
-def test_transformed_prediction_target_value_without_engine():
+def test_transformed_prediction_target_value_without_engine() -> None:
     metric = Mock(spec=BaseMetric, value=Mock(return_value={"metric": 42}))
     assert TransformedPredictionTarget(metric).value() == {"metric": 42}
     metric.value.assert_called_once_with(None)
 
 
-def test_transformed_prediction_target_value_with_engine():
+def test_transformed_prediction_target_value_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     metric = Mock(spec=BaseMetric, value=Mock(return_value={"metric": 42}))
     assert TransformedPredictionTarget(metric).value(engine) == {"metric": 42}
@@ -201,7 +203,9 @@ def test_transformed_prediction_target_value_with_engine():
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", MODES)
-def test_transformed_prediction_target_value_log_engine(device: str, mode: str, engine: BaseEngine):
+def test_transformed_prediction_target_value_log_engine(
+    device: str, mode: str, engine: BaseEngine
+) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(AbsoluteError(mode)).to(device=device)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
@@ -214,7 +218,7 @@ def test_transformed_prediction_target_value_log_engine(device: str, mode: str, 
 
 
 @mark.parametrize("device", get_available_devices())
-def test_transformed_prediction_target_events_train(device: str, engine: BaseEngine):
+def test_transformed_prediction_target_events_train(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(AbsoluteError(ct.TRAIN)).to(device=device)
     metric.attach(engine)
@@ -230,7 +234,7 @@ def test_transformed_prediction_target_events_train(device: str, engine: BaseEng
 
 
 @mark.parametrize("device", get_available_devices())
-def test_transformed_prediction_target_events_eval(device: str, engine: BaseEngine):
+def test_transformed_prediction_target_events_eval(device: str, engine: BaseEngine) -> None:
     device = torch.device(device)
     metric = TransformedPredictionTarget(AbsoluteError(ct.EVAL)).to(device=device)
     metric.attach(engine)
@@ -245,25 +249,25 @@ def test_transformed_prediction_target_events_eval(device: str, engine: BaseEngi
     assert engine.get_history(f"{ct.EVAL}/abs_err_num_predictions").get_last_value() == 4
 
 
-def test_transformed_prediction_target_create_asinh():
+def test_transformed_prediction_target_create_asinh() -> None:
     metric = TransformedPredictionTarget.create_asinh(AbsoluteError(ct.EVAL))
     assert isinstance(metric.prediction_transform, Asinh)
     assert isinstance(metric.target_transform, Asinh)
 
 
-def test_transformed_prediction_target_create_flatten():
+def test_transformed_prediction_target_create_flatten() -> None:
     metric = TransformedPredictionTarget.create_flatten(AbsoluteError(ct.EVAL))
     assert isinstance(metric.prediction_transform, Flatten)
     assert isinstance(metric.target_transform, Flatten)
 
 
-def test_transformed_prediction_target_create_log1p():
+def test_transformed_prediction_target_create_log1p() -> None:
     metric = TransformedPredictionTarget.create_log1p(AbsoluteError(ct.EVAL))
     assert isinstance(metric.prediction_transform, Log1p)
     assert isinstance(metric.target_transform, Log1p)
 
 
-def test_transformed_prediction_target_create_symlog():
+def test_transformed_prediction_target_create_symlog() -> None:
     metric = TransformedPredictionTarget.create_symlog(AbsoluteError(ct.EVAL))
     assert isinstance(metric.prediction_transform, Symlog)
     assert isinstance(metric.target_transform, Symlog)

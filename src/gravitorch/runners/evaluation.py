@@ -33,6 +33,7 @@ class EvaluationRunner(BaseResourceRunner):
         - evaluate the model with the engine
 
     Args:
+    ----
         engine (``BaseEngine`` or dict): Specifies the engine or its
             configuration.
         handlers (list or tuple or ``None``): Specifies the list of
@@ -56,10 +57,10 @@ class EvaluationRunner(BaseResourceRunner):
         exp_tracker: Union[BaseExpTracker, dict, None] = None,
         random_seed: int = 10139531598155730726,
         resources: Optional[Sequence[Union[BaseResource, dict]]] = None,
-    ):
+    ) -> None:
         super().__init__(resources=resources)
         self._engine = engine
-        self._handlers = tuple() if handlers is None else tuple(handlers)
+        self._handlers = () if handlers is None else tuple(handlers)
         self._exp_tracker = exp_tracker
         self._random_seed = random_seed
 
@@ -100,6 +101,7 @@ def _run_evaluation_pipeline(
         - evaluate the model with the engine
 
     Args:
+    ----
         engine (``BaseEngine`` or dict): Specifies the engine or its
             configuration.
         exp_tracker (``BaseExpTracker`` or dict or None):
@@ -109,6 +111,7 @@ def _run_evaluation_pipeline(
             Default: ``8514665479832555083``
 
     Returns:
+    -------
         ``BaseEngine``: The trained engine.
     """
     with setup_exp_tracker(exp_tracker) as tracker:

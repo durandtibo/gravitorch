@@ -18,6 +18,7 @@ class SquaredError(BaseStateEpochMetric):
     r"""Implements the squared error metric.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g. train or eval).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -62,7 +63,7 @@ class SquaredError(BaseStateEpochMetric):
         mode: str,
         name: str = "sq_err",
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
@@ -70,6 +71,7 @@ class SquaredError(BaseStateEpochMetric):
         examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the predictions.
@@ -84,6 +86,7 @@ class RootMeanSquaredError(SquaredError):
     r"""Implements the squared error metric.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g. train or eval).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -116,7 +119,7 @@ class RootMeanSquaredError(SquaredError):
         mode: str,
         name: str = "rmse",
         track_num_predictions: bool = True,
-    ):
+    ) -> None:
         super().__init__(
             mode=mode,
             name=name,

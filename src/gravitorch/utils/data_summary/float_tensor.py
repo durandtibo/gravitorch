@@ -30,6 +30,7 @@ class FloatTensorDataSummary(BaseContinuousDataSummary[Tensor]):
         - ``quantiles``: the quantile values
 
     Args:
+    ----
         max_size (int, optional): Specifies the maximum size used to
             store the last values because it may not be possible to
             store all the values. This parameter is used to compute
@@ -44,6 +45,7 @@ class FloatTensorDataSummary(BaseContinuousDataSummary[Tensor]):
         r"""Adds new data to the summary.
 
         Args:
+        ----
             data (``torch.Tensor`` of type float): Specifies the data
                 to add to the summary. This method converts the input
                 to a ``torch.Tensor`` of type float if the tensor type
@@ -76,6 +78,7 @@ class FloatTensorSequenceDataSummary(BaseSequenceDataSummary[Tensor]):
         - ``quantiles``: the quantile values
 
     Args:
+    ----
         max_size (int, optional): Specifies the maximum size used to
             store the last values because it may not be possible to
             store all the values. This parameter is used to compute
@@ -90,7 +93,7 @@ class FloatTensorSequenceDataSummary(BaseSequenceDataSummary[Tensor]):
         self,
         max_size: int = 10000,
         quantiles: Union[Tensor, tuple[float, ...], list[float]] = DEFAULT_QUANTILES,
-    ):
+    ) -> None:
         super().__init__(
             value_summary=FloatTensorDataSummary(max_size=max_size, quantiles=quantiles)
         )
@@ -99,11 +102,13 @@ class FloatTensorSequenceDataSummary(BaseSequenceDataSummary[Tensor]):
         r"""Gets the sequence length of the data.
 
         Args:
+        ----
             data (``torch.Tensor`` of type float and shape
                 ``(sequence_length, *)`` where `*` means any number of
                 dimensions): Specifies the input sequence.
 
         Returns:
+        -------
             int: The sequence length.
         """
         return data.shape[0]

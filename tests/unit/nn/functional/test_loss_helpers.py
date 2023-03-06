@@ -17,7 +17,7 @@ DTYPES = (torch.long, torch.float)
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_basic_loss_reduction_mean(device: str, dtype: torch.dtype):
+def test_basic_loss_reduction_mean(device: str, dtype: torch.dtype) -> None:
     device = torch.device(device)
     assert basic_loss_reduction(
         torch.tensor([[3, 2, 1], [1, 0, -1]], dtype=dtype, device=device), reduction="mean"
@@ -26,7 +26,7 @@ def test_basic_loss_reduction_mean(device: str, dtype: torch.dtype):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_basic_loss_reduction_sum(device: str, dtype: torch.dtype):
+def test_basic_loss_reduction_sum(device: str, dtype: torch.dtype) -> None:
     device = torch.device(device)
     assert basic_loss_reduction(
         torch.tensor([[3, 2, 1], [1, 0, -1]], dtype=dtype, device=device), reduction="sum"
@@ -35,14 +35,14 @@ def test_basic_loss_reduction_sum(device: str, dtype: torch.dtype):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", DTYPES)
-def test_basic_loss_reduction_none(device: str, dtype: torch.dtype):
+def test_basic_loss_reduction_none(device: str, dtype: torch.dtype) -> None:
     device = torch.device(device)
     assert basic_loss_reduction(
         torch.tensor([[3, 2, 1], [1, 0, -1]], dtype=dtype, device=device), reduction="none"
     ).equal(torch.tensor([[3, 2, 1], [1, 0, -1]], dtype=dtype, device=device))
 
 
-def test_basic_loss_reduction_reduction_incorrect():
+def test_basic_loss_reduction_reduction_incorrect() -> None:
     with raises(ValueError):
         basic_loss_reduction(torch.ones(2, 2), reduction="incorrect")
 
@@ -53,10 +53,10 @@ def test_basic_loss_reduction_reduction_incorrect():
 
 
 @mark.parametrize("reduction", ("none", "mean", "sum"))
-def test_check_basic_loss_reduction_valid(reduction: str):
+def test_check_basic_loss_reduction_valid(reduction: str) -> None:
     check_basic_loss_reduction(reduction)
 
 
-def test_check_basic_loss_reduction_incorrect():
+def test_check_basic_loss_reduction_incorrect() -> None:
     with raises(ValueError):
         check_basic_loss_reduction("incorrect")

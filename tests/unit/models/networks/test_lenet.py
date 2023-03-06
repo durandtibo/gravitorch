@@ -18,18 +18,18 @@ SIZES = (1, 2)
 
 
 @mark.parametrize("num_classes", SIZES)
-def test_lenet5_num_classes(num_classes: int):
+def test_lenet5_num_classes(num_classes: int) -> None:
     assert LeNet5(num_classes).classifier.linear5.out_features == num_classes
 
 
-def test_lenet5_with_softmax():
+def test_lenet5_with_softmax() -> None:
     assert isinstance(LeNet5(num_classes=10, logits=False).classifier.softmax, nn.Softmax)
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("mode", (True, False))
-def test_lenet5_forward(device: str, batch_size: int, mode: bool):
+def test_lenet5_forward(device: str, batch_size: int, mode: bool) -> None:
     device = torch.device(device)
     network = LeNet5(4).to(device=device)
     network.train(mode)
@@ -41,7 +41,7 @@ def test_lenet5_forward(device: str, batch_size: int, mode: bool):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("mode", (True, False))
-def test_lenet5_forward_without_logits(device: str, mode: bool):
+def test_lenet5_forward_without_logits(device: str, mode: bool) -> None:
     device = torch.device(device)
     network = LeNet5(3, logits=False).to(device=device)
     network.train(mode)
@@ -57,7 +57,7 @@ def test_lenet5_forward_without_logits(device: str, mode: bool):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_lenet5_get_dummy_input(device: str, batch_size: int):
+def test_lenet5_get_dummy_input(device: str, batch_size: int) -> None:
     device = torch.device(device)
     network = LeNet5(num_classes=10).to(device=device)
     dummy_input = network.get_dummy_input(batch_size)
@@ -68,18 +68,18 @@ def test_lenet5_get_dummy_input(device: str, batch_size: int):
 
 
 @mark.parametrize("input_name", ("image", ct.INPUT))
-def test_lenet5_get_input_names(input_name: str):
+def test_lenet5_get_input_names(input_name: str) -> None:
     assert LeNet5(num_classes=10, input_name=input_name).get_input_names() == (input_name,)
 
 
 @mark.parametrize("output_name", ("output", ct.PREDICTION))
-def test_lenet5_get_output_names(output_name: str):
+def test_lenet5_get_output_names(output_name: str) -> None:
     assert LeNet5(num_classes=10, output_name=output_name).get_output_names() == (output_name,)
 
 
 @mark.parametrize("input_name", ("image", ct.INPUT))
 @mark.parametrize("output_name", ("output", ct.PREDICTION))
-def test_lenet5_get_onnx_dynamic_axis(input_name: str, output_name: str):
+def test_lenet5_get_onnx_dynamic_axis(input_name: str, output_name: str) -> None:
     assert LeNet5(
         num_classes=10, input_name=input_name, output_name=output_name
     ).get_onnx_dynamic_axis() == {
@@ -88,14 +88,14 @@ def test_lenet5_get_onnx_dynamic_axis(input_name: str, output_name: str):
     }
 
 
-def test_lenet5_get_onnx_dynamic_axis_default():
+def test_lenet5_get_onnx_dynamic_axis_default() -> None:
     assert LeNet5(num_classes=10).get_onnx_dynamic_axis() == {
         ct.INPUT: {0: "batch"},
         ct.PREDICTION: {0: "batch"},
     }
 
 
-def test_lenet5_is_loss_decreasing():
+def test_lenet5_is_loss_decreasing() -> None:
     assert is_loss_decreasing_with_sgd(
         model=VanillaModel(
             network=LeNet5(num_classes=10),

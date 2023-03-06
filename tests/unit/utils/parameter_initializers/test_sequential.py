@@ -13,11 +13,11 @@ from gravitorch.utils.parameter_initializers import (
 ####################################################
 
 
-def test_sequential_parameter_initializer_str():
+def test_sequential_parameter_initializer_str() -> None:
     assert str(SequentialParameterInitializer([])).startswith("SequentialParameterInitializer")
 
 
-def test_sequential_parameter_initializer_init():
+def test_sequential_parameter_initializer_init() -> None:
     parameter_initializer = SequentialParameterInitializer(
         [
             NoParameterInitializer(),
@@ -28,7 +28,7 @@ def test_sequential_parameter_initializer_init():
     assert isinstance(parameter_initializer._parameter_initializers[1], NoParameterInitializer)
 
 
-def test_sequential_parameter_initializer_initialize():
+def test_sequential_parameter_initializer_initialize() -> None:
     engine = Mock()
     engine.model = nn.Linear(4, 5)
     parameter_initializer1 = Mock()

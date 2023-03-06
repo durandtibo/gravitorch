@@ -23,17 +23,19 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
     ``IterDataPipe``s from their configuration.
 
     Args:
+    ----
         config (dict or sequence of dict): Specifies the configuration
             of the ``IterDataPipe`` object to create. See description
             of the ``create_sequential_iter_datapipe`` function to
             learn more about the expected values.
 
     Raises:
+    ------
         ValueError if the ``IterDataPipe`` configuration sequence is
             empty.
     """
 
-    def __init__(self, config: Union[dict, Sequence[dict]]):
+    def __init__(self, config: Union[dict, Sequence[dict]]) -> None:
         if not config:
             raise ValueError("It is not possible to create a DataPipe because `config` is empty")
         self._config = config
@@ -50,6 +52,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
         r"""Creates an ``IterDataPipe`` object.
 
         Args:
+        ----
             engine (``BaseEngine`` or ``None``, optional): Specifies
                 an engine. The engine is not used by this creator.
                 Default: ``None``
@@ -62,6 +65,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
                 set to an empty tuple. Default: ``None``
 
         Returns:
+        -------
             ``IterDataPipe``: The created ``IterDataPipe`` object.
 
         Example usage:
@@ -193,6 +197,7 @@ def create_sequential_iter_datapipe(
     without using this function.
 
     Args:
+    ----
         config (dict or sequence of dict): Specifies the configuration
             of the ``IterDataPipe`` object to create. See description
             above to know when to use a dict or a sequence of dicts.
@@ -205,10 +210,12 @@ def create_sequential_iter_datapipe(
             Default: ``None``
 
     Returns:
+    -------
         ``IterDataPipe``: The last (a.k.a. sink) ``IterDataPipe`` of
             the sequence.
 
     Raises:
+    ------
         ValueError if the configuration is empty (empty dict or
             sequence).
 
@@ -287,7 +294,7 @@ def create_sequential_iter_datapipe(
     """
     if not config:
         raise ValueError("It is not possible to create a DataPipe because `config` is empty")
-    source_inputs = source_inputs or tuple()
+    source_inputs = source_inputs or ()
     if isinstance(config, dict):
         config = config.copy()  # Make a copy because the dict is modified below.
         target = config.pop(OBJECT_TARGET)
@@ -303,6 +310,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
     object by using a sequence ``IterDataPipe`` creators.
 
     Args:
+    ----
         creators: Specifies the sequence of ``IterDataPipe`` creators
             or their configurations. The sequence of creators follows
             the order of the ``IterDataPipe``s. The first creator is
@@ -313,7 +321,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             argument, excepts for the source ``IterDataPipe``.
     """
 
-    def __init__(self, creators: Sequence[Union[BaseIterDataPipeCreator, dict]]):
+    def __init__(self, creators: Sequence[Union[BaseIterDataPipeCreator, dict]]) -> None:
         if not creators:
             raise ValueError("It is not possible to create a DataPipe because `creators` is empty")
         self._creators = [setup_iter_datapipe_creator(creator) for creator in creators]
@@ -330,6 +338,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
         r"""Creates an ``IterDataPipe`` object.
 
         Args:
+        ----
             engine (``BaseEngine`` or ``None``, optional): Specifies
                 an engine.
                 The engine is not used by this creator.
@@ -343,6 +352,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
                 is setto an empty tuple. Default: ``None``
 
         Returns:
+        -------
             ``IterDataPipe``: The created ``IterDataPipe`` object.
 
         Example usage:

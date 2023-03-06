@@ -21,9 +21,11 @@ class BaseEvalCondition(metaclass=AbstractFactory):
         r"""Indicates if the evaluation loop should be executed.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Returns:
+        -------
             bool: ``True`` if the evaluation loop should be evaluated,
                 otherwise ``False``
         """
@@ -33,20 +35,23 @@ class EveryEpochEvalCondition(BaseEvalCondition):
     r"""Implements a condition that is true every N epoch.
 
     Args:
+    ----
         every (int, optional): Specifies the frequency of the
             evaluation. Default: ``1``
     """
 
-    def __init__(self, every: int = 1):
+    def __init__(self, every: int = 1) -> None:
         self._every = every
 
     def __call__(self, engine: BaseEngine) -> bool:
         r"""Indicates if it is a multiple of ``every``.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Returns:
+        -------
             bool: ``True`` if the evaluation loop should be evaluated,
                 otherwise ``False``
         """
@@ -63,9 +68,11 @@ class LastEpochEvalCondition(BaseEvalCondition):
         r"""Indicates if it is the last epoch.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Returns:
+        -------
             bool: ``True`` if the evaluation loop should be evaluated,
                 otherwise ``False``
         """

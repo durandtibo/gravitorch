@@ -14,13 +14,14 @@ class MovingAverage:
     value of float number.
 
     Args:
+    ----
         values (iterable, optional): Specifies the initial values.
             Default: ``tuple()``
         window_size (int, optional): Specifies the maximum window
             size. Default: ``20``
     """
 
-    def __init__(self, values: Iterable[Union[int, float]] = (), window_size: int = 20):
+    def __init__(self, values: Iterable[Union[int, float]] = (), window_size: int = 20) -> None:
         self._deque = deque(values, maxlen=window_size)
 
     def __repr__(self) -> str:
@@ -37,18 +38,21 @@ class MovingAverage:
     def clone(self) -> "MovingAverage":
         r"""Creates a copy of the current meter.
 
-        Returns:
+        Returns
+        -------
             ``MovingAverage``: A copy of the current meter.
         """
         return MovingAverage(values=tuple(self._deque), window_size=self.window_size)
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
         """
@@ -60,6 +64,7 @@ class MovingAverage:
         r"""Loads a state to the history tracker.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
         """
@@ -72,10 +77,12 @@ class MovingAverage:
     def smoothed_average(self) -> float:
         r"""Computes the smoothed average value.
 
-        Returns:
+        Returns
+        -------
             float: The smoothed average value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._deque:
@@ -85,7 +92,8 @@ class MovingAverage:
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """
         return {"values": self.values, "window_size": self.window_size}
@@ -94,6 +102,7 @@ class MovingAverage:
         r"""Updates the meter given a new value.
 
         Args:
+        ----
             value (int or float): Specifies the value to add to the
                 meter.
         """
@@ -105,6 +114,7 @@ class ExponentialMovingAverage:
     value of float number.
 
     Args:
+    ----
         alpha (float, optional): Specifies the smoothing factor such
             as ``0 < alpha < 1``.
         count (int, optional): Specifies the initial count value.
@@ -118,7 +128,7 @@ class ExponentialMovingAverage:
         alpha: float = 0.98,
         count: int = 0,
         smoothed_average: float = 0.0,
-    ):
+    ) -> None:
         self._alpha = float(alpha)
         self._count = int(count)
         self._smoothed_average = float(smoothed_average)
@@ -132,13 +142,15 @@ class ExponentialMovingAverage:
     @property
     def count(self) -> int:
         r"""int: The number of examples in the meter since the last
-        reset."""
+        reset.
+        """
         return self._count
 
     def clone(self) -> "ExponentialMovingAverage":
         r"""Creates a copy of the current meter.
 
-        Returns:
+        Returns
+        -------
             ``ExponentialMovingAverage``: A copy of the current meter.
         """
         return ExponentialMovingAverage(
@@ -147,13 +159,15 @@ class ExponentialMovingAverage:
             smoothed_average=self._smoothed_average,
         )
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
         """
@@ -165,6 +179,7 @@ class ExponentialMovingAverage:
         r"""Loads a state to the history tracker.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
         """
@@ -180,10 +195,12 @@ class ExponentialMovingAverage:
     def smoothed_average(self) -> float:
         r"""Computes the smoothed average value.
 
-        Returns:
+        Returns
+        -------
             float: The smoothed average value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -193,7 +210,8 @@ class ExponentialMovingAverage:
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """
         return {
@@ -206,6 +224,7 @@ class ExponentialMovingAverage:
         r"""Updates the meter given a new value.
 
         Args:
+        ----
             value (float): Specifies the value to add to the meter.
         """
         self._smoothed_average = self._alpha * self._smoothed_average + (1.0 - self._alpha) * value

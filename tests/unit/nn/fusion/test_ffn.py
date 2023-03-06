@@ -13,14 +13,14 @@ SIZES = (1, 2)
 ###############################
 
 
-def test_fusion_ffn_modules():
+def test_fusion_ffn_modules() -> None:
     module = FusionFFN(fusion=SumFusion(), ffn=nn.Linear(4, 7))
     assert isinstance(module.fusion, SumFusion)
     assert isinstance(module.ffn, nn.Linear)
 
 
 @mark.parametrize("output_size", SIZES)
-def test_fusion_ffn_output_size(output_size: int):
+def test_fusion_ffn_output_size(output_size: int) -> None:
     assert FusionFFN(fusion=SumFusion(), ffn=nn.Linear(4, output_size)).output_size == output_size
 
 
@@ -28,7 +28,9 @@ def test_fusion_ffn_output_size(output_size: int):
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
 @mark.parametrize("output_size", SIZES)
-def test_fusion_ffn_forward(device: str, batch_size: int, input_size: int, output_size: int):
+def test_fusion_ffn_forward(
+    device: str, batch_size: int, input_size: int, output_size: int
+) -> None:
     device = torch.device(device)
     net = FusionFFN(fusion=SumFusion(), ffn=nn.Linear(input_size, output_size)).to(device=device)
     y = net(

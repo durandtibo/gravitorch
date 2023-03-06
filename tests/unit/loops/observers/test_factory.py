@@ -13,16 +13,16 @@ from gravitorch.loops.observers import (
 #########################################
 
 
-def test_setup_loop_observer_none():
+def test_setup_loop_observer_none() -> None:
     assert isinstance(setup_loop_observer(None), NoOpLoopObserver)
 
 
-def test_setup_loop_observer_object():
+def test_setup_loop_observer_object() -> None:
     loop_observer = NoOpLoopObserver()
     assert setup_loop_observer(loop_observer) is loop_observer
 
 
-def test_setup_loop_observer_dict(tmp_path: Path):
+def test_setup_loop_observer_dict(tmp_path: Path) -> None:
     assert isinstance(
         setup_loop_observer(
             {

@@ -19,7 +19,7 @@ class EventManager:
     An event is represented by a case-sensitive string.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         # This variable is used to store the handlers associated to each event.
         self._event_handlers = defaultdict(list)
         # This variable is used to track the last fired event name
@@ -43,7 +43,8 @@ class EventManager:
     def last_fired_event(self) -> Optional[str]:
         r"""Gets the last event name that was fired.
 
-        Returns:
+        Returns
+        -------
             str or ``None``: The last event name that was fired or
                 ``None`` if no event was fired.
         """
@@ -55,6 +56,7 @@ class EventManager:
         The event handler will be called everytime the event happens.
 
         Args:
+        ----
             event (str): Specifies the event to attach the event
                 handler.
             event_handler (``BaseEventHandler``): Specifies the
@@ -81,6 +83,7 @@ class EventManager:
         r"""Fires the handler(s) for the given event.
 
         Args:
+        ----
             event (str): Specifies the event to fire.
 
         Example usage:
@@ -116,6 +119,7 @@ class EventManager:
         input event handler to compare event handlers.
 
         Args:
+        ----
             event_handler (``BaseEventHandler``): Specifies the eventn
                 handler to check.
             event (str or ``None``): Specifies an event to check. If
@@ -168,11 +172,13 @@ class EventManager:
         handler to compare event handlers.
 
         Args:
+        ----
             event (str): Specifies the event handler is attached to.
             event_handler (``BaseEventHandler``): Specifies the event
                 handler to remove.
 
         Raises:
+        ------
             ValueError: if the event does not exist or if the handler
                 is not attached to the event.
 
@@ -250,16 +256,18 @@ class EventManager:
         self._last_fired_event = None
 
 
-def to_event_handlers_str(event_handlers: dict[str, list], num_spaces: int = 2):
+def to_event_handlers_str(event_handlers: dict[str, list], num_spaces: int = 2) -> str:
     r"""Computes a string representation of the event handlers.
 
     Args:
+    ----
         event_handlers (dict): Specifies the dictionary with the list
             of handlers for each event.
         num_spaces (int, optional): Specifies the number of spaces
             used for the indentation. Default: ``2``.
 
     Returns:
+    -------
         str: A string representation of the event handlers
     """
     lines = []

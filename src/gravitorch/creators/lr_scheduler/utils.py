@@ -19,10 +19,12 @@ def setup_lr_scheduler_creator(
     using the ``BaseLRSchedulerCreator`` factory function.
 
     Args:
+    ----
         creator (``BaseLRSchedulerCreator`` or dict or ``None``):
             Specifies the LR scheduler creator or its configuration.
 
     Returns:
+    -------
         ``BaseLRSchedulerCreator``: The instantiated LR scheduler
             creator.
     """

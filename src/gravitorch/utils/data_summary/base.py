@@ -22,6 +22,7 @@ class BaseDataSummary(Generic[T], ABC, metaclass=AbstractFactory):
         r"""Adds new data to the summary.
 
         Args:
+        ----
             data: Specifies the data to add to the summary.
         """
 
@@ -33,10 +34,12 @@ class BaseDataSummary(Generic[T], ABC, metaclass=AbstractFactory):
     def summary(self) -> dict:
         r"""Gets a descriptive summary of the data.
 
-        Returns:
+        Returns
+        -------
             dict: The data descriptive summary.
 
-        Raises:
+        Raises
+        ------
             ``EmptyDataSummaryError`` is the data summary is empty.
         """
 

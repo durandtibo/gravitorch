@@ -29,12 +29,12 @@ SIZES = (1, 2)
 )
 def test_packed_sequence_loss_criterion(
     criterion: Union[dict, Module], criterion_cls: type[Module]
-):
+) -> None:
     assert isinstance(PackedSequenceLoss(criterion).criterion, criterion_cls)
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_mse_correct(device: str):
+def test_packed_sequence_mse_correct(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -47,7 +47,7 @@ def test_packed_sequence_mse_correct(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_mse_incorrect_invalid_1(device: str):
+def test_packed_sequence_mse_incorrect_invalid_1(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -74,7 +74,7 @@ def test_packed_sequence_mse_incorrect_invalid_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_mse_incorrect_invalid_2(device: str):
+def test_packed_sequence_mse_incorrect_invalid_2(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -101,7 +101,7 @@ def test_packed_sequence_mse_incorrect_invalid_2(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_mse_batch_size_1(device: str):
+def test_packed_sequence_mse_batch_size_1(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -122,7 +122,7 @@ def test_packed_sequence_mse_batch_size_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_mse_with_mask(device: str):
+def test_packed_sequence_mse_with_mask(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(MSELoss()).to(device=device)
     assert objects_are_equal(
@@ -152,7 +152,7 @@ def test_packed_sequence_mse_with_mask(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_cross_entropy(device: str):
+def test_packed_sequence_cross_entropy(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -171,7 +171,7 @@ def test_packed_sequence_cross_entropy(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_cross_entropy_all_valid(device: str):
+def test_packed_sequence_cross_entropy_all_valid(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -198,7 +198,7 @@ def test_packed_sequence_cross_entropy_all_valid(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_cross_entropy_invalid_1(device: str):
+def test_packed_sequence_cross_entropy_invalid_1(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -225,7 +225,7 @@ def test_packed_sequence_cross_entropy_invalid_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_cross_entropy_batch_size_1(device: str):
+def test_packed_sequence_cross_entropy_batch_size_1(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -244,7 +244,7 @@ def test_packed_sequence_cross_entropy_batch_size_1(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_packed_sequence_cross_entropy_with_mask(device: str):
+def test_packed_sequence_cross_entropy_with_mask(device: str) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(CrossEntropyLoss()).to(device=device)
     assert objects_are_allclose(
@@ -279,7 +279,7 @@ def test_packed_sequence_cross_entropy_with_mask(device: str):
 @mark.parametrize("mask_key", ("my_mask", "mask"))
 def test_packed_sequence_cross_entropy_custom_keys(
     device: str, prediction_key: str, target_key: str, mask_key: str
-):
+) -> None:
     device = torch.device(device)
     criterion = PackedSequenceLoss(
         CrossEntropyLoss(),

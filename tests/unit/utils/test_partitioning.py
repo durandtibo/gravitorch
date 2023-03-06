@@ -16,32 +16,32 @@ from gravitorch.utils.partitioning import (
 
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 1)
-def test_ddp_partitions_world_size_1_partition_size_1():
+def test_ddp_partitions_world_size_1_partition_size_1() -> None:
     assert ddp_partitions([1, 2, 3, 4], partition_size=1) == [[1]]
 
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 1)
-def test_ddp_partitions_world_size_1_partition_size_2():
+def test_ddp_partitions_world_size_1_partition_size_2() -> None:
     assert ddp_partitions([1, 2, 3, 4], partition_size=2) == [[1, 2]]
 
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 1)
-def test_ddp_partitions_world_size_1_partition_size_4():
+def test_ddp_partitions_world_size_1_partition_size_4() -> None:
     assert ddp_partitions([1, 2, 3, 4], partition_size=4) == [[1, 2, 3, 4]]
 
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 2)
-def test_ddp_partitions_world_size_2_partition_size_1():
+def test_ddp_partitions_world_size_2_partition_size_1() -> None:
     assert ddp_partitions([1, 2, 3, 4], partition_size=1) == [[1], [2]]
 
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 2)
-def test_ddp_partitions_world_size_2_partition_size_2():
+def test_ddp_partitions_world_size_2_partition_size_2() -> None:
     assert ddp_partitions([1, 2, 3, 4], partition_size=2) == [[1, 2], [3, 4]]
 
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 1)
-def test_ddp_partitions_incorrect_partition_size():
+def test_ddp_partitions_incorrect_partition_size() -> None:
     with raises(ValueError):
         ddp_partitions([1, 2, 3, 4], partition_size=5)
 
@@ -51,15 +51,15 @@ def test_ddp_partitions_incorrect_partition_size():
 #####################################
 
 
-def test_even_partitions_minimum_items():
+def test_even_partitions_minimum_items() -> None:
     assert even_partitions([1, 2], num_partitions=2) == [[1], [2]]
 
 
-def test_even_partitions_even_drop_remainder_false():
+def test_even_partitions_even_drop_remainder_false() -> None:
     assert even_partitions([1, 2, 3, 4, 5, 6], num_partitions=3) == [[1, 2], [3, 4], [5, 6]]
 
 
-def test_even_partitions_even_drop_remainder_true():
+def test_even_partitions_even_drop_remainder_true() -> None:
     assert even_partitions([1, 2, 3, 4, 5, 6], num_partitions=3, drop_remainder=True) == [
         [1, 2],
         [3, 4],
@@ -67,7 +67,7 @@ def test_even_partitions_even_drop_remainder_true():
     ]
 
 
-def test_even_partitions_not_even_drop_remainder_false():
+def test_even_partitions_not_even_drop_remainder_false() -> None:
     assert even_partitions([1, 2, 3, 4, 5, 6, 7, 8], num_partitions=3) == [
         [1, 2, 3],
         [4, 5, 6],
@@ -75,7 +75,7 @@ def test_even_partitions_not_even_drop_remainder_false():
     ]
 
 
-def test_even_partitions_not_even_drop_remainder_true():
+def test_even_partitions_not_even_drop_remainder_true() -> None:
     assert even_partitions([1, 2, 3, 4, 5, 6, 7, 8], num_partitions=3, drop_remainder=True) == [
         [1, 2],
         [3, 4],
@@ -83,15 +83,15 @@ def test_even_partitions_not_even_drop_remainder_true():
     ]
 
 
-def test_even_partitions_small_drop_remainder_false():
+def test_even_partitions_small_drop_remainder_false() -> None:
     assert even_partitions([1, 2], num_partitions=3) == [[1], [2], []]
 
 
-def test_even_partitions_small_drop_remainder_true():
+def test_even_partitions_small_drop_remainder_true() -> None:
     assert even_partitions([1, 2], num_partitions=3, drop_remainder=True) == [[], [], []]
 
 
-def test_even_partitions_type_tuple():
+def test_even_partitions_type_tuple() -> None:
     assert even_partitions((1, 2, 3, 4, 5, 6), num_partitions=3) == [(1, 2), (3, 4), (5, 6)]
 
 
@@ -100,19 +100,19 @@ def test_even_partitions_type_tuple():
 ###########################################
 
 
-def test_fixed_size_partitions_1():
+def test_fixed_size_partitions_1() -> None:
     assert fixed_size_partitions([1, 2], partition_size=1) == [[1], [2]]
 
 
-def test_fixed_size_partitions_2():
+def test_fixed_size_partitions_2() -> None:
     assert fixed_size_partitions([1, 2], partition_size=2) == [[1, 2]]
 
 
-def test_fixed_size_partitions_even_drop_last_false():
+def test_fixed_size_partitions_even_drop_last_false() -> None:
     assert fixed_size_partitions([1, 2, 3, 4, 5, 6], partition_size=2) == [[1, 2], [3, 4], [5, 6]]
 
 
-def test_fixed_size_partitions_even_drop_last_true():
+def test_fixed_size_partitions_even_drop_last_true() -> None:
     assert fixed_size_partitions([1, 2, 3, 4, 5, 6], partition_size=2, drop_last=True) == [
         [1, 2],
         [3, 4],
@@ -120,7 +120,7 @@ def test_fixed_size_partitions_even_drop_last_true():
     ]
 
 
-def test_fixed_size_partitions_not_even_drop_last_false():
+def test_fixed_size_partitions_not_even_drop_last_false() -> None:
     assert fixed_size_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=3) == [
         [1, 2, 3],
         [4, 5, 6],
@@ -128,14 +128,14 @@ def test_fixed_size_partitions_not_even_drop_last_false():
     ]
 
 
-def test_fixed_size_partitions_not_even_drop_last_true():
+def test_fixed_size_partitions_not_even_drop_last_true() -> None:
     assert fixed_size_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=3, drop_last=True) == [
         [1, 2, 3],
         [4, 5, 6],
     ]
 
 
-def test_fixed_size_partitions_type_tuple():
+def test_fixed_size_partitions_type_tuple() -> None:
     assert fixed_size_partitions((1, 2, 3, 4, 5, 6), partition_size=2) == [(1, 2), (3, 4), (5, 6)]
 
 
@@ -146,19 +146,19 @@ def test_fixed_size_partitions_type_tuple():
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 4)
 @patch("gravitorch.utils.partitioning.dist.get_rank", lambda *args, **kwargs: 0)
-def test_select_partition_by_rank_rank_0():
+def test_select_partition_by_rank_rank_0() -> None:
     assert select_partition_by_rank([1, 2, 3, 4]) == 1
 
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 4)
 @patch("gravitorch.utils.partitioning.dist.get_rank", lambda *args, **kwargs: 1)
-def test_select_partition_by_rank_rank_1():
+def test_select_partition_by_rank_rank_1() -> None:
     assert select_partition_by_rank([1, 2, 3, 4]) == 2
 
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 4)
 @patch("gravitorch.utils.partitioning.dist.get_rank", lambda *args, **kwargs: 0)
-def test_select_partition_by_rank_incorrect_number_of_partitions():
+def test_select_partition_by_rank_incorrect_number_of_partitions() -> None:
     with raises(ValueError):
         select_partition_by_rank([1, 2, 3])
 
@@ -171,7 +171,9 @@ def test_select_partition_by_rank_incorrect_number_of_partitions():
 @mark.parametrize(
     "first_partition_ratio,first_len,second_len", ((0.5, 5, 5), (0.3, 3, 7), (0.8, 8, 2))
 )
-def test_split_into_two_partitions(first_partition_ratio: float, first_len: int, second_len: int):
+def test_split_into_two_partitions(
+    first_partition_ratio: float, first_len: int, second_len: int
+) -> None:
     first, second = split_into_two_partitions(
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         first_partition_ratio=first_partition_ratio,
@@ -180,14 +182,14 @@ def test_split_into_two_partitions(first_partition_ratio: float, first_len: int,
     assert len(second) == second_len
 
 
-def test_split_into_two_partitions_same_random_seed():
+def test_split_into_two_partitions_same_random_seed() -> None:
     items = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     assert split_into_two_partitions(items, random_seed=1) == split_into_two_partitions(
         items, random_seed=1
     )
 
 
-def test_split_into_two_partitions_different_random_seeds():
+def test_split_into_two_partitions_different_random_seeds() -> None:
     items = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     assert split_into_two_partitions(items, random_seed=1) != split_into_two_partitions(
         items, random_seed=2

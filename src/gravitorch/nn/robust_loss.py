@@ -25,6 +25,7 @@ class AsinhMSELoss(Module):
     sine (arcsinh) transformation.
 
     Args:
+    ----
         reduction (string, optional): Specifies the reduction to apply
             to the output: ``'none'`` | ``'mean'`` | ``'sum'``.
             ``'none'``: no reduction will be applied, ``'mean'``: the
@@ -60,6 +61,7 @@ class MSLELoss(Module):
     Note: this loss only works with positive values (0 included).
 
     Args:
+    ----
         reduction (string, optional): Specifies the reduction to apply
             to the output: ``'none'`` | ``'mean'`` | ``'sum'``.
             ``'none'``: no reduction will be applied, ``'mean'``: the
@@ -94,6 +96,7 @@ class SymlogMSELoss(Module):
     (symlog) transformation.
 
     Args:
+    ----
         reduction (string, optional): Specifies the reduction to apply
             to the output: ``'none'`` | ``'mean'`` | ``'sum'``.
             ``'none'``: no reduction will be applied, ``'mean'``: the
@@ -127,6 +130,7 @@ class RelativeMSELoss(Module):
     r"""Implements the relative mean squared error.
 
     Args:
+    ----
         reduction (string, optional): Specifies the reduction to apply
             to the output: ``'none'`` | ``'mean'`` | ``'sum'``.
             ``'none'``: no reduction will be applied, ``'mean'``: the
@@ -164,6 +168,7 @@ class RelativeSmoothL1Loss(Module):
     r"""Implements the relative smooth L1 loss.
 
     Args:
+    ----
         reduction (string, optional): Specifies the reduction to apply
             to the output: ``'none'`` | ``'mean'`` | ``'sum'``.
             ``'none'``: no reduction will be applied, ``'mean'``: the
@@ -188,7 +193,7 @@ class RelativeSmoothL1Loss(Module):
         >>> loss.backward()
     """
 
-    def __init__(self, reduction: str = "mean", beta: float = 1.0, eps: float = 1e-8):
+    def __init__(self, reduction: str = "mean", beta: float = 1.0, eps: float = 1e-8) -> None:
         super().__init__()
         self.reduction = str(reduction)
         self._beta = float(beta)
@@ -211,6 +216,7 @@ class SymmetricRelativeSmoothL1Loss(Module):
     r"""Implements the symmetric relative smooth L1 loss.
 
     Args:
+    ----
         reduction (string, optional): Specifies the reduction to apply
             to the output: ``'none'`` | ``'mean'`` | ``'sum'``.
             ``'none'``: no reduction will be applied, ``'mean'``: the
@@ -235,7 +241,7 @@ class SymmetricRelativeSmoothL1Loss(Module):
         >>> loss.backward()
     """
 
-    def __init__(self, reduction: str = "mean", beta: float = 1.0, eps: float = 1e-8):
+    def __init__(self, reduction: str = "mean", beta: float = 1.0, eps: float = 1e-8) -> None:
         super().__init__()
         self.reduction = str(reduction)
         self._beta = float(beta)

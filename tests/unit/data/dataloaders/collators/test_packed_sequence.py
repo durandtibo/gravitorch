@@ -21,12 +21,12 @@ NAME = "name"
 ##################################
 
 
-def test_packed_sequence_collator_str():
+def test_packed_sequence_collator_str() -> None:
     assert str(PackedSequenceCollator()).startswith("PackedSequenceCollator(")
 
 
 @mark.parametrize("length_key", ("length", "abc", 1))
-def test_packed_sequence_collator_length_key(length_key: Hashable):
+def test_packed_sequence_collator_length_key(length_key: Hashable) -> None:
     data = [
         ({length_key: 2}, {FEATURE: torch.full((2,), 2, dtype=torch.float)}),
         ({length_key: 3}, {FEATURE: torch.full((3,), 3, dtype=torch.float)}),
@@ -42,7 +42,7 @@ def test_packed_sequence_collator_length_key(length_key: Hashable):
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([3, 3, 2, 1]))
 
 
-def test_packed_sequence_collator_2d():
+def test_packed_sequence_collator_2d() -> None:
     data = [
         (
             {ct.LENGTH: 2, INDEX: 0, NAME: "item0"},
@@ -84,7 +84,7 @@ def test_packed_sequence_collator_2d():
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([3, 3, 2, 1]))
 
 
-def test_packed_sequence_collator_3d():
+def test_packed_sequence_collator_3d() -> None:
     data = [
         (
             {ct.LENGTH: 2, INDEX: 0, NAME: "item0"},
@@ -126,7 +126,7 @@ def test_packed_sequence_collator_3d():
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([3, 3, 2, 1]))
 
 
-def test_packed_sequence_collator_remove_empty():
+def test_packed_sequence_collator_remove_empty() -> None:
     data = [
         (
             {ct.LENGTH: 0, INDEX: 0, NAME: "item0"},
@@ -166,7 +166,7 @@ def test_packed_sequence_collator_remove_empty():
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([2, 2, 2, 1]))
 
 
-def test_packed_sequence_collator_with_mask():
+def test_packed_sequence_collator_with_mask() -> None:
     data = [
         (
             {ct.LENGTH: 2, INDEX: 0, NAME: "item0"},
@@ -220,7 +220,7 @@ def test_packed_sequence_collator_with_mask():
     assert torch.equal(batch[MASK].batch_sizes, torch.tensor([3, 3, 2, 1]))
 
 
-def test_packed_sequence_collator_batch_single_example():
+def test_packed_sequence_collator_batch_single_example() -> None:
     data = [({ct.LENGTH: 2}, {FEATURE: torch.full((2,), 2, dtype=torch.float)})]
     collator = PackedSequenceCollator()
     batch = collator(data)
@@ -237,18 +237,18 @@ def test_packed_sequence_collator_batch_single_example():
 ######################################
 
 
-def test_dict_packed_sequence_collator_str():
+def test_dict_packed_sequence_collator_str() -> None:
     assert str(DictPackedSequenceCollator(["something"])).startswith("DictPackedSequenceCollator(")
 
 
 @mark.parametrize("keys_to_pack", (("key", 1), ["key", 1]))
 def test_dict_packed_sequence_collator_keys_to_pack(
     keys_to_pack: Union[list[Hashable], tuple[Hashable, ...]]
-):
+) -> None:
     assert DictPackedSequenceCollator(keys_to_pack)._keys_to_pack == ("key", 1)
 
 
-def test_dict_packed_sequence_1d():
+def test_dict_packed_sequence_1d() -> None:
     data = [
         {FEATURE: torch.full((2,), 2, dtype=torch.float)},
         {FEATURE: torch.full((3,), 3, dtype=torch.float)},
@@ -263,7 +263,7 @@ def test_dict_packed_sequence_1d():
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([3, 3, 2, 1]))
 
 
-def test_dict_packed_sequence_2d():
+def test_dict_packed_sequence_2d() -> None:
     data = [
         {INDEX: 0, NAME: "item0", FEATURE: torch.full((2, 2), 2, dtype=torch.float)},
         {INDEX: 1, NAME: "item1", FEATURE: torch.full((3, 2), 3, dtype=torch.float)},
@@ -295,7 +295,7 @@ def test_dict_packed_sequence_2d():
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([3, 3, 2, 1]))
 
 
-def test_dict_packed_sequence_3d():
+def test_dict_packed_sequence_3d() -> None:
     data = [
         {INDEX: 0, NAME: "item0", FEATURE: torch.full((2, 2, 3), 2, dtype=torch.float)},
         {INDEX: 1, NAME: "item1", FEATURE: torch.full((3, 2, 3), 3, dtype=torch.float)},
@@ -327,7 +327,7 @@ def test_dict_packed_sequence_3d():
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([3, 3, 2, 1]))
 
 
-def test_dict_packed_sequence_remove_empty():
+def test_dict_packed_sequence_remove_empty() -> None:
     data = [
         {INDEX: 0, NAME: "item0", FEATURE: torch.full((0, 2), 2, dtype=torch.float)},
         {INDEX: 1, NAME: "item1", FEATURE: torch.full((3, 2), 3, dtype=torch.float)},
@@ -357,7 +357,7 @@ def test_dict_packed_sequence_remove_empty():
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([2, 2, 2, 1]))
 
 
-def test_dict_packed_sequence_mask():
+def test_dict_packed_sequence_mask() -> None:
     data = [
         {
             INDEX: 0,
@@ -407,7 +407,7 @@ def test_dict_packed_sequence_mask():
     assert torch.equal(batch[MASK].batch_sizes, torch.tensor([3, 3, 2, 1]))
 
 
-def test_dict_packed_sequence_batch_single_example():
+def test_dict_packed_sequence_batch_single_example() -> None:
     data = [{FEATURE: torch.full((2,), 2, dtype=torch.float)}]
     collator = DictPackedSequenceCollator(keys_to_pack=[FEATURE])
     batch = collator(data)
@@ -418,7 +418,7 @@ def test_dict_packed_sequence_batch_single_example():
     assert torch.equal(batch[FEATURE].batch_sizes, torch.tensor([1, 1]))
 
 
-def test_dict_packed_sequence_ignore_extra_key():
+def test_dict_packed_sequence_ignore_extra_key() -> None:
     data = [
         {FEATURE: torch.full((2,), 2, dtype=torch.float)},
         {FEATURE: torch.full((3,), 3, dtype=torch.float)},

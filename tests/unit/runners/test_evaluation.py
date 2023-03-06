@@ -15,11 +15,11 @@ DIST_BACKENDS = ("auto", "gloo", "nccl", None)
 ######################################
 
 
-def test_evaluation_runner_str():
+def test_evaluation_runner_str() -> None:
     assert str(EvaluationRunner(engine={})).startswith("EvaluationRunner(")
 
 
-def test_evaluation_runner_run_no_handler():
+def test_evaluation_runner_run_no_handler() -> None:
     engine = Mock(spec=BaseEngine)
     exp_tracker = Mock(spec=BaseExpTracker)
     runner = EvaluationRunner(engine=engine, exp_tracker=exp_tracker, random_seed=42)
@@ -28,15 +28,15 @@ def test_evaluation_runner_run_no_handler():
     pipe_mock.assert_called_once_with(
         engine=engine,
         exp_tracker=exp_tracker,
-        handlers=tuple(),
+        handlers=(),
         random_seed=42,
     )
 
 
-def test_evaluation_runner_run_handler():
+def test_evaluation_runner_run_handler() -> None:
     engine = Mock(spec=BaseEngine)
     exp_tracker = Mock(spec=BaseExpTracker)
-    handlers = tuple([Mock(spec=BaseHandler)])
+    handlers = (Mock(spec=BaseHandler),)
     runner = EvaluationRunner(
         engine=engine,
         exp_tracker=exp_tracker,
@@ -53,7 +53,7 @@ def test_evaluation_runner_run_handler():
     )
 
 
-def test_evaluation_runner_run_no_exp_tracker():
+def test_evaluation_runner_run_no_exp_tracker() -> None:
     engine = Mock(spec=BaseEngine)
     runner = EvaluationRunner(engine=engine, random_seed=42)
     with patch("gravitorch.runners.evaluation._run_evaluation_pipeline") as pipe_mock:
@@ -61,12 +61,12 @@ def test_evaluation_runner_run_no_exp_tracker():
     pipe_mock.assert_called_once_with(
         engine=engine,
         exp_tracker=None,
-        handlers=tuple(),
+        handlers=(),
         random_seed=42,
     )
 
 
-def test_evaluation_runner_engine():
+def test_evaluation_runner_engine() -> None:
     engine = Mock()
     EvaluationRunner(engine).run()
     engine.eval.assert_called_once()
@@ -77,12 +77,12 @@ def test_evaluation_runner_engine():
 ##############################################
 
 
-def test_run_evaluation_pipeline_engine_config():
+def test_run_evaluation_pipeline_engine_config() -> None:
     with patch("gravitorch.runners.evaluation.BaseEngine.factory") as engine_factory:
         exp_tracker = NoOpExpTracker()
         _run_evaluation_pipeline(
             {OBJECT_TARGET: "MyEngine", "max_epochs": 15},
-            handlers=tuple(),
+            handlers=(),
             exp_tracker=exp_tracker,
         )
         engine_factory.assert_called_once_with(
@@ -90,7 +90,7 @@ def test_run_evaluation_pipeline_engine_config():
         )
 
 
-def test_run_evaluation_pipeline_setup_and_attach_handlers():
+def test_run_evaluation_pipeline_setup_and_attach_handlers() -> None:
     engine = Mock()
     handlers = Mock()
     with patch("gravitorch.runners.evaluation.setup_and_attach_handlers") as setup_mock:
@@ -98,24 +98,24 @@ def test_run_evaluation_pipeline_setup_and_attach_handlers():
         setup_mock.assert_called_once_with(engine, handlers)
 
 
-def test_run_evaluation_pipeline_exp_tracker_none():
+def test_run_evaluation_pipeline_exp_tracker_none() -> None:
     engine = Mock()
-    _run_evaluation_pipeline(engine, handlers=tuple(), exp_tracker=None)
+    _run_evaluation_pipeline(engine, handlers=(), exp_tracker=None)
     engine.eval.assert_called_once()
 
 
-def test_run_evaluation_pipeline_exp_tracker_config():
+def test_run_evaluation_pipeline_exp_tracker_config() -> None:
     engine = Mock()
     _run_evaluation_pipeline(
         engine,
-        handlers=tuple(),
+        handlers=(),
         exp_tracker={OBJECT_TARGET: "gravitorch.utils.exp_trackers.NoOpExpTracker"},
     )
     engine.eval.assert_called_once()
 
 
 @patch("gravitorch.runners.evaluation.dist.is_distributed", lambda *args, **kwargs: True)
-def test_run_evaluation_pipeline_distributed():
+def test_run_evaluation_pipeline_distributed() -> None:
     engine = Mock()
-    _run_evaluation_pipeline(engine, handlers=tuple(), exp_tracker=None)
+    _run_evaluation_pipeline(engine, handlers=(), exp_tracker=None)
     engine.eval.assert_called_once()

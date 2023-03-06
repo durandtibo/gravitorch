@@ -29,7 +29,7 @@ def create_image() -> Image:
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker(tmp_path: Path):
+def test_tensorboard_exp_tracker(tmp_path: Path) -> None:
     with TensorBoardExpTracker(experiment_path=tmp_path.joinpath("data")) as tracker:
         assert tracker.is_activated()
         assert not tracker.is_resumed()

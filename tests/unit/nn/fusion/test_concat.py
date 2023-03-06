@@ -12,11 +12,11 @@ SIZES = (1, 2)
 ##################################
 
 
-def test_concat_fusion_str():
+def test_concat_fusion_str() -> None:
     assert str(ConcatFusion()).startswith("ConcatFusion(")
 
 
-def test_concat_fusion():
+def test_concat_fusion() -> None:
     x1 = torch.tensor([[2, 3, 4], [5, 6, 7]], dtype=torch.long)
     x2 = torch.tensor([[12, 13, 14], [15, 16, 17]], dtype=torch.long)
     net = ConcatFusion()
@@ -26,7 +26,7 @@ def test_concat_fusion():
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_concat_fusion_1_input(device: str, batch_size: int):
+def test_concat_fusion_1_input(device: str, batch_size: int) -> None:
     device = torch.device(device)
     net = ConcatFusion().to(device=device)
     y = net(torch.ones(batch_size, 3, device=device))
@@ -35,7 +35,7 @@ def test_concat_fusion_1_input(device: str, batch_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_concat_fusion_2_inputs(device: str, batch_size: int):
+def test_concat_fusion_2_inputs(device: str, batch_size: int) -> None:
     device = torch.device(device)
     net = ConcatFusion().to(device=device)
     y = net(torch.ones(batch_size, 3, device=device), torch.ones(batch_size, 4, device=device))
@@ -44,7 +44,7 @@ def test_concat_fusion_2_inputs(device: str, batch_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_concat_fusion_3_inputs(device: str, batch_size: int):
+def test_concat_fusion_3_inputs(device: str, batch_size: int) -> None:
     device = torch.device(device)
     net = ConcatFusion().to(device=device)
     y = net(
@@ -58,7 +58,7 @@ def test_concat_fusion_3_inputs(device: str, batch_size: int):
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("seq_len", SIZES)
 @mark.parametrize("batch_size", SIZES)
-def test_concat_fusion_3d_inputs(device: str, seq_len: int, batch_size: int):
+def test_concat_fusion_3d_inputs(device: str, seq_len: int, batch_size: int) -> None:
     device = torch.device(device)
     net = ConcatFusion().to(device=device)
     y = net(
@@ -72,7 +72,9 @@ def test_concat_fusion_3d_inputs(device: str, seq_len: int, batch_size: int):
 @mark.parametrize("seq_len", SIZES)
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_concat_fusion_fusion_dim_0(device: str, seq_len: int, batch_size: int, input_size: int):
+def test_concat_fusion_fusion_dim_0(
+    device: str, seq_len: int, batch_size: int, input_size: int
+) -> None:
     device = torch.device(device)
     net = ConcatFusion(dim=0).to(device=device)
     y = net(
@@ -86,7 +88,9 @@ def test_concat_fusion_fusion_dim_0(device: str, seq_len: int, batch_size: int, 
 @mark.parametrize("seq_len", SIZES)
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_concat_fusion_fusion_dim_1(device: str, seq_len: int, batch_size: int, input_size: int):
+def test_concat_fusion_fusion_dim_1(
+    device: str, seq_len: int, batch_size: int, input_size: int
+) -> None:
     device = torch.device(device)
     net = ConcatFusion(dim=1).to(device=device)
     y = net(

@@ -26,6 +26,7 @@ class AMPEvaluationLoop(VanillaEvaluationLoop):
     training loop using automatic mixed precision (AMP).
 
     Args:
+    ----
         grad_enabled (bool, optional): Specifies if the gradient is
             computed or not in the evaluation loop. By default, the
             gradient is not computed to reduce the memory footprint.
@@ -57,7 +58,7 @@ class AMPEvaluationLoop(VanillaEvaluationLoop):
         condition: Union[BaseEvalCondition, dict, None] = None,
         observer: Union[BaseLoopObserver, dict, None] = None,
         profiler: Union[BaseProfiler, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(
             tag=tag,
             grad_enabled=grad_enabled,

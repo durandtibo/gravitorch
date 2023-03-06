@@ -15,6 +15,7 @@ class ShiftScale(Module):
         destination range.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of type float and shape
                 ``(batch_size, feature_size)``): Specifies the input
                 sequence.
@@ -32,6 +33,7 @@ class ShiftScale(Module):
                 values should be different.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(batch_size, feature_size)``: The shifted and scaled
                 sequence.
@@ -44,6 +46,7 @@ class SequenceShiftScale(Module):
     destination range.
 
     Args:
+    ----
         batch_first (bool, optional): Indicates if the first
             dimension is the batch or the sequence. If ``True``, the
             input sequence should have the shape
@@ -52,7 +55,7 @@ class SequenceShiftScale(Module):
             Default: ``False``
     """
 
-    def __init__(self, batch_first: bool = False):
+    def __init__(self, batch_first: bool = False) -> None:
         super().__init__()
         self._batch_first = bool(batch_first)
 
@@ -74,6 +77,7 @@ class SequenceShiftScale(Module):
         range.
 
         Args:
+        ----
             sequence (``torch.Tensor`` of type float and shape
                 ``(batch_size, sequence_length, feature_size)`` if
                 ``batch_size=False`` or
@@ -93,6 +97,7 @@ class SequenceShiftScale(Module):
                 values should be different.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(sequence_length, batch_size, feature_size)`` if
                 ``batch_size=False`` or
@@ -106,6 +111,7 @@ def shift_scale(tensor: Tensor, src_range: Tensor, dst_range: Tensor) -> Tensor:
     r"""Shifts and scales a tensor from a source range to a destination range.
 
     Args:
+    ----
         tensor (``torch.Tensor`` of type float and shape
             ``(batch_size, feature_size)``): Specifies the tensor to
             shift and scale.
@@ -123,6 +129,7 @@ def shift_scale(tensor: Tensor, src_range: Tensor, dst_range: Tensor) -> Tensor:
             should be different.
 
     Returns:
+    -------
         ``torch.Tensor`` of type float and shape
             ``(batch_size, feature_size)``: The shifted and scaled
             tensor.
@@ -143,6 +150,7 @@ def sequence_shift_scale(
     range.
 
     Args:
+    ----
         sequence (``torch.Tensor`` of type float and shape
             ``(batch_size, sequence_length, feature_size)`` if
             ``batch_size=False`` or
@@ -168,6 +176,7 @@ def sequence_shift_scale(
             Default: ``False``
 
     Returns:
+    -------
         ``torch.Tensor`` of type float and shape
             ``(sequence_length, batch_size, feature_size)``
             if ``batch_size=False`` or

@@ -1,7 +1,7 @@
 from pathlib import Path
 from unittest.mock import patch
 
-from pytest import fixture, raises
+from pytest import TempPathFactory, fixture, raises
 
 from gravitorch import constants as ct
 from gravitorch.creators.dataloader import AutoDataLoaderCreator
@@ -15,7 +15,7 @@ from tests.unit.data.datasets.test_image_folder import create_image_folder
 
 
 @fixture(scope="module")
-def dataset_path(tmp_path_factory) -> Path:
+def dataset_path(tmp_path_factory: TempPathFactory) -> Path:
     path = tmp_path_factory.mktemp("data")
     create_image_folder(path)
     return path
@@ -27,7 +27,7 @@ def dataset_path(tmp_path_factory) -> Path:
 
 
 @torchvision_available
-def test_imagenet_data_source_create_imagenet_v1_no_train_and_no_eval():
+def test_imagenet_data_source_create_imagenet_v1_no_train_and_no_eval() -> None:
     data_source = ImageNetDataSource.create_imagenet_v1(
         train_path=None, eval_path=None, data_loader_creators={}
     )
@@ -36,7 +36,7 @@ def test_imagenet_data_source_create_imagenet_v1_no_train_and_no_eval():
 
 
 @torchvision_available
-def test_imagenet_data_source_create_imagenet_v1_no_train_and_eval(dataset_path: Path):
+def test_imagenet_data_source_create_imagenet_v1_no_train_and_eval(dataset_path: Path) -> None:
     data_source = ImageNetDataSource.create_imagenet_v1(
         train_path=None,
         eval_path=dataset_path,
@@ -48,7 +48,7 @@ def test_imagenet_data_source_create_imagenet_v1_no_train_and_eval(dataset_path:
 
 
 @torchvision_available
-def test_imagenet_data_source_create_imagenet_v1_train_and_no_eval(dataset_path: Path):
+def test_imagenet_data_source_create_imagenet_v1_train_and_no_eval(dataset_path: Path) -> None:
     data_source = ImageNetDataSource.create_imagenet_v1(
         train_path=dataset_path,
         eval_path=None,
@@ -60,7 +60,7 @@ def test_imagenet_data_source_create_imagenet_v1_train_and_no_eval(dataset_path:
 
 
 @torchvision_available
-def test_imagenet_data_source_create_imagenet_v1_train_and_eval(dataset_path: Path):
+def test_imagenet_data_source_create_imagenet_v1_train_and_eval(dataset_path: Path) -> None:
     data_source = ImageNetDataSource.create_imagenet_v1(
         train_path=dataset_path,
         eval_path=dataset_path,
@@ -73,7 +73,7 @@ def test_imagenet_data_source_create_imagenet_v1_train_and_eval(dataset_path: Pa
 
 
 @torchvision_available
-def test_imagenet_data_source_create_imagenet_v1_input_size_224(dataset_path: Path):
+def test_imagenet_data_source_create_imagenet_v1_input_size_224(dataset_path: Path) -> None:
     data_source = ImageNetDataSource.create_imagenet_v1(
         train_path=dataset_path,
         eval_path=dataset_path,
@@ -93,7 +93,7 @@ def test_imagenet_data_source_create_imagenet_v1_input_size_224(dataset_path: Pa
 
 
 @torchvision_available
-def test_imagenet_data_source_create_imagenet_v1_input_size_320(dataset_path: Path):
+def test_imagenet_data_source_create_imagenet_v1_input_size_320(dataset_path: Path) -> None:
     data_source = ImageNetDataSource.create_imagenet_v1(
         train_path=dataset_path,
         eval_path=dataset_path,
@@ -113,7 +113,7 @@ def test_imagenet_data_source_create_imagenet_v1_input_size_320(dataset_path: Pa
 
 
 @torchvision_available
-def test_imagenet_data_source_create_imagenet_v1_data_loader_creators():
+def test_imagenet_data_source_create_imagenet_v1_data_loader_creators() -> None:
     data_source = ImageNetDataSource.create_imagenet_v1(
         train_path=None,
         eval_path=None,
@@ -130,12 +130,12 @@ def test_imagenet_data_source_create_imagenet_v1_data_loader_creators():
 
 
 @torchvision_available
-def test_create_train_eval_datasets_v1_no_train_and_no_eval():
+def test_create_train_eval_datasets_v1_no_train_and_no_eval() -> None:
     assert create_train_eval_datasets_v1(train_path=None, eval_path=None) == (None, None)
 
 
 @torchvision_available
-def test_create_train_eval_datasets_v1_no_train_and_eval(dataset_path: Path):
+def test_create_train_eval_datasets_v1_no_train_and_eval(dataset_path: Path) -> None:
     train_dataset, eval_dataset = create_train_eval_datasets_v1(
         train_path=None, eval_path=dataset_path
     )
@@ -144,7 +144,7 @@ def test_create_train_eval_datasets_v1_no_train_and_eval(dataset_path: Path):
 
 
 @torchvision_available
-def test_create_train_eval_datasets_v1_train_and_no_eval(dataset_path: Path):
+def test_create_train_eval_datasets_v1_train_and_no_eval(dataset_path: Path) -> None:
     train_dataset, eval_dataset = create_train_eval_datasets_v1(
         train_path=dataset_path, eval_path=None
     )
@@ -153,7 +153,7 @@ def test_create_train_eval_datasets_v1_train_and_no_eval(dataset_path: Path):
 
 
 @torchvision_available
-def test_create_train_eval_datasets_v1_train_and_eval(dataset_path: Path):
+def test_create_train_eval_datasets_v1_train_and_eval(dataset_path: Path) -> None:
     train_dataset, eval_dataset = create_train_eval_datasets_v1(
         train_path=dataset_path, eval_path=dataset_path
     )
@@ -162,7 +162,7 @@ def test_create_train_eval_datasets_v1_train_and_eval(dataset_path: Path):
 
 
 @torchvision_available
-def test_create_train_eval_datasets_v1_input_size_224(dataset_path: Path):
+def test_create_train_eval_datasets_v1_input_size_224(dataset_path: Path) -> None:
     train_dataset, eval_dataset = create_train_eval_datasets_v1(
         train_path=dataset_path,
         eval_path=dataset_path,
@@ -179,7 +179,7 @@ def test_create_train_eval_datasets_v1_input_size_224(dataset_path: Path):
 
 
 @torchvision_available
-def test_create_train_eval_datasets_v1_input_size_320(dataset_path: Path):
+def test_create_train_eval_datasets_v1_input_size_320(dataset_path: Path) -> None:
     train_dataset, eval_dataset = create_train_eval_datasets_v1(
         train_path=dataset_path,
         eval_path=dataset_path,
@@ -195,7 +195,7 @@ def test_create_train_eval_datasets_v1_input_size_320(dataset_path: Path):
     assert eval_dataset[0][ct.INPUT].shape == (3, 320, 320)
 
 
-def test_create_train_eval_datasets_v1_without_torchvision():
+def test_create_train_eval_datasets_v1_without_torchvision() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError):
             create_train_eval_datasets_v1(train_path="", eval_path="", input_size=320)

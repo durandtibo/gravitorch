@@ -11,6 +11,7 @@ class AppVAETimeLoss(Module):
     r"""Implements a loss function to compute the APP-VAE time loss.
 
     Args:
+    ----
         log_input (bool, optional): If ``True``, the expected input is
             ``log(lambda)``, otherwise it is ``lambda``.
             Default: ``False``
@@ -38,7 +39,7 @@ class AppVAETimeLoss(Module):
         eps: float = 1e-8,
         max_log_value: float = 20.0,
         reduction: str = "mean",
-    ):
+    ) -> None:
         super().__init__()
         self._log_input = bool(log_input)
 
@@ -63,6 +64,7 @@ class AppVAETimeLoss(Module):
         r"""Computes the APP-VAE time loss value.
 
         Args:
+        ----
             lmbda (``torch.Tensor`` of type float): Specifies the
                 predicted lambda i.e. the rate of the Exponential
                 distribution.
@@ -70,6 +72,7 @@ class AppVAETimeLoss(Module):
                 ``lmbda``): Specifies the target values.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float: The negative
                 log-likelihood with Exponential distribution of
                 target. The shape of the tensor depends on the

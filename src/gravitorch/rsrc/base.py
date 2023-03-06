@@ -22,10 +22,12 @@ def setup_resource(resource: Union[BaseResource, dict]) -> BaseResource:
     ``BaseResource`` factory function.
 
     Args:
+    ----
         resource (``BaseResource`` or dict): Specifies
             the resource or its configuration.
 
     Returns:
+    -------
         ``BaseResource``: The instantiated resource.
     """
     if isinstance(resource, dict):

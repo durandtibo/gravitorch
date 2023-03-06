@@ -26,6 +26,7 @@ def ddp_partitions(items: Sequence[T], partition_size: int) -> list[Sequence[T]]
     partitions is the world size of the distributed system.
 
     Args:
+    ----
         items (sequence): Specifies the sequence to partition. The
             length should be greater or equal to
             ``partition_size * world_size``.
@@ -33,9 +34,11 @@ def ddp_partitions(items: Sequence[T], partition_size: int) -> list[Sequence[T]]
             number of items in each partition.
 
     Returns:
+    -------
         list: A partition of the items.
 
     Raises:
+    ------
         ValueError if ``items`` has less than `
             `partition_size * world_size`` items.
 
@@ -73,6 +76,7 @@ def even_partitions(
     the first.
 
     Args:
+    ----
         items (sequence): Specifies the sequence to partition.
         num_partitions (int): Specifies the number of partitions.
         drop_remainder (bool, optional): If ``True``, it drops the
@@ -80,6 +84,7 @@ def even_partitions(
             by ``num_partitions``.
 
     Returns:
+    -------
         list: A partition of the items.
 
     Example usage:
@@ -105,6 +110,7 @@ def fixed_size_partitions(
     The items are distributed across partitions, starting by the first.
 
     Args:
+    ----
         items (sequence): Specifies the sequence to partition.
         partition_size (int): Specifies the number of items per
             partitions.
@@ -113,6 +119,7 @@ def fixed_size_partitions(
             ``partition_size``.
 
     Returns:
+    -------
         list: A partition of the items.
 
     Example usage:
@@ -134,9 +141,11 @@ def select_partition_by_rank(partitions: Sequence[T]) -> T:
     r"""Selects a partition by using the current distributed rank.
 
     Args:
+    ----
         partitions: Specifies the sequence of partitions
 
     Returns:
+    -------
         The selected partition for the current distributed rank.
 
     Example usage:
@@ -169,6 +178,7 @@ def split_into_two_partitions(
     dataset splits.
 
     Args:
+    ----
         items (sequence): Specifies the items to split into two
             partitions.
         first_partition_ratio (float, optional): Specifies the ratio

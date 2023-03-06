@@ -32,6 +32,7 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
     sequence if removed.
 
     Args:
+    ----
         length_key (hashable, optional): Specifies the key with the
             length of each example. Default: ``'length'``
         batch_first (bool, optional): Specifies if the first dimension
@@ -46,7 +47,7 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
         length_key: Hashable = ct.LENGTH,
         batch_first: bool = False,
         padding_value: float = 0.0,
-    ):
+    ) -> None:
         self._length_key = length_key
         self._batch_first = batch_first
         self._padding_value = padding_value
@@ -56,9 +57,11 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
         examples.
 
         Args:
+        ----
             data (list): The list of examples.
 
         Returns:
+        -------
             dict: The generated mini-batch.
         """
         # Sort the examples by the length of their sequence.
@@ -109,6 +112,7 @@ class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
         that is not in the keys of the batch.
 
     Args:
+    ----
         keys_to_pad (list): Specifies the list of keys to pack. The
             first key is used to sort the examples by length.
         batch_first (bool, optional): Specifies if the first dimension
@@ -123,7 +127,7 @@ class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
         keys_to_pad: Sequence[Hashable],
         batch_first: bool = False,
         padding_value: float = 0.0,
-    ):
+    ) -> None:
         self._keys_to_pad = tuple(keys_to_pad)
         self._batch_first = batch_first
         self._padding_value = padding_value
@@ -133,9 +137,11 @@ class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
         examples.
 
         Args:
+        ----
             data: The sequence of examples.
 
         Returns:
+        -------
             dict: The generated mini-batch.
         """
         # Remove the empty sequences.

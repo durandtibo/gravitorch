@@ -22,7 +22,7 @@ from gravitorch.utils.tensor import (
 #####################################
 
 
-def test_str_full_tensor():
+def test_str_full_tensor() -> None:
     assert str_full_tensor(torch.ones(1001)).startswith(
         "tensor([1., 1., 1., 1., 1., 1., 1., 1., 1.,"
     )
@@ -33,15 +33,15 @@ def test_str_full_tensor():
 ##############################
 
 
-def test_has_name_true_partial_names():
+def test_has_name_true_partial_names() -> None:
     assert has_name(torch.ones(2, 3, names=("B", None)))
 
 
-def test_has_name_true_full_names():
+def test_has_name_true_full_names() -> None:
     assert has_name(torch.ones(2, 3, names=("B", "F")))
 
 
-def test_has_name_false():
+def test_has_name_false() -> None:
     assert not has_name(torch.ones(2, 3))
 
 
@@ -50,13 +50,13 @@ def test_has_name_false():
 #############################
 
 
-def test_permute_1d():
+def test_permute_1d() -> None:
     assert permute(tensor=torch.arange(4), permutation=torch.tensor([0, 2, 1, 3])).equal(
         torch.tensor([0, 2, 1, 3])
     )
 
 
-def test_permute_2d_dim_0():
+def test_permute_2d_dim_0() -> None:
     assert permute(
         tensor=torch.arange(20).view(4, 5), permutation=torch.tensor([0, 2, 1, 3])
     ).equal(
@@ -64,7 +64,7 @@ def test_permute_2d_dim_0():
     )
 
 
-def test_permute_2d_dim_1():
+def test_permute_2d_dim_1() -> None:
     assert permute(
         tensor=torch.arange(20).view(4, 5), permutation=torch.tensor([0, 4, 2, 1, 3]), dim=1
     ).equal(
@@ -72,7 +72,7 @@ def test_permute_2d_dim_1():
     )
 
 
-def test_permute_3d_dim_2():
+def test_permute_3d_dim_2() -> None:
     assert permute(
         tensor=torch.arange(20).view(2, 2, 5), permutation=torch.tensor([0, 4, 2, 1, 3]), dim=2
     ).equal(
@@ -87,7 +87,7 @@ def test_permute_3d_dim_2():
 ############################################
 
 
-def test_partial_transpose_dict_empty_config():
+def test_partial_transpose_dict_empty_config() -> None:
     x = {"my_key": torch.arange(10).view(2, 5)}
     y = partial_transpose_dict(x, {})
     assert objects_are_equal(x, y)
@@ -95,14 +95,14 @@ def test_partial_transpose_dict_empty_config():
 
 
 @mark.parametrize("dims", ((0, 1), [0, 1], (1, 0)))
-def test_partial_transpose_dict_2d(dims: Sequence[int]):
+def test_partial_transpose_dict_2d(dims: Sequence[int]) -> None:
     assert objects_are_equal(
         partial_transpose_dict({"my_key": torch.arange(10).view(2, 5)}, {"my_key": dims}),
         {"my_key": torch.tensor([[0, 5], [1, 6], [2, 7], [3, 8], [4, 9]])},
     )
 
 
-def test_partial_transpose_dict_3d_transpose_0_1():
+def test_partial_transpose_dict_3d_transpose_0_1() -> None:
     assert objects_are_equal(
         partial_transpose_dict({"my_key": torch.arange(24).view(2, 3, 4)}, {"my_key": (0, 1)}),
         {
@@ -117,7 +117,7 @@ def test_partial_transpose_dict_3d_transpose_0_1():
     )
 
 
-def test_partial_transpose_dict_3d_transpose_0_2():
+def test_partial_transpose_dict_3d_transpose_0_2() -> None:
     assert objects_are_equal(
         partial_transpose_dict({"my_key": torch.arange(24).view(2, 3, 4)}, {"my_key": (0, 2)}),
         {
@@ -133,7 +133,7 @@ def test_partial_transpose_dict_3d_transpose_0_2():
     )
 
 
-def test_partial_transpose_dict_3d_transpose_1_2():
+def test_partial_transpose_dict_3d_transpose_1_2() -> None:
     assert objects_are_equal(
         partial_transpose_dict({"my_key": torch.arange(24).view(2, 3, 4)}, {"my_key": (1, 2)}),
         {
@@ -147,7 +147,7 @@ def test_partial_transpose_dict_3d_transpose_1_2():
     )
 
 
-def test_partial_transpose_dict_missing_key():
+def test_partial_transpose_dict_missing_key() -> None:
     with raises(ValueError):
         partial_transpose_dict({"my_key": torch.arange(10).view(2, 5)}, {"another_key": [0, 1]})
 
@@ -166,23 +166,23 @@ def test_partial_transpose_dict_missing_key():
         np.array([-3, 1, 7]),
     ),
 )
-def test_to_tensor(value: Union[Tensor, Sequence, np.ndarray]):
+def test_to_tensor(value: Union[Tensor, Sequence, np.ndarray]) -> None:
     assert to_tensor(value).equal(torch.tensor([-3, 1, 7]))
 
 
-def test_to_tensor_int():
+def test_to_tensor_int() -> None:
     assert to_tensor(1).equal(torch.tensor(1, dtype=torch.long))
 
 
-def test_to_tensor_float():
+def test_to_tensor_float() -> None:
     assert to_tensor(1.5).equal(torch.tensor(1.5, dtype=torch.float))
 
 
-def test_to_tensor_empty_list():
+def test_to_tensor_empty_list() -> None:
     assert to_tensor([]).equal(torch.tensor([]))
 
 
-def test_to_tensor_incorrect():
+def test_to_tensor_incorrect() -> None:
     with raises(TypeError):
         to_tensor(Mock())
 
@@ -192,26 +192,26 @@ def test_to_tensor_incorrect():
 ######################################
 
 
-def test_shapes_are_equal_0_tensor():
+def test_shapes_are_equal_0_tensor() -> None:
     assert not shapes_are_equal([])
 
 
-def test_shapes_are_equal_1_tensor():
+def test_shapes_are_equal_1_tensor() -> None:
     assert shapes_are_equal([torch.rand(2, 3)])
 
 
 @mark.parametrize("shape", ((4,), (2, 3), (2, 3, 4)))
-def test_shapes_are_equal_true_2_tensors(shape: tuple[int, ...]):
+def test_shapes_are_equal_true_2_tensors(shape: tuple[int, ...]) -> None:
     assert shapes_are_equal([torch.rand(*shape), torch.rand(*shape)])
 
 
-def test_shapes_are_equal_true_3_tensors():
+def test_shapes_are_equal_true_3_tensors() -> None:
     assert shapes_are_equal([torch.rand(2, 3), torch.zeros(2, 3), torch.ones(2, 3)])
 
 
-def test_shapes_are_equal_false_2_tensors():
+def test_shapes_are_equal_false_2_tensors() -> None:
     assert not shapes_are_equal([torch.rand(2, 3), torch.rand(2, 3, 1)])
 
 
-def test_shapes_are_equal_false_3_tensors():
+def test_shapes_are_equal_false_3_tensors() -> None:
     assert not shapes_are_equal([torch.rand(2, 3), torch.zeros(2, 3, 4), torch.ones(2)])

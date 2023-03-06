@@ -24,7 +24,8 @@ class LoggingState:
     def create(cls) -> "LoggingState":
         r"""Creates a state to capture the current logging configuration.
 
-        Returns:
+        Returns
+        -------
             ``LoggingState``: The current logging state.
         """
         return cls(disabled_level=logging.root.manager.disable)
@@ -34,6 +35,7 @@ class Logging(BaseResource):
     r"""Implements a context manager to disable the logging.
 
     Args:
+    ----
         only_main_process (bool, optional): If ``True``, only the
             outputs of the main process are logged. The logging of
             other processes is limited to the error level or above.
@@ -48,7 +50,7 @@ class Logging(BaseResource):
 
     def __init__(
         self, only_main_process: bool = False, disabled_level: Union[int, str] = logging.ERROR - 1
-    ):
+    ) -> None:
         self._only_main_process = bool(only_main_process)
         if isinstance(disabled_level, str):
             disabled_level = logging.getLevelName(disabled_level)

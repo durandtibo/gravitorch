@@ -34,6 +34,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
     dataset.
 
     Args:
+    ----
         tag (str, optional): Specifies the tag which is used to log
             metrics. Default: ``"eval"``
         condition (``BaseEvalCondition`` or dict or None): Specifies
@@ -55,7 +56,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         condition: Union[BaseEvalCondition, dict, None] = None,
         observer: Union[BaseLoopObserver, dict, None] = None,
         profiler: Union[BaseProfiler, dict, None] = None,
-    ):
+    ) -> None:
         self._tag = str(tag)
         self._condition = self._setup_condition(condition)
         logger.info(f"condition:\n{self._condition}")
@@ -68,6 +69,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         r"""Evaluates the model on the evaluation dataset.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         dist.barrier()
@@ -116,6 +118,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         r"""Prepares the evaluation.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         # Fix the random seed for reproducibility purpose.
@@ -134,12 +137,14 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         the ``BaseEvalCondition`` factory function.
 
         Args:
+        ----
             condition (``BaseEvalCondition`` or dict or None):
                 Specifies the condition or its configuration.
                 If ``None``, the ``EveryEpochEvalCondition(every=1)``
                 is instantiated.
 
         Returns:
+        -------
             ``BaseEvalCondition``: The state.
         """
         condition = condition or EveryEpochEvalCondition(every=1)
@@ -155,11 +160,13 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         r"""Evaluates the model on the given batch.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
             model (``torch.nn.Module``): Specifies the model to evaluate.
             batch: Specifies the batch of data.
 
         Returns:
+        -------
             dict: Some results about the batch.
         """
 
@@ -168,9 +175,11 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         r"""Prepares the model, optimizer and data loader.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Returns:
+        -------
             ``torch.nn.Module``, ``Iterable``: A tuple with the model
                 and the data loader.
         """

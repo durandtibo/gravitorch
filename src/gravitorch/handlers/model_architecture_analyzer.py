@@ -17,6 +17,7 @@ class ModelArchitectureAnalyzer(BaseHandler):
     r"""Implements a handler to analyze a model architecture.
 
     Args:
+    ----
         events (str or tuple or list): Specifies the event(s) when to
             analyze the model architecture. It is usually a good idea
             to log model information at the beginning of the training.
@@ -26,7 +27,7 @@ class ModelArchitectureAnalyzer(BaseHandler):
     def __init__(
         self,
         events: Union[str, tuple[str, ...], list[str]] = (EngineEvents.STARTED,),
-    ):
+    ) -> None:
         self._events = to_events(events)
 
     def __repr__(self) -> str:
@@ -43,6 +44,7 @@ class ModelArchitectureAnalyzer(BaseHandler):
         r"""Analyzes the model architecture.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
         """
@@ -59,6 +61,7 @@ class ModelNetworkArchitectureAnalyzer(ModelArchitectureAnalyzer):
         r"""Analyzes the network architecture of a model.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
         """

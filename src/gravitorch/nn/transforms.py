@@ -56,6 +56,7 @@ class OnePolynomial(Module):
     module input tensor.
 
     Args:
+    ----
         alpha (float, optional): Specifies the alpha value.
             Default: ``1.0``
         beta (float, optional): Specifies the beta value.
@@ -64,7 +65,7 @@ class OnePolynomial(Module):
             Default: ``1.0``
     """
 
-    def __init__(self, alpha: float = 1.0, beta: float = 0.0, gamma: float = 1.0):
+    def __init__(self, alpha: float = 1.0, beta: float = 0.0, gamma: float = 1.0) -> None:
         super().__init__()
         self._alpha = float(alpha)
         self._beta = float(beta)
@@ -77,11 +78,13 @@ class OnePolynomial(Module):
         r"""Computes a polynomial transformation of the input tensor.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn)``): Specifies the tensor of values
                 to transform.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn)``: The transformed values.
         """
@@ -100,6 +103,7 @@ class OnePolynomial(Module):
         output ranges.
 
         Args:
+        ----
             gamma (float, optional): Specifies the gamma value.
                 Default: ``1.0``
             input_min_value (float, optional): Specifies the expected
@@ -112,6 +116,7 @@ class OnePolynomial(Module):
                 maximum output value. Default: ``1.0``
 
         Returns:
+        -------
             ``OnePolynomial``: An instantiated polynomial transform
                 module.
         """
@@ -134,11 +139,12 @@ class Safeexp(Module):
     leads to an output tensor without Inf.
 
     Args:
+    ----
         max_value (float, optional): Specifies the maximum value.
             Default: ``20.0``
     """
 
-    def __init__(self, max_value: float = 20.0):
+    def __init__(self, max_value: float = 20.0) -> None:
         super().__init__()
         self._max_value = float(max_value)
 
@@ -163,11 +169,12 @@ class Safelog(Module):
     output tensor without NaN or Inf.
 
     Args:
+    ----
         min_value (float, optional): Specifies the minimum value.
             Default: ``1e-8``
     """
 
-    def __init__(self, min_value: float = 1e-8):
+    def __init__(self, min_value: float = 1e-8) -> None:
         super().__init__()
         self._min_value = float(min_value)
 
@@ -187,13 +194,14 @@ class Squeeze(Module):
     r"""Implements a ``torch.nn.Module`` to squeeze the input tensor.
 
     Args:
+    ----
         dim (int or ``None``, optional): Specifies the dimension to
             squeeze the input tensor. If ``None``, all the dimensions
             of the input tensor of size 1 are removed.
             Default: ``None``
     """
 
-    def __init__(self, dim: Union[int, None] = None):
+    def __init__(self, dim: Union[int, None] = None) -> None:
         super().__init__()
         self._dim = dim
 
@@ -227,11 +235,12 @@ class ToBinaryLabel(Module):
     thresholding.
 
     Args:
+    ----
         threshold (float, optional): Specifies the threshold value
             used to compute the binary labels.
     """
 
-    def __init__(self, threshold: float = 0.0):
+    def __init__(self, threshold: float = 0.0) -> None:
         super().__init__()
         self._threshold = float(threshold)
 
@@ -247,11 +256,13 @@ class ToBinaryLabel(Module):
         r"""Computes binary labels from scores.
 
         Args:
+        ----
             scores (``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn)``): Specifies the scores used to
                 compute the binary labels.
 
         Returns:
+        -------
             ``torch.Tensor`` of type long and shape
                 ``(d0, d1, ..., dn)``. The computed binary labels.
                 The values are ``0`` and ``1``.
@@ -267,10 +278,12 @@ class ToFloat(Module):
         r"""Converts a tensor to a float tensor.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of shape ``(d0, d1, ..., dn)``):
                 Specifies the input tensor.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn)``. The converted float tensor.
         """
@@ -285,10 +298,12 @@ class ToLong(Module):
         r"""Converts a tensor to a long tensor.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of shape ``(d0, d1, ..., dn)``):
                 Specifies the input tensor.
 
         Returns:
+        -------
             ``torch.Tensor`` of type long and shape
                 ``(d0, d1, ..., dn)``. The converted long tensor.
         """
@@ -303,12 +318,14 @@ class ToCategoricalLabel(Module):
         r"""Computes categorical labels from scores.
 
         Args:
+        ----
             scores (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn, num_classes)`` and type float):
                 Specifies the scores used to compute the categorical
                 labels.
 
         Returns:
+        -------
             ``torch.Tensor`` of type long and shape
                 ``(d0, d1, ..., dn)``. The computed categorical labels.
                 The values are in ``{0, 1, ..., num_classes-1}``.
@@ -327,12 +344,14 @@ class SequenceToBatch(Module):
         r"""Convert a batch of sequences to a batch.
 
         Args:
+        ----
             tensor (``torch.Tensor`` of shape
                 ``(batch_size, seq_len, d2, ..., dn)`` or
                 ``(seq_len, batch_size, d2, ..., dn)``):
                 Specifies the tensor to convert.
 
         Returns:
+        -------
             ``torch.Tensor`` of shape
                 ``(batch_size * seq_len, d2, ..., dn)``:
                 The converted tensor.

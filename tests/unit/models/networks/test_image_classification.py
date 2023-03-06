@@ -18,7 +18,7 @@ SIZES = (1, 2)
 
 
 @mark.parametrize("batch_size", SIZES)
-def test_image_classification_network_forward(batch_size: int):
+def test_image_classification_network_forward(batch_size: int) -> None:
     module = Mock(spec=nn.Module, return_value=torch.ones(batch_size, 6))
     network = ImageClassificationNetwork(module)
     batch = torch.randn(batch_size, 3, 224, 224)
@@ -28,7 +28,7 @@ def test_image_classification_network_forward(batch_size: int):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_image_classification_network_get_dummy_input(device, batch_size):
+def test_image_classification_network_get_dummy_input(device: str, batch_size: int) -> None:
     device = torch.device(device)
     network = ImageClassificationNetwork(nn.Conv2d(3, 5, 1, 1)).to(device=device)
     dummy_input = network.get_dummy_input(batch_size)
@@ -39,14 +39,14 @@ def test_image_classification_network_get_dummy_input(device, batch_size):
 
 
 @mark.parametrize("input_name", ("image", ct.INPUT))
-def test_image_classification_network_get_input_names(input_name: str):
+def test_image_classification_network_get_input_names(input_name: str) -> None:
     assert ImageClassificationNetwork(
         Mock(spec=nn.Module), input_name=input_name
     ).get_input_names() == (input_name,)
 
 
 @mark.parametrize("output_name", ("output", ct.PREDICTION))
-def test_image_classification_network_get_output_names(output_name: str):
+def test_image_classification_network_get_output_names(output_name: str) -> None:
     assert ImageClassificationNetwork(
         Mock(spec=nn.Module), output_name=output_name
     ).get_output_names() == (output_name,)
@@ -54,13 +54,15 @@ def test_image_classification_network_get_output_names(output_name: str):
 
 @mark.parametrize("input_name", ("image", ct.INPUT))
 @mark.parametrize("output_name", ("output", ct.PREDICTION))
-def test_image_classification_network_get_onnx_dynamic_axis(input_name: str, output_name: str):
+def test_image_classification_network_get_onnx_dynamic_axis(
+    input_name: str, output_name: str
+) -> None:
     assert ImageClassificationNetwork(
         Mock(spec=nn.Module), input_name=input_name, output_name=output_name
     ).get_onnx_dynamic_axis() == {input_name: {0: "batch"}, output_name: {0: "batch"}}
 
 
-def test_image_classification_network_get_onnx_dynamic_axis_default():
+def test_image_classification_network_get_onnx_dynamic_axis_default() -> None:
     assert ImageClassificationNetwork(Mock(spec=nn.Module)).get_onnx_dynamic_axis() == {
         ct.INPUT: {0: "batch"},
         ct.PREDICTION: {0: "batch"},

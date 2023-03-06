@@ -21,11 +21,13 @@ def setup_evaluation_loop(
     using the ``BaseEvaluationLoop`` factory function.
 
     Args:
+    ----
         evaluation_loop (``BaseEvaluationLoop`` or dict or None):
             Specifies the evaluation loop or its configuration.
             If ``None``, the ``VanillaEvaluationLoop`` is instantiated.
 
     Returns:
+    -------
         ``BaseEvaluationLoop``: The evaluation loop.
     """
     if evaluation_loop is None:

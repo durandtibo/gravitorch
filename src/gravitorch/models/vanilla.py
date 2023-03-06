@@ -52,6 +52,7 @@ class VanillaModel(BaseModel):
     PyTorch.
 
     Args:
+    ----
         network (``torch.nn.Module`` or dict): Specifies the network
             module or its configuration.
         criterion (``torch.nn.Module`` or dict): Specifies the
@@ -73,7 +74,7 @@ class VanillaModel(BaseModel):
         metrics: Union[ModuleDict, dict, None] = None,
         checkpoint_path: Union[Path, str, None] = None,
         random_seed: int = 6671429959452193306,
-    ):
+    ) -> None:
         super().__init__()
         manual_seed(random_seed)  # Fix the random seed for reproducibility purpose
         self.network = setup_module(network)
@@ -90,10 +91,12 @@ class VanillaModel(BaseModel):
         """Prepares the batch and feed it to the network, criterion and metric.
 
         Args:
+        ----
             batch (dict): Specifies the dict containing data: inputs,
                 targets, etc.
 
         Returns:
+        -------
             out (dict): a dictionary of outputs including the loss value
         """
         net_out = self._parse_net_out(
@@ -107,6 +110,7 @@ class VanillaModel(BaseModel):
         r"""Attaches current model to the provided engine.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         attach_module_to_engine(self.network, engine)
@@ -118,10 +122,12 @@ class VanillaModel(BaseModel):
         r"""Sets up the metrics.
 
         Args:
+        ----
             metrics (``torch.nn.ModuleDict`` or dict): Specifies the
                 metrics or their configuration.
 
         Returns:
+        -------
             ``torch.nn.ModuleDict``: The metrics
         """
         if isinstance(metrics, ModuleDict):
@@ -138,9 +144,11 @@ class VanillaModel(BaseModel):
         r"""Parses the network outputs to a dict.
 
         Args:
+        ----
             net_out: Specifies the network output.
 
         Returns:
+        -------
             dict: The dictionary containing the network output.
         """
         if torch.is_tensor(net_out) or isinstance(net_out, PackedSequence):
@@ -153,6 +161,7 @@ class VanillaModel(BaseModel):
         r"""Computes the metric output.
 
         Args:
+        ----
             cri_out (dict): Specifies the dict with the criterion
                 output.
             net_out (dict): Specifies the dict with the network
@@ -161,6 +170,7 @@ class VanillaModel(BaseModel):
                 targets, etc.
 
         Returns:
+        -------
             dict: The dictionary containing the metric values. The
                 dictionary can be empty.
         """
@@ -180,6 +190,7 @@ class VanillaModel(BaseModel):
         be returned by the model.
 
         Args:
+        ----
             net_out (dict): Specifies the dict with the network
                 output.
             cri_out (dict): Specifies the dict with the criterion
@@ -188,6 +199,7 @@ class VanillaModel(BaseModel):
                 inputs, targets, etc.
 
         Returns:
+        -------
             dict: The dictionary containing the model outputs.
         """
         out = {}

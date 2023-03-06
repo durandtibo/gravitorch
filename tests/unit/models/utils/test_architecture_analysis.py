@@ -16,19 +16,19 @@ from gravitorch.utils.exp_trackers import EpochStep
 #################################################
 
 
-def test_analyze_module_architecture_not_a_module(caplog: LogCaptureFixture):
+def test_analyze_module_architecture_not_a_module(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         analyze_module_architecture("abc")
         assert len(caplog.messages) == 0
 
 
-def test_analyze_module_architecture_without_engine(caplog: LogCaptureFixture):
+def test_analyze_module_architecture_without_engine(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         analyze_module_architecture(nn.Linear(4, 6))
         assert len(caplog.messages) == 3
 
 
-def test_analyze_module_architecture_with_engine():
+def test_analyze_module_architecture_with_engine() -> None:
     engine = Mock(epoch=0)
     analyze_module_architecture(nn.Linear(4, 6), engine)
     engine.log_metrics.assert_called_once_with(
@@ -46,7 +46,7 @@ def test_analyze_module_architecture_with_engine():
     "gravitorch.models.utils.architecture_analysis.num_learnable_parameters",
     lambda *args, **kwargs: 10,
 )
-def test_analyze_module_architecture_with_engine_prefix(prefix):
+def test_analyze_module_architecture_with_engine_prefix(prefix: str) -> None:
     engine = Mock(epoch=0)
     analyze_module_architecture(nn.Linear(4, 6), engine, prefix)
     engine.log_metrics.assert_called_once_with(
@@ -63,7 +63,7 @@ def test_analyze_module_architecture_with_engine_prefix(prefix):
 ################################################
 
 
-def test_analyze_model_architecture():
+def test_analyze_model_architecture() -> None:
     engine = Mock(epoch=0)
     analyze_model_architecture(nn.Linear(4, 6), engine)
     engine.log_metrics.assert_called_once_with(
@@ -80,7 +80,7 @@ def test_analyze_model_architecture():
 ########################################################
 
 
-def test_analyze_model_network_architecture():
+def test_analyze_model_network_architecture() -> None:
     engine = Mock(epoch=0)
     model = Mock(network=nn.Linear(4, 6))
     analyze_model_network_architecture(model, engine)
@@ -93,7 +93,7 @@ def test_analyze_model_network_architecture():
     )
 
 
-def test_analyze_model_network_architecture_no_network():
+def test_analyze_model_network_architecture_no_network() -> None:
     engine = Mock(epoch=0)
     analyze_model_network_architecture(nn.Linear(4, 6), engine)
     engine.log_metrics.assert_not_called()

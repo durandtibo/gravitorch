@@ -29,6 +29,7 @@ class ZeroRedundancyOptimizerCreator(BaseOptimizerCreator):
     Note ZeRO works only for distributed training.
 
     Args:
+    ----
         optimizer_config (dict): Specifies the optimizer
             configuration. The dictionary must have a key
             ``'_target_`` that indicates the optimizer to shard. The
@@ -58,7 +59,7 @@ class ZeroRedundancyOptimizerCreator(BaseOptimizerCreator):
         zero_kwargs: Optional[dict] = None,
         add_module_to_engine: bool = True,
         attach_handler: bool = True,
-    ):
+    ) -> None:
         self._optimizer_class = import_object(optimizer_config.pop(OBJECT_TARGET))
         self._optimizer_config = optimizer_config
         self._zero_kwargs = zero_kwargs or {}
@@ -83,11 +84,13 @@ class ZeroRedundancyOptimizerCreator(BaseOptimizerCreator):
         associated to the optimizer.
 
         Args:
+        ----
             engine (``gravitorch.engines.BaseEngine``): Specifies an
                 engine.
             model (``torch.nn.Module``): Specifies a model.
 
         Returns:
+        -------
             ``torch.distributed.optim.ZeroRedundancyOptimizer``: The
                 created zero redundancy optimizer (ZeRO).
         """

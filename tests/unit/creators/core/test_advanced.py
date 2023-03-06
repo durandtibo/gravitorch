@@ -36,7 +36,7 @@ def model_creator() -> BaseModelCreator:
 
 def test_advanced_core_creator_str(
     data_source_creator: BaseDataSourceCreator, model_creator: BaseModelCreator
-):
+) -> None:
     assert str(
         AdvancedCoreCreator(data_source_creator=data_source_creator, model_creator=model_creator)
     ).startswith("AdvancedCoreCreator(")
@@ -45,7 +45,7 @@ def test_advanced_core_creator_str(
 def test_advanced_core_creator_create_no_optimizer_creator(
     data_source_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
-):
+) -> None:
     engine = Mock()
     creator = AdvancedCoreCreator(
         data_source_creator=data_source_creator, model_creator=model_creator
@@ -63,7 +63,7 @@ def test_advanced_core_creator_create_no_optimizer_creator(
 def test_advanced_core_creator_create_optimizer_creator(
     data_source_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
-):
+) -> None:
     engine = Mock()
     creator = AdvancedCoreCreator(
         data_source_creator=data_source_creator,
@@ -86,7 +86,7 @@ def test_advanced_core_creator_create_optimizer_creator(
 def test_advanced_core_creator_create_lr_scheduler_creator(
     data_source_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
-):
+) -> None:
     engine = Mock()
     creator = AdvancedCoreCreator(
         data_source_creator=data_source_creator,

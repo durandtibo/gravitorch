@@ -14,7 +14,7 @@ from gravitorch.utils.sysinfo import (
 #######################################
 
 
-def test_cpu_human_summary():
+def test_cpu_human_summary() -> None:
     assert cpu_human_summary().startswith("CPU")
 
 
@@ -23,7 +23,7 @@ def test_cpu_human_summary():
 #####################################
 
 
-def test_log_system_info(caplog: LogCaptureFixture):
+def test_log_system_info(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         log_system_info()
     assert len(caplog.messages) == 3
@@ -34,7 +34,7 @@ def test_log_system_info(caplog: LogCaptureFixture):
 ###############################################
 
 
-def test_swap_memory_human_summary():
+def test_swap_memory_human_summary() -> None:
     assert swap_memory_human_summary().startswith("swap memory")
 
 
@@ -43,5 +43,5 @@ def test_swap_memory_human_summary():
 ##################################################
 
 
-def test_virtual_memory_human_summary():
+def test_virtual_memory_human_summary() -> None:
     assert virtual_memory_human_summary().startswith("virtual memory")

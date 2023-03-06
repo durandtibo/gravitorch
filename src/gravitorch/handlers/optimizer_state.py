@@ -16,6 +16,7 @@ class ConsolidateOptimizerState(BaseHandler):
     r"""Implements a handler to consolidate the state dict of an optimizer.
 
     Args:
+    ----
         event (str, optional): Specifies the event when the optimizer
             state dict is consolidated.
             Default: ``'train_epoch_completed'``
@@ -25,7 +26,9 @@ class ConsolidateOptimizerState(BaseHandler):
             Default: ``0``
     """
 
-    def __init__(self, event: str = EngineEvents.TRAIN_EPOCH_COMPLETED, recipient_rank: int = 0):
+    def __init__(
+        self, event: str = EngineEvents.TRAIN_EPOCH_COMPLETED, recipient_rank: int = 0
+    ) -> None:
         self._event = str(event)
         self._recipient_rank = int(recipient_rank)
 
@@ -39,6 +42,7 @@ class ConsolidateOptimizerState(BaseHandler):
         r"""Attaches the event handler to the engine.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         add_unique_event_handler(
@@ -54,6 +58,7 @@ class ConsolidateOptimizerState(BaseHandler):
         r"""Consolidate the optimizer state dict.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         if not engine.optimizer:

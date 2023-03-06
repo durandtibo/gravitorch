@@ -29,11 +29,13 @@ class BaseOptimizerCreator(ABC, metaclass=AbstractFactory):
         associated to the optimizer.
 
         Args:
+        ----
             engine (``gravitorch.engines.BaseEngine``): Specifies an
                 engine.
             model (``torch.nn.Module``): Specifies a model.
 
         Returns:
+        -------
             ``torch.optim.Optimizer`` or ``None``: The created
                 optimizer or ``None`` if no optimizer is created.
         """

@@ -18,11 +18,13 @@ def setup_profiler(profiler: Union[BaseProfiler, dict, None]) -> BaseProfiler:
     ``BaseProfiler`` factory function.
 
     Args:
+    ----
         profiler (``BaseProfiler`` or dict or None): Specifies the
             profiler or its configuration. If ``None``, the
             ``NoOpProfiler`` is instantiated.
 
     Returns:
+    -------
         ``BaseProfiler``: A profiler.
     """
     if profiler is None:

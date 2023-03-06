@@ -18,11 +18,12 @@ class SequentialMetric(BaseMetric):
     different.
 
     Args:
+    ----
         metrics (sequence): Specifies the list of metrics to use or
             their configurations.
     """
 
-    def __init__(self, metrics: Sequence[Union[BaseMetric, dict]]):
+    def __init__(self, metrics: Sequence[Union[BaseMetric, dict]]) -> None:
         super().__init__()
         self.metrics = nn.ModuleList([setup_metric(metric) for metric in metrics])
 
@@ -38,6 +39,7 @@ class SequentialMetric(BaseMetric):
             - set up history trackers
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         for metric in self.metrics:
@@ -51,10 +53,12 @@ class SequentialMetric(BaseMetric):
         should be compatible with the inputs.
 
         Args:
+        ----
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
+        -------
             dict: The outputs of the metrics.
         """
         outputs = {}
@@ -77,11 +81,13 @@ class SequentialMetric(BaseMetric):
         combines the outputs in a single dictionary.
 
         Args:
+        ----
             engine (``BaseEngine``, optional): Specifies the engine.
                 This argument is required to log the results in the
                 engine. Default: ``None``.
 
         Returns:
+        -------
              dict: The results of the metric
         """
         outputs = {}

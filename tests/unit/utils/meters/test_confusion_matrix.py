@@ -20,58 +20,58 @@ from gravitorch.utils.meters.confusion_matrix import (
 ###########################################
 
 
-def test_binary_confusion_matrix_repr():
+def test_binary_confusion_matrix_repr() -> None:
     assert repr(BinaryConfusionMatrix()).startswith("BinaryConfusionMatrix(")
 
 
-def test_binary_confusion_matrix_str():
+def test_binary_confusion_matrix_str() -> None:
     assert str(BinaryConfusionMatrix()).startswith("BinaryConfusionMatrix(")
 
 
-def test_binary_confusion_matrix_init_default():
+def test_binary_confusion_matrix_init_default() -> None:
     meter = BinaryConfusionMatrix()
     assert meter.matrix.equal(torch.zeros(2, 2, dtype=torch.long))
     assert meter.num_predictions == 0
 
 
-def test_binary_confusion_matrix_init():
+def test_binary_confusion_matrix_init() -> None:
     meter = BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     assert meter.matrix.equal(torch.tensor([[3, 2], [1, 4]]))
     assert meter.num_predictions == 10
 
 
-def test_binary_confusion_matrix_init_incorrect_ndim():
+def test_binary_confusion_matrix_init_incorrect_ndim() -> None:
     with raises(ValueError):
         BinaryConfusionMatrix(torch.zeros(3))
 
 
-def test_binary_confusion_matrix_init_incorrect_shape():
+def test_binary_confusion_matrix_init_incorrect_shape() -> None:
     with raises(ValueError):
         BinaryConfusionMatrix(torch.zeros(3, 5))
 
 
-def test_binary_confusion_matrix_init_incorrect_dtype():
+def test_binary_confusion_matrix_init_incorrect_dtype() -> None:
     with raises(ValueError):
         BinaryConfusionMatrix(torch.zeros(2, 2, dtype=torch.float))
 
 
-def test_binary_confusion_matrix_init_negative_value():
+def test_binary_confusion_matrix_init_negative_value() -> None:
     with raises(ValueError):
         BinaryConfusionMatrix(torch.tensor([[0, 0], [-1, 0]]))
 
 
-def test_binary_confusion_matrix_num_classes():
+def test_binary_confusion_matrix_num_classes() -> None:
     assert BinaryConfusionMatrix().num_classes == 2
 
 
-def test_binary_confusion_matrix_all_reduce():
+def test_binary_confusion_matrix_all_reduce() -> None:
     meter = BinaryConfusionMatrix(torch.ones(2, 2, dtype=torch.long))
     meter.all_reduce()
     assert meter.matrix.equal(torch.ones(2, 2, dtype=torch.long))
     assert meter.num_predictions == 4
 
 
-def test_binary_confusion_matrix_all_reduce_sum_reduce():
+def test_binary_confusion_matrix_all_reduce_sum_reduce() -> None:
     meter = BinaryConfusionMatrix(torch.ones(2, 2, dtype=torch.long))
     with patch("gravitorch.utils.meters.confusion_matrix.sync_reduce_") as reduce_mock:
         meter.all_reduce()
@@ -80,30 +80,30 @@ def test_binary_confusion_matrix_all_reduce_sum_reduce():
         )
 
 
-def test_binary_confusion_matrix_clone():
+def test_binary_confusion_matrix_clone() -> None:
     meter = BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]], dtype=torch.long))
     meter_cloned = meter.clone()
     assert meter is not meter_cloned
     assert meter.equal(meter_cloned)
 
 
-def test_binary_confusion_matrix_equal_true():
+def test_binary_confusion_matrix_equal_true() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).equal(
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     )
 
 
-def test_binary_confusion_matrix_equal_false_different_values():
+def test_binary_confusion_matrix_equal_false_different_values() -> None:
     assert not BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).equal(
         BinaryConfusionMatrix(torch.tensor([[3, 2], [0, 4]]))
     )
 
 
-def test_binary_confusion_matrix_equal_false_different_type():
+def test_binary_confusion_matrix_equal_false_different_type() -> None:
     assert not BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).equal(42)
 
 
-def test_binary_confusion_matrix_get_normalized_matrix_normalization_true():
+def test_binary_confusion_matrix_get_normalized_matrix_normalization_true() -> None:
     assert (
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
         .get_normalized_matrix(normalization="true")
@@ -111,7 +111,7 @@ def test_binary_confusion_matrix_get_normalized_matrix_normalization_true():
     )
 
 
-def test_binary_confusion_matrix_get_normalized_matrix_normalization_true_empty():
+def test_binary_confusion_matrix_get_normalized_matrix_normalization_true_empty() -> None:
     assert (
         BinaryConfusionMatrix()
         .get_normalized_matrix(normalization="true")
@@ -119,7 +119,7 @@ def test_binary_confusion_matrix_get_normalized_matrix_normalization_true_empty(
     )
 
 
-def test_binary_confusion_matrix_get_normalized_matrix_normalization_pred():
+def test_binary_confusion_matrix_get_normalized_matrix_normalization_pred() -> None:
     assert (
         BinaryConfusionMatrix(torch.tensor([[3, 6], [1, 4]]))
         .get_normalized_matrix(normalization="pred")
@@ -127,7 +127,7 @@ def test_binary_confusion_matrix_get_normalized_matrix_normalization_pred():
     )
 
 
-def test_binary_confusion_matrix_get_normalized_matrix_normalization_pred_empty():
+def test_binary_confusion_matrix_get_normalized_matrix_normalization_pred_empty() -> None:
     assert (
         BinaryConfusionMatrix()
         .get_normalized_matrix(normalization="pred")
@@ -135,7 +135,7 @@ def test_binary_confusion_matrix_get_normalized_matrix_normalization_pred_empty(
     )
 
 
-def test_binary_confusion_matrix_get_normalized_matrix_normalization_all():
+def test_binary_confusion_matrix_get_normalized_matrix_normalization_all() -> None:
     assert (
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
         .get_normalized_matrix(normalization="all")
@@ -143,7 +143,7 @@ def test_binary_confusion_matrix_get_normalized_matrix_normalization_all():
     )
 
 
-def test_binary_confusion_matrix_get_normalized_matrix_normalization_all_empty():
+def test_binary_confusion_matrix_get_normalized_matrix_normalization_all_empty() -> None:
     assert (
         BinaryConfusionMatrix()
         .get_normalized_matrix(normalization="all")
@@ -151,19 +151,19 @@ def test_binary_confusion_matrix_get_normalized_matrix_normalization_all_empty()
     )
 
 
-def test_binary_confusion_matrix_get_normalized_matrix_incorrect_normalization():
+def test_binary_confusion_matrix_get_normalized_matrix_incorrect_normalization() -> None:
     with raises(ValueError):
         BinaryConfusionMatrix().get_normalized_matrix(normalization="incorrect")
 
 
-def test_binary_confusion_matrix_reset():
+def test_binary_confusion_matrix_reset() -> None:
     meter = BinaryConfusionMatrix(torch.ones(2, 2, dtype=torch.long))
     meter.reset()
     assert meter.matrix.equal(torch.zeros(2, 2, dtype=torch.long))
     assert meter.num_predictions == 0
 
 
-def test_binary_confusion_matrix_sync_update_matrix():
+def test_binary_confusion_matrix_sync_update_matrix() -> None:
     meter = BinaryConfusionMatrix(torch.ones(2, 2, dtype=torch.long))
     with patch(
         "gravitorch.utils.meters.confusion_matrix.sync_reduce_",
@@ -174,7 +174,7 @@ def test_binary_confusion_matrix_sync_update_matrix():
     assert meter.num_predictions == 16
 
 
-def test_binary_confusion_matrix_update():
+def test_binary_confusion_matrix_update() -> None:
     meter = BinaryConfusionMatrix()
     meter.update(
         prediction=torch.tensor([0, 1, 1, 0, 0, 1], dtype=torch.long),
@@ -183,7 +183,7 @@ def test_binary_confusion_matrix_update():
     assert meter.matrix.equal(torch.tensor([[2, 0], [1, 3]], dtype=torch.long))
 
 
-def test_binary_confusion_matrix_update_2():
+def test_binary_confusion_matrix_update_2() -> None:
     meter = BinaryConfusionMatrix()
     meter.update(
         prediction=torch.tensor([0, 1, 1, 0, 0, 1], dtype=torch.long),
@@ -196,7 +196,7 @@ def test_binary_confusion_matrix_update_2():
     assert meter.matrix.equal(torch.tensor([[2, 2], [1, 3]], dtype=torch.long))
 
 
-def test_binary_confusion_matrix_from_predictions():
+def test_binary_confusion_matrix_from_predictions() -> None:
     assert BinaryConfusionMatrix.from_predictions(
         prediction=torch.tensor([0, 1, 1, 0, 0, 1], dtype=torch.long),
         target=torch.tensor([1, 1, 1, 0, 0, 1], dtype=torch.long),
@@ -208,27 +208,27 @@ def test_binary_confusion_matrix_from_predictions():
 # **************************
 
 
-def test_binary_confusion_matrix__add__():
+def test_binary_confusion_matrix__add__() -> None:
     assert (
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
         + BinaryConfusionMatrix(torch.tensor([[1, 0], [7, 2]]))
     ).equal(BinaryConfusionMatrix(torch.tensor([[4, 2], [8, 6]])))
 
 
-def test_binary_confusion_matrix__iadd__():
+def test_binary_confusion_matrix__iadd__() -> None:
     meter = BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     meter += BinaryConfusionMatrix(torch.tensor([[1, 0], [7, 2]]))
     assert meter.equal(BinaryConfusionMatrix(torch.tensor([[4, 2], [8, 6]])))
 
 
-def test_binary_confusion_matrix__sub__():
+def test_binary_confusion_matrix__sub__() -> None:
     assert (
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
         - BinaryConfusionMatrix(torch.tensor([[1, 0], [1, 2]]))
     ).equal(BinaryConfusionMatrix(torch.tensor([[2, 2], [0, 2]])))
 
 
-def test_binary_confusion_matrix_add():
+def test_binary_confusion_matrix_add() -> None:
     meter = BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).add(
         BinaryConfusionMatrix(torch.tensor([[1, 0], [7, 2]]))
     )
@@ -236,14 +236,14 @@ def test_binary_confusion_matrix_add():
     assert meter.num_predictions == 20
 
 
-def test_binary_confusion_matrix_add_():
+def test_binary_confusion_matrix_add_() -> None:
     meter = BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     meter.add_(BinaryConfusionMatrix(torch.tensor([[1, 0], [7, 2]])))
     assert meter.equal(BinaryConfusionMatrix(torch.tensor([[4, 2], [8, 6]])))
     assert meter.num_predictions == 20
 
 
-def test_binary_confusion_matrix_merge():
+def test_binary_confusion_matrix_merge() -> None:
     meter = BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     meter_merged = meter.merge(
         [
@@ -257,7 +257,7 @@ def test_binary_confusion_matrix_merge():
     assert meter_merged.num_predictions == 22
 
 
-def test_binary_confusion_matrix_merge_():
+def test_binary_confusion_matrix_merge_() -> None:
     meter = BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     meter.merge_(
         [
@@ -269,7 +269,7 @@ def test_binary_confusion_matrix_merge_():
     assert meter.num_predictions == 22
 
 
-def test_binary_confusion_matrix_sub():
+def test_binary_confusion_matrix_sub() -> None:
     meter = BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).sub(
         BinaryConfusionMatrix(torch.tensor([[1, 0], [1, 2]]))
     )
@@ -282,152 +282,152 @@ def test_binary_confusion_matrix_sub():
 # *******************
 
 
-def test_binary_confusion_matrix_false_negative():
+def test_binary_confusion_matrix_false_negative() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_negative == 2
 
 
-def test_binary_confusion_matrix_false_positive():
+def test_binary_confusion_matrix_false_positive() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_positive == 1
 
 
-def test_binary_confusion_matrix_negative():
+def test_binary_confusion_matrix_negative() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 5], [1, 4]])).negative == 5
 
 
-def test_binary_confusion_matrix_positive():
+def test_binary_confusion_matrix_positive() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 5], [1, 4]])).positive == 8
 
 
-def test_binary_confusion_matrix_predictive_negative():
+def test_binary_confusion_matrix_predictive_negative() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).predictive_negative == 6
 
 
-def test_binary_confusion_matrix_predictive_positive():
+def test_binary_confusion_matrix_predictive_positive() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).predictive_positive == 4
 
 
-def test_binary_confusion_matrix_true_negative():
+def test_binary_confusion_matrix_true_negative() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_negative == 4
 
 
-def test_binary_confusion_matrix_true_positive():
+def test_binary_confusion_matrix_true_positive() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_positive == 3
 
 
-def test_binary_confusion_matrix_accuracy():
+def test_binary_confusion_matrix_accuracy() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).accuracy() == 0.7
 
 
-def test_binary_confusion_matrix_accuracy_imbalanced():
+def test_binary_confusion_matrix_accuracy_imbalanced() -> None:
     assert math.isclose(
         BinaryConfusionMatrix(torch.tensor([[30, 2], [1, 4]])).accuracy(), 0.918918918918919
     )
 
 
-def test_binary_confusion_matrix_accuracy_empty():
+def test_binary_confusion_matrix_accuracy_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().accuracy()
 
 
-def test_binary_confusion_matrix_balanced_accuracy():
+def test_binary_confusion_matrix_balanced_accuracy() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).balanced_accuracy() == 0.7
 
 
-def test_binary_confusion_matrix_balanced_accuracy_imbalanced():
+def test_binary_confusion_matrix_balanced_accuracy_imbalanced() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[30, 2], [1, 4]])).balanced_accuracy() == 0.86875
 
 
-def test_binary_confusion_matrix_balanced_accuracy_empty():
+def test_binary_confusion_matrix_balanced_accuracy_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().balanced_accuracy()
 
 
-def test_binary_confusion_matrix_f_beta_score_1():
+def test_binary_confusion_matrix_f_beta_score_1() -> None:
     assert math.isclose(
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).f_beta_score(), 0.6666666666666666
     )
 
 
-def test_binary_confusion_matrix_f_beta_score_2():
+def test_binary_confusion_matrix_f_beta_score_2() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).f_beta_score(beta=2) == 0.625
 
 
-def test_binary_confusion_matrix_f_beta_score_0_5():
+def test_binary_confusion_matrix_f_beta_score_0_5() -> None:
     assert math.isclose(
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).f_beta_score(beta=0.5),
         0.7142857142857143,
     )
 
 
-def test_binary_confusion_matrix_f_beta_score_empty():
+def test_binary_confusion_matrix_f_beta_score_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().f_beta_score()
 
 
-def test_binary_confusion_matrix_false_negative_rate():
+def test_binary_confusion_matrix_false_negative_rate() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_negative_rate() == 0.4
 
 
-def test_binary_confusion_matrix_false_negative_rate_empty():
+def test_binary_confusion_matrix_false_negative_rate_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().false_negative_rate()
 
 
-def test_binary_confusion_matrix_false_positive_rate():
+def test_binary_confusion_matrix_false_positive_rate() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_positive_rate() == 0.2
 
 
-def test_binary_confusion_matrix_false_positive_rate_empty():
+def test_binary_confusion_matrix_false_positive_rate_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().false_positive_rate()
 
 
-def test_binary_confusion_matrix_jaccard_index():
+def test_binary_confusion_matrix_jaccard_index() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).jaccard_index() == 0.5
 
 
-def test_binary_confusion_matrix_jaccard_index_empty():
+def test_binary_confusion_matrix_jaccard_index_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().jaccard_index()
 
 
-def test_binary_confusion_matrix_precision():
+def test_binary_confusion_matrix_precision() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).precision() == 0.75
 
 
-def test_binary_confusion_matrix_precision_empty():
+def test_binary_confusion_matrix_precision_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().precision()
 
 
-def test_binary_confusion_matrix_recall():
+def test_binary_confusion_matrix_recall() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).recall() == 0.6
 
 
-def test_binary_confusion_matrix_recall_empty():
+def test_binary_confusion_matrix_recall_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().recall()
 
 
-def test_binary_confusion_matrix_true_negative_rate():
+def test_binary_confusion_matrix_true_negative_rate() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_negative_rate() == 0.8
 
 
-def test_binary_confusion_matrix_true_negative_rate_empty():
+def test_binary_confusion_matrix_true_negative_rate_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().true_negative_rate()
 
 
-def test_binary_confusion_matrix_true_positive_rate():
+def test_binary_confusion_matrix_true_positive_rate() -> None:
     assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_positive_rate() == 0.6
 
 
-def test_binary_confusion_matrix_true_positive_rate_empty():
+def test_binary_confusion_matrix_true_positive_rate_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().true_positive_rate()
 
 
-def test_binary_confusion_matrix_compute_all_metrics():
+def test_binary_confusion_matrix_compute_all_metrics() -> None:
     assert objects_are_allclose(
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).compute_all_metrics(),
         {
@@ -445,7 +445,7 @@ def test_binary_confusion_matrix_compute_all_metrics():
     )
 
 
-def test_binary_confusion_matrix_compute_all_metrics_betas():
+def test_binary_confusion_matrix_compute_all_metrics_betas() -> None:
     assert objects_are_allclose(
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).compute_all_metrics(betas=(1, 2)),
         {
@@ -464,7 +464,7 @@ def test_binary_confusion_matrix_compute_all_metrics_betas():
     )
 
 
-def test_binary_confusion_matrix_compute_all_metrics_prefix_suffix():
+def test_binary_confusion_matrix_compute_all_metrics_prefix_suffix() -> None:
     assert objects_are_allclose(
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).compute_all_metrics(
             prefix="prefix_", suffix="_suffix"
@@ -484,7 +484,7 @@ def test_binary_confusion_matrix_compute_all_metrics_prefix_suffix():
     )
 
 
-def test_binary_confusion_matrix_compute_all_metrics_empty():
+def test_binary_confusion_matrix_compute_all_metrics_empty() -> None:
     with raises(EmptyMeterError):
         BinaryConfusionMatrix().compute_all_metrics()
 
@@ -494,47 +494,47 @@ def test_binary_confusion_matrix_compute_all_metrics_empty():
 ###############################################
 
 
-def test_multiclass_confusion_matrix_repr():
+def test_multiclass_confusion_matrix_repr() -> None:
     assert repr(MulticlassConfusionMatrix.from_num_classes(num_classes=5)).startswith(
         "MulticlassConfusionMatrix("
     )
 
 
-def test_multiclass_confusion_matrix_str():
+def test_multiclass_confusion_matrix_str() -> None:
     assert str(MulticlassConfusionMatrix.from_num_classes(num_classes=5)).startswith(
         "MulticlassConfusionMatrix("
     )
 
 
-def test_multiclass_confusion_matrix_init_incorrect_ndim():
+def test_multiclass_confusion_matrix_init_incorrect_ndim() -> None:
     with raises(ValueError):
         MulticlassConfusionMatrix(torch.zeros(3))
 
 
-def test_multiclass_confusion_matrix_init_incorrect_shape():
+def test_multiclass_confusion_matrix_init_incorrect_shape() -> None:
     with raises(ValueError):
         MulticlassConfusionMatrix(torch.zeros(3, 5))
 
 
-def test_multiclass_confusion_matrix_init_incorrect_dtype():
+def test_multiclass_confusion_matrix_init_incorrect_dtype() -> None:
     with raises(ValueError):
         MulticlassConfusionMatrix(torch.zeros(3, 3, dtype=torch.float))
 
 
-def test_multiclass_confusion_matrix_init_negative_value():
+def test_multiclass_confusion_matrix_init_negative_value() -> None:
     with raises(ValueError):
         MulticlassConfusionMatrix(torch.tensor([[0, 0], [-1, 0]]))
 
 
 @mark.parametrize("num_classes", (2, 5))
-def test_multiclass_confusion_matrix_num_classes(num_classes: int):
+def test_multiclass_confusion_matrix_num_classes(num_classes: int) -> None:
     assert (
         MulticlassConfusionMatrix.from_num_classes(num_classes=num_classes).num_classes
         == num_classes
     )
 
 
-def test_multiclass_confusion_matrix_auto_update_resize():
+def test_multiclass_confusion_matrix_auto_update_resize() -> None:
     meter = MulticlassConfusionMatrix(
         torch.tensor([[2, 1, 0], [0, 0, 0], [1, 1, 1]], dtype=torch.long)
     )
@@ -554,7 +554,7 @@ def test_multiclass_confusion_matrix_auto_update_resize():
     assert meter.num_predictions == 8
 
 
-def test_multiclass_confusion_matrix_auto_update_no_resize():
+def test_multiclass_confusion_matrix_auto_update_no_resize() -> None:
     meter = MulticlassConfusionMatrix(
         torch.tensor([[2, 1, 0], [0, 0, 0], [1, 1, 1]], dtype=torch.long)
     )
@@ -563,30 +563,30 @@ def test_multiclass_confusion_matrix_auto_update_no_resize():
     assert meter.num_predictions == 8
 
 
-def test_multiclass_confusion_matrix_clone():
+def test_multiclass_confusion_matrix_clone() -> None:
     meter = MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]], dtype=torch.long))
     meter_cloned = meter.clone()
     assert meter is not meter_cloned
     assert meter.equal(meter_cloned)
 
 
-def test_multiclass_confusion_matrix_equal_true():
+def test_multiclass_confusion_matrix_equal_true() -> None:
     assert MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).equal(
         MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     )
 
 
-def test_multiclass_confusion_matrix_equal_false_different_values():
+def test_multiclass_confusion_matrix_equal_false_different_values() -> None:
     assert not MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).equal(
         MulticlassConfusionMatrix(torch.tensor([[3, 2], [0, 4]]))
     )
 
 
-def test_multiclass_confusion_matrix_equal_false_different_type():
+def test_multiclass_confusion_matrix_equal_false_different_type() -> None:
     assert not MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).equal(42)
 
 
-def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_true():
+def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_true() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long))
         .get_normalized_matrix(normalization="true")
@@ -594,7 +594,7 @@ def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_true():
     )
 
 
-def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_true_empty():
+def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_true_empty() -> None:
     assert (
         MulticlassConfusionMatrix(torch.zeros(3, 3, dtype=torch.long))
         .get_normalized_matrix(normalization="true")
@@ -602,7 +602,7 @@ def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_true_em
     )
 
 
-def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_pred():
+def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_pred() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [1, 4, 1], [4, 2, 4]], dtype=torch.long))
         .get_normalized_matrix(normalization="pred")
@@ -614,7 +614,7 @@ def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_pred():
     )
 
 
-def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_pred_empty():
+def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_pred_empty() -> None:
     assert (
         MulticlassConfusionMatrix(torch.zeros(3, 3, dtype=torch.long))
         .get_normalized_matrix(normalization="pred")
@@ -622,7 +622,7 @@ def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_pred_em
     )
 
 
-def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_all():
+def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_all() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long))
         .get_normalized_matrix(normalization="all")
@@ -634,7 +634,7 @@ def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_all():
     )
 
 
-def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_all_empty():
+def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_all_empty() -> None:
     assert (
         MulticlassConfusionMatrix(torch.zeros(3, 3, dtype=torch.long))
         .get_normalized_matrix(normalization="all")
@@ -642,21 +642,21 @@ def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_all_emp
     )
 
 
-def test_multiclass_confusion_matrix_get_normalized_matrix_incorrect_normalization():
+def test_multiclass_confusion_matrix_get_normalized_matrix_incorrect_normalization() -> None:
     with raises(ValueError):
         MulticlassConfusionMatrix(torch.zeros(3, 3, dtype=torch.long)).get_normalized_matrix(
             normalization="incorrect"
         )
 
 
-def test_multiclass_confusion_matrix_reset():
+def test_multiclass_confusion_matrix_reset() -> None:
     meter = MulticlassConfusionMatrix(torch.ones(3, 3, dtype=torch.long))
     meter.reset()
     assert meter.matrix.equal(torch.zeros(3, 3, dtype=torch.long))
     assert meter.num_predictions == 0
 
 
-def test_multiclass_confusion_matrix_resize():
+def test_multiclass_confusion_matrix_resize() -> None:
     meter = MulticlassConfusionMatrix(
         torch.tensor([[2, 1, 0], [0, 0, 0], [1, 1, 1]], dtype=torch.long)
     )
@@ -675,7 +675,7 @@ def test_multiclass_confusion_matrix_resize():
     )
 
 
-def test_multiclass_confusion_matrix_resize_incorrect_num_classes():
+def test_multiclass_confusion_matrix_resize_incorrect_num_classes() -> None:
     meter = MulticlassConfusionMatrix(
         torch.tensor([[2, 1, 0], [0, 0, 0], [1, 1, 1]], dtype=torch.long)
     )
@@ -683,7 +683,7 @@ def test_multiclass_confusion_matrix_resize_incorrect_num_classes():
         meter.resize(num_classes=2)
 
 
-def test_multiclass_confusion_matrix_update():
+def test_multiclass_confusion_matrix_update() -> None:
     meter = MulticlassConfusionMatrix.from_num_classes(num_classes=3)
     meter.update(
         prediction=torch.tensor([0, 1, 2, 0, 0, 1], dtype=torch.long),
@@ -692,7 +692,7 @@ def test_multiclass_confusion_matrix_update():
     assert meter.matrix.equal(torch.tensor([[2, 1, 0], [0, 0, 0], [1, 1, 1]], dtype=torch.long))
 
 
-def test_multiclass_confusion_matrix_update_2():
+def test_multiclass_confusion_matrix_update_2() -> None:
     meter = MulticlassConfusionMatrix.from_num_classes(num_classes=3)
     meter.update(
         prediction=torch.tensor([0, 1, 2, 0, 0, 1], dtype=torch.long),
@@ -706,18 +706,18 @@ def test_multiclass_confusion_matrix_update_2():
 
 
 @mark.parametrize("num_classes", (2, 5))
-def test_multiclass_confusion_matrix_from_num_classes(num_classes: int):
+def test_multiclass_confusion_matrix_from_num_classes(num_classes: int) -> None:
     assert MulticlassConfusionMatrix.from_num_classes(num_classes=num_classes).matrix.equal(
         torch.zeros(num_classes, num_classes, dtype=torch.long)
     )
 
 
-def test_multiclass_confusion_matrix_from_num_classes_incorrect():
+def test_multiclass_confusion_matrix_from_num_classes_incorrect() -> None:
     with raises(ValueError):
         MulticlassConfusionMatrix.from_num_classes(num_classes=0)
 
 
-def test_multiclass_confusion_matrix_from_predictions():
+def test_multiclass_confusion_matrix_from_predictions() -> None:
     assert MulticlassConfusionMatrix.from_predictions(
         prediction=torch.tensor([0, 1, 2, 0, 0, 1], dtype=torch.long),
         target=torch.tensor([2, 2, 2, 0, 0, 0], dtype=torch.long),
@@ -729,27 +729,27 @@ def test_multiclass_confusion_matrix_from_predictions():
 # **************************
 
 
-def test_multiclass_confusion_matrix__add__():
+def test_multiclass_confusion_matrix__add__() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
         + MulticlassConfusionMatrix(torch.tensor([[1, 0], [7, 2]]))
     ).equal(MulticlassConfusionMatrix(torch.tensor([[4, 2], [8, 6]])))
 
 
-def test_multiclass_confusion_matrix__iadd__():
+def test_multiclass_confusion_matrix__iadd__() -> None:
     meter = MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     meter += MulticlassConfusionMatrix(torch.tensor([[1, 0], [7, 2]]))
     assert meter.equal(MulticlassConfusionMatrix(torch.tensor([[4, 2], [8, 6]])))
 
 
-def test_multiclass_confusion_matrix__sub__():
+def test_multiclass_confusion_matrix__sub__() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
         - MulticlassConfusionMatrix(torch.tensor([[1, 0], [1, 2]]))
     ).equal(MulticlassConfusionMatrix(torch.tensor([[2, 2], [0, 2]])))
 
 
-def test_multiclass_confusion_matrix_add():
+def test_multiclass_confusion_matrix_add() -> None:
     meter = MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).add(
         MulticlassConfusionMatrix(torch.tensor([[1, 0], [7, 2]]))
     )
@@ -757,14 +757,14 @@ def test_multiclass_confusion_matrix_add():
     assert meter.num_predictions == 20
 
 
-def test_multiclass_confusion_matrix_add_():
+def test_multiclass_confusion_matrix_add_() -> None:
     meter = MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     meter.add_(MulticlassConfusionMatrix(torch.tensor([[1, 0], [7, 2]])))
     assert meter.equal(MulticlassConfusionMatrix(torch.tensor([[4, 2], [8, 6]])))
     assert meter.num_predictions == 20
 
 
-def test_multiclass_confusion_matrix_merge():
+def test_multiclass_confusion_matrix_merge() -> None:
     meter = MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     meter_merged = meter.merge(
         [
@@ -778,7 +778,7 @@ def test_multiclass_confusion_matrix_merge():
     assert meter_merged.num_predictions == 22
 
 
-def test_multiclass_confusion_matrix_merge_():
+def test_multiclass_confusion_matrix_merge_() -> None:
     meter = MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]]))
     meter.merge_(
         [
@@ -790,7 +790,7 @@ def test_multiclass_confusion_matrix_merge_():
     assert meter.num_predictions == 22
 
 
-def test_multiclass_confusion_matrix_sub():
+def test_multiclass_confusion_matrix_sub() -> None:
     meter = MulticlassConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).sub(
         MulticlassConfusionMatrix(torch.tensor([[1, 0], [1, 2]]))
     )
@@ -803,31 +803,31 @@ def test_multiclass_confusion_matrix_sub():
 # *******************
 
 
-def test_multiclass_confusion_matrix_false_negative():
+def test_multiclass_confusion_matrix_false_negative() -> None:
     assert MulticlassConfusionMatrix(
         torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
     ).false_negative.equal(torch.tensor([7, 1, 6], dtype=torch.long))
 
 
-def test_multiclass_confusion_matrix_false_positive():
+def test_multiclass_confusion_matrix_false_positive() -> None:
     assert MulticlassConfusionMatrix(
         torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
     ).false_positive.equal(torch.tensor([5, 4, 5], dtype=torch.long))
 
 
-def test_multiclass_confusion_matrix_support():
+def test_multiclass_confusion_matrix_support() -> None:
     assert MulticlassConfusionMatrix(
         torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
     ).support.equal(torch.tensor([10, 5, 10], dtype=torch.long))
 
 
-def test_multiclass_confusion_matrix_true_positive():
+def test_multiclass_confusion_matrix_true_positive() -> None:
     assert MulticlassConfusionMatrix(
         torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
     ).true_positive.equal(torch.tensor([3, 4, 4], dtype=torch.long))
 
 
-def test_multiclass_confusion_matrix_accuracy():
+def test_multiclass_confusion_matrix_accuracy() -> None:
     assert (
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -836,12 +836,12 @@ def test_multiclass_confusion_matrix_accuracy():
     )
 
 
-def test_multiclass_confusion_matrix_accuracy_empty():
+def test_multiclass_confusion_matrix_accuracy_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).accuracy()
 
 
-def test_multiclass_confusion_matrix_balanced_accuracy():
+def test_multiclass_confusion_matrix_balanced_accuracy() -> None:
     assert (
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -850,12 +850,12 @@ def test_multiclass_confusion_matrix_balanced_accuracy():
     )
 
 
-def test_multiclass_confusion_matrix_balanced_accuracy_empty():
+def test_multiclass_confusion_matrix_balanced_accuracy_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).balanced_accuracy()
 
 
-def test_multiclass_confusion_matrix_f_beta_score_1():
+def test_multiclass_confusion_matrix_f_beta_score_1() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long))
         .f_beta_score()
@@ -867,7 +867,7 @@ def test_multiclass_confusion_matrix_f_beta_score_1():
     )
 
 
-def test_multiclass_confusion_matrix_f_beta_score_2():
+def test_multiclass_confusion_matrix_f_beta_score_2() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long))
         .f_beta_score(beta=2)
@@ -877,7 +877,7 @@ def test_multiclass_confusion_matrix_f_beta_score_2():
     )
 
 
-def test_multiclass_confusion_matrix_f_beta_score_0_5():
+def test_multiclass_confusion_matrix_f_beta_score_0_5() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long))
         .f_beta_score(beta=0.5)
@@ -889,12 +889,12 @@ def test_multiclass_confusion_matrix_f_beta_score_0_5():
     )
 
 
-def test_multiclass_confusion_matrix_f_beta_score_empty():
+def test_multiclass_confusion_matrix_f_beta_score_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).f_beta_score()
 
 
-def test_multiclass_confusion_matrix_macro_f_beta_score_1():
+def test_multiclass_confusion_matrix_macro_f_beta_score_1() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -903,7 +903,7 @@ def test_multiclass_confusion_matrix_macro_f_beta_score_1():
     )
 
 
-def test_multiclass_confusion_matrix_macro_f_beta_score_2():
+def test_multiclass_confusion_matrix_macro_f_beta_score_2() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -912,7 +912,7 @@ def test_multiclass_confusion_matrix_macro_f_beta_score_2():
     )
 
 
-def test_multiclass_confusion_matrix_macro_f_beta_score_0_5():
+def test_multiclass_confusion_matrix_macro_f_beta_score_0_5() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -921,12 +921,12 @@ def test_multiclass_confusion_matrix_macro_f_beta_score_0_5():
     )
 
 
-def test_multiclass_confusion_matrix_macro_f_beta_score_empty():
+def test_multiclass_confusion_matrix_macro_f_beta_score_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).macro_f_beta_score()
 
 
-def test_multiclass_confusion_matrix_micro_f_beta_score_1():
+def test_multiclass_confusion_matrix_micro_f_beta_score_1() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -936,7 +936,7 @@ def test_multiclass_confusion_matrix_micro_f_beta_score_1():
     )
 
 
-def test_multiclass_confusion_matrix_micro_f_beta_score_2():
+def test_multiclass_confusion_matrix_micro_f_beta_score_2() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -946,7 +946,7 @@ def test_multiclass_confusion_matrix_micro_f_beta_score_2():
     )
 
 
-def test_multiclass_confusion_matrix_micro_f_beta_score_0_5():
+def test_multiclass_confusion_matrix_micro_f_beta_score_0_5() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -956,12 +956,12 @@ def test_multiclass_confusion_matrix_micro_f_beta_score_0_5():
     )
 
 
-def test_multiclass_confusion_matrix_micro_f_beta_score_empty():
+def test_multiclass_confusion_matrix_micro_f_beta_score_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).micro_f_beta_score()
 
 
-def test_multiclass_confusion_matrix_weighted_f_beta_score_1():
+def test_multiclass_confusion_matrix_weighted_f_beta_score_1() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -971,7 +971,7 @@ def test_multiclass_confusion_matrix_weighted_f_beta_score_1():
     )
 
 
-def test_multiclass_confusion_matrix_weighted_f_beta_score_2():
+def test_multiclass_confusion_matrix_weighted_f_beta_score_2() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -981,7 +981,7 @@ def test_multiclass_confusion_matrix_weighted_f_beta_score_2():
     )
 
 
-def test_multiclass_confusion_matrix_weighted_f_beta_score_0_5():
+def test_multiclass_confusion_matrix_weighted_f_beta_score_0_5() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -991,12 +991,12 @@ def test_multiclass_confusion_matrix_weighted_f_beta_score_0_5():
     )
 
 
-def test_multiclass_confusion_matrix_weighted_f_beta_score_empty():
+def test_multiclass_confusion_matrix_weighted_f_beta_score_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).weighted_f_beta_score()
 
 
-def test_multiclass_confusion_matrix_precision():
+def test_multiclass_confusion_matrix_precision() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [1, 4, 1], [4, 2, 4]], dtype=torch.long))
         .precision()
@@ -1004,7 +1004,7 @@ def test_multiclass_confusion_matrix_precision():
     )
 
 
-def test_multiclass_confusion_matrix_precision_zero():
+def test_multiclass_confusion_matrix_precision_zero() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 0, 5], [3, 0, 1], [4, 0, 4]], dtype=torch.long))
         .precision()
@@ -1012,12 +1012,12 @@ def test_multiclass_confusion_matrix_precision_zero():
     )
 
 
-def test_multiclass_confusion_matrix_precision_empty():
+def test_multiclass_confusion_matrix_precision_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).precision()
 
 
-def test_multiclass_confusion_matrix_macro_precision():
+def test_multiclass_confusion_matrix_macro_precision() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1027,12 +1027,12 @@ def test_multiclass_confusion_matrix_macro_precision():
     )
 
 
-def test_multiclass_confusion_matrix_macro_precision_empty():
+def test_multiclass_confusion_matrix_macro_precision_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).macro_precision()
 
 
-def test_multiclass_confusion_matrix_micro_precision():
+def test_multiclass_confusion_matrix_micro_precision() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1042,12 +1042,12 @@ def test_multiclass_confusion_matrix_micro_precision():
     )
 
 
-def test_multiclass_confusion_matrix_micro_precision_empty():
+def test_multiclass_confusion_matrix_micro_precision_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).micro_precision()
 
 
-def test_multiclass_confusion_matrix_weighted_precision():
+def test_multiclass_confusion_matrix_weighted_precision() -> None:
     assert (
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1056,12 +1056,12 @@ def test_multiclass_confusion_matrix_weighted_precision():
     )
 
 
-def test_multiclass_confusion_matrix_weighted_precision_empty():
+def test_multiclass_confusion_matrix_weighted_precision_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).weighted_precision()
 
 
-def test_multiclass_confusion_matrix_recall():
+def test_multiclass_confusion_matrix_recall() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long))
         .recall()
@@ -1069,7 +1069,7 @@ def test_multiclass_confusion_matrix_recall():
     )
 
 
-def test_multiclass_confusion_matrix_recall_zero():
+def test_multiclass_confusion_matrix_recall_zero() -> None:
     assert (
         MulticlassConfusionMatrix(torch.tensor([[3, 2, 5], [0, 0, 0], [4, 2, 4]], dtype=torch.long))
         .recall()
@@ -1077,12 +1077,12 @@ def test_multiclass_confusion_matrix_recall_zero():
     )
 
 
-def test_multiclass_confusion_matrix_recall_empty():
+def test_multiclass_confusion_matrix_recall_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).recall()
 
 
-def test_multiclass_confusion_matrix_macro_recall():
+def test_multiclass_confusion_matrix_macro_recall() -> None:
     assert (
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1091,12 +1091,12 @@ def test_multiclass_confusion_matrix_macro_recall():
     )
 
 
-def test_multiclass_confusion_matrix_macro_recall_empty():
+def test_multiclass_confusion_matrix_macro_recall_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).macro_recall()
 
 
-def test_multiclass_confusion_matrix_micro_recall():
+def test_multiclass_confusion_matrix_micro_recall() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1106,12 +1106,12 @@ def test_multiclass_confusion_matrix_micro_recall():
     )
 
 
-def test_multiclass_confusion_matrix_micro_recall_empty():
+def test_multiclass_confusion_matrix_micro_recall_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).micro_recall()
 
 
-def test_multiclass_confusion_matrix_weighted_recall():
+def test_multiclass_confusion_matrix_weighted_recall() -> None:
     assert math.isclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1121,12 +1121,12 @@ def test_multiclass_confusion_matrix_weighted_recall():
     )
 
 
-def test_multiclass_confusion_matrix_weighted_recall_empty():
+def test_multiclass_confusion_matrix_weighted_recall_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).weighted_recall()
 
 
-def test_multiclass_confusion_matrix_compute_per_class_metrics():
+def test_multiclass_confusion_matrix_compute_per_class_metrics() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1139,7 +1139,7 @@ def test_multiclass_confusion_matrix_compute_per_class_metrics():
     )
 
 
-def test_multiclass_confusion_matrix_compute_per_class_metrics_betas():
+def test_multiclass_confusion_matrix_compute_per_class_metrics_betas() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1153,7 +1153,7 @@ def test_multiclass_confusion_matrix_compute_per_class_metrics_betas():
     )
 
 
-def test_multiclass_confusion_matrix_compute_per_class_metrics_prefix_suffix():
+def test_multiclass_confusion_matrix_compute_per_class_metrics_prefix_suffix() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1168,12 +1168,12 @@ def test_multiclass_confusion_matrix_compute_per_class_metrics_prefix_suffix():
     )
 
 
-def test_multiclass_confusion_matrix_compute_per_class_metrics_empty():
+def test_multiclass_confusion_matrix_compute_per_class_metrics_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).compute_per_class_metrics()
 
 
-def test_multiclass_confusion_matrix_compute_macro_metrics():
+def test_multiclass_confusion_matrix_compute_macro_metrics() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1186,7 +1186,7 @@ def test_multiclass_confusion_matrix_compute_macro_metrics():
     )
 
 
-def test_multiclass_confusion_matrix_compute_macro_metrics_betas():
+def test_multiclass_confusion_matrix_compute_macro_metrics_betas() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1200,7 +1200,7 @@ def test_multiclass_confusion_matrix_compute_macro_metrics_betas():
     )
 
 
-def test_multiclass_confusion_matrix_compute_macro_metrics_prefix_suffix():
+def test_multiclass_confusion_matrix_compute_macro_metrics_prefix_suffix() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1213,12 +1213,12 @@ def test_multiclass_confusion_matrix_compute_macro_metrics_prefix_suffix():
     )
 
 
-def test_multiclass_confusion_matrix_compute_macro_metrics_empty():
+def test_multiclass_confusion_matrix_compute_macro_metrics_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).compute_macro_metrics()
 
 
-def test_multiclass_confusion_matrix_compute_micro_metrics():
+def test_multiclass_confusion_matrix_compute_micro_metrics() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1231,7 +1231,7 @@ def test_multiclass_confusion_matrix_compute_micro_metrics():
     )
 
 
-def test_multiclass_confusion_matrix_compute_micro_metrics_betas():
+def test_multiclass_confusion_matrix_compute_micro_metrics_betas() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1245,7 +1245,7 @@ def test_multiclass_confusion_matrix_compute_micro_metrics_betas():
     )
 
 
-def test_multiclass_confusion_matrix_compute_micro_metrics_prefix_suffix():
+def test_multiclass_confusion_matrix_compute_micro_metrics_prefix_suffix() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1258,12 +1258,12 @@ def test_multiclass_confusion_matrix_compute_micro_metrics_prefix_suffix():
     )
 
 
-def test_multiclass_confusion_matrix_compute_micro_metrics_empty():
+def test_multiclass_confusion_matrix_compute_micro_metrics_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).compute_micro_metrics()
 
 
-def test_multiclass_confusion_matrix_compute_weighted_metrics():
+def test_multiclass_confusion_matrix_compute_weighted_metrics() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1276,7 +1276,7 @@ def test_multiclass_confusion_matrix_compute_weighted_metrics():
     )
 
 
-def test_multiclass_confusion_matrix_compute_weighted_metrics_betas():
+def test_multiclass_confusion_matrix_compute_weighted_metrics_betas() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1290,7 +1290,7 @@ def test_multiclass_confusion_matrix_compute_weighted_metrics_betas():
     )
 
 
-def test_multiclass_confusion_matrix_compute_weighted_metrics_prefix_suffix():
+def test_multiclass_confusion_matrix_compute_weighted_metrics_prefix_suffix() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1303,12 +1303,12 @@ def test_multiclass_confusion_matrix_compute_weighted_metrics_prefix_suffix():
     )
 
 
-def test_multiclass_confusion_matrix_compute_weighted_metrics_empty():
+def test_multiclass_confusion_matrix_compute_weighted_metrics_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).compute_weighted_metrics()
 
 
-def test_multiclass_confusion_matrix_compute_scalar_metrics():
+def test_multiclass_confusion_matrix_compute_scalar_metrics() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1329,7 +1329,7 @@ def test_multiclass_confusion_matrix_compute_scalar_metrics():
     )
 
 
-def test_multiclass_confusion_matrix_compute_scalar_metrics_betas():
+def test_multiclass_confusion_matrix_compute_scalar_metrics_betas() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1353,7 +1353,7 @@ def test_multiclass_confusion_matrix_compute_scalar_metrics_betas():
     )
 
 
-def test_multiclass_confusion_matrix_compute_scalar_metrics_prefix_suffix():
+def test_multiclass_confusion_matrix_compute_scalar_metrics_prefix_suffix() -> None:
     assert objects_are_allclose(
         MulticlassConfusionMatrix(
             torch.tensor([[3, 2, 5], [1, 4, 0], [4, 2, 4]], dtype=torch.long)
@@ -1374,7 +1374,7 @@ def test_multiclass_confusion_matrix_compute_scalar_metrics_prefix_suffix():
     )
 
 
-def test_multiclass_confusion_matrix_compute_scalar_metrics_empty():
+def test_multiclass_confusion_matrix_compute_scalar_metrics_empty() -> None:
     with raises(EmptyMeterError):
         MulticlassConfusionMatrix.from_num_classes(3).compute_scalar_metrics()
 
@@ -1384,22 +1384,22 @@ def test_multiclass_confusion_matrix_compute_scalar_metrics_empty():
 ############################################
 
 
-def test_check_confusion_matrix_incorrect_ndim():
+def test_check_confusion_matrix_incorrect_ndim() -> None:
     with raises(ValueError):
         check_confusion_matrix(torch.zeros(3))
 
 
-def test_check_confusion_matrix_incorrect_shape():
+def test_check_confusion_matrix_incorrect_shape() -> None:
     with raises(ValueError):
         check_confusion_matrix(torch.zeros(3, 5))
 
 
-def test_check_confusion_matrix_incorrect_dtype():
+def test_check_confusion_matrix_incorrect_dtype() -> None:
     with raises(ValueError):
         check_confusion_matrix(torch.zeros(2, 2, dtype=torch.float))
 
 
-def test_check_confusion_matrix_negative_value():
+def test_check_confusion_matrix_negative_value() -> None:
     with raises(ValueError):
         check_confusion_matrix(torch.tensor([[0, 0], [-1, 0]]))
 
@@ -1409,12 +1409,12 @@ def test_check_confusion_matrix_negative_value():
 ###################################################
 
 
-def test_check_op_compatibility_binary_correct():
+def test_check_op_compatibility_binary_correct() -> None:
     check_op_compatibility_binary(BinaryConfusionMatrix(), BinaryConfusionMatrix(), "op")
     # will fail if an exception is raised
 
 
-def test_check_op_compatibility_binary_incorrect_type():
+def test_check_op_compatibility_binary_incorrect_type() -> None:
     with raises(TypeError):
         check_op_compatibility_binary(BinaryConfusionMatrix(), Mock(), "op")
 
@@ -1424,7 +1424,7 @@ def test_check_op_compatibility_binary_incorrect_type():
 #######################################################
 
 
-def test_check_op_compatibility_multiclass_correct():
+def test_check_op_compatibility_multiclass_correct() -> None:
     check_op_compatibility_multiclass(
         MulticlassConfusionMatrix.from_num_classes(3),
         MulticlassConfusionMatrix.from_num_classes(3),
@@ -1433,7 +1433,7 @@ def test_check_op_compatibility_multiclass_correct():
     # will fail if an exception is raised
 
 
-def test_check_op_compatibility_multiclass_incorrect_type():
+def test_check_op_compatibility_multiclass_incorrect_type() -> None:
     with raises(TypeError):
         check_op_compatibility_multiclass(
             MulticlassConfusionMatrix.from_num_classes(3),
@@ -1442,7 +1442,7 @@ def test_check_op_compatibility_multiclass_incorrect_type():
         )
 
 
-def test_check_op_compatibility_multiclass_incorrect_shape():
+def test_check_op_compatibility_multiclass_incorrect_shape() -> None:
     with raises(ValueError):
         check_op_compatibility_multiclass(
             MulticlassConfusionMatrix.from_num_classes(3),

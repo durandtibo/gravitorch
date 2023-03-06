@@ -13,10 +13,10 @@ from gravitorch.nn import setup_module
 
 
 @mark.parametrize("module", (ReLU(), {OBJECT_TARGET: "torch.nn.ReLU"}))
-def test_setup_module(module: Union[nn.Module, dict]):
+def test_setup_module(module: Union[nn.Module, dict]) -> None:
     assert isinstance(setup_module(module), ReLU)
 
 
-def test_setup_module_object():
+def test_setup_module_object() -> None:
     module = ReLU()
     assert setup_module(module) is module

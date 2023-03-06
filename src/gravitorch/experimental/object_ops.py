@@ -29,10 +29,12 @@ def add_objects(object1: Any, object2: Any) -> Any:
     ``object2['my_list']`` is also a list.
 
     Args:
+    ----
         object1: Specifies the first object
         object2: Specifies the second object
 
     Returns:
+    -------
         The element-wise addition of the two objects.
 
     Example usage:
@@ -81,10 +83,12 @@ def sub_objects(object1: Any, object2: Any) -> Any:
     ``object2['my_list']`` is also a list.
 
     Args:
+    ----
         object1: Specifies the first object
         object2: Specifies the second object
 
     Returns:
+    -------
         The element-wise substraction of the two objects.
 
     Example usage:

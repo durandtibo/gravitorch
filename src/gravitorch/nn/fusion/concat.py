@@ -11,6 +11,7 @@ class ConcatFusion(Module):
     r"""Implements a module to concatenate inputs.
 
     Args:
+    ----
         dim (int, optional): Specifies the fusion dimension. ``-1``
             means the last dimension. Default: ``-1``
 
@@ -31,7 +32,7 @@ class ConcatFusion(Module):
         >>> out.mean().backward()
     """
 
-    def __init__(self, dim: int = -1):
+    def __init__(self, dim: int = -1) -> None:
         super().__init__()
         self._dim = dim
 
@@ -43,10 +44,12 @@ class ConcatFusion(Module):
         forward network (FFN) on the fused representation.
 
         Args:
+        ----
             *inputs (list or tuple of ``torch.Tensor``): Specifies the
                 tensors to concatenate.
 
         Returns:
+        -------
             ``torch.Tensor``: The fused representation.
         """
         return torch.cat(inputs, dim=self._dim)

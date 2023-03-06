@@ -35,6 +35,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
     a model.
 
     Args:
+    ----
         accelerator (``accelerate.Accelerator`` or dict or None,
             optional): Specifies the ``accelerate.Accelerator`` object
             or the parameters to instantiate it. Please read the
@@ -71,7 +72,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         clip_grad: Optional[dict] = None,
         observer: Union[BaseLoopObserver, dict, None] = None,
         profiler: Union[BaseProfiler, dict, None] = None,
-    ):
+    ) -> None:
         check_accelerate()
         self._accelerator = self._setup_accelerator(accelerator or {})
         logger.info(f"accelerator state:\n{self._accelerator.state}")
@@ -97,9 +98,11 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         r"""Prepares the model, optimizer and data loader.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
 
         Returns:
+        -------
             ``torch.nn.Module``, ``torch.optim.Optimizer``,
                 ``Iterable``: A tuple with the model, the optimizer
                 and the data loader.
@@ -151,6 +154,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         r"""Sets up the accelerator.
 
         Args:
+        ----
             accelerator (``accelerate.Accelerator`` or dict, optional):
                 Specifies the ``accelerate.Accelerator`` object or the
                 parameters to instantiate it. Please read the
@@ -158,9 +162,11 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
                 parameters https://huggingface.co/docs/accelerate/accelerator.html.
 
         Returns:
+        -------
             ``accelerate.Accelerator``: The accelerator object.
 
         Raises:
+        ------
             RuntimeError: if the accelerate package is not installed.
         """
         if isinstance(accelerator, Accelerator):

@@ -14,7 +14,7 @@ else:
 class MNISTDataset(MNIST):
     r"""Updated MNIST dataset to return a dict instead of a tuple."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         check_torchvision()
         super().__init__(*args, **kwargs)
 
@@ -22,9 +22,11 @@ class MNISTDataset(MNIST):
         r"""Get the image and the target of the index-th example.
 
         Args:
+        ----
             index (int): Specifies the index of the example.
 
         Returns:
+        -------
             dict: A dictionary with the image and the target of the
                 ``index``-th example.
         """

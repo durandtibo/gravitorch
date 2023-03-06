@@ -16,43 +16,43 @@ SIZES = (1, 2)
 ######################################
 
 
-def test_barron_robust_loss_str():
+def test_barron_robust_loss_str() -> None:
     assert str(BarronRobustLoss()).startswith("BarronRobustLoss(")
 
 
 @mark.parametrize("alpha", (-1, 0, 1, 2))
-def test_barron_robust_loss_alpha(alpha: float):
+def test_barron_robust_loss_alpha(alpha: float) -> None:
     assert BarronRobustLoss(alpha=alpha)._alpha == alpha
 
 
-def test_barron_robust_loss_alpha_default():
+def test_barron_robust_loss_alpha_default() -> None:
     assert BarronRobustLoss()._alpha == 2.0
 
 
 @mark.parametrize("scale", (1, 2))
-def test_barron_robust_loss_scale(scale: float):
+def test_barron_robust_loss_scale(scale: float) -> None:
     assert BarronRobustLoss(scale=scale)._scale == scale
 
 
-def test_barron_robust_loss_scale_default():
+def test_barron_robust_loss_scale_default() -> None:
     assert BarronRobustLoss()._scale == 1.0
 
 
-def test_barron_robust_loss_incorrect_scale():
+def test_barron_robust_loss_incorrect_scale() -> None:
     with raises(ValueError):
         BarronRobustLoss(scale=0)
 
 
 @mark.parametrize("reduction", VALID_REDUCTIONS)
-def test_barron_robust_loss_reduction(reduction: str):
+def test_barron_robust_loss_reduction(reduction: str) -> None:
     assert BarronRobustLoss(reduction=reduction).reduction == reduction
 
 
-def test_barron_robust_loss_reduction_default():
+def test_barron_robust_loss_reduction_default() -> None:
     assert BarronRobustLoss().reduction == "mean"
 
 
-def test_barron_robust_loss_incorrect_reduction():
+def test_barron_robust_loss_incorrect_reduction() -> None:
     with raises(ValueError):
         BarronRobustLoss(reduction="incorrect")
 
@@ -63,7 +63,7 @@ def test_barron_robust_loss_incorrect_reduction():
 @mark.parametrize("alpha", (0, 1, 2))
 def test_barron_robust_loss_forward_1d(
     device: str, batch_size: int, feature_size: int, alpha: float
-):
+) -> None:
     device = torch.device(device)
     criterion = BarronRobustLoss(alpha=alpha)
     out = criterion(
@@ -82,7 +82,7 @@ def test_barron_robust_loss_forward_1d(
 @mark.parametrize("alpha", (0, 1, 2))
 def test_barron_robust_loss_forward_2d(
     device: str, batch_size: int, feature_size: int, alpha: float
-):
+) -> None:
     device = torch.device(device)
     criterion = BarronRobustLoss(alpha=alpha)
     out = criterion(
@@ -104,7 +104,7 @@ def test_barron_robust_loss_forward_2d(
 @mark.parametrize("alpha", (0, 1, 2))
 def test_barron_robust_loss_forward_3d(
     device: str, batch_size: int, seq_len: int, feature_size: int, alpha: float
-):
+) -> None:
     device = torch.device(device)
     criterion = BarronRobustLoss(alpha=alpha)
     out = criterion(
@@ -119,7 +119,7 @@ def test_barron_robust_loss_forward_3d(
     assert out.device == device
 
 
-def test_barron_robust_loss_forward_alpha_2_scale_1():
+def test_barron_robust_loss_forward_alpha_2_scale_1() -> None:
     criterion = BarronRobustLoss(alpha=2.0, scale=1.0)
     assert criterion(
         prediction=torch.ones(2, 3, dtype=torch.float),
@@ -127,7 +127,7 @@ def test_barron_robust_loss_forward_alpha_2_scale_1():
     ).equal(torch.tensor(4.0))
 
 
-def test_barron_robust_loss_forward_alpha_2_scale_2():
+def test_barron_robust_loss_forward_alpha_2_scale_2() -> None:
     criterion = BarronRobustLoss(alpha=2.0, scale=2.0)
     assert criterion(
         prediction=torch.ones(2, 3, dtype=torch.float),
@@ -135,7 +135,7 @@ def test_barron_robust_loss_forward_alpha_2_scale_2():
     ).equal(torch.tensor(1.0))
 
 
-def test_barron_robust_loss_forward_alpha_1_scale_1():
+def test_barron_robust_loss_forward_alpha_1_scale_1() -> None:
     criterion = BarronRobustLoss(alpha=1.0, scale=1.0)
     assert criterion(
         prediction=torch.ones(2, 3, dtype=torch.float),
@@ -145,7 +145,7 @@ def test_barron_robust_loss_forward_alpha_1_scale_1():
     )
 
 
-def test_barron_robust_loss_forward_alpha_1_scale_2():
+def test_barron_robust_loss_forward_alpha_1_scale_2() -> None:
     criterion = BarronRobustLoss(alpha=1.0, scale=2.0)
     assert criterion(
         prediction=torch.ones(2, 3, dtype=torch.float),
@@ -155,7 +155,7 @@ def test_barron_robust_loss_forward_alpha_1_scale_2():
     )
 
 
-def test_barron_robust_loss_forward_alpha_0_scale_1():
+def test_barron_robust_loss_forward_alpha_0_scale_1() -> None:
     criterion = BarronRobustLoss(alpha=0.0, scale=1.0)
     assert criterion(
         prediction=torch.ones(2, 3, dtype=torch.float),
@@ -165,7 +165,7 @@ def test_barron_robust_loss_forward_alpha_0_scale_1():
     )
 
 
-def test_barron_robust_loss_forward_alpha_0_scale_2():
+def test_barron_robust_loss_forward_alpha_0_scale_2() -> None:
     criterion = BarronRobustLoss(alpha=0.0, scale=2.0)
     assert criterion(
         prediction=torch.ones(2, 3, dtype=torch.float),
@@ -175,7 +175,7 @@ def test_barron_robust_loss_forward_alpha_0_scale_2():
     )
 
 
-def test_barron_robust_loss_forward_alpha_minus_2_scale_1():
+def test_barron_robust_loss_forward_alpha_minus_2_scale_1() -> None:
     criterion = BarronRobustLoss(alpha=-2.0, scale=1.0)
     assert criterion(
         prediction=torch.ones(2, 3, dtype=torch.float),
@@ -185,7 +185,7 @@ def test_barron_robust_loss_forward_alpha_minus_2_scale_1():
     )
 
 
-def test_barron_robust_loss_forward_alpha_minus_2_scale_2():
+def test_barron_robust_loss_forward_alpha_minus_2_scale_2() -> None:
     criterion = BarronRobustLoss(alpha=-2.0, scale=2.0)
     assert criterion(
         prediction=torch.ones(2, 3, dtype=torch.float),
@@ -195,7 +195,7 @@ def test_barron_robust_loss_forward_alpha_minus_2_scale_2():
     )
 
 
-def test_barron_robust_loss_forward_reduction_mean():
+def test_barron_robust_loss_forward_reduction_mean() -> None:
     criterion = BarronRobustLoss(alpha=2.0, scale=1.0, reduction="mean")
     assert criterion(
         prediction=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -205,7 +205,7 @@ def test_barron_robust_loss_forward_reduction_mean():
     )
 
 
-def test_barron_robust_loss_forward_reduction_sum():
+def test_barron_robust_loss_forward_reduction_sum() -> None:
     criterion = BarronRobustLoss(alpha=2.0, scale=1.0, reduction="sum")
     assert criterion(
         prediction=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -213,7 +213,7 @@ def test_barron_robust_loss_forward_reduction_sum():
     ).equal(torch.tensor(2.0))
 
 
-def test_barron_robust_loss_forward_reduction_none():
+def test_barron_robust_loss_forward_reduction_none() -> None:
     criterion = BarronRobustLoss(alpha=2.0, scale=1.0, reduction="none")
     assert criterion(
         prediction=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -221,7 +221,7 @@ def test_barron_robust_loss_forward_reduction_none():
     ).equal(torch.tensor([[0.0, 0.0, 0.0], [1.0, 0.0, 1.0]]))
 
 
-def test_barron_robust_loss_forward_max_value():
+def test_barron_robust_loss_forward_max_value() -> None:
     criterion = BarronRobustLoss(alpha=2.0, scale=1.0, max_value=0.5, reduction="none")
     assert criterion(
         prediction=torch.tensor([[0, 1, 2], [2, 1, 0]], dtype=torch.float),
@@ -235,7 +235,7 @@ def test_barron_robust_loss_forward_max_value():
 @mark.parametrize("reduction", ("mean", "sum"))
 def test_barron_robust_loss_forward_mock(
     alpha: float, scale: float, max_value: Optional[float], reduction: str
-):
+) -> None:
     criterion = BarronRobustLoss(alpha=alpha, scale=scale, max_value=max_value, reduction=reduction)
     with patch("gravitorch.nn.barron_loss.barron_robust_loss") as loss_mock:
         criterion(prediction=torch.tensor([1.0]), target=torch.tensor([1.0]))
@@ -256,7 +256,7 @@ def test_barron_robust_loss_forward_mock(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("alpha", (0, 1, 2))
-def test_barron_robust_loss_forward(device: str, alpha: float):
+def test_barron_robust_loss_forward(device: str, alpha: float) -> None:
     device = torch.device(device)
     criterion = BarronRobustLoss(alpha=alpha)
     out = criterion(
@@ -275,7 +275,7 @@ def test_barron_robust_loss_forward(device: str, alpha: float):
 @mark.parametrize("reduction", ("mean", "sum"))
 def test_asinh_barron_robust_loss_forward_mock(
     alpha: float, scale: float, max_value: Optional[float], reduction: str
-):
+) -> None:
     criterion = AsinhBarronRobustLoss(
         alpha=alpha, scale=scale, max_value=max_value, reduction=reduction
     )

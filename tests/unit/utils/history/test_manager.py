@@ -18,27 +18,27 @@ NAMES = ("NAME", "my_history")
 ####################################
 
 
-def test_history_manager_str():
+def test_history_manager_str() -> None:
     assert str(HistoryManager()) == "HistoryManager()"
 
 
-def test_history_manager_str_with_history():
+def test_history_manager_str_with_history() -> None:
     manager = HistoryManager()
     manager.get_history("something")
     assert str(manager).startswith("HistoryManager(")
 
 
-def test_history_manager_len_empty():
+def test_history_manager_len_empty() -> None:
     assert len(HistoryManager()) == 0
 
 
-def test_history_manager_len_1_history():
+def test_history_manager_len_1_history() -> None:
     manager = HistoryManager()
     manager.get_history("my_history1")
     assert len(manager) == 1
 
 
-def test_history_manager_len_2_histories():
+def test_history_manager_len_2_histories() -> None:
     manager = HistoryManager()
     manager.get_history("my_history1")
     manager.get_history("my_history2")
@@ -46,20 +46,20 @@ def test_history_manager_len_2_histories():
 
 
 @mark.parametrize("key", NAMES)
-def test_history_manager_add_history_with_key(key: str):
+def test_history_manager_add_history_with_key(key: str) -> None:
     manager = HistoryManager()
     manager.add_history(MinScalarHistory("loss"), key)
     assert key in manager._histories
 
 
 @mark.parametrize("key", NAMES)
-def test_history_manager_add_history_without_key(key: str):
+def test_history_manager_add_history_without_key(key: str) -> None:
     manager = HistoryManager()
     manager.add_history(MinScalarHistory(key))
     assert key in manager._histories
 
 
-def test_history_manager_add_history_duplicate_key(caplog: LogCaptureFixture):
+def test_history_manager_add_history_duplicate_key(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.WARNING):
         manager = HistoryManager()
         manager.add_history(MinScalarHistory("loss"))
@@ -68,18 +68,18 @@ def test_history_manager_add_history_duplicate_key(caplog: LogCaptureFixture):
         assert len(caplog.messages) == 1
 
 
-def test_history_manager_get_best_values_empty():
+def test_history_manager_get_best_values_empty() -> None:
     assert HistoryManager().get_best_values() == {}
 
 
-def test_history_manager_get_best_values_empty_history():
+def test_history_manager_get_best_values_empty_history() -> None:
     state = HistoryManager()
     history = MinScalarHistory("loss")
     state.add_history(history)
     assert state.get_best_values() == {}
 
 
-def test_history_manager_get_best_values_not_comparable_history():
+def test_history_manager_get_best_values_not_comparable_history() -> None:
     state = HistoryManager()
     history = GenericHistory("loss")
     history.add_value(1.2, step=0)
@@ -88,7 +88,7 @@ def test_history_manager_get_best_values_not_comparable_history():
     assert state.get_best_values() == {}
 
 
-def test_history_manager_get_best_values_1_history():
+def test_history_manager_get_best_values_1_history() -> None:
     state = HistoryManager()
     history = MinScalarHistory("loss")
     state.add_history(history)
@@ -97,7 +97,7 @@ def test_history_manager_get_best_values_1_history():
     assert state.get_best_values() == {"loss": 0.8}
 
 
-def test_history_manager_get_best_values_2_history():
+def test_history_manager_get_best_values_2_history() -> None:
     state = HistoryManager()
     history1 = MinScalarHistory("loss")
     history1.add_value(1.2, step=0)
@@ -110,21 +110,21 @@ def test_history_manager_get_best_values_2_history():
     assert state.get_best_values() == {"loss": 0.8, "accuracy": 42}
 
 
-def test_history_manager_get_history_exists():
+def test_history_manager_get_history_exists() -> None:
     manager = HistoryManager()
     history = MinScalarHistory("loss")
     manager.add_history(history)
     assert manager.get_history("loss") is history
 
 
-def test_history_manager_get_history_does_not_exist():
+def test_history_manager_get_history_does_not_exist() -> None:
     manager = HistoryManager()
     history = manager.get_history("loss")
     assert isinstance(history, GenericHistory)
     assert len(history.get_recent_history()) == 0
 
 
-def test_history_manager_get_histories():
+def test_history_manager_get_histories() -> None:
     manager = HistoryManager()
     history1 = MinScalarHistory("loss")
     history2 = MinScalarHistory("accuracy")
@@ -133,27 +133,27 @@ def test_history_manager_get_histories():
     assert manager.get_histories() == {"loss": history1, "accuracy": history2}
 
 
-def test_history_manager_get_histories_empty():
+def test_history_manager_get_histories_empty() -> None:
     assert HistoryManager().get_histories() == {}
 
 
-def test_history_manager_has_history_true():
+def test_history_manager_has_history_true() -> None:
     manager = HistoryManager()
     manager.add_history(MinScalarHistory("loss"))
     assert manager.has_history("loss")
 
 
-def test_history_manager_has_history_false():
+def test_history_manager_has_history_false() -> None:
     assert not HistoryManager().has_history("loss")
 
 
-def test_history_manager_load_state_dict_empty():
+def test_history_manager_load_state_dict_empty() -> None:
     manager = HistoryManager()
     manager.load_state_dict({})
     assert len(manager) == 0
 
 
-def test_history_manager_load_state_dict_with_existing_history():
+def test_history_manager_load_state_dict_with_existing_history() -> None:
     manager = HistoryManager()
     manager.add_history(MinScalarHistory("loss"))
     manager.get_history("loss").add_value(2, step=0)
@@ -174,7 +174,7 @@ def test_history_manager_load_state_dict_with_existing_history():
     assert history.get_best_value() == 6
 
 
-def test_history_manager_load_state_dict_without_history():
+def test_history_manager_load_state_dict_without_history() -> None:
     manager = HistoryManager()
     manager.load_state_dict(
         {
@@ -198,18 +198,18 @@ def test_history_manager_load_state_dict_without_history():
     assert history.get_best_value() == 6
 
 
-def test_history_manager_state_dict_empty():
+def test_history_manager_state_dict_empty() -> None:
     assert HistoryManager().state_dict() == {}
 
 
-def test_history_manager_state_dict_1_history():
+def test_history_manager_state_dict_1_history() -> None:
     manager = HistoryManager()
     history = MinScalarHistory("loss")
     manager.add_history(history)
     assert manager.state_dict() == {"loss": history.to_dict()}
 
 
-def test_history_manager_state_dict_2_history():
+def test_history_manager_state_dict_2_history() -> None:
     manager = HistoryManager()
     history1 = MinScalarHistory("loss")
     manager.add_history(history1)

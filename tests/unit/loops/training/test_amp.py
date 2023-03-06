@@ -18,27 +18,27 @@ from gravitorch.utils.device_placement import ManualDevicePlacement
 #####################################
 
 
-def test_amp_training_loop_str():
+def test_amp_training_loop_str() -> None:
     assert str(AMPTrainingLoop()).startswith("AMPTrainingLoop(")
 
 
 @mark.parametrize("amp_enabled", (True, False))
-def test_amp_training_loop_amp_enabled(amp_enabled: bool):
+def test_amp_training_loop_amp_enabled(amp_enabled: bool) -> None:
     with patch("gravitorch.loops.training.amp.GradScaler") as scaler_mock:
         assert AMPTrainingLoop(amp_enabled=amp_enabled)._amp_enabled == amp_enabled
         scaler_mock.assert_called_once_with(enabled=amp_enabled)
 
 
-def test_amp_training_loop_load_state_dict():
+def test_amp_training_loop_load_state_dict() -> None:
     AMPTrainingLoop(amp_enabled=False).load_state_dict({ct.SCALER: {}})
 
 
-def test_amp_training_loop_state_dict():
+def test_amp_training_loop_state_dict() -> None:
     assert ct.SCALER in AMPTrainingLoop().state_dict()
 
 
 @mark.parametrize("device", get_available_devices())
-def test_amp_training_loop_train_one_batch_fired_events(device: str):
+def test_amp_training_loop_train_one_batch_fired_events(device: str) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel().to(device=device)
@@ -60,7 +60,7 @@ def test_amp_training_loop_train_one_batch_fired_events(device: str):
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("amp_enabled", (True, False))
-def test_amp_training_loop_train_one_batch_amp_enabled(device: str, amp_enabled: bool):
+def test_amp_training_loop_train_one_batch_amp_enabled(device: str, amp_enabled: bool) -> None:
     device = torch.device(device)
     model = DummyClassificationModel().to(device=device)
     with patch("torch.cuda.is_available", lambda *args, **kwargs: device.type == "cuda"):
@@ -80,7 +80,9 @@ def test_amp_training_loop_train_one_batch_amp_enabled(device: str, amp_enabled:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("set_grad_to_none", (True, False))
-def test_amp_training_loop_train_one_batch_set_grad_to_none(device: str, set_grad_to_none: bool):
+def test_amp_training_loop_train_one_batch_set_grad_to_none(
+    device: str, set_grad_to_none: bool
+) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel().to(device=device)
@@ -100,7 +102,7 @@ def test_amp_training_loop_train_one_batch_set_grad_to_none(device: str, set_gra
 
 
 @mark.parametrize("device", get_available_devices())
-def test_amp_training_loop_train_one_batch_clip_grad_value(device: str):
+def test_amp_training_loop_train_one_batch_clip_grad_value(device: str) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel().to(device=device)
@@ -120,7 +122,7 @@ def test_amp_training_loop_train_one_batch_clip_grad_value(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_amp_training_loop_train_one_batch_clip_grad_norm(device: str):
+def test_amp_training_loop_train_one_batch_clip_grad_norm(device: str) -> None:
     device = torch.device(device)
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel().to(device=device)
@@ -139,7 +141,7 @@ def test_amp_training_loop_train_one_batch_clip_grad_norm(device: str):
     assert out[ct.LOSS].device == device
 
 
-def test_amp_training_loop_train_one_batch_loss_nan():
+def test_amp_training_loop_train_one_batch_loss_nan() -> None:
     engine = Mock(spec=BaseEngine)
     model = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(math.nan)})
     optimizer = Mock(spec=Optimizer)

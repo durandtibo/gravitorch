@@ -12,6 +12,7 @@ class ResidualBlock(Module):
     r"""Implementation of a residual block.
 
     Args:
+    ----
         residual (``torch.nn.Module`` or dict): Specifies the residual
             mapping module or its configuration (dictionary).
         skip (``torch.nn.Module`` or dict or ``None``): Specifies the
@@ -24,7 +25,7 @@ class ResidualBlock(Module):
         self,
         residual: Union[Module, dict],
         skip: Union[Module, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__()
         self.residual = setup_module(residual)
         self.skip = setup_module(skip or Identity())

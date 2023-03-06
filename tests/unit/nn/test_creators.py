@@ -18,7 +18,7 @@ from gravitorch.nn import create_sequential
         ({OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6}, nn.ReLU()),
     ),
 )
-def test_create_sequential(modules: Sequence):
+def test_create_sequential(modules: Sequence) -> None:
     module = create_sequential(modules)
     assert isinstance(module, nn.Sequential)
     assert len(module) == 2
@@ -26,7 +26,7 @@ def test_create_sequential(modules: Sequence):
     assert isinstance(module[1], nn.ReLU)
 
 
-def test_create_sequential_empty():
+def test_create_sequential_empty() -> None:
     module = create_sequential([])
     assert isinstance(module, nn.Sequential)
     assert len(module) == 0

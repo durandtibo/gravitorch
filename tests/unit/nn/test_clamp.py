@@ -17,13 +17,13 @@ SIZES = (1, 2)
 ###########################
 
 
-def test_clamp_str():
+def test_clamp_str() -> None:
     assert str(Clamp()).startswith("Clamp(")
 
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("dtype", (torch.float, torch.long))
-def test_clamp_forward(device: str, dtype: torch.dtype):
+def test_clamp_forward(device: str, dtype: torch.dtype) -> None:
     device = torch.device(device)
     module = Clamp().to(device=device)
     assert module(torch.arange(-3, 4, dtype=dtype, device=device)).equal(
@@ -32,7 +32,7 @@ def test_clamp_forward(device: str, dtype: torch.dtype):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_clamp_forward_min_value_0(device: str):
+def test_clamp_forward_min_value_0(device: str) -> None:
     device = torch.device(device)
     module = Clamp(min_value=0.0).to(device=device)
     assert module(torch.arange(-3, 4, device=device)).equal(
@@ -41,7 +41,7 @@ def test_clamp_forward_min_value_0(device: str):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_clamp_forward_max_value_2(device: str):
+def test_clamp_forward_max_value_2(device: str) -> None:
     device = torch.device(device)
     module = Clamp(max_value=2).to(device=device)
     assert module(torch.arange(-3, 4, device=device)).equal(
@@ -62,33 +62,33 @@ def test_clamp_forward_max_value_2(device: str):
         ({OBJECT_TARGET: "torch.nn.MSELoss"}, MSELoss),
     ),
 )
-def test_clamp_loss_criterion(criterion: Union[Module, dict], criterion_cls: type[Module]):
+def test_clamp_loss_criterion(criterion: Union[Module, dict], criterion_cls: type[Module]) -> None:
     assert isinstance(ClampLoss(criterion, min_value=0.0, max_value=1.0).criterion, criterion_cls)
 
 
 @mark.parametrize("min_value", (1, 2))
-def test_clamp_loss_min_value(min_value: float):
+def test_clamp_loss_min_value(min_value: float) -> None:
     assert ClampLoss(MSELoss(), min_value=min_value, max_value=None).clamp._min_value == min_value
 
 
 @mark.parametrize("max_value", (1, 2))
-def test_clamp_loss_max_value(max_value: float):
+def test_clamp_loss_max_value(max_value: float) -> None:
     assert ClampLoss(MSELoss(), min_value=None, max_value=max_value).clamp._max_value == max_value
 
 
 @mark.parametrize("reduction", VALID_REDUCTIONS)
-def test_clamp_loss_reduction(reduction: str):
+def test_clamp_loss_reduction(reduction: str) -> None:
     assert (
         ClampLoss(MSELoss(), min_value=0.0, max_value=1.0, reduction=reduction).reduction
         == reduction
     )
 
 
-def test_clamp_loss_reduction_default():
+def test_clamp_loss_reduction_default() -> None:
     assert ClampLoss(MSELoss(), min_value=0.0, max_value=1.0).reduction == "none"
 
 
-def test_clamp_loss_incorrect_reduction():
+def test_clamp_loss_incorrect_reduction() -> None:
     with raises(ValueError):
         ClampLoss(MSELoss(), min_value=0.0, max_value=1.0, reduction="incorrect")
 
@@ -99,7 +99,7 @@ def test_clamp_loss_incorrect_reduction():
 @mark.parametrize("max_value", (1, 2))
 def test_clamp_loss_forward_mse_max_value(
     device: str, batch_size: int, feature_size: int, max_value: float
-):
+) -> None:
     device = torch.device(device)
     criterion = ClampLoss(MSELoss(), min_value=None, max_value=max_value).to(device=device)
     assert criterion(
@@ -114,7 +114,7 @@ def test_clamp_loss_forward_mse_max_value(
 @mark.parametrize("min_value", (1, 2))
 def test_clamp_loss_forward_mse_min_value(
     device: str, batch_size: int, feature_size: int, min_value: float
-):
+) -> None:
     device = torch.device(device)
     criterion = ClampLoss(MSELoss(), min_value=min_value, max_value=None).to(device=device)
     assert criterion(
@@ -123,7 +123,7 @@ def test_clamp_loss_forward_mse_min_value(
     ).equal(torch.tensor(min_value, dtype=torch.float, device=device))
 
 
-def test_clamp_loss_forward_mse_reduction_mean():
+def test_clamp_loss_forward_mse_reduction_mean() -> None:
     criterion = ClampLoss(MSELoss(reduction="none"), min_value=0.0, max_value=2.0, reduction="mean")
     assert criterion(
         torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -131,7 +131,7 @@ def test_clamp_loss_forward_mse_reduction_mean():
     ).equal(torch.tensor(0.5))
 
 
-def test_clamp_loss_forward_mse_reduction_sum():
+def test_clamp_loss_forward_mse_reduction_sum() -> None:
     criterion = ClampLoss(MSELoss(reduction="none"), min_value=0.0, max_value=2.0, reduction="sum")
     assert criterion(
         torch.tensor([[0, 1, 2], [1, 1, 1]], dtype=torch.float),
@@ -139,7 +139,7 @@ def test_clamp_loss_forward_mse_reduction_sum():
     ).equal(torch.tensor(3.0))
 
 
-def test_clamp_loss_forward_mse_reduction_none():
+def test_clamp_loss_forward_mse_reduction_none() -> None:
     criterion = ClampLoss(
         MSELoss(reduction="none"), min_value=None, max_value=2.0, reduction="none"
     )

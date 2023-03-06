@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 import torch
 from pytest import mark
 from torch import Tensor, nn
@@ -18,7 +20,7 @@ SIZES = (1, 2)
 
 
 class MyModule(nn.Module):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.embedding = nn.Embedding(num_embeddings=10, embedding_dim=8)
         # The parameters of the embedding layer should not appear in the learnable parameters.
@@ -28,7 +30,7 @@ class MyModule(nn.Module):
     def forward(self, tensor: Tensor) -> Tensor:
         return self.fc(self.embedding(tensor))
 
-    def get_dummy_input(self, batch_size: int = 1):
+    def get_dummy_input(self, batch_size: int = 1) -> tuple[Tensor]:
         return (torch.ones(batch_size, dtype=torch.long),)
 
 
@@ -41,7 +43,9 @@ class MyModule(nn.Module):
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
 @mark.parametrize("output_size", SIZES)
-def test_module_summary_linear(device: str, batch_size: int, input_size: int, output_size: int):
+def test_module_summary_linear(
+    device: str, batch_size: int, input_size: int, output_size: int
+) -> None:
     device = torch.device(device)
     module = nn.Linear(input_size, output_size).to(device=device)
     summary = ModuleSummary(module)
@@ -57,7 +61,7 @@ def test_module_summary_linear(device: str, batch_size: int, input_size: int, ou
 
 
 @mark.parametrize("device", get_available_devices())
-def test_module_summary_bilinear(device: str):
+def test_module_summary_bilinear(device: str) -> None:
     device = torch.device(device)
     module = nn.Bilinear(in1_features=3, in2_features=4, out_features=7).to(device=device)
     summary = ModuleSummary(module)
@@ -79,7 +83,7 @@ def test_module_summary_bilinear(device: str):
 @mark.parametrize("output_size", SIZES)
 def test_module_summary_linear_no_forward(
     device: str, batch_size: int, input_size: int, output_size: int
-):
+) -> None:
     device = torch.device(device)
     module = nn.Linear(input_size, output_size).to(device=device)
     summary = ModuleSummary(module)
@@ -99,7 +103,7 @@ def test_module_summary_linear_no_forward(
 @mark.parametrize("hidden_size", SIZES)
 def test_module_summary_gru(
     device: str, batch_size: int, seq_len: int, input_size: int, hidden_size: int
-):
+) -> None:
     device = torch.device(device)
     module = nn.GRU(input_size, hidden_size).to(device=device)
     summary = ModuleSummary(module)
@@ -117,7 +121,7 @@ def test_module_summary_gru(
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", SIZES)
-def test_module_summary_custom_module(device: str, batch_size: int):
+def test_module_summary_custom_module(device: str, batch_size: int) -> None:
     device = torch.device(device)
     module = MyModule().to(device=device)
     summary = ModuleSummary(module)
@@ -132,7 +136,7 @@ def test_module_summary_custom_module(device: str, batch_size: int):
     assert summary.out_dtype == "torch.float32"
 
 
-def test_module_summary_detach():
+def test_module_summary_detach() -> None:
     module = nn.Linear(4, 6)
     summary = ModuleSummary(module)
     assert summary._hook_handle.id in module._forward_hooks
@@ -147,12 +151,12 @@ def test_module_summary_detach():
 
 @mark.parametrize("batch_size", SIZES)
 @mark.parametrize("input_size", SIZES)
-def test_parse_batch_shape_tensor_2d(batch_size: int, input_size: int):
+def test_parse_batch_shape_tensor_2d(batch_size: int, input_size: int) -> None:
     assert parse_batch_shape(torch.ones(batch_size, input_size)) == (batch_size, input_size)
 
 
 @mark.parametrize("seq_len,batch_size,input_size", ((1, 1, 1), (2, 2, 2)))
-def test_parse_batch_shape_tensor_3d(seq_len: int, batch_size: int, input_size: int):
+def test_parse_batch_shape_tensor_3d(seq_len: int, batch_size: int, input_size: int) -> None:
     assert parse_batch_shape(torch.ones(seq_len, batch_size, input_size)) == (
         seq_len,
         batch_size,
@@ -167,11 +171,11 @@ def test_parse_batch_shape_tensor_3d(seq_len: int, batch_size: int, input_size: 
         [torch.ones(2, 3), torch.ones(2, dtype=torch.long)],
     ],
 )
-def test_parse_batch_shape_list_tuple(batch: Tensor):
+def test_parse_batch_shape_list_tuple(batch: Tensor) -> None:
     assert parse_batch_shape(batch) == ((2, 3), (2,))
 
 
-def test_parse_batch_shape_dict():
+def test_parse_batch_shape_dict() -> None:
     assert (
         parse_batch_shape(
             {"feature1": torch.ones(2, 3), "feature2": torch.ones(2, dtype=torch.long)}
@@ -203,7 +207,7 @@ def test_parse_batch_shape_dict():
         (torch.complex64, "torch.complex64"),
     ),
 )
-def test_parse_batch_dtype_tensor(dtype: torch.dtype, parsed_dtype: str):
+def test_parse_batch_dtype_tensor(dtype: torch.dtype, parsed_dtype: str) -> None:
     assert parse_batch_dtype(torch.ones(2, 3, dtype=dtype)) == parsed_dtype
 
 
@@ -214,11 +218,11 @@ def test_parse_batch_dtype_tensor(dtype: torch.dtype, parsed_dtype: str):
         [torch.ones(2, 3), torch.ones(2, dtype=torch.long)],
     ],
 )
-def test_parse_batch_dtype_list_tuple(batch):
+def test_parse_batch_dtype_list_tuple(batch: Sequence) -> None:
     assert parse_batch_dtype(batch) == ("torch.float32", "torch.int64")
 
 
-def test_parse_batch_dtype_nested_tuple():
+def test_parse_batch_dtype_nested_tuple() -> None:
     assert parse_batch_dtype(
         (torch.ones(2, 3), (torch.ones(2, dtype=torch.long), torch.ones(2, 3)))
     ) == (
@@ -227,7 +231,7 @@ def test_parse_batch_dtype_nested_tuple():
     )
 
 
-def test_parse_batch_dtype_dict():
+def test_parse_batch_dtype_dict() -> None:
     batch = {"feature1": torch.ones(2, 3), "feature2": torch.ones(2, dtype=torch.long)}
     assert parse_batch_dtype(batch) == UNKNOWN_DTYPE
 
@@ -237,7 +241,7 @@ def test_parse_batch_dtype_dict():
 ###########################################
 
 
-def test_multiline_format_size_list():
+def test_multiline_format_size_list() -> None:
     assert multiline_format_size([UNKNOWN_SIZE, [1, 4], [[2, 4], [2]]]) == (
         UNKNOWN_SIZE,
         "[1, 4]",
@@ -245,7 +249,7 @@ def test_multiline_format_size_list():
     )
 
 
-def test_multiline_format_size_tuple():
+def test_multiline_format_size_tuple() -> None:
     assert multiline_format_size((UNKNOWN_SIZE, (1, 4), ((2, 4), (2,)))) == (
         UNKNOWN_SIZE,
         "(1, 4)",
@@ -258,7 +262,7 @@ def test_multiline_format_size_tuple():
 ############################################
 
 
-def test_multiline_format_dtype_list():
+def test_multiline_format_dtype_list() -> None:
     assert multiline_format_dtype(
         [UNKNOWN_DTYPE, "torch.float32", ["torch.float32", "torch.int32"]]
     ) == (
@@ -268,7 +272,7 @@ def test_multiline_format_dtype_list():
     )
 
 
-def test_multiline_format_dtype_tuple():
+def test_multiline_format_dtype_tuple() -> None:
     assert multiline_format_dtype(
         (UNKNOWN_DTYPE, "torch.float32", ("torch.float32", "torch.int32"))
     ) == (

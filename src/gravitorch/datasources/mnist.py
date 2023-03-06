@@ -24,6 +24,7 @@ class MnistDataSource(DatasetDataSource):
     r"""Implements a data source for the MNIST dataset.
 
     Args:
+    ----
         path (str, optional): Specifies the path where to save/load
             the MNIST data.
         data_loader_creators (dict): Specifies the data loader
@@ -40,7 +41,7 @@ class MnistDataSource(DatasetDataSource):
         self,
         path: Union[Path, str],
         data_loader_creators: dict[str, Union[BaseDataLoaderCreator, dict, None]],
-    ):
+    ) -> None:
         train_dataset, eval_dataset = create_standard_train_eval_dataset(sanitize_path(path))
         super().__init__(
             datasets={ct.TRAIN: train_dataset, ct.EVAL: eval_dataset},
@@ -52,10 +53,12 @@ def create_standard_train_eval_dataset(path: Path) -> tuple[Dataset, Dataset]:
     r"""Creates the standard training and evaluation MNIST datasets.
 
     Args:
+    ----
         path (``pathlib.Path``): Specifies the path where to save/load
             MNIST data.
 
     Returns:
+    -------
         ``Dataset, Dataset``: The training (first value in the tuple)
             and evaluation (second value in the tuple) datasets.
     """

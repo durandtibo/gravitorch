@@ -23,6 +23,7 @@ class MeanTensorMeter:
     This meter has a constant space complexity.
 
     Args:
+    ----
         count (int, optional): Specifies the initial count value.
             Default: ``0``
         total (float, optional): Specifies the initial total value.
@@ -45,7 +46,7 @@ class MeanTensorMeter:
         8
     """
 
-    def __init__(self, count: int = 0, total: Union[int, float] = 0):
+    def __init__(self, count: int = 0, total: Union[int, float] = 0) -> None:
         self._count = int(count)
         self._total = total
 
@@ -71,6 +72,7 @@ class MeanTensorMeter:
         r"""Updates the meter given a new tensor.
 
         Args:
+        ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the meter.
         """
@@ -80,10 +82,12 @@ class MeanTensorMeter:
     def average(self) -> float:
         r"""Computes the average value.
 
-        Returns:
+        Returns
+        -------
             float: The average value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         return self.mean()
@@ -91,10 +95,12 @@ class MeanTensorMeter:
     def mean(self) -> float:
         r"""Gets the mean value.
 
-        Returns:
+        Returns
+        -------
             float: The mean value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -104,10 +110,12 @@ class MeanTensorMeter:
     def sum(self) -> Union[int, float]:
         r"""Gets the sum of all the values.
 
-        Returns:
+        Returns
+        -------
             int or float: The sum of all the values.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -126,7 +134,8 @@ class MeanTensorMeter:
         In a non-distributed setting, this method returns a copy of
         the current meter.
 
-        Returns:
+        Returns
+        -------
             ``MeanTensorMeter``: The reduced meter.
 
         Example usage:
@@ -146,18 +155,21 @@ class MeanTensorMeter:
     def clone(self) -> "MeanTensorMeter":
         r"""Creates a copy of the current meter.
 
-        Returns:
+        Returns
+        -------
             ``MeanTensorMeter``: A copy of the current meter.
         """
         return MeanTensorMeter(count=self._count, total=self._total)
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
         """
@@ -170,10 +182,12 @@ class MeanTensorMeter:
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``MeanTensorMeter``: The merged meter.
         """
         count, total = self.count, self.total
@@ -188,6 +202,7 @@ class MeanTensorMeter:
         In-place version of ``merge``.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
         """
@@ -199,6 +214,7 @@ class MeanTensorMeter:
         r"""Loads a state to the history tracker.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
         """
@@ -208,7 +224,8 @@ class MeanTensorMeter:
     def state_dict(self) -> dict[str, Union[int, float]]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """
         return {"count": self._count, "total": self._total}
@@ -224,6 +241,7 @@ class ExtremaTensorMeter:
     This meter has a constant space complexity.
 
     Args:
+    ----
         count (int, optional): Specifies the initial count value.
             Default: ``0``
         min_value (int, optional): Specifies the initial minimum
@@ -248,7 +266,7 @@ class ExtremaTensorMeter:
 
     def __init__(
         self, count: int = 0, min_value: float = float("inf"), max_value: float = float("-inf")
-    ):
+    ) -> None:
         self._count = int(count)
         self._min_value = float(min_value)
         self._max_value = float(max_value)
@@ -274,6 +292,7 @@ class ExtremaTensorMeter:
         r"""Updates the meter given a new tensor.
 
         Args:
+        ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the meter.
         """
@@ -285,10 +304,12 @@ class ExtremaTensorMeter:
     def max(self) -> float:
         r"""Gets the max value.
 
-        Returns:
+        Returns
+        -------
             float: The max value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -298,10 +319,12 @@ class ExtremaTensorMeter:
     def min(self) -> float:
         r"""Gets the min value.
 
-        Returns:
+        Returns
+        -------
             float: The min value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -317,7 +340,8 @@ class ExtremaTensorMeter:
         The minimum value is reduced by computing the minimum between
         the minimum values (1 minimum value per distributed process).
 
-        Returns:
+        Returns
+        -------
             ``TensorMeter``: The reduced meter.
 
         Example usage:
@@ -339,20 +363,23 @@ class ExtremaTensorMeter:
     def clone(self) -> "ExtremaTensorMeter":
         r"""Creates a copy of the current meter.
 
-        Returns:
+        Returns
+        -------
             ``TensorMeter``: A copy of the current meter.
         """
         return ExtremaTensorMeter(
             count=self._count, min_value=self._min_value, max_value=self._max_value
         )
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
         """
@@ -365,10 +392,12 @@ class ExtremaTensorMeter:
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``ExtremaTensorMeter``: The merged meter.
         """
         count, min_value, max_value = self._count, self._min_value, self._max_value
@@ -384,6 +413,7 @@ class ExtremaTensorMeter:
         In-place version of ``merge``.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
         """
@@ -396,6 +426,7 @@ class ExtremaTensorMeter:
         r"""Loads a state to the history tracker.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
         """
@@ -406,7 +437,8 @@ class ExtremaTensorMeter:
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """
         return {"count": self._count, "max_value": self._max_value, "min_value": self._min_value}
@@ -419,6 +451,7 @@ class TensorMeter:
     This meter has a constant space complexity.
 
     Args:
+    ----
         count (int, optional): Specifies the initial count value.
             Default: ``0``
         total (float, optional): Specifies the initial sum value.
@@ -455,7 +488,7 @@ class TensorMeter:
         total: float = 0.0,
         min_value: float = float("inf"),
         max_value: float = float("-inf"),
-    ):
+    ) -> None:
         self._count = int(count)
         self._total = float(total)
         self._min_value = float(min_value)
@@ -504,7 +537,8 @@ class TensorMeter:
         computing the minimum between the minimum values (1 minimum
         value per distributed process).
 
-        Returns:
+        Returns
+        -------
             ``TensorMeter``: The reduced meter.
 
         Example usage:
@@ -527,7 +561,8 @@ class TensorMeter:
     def clone(self) -> "TensorMeter":
         r"""Creates a copy of the current meter.
 
-        Returns:
+        Returns
+        -------
             ``TensorMeter``: A copy of the current meter.
         """
         return TensorMeter(
@@ -537,13 +572,15 @@ class TensorMeter:
             max_value=self._max_value,
         )
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
         """
@@ -556,10 +593,12 @@ class TensorMeter:
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``TensorMeter``: The merged meter.
         """
         count, total = self._count, self._total
@@ -577,6 +616,7 @@ class TensorMeter:
         In-place version of ``merge``.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
         """
@@ -590,6 +630,7 @@ class TensorMeter:
         r"""Loads a state to the history tracker.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
         """
@@ -601,7 +642,8 @@ class TensorMeter:
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """
         return {
@@ -622,6 +664,7 @@ class TensorMeter:
         r"""Updates the meter given a new tensor.
 
         Args:
+        ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the meter.
         """
@@ -634,10 +677,12 @@ class TensorMeter:
     def average(self) -> float:
         r"""Computes the average value.
 
-        Returns:
+        Returns
+        -------
             float: The average value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -647,10 +692,12 @@ class TensorMeter:
     def max(self) -> float:
         r"""Gets the max value.
 
-        Returns:
+        Returns
+        -------
             float: The max value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -660,10 +707,12 @@ class TensorMeter:
     def mean(self) -> float:
         r"""Gets the mean value.
 
-        Returns:
+        Returns
+        -------
             float: The mean value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -673,10 +722,12 @@ class TensorMeter:
     def min(self) -> float:
         r"""Gets the min value.
 
-        Returns:
+        Returns
+        -------
             float: The min value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -686,10 +737,12 @@ class TensorMeter:
     def sum(self) -> float:
         r"""Gets the sum of all the values.
 
-        Returns:
+        Returns
+        -------
             float: The sum of all the values.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -703,6 +756,7 @@ class TensorMeter2:
     This meter has a linear space complexity.
 
     Args:
+    ----
         values (``torch.Tensor`` or ``None``, optional): Specifies the
             initial values. The tensor is flattened if necessary.
             ``None`` means no initial values. Default: ``None``
@@ -734,7 +788,7 @@ class TensorMeter2:
         1.7728105783462524
     """
 
-    def __init__(self, values: Optional[Tensor] = None):
+    def __init__(self, values: Optional[Tensor] = None) -> None:
         self._values = LazyFlattedTensor(values)
         self._count = self._values.numel()
 
@@ -755,6 +809,7 @@ class TensorMeter2:
         r"""Updates the meter given a new tensor.
 
         Args:
+        ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the meter.
         """
@@ -764,10 +819,12 @@ class TensorMeter2:
     def average(self) -> float:
         r"""Computes the average value.
 
-        Returns:
+        Returns
+        -------
             float: The average value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         return self.mean()
@@ -775,10 +832,12 @@ class TensorMeter2:
     def max(self) -> Union[int, float]:
         r"""Gets the max value.
 
-        Returns:
+        Returns
+        -------
             int or float: The max value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -788,10 +847,12 @@ class TensorMeter2:
     def mean(self) -> float:
         r"""Gets the mean value.
 
-        Returns:
+        Returns
+        -------
             float: The mean value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -801,10 +862,12 @@ class TensorMeter2:
     def median(self) -> float:
         r"""Gets the median value.
 
-        Returns:
+        Returns
+        -------
             float: The median value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -814,10 +877,12 @@ class TensorMeter2:
     def min(self) -> Union[int, float]:
         r"""Gets the min value.
 
-        Returns:
+        Returns
+        -------
             int or float: The min value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -828,6 +893,7 @@ class TensorMeter2:
         r"""Computes the ``q``-th quantiles.
 
         Args:
+        ----
             q (``torch.Tensor`` of type float and shape
                 ``(num_q_values,)``): Specifies the ``q``-values in
                 the range ``[0, 1]``.
@@ -838,10 +904,12 @@ class TensorMeter2:
                 Default: ``'linear'``.
 
         Returns:
+        -------
             ``torch.Tensor`` of shape  ``(num_q_values,)``: The
                 ``q``-th quantiles.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -851,10 +919,12 @@ class TensorMeter2:
     def std(self) -> float:
         r"""Gets the standard deviation value.
 
-        Returns:
+        Returns
+        -------
             float: The standard deviation value.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty .
         """
         if not self._count:
@@ -864,10 +934,12 @@ class TensorMeter2:
     def sum(self) -> Union[int, float]:
         r"""Gets the sum of all the values.
 
-        Returns:
+        Returns
+        -------
             float: The sum of all the values.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
@@ -878,7 +950,8 @@ class TensorMeter2:
         r"""Reduces the meter values across all machines in such a way that all
         get the final result.
 
-        Returns:
+        Returns
+        -------
             ``TensorMeter2``: The reduced meter.
 
         Example usage:
@@ -896,18 +969,21 @@ class TensorMeter2:
     def clone(self) -> "TensorMeter2":
         r"""Creates a copy of the current meter.
 
-        Returns:
+        Returns
+        -------
             ``TensorMeter2``: A copy of the current meter.
         """
         return TensorMeter2(self._values.clone().values())
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two meters are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
         """
@@ -920,10 +996,12 @@ class TensorMeter2:
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``TensorMeter2``: The merged meter.
         """
         values = self._values.clone()
@@ -937,6 +1015,7 @@ class TensorMeter2:
         In-place version of ``merge``.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
         """
@@ -947,6 +1026,7 @@ class TensorMeter2:
         r"""Loads a state to the history tracker.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
         """
@@ -955,7 +1035,8 @@ class TensorMeter2:
     def state_dict(self) -> dict[str, Tensor]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """
         return {"values": self._values.values()}

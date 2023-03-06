@@ -13,7 +13,7 @@ from gravitorch.utils.metric_tracker import ScalarMetricTracker
 #########################################
 
 
-def test_scalar_metric_tracker_update_multiple_values():
+def test_scalar_metric_tracker_update_multiple_values() -> None:
     tracker = ScalarMetricTracker()
     tracker.update(
         {
@@ -36,7 +36,7 @@ def test_scalar_metric_tracker_update_multiple_values():
     assert "tensor_dim_2" in tracker._metrics
 
 
-def test_scalar_metric_tracker_log_average_value(caplog: LogCaptureFixture):
+def test_scalar_metric_tracker_log_average_value(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         tracker = ScalarMetricTracker()
         tracker.update({"metric0": 3, "metric1": 12})
@@ -46,7 +46,7 @@ def test_scalar_metric_tracker_log_average_value(caplog: LogCaptureFixture):
         assert caplog.messages[1] == "metric1: 11.000000"
 
 
-def test_scalar_metric_tracker_log_average_value_with_prefix(caplog: LogCaptureFixture):
+def test_scalar_metric_tracker_log_average_value_with_prefix(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         tracker = ScalarMetricTracker()
         tracker.update({"metric0": 3, "metric1": 12})
@@ -56,7 +56,7 @@ def test_scalar_metric_tracker_log_average_value_with_prefix(caplog: LogCaptureF
         assert caplog.messages[1] == "train/metric1: 11.000000"
 
 
-def test_scalar_metric_tracker_log_average_value_with_engine():
+def test_scalar_metric_tracker_log_average_value_with_engine() -> None:
     tracker = ScalarMetricTracker()
     tracker.update({"metric0": 3, "metric1": 12})
     tracker.update({"metric0": 1, "metric1": 10})
@@ -66,7 +66,7 @@ def test_scalar_metric_tracker_log_average_value_with_engine():
     engine.log_metrics.assert_called_once_with({"metric0": 2, "metric1": 11}, step=EpochStep(0))
 
 
-def test_scalar_metric_tracker_log_average_value_with_engine_and_prefix():
+def test_scalar_metric_tracker_log_average_value_with_engine_and_prefix() -> None:
     tracker = ScalarMetricTracker()
     tracker.update({"metric0": 3, "metric1": 12})
     tracker.update({"metric0": 1, "metric1": 10})

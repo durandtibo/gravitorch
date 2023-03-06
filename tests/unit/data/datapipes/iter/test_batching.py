@@ -12,18 +12,18 @@ from gravitorch.data.datapipes.iter import DictBatcher, SourceWrapper, TupleBatc
 #################################
 
 
-def test_dict_batcher_str():
+def test_dict_batcher_str() -> None:
     assert str(
         DictBatcher({ct.INPUT: torch.zeros(10, 2), ct.TARGET: torch.zeros(10)}, batch_size=32)
     ).startswith("DictBatcherIterDataPipe(")
 
 
 @mark.parametrize("random_seed", (1, 2))
-def test_dict_batcher_iter_random_seed(random_seed: int):
+def test_dict_batcher_iter_random_seed(random_seed: int) -> None:
     assert DictBatcher({}, batch_size=32, random_seed=random_seed).random_seed == random_seed
 
 
-def test_dict_batcher_iter_batch_size_4():
+def test_dict_batcher_iter_batch_size_4() -> None:
     assert objects_are_equal(
         tuple(
             DictBatcher(
@@ -45,7 +45,7 @@ def test_dict_batcher_iter_batch_size_4():
     )
 
 
-def test_dict_batcher_iter_batch_size_2():
+def test_dict_batcher_iter_batch_size_2() -> None:
     assert objects_are_equal(
         tuple(
             DictBatcher(
@@ -63,7 +63,7 @@ def test_dict_batcher_iter_batch_size_2():
     )
 
 
-def test_dict_batcher_iter_datapipe_batch_size_4():
+def test_dict_batcher_iter_datapipe_batch_size_4() -> None:
     assert objects_are_equal(
         tuple(
             DictBatcher(
@@ -109,7 +109,7 @@ def test_dict_batcher_iter_datapipe_batch_size_4():
     "gravitorch.data.datapipes.iter.batching.torch.randperm",
     lambda *args, **kwargs: torch.tensor([5, 4, 6, 3, 7, 2, 8, 1, 9, 0]),
 )
-def test_dict_batcher_iter_shuffle_true():
+def test_dict_batcher_iter_shuffle_true() -> None:
     assert objects_are_equal(
         tuple(
             DictBatcher(
@@ -132,7 +132,7 @@ def test_dict_batcher_iter_shuffle_true():
     )
 
 
-def test_dict_batcher_generator_same_random_seed():
+def test_dict_batcher_generator_same_random_seed() -> None:
     assert objects_are_equal(
         tuple(
             DictBatcher(
@@ -153,7 +153,7 @@ def test_dict_batcher_generator_same_random_seed():
     )
 
 
-def test_dict_batcher_generator_different_random_seeds():
+def test_dict_batcher_generator_different_random_seeds() -> None:
     assert not objects_are_equal(
         tuple(
             DictBatcher(
@@ -174,7 +174,7 @@ def test_dict_batcher_generator_different_random_seeds():
     )
 
 
-def test_dict_batcher_generator_repeat():
+def test_dict_batcher_generator_repeat() -> None:
     datapipe = DictBatcher(
         {ct.INPUT: torch.arange(20).view(10, 2), ct.TARGET: torch.arange(10)},
         batch_size=4,
@@ -183,19 +183,19 @@ def test_dict_batcher_generator_repeat():
     assert not objects_are_equal(tuple(datapipe), tuple(datapipe))
 
 
-def test_dict_batcher_len_datapipe():
+def test_dict_batcher_len_datapipe() -> None:
     with raises(TypeError):
         len(DictBatcher(SourceWrapper({}), batch_size=4))
 
 
-def test_dict_batcher_len_batch_size_2():
+def test_dict_batcher_len_batch_size_2() -> None:
     assert (
         len(DictBatcher({ct.INPUT: torch.ones(10, 5), ct.TARGET: torch.zeros(10)}, batch_size=2))
         == 5
     )
 
 
-def test_dict_batcher_len_batch_size_4():
+def test_dict_batcher_len_batch_size_4() -> None:
     assert (
         len(DictBatcher({ct.INPUT: torch.ones(10, 5), ct.TARGET: torch.zeros(10)}, batch_size=4))
         == 3
@@ -207,18 +207,18 @@ def test_dict_batcher_len_batch_size_4():
 ##################################
 
 
-def test_tuple_batcher_str():
+def test_tuple_batcher_str() -> None:
     assert str(TupleBatcher((torch.zeros(10, 2), torch.zeros(10)), batch_size=32)).startswith(
         "TupleBatcherIterDataPipe("
     )
 
 
 @mark.parametrize("random_seed", (1, 2))
-def test_tuple_batcher_random_seed(random_seed: int):
+def test_tuple_batcher_random_seed(random_seed: int) -> None:
     assert TupleBatcher([], batch_size=32, random_seed=random_seed).random_seed == random_seed
 
 
-def test_tuple_batcher_iter_batch_size_4():
+def test_tuple_batcher_iter_batch_size_4() -> None:
     assert objects_are_equal(
         tuple(
             TupleBatcher(
@@ -237,7 +237,7 @@ def test_tuple_batcher_iter_batch_size_4():
     )
 
 
-def test_tuple_batcher_iter_batch_size_2():
+def test_tuple_batcher_iter_batch_size_2() -> None:
     assert objects_are_equal(
         tuple(
             TupleBatcher(
@@ -255,7 +255,7 @@ def test_tuple_batcher_iter_batch_size_2():
     )
 
 
-def test_tuple_batcher_iter_datapipe_batch_size_4():
+def test_tuple_batcher_iter_datapipe_batch_size_4() -> None:
     assert objects_are_equal(
         tuple(
             TupleBatcher(
@@ -292,7 +292,7 @@ def test_tuple_batcher_iter_datapipe_batch_size_4():
     "gravitorch.data.datapipes.iter.batching.torch.randperm",
     lambda *args, **kwargs: torch.tensor([5, 4, 6, 3, 7, 2, 8, 1, 9, 0]),
 )
-def test_tuple_batcher_iter_shuffle_true():
+def test_tuple_batcher_iter_shuffle_true() -> None:
     assert objects_are_equal(
         tuple(
             TupleBatcher(
@@ -315,7 +315,7 @@ def test_tuple_batcher_iter_shuffle_true():
     )
 
 
-def test_tuple_batcher_generator_same_random_seed():
+def test_tuple_batcher_generator_same_random_seed() -> None:
     assert objects_are_equal(
         tuple(
             TupleBatcher(
@@ -336,7 +336,7 @@ def test_tuple_batcher_generator_same_random_seed():
     )
 
 
-def test_tuple_batcher_generator_different_random_seeds():
+def test_tuple_batcher_generator_different_random_seeds() -> None:
     assert not objects_are_equal(
         tuple(
             TupleBatcher(
@@ -357,7 +357,7 @@ def test_tuple_batcher_generator_different_random_seeds():
     )
 
 
-def test_tuple_batcher_generator_repeat():
+def test_tuple_batcher_generator_repeat() -> None:
     datapipe = TupleBatcher(
         [torch.arange(20).view(10, 2), torch.arange(10).view(10, 1)],
         batch_size=4,
@@ -366,14 +366,14 @@ def test_tuple_batcher_generator_repeat():
     assert not objects_are_equal(tuple(datapipe), tuple(datapipe))
 
 
-def test_tuple_batcher_len_datapipe():
+def test_tuple_batcher_len_datapipe() -> None:
     with raises(TypeError):
         len(TupleBatcher(SourceWrapper([]), batch_size=4))
 
 
-def test_tuple_batcher_len_batch_size_2():
+def test_tuple_batcher_len_batch_size_2() -> None:
     assert len(TupleBatcher([torch.ones(10), torch.zeros(10)], batch_size=2)) == 5
 
 
-def test_tuple_batcher_len_batch_size_4():
+def test_tuple_batcher_len_batch_size_4() -> None:
     assert len(TupleBatcher([torch.ones(10), torch.zeros(10)], batch_size=4)) == 3

@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 def cpu_human_summary() -> str:
     r"""Gets a human-readable summary of the CPU usage.
 
-    Returns:
+    Returns
+    -------
         str: The human-readable summary
 
     Example usage:
@@ -54,7 +55,8 @@ def log_system_info() -> None:
 def swap_memory_human_summary() -> str:
     r"""Gets a human-readable summary of the swap memory usage.
 
-    Returns:
+    Returns
+    -------
         str: The human-readable summary
 
     Example usage:
@@ -79,7 +81,8 @@ def swap_memory_human_summary() -> str:
 def virtual_memory_human_summary() -> str:
     r"""Gets a human-readable summary of the virtual memory usage.
 
-    Returns:
+    Returns
+    -------
         str: The human-readable summary
 
     Example usage:

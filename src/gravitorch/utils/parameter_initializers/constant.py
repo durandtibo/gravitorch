@@ -21,6 +21,7 @@ class ConstantBiasParameterInitializer(BaseDefaultParameterInitializer):
     uniform strategy.
 
     Args:
+    ----
         value (float): Specifies the value to initialize the
             parameters with.
         learnable_only (bool, optional): If ``True``, only the
@@ -39,7 +40,7 @@ class ConstantBiasParameterInitializer(BaseDefaultParameterInitializer):
         learnable_only: bool = True,
         log_info: bool = False,
         show_stats: bool = True,
-    ):
+    ) -> None:
         super().__init__(show_stats=show_stats)
         self._value = float(value)
         self._learnable_only = bool(learnable_only)
@@ -77,6 +78,7 @@ def bias_constant_(module: nn.Module, value: float) -> None:
         - ``torch.nn.BatchNormNd``
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to
             initialize.
         value (float): Specifies the value to initialize the
@@ -134,6 +136,7 @@ def recursive_bias_constant_(
     in the parameter name.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module to
             initialize.
         value (float): Specifies the value to initialize the
@@ -186,6 +189,7 @@ def recursive_constant_(
     r"""Initialize the parameters of the module with ``value``.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module with the
             parameters to initialize.
         value (int, float): Specifies the value to initialize the

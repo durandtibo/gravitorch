@@ -20,6 +20,7 @@ class AsinhScalarEncoder(Module):
     r"""Implements a scalar encoder using the inverse hyperbolic sine (arcsinh).
 
     Args:
+    ----
         scale (``torch.nn.Tensor`` or list or tuple): Specifies
             the initial scale values.
         learnable (bool, optional): If ``True`` the scale parameters
@@ -31,7 +32,7 @@ class AsinhScalarEncoder(Module):
         self,
         scale: Union[Tensor, list[float], tuple[float, ...]],
         learnable: bool = False,
-    ):
+    ) -> None:
         super().__init__()
         self.scale = Parameter(to_tensor(scale), requires_grad=learnable)
 
@@ -43,14 +44,16 @@ class AsinhScalarEncoder(Module):
     def extra_repr(self) -> str:
         return f"dim={self.scale.shape[0]}, learnable={self.scale.requires_grad}"
 
-    def forward(self, scalar: Tensor):
+    def forward(self, scalar: Tensor) -> Tensor:
         r"""Computes a scalar representation.
 
         Args:
+        ----
             scalar (``torch.Tensor`` of type float and shape
                 ``(*, 1)``): Specifies the scalar values to encode.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(*, output_size)``: The scalar representation.
         """
@@ -68,6 +71,7 @@ class AsinhScalarEncoder(Module):
         initialized in the specified scale range.
 
         Args:
+        ----
             dim (int): Specifies the dimension i.e. the number of
                 scales.
             min_scale (float): Specifies the minimum scale.
@@ -77,6 +81,7 @@ class AsinhScalarEncoder(Module):
                 Default: ``False``
 
         Returns:
+        -------
             ``AsinhScalarEncoder``: An instantiated
                 ``AsinhScalarEncoder`` where the scales are
                 uniformly initialized in a scale range.
@@ -106,6 +111,7 @@ class AsinhScalarEncoder(Module):
         r"""Creates a `AsinhScalarEncoder`` where the scales are evenly spaced.
 
         Args:
+        ----
             dim (int): Specifies the dimension i.e. the number of
                 scales.
             min_scale (float): Specifies the minimum scale.
@@ -115,6 +121,7 @@ class AsinhScalarEncoder(Module):
                 Default: ``False``
 
         Returns:
+        -------
             ``AsinhScalarEncoder``: An instantiated
                 ``AsinhScalarEncoder`` where the scales are
                 evenly spaced.
@@ -145,6 +152,7 @@ class AsinhScalarEncoder(Module):
         in the log space.
 
         Args:
+        ----
             dim (int): Specifies the dimension i.e. the number of
                 scales.
             min_scale (float): Specifies the minimum scale.
@@ -154,6 +162,7 @@ class AsinhScalarEncoder(Module):
                 Default: ``False``
 
         Returns:
+        -------
             ``AsinhScalarEncoder``: An instantiated
                 ``AsinhScalarEncoder`` where the scales are
                 evenly spaced in the log space.
@@ -178,6 +187,7 @@ class CosSinScalarEncoder(Module):
     functions are cosine and sine.
 
     Args:
+    ----
         frequency (``torch.nn.Tensor`` or list or tuple): Specifies
             the initial frequency values.
         phase_shift (``torch.nn.Tensor`` or list or tuple): Specifies
@@ -192,7 +202,7 @@ class CosSinScalarEncoder(Module):
         frequency: Union[Tensor, list[float], tuple[float, ...]],
         phase_shift: Union[Tensor, list[float], tuple[float, ...]],
         learnable: bool = False,
-    ):
+    ) -> None:
         super().__init__()
         frequency = to_tensor(frequency)
         phase_shift = to_tensor(phase_shift)
@@ -218,14 +228,16 @@ class CosSinScalarEncoder(Module):
     def extra_repr(self) -> str:
         return f"dim={self.frequency.shape[0]}, learnable={self.frequency.requires_grad}"
 
-    def forward(self, scalar: Tensor):
+    def forward(self, scalar: Tensor) -> Tensor:
         r"""Computes a scalar representation.
 
         Args:
+        ----
             scalar (``torch.Tensor`` of type float and shape
                 ``(*, 1)``): Specifies the scalar values to encode.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(*, output_size)``: The scalar representation.
         """
@@ -247,6 +259,7 @@ class CosSinScalarEncoder(Module):
         initialized in a frequency range.
 
         Args:
+        ----
             num_frequencies (int): Specifies the number of
                 frequencies.
             min_frequency (float): Specifies the minimum frequency.
@@ -256,6 +269,7 @@ class CosSinScalarEncoder(Module):
                 Default: ``True``
 
         Returns:
+        -------
             ``CosSinScalarEncoder``: An instantiated
                 ``CosSinScalarEncoder`` where the frequencies are
                 uniformly initialized in a frequency range.
@@ -292,6 +306,7 @@ class CosSinScalarEncoder(Module):
         initialized for a given value range.
 
         Args:
+        ----
             num_frequencies (int): Specifies the number of
                 frequencies.
             min_abs_value (float): Specifies the minimum absolute
@@ -303,6 +318,7 @@ class CosSinScalarEncoder(Module):
                 Default: ``True``
 
         Returns:
+        -------
             ``CosSinScalarEncoder``: An instantiated
                 ``CosSinScalarEncoder`` where the frequencies are
                 uniformly initialized for a given value range.
@@ -326,6 +342,7 @@ class CosSinScalarEncoder(Module):
         spaced in a frequency range.
 
         Args:
+        ----
             num_frequencies (int): Specifies the number of
                 frequencies.
             min_frequency (float): Specifies the minimum frequency.
@@ -335,6 +352,7 @@ class CosSinScalarEncoder(Module):
                 Default: ``True``
 
         Returns:
+        -------
             ``CosSinScalarEncoder``: An instantiated
                 ``CosSinScalarEncoder`` where the frequencies are
                 evenly spaced in a frequency range.
@@ -370,6 +388,7 @@ class CosSinScalarEncoder(Module):
         spaced given a value range.
 
         Args:
+        ----
             num_frequencies (int): Specifies the number of
                 frequencies.
             min_abs_value (float): Specifies the minimum absolute
@@ -381,6 +400,7 @@ class CosSinScalarEncoder(Module):
                 Default: ``True``
 
         Returns:
+        -------
             ``CosSinScalarEncoder``: An instantiated
                 ``CosSinScalarEncoder`` where the frequencies are
                 evenly spaced.
@@ -404,6 +424,7 @@ class CosSinScalarEncoder(Module):
         spaced in the log space in a frequency range.
 
         Args:
+        ----
             num_frequencies (int): Specifies the number of
                 frequencies.
             min_frequency (float): Specifies the minimum frequency.
@@ -413,6 +434,7 @@ class CosSinScalarEncoder(Module):
                 Default: ``True``
 
         Returns:
+        -------
             ``CosSinScalarEncoder``: An instantiated
                 ``CosSinScalarEncoder`` where the frequencies are
                 evenly spaced in the log space in a frequency range.
@@ -450,6 +472,7 @@ class CosSinScalarEncoder(Module):
         spaced in the log space given a value range.
 
         Args:
+        ----
             num_frequencies (int): Specifies the number of
                 frequencies.
             min_abs_value (float): Specifies the minimum absolute
@@ -461,6 +484,7 @@ class CosSinScalarEncoder(Module):
                 Default: ``True``
 
         Returns:
+        -------
             ``CosSinScalarEncoder``: An instantiated
                 ``CosSinScalarEncoder`` where the frequencies are
                 evenly spaced in the log space.
@@ -479,15 +503,17 @@ class AsinhCosSinScalarEncoder(CosSinScalarEncoder):
     the inverse hyperbolic sine (arcsinh) of the input.
     """
 
-    def forward(self, scalar: Tensor):
+    def forward(self, scalar: Tensor) -> Tensor:
         r"""Computes a scalar representation.
 
         Args:
+        ----
             scalar (``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn, 1)``): Specifies the scalar
                 values to encode.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(d0, d1, ..., dn, output_size)``: The scalar
                 representation.
@@ -507,13 +533,14 @@ class ScalarEncoderFFN(Module):
     r"""Implements a scalar encoder with a feed-forward network.
 
     Args:
+    ----
         encoder (``torch.nn.Module`` or dict): Specifies the encoder
             or its configuration.
         ffn (``torch.nn.Module`` or dict): Specifies the feed-forward
             network or its configuration.
     """
 
-    def __init__(self, encoder: Union[Module, dict], ffn: Union[Module, dict]):
+    def __init__(self, encoder: Union[Module, dict], ffn: Union[Module, dict]) -> None:
         super().__init__()
         self.encoder = setup_module(encoder)
         self.ffn = setup_module(ffn)
@@ -523,14 +550,16 @@ class ScalarEncoderFFN(Module):
         r"""int: The input feature size."""
         return self.encoder.input_size
 
-    def forward(self, scalar: Tensor) -> torch.Tensor:
+    def forward(self, scalar: Tensor) -> Tensor:
         r"""Computes a scalar representation.
 
         Args:
+        ----
             scalar (``torch.Tensor`` of type float and shape
                 ``(*, 1)``): Specifies the scalar values to encode.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(*, output_size)``: The scalar representation.
         """

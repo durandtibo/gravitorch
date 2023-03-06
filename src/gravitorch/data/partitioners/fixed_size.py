@@ -14,6 +14,7 @@ class FixedSizePartitioner(BasePartitioner[T]):
     r"""Implements a partitioner that creates fixed-size partitions.
 
     Args:
+    ----
         partition_size (int): Specifies the partition size i.e. the
             number of items in each partition.
         drop_last (bool, optional): If ``True``, it drops the last
@@ -21,7 +22,7 @@ class FixedSizePartitioner(BasePartitioner[T]):
             ``partition_size``.
     """
 
-    def __init__(self, partition_size: int, drop_last: bool = False):
+    def __init__(self, partition_size: int, drop_last: bool = False) -> None:
         self._partition_size = int(partition_size)
         self._drop_last = bool(drop_last)
 

@@ -20,11 +20,12 @@ class DDPPartitioner(BasePartitioner[T]):
     partitions is the world size of the distributed system.
 
     Args:
+    ----
         partition_size (int): Specifies the partition size i.e. the
             number of items in each partition.
     """
 
-    def __init__(self, partition_size: int):
+    def __init__(self, partition_size: int) -> None:
         self._partition_size = int(partition_size)
 
     def __repr__(self) -> str:
@@ -50,11 +51,12 @@ class SyncParallelPartitioner(BasePartitioner[T]):
     are broadcast to the other processes.
 
     Args:
+    ----
         partitioner (``BasePartitioner`` or dict): Specifies a
             partitioner or its configuration.
     """
 
-    def __init__(self, partitioner: Union[BasePartitioner, dict]):
+    def __init__(self, partitioner: Union[BasePartitioner, dict]) -> None:
         self._partitioner = setup_partitioner(partitioner)
 
     def __repr__(self) -> str:

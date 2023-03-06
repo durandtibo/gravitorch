@@ -29,6 +29,7 @@ class BinaryConfusionMatrix(BaseEpochMetric):
     r"""Implements the confusion matrix metric for binary labels.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g. train or eval).
         name (str, optional): Specifies the name of the metric.
             The name is used to log the metric results.
@@ -42,7 +43,7 @@ class BinaryConfusionMatrix(BaseEpochMetric):
         mode: str,
         name: str = "bin_conf_mat",
         betas: Sequence[Union[int, float]] = (1,),
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name)
         self._confusion_matrix = BinaryConfusionMatrixMeter()
         self._betas = tuple(betas)
@@ -60,6 +61,7 @@ class BinaryConfusionMatrix(BaseEpochMetric):
             - set up history trackers
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         super().attach(engine)
@@ -84,6 +86,7 @@ class BinaryConfusionMatrix(BaseEpochMetric):
         examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` or ``(d0, d1, ..., dn, 1)``
                 and type float or long): Specifies the predictions.
@@ -102,11 +105,13 @@ class BinaryConfusionMatrix(BaseEpochMetric):
         previously seen.
 
         Args:
+        ----
             engine (``BaseEngine``, optional): Specifies the engine.
                 This argument is required to log the results in the
                 engine. Default: ``None``.
 
         Returns:
+        -------
              dict: The results of the metric
         """
         self._confusion_matrix.all_reduce()
@@ -137,6 +142,7 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
     r"""Implements the confusion matrix metric for categorical labels.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g. train or eval).
         num_classes (int): Specifies the number of classes.
         name (str, optional): Specifies the name of the metric.
@@ -152,7 +158,7 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
         num_classes: int,
         name: str = "cat_conf_mat",
         betas: Sequence[Union[int, float]] = (1,),
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name)
         self.prediction_transform = ToCategoricalLabel()
 
@@ -175,6 +181,7 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
             - set up history trackers
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         super().attach(engine)
@@ -200,6 +207,7 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
         examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn, num_clasees)`` and type float):
                 Specifies the predictions.
@@ -221,11 +229,13 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
         previously seen.
 
         Args:
+        ----
             engine (``BaseEngine``, optional): Specifies the engine.
                 This argument is required to log the results in the
                 engine. Default: ``None``.
 
         Returns:
+        -------
              dict: The results of the metric
         """
         self._confusion_matrix.all_reduce()

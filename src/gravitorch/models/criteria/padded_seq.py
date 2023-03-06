@@ -54,6 +54,7 @@ class PaddedSequenceLoss(Module):
     implementation for your use-case.
 
     Args:
+    ----
         criterion (``torch.nn.Module`` or dict): Specifies the loss
             function or its configuration.
         prediction_key (str): Specifies the prediction key.
@@ -102,7 +103,7 @@ class PaddedSequenceLoss(Module):
         mask_key: str = ct.MASK,
         valid_value: bool = True,
         mask_in_batch: bool = True,
-    ):
+    ) -> None:
         super().__init__()
         self.criterion = setup_module(criterion)
         self._prediction_key = prediction_key
@@ -115,12 +116,14 @@ class PaddedSequenceLoss(Module):
         r"""Computes the loss value given the network output and the batch.
 
         Args:
+        ----
             net_out (dict ): Specifies the network output which
                 contains the prediction.
             batch (dict): Specifies the batch which contains the
                 target and the mask.
 
         Returns:
+        -------
             dict: A dict with the loss value.
         """
         # See the batch of sequences as a batch of examples
@@ -146,10 +149,12 @@ class PaddedSequenceLoss(Module):
         r"""Gets the prediction from the network output.
 
         Args:
+        ----
             net_out (dict): Specifies the network output which
                 contains the prediction.
 
         Returns:
+        -------
             ``torch.Tensor``: the prediction
         """
         return net_out[self._prediction_key]
@@ -159,10 +164,12 @@ class PaddedSequenceLoss(Module):
         key 'target'.
 
         Args:
+        ----
             batch (dict): Specifies the batch which contains the
                 target.
 
         Returns:
+        -------
             ``torch.Tensor``: the target
         """
         return batch[self._target_key]

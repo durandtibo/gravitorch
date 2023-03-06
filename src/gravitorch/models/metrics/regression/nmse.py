@@ -25,13 +25,14 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
     Note: this metric does not work if all the targets are zero.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g. train or eval).
         name (str, optional): Specifies the name of the metric.
             The name is used to log the metric results.
             Default: ``'nmse'``
     """
 
-    def __init__(self, mode: str, name: str = "nmse"):
+    def __init__(self, mode: str, name: str = "nmse") -> None:
         super().__init__(mode=mode, name=name)
         self._sum_squared_errors = 0.0
         self._sum_squared_targets = 0.0
@@ -50,6 +51,7 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
             - set up history trackers
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
         super().attach(engine)
@@ -60,6 +62,7 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the tensor of predictions.
@@ -84,11 +87,13 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         previously seen.
 
         Args:
+        ----
             engine (``BaseEngine``, optional): Specifies the engine.
                 This argument is required to log the results in the
                 engine. Default: ``None``.
 
         Returns:
+        -------
              dict: The results of the metric.
         """
         num_predictions = sync_reduce(self._num_predictions, op=SUM)

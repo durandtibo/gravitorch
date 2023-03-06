@@ -11,13 +11,13 @@ from gravitorch.nn import FlattenModule, MulticlassFlattenModule
 ###################################
 
 
-def test_flatten_module_forward_args():
+def test_flatten_module_forward_args() -> None:
     module = Mock(spec=torch.nn.Module, return_value=torch.tensor(1.0))
     assert FlattenModule(module)(torch.ones(6, 1), torch.zeros(6, 1)).equal(torch.tensor(1.0))
     assert objects_are_equal(module.call_args.args, (torch.ones(6), torch.zeros(6)))
 
 
-def test_flatten_module_forward_kwargs():
+def test_flatten_module_forward_kwargs() -> None:
     module = Mock(spec=torch.nn.Module, return_value=torch.tensor(1.0))
     assert FlattenModule(module)(input1=torch.ones(6, 1), input2=torch.zeros(6, 1)).equal(
         torch.tensor(1.0)
@@ -27,7 +27,7 @@ def test_flatten_module_forward_kwargs():
     )
 
 
-def test_flatten_module_forward_args_and_kwargs():
+def test_flatten_module_forward_args_and_kwargs() -> None:
     module = Mock(spec=torch.nn.Module, return_value=torch.tensor(1.0))
     assert FlattenModule(module)(torch.ones(6, 1), input2=torch.zeros(6, 1)).equal(
         torch.tensor(1.0)
@@ -36,7 +36,7 @@ def test_flatten_module_forward_args_and_kwargs():
     assert objects_are_equal(module.call_args.kwargs, {"input2": torch.zeros(6)})
 
 
-def test_flatten_module_mse():
+def test_flatten_module_mse() -> None:
     module = FlattenModule(nn.MSELoss(reduction="sum"))
     assert module(torch.ones(6, 1), torch.zeros(6, 1)).equal(torch.tensor(6.0))
 
@@ -46,7 +46,7 @@ def test_flatten_module_mse():
 #############################################
 
 
-def test_flatten_multiclass_module_forward_args():
+def test_flatten_multiclass_module_forward_args() -> None:
     module = Mock(spec=torch.nn.Module, return_value=torch.tensor(1.0))
     assert MulticlassFlattenModule(module)(torch.ones(6, 2, 4), torch.zeros(6, 2)).equal(
         torch.tensor(1.0)
@@ -54,7 +54,7 @@ def test_flatten_multiclass_module_forward_args():
     assert objects_are_equal(module.call_args.args, (torch.ones(12, 4), torch.zeros(12)))
 
 
-def test_flatten_multiclass_module_forward_kwargs():
+def test_flatten_multiclass_module_forward_kwargs() -> None:
     module = Mock(spec=torch.nn.Module, return_value=torch.tensor(1.0))
     assert MulticlassFlattenModule(module)(
         prediction=torch.ones(6, 2, 4), target=torch.zeros(6, 2)
@@ -62,7 +62,7 @@ def test_flatten_multiclass_module_forward_kwargs():
     assert objects_are_equal(module.call_args.args, (torch.ones(12, 4), torch.zeros(12)))
 
 
-def test_flatten_multiclass_module_forward_args_and_kwargs():
+def test_flatten_multiclass_module_forward_args_and_kwargs() -> None:
     module = Mock(spec=torch.nn.Module, return_value=torch.tensor(1.0))
     assert MulticlassFlattenModule(module)(torch.ones(6, 2, 4), target=torch.zeros(6, 2)).equal(
         torch.tensor(1.0)
@@ -70,7 +70,7 @@ def test_flatten_multiclass_module_forward_args_and_kwargs():
     assert objects_are_equal(module.call_args.args, (torch.ones(12, 4), torch.zeros(12)))
 
 
-def test_flatten_multiclass_module_cross_entropy():
+def test_flatten_multiclass_module_cross_entropy() -> None:
     module = MulticlassFlattenModule(nn.CrossEntropyLoss())
     assert module(torch.ones(6, 2, 4), torch.zeros(6, 2, dtype=torch.long)).allclose(
         torch.tensor(1.3862943649291992),

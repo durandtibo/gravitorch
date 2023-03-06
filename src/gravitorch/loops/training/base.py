@@ -31,6 +31,7 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
         engine.
 
         Args:
+        ----
             engine (``BaseEngine``): Specifies the engine.
         """
 
@@ -40,6 +41,7 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
         values.
 
         Args:
+        ----
             state_dict (dict): Specifies a dictionary
                 containing state keys with values.
         """
@@ -48,6 +50,7 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.
 
-        Returns:
+        Returns
+        -------
             dict: The state values in a dict.
         """

@@ -29,6 +29,7 @@ def log_run_info(config: DictConfig) -> None:
     """Log some information about the current run.
 
     Args:
+    ----
         config (``omegaconf.DictConfig``): Specifies the config of
             the run.
     """

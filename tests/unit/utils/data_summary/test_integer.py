@@ -8,49 +8,49 @@ from gravitorch.utils.data_summary import EmptyDataSummaryError, IntegerDataSumm
 ########################################
 
 
-def test_integer_data_summary_str():
+def test_integer_data_summary_str() -> None:
     assert str(IntegerDataSummary()).startswith("IntegerDataSummary(")
 
 
-def test_integer_data_summary_add_one_call():
+def test_integer_data_summary_add_one_call() -> None:
     summary = IntegerDataSummary()
     summary.add(0)
     assert summary.count() == 1
 
 
-def test_integer_data_summary_add_two_calls():
+def test_integer_data_summary_add_two_calls() -> None:
     summary = IntegerDataSummary()
     summary.add(0)
     summary.add(1)
     assert summary.count() == 2
 
 
-def test_integer_data_summary_count_empty():
+def test_integer_data_summary_count_empty() -> None:
     summary = IntegerDataSummary()
     assert summary.count() == 0
 
 
-def test_integer_data_summary_most_common():
+def test_integer_data_summary_most_common() -> None:
     summary = IntegerDataSummary()
     for i in [0, 4, 1, 3, 0, 1, 0]:
         summary.add(i)
     assert summary.most_common() == [(0, 3), (1, 2), (4, 1), (3, 1)]
 
 
-def test_integer_data_summary_most_common_2():
+def test_integer_data_summary_most_common_2() -> None:
     summary = IntegerDataSummary()
     for i in [0, 4, 1, 3, 0, 1, 0]:
         summary.add(i)
     assert summary.most_common(2) == [(0, 3), (1, 2)]
 
 
-def test_integer_data_summary_most_common_empty():
+def test_integer_data_summary_most_common_empty() -> None:
     summary = IntegerDataSummary()
     with raises(EmptyDataSummaryError):
         summary.most_common()
 
 
-def test_integer_data_summary_reset():
+def test_integer_data_summary_reset() -> None:
     summary = IntegerDataSummary()
     for i in [0, 3, 1, 4]:
         summary.add(i)
@@ -58,7 +58,7 @@ def test_integer_data_summary_reset():
     assert len(tuple(summary._counter.elements())) == 0
 
 
-def test_integer_data_summary_summary():
+def test_integer_data_summary_summary() -> None:
     summary = IntegerDataSummary()
     for i in [0, 3, 1, 4, 0, 1, 0]:
         summary.add(i)
@@ -75,7 +75,7 @@ def test_integer_data_summary_summary():
     )
 
 
-def test_integer_data_summary_summary_empty():
+def test_integer_data_summary_summary_empty() -> None:
     summary = IntegerDataSummary()
     with raises(EmptyDataSummaryError):
         summary.summary()

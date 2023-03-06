@@ -20,11 +20,12 @@ class PyTorchProfiler(BaseProfiler):
     the code.
 
     Args:
+    ----
         profiler (``torch.profiler.profile``): Specifies the profiler
             to use.
     """
 
-    def __init__(self, profiler: torch.profiler.profile):
+    def __init__(self, profiler: torch.profiler.profile) -> None:
         self._profiler = profiler
 
     def __enter__(self) -> "PyTorchProfiler":
@@ -73,6 +74,7 @@ class PyTorchProfiler(BaseProfiler):
         cycles will continue until the profiling is finished.
 
         Args:
+        ----
             trace_path (str): Specifies the path where to write the
                 profiling trace. This path can be directly delivered
                 to TensorBoard as logdir.
@@ -102,6 +104,7 @@ class PyTorchProfiler(BaseProfiler):
                 Default: ``False``
 
         Returns:
+        -------
             ``PyTorchProfiler``: A scheduled profiler with a TensorBoard trace.
         """
         return cls(

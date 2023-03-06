@@ -24,11 +24,11 @@ from gravitorch.utils import get_available_devices
 ##################################
 
 
-def test_dummy_dataset_str():
+def test_dummy_dataset_str() -> None:
     assert str(DummyDataset()).startswith("DummyDataset(")
 
 
-def test_dummy_dataset_getitem():
+def test_dummy_dataset_getitem() -> None:
     dataset = DummyDataset()
     assert objects_are_equal(dataset[0], {ct.INPUT: torch.ones(4), ct.TARGET: 1})
     assert objects_are_equal(dataset[1], {ct.INPUT: torch.full((4,), 2.0), ct.TARGET: 1})
@@ -36,7 +36,7 @@ def test_dummy_dataset_getitem():
 
 
 @mark.parametrize("num_examples", (1, 2, 3))
-def test_dummy_dataset_len(num_examples: int):
+def test_dummy_dataset_len(num_examples: int) -> None:
     assert len(DummyDataset(num_examples=num_examples)) == num_examples
 
 
@@ -45,29 +45,29 @@ def test_dummy_dataset_len(num_examples: int):
 ##########################################
 
 
-def test_dummy_iterable_dataset_str():
+def test_dummy_iterable_dataset_str() -> None:
     assert str(DummyIterableDataset()).startswith("DummyIterableDataset(")
 
 
 @mark.parametrize("num_examples", (1, 2, 3))
-def test_dummy_iterable_dataset_iter(num_examples: int):
-    assert len([example for example in DummyIterableDataset(num_examples=num_examples)])
+def test_dummy_iterable_dataset_iter(num_examples: int) -> None:
+    assert len(list(DummyIterableDataset(num_examples=num_examples)))
 
 
-def test_dummy_iterable_dataset_getitem():
+def test_dummy_iterable_dataset_getitem() -> None:
     dataset = iter(DummyIterableDataset())
     assert objects_are_equal(next(dataset), {ct.INPUT: torch.full((4,), 2.0), ct.TARGET: 1})
     assert objects_are_equal(next(dataset), {ct.INPUT: torch.full((4,), 3.0), ct.TARGET: 1})
     assert objects_are_equal(next(dataset), {ct.INPUT: torch.full((4,), 4.0), ct.TARGET: 1})
 
 
-def test_dummy_iterable_dataset_len_has_length_false():
+def test_dummy_iterable_dataset_len_has_length_false() -> None:
     with raises(TypeError):
         len(DummyIterableDataset())
 
 
 @mark.parametrize("num_examples", (1, 2, 3))
-def test_dummy_iterable_dataset_len_has_length_true(num_examples: int):
+def test_dummy_iterable_dataset_len_has_length_true(num_examples: int) -> None:
     assert len(DummyIterableDataset(num_examples=num_examples, has_length=True)) == num_examples
 
 
@@ -76,18 +76,18 @@ def test_dummy_iterable_dataset_len_has_length_true(num_examples: int):
 #####################################
 
 
-def test_dummy_data_source_str():
+def test_dummy_data_source_str() -> None:
     assert str(DummyDataSource()).startswith("DummyDataSource(")
 
 
-def test_dummy_data_source_default_datasets():
+def test_dummy_data_source_default_datasets() -> None:
     data_source = DummyDataSource()
     assert len(data_source._datasets) == 2
     assert isinstance(data_source._datasets[ct.TRAIN], DummyDataset)
     assert isinstance(data_source._datasets[ct.EVAL], DummyDataset)
 
 
-def test_dummy_data_source_datasets():
+def test_dummy_data_source_datasets() -> None:
     train_dataset = Mock(spec=Dataset)
     eval_dataset = Mock(spec=Dataset)
     data_source = DummyDataSource(train_dataset=train_dataset, eval_dataset=eval_dataset)
@@ -104,7 +104,9 @@ def test_dummy_data_source_datasets():
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("batch_size", (1, 2))
 @mark.parametrize("feature_size", (1, 2))
-def test_dummy_classification_model_forward(device: str, batch_size: int, feature_size: int):
+def test_dummy_classification_model_forward(
+    device: str, batch_size: int, feature_size: int
+) -> None:
     device = torch.device(device)
     model = DummyClassificationModel(feature_size=feature_size).to(device=device)
     out = model(
@@ -115,12 +117,12 @@ def test_dummy_classification_model_forward(device: str, batch_size: int, featur
     )
     assert len(out) == 1
     assert torch.is_tensor(out[ct.LOSS])
-    assert out[ct.LOSS].shape == tuple()
+    assert out[ct.LOSS].shape == ()
     assert out[ct.LOSS].dtype == torch.float
     assert out[ct.LOSS].device == device
 
 
-def test_dummy_classification_model_nan():
+def test_dummy_classification_model_nan() -> None:
     model = DummyClassificationModel(loss_nan=True)
     assert objects_are_allclose(
         model({ct.INPUT: torch.rand(2, 4), ct.TARGET: torch.zeros(2, dtype=torch.long)}),
@@ -134,14 +136,14 @@ def test_dummy_classification_model_nan():
 #########################################
 
 
-def test_create_dummy_engine_default():
+def test_create_dummy_engine_default() -> None:
     engine = create_dummy_engine()
     assert isinstance(engine.data_source, DummyDataSource)
     assert isinstance(engine.model, DummyClassificationModel)
     assert isinstance(engine.optimizer, SGD)
 
 
-def test_create_dummy_engine():
+def test_create_dummy_engine() -> None:
     data_source = Mock(spec=BaseDataSource)
     engine = create_dummy_engine(
         data_source=data_source,

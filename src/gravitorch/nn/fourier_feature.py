@@ -25,6 +25,7 @@ class SequenceGaussianRFF(Module):
         In NeurIPS, 2020. http://arxiv.org/pdf/2006.10739
 
     Args:
+    ----
         input_size (int): Specifies the input size.
         output_size (int): Specifies the output size.
         sigma (float, optional): Specifies the standard deviation of
@@ -48,7 +49,7 @@ class SequenceGaussianRFF(Module):
         sigma: float = 2 * math.pi,
         trainable_params: bool = False,
         batch_first: bool = False,
-    ):
+    ) -> None:
         super().__init__()
         self._input_size = int(input_size)
         self._intermediate_output_size = output_size // 2
@@ -87,6 +88,7 @@ class SequenceGaussianRFF(Module):
         r"""Computes the Fourier feature mappings of the input representation.
 
         Args:
+        ----
             sequence (``torch.Tensor`` of type float and shape
                 ``(batch_size, sequence_length, input_size)`` if
                 ``batch_size=False`` or
@@ -96,6 +98,7 @@ class SequenceGaussianRFF(Module):
                 ``[0, 1)``.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(sequence_length, batch_size, output_size)`` if
                 ``batch_size=False`` or
@@ -111,12 +114,14 @@ class SequenceGaussianRFF(Module):
         r"""Generates a dummy input for this network.
 
         Args:
+        ----
             batch_size (int, optional): Specifies the batch size.
                 Default: ``1``
             seq_len (int, optional): Specifies the sequence length.
                 Default: ``1``
 
         Returns:
+        -------
             A tuple of one torch tensor:
                 - The sequence of continuous inputs: ``torch.Tensor``
                     of type float and shape
@@ -147,6 +152,7 @@ class ScaleShiftSequenceGaussianRFF(Module):
         In NeurIPS, 2020. http://arxiv.org/pdf/2006.10739
 
     Args:
+    ----
         input_size (int): Specifies the input size.
         output_size (int): Specifies the output size.
         sigma (float, optional): Specifies the standard deviation of
@@ -170,7 +176,7 @@ class ScaleShiftSequenceGaussianRFF(Module):
         sigma: float = 2 * math.pi,
         trainable_params: bool = False,
         batch_first: bool = False,
-    ):
+    ) -> None:
         super().__init__()
         self._input_size = input_size
         self._batch_first = batch_first
@@ -197,6 +203,7 @@ class ScaleShiftSequenceGaussianRFF(Module):
         r"""Computes the Fourier feature mappings of the input representation.
 
         Args:
+        ----
             sequence (``torch.Tensor`` of type float and shape
                 ``(batch_size, sequence_length, input_size)`` if
                 ``batch_size=False`` or
@@ -216,6 +223,7 @@ class ScaleShiftSequenceGaussianRFF(Module):
                 max values should be different.
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(sequence_length, batch_size, output_size)`` if
                 ``batch_size=False`` or
@@ -230,12 +238,14 @@ class ScaleShiftSequenceGaussianRFF(Module):
         r"""Generates a dummy input for this network.
 
         Args:
+        ----
             batch_size (int, optional): Specifies the batch size.
                 Default: ``1``
             seq_len (int, optional): Specifies the sequence length.
                 Default: ``1``
 
         Returns:
+        -------
             A tuple of three torch tensors:
                 - The sequence of continuous inputs: ``torch.Tensor``
                     of type float and shape

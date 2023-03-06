@@ -20,6 +20,7 @@ class SequentialParameterInitializer(BaseDefaultParameterInitializer):
     initializer.
 
     Args:
+    ----
         parameter_initializers: Specifies the sequence of parameter
             initializers. The sequence order defines the order of the
             call.
@@ -32,7 +33,7 @@ class SequentialParameterInitializer(BaseDefaultParameterInitializer):
         self,
         parameter_initializers: Sequence[Union[BaseParameterInitializer, dict]],
         show_stats: bool = True,
-    ):
+    ) -> None:
         super().__init__(show_stats=show_stats)
         self._parameter_initializers = tuple(
             setup_parameter_initializer(param_init) for param_init in parameter_initializers

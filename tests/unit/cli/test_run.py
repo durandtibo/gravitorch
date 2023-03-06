@@ -10,23 +10,23 @@ from gravitorch.runners import BaseRunner
 
 
 class FakeRunner(BaseRunner):
-    r"""Defines a fake runner to test the runners instantiation."""
+    r"""Defines a fake runner to test the runner instantiation."""
 
     def run(self) -> Any:
         pass
 
 
-def test_main():
+def test_main() -> None:
     main({ct.RUNNER: {OBJECT_TARGET: "FakeRunner"}})
 
 
-def test_main_factory_call():
+def test_main_factory_call() -> None:
     with patch("gravitorch.runners.BaseRunner.factory") as factory_mock:
         main({ct.RUNNER: {OBJECT_TARGET: "MyRunner", "engine": "ABC"}})
         factory_mock.assert_called_with(_target_="MyRunner", engine="ABC")
 
 
-def test_run_cli_factory_call():
+def test_run_cli_factory_call() -> None:
     with patch("gravitorch.runners.BaseRunner.factory") as factory_mock:
         run_cli(OmegaConf.create({ct.RUNNER: {OBJECT_TARGET: "MyRunner", "engine": "ABC"}}))
         factory_mock.assert_called_with(_target_="MyRunner", engine="ABC")

@@ -1,7 +1,7 @@
 __all__ = ["BaseConfusionMatrix", "BinaryConfusionMatrix", "MulticlassConfusionMatrix"]
 
 from collections.abc import Iterable, Sequence
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 import torch
 from torch import Tensor
@@ -15,13 +15,14 @@ class BaseConfusionMatrix:
     r"""Defines the base class to implement confusion matrix.
 
     Args:
+    ----
         matrix (``torch.Tensor`` of type long and shape
             ``(num_classes, num_classes)``): Specifies the initial
             confusion matrix values. The rows indicate the true
             labels and the columns indicate the predicted labels.
     """
 
-    def __init__(self, matrix: Tensor):
+    def __init__(self, matrix: Tensor) -> None:
         check_confusion_matrix(matrix)
         self._matrix = matrix
         self._num_predictions = self._compute_num_predictions()
@@ -44,7 +45,8 @@ class BaseConfusionMatrix:
     @property
     def matrix(self) -> Tensor:
         r"""``torch.Tensor`` of type long and shape ``(num_classes,
-        num_classes)``: The confusion matrix values."""
+        num_classes)``: The confusion matrix values.
+        """
         return self._matrix
 
     @property
@@ -73,6 +75,7 @@ class BaseConfusionMatrix:
         r"""Gets the normalized confusion matrix.
 
         Args:
+        ----
             normalization (str): Specifies the normalization strategy.
                 The supported normalization strategies are:
 
@@ -82,11 +85,13 @@ class BaseConfusionMatrix:
                     - ``'all'``: normalization over the whole matrix
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(num_classes, num_classes)``: The normalized
                 confusion matrix.
 
         Raises:
+        ------
             ValueError if the normalization strategy is not supported.
         """
         if normalization == "true":
@@ -112,6 +117,7 @@ class BaseConfusionMatrix:
         r"""Updates the confusion matrix with new predictions.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of type long and shape
                 ``(d0, d1, ..., dn)``): Specifies the predicted labels.
             target (``torch.Tensor`` of type long and shape
@@ -136,11 +142,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     r"""Implements a confusion matrix for binary labels.
 
     Args:
+    ----
         matrix (``torch.Tensor`` of type long and shape ``(2, 2)``):
             Specifies the initial confusion matrix values.
     """
 
-    def __init__(self, matrix: Optional[Tensor] = None):
+    def __init__(self, matrix: Optional[Tensor] = None) -> None:
         if matrix is None:
             matrix = torch.zeros(2, 2, dtype=torch.long)
         if matrix.shape != (2, 2):
@@ -150,19 +157,22 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def clone(self) -> "BinaryConfusionMatrix":
         r"""Creates a copy of the current confusion matrix meter.
 
-        Returns:
+        Returns
+        -------
             ``BinaryConfusionMatrix``: A copy of the current confusion
                 matrix meter.
         """
         return BinaryConfusionMatrix(self.matrix.clone())
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two confusion matrices are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the confusion matrices are equal,
                 ``False`` otherwise.
         """
@@ -175,6 +185,7 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         r"""Creates a confusion matrix given ground truth and predicted labels.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of type long and shape
                 ``(d0, d1, ..., dn)``): Specifies the predicted labels.
             target (``torch.Tensor`` of type long and shape
@@ -189,24 +200,26 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     #     Transformation     #
     ##########################
 
-    def __add__(self, other):
+    def __add__(self, other: Any) -> "BinaryConfusionMatrix":
         return self.add(other)
 
-    def __iadd__(self, other):
+    def __iadd__(self, other: Any) -> "BinaryConfusionMatrix":
         self.add_(other)
         return self
 
-    def __sub__(self, other):
+    def __sub__(self, other: Any) -> "BinaryConfusionMatrix":
         return self.sub(other)
 
     def add(self, other: "BinaryConfusionMatrix") -> "BinaryConfusionMatrix":
         r"""Adds a confusion matrix.
 
         Args:
+        ----
             other (``BinaryConfusionMatrix``): Specifies the other
                 confusion matrix to add.
 
         Returns:
+        -------
             ``BinaryConfusionMatrix``: A new confusion matrix
                 containing the addition of the two confusion matrices.
         """
@@ -219,6 +232,7 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         In-place version of ``add``.
 
         Args:
+        ----
             other (``BinaryConfusionMatrix``): Specifies the other
                 confusion matrix to add.
         """
@@ -231,10 +245,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``BinaryConfusionMatrix``: The merged meter.
         """
         output = self.clone()
@@ -248,6 +264,7 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         In-place version of ``merge``.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
         """
@@ -258,10 +275,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         r"""Subtracts a confusion matrix.
 
         Args:
+        ----
             other (``BinaryConfusionMatrix``): Specifies the other
                 confusion matrix to subtract.
 
         Returns:
+        -------
             ``BinaryConfusionMatrix``: A new confusion matrix
                 containing the difference of the two confusion
                 matrices.
@@ -276,13 +295,15 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     @property
     def false_negative(self) -> int:
         r"""int: The false negative i.e. the number of incorrectly
-        classified negative examples."""
+        classified negative examples.
+        """
         return self._matrix[0, 1].item()
 
     @property
     def false_positive(self) -> int:
         r"""int: The false positive i.e. the number of incorrectly
-        classified positive examples."""
+        classified positive examples.
+        """
         return self._matrix[1, 0].item()
 
     @property
@@ -308,22 +329,26 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     @property
     def true_negative(self) -> int:
         r"""int: The true negative i.e. the number of correctly
-        classified negative examples."""
+        classified negative examples.
+        """
         return self._matrix[1, 1].item()
 
     @property
     def true_positive(self) -> int:
         r"""int: The true positive i.e. the number of correctly
-        classified positive examples."""
+        classified positive examples.
+        """
         return self._matrix[0, 0].item()
 
     def accuracy(self) -> float:
         r"""Computes the accuracy.
 
-        Returns:
+        Returns
+        -------
             float: The accuracy.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -335,10 +360,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def balanced_accuracy(self) -> float:
         r"""Computes the balanced accuracy.
 
-        Returns:
+        Returns
+        -------
             float: The balanced accuracy.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -352,13 +379,16 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         r"""Computes the F-beta score.
 
         Args:
+        ----
             beta (float, optional): Specifies the beta value.
                 Default: ``1.0``
 
         Returns:
+        -------
             float: the F-beta score.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -374,10 +404,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def false_negative_rate(self) -> float:
         r"""Computes the false negative rate i.e. the miss rate.
 
-        Returns:
+        Returns
+        -------
             float: The false negative rate.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -391,10 +423,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         r"""Computes the false positive rate i.e. the probability of false
         alarm.
 
-        Returns:
+        Returns
+        -------
             float: The false positive rate.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -407,10 +441,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def jaccard_index(self) -> float:
         r"""Computes the Jaccard index.
 
-        Returns:
+        Returns
+        -------
             float: The Jaccard index.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -425,10 +461,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def precision(self) -> float:
         r"""Computes the precision.
 
-        Returns:
+        Returns
+        -------
             float: The precision.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -441,10 +479,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def recall(self) -> float:
         r"""Computes the recall i.e. the probability of positive detection.
 
-        Returns:
+        Returns
+        -------
             float: The recall.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -456,10 +496,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def true_negative_rate(self) -> float:
         r"""Computes the true negative rate.
 
-        Returns:
+        Returns
+        -------
             float: The true negative rate.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -472,10 +514,12 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def true_positive_rate(self) -> float:
         r"""Computes the true positive rate.
 
-        Returns:
+        Returns
+        -------
             float: The true positive rate.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -494,6 +538,7 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         r"""Computes all the metrics.
 
         Args:
+        ----
             betas (sequence, optional): Specifies the betas used to
                 compute the f-beta score. Default: ``(1,)``
             prefix (str, optional): Specifies a prefix for all the
@@ -502,9 +547,11 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
                 metrics. Default: ``''``
 
         Returns:
+        -------
             dict: All the metrics.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -539,6 +586,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         of classes is unknown at the beginning of the process.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of type long and shape
                 ``(d0, d1, ..., dn)``): Specifies the predicted labels.
             target (``torch.Tensor`` of type long and shape
@@ -554,18 +602,21 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def clone(self) -> "MulticlassConfusionMatrix":
         r"""Creates a copy of the current confusion matrix meter.
 
-        Returns:
+        Returns
+        -------
             ``MulticlassConfusionMatrix``: A copy of the current confusion matrix meter.
         """
         return MulticlassConfusionMatrix(self.matrix.clone())
 
-    def equal(self, other) -> bool:
+    def equal(self, other: Any) -> bool:
         r"""Indicates if two confusion matrices are equal or not.
 
         Args:
+        ----
             other: Specifies the value to compare.
 
         Returns:
+        -------
             bool: ``True`` if the confusion matrices are equal, ``False`` otherwise.
         """
         if not isinstance(other, MulticlassConfusionMatrix):
@@ -576,6 +627,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Resizes the current confusion matrix to a larger number of classes.
 
         Args:
+        ----
             num_classes (int): Specifies the new number of classes.
         """
         if num_classes < self.num_classes:
@@ -593,9 +645,11 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Creates a confusion matrix given the number of classes.
 
         Args:
+        ----
             num_classes (int): Specifies the number of classes.
 
         Returns:
+        -------
             ``MulticlassConfusionMatrix``: An instantiated confusion
                 matrix.
         """
@@ -614,6 +668,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         ground truth and predicted labels.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of type long and shape
                 ``(d0, d1, ..., dn)``): Specifies the predicted labels.
             target (``torch.Tensor`` of type long and shape
@@ -621,6 +676,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
                 labels.
 
         Returns:
+        -------
             ``MulticlassConfusionMatrix``: An instantiated confusion matrix.
         """
         # use a fake number of classes. `auto_update` will find the right number of classes
@@ -632,24 +688,26 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     #     Transformation     #
     ##########################
 
-    def __add__(self, other):
+    def __add__(self, other: Any) -> "MulticlassConfusionMatrix":
         return self.add(other)
 
-    def __iadd__(self, other):
+    def __iadd__(self, other: Any) -> "MulticlassConfusionMatrix":
         self.add_(other)
         return self
 
-    def __sub__(self, other):
+    def __sub__(self, other: Any) -> "MulticlassConfusionMatrix":
         return self.sub(other)
 
     def add(self, other: "MulticlassConfusionMatrix") -> "MulticlassConfusionMatrix":
         r"""Adds a confusion matrix.
 
         Args:
+        ----
             other (``MulticlassConfusionMatrix``): Specifies the other
                 confusion matrix to add.
 
         Returns:
+        -------
             ``MulticlassConfusionMatrix``: A new confusion matrix
                 containing the addition of the two confusion matrices.
         """
@@ -662,6 +720,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         In-place version of ``add``.
 
         Args:
+        ----
             other (``MulticlassConfusionMatrix``): Specifies the other
                 confusion matrix to add.
         """
@@ -674,10 +733,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         meter.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
 
         Returns:
+        -------
             ``MulticlassConfusionMatrix``: The merged meter.
         """
         output = self.clone()
@@ -691,6 +752,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         In-place version of ``merge``.
 
         Args:
+        ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
         """
@@ -701,10 +763,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Subtracts a confusion matrix.
 
         Args:
+        ----
             other (``MulticlassConfusionMatrix``): Specifies the other
                 confusion matrix to subtract.
 
         Returns:
+        -------
             ``MulticlassConfusionMatrix``: A new confusion matrix
                 containing the difference of the two confusion matrices.
         """
@@ -757,10 +821,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def accuracy(self) -> float:
         r"""Computes the accuracy.
 
-        Returns:
+        Returns
+        -------
             float: The accuracy.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -772,10 +838,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def balanced_accuracy(self) -> float:
         r"""Computes the balanced accuracy.
 
-        Returns:
+        Returns
+        -------
             float: The balanced accuracy.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -789,13 +857,16 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes the F-beta score for each class.
 
         Args:
+        ----
             beta (float, optional): Specifies the beta value. Default: ``1.0``
 
         Returns:
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(num_classes,)``: The F-beta score for each class.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -814,12 +885,15 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes the macro (a.k.a. unweighted mean) F-beta score.
 
         Args:
+        ----
             beta (float, optional): Specifies the beta value. Default: ``1.0``
 
         Returns:
+        -------
             float: The macro F-beta score.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         return self.f_beta_score(beta).mean().item()
@@ -828,13 +902,16 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes the micro F-beta score.
 
         Args:
+        ----
             beta (float, optional): Specifies the beta value.
                 Default: ``1.0``
 
         Returns:
+        -------
             float: The micro F-beta score.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -856,13 +933,16 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes the weighted mean F-beta score.
 
         Args:
+        ----
             beta (float, optional): Specifies the beta value.
                 Default: ``1.0``
 
         Returns:
+        -------
             float: The weighted mean F-beta score.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         return self.f_beta_score(beta).mul(self.support).sum().item() / float(self._num_predictions)
@@ -870,11 +950,13 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def precision(self) -> Tensor:
         r"""Computes the precision for each class.
 
-        Returns:
+        Returns
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(num_classes,)``: The precision for each class.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -886,10 +968,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def macro_precision(self) -> float:
         r"""Computes the macro (a.k.a. unweighted mean) precision.
 
-        Returns:
+        Returns
+        -------
             float: The macro precision.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         return self.precision().mean().item()
@@ -897,10 +981,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def micro_precision(self) -> float:
         r"""Computes the micro precision.
 
-        Returns:
+        Returns
+        -------
             float: The micro precision.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -917,10 +1003,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def weighted_precision(self) -> float:
         r"""Computes the weighted mean (a.k.a. unweighted mean) precision.
 
-        Returns:
+        Returns
+        -------
             float: The weighted mean precision.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         return self.precision().mul(self.support).sum().item() / float(self._num_predictions)
@@ -928,11 +1016,13 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def recall(self) -> Tensor:
         r"""Computes the recall for each class.
 
-        Returns:
+        Returns
+        -------
             ``torch.Tensor`` of type float and shape
                 ``(num_classes,)``: The recall for each class.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -944,10 +1034,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def macro_recall(self) -> float:
         r"""Computes the macro (a.k.a. unweighted mean) recall.
 
-        Returns:
+        Returns
+        -------
             float: The macro recall.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         return self.recall().mean().item()
@@ -955,10 +1047,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def micro_recall(self) -> float:
         r"""Computes the micro recall.
 
-        Returns:
+        Returns
+        -------
             float: The micro recall.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -974,10 +1068,12 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
     def weighted_recall(self) -> float:
         r"""Computes the weighted mean (a.k.a. unweighted mean) recall.
 
-        Returns:
+        Returns
+        -------
             float: The weighted mean recall.
 
-        Raises:
+        Raises
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         return self.recall().mul(self.support).sum().item() / float(self._num_predictions)
@@ -991,6 +1087,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes all the per-class metrics.
 
         Args:
+        ----
             betas (sequence, optional): Specifies the betas used to
                 compute the f-beta score. Default: ``(1,)``
             prefix (str, optional): Specifies a prefix for all the
@@ -999,9 +1096,11 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
                 metrics. Default: ``''``
 
         Returns:
+        -------
             dict: All the per-class metrics.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -1026,6 +1125,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes all the "macro" metrics.
 
         Args:
+        ----
             betas (sequence, optional): Specifies the betas used to
                 compute the f-beta score. Default: ``(1,)``
             prefix (str, optional): Specifies a prefix for all the
@@ -1034,9 +1134,11 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
                 metrics. Default: ``''``
 
         Returns:
+        -------
             dict: All the "macro" metrics.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -1061,6 +1163,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes all the "micro" metrics.
 
         Args:
+        ----
             betas (sequence, optional): Specifies the betas used to
                 compute the f-beta score. Default: ``(1,)``
             prefix (str, optional): Specifies a prefix for all the
@@ -1069,9 +1172,11 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
                 metrics. Default: ``''``
 
         Returns:
+        -------
             dict: All the "micro" metrics.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -1096,6 +1201,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes all the "weighted" metrics.
 
         Args:
+        ----
             betas (sequence, optional): Specifies the betas used to
                 compute the f-beta score. Default: ``(1,)``
             prefix (str, optional): Specifies a prefix for all the
@@ -1104,9 +1210,11 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
                 metrics. Default: ``''``
 
         Returns:
+        -------
             dict: All the "weighted" metrics.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -1131,6 +1239,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         r"""Computes all the scalar metrics.
 
         Args:
+        ----
             betas (sequence, optional): Specifies the betas used to
                 compute the f-beta score. Default: ``(1,)``
             prefix (str, optional): Specifies a prefix for all the
@@ -1139,9 +1248,11 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
                 metrics. Default: ``''``
 
         Returns:
+        -------
             dict: All the scalar metrics.
 
         Raises:
+        ------
             ``EmptyMeterError`` if the confusion matrix is empty.
         """
         if self.num_predictions == 0:
@@ -1162,6 +1273,7 @@ def check_confusion_matrix(matrix: Tensor) -> None:
     r"""Checks if the input matrix is a valid confusion matrix.
 
     Args:
+    ----
         matrix (``torch.Tensor``): Specifies the matrix to check.
     """
     if matrix.ndim != 2:
@@ -1192,11 +1304,13 @@ def check_op_compatibility_binary(
     r"""Checks if the confusion matrices for binary labels are compatible.
 
     Args:
+    ----
         current (``BinaryConfusionMatrix``): Specifies the current confusion matrix for binary labels.
         other (``BinaryConfusionMatrix``): Specifies the other confusion matrix for binary labels.
         op_name (str): Specifies the operation name.
 
     Raises:
+    ------
         TypeError if the other matrix type is not compatible.
     """
     if not isinstance(other, BinaryConfusionMatrix):
@@ -1212,6 +1326,7 @@ def check_op_compatibility_multiclass(
     r"""Checks if the confusion matrices for multiclass labels are compatible.
 
     Args:
+    ----
         current (``MulticlassConfusionMatrix``): Specifies the current
             confusion matrix for multiclass labels.
         other (``MulticlassConfusionMatrix``): Specifies the other
@@ -1219,6 +1334,7 @@ def check_op_compatibility_multiclass(
         op_name (str): Specifies the operation name.
 
     Raises:
+    ------
         TypeError if the other matrix type is not compatible.
         ValueError if the matrix shapes are different.
     """

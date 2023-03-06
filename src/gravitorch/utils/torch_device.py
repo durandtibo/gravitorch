@@ -13,7 +13,8 @@ T = TypeVar("T")
 def get_available_devices() -> tuple[str, ...]:
     r"""Gets the available PyTorch devices on the machine.
 
-    Returns:
+    Returns
+    -------
         tuple: The available devices.
 
     Example usage:
@@ -48,6 +49,7 @@ def move_to_device(data: T, device: torch.device) -> T:
     Based on https://github.com/huggingface/accelerate
 
     Args:
+    ----
         data: Specifies the data to move to the device. If it is a
             nested object, the data is moved recursively to the
             device.
@@ -55,6 +57,7 @@ def move_to_device(data: T, device: torch.device) -> T:
             data to.
 
     Returns:
+    -------
         The object on the given device. If it is not possible to move
             the object to the device, the input object is returned.
 

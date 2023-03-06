@@ -34,6 +34,7 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
     evaluate a model.
 
     Args:
+    ----
         accelerator (``accelerate.Accelerate`` or dict or None,
             optional): Specifies the ``accelerate.Accelerate`` object
             or the parameters to instantiate it. Please read the
@@ -68,7 +69,7 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
         condition: Union[BaseEvalCondition, dict, None] = None,
         observer: Union[BaseLoopObserver, dict, None] = None,
         profiler: Union[BaseProfiler, dict, None] = None,
-    ):
+    ) -> None:
         check_accelerate()
         self._accelerator = self._setup_accelerator(accelerator or {})
         logger.info(f"accelerator state:\n{self._accelerator.state}")
@@ -116,6 +117,7 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
         r"""Sets up the accelerator.
 
         Args:
+        ----
             accelerator (``accelerate.Accelerator`` or dict, optional):
                 Specifies the ``accelerate.Accelerator`` object or the
                 parameters to instantiate it. Please read the
@@ -123,9 +125,11 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
                 parameters https://huggingface.co/docs/accelerate/accelerator.html.
 
         Returns:
+        -------
             ``accelerate.Accelerator``: The accelerator object.
 
         Raises:
+        ------
             RuntimeError: if the accelerate package is not installed.
         """
         if isinstance(accelerator, Accelerator):

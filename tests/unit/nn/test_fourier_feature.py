@@ -14,12 +14,12 @@ SIZES = (1, 2)
 #########################################
 
 
-def test_sequence_gaussian_rff_str():
+def test_sequence_gaussian_rff_str() -> None:
     assert str(SequenceGaussianRFF(input_size=2, output_size=4)).startswith("SequenceGaussianRFF(")
 
 
 @mark.parametrize("batch_first", (True, False))
-def test_sequence_gaussian_rff_batch_first(batch_first: bool):
+def test_sequence_gaussian_rff_batch_first(batch_first: bool) -> None:
     assert (
         SequenceGaussianRFF(input_size=2, output_size=4, batch_first=batch_first).batch_first
         == batch_first
@@ -27,13 +27,13 @@ def test_sequence_gaussian_rff_batch_first(batch_first: bool):
 
 
 @mark.parametrize("input_size", SIZES)
-def test_sequence_gaussian_rff_input_size(input_size: int):
+def test_sequence_gaussian_rff_input_size(input_size: int) -> None:
     assert SequenceGaussianRFF(input_size=input_size, output_size=4).input_size == input_size
 
 
 @mark.parametrize("input_size", SIZES)
 @mark.parametrize("output_size", (2, 4))
-def test_sequence_gaussian_rff_gaussian_shape(input_size: int, output_size: int):
+def test_sequence_gaussian_rff_gaussian_shape(input_size: int, output_size: int) -> None:
     assert SequenceGaussianRFF(
         input_size=input_size, output_size=output_size, batch_first=True
     ).gaussian.data.shape == (input_size, output_size // 2)
@@ -41,17 +41,17 @@ def test_sequence_gaussian_rff_gaussian_shape(input_size: int, output_size: int)
 
 @mark.parametrize("sigma", SIZES)
 @patch("gravitorch.nn.fourier_feature.torch.randn", lambda *args, **kwargs: torch.ones(2, 6))
-def test_sequence_gaussian_rff_sigma(sigma: float):
+def test_sequence_gaussian_rff_sigma(sigma: float) -> None:
     module = SequenceGaussianRFF(input_size=2, output_size=6, sigma=sigma)
     assert module._sigma == sigma
     assert module.gaussian.equal(sigma * torch.ones(2, 6))
 
 
-def test_sequence_gaussian_rff_trainable_params_false():
+def test_sequence_gaussian_rff_trainable_params_false() -> None:
     assert not SequenceGaussianRFF(input_size=2, output_size=6).gaussian.requires_grad
 
 
-def test_sequence_gaussian_rff_trainable_params_true():
+def test_sequence_gaussian_rff_trainable_params_true() -> None:
     assert SequenceGaussianRFF(
         input_size=2, output_size=6, trainable_params=True
     ).gaussian.requires_grad
@@ -63,7 +63,7 @@ def test_sequence_gaussian_rff_trainable_params_true():
 @mark.parametrize("input_size", SIZES)
 def test_sequence_gaussian_rff_get_dummy_input_batch_first(
     device: str, batch_size: int, seq_len: int, input_size: int
-):
+) -> None:
     device = torch.device(device)
     module = SequenceGaussianRFF(input_size=input_size, output_size=6, batch_first=True).to(
         device=device
@@ -84,7 +84,7 @@ def test_sequence_gaussian_rff_get_dummy_input_sequence_first(
     batch_size: int,
     seq_len: int,
     input_size: int,
-):
+) -> None:
     device = torch.device(device)
     module = SequenceGaussianRFF(input_size=input_size, output_size=6).to(device=device)
     dummy_inputs = module.get_dummy_input(batch_size=batch_size, seq_len=seq_len)
@@ -105,7 +105,7 @@ def test_sequence_gaussian_rff_forward_batch_first(
     seq_len: int,
     input_size: int,
     output_size: int,
-):
+) -> None:
     device = torch.device(device)
     module = SequenceGaussianRFF(
         input_size=input_size, output_size=output_size, batch_first=True
@@ -127,7 +127,7 @@ def test_sequence_gaussian_rff_forward_sequence_first(
     seq_len: int,
     input_size: int,
     output_size: int,
-):
+) -> None:
     device = torch.device(device)
     module = SequenceGaussianRFF(input_size=input_size, output_size=output_size).to(device=device)
     out = module(torch.rand(seq_len, batch_size, input_size, device=device))
@@ -142,7 +142,7 @@ def test_sequence_gaussian_rff_forward_sequence_first(
 
 
 @mark.parametrize("batch_first", (True, False))
-def test_scale_shift_sequence_gaussian_rff_batch_first(batch_first: bool):
+def test_scale_shift_sequence_gaussian_rff_batch_first(batch_first: bool) -> None:
     module = ScaleShiftSequenceGaussianRFF(input_size=2, output_size=4, batch_first=batch_first)
     assert module.batch_first == batch_first
     assert module.shift_scale.batch_first == batch_first
@@ -151,7 +151,9 @@ def test_scale_shift_sequence_gaussian_rff_batch_first(batch_first: bool):
 
 @mark.parametrize("input_size", SIZES)
 @mark.parametrize("output_size", (2, 4))
-def test_scale_shift_sequence_gaussian_rff_gaussian_shape(input_size: int, output_size: int):
+def test_scale_shift_sequence_gaussian_rff_gaussian_shape(
+    input_size: int, output_size: int
+) -> None:
     module = ScaleShiftSequenceGaussianRFF(
         input_size=input_size, output_size=output_size, batch_first=True
     )
@@ -160,16 +162,16 @@ def test_scale_shift_sequence_gaussian_rff_gaussian_shape(input_size: int, outpu
 
 @mark.parametrize("sigma", SIZES)
 @patch("gravitorch.nn.fourier_feature.torch.randn", lambda *args, **kwargs: torch.ones(2, 6))
-def test_scale_shift_sequence_gaussian_rff_sigma(sigma: float):
+def test_scale_shift_sequence_gaussian_rff_sigma(sigma: float) -> None:
     module = ScaleShiftSequenceGaussianRFF(input_size=2, output_size=6, sigma=sigma)
     assert module.rff.gaussian.equal(sigma * torch.ones(2, 6))
 
 
-def test_scale_shift_sequence_gaussian_rff_trainable_params_false():
+def test_scale_shift_sequence_gaussian_rff_trainable_params_false() -> None:
     assert not ScaleShiftSequenceGaussianRFF(input_size=2, output_size=6).rff.gaussian.requires_grad
 
 
-def test_scale_shift_sequence_gaussian_rff_trainable_params_true():
+def test_scale_shift_sequence_gaussian_rff_trainable_params_true() -> None:
     assert ScaleShiftSequenceGaussianRFF(
         input_size=2, output_size=6, trainable_params=True
     ).rff.gaussian.requires_grad
@@ -184,7 +186,7 @@ def test_scale_shift_sequence_gaussian_rff_get_dummy_input_batch_first(
     batch_size: int,
     seq_len: int,
     input_size: int,
-):
+) -> None:
     device = torch.device(device)
     module = ScaleShiftSequenceGaussianRFF(
         input_size=input_size, output_size=6, batch_first=True
@@ -211,7 +213,7 @@ def test_scale_shift_sequence_gaussian_rff_get_dummy_input_sequence_first(
     batch_size: int,
     seq_len: int,
     input_size: int,
-):
+) -> None:
     device = torch.device(device)
     module = ScaleShiftSequenceGaussianRFF(input_size=input_size, output_size=6).to(device=device)
     dummy_inputs = module.get_dummy_input(batch_size=batch_size, seq_len=seq_len)
@@ -238,7 +240,7 @@ def test_scale_shift_sequence_gaussian_rff_forward_batch_first(
     seq_len: int,
     input_size: int,
     output_size: int,
-):
+) -> None:
     device = torch.device(device)
     src_range = torch.ones(batch_size, 2, input_size, device=device)
     src_range[:, 0] = 0
@@ -264,7 +266,7 @@ def test_scale_shift_sequence_gaussian_rff_forward_sequence_first(
     seq_len: int,
     input_size: int,
     output_size: int,
-):
+) -> None:
     device = torch.device(device)
     src_range = torch.ones(batch_size, 2, input_size, device=device)
     src_range[:, 0] = 0

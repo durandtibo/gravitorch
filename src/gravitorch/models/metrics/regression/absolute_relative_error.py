@@ -21,6 +21,7 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
     r"""Implements the absolute relative error metric.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g ``'train'`` or ``'eval'``).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -68,7 +69,7 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
         name: str = "abs_rel_err",
         eps: float = 1e-8,
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
         if eps <= 0:
             raise ValueError(
@@ -82,6 +83,7 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
         of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the predictions.
@@ -98,6 +100,7 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
     relative error values.
 
     Args:
+    ----
         mode (str): Specifies the mode (e.g ``'train'`` or ``'eval'``).
         name (str, optional): Specifies the name of the metric. The
             name is used to log the metric results.
@@ -145,7 +148,7 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
         name: str = "sym_abs_rel_err",
         eps: float = 1e-8,
         state: Union[BaseState, dict, None] = None,
-    ):
+    ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
         if eps <= 0:
             raise ValueError(
@@ -159,6 +162,7 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
         of examples.
 
         Args:
+        ----
             prediction (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the predictions.

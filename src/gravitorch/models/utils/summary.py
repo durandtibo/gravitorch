@@ -24,6 +24,7 @@ class ModelSummary:
     r"""Generates a summary of all layers in a ``torch.nn.Module``.
 
     Args:
+    ----
         model (``torch.nn.Module``): The model to summarize.
         mode: Can be one of
 
@@ -129,7 +130,7 @@ class ModelSummary:
     MODE_DEFAULT = MODE_TOP
     MODES = [MODE_FULL, MODE_TOP]
 
-    def __init__(self, model: Module, mode: str = MODE_DEFAULT):
+    def __init__(self, model: Module, mode: str = MODE_DEFAULT) -> None:
         self._model = model
         self._mode = mode
         self._layer_summary = self.summarize()
@@ -220,6 +221,7 @@ def model_forward_dummy_input(model: Module) -> None:
     and data types.
 
     Args:
+    ----
         model (``torch.nn.Module``): Specifies the model. The model
             should have the ``get_dummy_input`` method. This function
             is a noop if the model does not have the

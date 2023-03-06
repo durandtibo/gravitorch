@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 import torch
 from coola import objects_are_equal
-from pytest import fixture, mark, raises
+from pytest import TempPathFactory, fixture, mark, raises
 from torch import nn
 
 from gravitorch.testing import tensorboard_available
@@ -39,12 +39,12 @@ else:
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_str():
+def test_tensorboard_exp_tracker_str() -> None:
     assert str(TensorBoardExpTracker()).startswith("TensorBoardExpTracker(")
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_artifact_path(tmp_path: Path):
+def test_tensorboard_exp_tracker_artifact_path(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -53,7 +53,7 @@ def test_tensorboard_exp_tracker_artifact_path(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_checkpoint_path(tmp_path: Path):
+def test_tensorboard_exp_tracker_checkpoint_path(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -62,7 +62,7 @@ def test_tensorboard_exp_tracker_checkpoint_path(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_experiment_id(tmp_path: Path):
+def test_tensorboard_exp_tracker_experiment_id(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -72,7 +72,7 @@ def test_tensorboard_exp_tracker_experiment_id(tmp_path: Path):
 
 @tensorboard_available
 @mark.parametrize("upload_checkpoints", (True, False))
-def test_tensorboard_exp_tracker_flush(tmp_path: Path, upload_checkpoints: bool):
+def test_tensorboard_exp_tracker_flush(tmp_path: Path, upload_checkpoints: bool) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -83,7 +83,7 @@ def test_tensorboard_exp_tracker_flush(tmp_path: Path, upload_checkpoints: bool)
 
 @tensorboard_available
 @mark.parametrize("remove_after_run", (True, False))
-def test_tensorboard_exp_tracker_end(tmp_path: Path, remove_after_run: bool):
+def test_tensorboard_exp_tracker_end(tmp_path: Path, remove_after_run: bool) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -95,7 +95,7 @@ def test_tensorboard_exp_tracker_end(tmp_path: Path, remove_after_run: bool):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_is_activated_true(tmp_path: Path):
+def test_tensorboard_exp_tracker_is_activated_true(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -104,7 +104,7 @@ def test_tensorboard_exp_tracker_is_activated_true(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_is_resumed_false(tmp_path: Path):
+def test_tensorboard_exp_tracker_is_resumed_false(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -117,7 +117,7 @@ def test_tensorboard_exp_tracker_is_resumed_false(tmp_path: Path):
 #############################
 @tensorboard_available
 @mark.parametrize("value", (1, 1.12, "something"))
-def test_tensorboard_exp_tracker_add_tag(tmp_path: Path, value: Any):
+def test_tensorboard_exp_tracker_add_tag(tmp_path: Path, value: Any) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -126,7 +126,7 @@ def test_tensorboard_exp_tracker_add_tag(tmp_path: Path, value: Any):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_add_tags(tmp_path: Path):
+def test_tensorboard_exp_tracker_add_tags(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -135,7 +135,7 @@ def test_tensorboard_exp_tracker_add_tags(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_create_artifact(tmp_path: Path):
+def test_tensorboard_exp_tracker_create_artifact(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -150,7 +150,7 @@ def test_tensorboard_exp_tracker_create_artifact(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_best_metric(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_best_metric(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -160,7 +160,7 @@ def test_tensorboard_exp_tracker_log_best_metric(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_best_metrics(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_best_metrics(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -176,7 +176,7 @@ def test_tensorboard_exp_tracker_log_best_metrics(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_figure_without_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_figure_without_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -188,7 +188,7 @@ def test_tensorboard_exp_tracker_log_figure_without_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_figure_with_epoch_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_figure_with_epoch_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -200,7 +200,7 @@ def test_tensorboard_exp_tracker_log_figure_with_epoch_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_figure_with_iteration_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_figure_with_iteration_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -212,7 +212,7 @@ def test_tensorboard_exp_tracker_log_figure_with_iteration_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_figures_without_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_figures_without_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -227,7 +227,7 @@ def test_tensorboard_exp_tracker_log_figures_without_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_figures_with_epoch_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_figures_with_epoch_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -244,7 +244,7 @@ def test_tensorboard_exp_tracker_log_figures_with_epoch_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_figures_with_iteration_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_figures_with_iteration_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -268,7 +268,7 @@ def test_tensorboard_exp_tracker_log_figures_with_iteration_step(tmp_path: Path)
 
 @tensorboard_available
 @mark.parametrize("value", (1.2, 35, "abc", nn.Linear(4, 5), torch.ones(2), None))
-def test_tensorboard_exp_tracker_log_hyper_parameter(tmp_path: Path, value: Any):
+def test_tensorboard_exp_tracker_log_hyper_parameter(tmp_path: Path, value: Any) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -278,7 +278,7 @@ def test_tensorboard_exp_tracker_log_hyper_parameter(tmp_path: Path, value: Any)
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_hyper_parameters(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_hyper_parameters(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -307,7 +307,7 @@ def test_tensorboard_exp_tracker_log_hyper_parameters(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_image(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_image(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -316,7 +316,7 @@ def test_tensorboard_exp_tracker_log_image(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_image_with_epoch_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_image_with_epoch_step(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -325,7 +325,7 @@ def test_tensorboard_exp_tracker_log_image_with_epoch_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_image_with_iteration_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_image_with_iteration_step(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -334,7 +334,7 @@ def test_tensorboard_exp_tracker_log_image_with_iteration_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_images(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_images(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -343,7 +343,7 @@ def test_tensorboard_exp_tracker_log_images(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_images_with_epoch_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_images_with_epoch_step(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -358,7 +358,7 @@ def test_tensorboard_exp_tracker_log_images_with_epoch_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_images_with_iteration_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_images_with_iteration_step(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -379,7 +379,9 @@ def test_tensorboard_exp_tracker_log_images_with_iteration_step(tmp_path: Path):
 
 @tensorboard_available
 @mark.parametrize("value", (1.2, 35))
-def test_tensorboard_exp_tracker_log_metric_without_step(tmp_path: Path, value: Union[int, float]):
+def test_tensorboard_exp_tracker_log_metric_without_step(
+    tmp_path: Path, value: Union[int, float]
+) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -390,7 +392,7 @@ def test_tensorboard_exp_tracker_log_metric_without_step(tmp_path: Path, value: 
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_metric_with_epoch_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_metric_with_epoch_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -401,7 +403,7 @@ def test_tensorboard_exp_tracker_log_metric_with_epoch_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_metric_with_iteration_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_metric_with_iteration_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -412,7 +414,7 @@ def test_tensorboard_exp_tracker_log_metric_with_iteration_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_metrics_without_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_metrics_without_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -426,7 +428,7 @@ def test_tensorboard_exp_tracker_log_metrics_without_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_metrics_with_epoch_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_metrics_with_epoch_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -440,7 +442,7 @@ def test_tensorboard_exp_tracker_log_metrics_with_epoch_step(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_log_metrics_with_iteration_step(tmp_path: Path):
+def test_tensorboard_exp_tracker_log_metrics_with_iteration_step(tmp_path: Path) -> None:
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
@@ -454,7 +456,7 @@ def test_tensorboard_exp_tracker_log_metrics_with_iteration_step(tmp_path: Path)
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_duplicate_start(tmp_path: Path):
+def test_tensorboard_exp_tracker_duplicate_start(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -464,7 +466,7 @@ def test_tensorboard_exp_tracker_duplicate_start(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_temporary_dir():
+def test_tensorboard_exp_tracker_temporary_dir() -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -474,7 +476,7 @@ def test_tensorboard_exp_tracker_temporary_dir():
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_clean_internal_variables():
+def test_tensorboard_exp_tracker_clean_internal_variables() -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -492,7 +494,7 @@ def test_tensorboard_exp_tracker_clean_internal_variables():
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_load_best_metrics(tmp_path: Path):
+def test_tensorboard_exp_tracker_load_best_metrics(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -503,7 +505,7 @@ def test_tensorboard_exp_tracker_load_best_metrics(tmp_path: Path):
 
 
 @tensorboard_available
-def test_tensorboard_exp_tracker_load_best_metrics_no_file(tmp_path: Path):
+def test_tensorboard_exp_tracker_load_best_metrics_no_file(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
     ):
@@ -518,14 +520,14 @@ def test_tensorboard_exp_tracker_load_best_metrics_no_file(tmp_path: Path):
 
 
 @fixture(scope="module")
-def not_activated_tracker(tmp_path_factory) -> TensorBoardExpTracker:
+def not_activated_tracker(tmp_path_factory: TempPathFactory) -> TensorBoardExpTracker:
     return TensorBoardExpTracker(experiment_path=tmp_path_factory.mktemp("data").as_posix())
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_not_activated_artifact_dir(
     not_activated_tracker: TensorBoardExpTracker,
-):
+) -> None:
     with raises(NotActivatedExpTrackerError):
         not_activated_tracker.artifact_path
 
@@ -533,7 +535,7 @@ def test_tensorboard_exp_tracker_not_activated_artifact_dir(
 @tensorboard_available
 def test_tensorboard_exp_tracker_not_activated_checkpoint_dir(
     not_activated_tracker: TensorBoardExpTracker,
-):
+) -> None:
     with raises(NotActivatedExpTrackerError):
         not_activated_tracker.checkpoint_path
 
@@ -541,7 +543,7 @@ def test_tensorboard_exp_tracker_not_activated_checkpoint_dir(
 @tensorboard_available
 def test_tensorboard_exp_tracker_not_activated_experiment_id(
     not_activated_tracker: TensorBoardExpTracker,
-):
+) -> None:
     with raises(NotActivatedExpTrackerError):
         not_activated_tracker.experiment_id
 
@@ -549,7 +551,7 @@ def test_tensorboard_exp_tracker_not_activated_experiment_id(
 @tensorboard_available
 def test_tensorboard_exp_tracker_not_activated_is_activated(
     not_activated_tracker: TensorBoardExpTracker,
-):
+) -> None:
     assert not not_activated_tracker.is_activated()
 
 
@@ -559,7 +561,7 @@ def test_tensorboard_exp_tracker_not_activated_is_activated(
 
 
 @tensorboard_available
-def test_gravitorch_summary_writer(tmp_path: Path):
+def test_gravitorch_summary_writer(tmp_path: Path) -> None:
     with MLTorchSummaryWriter(tmp_path.as_posix()) as writer:
         writer.add_hparams(
             hparam_dict={"param1": 1, "param2": 2}, metric_dict={"metric1": 10, "metric2": 20}
@@ -567,7 +569,7 @@ def test_gravitorch_summary_writer(tmp_path: Path):
 
 
 @tensorboard_available
-def test_gravitorch_summary_writer_incorrect_type(tmp_path: Path):
+def test_gravitorch_summary_writer_incorrect_type(tmp_path: Path) -> None:
     with MLTorchSummaryWriter(tmp_path.as_posix()) as writer:
         with raises(TypeError):
             writer.add_hparams(hparam_dict=Mock(), metric_dict=Mock())
@@ -578,14 +580,14 @@ def test_gravitorch_summary_writer_incorrect_type(tmp_path: Path):
 ####################################
 
 
-def test_sanitize_dict_flat_dict():
+def test_sanitize_dict_flat_dict() -> None:
     assert _sanitize_dict({"model": {"network": "resnet18", "metric": "mse"}}) == {
         "model.network": "resnet18",
         "model.metric": "mse",
     }
 
 
-def test_sanitize_dict_types():
+def test_sanitize_dict_types() -> None:
     assert objects_are_equal(
         _sanitize_dict(
             {

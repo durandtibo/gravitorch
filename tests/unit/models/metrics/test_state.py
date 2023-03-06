@@ -23,11 +23,11 @@ from gravitorch.utils.history import MaxScalarHistory, MinScalarHistory
 ####################################
 
 
-def test_mean_error_state_str():
+def test_mean_error_state_str() -> None:
     assert str(MeanErrorState()).startswith("MeanErrorState(")
 
 
-def test_mean_error_state_get_histories():
+def test_mean_error_state_get_histories() -> None:
     histories = MeanErrorState().get_histories()
     assert len(histories) == 1
     assert isinstance(histories[0], MinScalarHistory)
@@ -36,14 +36,14 @@ def test_mean_error_state_get_histories():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_mean_error_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_mean_error_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = MeanErrorState().get_histories(prefix, suffix)
     assert len(histories) == 1
     assert isinstance(histories[0], MinScalarHistory)
     assert histories[0].name == f"{prefix}mean{suffix}"
 
 
-def test_mean_error_state_reset():
+def test_mean_error_state_reset() -> None:
     state = MeanErrorState()
     state.update(torch.arange(6))
     assert state.num_predictions == 6
@@ -51,33 +51,33 @@ def test_mean_error_state_reset():
     assert state.num_predictions == 0
 
 
-def test_mean_error_state_update_1d():
+def test_mean_error_state_update_1d() -> None:
     state = MeanErrorState()
     state.update(torch.arange(6))
     assert state._meter.count == 6
     assert state._meter.sum() == 15.0
 
 
-def test_mean_error_state_update_2d():
+def test_mean_error_state_update_2d() -> None:
     state = MeanErrorState()
     state.update(torch.arange(6).view(2, 3))
     assert state._meter.count == 6
     assert state._meter.sum() == 15.0
 
 
-def test_mean_error_state_value():
+def test_mean_error_state_value() -> None:
     state = MeanErrorState()
     state.update(torch.arange(6))
     assert state.value() == {"mean": 2.5, "num_predictions": 6}
 
 
-def test_mean_error_state_value_correct():
+def test_mean_error_state_value_correct() -> None:
     state = MeanErrorState()
     state.update(torch.zeros(4))
     assert state.value() == {"mean": 0.0, "num_predictions": 4}
 
 
-def test_mean_error_state_value_track_num_predictions_false():
+def test_mean_error_state_value_track_num_predictions_false() -> None:
     state = MeanErrorState(track_num_predictions=False)
     state.update(torch.arange(6))
     assert state.value() == {"mean": 2.5}
@@ -85,7 +85,7 @@ def test_mean_error_state_value_track_num_predictions_false():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_mean_error_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_mean_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = MeanErrorState()
     state.update(torch.arange(6))
     assert state.value(prefix, suffix) == {
@@ -94,7 +94,7 @@ def test_mean_error_state_value_prefix_suffix(prefix: str, suffix: str):
     }
 
 
-def test_mean_error_state_value_empty():
+def test_mean_error_state_value_empty() -> None:
     state = MeanErrorState()
     with raises(EmptyMetricError):
         state.value()
@@ -105,11 +105,11 @@ def test_mean_error_state_value_empty():
 ###############################################
 
 
-def test_root_mean_error_state_str():
+def test_root_mean_error_state_str() -> None:
     assert str(RootMeanErrorState()).startswith("RootMeanErrorState(")
 
 
-def test_root_mean_error_state_get_histories():
+def test_root_mean_error_state_get_histories() -> None:
     histories = RootMeanErrorState().get_histories()
     assert len(histories) == 1
     assert isinstance(histories[0], MinScalarHistory)
@@ -118,14 +118,14 @@ def test_root_mean_error_state_get_histories():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_root_mean_error_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_root_mean_error_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = RootMeanErrorState().get_histories(prefix, suffix)
     assert len(histories) == 1
     assert isinstance(histories[0], MinScalarHistory)
     assert histories[0].name == f"{prefix}root_mean{suffix}"
 
 
-def test_root_mean_error_state_reset():
+def test_root_mean_error_state_reset() -> None:
     state = RootMeanErrorState()
     state.update(torch.arange(6))
     assert state.num_predictions == 6
@@ -133,33 +133,33 @@ def test_root_mean_error_state_reset():
     assert state.num_predictions == 0
 
 
-def test_root_mean_error_state_update_1d():
+def test_root_mean_error_state_update_1d() -> None:
     state = RootMeanErrorState()
     state.update(torch.arange(6))
     assert state._meter.count == 6
     assert state._meter.sum() == 15.0
 
 
-def test_root_mean_error_state_update_2d():
+def test_root_mean_error_state_update_2d() -> None:
     state = RootMeanErrorState()
     state.update(torch.arange(6).view(2, 3))
     assert state._meter.count == 6
     assert state._meter.sum() == 15.0
 
 
-def test_root_mean_error_state_value():
+def test_root_mean_error_state_value() -> None:
     state = RootMeanErrorState()
     state.update(torch.tensor([1, 9, 2, 7, 3, 2]))
     assert state.value() == {"root_mean": 2.0, "num_predictions": 6}
 
 
-def test_root_mean_error_state_value_correct():
+def test_root_mean_error_state_value_correct() -> None:
     state = RootMeanErrorState()
     state.update(torch.zeros(4))
     assert state.value() == {"root_mean": 0.0, "num_predictions": 4}
 
 
-def test_root_mean_error_state_value_track_num_predictions_false():
+def test_root_mean_error_state_value_track_num_predictions_false() -> None:
     state = RootMeanErrorState(track_num_predictions=False)
     state.update(torch.tensor([1, 9, 2, 7, 3, 2]))
     assert state.value() == {"root_mean": 2.0}
@@ -167,7 +167,7 @@ def test_root_mean_error_state_value_track_num_predictions_false():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_root_mean_error_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_root_mean_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = RootMeanErrorState()
     state.update(torch.tensor([1, 9, 2, 7, 3, 2]))
     assert state.value(prefix, suffix) == {
@@ -176,7 +176,7 @@ def test_root_mean_error_state_value_prefix_suffix(prefix: str, suffix: str):
     }
 
 
-def test_root_mean_error_state_value_empty():
+def test_root_mean_error_state_value_empty() -> None:
     state = RootMeanErrorState()
     with raises(EmptyMetricError):
         state.value()
@@ -187,11 +187,11 @@ def test_root_mean_error_state_value_empty():
 ################################
 
 
-def test_error_state_str():
+def test_error_state_str() -> None:
     assert str(ErrorState()).startswith("ErrorState(")
 
 
-def test_error_state_get_histories():
+def test_error_state_get_histories() -> None:
     histories = ErrorState().get_histories()
     assert len(histories) == 4
     assert isinstance(histories[0], MinScalarHistory)
@@ -206,7 +206,7 @@ def test_error_state_get_histories():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_error_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_error_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = ErrorState().get_histories(prefix, suffix)
     assert len(histories) == 4
     assert isinstance(histories[0], MinScalarHistory)
@@ -219,7 +219,7 @@ def test_error_state_get_histories_prefix_suffix(prefix: str, suffix: str):
     assert histories[3].name == f"{prefix}sum{suffix}"
 
 
-def test_error_state_reset():
+def test_error_state_reset() -> None:
     state = ErrorState()
     state.update(torch.arange(6))
     assert state.num_predictions == 6
@@ -227,7 +227,7 @@ def test_error_state_reset():
     assert state.num_predictions == 0
 
 
-def test_error_state_update_1d():
+def test_error_state_update_1d() -> None:
     state = ErrorState()
     state.update(torch.arange(6))
     assert state._meter.count == 6
@@ -236,7 +236,7 @@ def test_error_state_update_1d():
     assert state._meter.min() == 0.0
 
 
-def test_error_state_update_2d():
+def test_error_state_update_2d() -> None:
     state = ErrorState()
     state.update(torch.arange(6).view(2, 3))
     assert state._meter.count == 6
@@ -245,7 +245,7 @@ def test_error_state_update_2d():
     assert state._meter.min() == 0.0
 
 
-def test_error_state_value():
+def test_error_state_value() -> None:
     state = ErrorState()
     state.update(torch.arange(6))
     assert state.value() == {
@@ -259,7 +259,7 @@ def test_error_state_value():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_error_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = ErrorState()
     state.update(torch.arange(6))
     assert state.value(prefix, suffix) == {
@@ -271,7 +271,7 @@ def test_error_state_value_prefix_suffix(prefix: str, suffix: str):
     }
 
 
-def test_error_state_value_empty():
+def test_error_state_value_empty() -> None:
     state = ErrorState()
     with raises(EmptyMetricError):
         state.value()
@@ -282,22 +282,22 @@ def test_error_state_value_empty():
 ########################################
 
 
-def test_extended_error_state_str():
+def test_extended_error_state_str() -> None:
     assert str(ExtendedErrorState()).startswith("ExtendedErrorState(")
 
 
 @mark.parametrize("quantiles", (torch.tensor([0.5, 0.9]), [0.5, 0.9], (0.5, 0.9)))
-def test_extended_error_state_init_quantiles(quantiles: Union[Tensor, list, tuple]):
+def test_extended_error_state_init_quantiles(quantiles: Union[Tensor, list, tuple]) -> None:
     assert ExtendedErrorState(quantiles)._quantiles.equal(
         torch.tensor([0.5, 0.9], dtype=torch.float)
     )
 
 
-def test_extended_error_state_init_quantiles_empty():
+def test_extended_error_state_init_quantiles_empty() -> None:
     assert ExtendedErrorState()._quantiles.equal(torch.tensor([]))
 
 
-def test_extended_error_state_get_histories_no_quantile():
+def test_extended_error_state_get_histories_no_quantile() -> None:
     histories = ExtendedErrorState().get_histories()
     assert len(histories) == 5
     assert isinstance(histories[0], MinScalarHistory)
@@ -312,7 +312,7 @@ def test_extended_error_state_get_histories_no_quantile():
     assert histories[4].name == "sum"
 
 
-def test_extended_error_state_get_histories_quantiles():
+def test_extended_error_state_get_histories_quantiles() -> None:
     histories = ExtendedErrorState(quantiles=[0.5, 0.9]).get_histories()
     assert len(histories) == 7
     assert isinstance(histories[0], MinScalarHistory)
@@ -331,7 +331,7 @@ def test_extended_error_state_get_histories_quantiles():
     assert histories[6].name == "quantile_0.9"
 
 
-def test_extended_error_state_reset():
+def test_extended_error_state_reset() -> None:
     state = ExtendedErrorState()
     state.update(torch.arange(6))
     assert state.num_predictions == 6
@@ -339,19 +339,19 @@ def test_extended_error_state_reset():
     assert state.num_predictions == 0
 
 
-def test_extended_error_state_update_1d():
+def test_extended_error_state_update_1d() -> None:
     state = ExtendedErrorState()
     state.update(torch.arange(6))
     assert state.num_predictions == 6
 
 
-def test_extended_error_state_update_2d():
+def test_extended_error_state_update_2d() -> None:
     state = ExtendedErrorState()
     state.update(torch.arange(6).view(2, 3))
     assert state.num_predictions == 6
 
 
-def test_extended_error_state_value_no_quantiles():
+def test_extended_error_state_value_no_quantiles() -> None:
     state = ExtendedErrorState()
     state.update(torch.arange(6))
     assert objects_are_allclose(
@@ -368,7 +368,7 @@ def test_extended_error_state_value_no_quantiles():
     )
 
 
-def test_extended_error_state_value_with_quantiles():
+def test_extended_error_state_value_with_quantiles() -> None:
     state = ExtendedErrorState(quantiles=[0.5, 0.9])
     state.update(torch.arange(11))
     assert objects_are_allclose(
@@ -389,7 +389,7 @@ def test_extended_error_state_value_with_quantiles():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_extended_error_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_extended_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = ExtendedErrorState(quantiles=[0.5, 0.9])
     state.update(torch.arange(11))
     assert objects_are_allclose(
@@ -409,7 +409,7 @@ def test_extended_error_state_value_prefix_suffix(prefix: str, suffix: str):
     )
 
 
-def test_extended_error_state_value_empty():
+def test_extended_error_state_value_empty() -> None:
     state = ExtendedErrorState()
     with raises(EmptyMetricError):
         state.value()
@@ -420,11 +420,11 @@ def test_extended_error_state_value_empty():
 ###################################
 
 
-def test_accuracy_state_str():
+def test_accuracy_state_str() -> None:
     assert str(AccuracyState()).startswith("AccuracyState(")
 
 
-def test_accuracy_state_get_histories():
+def test_accuracy_state_get_histories() -> None:
     histories = AccuracyState().get_histories()
     assert len(histories) == 1
     assert isinstance(histories[0], MaxScalarHistory)
@@ -433,14 +433,14 @@ def test_accuracy_state_get_histories():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = AccuracyState().get_histories(prefix, suffix)
     assert len(histories) == 1
     assert isinstance(histories[0], MaxScalarHistory)
     assert histories[0].name == f"{prefix}accuracy{suffix}"
 
 
-def test_accuracy_state_reset():
+def test_accuracy_state_reset() -> None:
     state = AccuracyState()
     state.update(torch.eye(2))
     assert state.num_predictions == 4
@@ -448,39 +448,39 @@ def test_accuracy_state_reset():
     assert state.num_predictions == 0
 
 
-def test_accuracy_state_update_1d():
+def test_accuracy_state_update_1d() -> None:
     state = AccuracyState()
     state.update(torch.ones(4))
     assert state._meter.count == 4
     assert state._meter.sum() == 4.0
 
 
-def test_accuracy_state_update_2d():
+def test_accuracy_state_update_2d() -> None:
     state = AccuracyState()
     state.update(torch.ones(2, 3))
     assert state._meter.count == 6
     assert state._meter.sum() == 6.0
 
 
-def test_accuracy_state_value_correct():
+def test_accuracy_state_value_correct() -> None:
     state = AccuracyState()
     state.update(torch.ones(4))
     assert state.value() == {"accuracy": 1.0, "num_predictions": 4}
 
 
-def test_accuracy_state_value_partially_correct():
+def test_accuracy_state_value_partially_correct() -> None:
     state = AccuracyState()
     state.update(torch.eye(2))
     assert state.value() == {"accuracy": 0.5, "num_predictions": 4}
 
 
-def test_accuracy_state_value_incorrect():
+def test_accuracy_state_value_incorrect() -> None:
     state = AccuracyState()
     state.update(torch.zeros(4))
     assert state.value() == {"accuracy": 0.0, "num_predictions": 4}
 
 
-def test_accuracy_state_value_track_num_predictions_false():
+def test_accuracy_state_value_track_num_predictions_false() -> None:
     state = AccuracyState(track_num_predictions=False)
     state.update(torch.eye(2))
     assert state.value() == {"accuracy": 0.5}
@@ -488,7 +488,7 @@ def test_accuracy_state_value_track_num_predictions_false():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_accuracy_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_accuracy_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = AccuracyState()
     state.update(torch.eye(2))
     assert state.value(prefix, suffix) == {
@@ -497,7 +497,7 @@ def test_accuracy_state_value_prefix_suffix(prefix: str, suffix: str):
     }
 
 
-def test_accuracy_state_value_empty():
+def test_accuracy_state_value_empty() -> None:
     state = AccuracyState()
     with raises(EmptyMetricError):
         state.value()
@@ -508,11 +508,11 @@ def test_accuracy_state_value_empty():
 ###########################################
 
 
-def test_extended_accuracy_state_str():
+def test_extended_accuracy_state_str() -> None:
     assert str(ExtendedAccuracyState()).startswith("ExtendedAccuracyState(")
 
 
-def test_extended_accuracy_state_get_histories():
+def test_extended_accuracy_state_get_histories() -> None:
     histories = ExtendedAccuracyState().get_histories()
     assert len(histories) == 4
     assert isinstance(histories[0], MaxScalarHistory)
@@ -527,7 +527,7 @@ def test_extended_accuracy_state_get_histories():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_extended_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix: str):
+def test_extended_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix: str) -> None:
     histories = ExtendedAccuracyState().get_histories(prefix, suffix)
     assert len(histories) == 4
     assert isinstance(histories[0], MaxScalarHistory)
@@ -540,7 +540,7 @@ def test_extended_accuracy_state_get_histories_prefix_suffix(prefix: str, suffix
     assert histories[3].name == f"{prefix}num_incorrect_predictions{suffix}"
 
 
-def test_extended_accuracy_state_reset():
+def test_extended_accuracy_state_reset() -> None:
     state = ExtendedAccuracyState()
     state.update(torch.eye(2))
     assert state.num_predictions == 4
@@ -548,21 +548,21 @@ def test_extended_accuracy_state_reset():
     assert state.num_predictions == 0
 
 
-def test_extended_accuracy_state_update_1d():
+def test_extended_accuracy_state_update_1d() -> None:
     state = ExtendedAccuracyState()
     state.update(torch.ones(4))
     assert state._meter.count == 4
     assert state._meter.sum() == 4.0
 
 
-def test_extended_accuracy_state_update_2d():
+def test_extended_accuracy_state_update_2d() -> None:
     state = ExtendedAccuracyState()
     state.update(torch.ones(2, 3))
     assert state._meter.count == 6
     assert state._meter.sum() == 6.0
 
 
-def test_extended_accuracy_state_value_correct():
+def test_extended_accuracy_state_value_correct() -> None:
     state = ExtendedAccuracyState()
     state.update(torch.ones(2, 3))
     assert state.value() == {
@@ -574,7 +574,7 @@ def test_extended_accuracy_state_value_correct():
     }
 
 
-def test_extended_accuracy_state_value_partially_correct():
+def test_extended_accuracy_state_value_partially_correct() -> None:
     state = ExtendedAccuracyState()
     state.update(torch.eye(2))
     assert state.value() == {
@@ -586,7 +586,7 @@ def test_extended_accuracy_state_value_partially_correct():
     }
 
 
-def test_extended_accuracy_state_value_incorrect():
+def test_extended_accuracy_state_value_incorrect() -> None:
     state = ExtendedAccuracyState()
     state.update(torch.zeros(2, 3))
     assert state.value() == {
@@ -600,7 +600,7 @@ def test_extended_accuracy_state_value_incorrect():
 
 @mark.parametrize("prefix", ("", "prefix_"))
 @mark.parametrize("suffix", ("", "_suffix"))
-def test_extended_accuracy_state_value_prefix_suffix(prefix: str, suffix: str):
+def test_extended_accuracy_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
     state = ExtendedAccuracyState()
     state.update(torch.eye(2))
     assert state.value(prefix, suffix) == {
@@ -612,7 +612,7 @@ def test_extended_accuracy_state_value_prefix_suffix(prefix: str, suffix: str):
     }
 
 
-def test_extended_accuracy_state_value_empty():
+def test_extended_accuracy_state_value_empty() -> None:
     state = ExtendedAccuracyState()
     with raises(EmptyMetricError):
         state.value()
@@ -623,12 +623,12 @@ def test_extended_accuracy_state_value_empty():
 #################################
 
 
-def test_setup_state_object():
+def test_setup_state_object() -> None:
     state = MeanErrorState()
     assert setup_state(state) is state
 
 
-def test_setup_state_dict():
+def test_setup_state_dict() -> None:
     assert isinstance(
         setup_state({OBJECT_TARGET: "gravitorch.models.metrics.state.MeanErrorState"}),
         MeanErrorState,

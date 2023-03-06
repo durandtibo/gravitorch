@@ -7,12 +7,12 @@ from gravitorch.data.datasets import DemoMultiClassClsDataset, setup_dataset
 ###################################
 
 
-def test_setup_dataset_object():
+def test_setup_dataset_object() -> None:
     dataset = DemoMultiClassClsDataset(num_examples=10, num_classes=5)
     assert setup_dataset(dataset) is dataset
 
 
-def test_setup_dataset_dict():
+def test_setup_dataset_dict() -> None:
     assert isinstance(
         setup_dataset(
             {
@@ -25,5 +25,5 @@ def test_setup_dataset_dict():
     )
 
 
-def test_setup_dataset_none():
+def test_setup_dataset_none() -> None:
     assert setup_dataset(None) is None

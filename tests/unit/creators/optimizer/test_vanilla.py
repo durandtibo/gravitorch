@@ -14,32 +14,32 @@ from gravitorch.optimizers.utils import get_learning_rate_per_group
 #############################################
 
 
-def test_vanilla_optimizer_creator_str():
+def test_vanilla_optimizer_creator_str() -> None:
     assert str(VanillaOptimizerCreator()).startswith("VanillaOptimizerCreator(")
 
 
 @mark.parametrize("add_module_to_engine", (True, False))
-def test_vanilla_optimizer_creator_add_module_to_engine(add_module_to_engine: bool):
+def test_vanilla_optimizer_creator_add_module_to_engine(add_module_to_engine: bool) -> None:
     assert (
         VanillaOptimizerCreator(add_module_to_engine=add_module_to_engine)._add_module_to_engine
         == add_module_to_engine
     )
 
 
-def test_vanilla_optimizer_creator_create_optimizer_config_none():
+def test_vanilla_optimizer_creator_create_optimizer_config_none() -> None:
     creator = VanillaOptimizerCreator()
     assert creator.create(engine=Mock(), model=Mock()) is None
 
 
 @mark.parametrize("lr", (0.01, 0.001))
-def test_vanilla_optimizer_creator_create_optimizer_config_dict(lr: float):
+def test_vanilla_optimizer_creator_create_optimizer_config_dict(lr: float) -> None:
     creator = VanillaOptimizerCreator(optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": lr})
     optimizer = creator.create(engine=Mock(), model=nn.Linear(4, 6))
     assert isinstance(optimizer, torch.optim.SGD)
     assert get_learning_rate_per_group(optimizer) == {0: lr}
 
 
-def test_vanilla_optimizer_creator_create_optimizer_add_module_to_engine_true():
+def test_vanilla_optimizer_creator_create_optimizer_add_module_to_engine_true() -> None:
     engine = Mock()
     creator = VanillaOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
@@ -49,7 +49,7 @@ def test_vanilla_optimizer_creator_create_optimizer_add_module_to_engine_true():
     engine.add_module.assert_called_once_with(ct.OPTIMIZER, optimizer)
 
 
-def test_vanilla_optimizer_creator_create_optimizer_add_module_to_engine_false():
+def test_vanilla_optimizer_creator_create_optimizer_add_module_to_engine_false() -> None:
     engine = Mock()
     creator = VanillaOptimizerCreator(
         optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},

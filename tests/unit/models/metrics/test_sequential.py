@@ -14,7 +14,7 @@ from gravitorch.utils.history import MinScalarHistory
 
 
 class FakeMetricWithOutput(nn.Module):
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         super().__init__()
         self._name = name
 
@@ -37,7 +37,7 @@ def engine() -> BaseEngine:
 ######################################
 
 
-def test_sequential_metric_attach():
+def test_sequential_metric_attach() -> None:
     metrics = [Mock(spec=nn.Module, attach=Mock()), Mock(spec=nn.Module, attach=Mock())]
     metric = SequentialMetric(metrics)
     engine = Mock()
@@ -46,7 +46,7 @@ def test_sequential_metric_attach():
     metrics[1].attach.assert_called_once_with(engine)
 
 
-def test_sequential_metric_attach_train(engine: BaseEngine):
+def test_sequential_metric_attach_train(engine: BaseEngine) -> None:
     metric = SequentialMetric(metrics=[AbsoluteError(mode=ct.TRAIN), SquaredError(mode=ct.TRAIN)])
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/abs_err_mean"), MinScalarHistory)
@@ -69,7 +69,7 @@ def test_sequential_metric_attach_train(engine: BaseEngine):
     )
 
 
-def test_sequential_metric_attach_eval(engine: BaseEngine):
+def test_sequential_metric_attach_eval(engine: BaseEngine) -> None:
     metric = SequentialMetric(metrics=[AbsoluteError(mode=ct.EVAL), SquaredError(mode=ct.EVAL)])
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/abs_err_mean"), MinScalarHistory)
@@ -92,7 +92,7 @@ def test_sequential_metric_attach_eval(engine: BaseEngine):
     )
 
 
-def test_sequential_metric_forward():
+def test_sequential_metric_forward() -> None:
     metrics = [
         Mock(spec=nn.Module, return_value={"out1": 1}),
         Mock(spec=nn.Module, return_value={"out2": 2}),
@@ -106,7 +106,7 @@ def test_sequential_metric_forward():
     assert metrics[1].call_args.kwargs == {}
 
 
-def test_sequential_metric_forward_return_none():
+def test_sequential_metric_forward_return_none() -> None:
     metrics = [
         Mock(spec=nn.Module, return_value=None),
         Mock(spec=nn.Module, return_value={"out2": 2}),
@@ -121,7 +121,7 @@ def test_sequential_metric_forward_return_none():
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequential_metric_forward_no_output(device: str, metric: SequentialMetric):
+def test_sequential_metric_forward_no_output(device: str, metric: SequentialMetric) -> None:
     device = torch.device(device)
     metric.to(device=device)
     assert (
@@ -130,7 +130,7 @@ def test_sequential_metric_forward_no_output(device: str, metric: SequentialMetr
     )
 
 
-def test_sequential_metric_forward_with_output():
+def test_sequential_metric_forward_with_output() -> None:
     metric = SequentialMetric(
         metrics=[
             Mock(spec=nn.Module, return_value={"some": 42}),
@@ -144,7 +144,7 @@ def test_sequential_metric_forward_with_output():
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequential_metric_value(device: str, metric: SequentialMetric):
+def test_sequential_metric_value(device: str, metric: SequentialMetric) -> None:
     device = torch.device(device)
     metric.to(device=device)
     metric(prediction=torch.ones(2, 3, device=device), target=torch.ones(2, 3, device=device))
@@ -163,7 +163,7 @@ def test_sequential_metric_value(device: str, metric: SequentialMetric):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequential_metric_batches(device: str, metric: SequentialMetric):
+def test_sequential_metric_batches(device: str, metric: SequentialMetric) -> None:
     device = torch.device(device)
     metric.to(device=device)
     metric(prediction=torch.ones(2, 3, device=device), target=torch.ones(2, 3, device=device))
@@ -183,7 +183,7 @@ def test_sequential_metric_batches(device: str, metric: SequentialMetric):
 
 
 @mark.parametrize("device", get_available_devices())
-def test_sequential_metric_batches_with_reset(device: str, metric: SequentialMetric):
+def test_sequential_metric_batches_with_reset(device: str, metric: SequentialMetric) -> None:
     device = torch.device(device)
     metric.to(device=device)
     metric(prediction=torch.ones(2, 3, device=device), target=torch.ones(2, 3, device=device))
@@ -203,7 +203,7 @@ def test_sequential_metric_batches_with_reset(device: str, metric: SequentialMet
     }
 
 
-def test_sequential_metric_value_with_engine():
+def test_sequential_metric_value_with_engine() -> None:
     metrics = [
         Mock(spec=nn.Module, value=Mock(return_value={"out1": 1})),
         Mock(spec=nn.Module, value=Mock(return_value={"out2": 2})),
@@ -214,7 +214,7 @@ def test_sequential_metric_value_with_engine():
     metrics[1].value.assert_called_once_with(engine)
 
 
-def test_sequential_metric_value_without_engine():
+def test_sequential_metric_value_without_engine() -> None:
     metrics = [
         Mock(spec=nn.Module, value=Mock(return_value={"out1": 1})),
         Mock(spec=nn.Module, value=Mock(return_value={"out2": 2})),

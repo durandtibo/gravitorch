@@ -22,12 +22,14 @@ def setup_optimizer(model: Module, optimizer: Union[Optimizer, dict, None]) -> O
     ``OptimizerFactory`` factory function.
 
     Args:
+    ----
         model (``torch.nn.Module``): Specifies the model to train.
         optimizer (``torch.optim.Optimizer`` or dict or ``None``):
             Specifies the optimizer or its configuration. If ``None``,
             no optimizer is instantiated.
 
     Returns:
+    -------
         ``torch.optim.Optimizer`` or ``None``: The (instantiated)
             optimizer if the input is not ``None``, otherwise ``None``.
 

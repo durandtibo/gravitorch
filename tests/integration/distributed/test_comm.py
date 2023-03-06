@@ -15,7 +15,7 @@ from gravitorch.testing import (
 
 @distributed_available
 @gloo_available
-def test_distributed_context_gloo():
+def test_distributed_context_gloo() -> None:
     with distributed_context(Backend.GLOO):
         assert dist_backend() == Backend.GLOO
     assert dist_backend() is None
@@ -24,7 +24,7 @@ def test_distributed_context_gloo():
 @distributed_available
 @cuda_available
 @nccl_available
-def test_distributed_context_nccl():
+def test_distributed_context_nccl() -> None:
     with distributed_context(Backend.NCCL):
         assert dist_backend() == Backend.NCCL
     assert dist_backend() is None
@@ -37,7 +37,7 @@ def test_distributed_context_nccl():
 
 @distributed_available
 @gloo_available
-def test_gloocontext():
+def test_gloocontext() -> None:
     with gloocontext():
         assert dist_backend() == Backend.GLOO
     assert dist_backend() is None
@@ -51,7 +51,7 @@ def test_gloocontext():
 @distributed_available
 @cuda_available
 @nccl_available
-def test_ncclcontext():
+def test_ncclcontext() -> None:
     with ncclcontext():
         assert dist_backend() == Backend.NCCL
     assert dist_backend() is None

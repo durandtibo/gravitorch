@@ -28,6 +28,7 @@ class DatasetDataSource(BaseDataSource):
     loader needs a ``Dataset`` object has input.
 
     Args:
+    ----
         datasets (dict): Specifies the datasets to initialize. Each
             key indicates the dataset name. It is possible to give a
             ``Dataset`` object, or the configuration of a ``Dataset``
@@ -48,7 +49,7 @@ class DatasetDataSource(BaseDataSource):
         self,
         datasets: dict[str, Union[Dataset, dict]],
         data_loader_creators: dict[str, Union[BaseDataLoaderCreator, dict, None]],
-    ):
+    ) -> None:
         self._asset_manager = AssetManager()
 
         logger.info("Initializing the datasets...")

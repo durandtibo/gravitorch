@@ -15,6 +15,7 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
     r"""Implements a simple data source creator.
 
     Args:
+    ----
         config (dict): Specifies the data source configuration.
         attach_to_engine (bool, optional): If ``True``, the data
             source is attached to the engine. Default: ``True``
@@ -29,7 +30,7 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
         config: dict,
         attach_to_engine: bool = True,
         add_module_to_engine: bool = True,
-    ):
+    ) -> None:
         self._config = config
         self._attach_to_engine = bool(attach_to_engine)
         self._add_module_to_engine = bool(add_module_to_engine)

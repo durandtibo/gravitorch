@@ -7,11 +7,13 @@ def absolute_error(prediction: Tensor, target: Tensor) -> Tensor:
     r"""Computes the absolute error between the predictions and targets.
 
     Args:
+    ----
         prediction (``torch.Tensor``): Specifies the predictions.
         target (``torch.Tensor`` with same shape and data type as
             ``prediction``): Specifies the target tensor.
 
     Returns:
+    -------
         ``torch.Tensor`` with same shape and data type as
             the inputs: The absolute error.
 
@@ -33,6 +35,7 @@ def absolute_relative_error(prediction: Tensor, target: Tensor, eps: float = 1e-
     targets.
 
     Args:
+    ----
         prediction (``torch.Tensor``): Specifies the predictions.
         target (``torch.Tensor`` with same shape and data type as
             ``prediction``): Specifies the target tensor.
@@ -41,6 +44,7 @@ def absolute_relative_error(prediction: Tensor, target: Tensor, eps: float = 1e-
             is zero. Default: ``1e-8``
 
     Returns:
+    -------
         ``torch.Tensor`` with same shape and data type as
             the inputs: The absolute relative error.
 
@@ -64,6 +68,7 @@ def symmetric_absolute_relative_error(
     and targets.
 
     Args:
+    ----
         prediction (``torch.Tensor``): Specifies the predictions.
         target (``torch.Tensor`` with same shape and data type as
             ``prediction``): Specifies the target tensor.
@@ -72,6 +77,7 @@ def symmetric_absolute_relative_error(
             is zero. Default: ``1e-8``
 
     Returns:
+    -------
         ``torch.Tensor`` with same shape and data type as
             the inputs: The symmetric absolute relative error.
 

@@ -5,7 +5,7 @@ from pathlib import Path
 from pytest import raises
 
 
-def test_run_cli_successful(tmp_path: Path):
+def test_run_cli_successful(tmp_path: Path) -> None:
     subprocess.run(
         [
             (
@@ -20,7 +20,7 @@ def test_run_cli_successful(tmp_path: Path):
     assert os.path.exists(os.path.join(tmp_path, "run.log"))
 
 
-def test_run_cli_error():
+def test_run_cli_error() -> None:
     with raises(subprocess.CalledProcessError):
         subprocess.run(
             [
