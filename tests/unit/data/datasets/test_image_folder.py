@@ -22,13 +22,14 @@ def create_image_folder(path: Path) -> None:
     """
     cat_path = path.joinpath("cat")
     cat_path.mkdir(exist_ok=True, parents=True)
+    rng = np.random.default_rng()
     for n in range(3):
-        im_out = Image.fromarray((np.random.rand(16, 16, 3) * 255).astype("uint8")).convert("RGB")
+        im_out = Image.fromarray(rng.uniform(0, 256, (16, 16, 3)).astype("uint8")).convert("RGB")
         im_out.save(cat_path.joinpath(f"out{n}.jpg"))
     dog_path = path.joinpath("dog")
     dog_path.mkdir(exist_ok=True, parents=True)
     for n in range(2):
-        im_out = Image.fromarray((np.random.rand(16, 16, 3) * 255).astype("uint8")).convert("RGB")
+        im_out = Image.fromarray(rng.uniform(0, 256, (16, 16, 3)).astype("uint8")).convert("RGB")
         im_out.save(dog_path.joinpath(f"out{n}.jpg"))
 
 

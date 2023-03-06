@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.8a10"
+version = "0.0.8a11"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -128,23 +128,31 @@ syntax = "google"
 #select = ["ANN", "B", "E", "F"]
 #select = ["ANN", "B", "C", "D", "E", "F", "S", "W"]
 select = [
-  "E",   # pycodestyle
-  "F",   # pyflakes
-  "UP",  # pyupgrade
-  "ANN",
+    "A",   # builtins
+    "ANN", # annotations
+    "E",   # pycodestyle (Error)
+    "F",   # pyflakes
+    "N",   # naming
+    "PTH", # pathlib
+    "UP",  # pyupgrade
+    "W",   # pycodestyle (Warning)
+#    "NPY", # NumPy-specific rules
+
 ]
 ignore = [
-    "E501",  # Line lengths are recommended to be no greater than 79 characters.
-    "B905",  # `zip()` without an explicit strict= parameter set. The `strict=` argument was added in Python 3.10
+    "A003",    # Class attribute `{name}` is shadowing a python builtin
     "ANN002",  # Missing type annotation for `*args`
     "ANN003",  # Missing type annotation for `**kwargs`
     "ANN101",  # Missing type annotation for `self` in method
     "ANN102",  # Missing type annotation for `cls` in classmethod
     "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed.
+    "B905",    # `zip()` without an explicit strict= parameter set. The `strict=` argument was added in Python 3.10
+    "E501",    # Line lengths are recommended to be no greater than 79 characters.
+    "W505",    # Doc line too long
 ]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
-fixable = ["E", "F"]
+fixable = ["E", "F", "W"]
 unfixable = []
 
 exclude = [

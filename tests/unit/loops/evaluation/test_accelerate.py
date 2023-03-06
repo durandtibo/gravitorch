@@ -208,7 +208,8 @@ def test_accelerate_evaluation_loop_eval_iterable_dataset() -> None:
     assert isinstance(engine.get_history(f"eval/{ct.LOSS}").get_last_value(), float)
 
 
-# TODO: Comment this test because the current version of accelerate does not support empty data loader
+# TODO: Comment this test because the current version of accelerate does not support empty
+#  data loader
 # @accelerate_available
 # def test_accelerate_evaluation_loop_eval_empty_iterable_dataset()-> None:
 #     engine = create_dummy_engine(

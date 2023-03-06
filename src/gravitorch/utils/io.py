@@ -91,7 +91,7 @@ def load_text(path: Path) -> str:
         >>> data = load_text(Path('/path/to/data.txt'))
     """
     logger.debug(f"read {path}")
-    with open(path) as file:
+    with Path.open(path) as file:
         data = file.read()
     return data
 
@@ -118,7 +118,7 @@ def save_text(to_save: str, path: Path) -> None:
     # Save to tmp, then commit by moving the file in case the job gets
     # interrupted while writing the file
     tmp_path = path.parents[0].joinpath(f"{path.name}.tmp")
-    with open(tmp_path, mode="w") as file:
+    with Path.open(tmp_path, mode="w") as file:
         file.write(to_save)
     tmp_path.rename(path)
 
@@ -161,7 +161,7 @@ def load_json(path: Path) -> dict:
         >>> data = load_json(Path('/path/to/data.json'))
     """
     logger.debug(f"Loading data from {path}...")
-    with open(path, mode="rb") as file:
+    with Path.open(path, mode="rb") as file:
         data = json.load(file)
     return data
 
@@ -191,7 +191,7 @@ def save_json(to_save: Any, path: Path) -> None:
     # Save to tmp, then commit by moving the file in case the job gets
     # interrupted while writing the file
     tmp_path = path.parents[0].joinpath(f"{path.name}.tmp")
-    with open(tmp_path, "w") as file:
+    with Path.open(tmp_path, "w") as file:
         json.dump(to_save, file, sort_keys=False, cls=TensorJSONEncoder)
     tmp_path.rename(path)
 
@@ -222,7 +222,7 @@ def load_pickle(path: Path) -> Any:
         >>> data = load_pickle(Path('/path/to/data.pkl'))
     """
     logger.debug(f"Loading data from {path}...")
-    with open(path, mode="rb") as file:
+    with Path.open(path, mode="rb") as file:
         data = pickle.load(file)
     return data
 
@@ -251,7 +251,7 @@ def save_pickle(to_save: Any, path: Path, protocol: int = pickle.HIGHEST_PROTOCO
     # Save to tmp, then commit by moving the file in case the job gets
     # interrupted while writing the file
     tmp_path = path.parents[0].joinpath(f"{path.name}.tmp")
-    with open(tmp_path, mode="wb") as file:
+    with Path.open(tmp_path, mode="wb") as file:
         pickle.dump(to_save, file, protocol=protocol)
     tmp_path.rename(path)
 
@@ -312,7 +312,7 @@ def load_yaml(path: Path) -> Any:
         >>> data = load_yaml(Path('/path/to/data.yaml'))
     """
     logger.debug(f"Loading data from {path}...")
-    with open(path, mode="rb") as file:
+    with Path.open(path, mode="rb") as file:
         data = yaml.safe_load(file)
     return data
 
@@ -339,6 +339,6 @@ def save_yaml(to_save: Any, path: Path) -> None:
     # Save to tmp, then commit by moving the file in case the job gets
     # interrupted while writing the file
     tmp_path = path.parents[0].joinpath(f"{path.name}.tmp")
-    with open(tmp_path, mode="w") as file:
+    with Path.open(tmp_path, mode="w") as file:
         yaml.dump(to_save, file, Dumper=yaml.Dumper)
     tmp_path.rename(path)

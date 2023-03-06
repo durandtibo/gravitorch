@@ -51,8 +51,8 @@ class AsinhMSELoss(Module):
     def extra_repr(self) -> str:
         return f"reduction={self.reduction}"
 
-    def forward(self, input: Tensor, target: Tensor) -> Tensor:
-        return asinh_mse_loss(input, target, self.reduction)
+    def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
+        return asinh_mse_loss(prediction, target, self.reduction)
 
 
 class MSLELoss(Module):
@@ -87,8 +87,8 @@ class MSLELoss(Module):
     def extra_repr(self) -> str:
         return f"reduction={self.reduction}"
 
-    def forward(self, input: Tensor, target: Tensor) -> Tensor:
-        return msle_loss(input, target, self.reduction)
+    def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
+        return msle_loss(prediction, target, self.reduction)
 
 
 class SymlogMSELoss(Module):
@@ -122,8 +122,8 @@ class SymlogMSELoss(Module):
     def extra_repr(self) -> str:
         return f"reduction={self.reduction}"
 
-    def forward(self, input: Tensor, target: Tensor) -> Tensor:
-        return symlog_mse_loss(input, target, self.reduction)
+    def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
+        return symlog_mse_loss(prediction, target, self.reduction)
 
 
 class RelativeMSELoss(Module):
@@ -160,8 +160,8 @@ class RelativeMSELoss(Module):
     def extra_repr(self) -> str:
         return f"reduction={self.reduction}"
 
-    def forward(self, input: Tensor, target: Tensor) -> Tensor:
-        return relative_mse_loss(input, target, reduction=self.reduction, eps=self._eps)
+    def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
+        return relative_mse_loss(prediction, target, reduction=self.reduction, eps=self._eps)
 
 
 class RelativeSmoothL1Loss(Module):
@@ -202,9 +202,9 @@ class RelativeSmoothL1Loss(Module):
     def extra_repr(self) -> str:
         return f"reduction={self.reduction}, beta={self._beta}, eps={self._eps}"
 
-    def forward(self, input: Tensor, target: Tensor) -> Tensor:
+    def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
         return relative_smooth_l1_loss(
-            input,
+            prediction,
             target,
             reduction=self.reduction,
             beta=self._beta,
@@ -250,9 +250,9 @@ class SymmetricRelativeSmoothL1Loss(Module):
     def extra_repr(self) -> str:
         return f"reduction={self.reduction}, beta={self._beta}, eps={self._eps}"
 
-    def forward(self, input: Tensor, target: Tensor) -> Tensor:
+    def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
         return symmetric_relative_smooth_l1_loss(
-            input,
+            prediction,
             target,
             reduction=self.reduction,
             beta=self._beta,

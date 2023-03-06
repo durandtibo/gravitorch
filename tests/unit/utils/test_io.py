@@ -115,7 +115,7 @@ def test_save_load_text(tmp_path: Path) -> None:
 def test_load_json(tmp_path: Path) -> None:
     file_path = tmp_path.joinpath("data.json")
     to_save = {"abc": 123, 123: "abc"}
-    with open(file_path, "w") as file:
+    with Path.open(file_path, "w") as file:
         json.dump(to_save, file)
 
     assert load_json(file_path) == {"abc": 123, "123": "abc"}
@@ -132,7 +132,7 @@ def test_save_json(tmp_path: Path, to_save: dict, json_data: dict) -> None:
     save_json(to_save, file_path)
 
     assert file_path.is_file()
-    with open(file_path, mode="rb") as file:
+    with Path.open(file_path, mode="rb") as file:
         data = json.load(file)
     assert data == json_data
 
@@ -145,7 +145,7 @@ def test_save_json(tmp_path: Path, to_save: dict, json_data: dict) -> None:
 def test_load_pickle(tmp_path: Path) -> None:
     file_path = tmp_path.joinpath("data.pkl")
     to_save = {"abc": 123, 123: "abc"}
-    with open(file_path, "wb") as file:
+    with Path.open(file_path, "wb") as file:
         pickle.dump(to_save, file)
 
     data = load_pickle(file_path)
@@ -163,7 +163,7 @@ def test_save_pickle(tmp_path: Path, protocol: int, to_save: dict) -> None:
     file_path = tmp_path.joinpath("data", "data.pkl")
     save_pickle(to_save, file_path, protocol)
     assert file_path.is_file()
-    with open(file_path, mode="rb") as file:
+    with Path.open(file_path, mode="rb") as file:
         data = pickle.load(file)
     assert objects_are_equal(data, to_save)
 

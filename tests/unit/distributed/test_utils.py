@@ -6,7 +6,6 @@ from pytest import LogCaptureFixture
 
 from gravitorch import distributed as dist
 from gravitorch.distributed.utils import (
-    conditional_evaluation,
     has_slurm_distributed_env_vars,
     has_torch_distributed_env_vars,
     is_distributed_ready,
@@ -276,32 +275,3 @@ def test_show_distributed_context_info(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         show_distributed_context_info()
         assert len(caplog.messages[0]) > 0  # The message should not be empty
-
-
-############################################
-#     Tests for conditional_evaluation     #
-############################################
-
-
-def test_conditional_evaluation_only_main_process_false(caplog: LogCaptureFixture) -> None:
-    with caplog.at_level(logging.INFO):
-        conditional_evaluation(False, logging.info, "hello")
-        assert len(caplog.messages) == 1
-
-
-def test_conditional_evaluation_only_main_process_true_main_process(
-    caplog: LogCaptureFixture,
-) -> None:
-    with caplog.at_level(logging.INFO):
-        with patch("gravitorch.distributed.utils.dist.is_main_process", lambda *args: True):
-            conditional_evaluation(True, logging.info, "hello")
-            assert len(caplog.messages) == 1
-
-
-def test_conditional_evaluation_only_main_process_true_non_main_process(
-    caplog: LogCaptureFixture,
-) -> None:
-    with caplog.at_level(logging.INFO):
-        with patch("gravitorch.distributed.utils.dist.is_main_process", lambda *args: False):
-            conditional_evaluation(True, logging.info, "hello")
-            assert not caplog.messages
