@@ -260,11 +260,11 @@ def shuffle_tensor_mapping(
                             [19, 17, 16, 18]]),
         }
     """
-    dims = dim if isinstance(dim, dict) else {key: dim for key in mapping.keys()}
+    dims = dim if isinstance(dim, dict) else {key: dim for key in mapping}
     if len(dims) == 0:  # No tensor to permute
         return {key: tensor for key, tensor in mapping.items()}
         # Check if the common dimensions are the same
-    valid_dims = [mapping[key].shape[dims[key]] for key in mapping.keys() if key in dims]
+    valid_dims = [mapping[key].shape[dims[key]] for key in mapping if key in dims]
     if len(set(valid_dims)) > 1:
         raise ValueError(
             f"The tensors do not have the same shape for the common dimension: {valid_dims}"

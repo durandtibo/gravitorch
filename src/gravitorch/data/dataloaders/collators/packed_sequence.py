@@ -73,7 +73,7 @@ class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
             batch[key] = value[:num_seq]
 
         # Create the packed sequences.
-        for key in variable_size_data[0].keys():
+        for key in variable_size_data[0]:
             batch[key] = pack_sequence([variable_size_data[i][key] for i in range(num_seq)])
 
         return batch
@@ -130,7 +130,7 @@ class DictPackedSequenceCollator(BaseCollator[dict, dict]):
 
         # Create the batch of examples.
         batch = {}
-        for key in data[0].keys():
+        for key in data[0]:
             examples = [data[i][key] for i in range(num_seq)]
             if key in self._keys_to_pack:
                 batch[key] = pack_sequence(examples)

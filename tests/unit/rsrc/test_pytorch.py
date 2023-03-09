@@ -149,9 +149,8 @@ def test_pytorch_cuda_backend_log_info_false(caplog: LogCaptureFixture) -> None:
 def test_pytorch_cuda_backend_reentrant() -> None:
     default = cuda.matmul.allow_tf32
     resource = PyTorchCudaBackend(allow_tf32=True)
-    with resource:
-        with resource:
-            assert cuda.matmul.allow_tf32
+    with resource, resource:
+        assert cuda.matmul.allow_tf32
     assert cuda.matmul.allow_tf32 == default
 
 
@@ -251,7 +250,6 @@ def test_pytorch_cudnn_backend_log_info_false(caplog: LogCaptureFixture) -> None
 def test_pytorch_cudnn_backend_reentrant() -> None:
     default = cudnn.allow_tf32
     resource = PyTorchCudnnBackend(allow_tf32=True)
-    with resource:
-        with resource:
-            assert cudnn.allow_tf32
+    with resource, resource:
+        assert cudnn.allow_tf32
     assert cudnn.allow_tf32 == default

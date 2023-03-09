@@ -21,9 +21,8 @@ def test_distributed_context() -> None:
 
 
 def test_distributed_context_incorrect_backend() -> None:
-    with raises(UnknownBackendError):
-        with DistributedContext(backend="incorrect"):
-            pass
+    with raises(UnknownBackendError), DistributedContext(backend="incorrect"):
+        pass
 
 
 def test_distributed_context_log_info_true(caplog: LogCaptureFixture) -> None:

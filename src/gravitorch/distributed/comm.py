@@ -261,9 +261,8 @@ def ncclcontext() -> Generator[None, None, None]:
         )
     if not torch.cuda.is_available():
         raise RuntimeError("NCCL backend requires CUDA capable devices but CUDA is not available")
-    with distributed_context(Backend.NCCL):
-        with torch.cuda.device(get_local_rank()):
-            yield
+    with distributed_context(Backend.NCCL), torch.cuda.device(get_local_rank()):
+        yield
 
 
 BACKEND_TO_CONTEXT = {

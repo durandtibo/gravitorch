@@ -120,11 +120,10 @@ def test_manage_model_device_same_device(device: str) -> None:
 def test_manage_model_device_different_device(device: str) -> None:
     device = torch.device(device)
     model = nn.Linear(4, 6).cpu()
-    with patch("gravitorch.distributed.auto.dist.device", lambda *args, **kwargs: device):
-        with patch(
-            "gravitorch.distributed.auto.is_module_on_device", lambda *args, **kwargs: False
-        ):
-            model = _manage_model_device(model)
+    with patch("gravitorch.distributed.auto.dist.device", lambda *args, **kwargs: device), patch(
+        "gravitorch.distributed.auto.is_module_on_device", lambda *args, **kwargs: False
+    ):
+        model = _manage_model_device(model)
     assert is_module_on_device(model, device)
 
 

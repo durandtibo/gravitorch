@@ -78,7 +78,7 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
             batch[key] = value[:num_seq]
 
         # Create the zero padded sequences.
-        for key in variable_size_data[0].keys():
+        for key in variable_size_data[0]:
             batch[key] = pad_sequence(
                 [variable_size_data[i][key] for i in range(num_seq)],
                 batch_first=self._batch_first,
@@ -153,7 +153,7 @@ class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
 
         # Create the batch of examples.
         batch = {}
-        for key in data[0].keys():
+        for key in data[0]:
             examples = [data[i][key] for i in range(num_seq)]
             if key in self._keys_to_pad:
                 batch[key] = pad_sequence(

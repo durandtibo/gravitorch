@@ -96,18 +96,17 @@ def test_epoch_optimizer_monitor_monitor(tablefmt: str, prefix: str) -> None:
     engine = Mock(spec=BaseEngine, epoch=1)
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"
-    ) as show_mock:
-        with patch(
-            "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
-        ) as log_mock:
-            optimizer_monitor.monitor(engine)
-            show_mock.assert_called_once_with(optimizer=engine.optimizer, tablefmt=tablefmt)
-            log_mock.assert_called_once_with(
-                optimizer=engine.optimizer,
-                engine=engine,
-                step=EpochStep(1),
-                prefix=prefix,
-            )
+    ) as show_mock, patch(
+        "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
+    ) as log_mock:
+        optimizer_monitor.monitor(engine)
+        show_mock.assert_called_once_with(optimizer=engine.optimizer, tablefmt=tablefmt)
+        log_mock.assert_called_once_with(
+            optimizer=engine.optimizer,
+            engine=engine,
+            step=EpochStep(1),
+            prefix=prefix,
+        )
 
 
 def test_epoch_optimizer_monitor_monitor_no_optimizer() -> None:
@@ -115,13 +114,12 @@ def test_epoch_optimizer_monitor_monitor_no_optimizer() -> None:
     engine = Mock(spec=BaseEngine, optimizer=None)
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"
-    ) as show_mock:
-        with patch(
-            "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
-        ) as log_mock:
-            optimizer_monitor.monitor(engine)
-            show_mock.assert_not_called()
-            log_mock.assert_not_called()
+    ) as show_mock, patch(
+        "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
+    ) as log_mock:
+        optimizer_monitor.monitor(engine)
+        show_mock.assert_not_called()
+        log_mock.assert_not_called()
 
 
 ###############################################
@@ -205,28 +203,26 @@ def test_iteration_optimizer_monitor_monitor(tablefmt: str, prefix: str) -> None
     engine = Mock(spec=BaseEngine, iteration=10)
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"
-    ) as show_mock:
-        with patch(
-            "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
-        ) as log_mock:
-            optimizer_monitor.monitor(engine)
-            show_mock.assert_called_once_with(optimizer=engine.optimizer, tablefmt=tablefmt)
-            log_mock.assert_called_once_with(
-                optimizer=engine.optimizer,
-                engine=engine,
-                step=IterationStep(10),
-                prefix=prefix,
-            )
+    ) as show_mock, patch(
+        "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
+    ) as log_mock:
+        optimizer_monitor.monitor(engine)
+        show_mock.assert_called_once_with(optimizer=engine.optimizer, tablefmt=tablefmt)
+        log_mock.assert_called_once_with(
+            optimizer=engine.optimizer,
+            engine=engine,
+            step=IterationStep(10),
+            prefix=prefix,
+        )
 
 
 def test_iteration_optimizer_monitor_monitor_no_optimizer() -> None:
     optimizer_monitor = IterationOptimizerMonitor()
     with patch(
         "gravitorch.handlers.optimizer_monitor.show_optimizer_parameters_per_group"
-    ) as show_mock:
-        with patch(
-            "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
-        ) as log_mock:
-            optimizer_monitor.monitor(engine=Mock(spec=BaseEngine, optimizer=None))
-            show_mock.assert_not_called()
-            log_mock.assert_not_called()
+    ) as show_mock, patch(
+        "gravitorch.handlers.optimizer_monitor.log_optimizer_parameters_per_group"
+    ) as log_mock:
+        optimizer_monitor.monitor(engine=Mock(spec=BaseEngine, optimizer=None))
+        show_mock.assert_not_called()
+        log_mock.assert_not_called()
