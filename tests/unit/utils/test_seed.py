@@ -219,10 +219,9 @@ def test_numpy_seed_restore_random_seed() -> None:
 
 def test_numpy_seed_restore_random_seed_with_exception() -> None:
     state = np.random.get_state()
-    with raises(RuntimeError):
-        with numpy_seed(42):
-            np.random.randn(4, 6)
-            raise RuntimeError("Fake exception")
+    with raises(RuntimeError), numpy_seed(42):
+        np.random.randn(4, 6)
+        raise RuntimeError("Fake exception")
     assert objects_are_equal(state, np.random.get_state())
 
 
@@ -248,10 +247,9 @@ def test_torch_seed_restore_random_seed() -> None:
 
 def test_torch_seed_restore_random_seed_with_exception() -> None:
     state = torch.get_rng_state()
-    with raises(RuntimeError):
-        with torch_seed(42):
-            torch.randn(4, 6)
-            raise RuntimeError("Fake exception")
+    with raises(RuntimeError), torch_seed(42):
+        torch.randn(4, 6)
+        raise RuntimeError("Fake exception")
     assert state.equal(torch.get_rng_state())
 
 

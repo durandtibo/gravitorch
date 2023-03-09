@@ -282,7 +282,4 @@ def shapes_are_equal(tensors: Sequence[Tensor]) -> bool:
     if not tensors:
         return False
     shape = tensors[0].shape
-    for tensor in tensors[1:]:
-        if shape != tensor.shape:
-            return False
-    return True
+    return all(shape == tensor.shape for tensor in tensors[1:])

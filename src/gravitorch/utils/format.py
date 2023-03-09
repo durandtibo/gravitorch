@@ -469,7 +469,7 @@ def to_pretty_dict_str(data: dict[str, Any], sorted_keys: bool = False, indent: 
     if not data:
         return ""
 
-    max_length = max([len(key) for key in data.keys()])
+    max_length = max([len(key) for key in data])
     output = []
     for key in sorted(data.keys()) if sorted_keys else data.keys():
         output.append(f"{' ' * indent + str(key) + ' ' * (max_length - len(key))} : {data[key]}")

@@ -63,9 +63,8 @@ def test_working_directory() -> None:
 
 def test_working_directory_error() -> None:
     cwd_before = Path.cwd()
-    with raises(RuntimeError):
-        with working_directory(cwd_before.parent):
-            raise RuntimeError
+    with raises(RuntimeError), working_directory(cwd_before.parent):
+        raise RuntimeError
 
     assert Path.cwd() == cwd_before
 

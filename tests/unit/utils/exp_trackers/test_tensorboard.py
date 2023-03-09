@@ -47,27 +47,24 @@ def test_tensorboard_exp_tracker_str() -> None:
 def test_tensorboard_exp_tracker_artifact_path(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            assert isinstance(tracker.artifact_path, Path)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        assert isinstance(tracker.artifact_path, Path)
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_checkpoint_path(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            assert isinstance(tracker.checkpoint_path, Path)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        assert isinstance(tracker.checkpoint_path, Path)
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_experiment_id(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            assert tracker.experiment_id == "fakeid0123"
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        assert tracker.experiment_id == "fakeid0123"
 
 
 @tensorboard_available
@@ -75,10 +72,9 @@ def test_tensorboard_exp_tracker_experiment_id(tmp_path: Path) -> None:
 def test_tensorboard_exp_tracker_flush(tmp_path: Path, upload_checkpoints: bool) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.flush(upload_checkpoints)
-            assert tracker._best_metric_path.is_file()
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.flush(upload_checkpoints)
+        assert tracker._best_metric_path.is_file()
 
 
 @tensorboard_available
@@ -98,18 +94,16 @@ def test_tensorboard_exp_tracker_end(tmp_path: Path, remove_after_run: bool) -> 
 def test_tensorboard_exp_tracker_is_activated_true(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            assert tracker.is_activated()
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        assert tracker.is_activated()
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_is_resumed_false(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            assert not tracker.is_resumed()
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        assert not tracker.is_resumed()
 
 
 #############################
@@ -120,28 +114,25 @@ def test_tensorboard_exp_tracker_is_resumed_false(tmp_path: Path) -> None:
 def test_tensorboard_exp_tracker_add_tag(tmp_path: Path, value: Any) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.add_tag("key", value)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.add_tag("key", value)
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_add_tags(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.add_tags({"int": 1, "float": 1.12, "str": "something"})
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.add_tags({"int": 1, "float": 1.12, "str": "something"})
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_create_artifact(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.create_artifact(JSONArtifact(tag="metric", data={"f1_score": 42}))
-            assert tracker.artifact_path.joinpath("metric.json").is_file()
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.create_artifact(JSONArtifact(tag="metric", data={"f1_score": 42}))
+        assert tracker.artifact_path.joinpath("metric.json").is_file()
 
 
 #####################################
@@ -153,21 +144,19 @@ def test_tensorboard_exp_tracker_create_artifact(tmp_path: Path) -> None:
 def test_tensorboard_exp_tracker_log_best_metric(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_best_metric("key", 1.2)
-            assert tracker._best_metrics["key.best"] == 1.2
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_best_metric("key", 1.2)
+        assert tracker._best_metrics["key.best"] == 1.2
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_log_best_metrics(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_best_metrics({"loss": 1.2, "accuracy": 35})
-            assert tracker._best_metrics["loss.best"] == 1.2
-            assert tracker._best_metrics["accuracy.best"] == 35
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_best_metrics({"loss": 1.2, "accuracy": 35})
+        assert tracker._best_metrics["loss.best"] == 1.2
+        assert tracker._best_metrics["accuracy.best"] == 35
 
 
 ################################
@@ -180,11 +169,10 @@ def test_tensorboard_exp_tracker_log_figure_without_step(tmp_path: Path) -> None
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            figure = Mock(spec=Figure)
-            tracker.log_figure("my_figure", figure)
-            writer.add_figure.assert_called_once_with("my_figure", figure, None)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        figure = Mock(spec=Figure)
+        tracker.log_figure("my_figure", figure)
+        writer.add_figure.assert_called_once_with("my_figure", figure, None)
 
 
 @tensorboard_available
@@ -192,11 +180,10 @@ def test_tensorboard_exp_tracker_log_figure_with_epoch_step(tmp_path: Path) -> N
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            figure = Mock(spec=Figure)
-            tracker.log_figure("my_figure_epoch", figure, EpochStep(2))
-            writer.add_figure.assert_called_once_with("my_figure_epoch", figure, 2)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        figure = Mock(spec=Figure)
+        tracker.log_figure("my_figure_epoch", figure, EpochStep(2))
+        writer.add_figure.assert_called_once_with("my_figure_epoch", figure, 2)
 
 
 @tensorboard_available
@@ -204,11 +191,10 @@ def test_tensorboard_exp_tracker_log_figure_with_iteration_step(tmp_path: Path) 
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            figure = Mock(spec=Figure)
-            tracker.log_figure("my_figure_iteration", figure, IterationStep(20))
-            writer.add_figure.assert_called_once_with("my_figure_iteration", figure, 20)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        figure = Mock(spec=Figure)
+        tracker.log_figure("my_figure_iteration", figure, IterationStep(20))
+        writer.add_figure.assert_called_once_with("my_figure_iteration", figure, 20)
 
 
 @tensorboard_available
@@ -216,14 +202,13 @@ def test_tensorboard_exp_tracker_log_figures_without_step(tmp_path: Path) -> Non
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            figure = Mock(spec=Figure)
-            tracker.log_figures({"my_figure_1": figure, "my_figure_2": figure})
-            assert writer.add_figure.call_args_list == [
-                (("my_figure_1", figure, None), {}),
-                (("my_figure_2", figure, None), {}),
-            ]
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        figure = Mock(spec=Figure)
+        tracker.log_figures({"my_figure_1": figure, "my_figure_2": figure})
+        assert writer.add_figure.call_args_list == [
+            (("my_figure_1", figure, None), {}),
+            (("my_figure_2", figure, None), {}),
+        ]
 
 
 @tensorboard_available
@@ -231,16 +216,15 @@ def test_tensorboard_exp_tracker_log_figures_with_epoch_step(tmp_path: Path) -> 
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            figure = Mock(spec=Figure)
-            tracker.log_figures(
-                {"my_figure_epoch_1": figure, "my_figure_epoch_2": figure}, EpochStep(2)
-            )
-            assert writer.add_figure.call_args_list == [
-                (("my_figure_epoch_1", figure, 2), {}),
-                (("my_figure_epoch_2", figure, 2), {}),
-            ]
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        figure = Mock(spec=Figure)
+        tracker.log_figures(
+            {"my_figure_epoch_1": figure, "my_figure_epoch_2": figure}, EpochStep(2)
+        )
+        assert writer.add_figure.call_args_list == [
+            (("my_figure_epoch_1", figure, 2), {}),
+            (("my_figure_epoch_2", figure, 2), {}),
+        ]
 
 
 @tensorboard_available
@@ -248,17 +232,16 @@ def test_tensorboard_exp_tracker_log_figures_with_iteration_step(tmp_path: Path)
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            figure = Mock(spec=Figure)
-            tracker.log_figures(
-                {"my_figure_iteration_1": figure, "my_figure_iteration_2": figure},
-                IterationStep(28),
-            )
-            assert writer.add_figure.call_args_list == [
-                (("my_figure_iteration_1", figure, 28), {}),
-                (("my_figure_iteration_2", figure, 28), {}),
-            ]
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        figure = Mock(spec=Figure)
+        tracker.log_figures(
+            {"my_figure_iteration_1": figure, "my_figure_iteration_2": figure},
+            IterationStep(28),
+        )
+        assert writer.add_figure.call_args_list == [
+            (("my_figure_iteration_1", figure, 28), {}),
+            (("my_figure_iteration_2", figure, 28), {}),
+        ]
 
 
 #########################################
@@ -271,34 +254,32 @@ def test_tensorboard_exp_tracker_log_figures_with_iteration_step(tmp_path: Path)
 def test_tensorboard_exp_tracker_log_hyper_parameter(tmp_path: Path, value: Any) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_hyper_parameter("param", value)
-            assert objects_are_equal(tracker._hparams["param"], value)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_hyper_parameter("param", value)
+        assert objects_are_equal(tracker._hparams["param"], value)
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_log_hyper_parameters(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_hyper_parameters(
-                {
-                    "param_float": 1.2,
-                    "param_int": 35,
-                    "param_str": "abc",
-                    "param_nn": nn.Linear(4, 5),
-                    "param_tensor": torch.ones(1, 3),
-                    "param_none": None,
-                }
-            )
-            assert tracker._hparams["param_float"] == 1.2
-            assert tracker._hparams["param_int"] == 35
-            assert tracker._hparams["param_str"] == "abc"
-            assert isinstance(tracker._hparams["param_nn"], nn.Linear)
-            assert tracker._hparams["param_tensor"].equal(torch.ones(1, 3))
-            assert tracker._hparams["param_none"] is None
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_hyper_parameters(
+            {
+                "param_float": 1.2,
+                "param_int": 35,
+                "param_str": "abc",
+                "param_nn": nn.Linear(4, 5),
+                "param_tensor": torch.ones(1, 3),
+                "param_none": None,
+            }
+        )
+        assert tracker._hparams["param_float"] == 1.2
+        assert tracker._hparams["param_int"] == 35
+        assert tracker._hparams["param_str"] == "abc"
+        assert isinstance(tracker._hparams["param_nn"], nn.Linear)
+        assert tracker._hparams["param_tensor"].equal(torch.ones(1, 3))
+        assert tracker._hparams["param_none"] is None
 
 
 ###############################
@@ -310,66 +291,60 @@ def test_tensorboard_exp_tracker_log_hyper_parameters(tmp_path: Path) -> None:
 def test_tensorboard_exp_tracker_log_image(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_image("my_image", Mock(spec=Image))
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_image("my_image", Mock(spec=Image))
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_log_image_with_epoch_step(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_image("my_image_epoch", Mock(spec=Image), EpochStep(2))
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_image("my_image_epoch", Mock(spec=Image), EpochStep(2))
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_log_image_with_iteration_step(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_image("my_image_iteration", Mock(spec=Image), IterationStep(20))
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_image("my_image_iteration", Mock(spec=Image), IterationStep(20))
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_log_images(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_images({"my_image_1": Mock(spec=Image), "my_image_2": Mock(spec=Image)})
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_images({"my_image_1": Mock(spec=Image), "my_image_2": Mock(spec=Image)})
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_log_images_with_epoch_step(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_images(
-                {
-                    "my_image_epoch_1": Mock(spec=Image),
-                    "my_image_epoch_2": Mock(spec=Image),
-                },
-                EpochStep(2),
-            )
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_images(
+            {
+                "my_image_epoch_1": Mock(spec=Image),
+                "my_image_epoch_2": Mock(spec=Image),
+            },
+            EpochStep(2),
+        )
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_log_images_with_iteration_step(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_images(
-                {
-                    "my_image_iteration_1": Mock(spec=Image),
-                    "my_image_iteration_2": Mock(spec=Image),
-                },
-                IterationStep(20),
-            )
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_images(
+            {
+                "my_image_iteration_1": Mock(spec=Image),
+                "my_image_iteration_2": Mock(spec=Image),
+            },
+            IterationStep(20),
+        )
 
 
 ################################
@@ -385,10 +360,9 @@ def test_tensorboard_exp_tracker_log_metric_without_step(
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_metric("key", value)
-            writer.add_scalar.assert_called_once_with("key", value, None)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_metric("key", value)
+        writer.add_scalar.assert_called_once_with("key", value, None)
 
 
 @tensorboard_available
@@ -396,10 +370,9 @@ def test_tensorboard_exp_tracker_log_metric_with_epoch_step(tmp_path: Path) -> N
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_metric("key", 1.2, step=EpochStep(2))
-            writer.add_scalar.assert_called_once_with("key", 1.2, 2)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_metric("key", 1.2, step=EpochStep(2))
+        writer.add_scalar.assert_called_once_with("key", 1.2, 2)
 
 
 @tensorboard_available
@@ -407,10 +380,9 @@ def test_tensorboard_exp_tracker_log_metric_with_iteration_step(tmp_path: Path) 
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_metric("key", 1.2, step=IterationStep(20))
-            writer.add_scalar.assert_called_once_with("key", 1.2, 20)
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_metric("key", 1.2, step=IterationStep(20))
+        writer.add_scalar.assert_called_once_with("key", 1.2, 20)
 
 
 @tensorboard_available
@@ -418,13 +390,12 @@ def test_tensorboard_exp_tracker_log_metrics_without_step(tmp_path: Path) -> Non
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_metrics({"loss": 1.2, "accuracy": 35})
-            assert writer.add_scalar.call_args_list == [
-                (("loss", 1.2, None), {}),
-                (("accuracy", 35, None), {}),
-            ]
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_metrics({"loss": 1.2, "accuracy": 35})
+        assert writer.add_scalar.call_args_list == [
+            (("loss", 1.2, None), {}),
+            (("accuracy", 35, None), {}),
+        ]
 
 
 @tensorboard_available
@@ -432,13 +403,12 @@ def test_tensorboard_exp_tracker_log_metrics_with_epoch_step(tmp_path: Path) -> 
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_metrics({"loss": 1.2, "accuracy": 35}, step=EpochStep(2))
-            assert writer.add_scalar.call_args_list == [
-                (("loss", 1.2, 2), {}),
-                (("accuracy", 35, 2), {}),
-            ]
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_metrics({"loss": 1.2, "accuracy": 35}, step=EpochStep(2))
+        assert writer.add_scalar.call_args_list == [
+            (("loss", 1.2, 2), {}),
+            (("accuracy", 35, 2), {}),
+        ]
 
 
 @tensorboard_available
@@ -446,33 +416,29 @@ def test_tensorboard_exp_tracker_log_metrics_with_iteration_step(tmp_path: Path)
     writer = Mock()
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=writer)
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker.log_metrics({"loss": 1.2, "accuracy": 35}, step=IterationStep(20))
-            assert writer.add_scalar.call_args_list == [
-                (("loss", 1.2, 20), {}),
-                (("accuracy", 35, 20), {}),
-            ]
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker.log_metrics({"loss": 1.2, "accuracy": 35}, step=IterationStep(20))
+        assert writer.add_scalar.call_args_list == [
+            (("loss", 1.2, 20), {}),
+            (("accuracy", 35, 20), {}),
+        ]
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_duplicate_start(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            with raises(RuntimeError):
-                tracker.start()
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker, raises(RuntimeError):
+        tracker.start()
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_temporary_dir() -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker() as tracker:
-            assert tracker._remove_after_run
-            assert tracker._experiment_path.is_dir()
+    ), TensorBoardExpTracker() as tracker:
+        assert tracker._remove_after_run
+        assert tracker._experiment_path.is_dir()
 
 
 @tensorboard_available
@@ -497,21 +463,19 @@ def test_tensorboard_exp_tracker_clean_internal_variables() -> None:
 def test_tensorboard_exp_tracker_load_best_metrics(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            save_json({"accuracy": 45, "loss": 1.2}, tracker._best_metric_path)
-            tracker._load_best_metrics()
-            assert tracker._best_metrics == {"accuracy": 45, "loss": 1.2}
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        save_json({"accuracy": 45, "loss": 1.2}, tracker._best_metric_path)
+        tracker._load_best_metrics()
+        assert tracker._best_metrics == {"accuracy": 45, "loss": 1.2}
 
 
 @tensorboard_available
 def test_tensorboard_exp_tracker_load_best_metrics_no_file(tmp_path: Path) -> None:
     with patch(
         "gravitorch.utils.exp_trackers.tensorboard.MLTorchSummaryWriter", Mock(return_value=Mock())
-    ):
-        with TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
-            tracker._load_best_metrics()
-            assert tracker._best_metrics == {}
+    ), TensorBoardExpTracker(experiment_path=tmp_path) as tracker:
+        tracker._load_best_metrics()
+        assert tracker._best_metrics == {}
 
 
 ###################################################
@@ -570,9 +534,8 @@ def test_gravitorch_summary_writer(tmp_path: Path) -> None:
 
 @tensorboard_available
 def test_gravitorch_summary_writer_incorrect_type(tmp_path: Path) -> None:
-    with MLTorchSummaryWriter(tmp_path.as_posix()) as writer:
-        with raises(TypeError):
-            writer.add_hparams(hparam_dict=Mock(), metric_dict=Mock())
+    with MLTorchSummaryWriter(tmp_path.as_posix()) as writer, raises(TypeError):
+        writer.add_hparams(hparam_dict=Mock(), metric_dict=Mock())
 
 
 ####################################

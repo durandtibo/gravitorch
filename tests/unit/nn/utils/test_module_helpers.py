@@ -629,13 +629,12 @@ def test_module_mode_eval() -> None:
 def test_module_mode_with_exception() -> None:
     module = nn.ModuleDict({"module1": nn.Linear(4, 6), "module2": nn.Linear(2, 4).eval()})
     assert module.training
-    with raises(RuntimeError):
-        with module_mode(module):
-            module.eval()
-            assert not module.training
-            assert not module["module1"].training
-            assert not module["module2"].training
-            raise RuntimeError
+    with raises(RuntimeError), module_mode(module):
+        module.eval()
+        assert not module.training
+        assert not module["module1"].training
+        assert not module["module2"].training
+        raise RuntimeError
 
     assert module.training
     assert module["module1"].training
@@ -669,9 +668,8 @@ def test_top_module_mode_eval() -> None:
 def test_top_module_mode_with_exception() -> None:
     module = nn.Linear(4, 6)
     assert module.training
-    with raises(RuntimeError):
-        with top_module_mode(module):
-            module.eval()
-            assert not module.training
-            raise RuntimeError
+    with raises(RuntimeError), top_module_mode(module):
+        module.eval()
+        assert not module.training
+        raise RuntimeError
     assert module.training

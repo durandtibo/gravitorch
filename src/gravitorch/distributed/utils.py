@@ -69,10 +69,7 @@ def has_torch_distributed_env_vars() -> bool:
         bool: ``True`` if all the environment variables are set,
             otherwise ``False``.
     """
-    for env_var in TORCH_DISTRIBUTED_ENV_VARS:
-        if env_var not in os.environ:
-            return False
-    return True
+    return all(env_var in os.environ for env_var in TORCH_DISTRIBUTED_ENV_VARS)
 
 
 def has_slurm_distributed_env_vars() -> bool:
@@ -84,10 +81,7 @@ def has_slurm_distributed_env_vars() -> bool:
         bool: ``True`` if all the environment variables are set,
             otherwise ``False``.
     """
-    for env_var in SLURM_DISTRIBUTED_ENV_VARS:
-        if env_var not in os.environ:
-            return False
-    return True
+    return all(env_var in os.environ for env_var in SLURM_DISTRIBUTED_ENV_VARS)
 
 
 def show_distributed_env_vars() -> None:

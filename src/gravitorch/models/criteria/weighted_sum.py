@@ -86,7 +86,7 @@ class WeightedSumLoss(Module):
             criteria = ModuleDict({key: setup_module(value) for key, value in criteria.items()})
         self.criteria = criteria
         self._weights = weights or {}
-        for key in self.criteria.keys():
+        for key in self.criteria:
             self._weights[key] = self._weights.get(key, 1.0)
 
     def extra_repr(self) -> str:

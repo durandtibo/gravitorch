@@ -68,7 +68,6 @@ def test_logging_non_main_process_only_main_process_false(disabled_level: int) -
 def test_logging_reentrant() -> None:
     default = logging.root.manager.disable
     resource = Logging()
-    with resource:
-        with resource:
-            assert logging.root.manager.disable == default
+    with resource, resource:
+        assert logging.root.manager.disable == default
     assert logging.root.manager.disable == default

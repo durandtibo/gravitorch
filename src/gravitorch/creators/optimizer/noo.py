@@ -36,4 +36,4 @@ class NoOptimizerCreator(BaseOptimizerCreator):
             ``None``: because there is no optimizer to create.
         """
         logger.info("No optimizer")
-        return None
+        return

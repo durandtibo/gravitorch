@@ -60,16 +60,14 @@ def test_distributed_context_backend() -> None:
 
 
 def test_distributed_context_backend_incorrect() -> None:
-    with raises(UnknownBackendError):
-        with distributed_context(backend="incorrect backend"):
-            pass
+    with raises(UnknownBackendError), distributed_context(backend="incorrect backend"):
+        pass
 
 
 def test_distributed_context_backend_raise_error() -> None:
     # Test if the `finalize` function is called to release the resources.
-    with raises(RuntimeError):
-        with distributed_context(backend=Backend.GLOO):
-            raise RuntimeError("Fake error")
+    with raises(RuntimeError), distributed_context(backend=Backend.GLOO):
+        raise RuntimeError("Fake error")
     assert dist_backend() is None
 
 
@@ -143,16 +141,14 @@ def test_resolve_backend_incorrect_backend() -> None:
 
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.GLOO,))
 def test_gloocontext() -> None:
-    with patch("gravitorch.distributed.comm.distributed_context") as mock:
-        with gloocontext():
-            mock.assert_called_once_with(Backend.GLOO)
+    with patch("gravitorch.distributed.comm.distributed_context") as mock, gloocontext():
+        mock.assert_called_once_with(Backend.GLOO)
 
 
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: ())
 def test_gloocontext_no_gloo_backend() -> None:
-    with raises(RuntimeError):
-        with gloocontext():
-            pass
+    with raises(RuntimeError), gloocontext():
+        pass
 
 
 #################################
@@ -174,17 +170,15 @@ def test_ncclcontext() -> None:
 @patch("torch.cuda.is_available", lambda *args: True)
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: ())
 def test_ncclcontext_no_nccl_backend() -> None:
-    with raises(RuntimeError):
-        with ncclcontext():
-            pass
+    with raises(RuntimeError), ncclcontext():
+        pass
 
 
 @patch("torch.cuda.is_available", lambda *args: False)
 @patch("gravitorch.distributed.comm.available_backends", lambda *args: (Backend.NCCL,))
 def test_ncclcontext_cuda_is_not_available() -> None:
-    with raises(RuntimeError):
-        with ncclcontext():
-            pass
+    with raises(RuntimeError), ncclcontext():
+        pass
 
 
 ########################################
