@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.8a11"
+version = "0.0.8a12"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -38,7 +38,7 @@ torch = "^1.13"
 tqdm = "^4.64"
 
 # Optional dependencies
-accelerate = { version = "^0.15", optional = true }
+accelerate = { version = "0.16", optional = true }
 colorlog = { version = "^6.7", optional = true }
 matplotlib = { version = "^3.6", optional = true }
 pillow = { version = "^9.3", optional = true }
@@ -62,7 +62,7 @@ vision = ["pillow", "torchvision"]
 optional = true
 
 [tool.poetry.group.exp.dependencies]
-jupyterlab = "^3.5"
+jupyterlab = "^3.6"
 torch-tb-profiler = "^0.4"
 
 [tool.poetry.group.dev.dependencies]

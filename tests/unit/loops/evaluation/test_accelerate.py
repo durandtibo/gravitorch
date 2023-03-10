@@ -29,8 +29,6 @@ from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
 if is_accelerate_available():
     from accelerate import Accelerator
     from accelerate.state import AcceleratorState
-else:
-    Accelerator, AcceleratorState = None, None  # pragma: no cover
 
 
 ##############################################
@@ -41,8 +39,7 @@ else:
 @fixture(autouse=True)
 def reset_accelerate_state() -> None:
     if is_accelerate_available():
-        AcceleratorState._shared_state = {}
-        AcceleratorState.initialized = False
+        AcceleratorState._reset_state()
 
 
 def increment_epoch_handler(engine: BaseEngine) -> None:
