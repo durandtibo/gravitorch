@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class BaseXavier(BaseInitializer):
-    r"""Implements a model parameter initializer with the Xavier Normal or
+    r"""Implements a module parameter initializer with the Xavier Normal or
     uniform strategy.
 
     Args:
@@ -42,7 +42,7 @@ class BaseXavier(BaseInitializer):
 
 
 class XavierNormal(BaseXavier):
-    r"""Implements a model parameter initializer with the Xavier Normal
+    r"""Implements a module parameter initializer with the Xavier Normal
     strategy."""
 
     def initialize(self, module: Module) -> None:
@@ -51,7 +51,7 @@ class XavierNormal(BaseXavier):
 
 
 class XavierUniform(BaseXavier):
-    r"""Implements a model parameter initializer with the Xavier uniform
+    r"""Implements a module parameter initializer with the Xavier uniform
     strategy."""
 
     def initialize(self, module: Module) -> None:
