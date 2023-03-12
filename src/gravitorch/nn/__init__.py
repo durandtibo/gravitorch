@@ -17,7 +17,6 @@ __all__ = [
     "ExpSin",
     "FlattenModule",
     "FusionFFN",
-    "FusionNorm",
     "Gaussian",
     "Isymlog",
     "Laplacian",
@@ -103,7 +102,6 @@ from gravitorch.nn.fusion import (
     AverageFusion,
     ConcatFusion,
     FusionFFN,
-    FusionNorm,
     MultiplicationFusion,
     SumFusion,
 )
