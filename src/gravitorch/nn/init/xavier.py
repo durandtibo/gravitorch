@@ -54,7 +54,10 @@ class XavierNormal(BaseXavier):
     strategy."""
 
     def initialize(self, module: Module) -> None:
-        logger.info("Initializing module parameters with the Xavier Normal strategy...")
+        logger.info(
+            f"Initializing module parameters with the Xavier Normal strategy (gain={self._gain}, "
+            f"learnable_only={self._learnable_only})..."
+        )
         xavier_normal_init(
             module=module,
             gain=self._gain,
@@ -68,7 +71,10 @@ class XavierUniform(BaseXavier):
     strategy."""
 
     def initialize(self, module: Module) -> None:
-        logger.info("Initializing module parameters with the Xavier uniform strategy...")
+        logger.info(
+            f"Initializing module parameters with the Xavier uniform strategy (gain={self._gain}, "
+            f"learnable_only={self._learnable_only})..."
+        )
         xavier_uniform_init(
             module=module,
             gain=self._gain,

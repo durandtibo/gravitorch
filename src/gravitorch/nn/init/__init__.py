@@ -7,6 +7,7 @@ __all__ = [
     "XavierUniform",
     "constant_bias_init",
     "constant_init",
+    "setup_initializer",
     "xavier_normal_init",
     "xavier_uniform_init",
 ]
@@ -18,6 +19,7 @@ from gravitorch.nn.init.constant import (
     constant_bias_init,
     constant_init,
 )
+from gravitorch.nn.init.factory import setup_initializer
 from gravitorch.nn.init.noop import NoOpInitializer
 from gravitorch.nn.init.xavier import (
     XavierNormal,
