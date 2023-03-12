@@ -1,6 +1,6 @@
-r"""This module implements a handler to initialize parameters."""
+r"""This module implements a handler to initialize model's parameters."""
 
-__all__ = ["ParameterInitializer"]
+__all__ = ["ModelInitializer"]
 
 import logging
 from typing import Union
@@ -9,42 +9,39 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
+from gravitorch.nn.init import BaseInitializer, setup_initializer
 from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.format import str_indent
-from gravitorch.utils.parameter_initializers import (
-    BaseParameterInitializer,
-    setup_parameter_initializer,
-)
 
 logger = logging.getLogger(__name__)
 
 
-class ParameterInitializer(BaseHandler):
-    r"""Implements a handler to initialize the parameters.
+class ModelInitializer(BaseHandler):
+    r"""Implements a handler to initialize the model's parameters.
 
-    This handler uses a ``BaseParameterInitializer`` object to
-    initialize parameters.
+    This handler uses a ``BaseInitializer`` object to
+    initialize model's parameters.
 
     Args:
     ----
-        parameter_initializer (``BaseParameterInitializer`` or dict):
-            Specifies the parameter initializer or its configuration.
+        initializer (``BaseInitializer`` or dict): Specifies the
+            model's parameters initializer or its configuration.
         event (str, optional): Specifies the event when to initialize
-            the parameters. Default: ``'train_started'``
+            the model's parameters. Default: ``'train_started'``
     """
 
     def __init__(
         self,
-        parameter_initializer: Union[BaseParameterInitializer, dict],
+        initializer: Union[BaseInitializer, dict],
         event: str = EngineEvents.TRAIN_STARTED,
     ) -> None:
-        self._parameter_initializer = setup_parameter_initializer(parameter_initializer)
+        self._initializer = setup_initializer(initializer)
         self._event = event
 
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  parameter_initializer={str_indent(self._parameter_initializer)},"
+            f"  initializer={str_indent(self._initializer)},"
             f"  event={self._event},"
             ")"
         )
@@ -54,7 +51,7 @@ class ParameterInitializer(BaseHandler):
             engine=engine,
             event=self._event,
             event_handler=VanillaEventHandler(
-                self._parameter_initializer.initialize,
+                self._initializer.initialize,
                 handler_kwargs={"engine": engine},
             ),
         )

@@ -26,10 +26,10 @@ __all__ = [
     "MetricLRSchedulerUpdater",
     "ModelArchitectureAnalyzer",
     "ModelFreezer",
+    "ModelInitializer",
     "ModelNetworkArchitectureAnalyzer",
     "ModelParameterAnalyzer",
     "ModelStateDictLoader",
-    "ParameterInitializer",
     "PartialModelStateDictLoader",
     "TagEngineStateSaver",
     "VanillaLRScheduler",
@@ -76,6 +76,7 @@ from gravitorch.handlers.model_architecture_analyzer import (
     ModelArchitectureAnalyzer,
     ModelNetworkArchitectureAnalyzer,
 )
+from gravitorch.handlers.model_initializer import ModelInitializer
 from gravitorch.handlers.model_parameter_analyzer import ModelParameterAnalyzer
 from gravitorch.handlers.model_state_dict_loader import (
     ModelStateDictLoader,
@@ -86,7 +87,6 @@ from gravitorch.handlers.optimizer_monitor import (
     IterationOptimizerMonitor,
 )
 from gravitorch.handlers.optimizer_state import ConsolidateOptimizerState
-from gravitorch.handlers.parameter_initializer import ParameterInitializer
 from gravitorch.handlers.sysinfo import EpochSysInfoMonitor
 from gravitorch.handlers.utils import (
     add_unique_event_handler,
