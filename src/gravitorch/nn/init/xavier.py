@@ -23,21 +23,29 @@ class BaseXavier(BaseInitializer):
     Args:
     ----
         gain (float, optional): Specifies the gain or scaling factor.
-            Default: ``1``
+            Default: ``1.0``
         learnable_only (bool, optional): If ``True``, only the
             learnable parameters are initialized, otherwise all the
             parameters are initialized. Default: ``True``
+        log_info (bool, optional): If ``True``, log some information
+            about the weights that are initialized. Default: ``False``
     """
 
-    def __init__(self, gain: float = 1.0, learnable_only: bool = True) -> None:
+    def __init__(
+        self,
+        gain: float = 1.0,
+        learnable_only: bool = True,
+        log_info: bool = False,
+    ) -> None:
         super().__init__()
         self._gain = float(gain)
         self._learnable_only = bool(learnable_only)
+        self._log_info = bool(log_info)
 
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(gain={self._gain}, "
-            f"learnable_only={self._learnable_only})"
+            f"learnable_only={self._learnable_only}, log_info={self._log_info})"
         )
 
 
@@ -47,7 +55,12 @@ class XavierNormal(BaseXavier):
 
     def initialize(self, module: Module) -> None:
         logger.info("Initializing module parameters with the Xavier Normal strategy...")
-        xavier_normal_init(module=module, gain=self._gain, learnable_only=self._learnable_only)
+        xavier_normal_init(
+            module=module,
+            gain=self._gain,
+            learnable_only=self._learnable_only,
+            log_info=self._log_info,
+        )
 
 
 class XavierUniform(BaseXavier):
@@ -56,10 +69,20 @@ class XavierUniform(BaseXavier):
 
     def initialize(self, module: Module) -> None:
         logger.info("Initializing module parameters with the Xavier uniform strategy...")
-        xavier_uniform_init(module=module, gain=self._gain, learnable_only=self._learnable_only)
+        xavier_uniform_init(
+            module=module,
+            gain=self._gain,
+            learnable_only=self._learnable_only,
+            log_info=self._log_info,
+        )
 
 
-def xavier_normal_init(module: nn.Module, gain: float = 1.0, learnable_only: bool = True) -> None:
+def xavier_normal_init(
+    module: nn.Module,
+    gain: float = 1.0,
+    learnable_only: bool = True,
+    log_info: bool = False,
+) -> None:
     r"""Initialize the parameters of the module with the Xavier Normal
     initialization.
 
@@ -70,9 +93,10 @@ def xavier_normal_init(module: nn.Module, gain: float = 1.0, learnable_only: boo
         gain (float, optional): Specifies the gain or scaling factor.
             Default: ``1``
         learnable_only (bool, optional): If ``True``, only the
-            learnable parameters are initialized,
-            otherwise all the parameters are initialized.
-            Default: ``True``
+            learnable parameters are initialized, otherwise all the
+            parameters are initialized. Default: ``True``
+        log_info (bool, optional): If ``True``, log some information
+            about the weights that are initialized. Default: ``False``
 
     Example usage:
 
@@ -83,12 +107,19 @@ def xavier_normal_init(module: nn.Module, gain: float = 1.0, learnable_only: boo
         >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
         >>> xavier_normal_init(net)
     """
-    for params in module.parameters():
+    for name, params in module.named_parameters():
         if params.ndim > 1 and (not learnable_only or learnable_only and params.requires_grad):
+            if log_info:
+                logger.info(f"Initializing '{name}' with gain {gain} | shape={params.shape}")
             nn.init.xavier_normal_(params.data, gain=gain)
 
 
-def xavier_uniform_init(module: nn.Module, gain: float = 1.0, learnable_only: bool = True) -> None:
+def xavier_uniform_init(
+    module: nn.Module,
+    gain: float = 1.0,
+    learnable_only: bool = True,
+    log_info: bool = False,
+) -> None:
     r"""Initialize the parameters of the module with the Xavier uniform
     initialization.
 
@@ -101,6 +132,8 @@ def xavier_uniform_init(module: nn.Module, gain: float = 1.0, learnable_only: bo
         learnable_only (bool, optional): If ``True``, only the
             learnable parameters are initialized, otherwise all the
             parameters are initialized. Default: ``True``
+        log_info (bool, optional): If ``True``, log some information
+            about the weights that are initialized. Default: ``False``
 
     Example usage:
 
@@ -111,6 +144,8 @@ def xavier_uniform_init(module: nn.Module, gain: float = 1.0, learnable_only: bo
         >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
         >>> xavier_uniform_init(net)
     """
-    for params in module.parameters():
+    for name, params in module.named_parameters():
         if params.ndim > 1 and (not learnable_only or learnable_only and params.requires_grad):
+            if log_info:
+                logger.info(f"Initializing '{name}' with gain {gain} | shape={params.shape}")
             nn.init.xavier_uniform_(params.data, gain=gain)

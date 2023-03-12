@@ -1,9 +1,10 @@
+import logging
 import math
 from typing import Union
 from unittest.mock import patch
 
 import torch
-from pytest import mark
+from pytest import LogCaptureFixture, mark
 from torch import nn
 
 from gravitorch.nn import freeze_module
@@ -67,7 +68,9 @@ def test_xavier_normal_initialize(gain: Union[int, float], learnable_only: bool)
     constant_init(module, 1.0)
     with patch("gravitorch.nn.init.xavier.xavier_normal_init") as xavier:
         XavierNormal(gain=gain, learnable_only=learnable_only).initialize(module)
-        xavier.assert_called_once_with(module=module, gain=gain, learnable_only=learnable_only)
+        xavier.assert_called_once_with(
+            module=module, gain=gain, learnable_only=learnable_only, log_info=False
+        )
 
 
 ###################################
@@ -124,7 +127,9 @@ def test_xavier_uniform_initialize(gain: Union[int, float], learnable_only: bool
         XavierUniform(gain=gain, learnable_only=learnable_only).initialize(module)
         assert not module.weight.data.equal(torch.zeros(6, 4))
         assert module.bias.data.equal(torch.ones(6))
-        xavier.assert_called_once_with(module=module, gain=gain, learnable_only=learnable_only)
+        xavier.assert_called_once_with(
+            module=module, gain=gain, learnable_only=learnable_only, log_info=False
+        )
 
 
 ########################################
@@ -173,6 +178,26 @@ def test_xavier_normal_init_sequential_learnable_only_false() -> None:
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
+def test_xavier_normal_init_log_info_true(caplog: LogCaptureFixture) -> None:
+    module = nn.Linear(4, 6)
+    constant_init(module, 0.0)
+    with caplog.at_level(level=logging.INFO):
+        xavier_normal_init(module, log_info=True)
+        assert not module.weight.data.equal(torch.zeros(6, 4))
+        assert module.bias.data.equal(torch.zeros(6))
+        assert caplog.messages
+
+
+def test_xavier_normal_init_log_info_false(caplog: LogCaptureFixture) -> None:
+    module = nn.Linear(4, 6)
+    constant_init(module, 0.0)
+    with caplog.at_level(level=logging.INFO):
+        xavier_normal_init(module)
+        assert not module.weight.data.equal(torch.zeros(6, 4))
+        assert module.bias.data.equal(torch.zeros(6))
+        assert not caplog.messages
+
+
 #########################################
 #     Tests for xavier_uniform_init     #
 #########################################
@@ -197,7 +222,7 @@ def test_xavier_uniform_init_gain(gain: float) -> None:
     assert module.weight.data.min().item() >= -gain * 0.17320508075688773
 
 
-def test_xavier_uniform_init_sequential_learnable_only_true() -> None:
+def test_xavier_uniform_init_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     constant_init(module, 0.0)
     freeze_module(module[1])
@@ -209,7 +234,7 @@ def test_xavier_uniform_init_sequential_learnable_only_true() -> None:
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_xavier_uniform_init_sequential_learnable_only_false() -> None:
+def test_xavier_uniform_init_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
     constant_init(module, 0.0)
     freeze_module(module[1])
@@ -218,3 +243,23 @@ def test_xavier_uniform_init_sequential_learnable_only_false() -> None:
     assert module[0].bias.data.equal(torch.zeros(6))
     assert not module[1].weight.data.equal(torch.zeros(6, 6))
     assert module[1].bias.data.equal(torch.zeros(6))
+
+
+def test_xavier_uniform_init_log_info_true(caplog: LogCaptureFixture) -> None:
+    module = nn.Linear(4, 6)
+    constant_init(module, 0.0)
+    with caplog.at_level(level=logging.INFO):
+        xavier_uniform_init(module, log_info=True)
+        assert not module.weight.data.equal(torch.zeros(6, 4))
+        assert module.bias.data.equal(torch.zeros(6))
+        assert caplog.messages
+
+
+def test_xavier_uniform_init_log_info_false(caplog: LogCaptureFixture) -> None:
+    module = nn.Linear(4, 6)
+    constant_init(module, 0.0)
+    with caplog.at_level(level=logging.INFO):
+        xavier_uniform_init(module)
+        assert not module.weight.data.equal(torch.zeros(6, 4))
+        assert module.bias.data.equal(torch.zeros(6))
+        assert not caplog.messages
