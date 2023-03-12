@@ -1,4 +1,0 @@
-_target_: gravitorch.utils.parameter_initializers.XavierUniformParameterInitializer
-gain: 1.0
-learnable_only: true
-show_stats: true

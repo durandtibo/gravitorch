@@ -1,10 +1,13 @@
 from unittest.mock import Mock
 
+import torch
 from pytest import mark
+from torch.nn import Linear, Module
 
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.handlers import ModelInitializer
-from gravitorch.nn.init import Constant
+from gravitorch.nn.init import Constant, constant
+from gravitorch.testing import create_dummy_engine
 from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
@@ -32,11 +35,12 @@ def test_model_initializer_event_default() -> None:
 def test_model_initializer_attach(event: str) -> None:
     initializer = Constant(value=1.0)
     handler = ModelInitializer(initializer=initializer, event=event)
-    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
+    model = Mock(spec=Module)
+    engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False), model=model)
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(initializer.initialize, handler_kwargs={"engine": engine}),
+        VanillaEventHandler(initializer.initialize, handler_kwargs={"module": model}),
     )
 
 
@@ -45,3 +49,12 @@ def test_model_initializer_attach_duplicate() -> None:
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=True))
     handler.attach(engine)
     engine.add_event_handler.assert_not_called()
+
+
+def test_model_initializer_initialize() -> None:
+    engine = create_dummy_engine(model=Linear(4, 6))
+    constant(engine.model, value=0.0)
+    ModelInitializer(initializer=Constant(value=1.0)).attach(engine)
+    engine.fire_event(EngineEvents.TRAIN_STARTED)
+    assert engine.model.weight.equal(torch.ones(6, 4))
+    assert engine.model.bias.equal(torch.ones(6))

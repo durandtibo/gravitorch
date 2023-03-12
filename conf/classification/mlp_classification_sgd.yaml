@@ -16,10 +16,10 @@ defaults:
   - model/criterion: cross_entropy
   - model/metrics: categorical_accuracy
   - optimizer: sgd
-  - parameter_initializer: xavier_normal_bias_zero
+  - initializer: xavier_normal_bias_zero
   - handler:
       - model_parameter_analysis
-      - parameter_initializer
+      - model_initializer
       - model_architecture_analysis
       - model_network_architecture_analysis
       - sysinfo_monitor_epoch
