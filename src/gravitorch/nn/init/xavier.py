@@ -2,8 +2,8 @@ __all__ = [
     "BaseXavier",
     "XavierNormal",
     "XavierUniform",
-    "xavier_normal_init",
-    "xavier_uniform_init",
+    "xavier_normal",
+    "xavier_uniform",
 ]
 
 import logging
@@ -58,7 +58,7 @@ class XavierNormal(BaseXavier):
             f"Initializing module parameters with the Xavier Normal strategy (gain={self._gain}, "
             f"learnable_only={self._learnable_only})..."
         )
-        xavier_normal_init(
+        xavier_normal(
             module=module,
             gain=self._gain,
             learnable_only=self._learnable_only,
@@ -75,7 +75,7 @@ class XavierUniform(BaseXavier):
             f"Initializing module parameters with the Xavier uniform strategy (gain={self._gain}, "
             f"learnable_only={self._learnable_only})..."
         )
-        xavier_uniform_init(
+        xavier_uniform(
             module=module,
             gain=self._gain,
             learnable_only=self._learnable_only,
@@ -83,14 +83,13 @@ class XavierUniform(BaseXavier):
         )
 
 
-def xavier_normal_init(
+def xavier_normal(
     module: nn.Module,
     gain: float = 1.0,
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
-    r"""Initialize the parameters of the module with the Xavier Normal
-    initialization.
+    r"""Initialize the module parameters with the Xavier Normal strategy.
 
     Args:
     ----
@@ -108,10 +107,10 @@ def xavier_normal_init(
 
     .. code-block:: python
 
-        >>> from gravitorch.nn.init import xavier_normal_init
+        >>> from gravitorch.nn.init import xavier_normal
         >>> from torch import nn
         >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> xavier_normal_init(net)
+        >>> xavier_normal(net)
     """
     for name, params in module.named_parameters():
         if params.ndim > 1 and (not learnable_only or learnable_only and params.requires_grad):
@@ -120,14 +119,13 @@ def xavier_normal_init(
             nn.init.xavier_normal_(params.data, gain=gain)
 
 
-def xavier_uniform_init(
+def xavier_uniform(
     module: nn.Module,
     gain: float = 1.0,
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
-    r"""Initialize the parameters of the module with the Xavier uniform
-    initialization.
+    r"""Initializes the module parameters with the Xavier uniform strategy.
 
     Args:
     ----
@@ -145,10 +143,10 @@ def xavier_uniform_init(
 
     .. code-block:: python
 
-        >>> from gravitorch.nn.init import xavier_uniform_init
+        >>> from gravitorch.nn.init import xavier_uniform
         >>> from torch import nn
         >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> xavier_uniform_init(net)
+        >>> xavier_uniform(net)
     """
     for name, params in module.named_parameters():
         if params.ndim > 1 and (not learnable_only or learnable_only and params.requires_grad):

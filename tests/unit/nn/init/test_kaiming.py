@@ -10,7 +10,7 @@ from gravitorch.nn import freeze_module
 from gravitorch.nn.init import (
     KaimingNormal,
     KaimingUniform,
-    constant_init,
+    constant,
     kaiming_normal,
     kaiming_uniform,
 )
@@ -62,7 +62,7 @@ def test_kaiming_normal_learnable_only_default() -> None:
 
 def test_kaiming_normal_initialize_linear() -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 1)
+    constant(module, 1)
     KaimingNormal().initialize(module)
     assert not module.weight.data.equal(torch.zeros(6, 4))
     assert module.bias.data.equal(torch.ones(6))
@@ -70,7 +70,7 @@ def test_kaiming_normal_initialize_linear() -> None:
 
 def test_kaiming_normal_initialize_sequential() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6))
-    constant_init(module, 1)
+    constant(module, 1)
     KaimingNormal().initialize(module)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.ones(6))
@@ -204,7 +204,7 @@ def test_kaiming_uniform_learnable_only_default() -> None:
 
 def test_kaiming_uniform_initialize_linear() -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 1)
+    constant(module, 1)
     KaimingUniform().initialize(module)
     assert not module.weight.data.equal(torch.zeros(6, 4))
     assert module.bias.data.equal(torch.ones(6))
@@ -212,7 +212,7 @@ def test_kaiming_uniform_initialize_linear() -> None:
 
 def test_kaiming_uniform_initialize_sequential() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6))
-    constant_init(module, 1)
+    constant(module, 1)
     KaimingUniform().initialize(module)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.ones(6))
@@ -306,7 +306,7 @@ def test_kaiming_uniform_initialize_log_info(
 
 def test_kaiming_normal_linear() -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     kaiming_normal(module)
     assert not module.weight.data.equal(torch.zeros(6, 4))
     # The bias should not be initialized because Kaiming Normal does not work on vectors
@@ -315,7 +315,7 @@ def test_kaiming_normal_linear() -> None:
 
 def test_kaiming_normal_nonlinearity_mode_fan_in() -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_normal(module, mode="fan_in")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert math.isclose(
@@ -325,7 +325,7 @@ def test_kaiming_normal_nonlinearity_mode_fan_in() -> None:
 
 def test_kaiming_normal_nonlinearity_mode_fan_out() -> None:
     module = nn.Linear(10, 1000)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_normal(module, mode="fan_out")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert math.isclose(
@@ -335,7 +335,7 @@ def test_kaiming_normal_nonlinearity_mode_fan_out() -> None:
 
 def test_kaiming_normal_nonlinearity_relu() -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_normal(module, nonlinearity="relu")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert math.isclose(
@@ -345,7 +345,7 @@ def test_kaiming_normal_nonlinearity_relu() -> None:
 
 def test_kaiming_normal_nonlinearity_leaky_relu() -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_normal(module, nonlinearity="leaky_relu")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert math.isclose(
@@ -355,7 +355,7 @@ def test_kaiming_normal_nonlinearity_leaky_relu() -> None:
 
 def test_kaiming_normal_nonlinearity_leaky_relu_neg_slope_1() -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_normal(module, neg_slope=-1, nonlinearity="leaky_relu")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert math.isclose(module.weight.data.std().item(), 0.1, rel_tol=0.02)  # 2% tolerance
@@ -363,7 +363,7 @@ def test_kaiming_normal_nonlinearity_leaky_relu_neg_slope_1() -> None:
 
 def test_kaiming_normal_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     freeze_module(module[1])
     kaiming_normal(module, learnable_only=True)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
@@ -375,7 +375,7 @@ def test_kaiming_normal_learnable_only_true() -> None:
 
 def test_kaiming_normal_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     freeze_module(module[1])
     kaiming_normal(module, learnable_only=False)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
@@ -386,7 +386,7 @@ def test_kaiming_normal_learnable_only_false() -> None:
 
 def test_kaiming_normal_log_info_true(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     with caplog.at_level(level=logging.INFO):
         kaiming_normal(module, log_info=True)
         assert not module.weight.data.equal(torch.zeros(6, 4))
@@ -396,7 +396,7 @@ def test_kaiming_normal_log_info_true(caplog: LogCaptureFixture) -> None:
 
 def test_kaiming_normal_log_info_false(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     with caplog.at_level(level=logging.INFO):
         kaiming_normal(module)
         assert not module.weight.data.equal(torch.zeros(6, 4))
@@ -411,7 +411,7 @@ def test_kaiming_normal_log_info_false(caplog: LogCaptureFixture) -> None:
 
 def test_kaiming_uniform_linear() -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     kaiming_uniform(module)
     assert not module.weight.data.equal(torch.zeros(6, 4))
     # The bias should not be initialized because Kaiming uniform does not work on vectors
@@ -420,7 +420,7 @@ def test_kaiming_uniform_linear() -> None:
 
 def test_kaiming_uniform_nonlinearity_mode_fan_in() -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_uniform(module, mode="fan_in")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert module.weight.data.min().item() >= -0.2449489742783178
@@ -429,7 +429,7 @@ def test_kaiming_uniform_nonlinearity_mode_fan_in() -> None:
 
 def test_kaiming_uniform_nonlinearity_mode_fan_out() -> None:
     module = nn.Linear(10, 1000)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_uniform(module, mode="fan_out")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert module.weight.data.min().item() >= -0.07745966692414834
@@ -438,7 +438,7 @@ def test_kaiming_uniform_nonlinearity_mode_fan_out() -> None:
 
 def test_kaiming_uniform_nonlinearity_relu() -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_uniform(module, nonlinearity="relu")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert module.weight.data.min().item() >= -0.2449489742783178
@@ -447,7 +447,7 @@ def test_kaiming_uniform_nonlinearity_relu() -> None:
 
 def test_kaiming_uniform_nonlinearity_leaky_relu() -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_uniform(module, nonlinearity="leaky_relu")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert module.weight.data.min().item() >= -0.2449489742783178
@@ -456,7 +456,7 @@ def test_kaiming_uniform_nonlinearity_leaky_relu() -> None:
 
 def test_kaiming_uniform_nonlinearity_leaky_relu_neg_slope_1() -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0)
+    constant(module, 0)
     kaiming_uniform(module, neg_slope=-1, nonlinearity="leaky_relu")
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert module.weight.data.min().item() >= -0.17320508075688773
@@ -465,7 +465,7 @@ def test_kaiming_uniform_nonlinearity_leaky_relu_neg_slope_1() -> None:
 
 def test_kaiming_uniform_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     freeze_module(module[1])
     kaiming_uniform(module, learnable_only=True)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
@@ -477,7 +477,7 @@ def test_kaiming_uniform_learnable_only_true() -> None:
 
 def test_kaiming_uniform_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     freeze_module(module[1])
     kaiming_uniform(module, learnable_only=False)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
@@ -488,7 +488,7 @@ def test_kaiming_uniform_learnable_only_false() -> None:
 
 def test_kaiming_uniform_log_info_true(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     with caplog.at_level(level=logging.INFO):
         kaiming_uniform(module, log_info=True)
         assert not module.weight.data.equal(torch.zeros(6, 4))
@@ -498,7 +498,7 @@ def test_kaiming_uniform_log_info_true(caplog: LogCaptureFixture) -> None:
 
 def test_kaiming_uniform_log_info_false(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     with caplog.at_level(level=logging.INFO):
         kaiming_uniform(module)
         assert not module.weight.data.equal(torch.zeros(6, 4))

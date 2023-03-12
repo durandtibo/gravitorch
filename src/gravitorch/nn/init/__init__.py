@@ -8,22 +8,17 @@ __all__ = [
     "SequentialInitializer",
     "XavierNormal",
     "XavierUniform",
-    "constant_bias_init",
-    "constant_init",
+    "constant_bias",
+    "constant",
     "kaiming_normal",
     "kaiming_uniform",
     "setup_initializer",
-    "xavier_normal_init",
-    "xavier_uniform_init",
+    "xavier_normal",
+    "xavier_uniform",
 ]
 
 from gravitorch.nn.init.base import BaseInitializer
-from gravitorch.nn.init.constant import (
-    Constant,
-    ConstantBias,
-    constant_bias_init,
-    constant_init,
-)
+from gravitorch.nn.init.const import Constant, ConstantBias, constant, constant_bias
 from gravitorch.nn.init.factory import setup_initializer
 from gravitorch.nn.init.kaiming import (
     KaimingNormal,
@@ -36,6 +31,6 @@ from gravitorch.nn.init.sequential import SequentialInitializer
 from gravitorch.nn.init.xavier import (
     XavierNormal,
     XavierUniform,
-    xavier_normal_init,
-    xavier_uniform_init,
+    xavier_normal,
+    xavier_uniform,
 )

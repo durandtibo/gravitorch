@@ -11,9 +11,9 @@ from gravitorch.nn import freeze_module
 from gravitorch.nn.init import (
     XavierNormal,
     XavierUniform,
-    constant_init,
-    xavier_normal_init,
-    xavier_uniform_init,
+    constant,
+    xavier_normal,
+    xavier_uniform,
 )
 
 ##################################
@@ -45,7 +45,7 @@ def test_xavier_normal_learnable_only_default() -> None:
 
 def test_xavier_normal_initialize_linear() -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 1.0)
+    constant(module, 1.0)
     XavierNormal().initialize(module)
     assert not module.weight.data.equal(torch.zeros(6, 4))
     assert module.bias.data.equal(torch.ones(6))
@@ -53,7 +53,7 @@ def test_xavier_normal_initialize_linear() -> None:
 
 def test_xavier_normal_initialize_sequential() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6))
-    constant_init(module, 1.0)
+    constant(module, 1.0)
     XavierNormal().initialize(module)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.ones(6))
@@ -65,8 +65,8 @@ def test_xavier_normal_initialize_sequential() -> None:
 @mark.parametrize("learnable_only", (True, False))
 def test_xavier_normal_initialize(gain: Union[int, float], learnable_only: bool) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 1.0)
-    with patch("gravitorch.nn.init.xavier.xavier_normal_init") as xavier:
+    constant(module, 1.0)
+    with patch("gravitorch.nn.init.xavier.xavier_normal") as xavier:
         XavierNormal(gain=gain, learnable_only=learnable_only).initialize(module)
         xavier.assert_called_once_with(
             module=module, gain=gain, learnable_only=learnable_only, log_info=False
@@ -102,7 +102,7 @@ def test_xavier_uniform_learnable_only_default() -> None:
 
 def test_xavier_uniform_initialize_linear() -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 1.0)
+    constant(module, 1.0)
     XavierUniform().initialize(module)
     assert not module.weight.data.equal(torch.zeros(6, 4))
     assert module.bias.data.equal(torch.ones(6))
@@ -110,7 +110,7 @@ def test_xavier_uniform_initialize_linear() -> None:
 
 def test_xavier_uniform_initialize_sequential() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6))
-    constant_init(module, 1.0)
+    constant(module, 1.0)
     XavierUniform().initialize(module)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.ones(6))
@@ -122,8 +122,8 @@ def test_xavier_uniform_initialize_sequential() -> None:
 @mark.parametrize("learnable_only", (True, False))
 def test_xavier_uniform_initialize(gain: Union[int, float], learnable_only: bool) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 1.0)
-    with patch("gravitorch.nn.init.xavier.xavier_uniform_init") as xavier:
+    constant(module, 1.0)
+    with patch("gravitorch.nn.init.xavier.xavier_uniform") as xavier:
         XavierUniform(gain=gain, learnable_only=learnable_only).initialize(module)
         assert not module.weight.data.equal(torch.zeros(6, 4))
         assert module.bias.data.equal(torch.ones(6))
@@ -132,34 +132,34 @@ def test_xavier_uniform_initialize(gain: Union[int, float], learnable_only: bool
         )
 
 
-########################################
-#     Tests for xavier_normal_init     #
-########################################
+###################################
+#     Tests for xavier_normal     #
+###################################
 
 
-def test_xavier_normal_init_linear() -> None:
+def test_xavier_normal_linear() -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
-    xavier_normal_init(module)
+    constant(module, 0.0)
+    xavier_normal(module)
     assert not module.weight.data.equal(torch.zeros(6, 4))
     # The bias should not be initialized because Xavier Normal does not work on vectors
     assert module.bias.data.equal(torch.zeros(6))
 
 
 @mark.parametrize("gain", (1.0, 2.0))
-def test_xavier_normal_init_gain(gain: float) -> None:
+def test_xavier_normal(gain: float) -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0.0)
-    xavier_normal_init(module, gain=gain)
+    constant(module, 0.0)
+    xavier_normal(module, gain=gain)
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert math.isclose(module.weight.data.std().item(), gain * 0.1, rel_tol=0.02)  # 2% tolerance
 
 
-def test_xavier_normal_init_sequential_learnable_only_true() -> None:
+def test_xavier_normal_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     freeze_module(module[1])
-    xavier_normal_init(module, learnable_only=True)
+    xavier_normal(module, learnable_only=True)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.zeros(6))
     # The second linear should not be initialized because it is frozen
@@ -167,66 +167,66 @@ def test_xavier_normal_init_sequential_learnable_only_true() -> None:
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_xavier_normal_init_sequential_learnable_only_false() -> None:
+def test_xavier_normal_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     freeze_module(module[1])
-    xavier_normal_init(module, learnable_only=False)
+    xavier_normal(module, learnable_only=False)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.zeros(6))
     assert not module[1].weight.data.equal(torch.zeros(6, 6))
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_xavier_normal_init_log_info_true(caplog: LogCaptureFixture) -> None:
+def test_xavier_normal_log_info_true(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     with caplog.at_level(level=logging.INFO):
-        xavier_normal_init(module, log_info=True)
+        xavier_normal(module, log_info=True)
         assert not module.weight.data.equal(torch.zeros(6, 4))
         assert module.bias.data.equal(torch.zeros(6))
         assert caplog.messages
 
 
-def test_xavier_normal_init_log_info_false(caplog: LogCaptureFixture) -> None:
+def test_xavier_normal_log_info_false(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     with caplog.at_level(level=logging.INFO):
-        xavier_normal_init(module)
+        xavier_normal(module)
         assert not module.weight.data.equal(torch.zeros(6, 4))
         assert module.bias.data.equal(torch.zeros(6))
         assert not caplog.messages
 
 
-#########################################
-#     Tests for xavier_uniform_init     #
-#########################################
+####################################
+#     Tests for xavier_uniform     #
+####################################
 
 
-def test_xavier_uniform_init_linear() -> None:
+def test_xavier_uniform_linear() -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
-    xavier_uniform_init(module)
+    constant(module, 0.0)
+    xavier_uniform(module)
     assert not module.weight.data.equal(torch.zeros(6, 4))
     # The bias should not be initialized because Xavier uniform does not work on vectors
     assert module.bias.data.equal(torch.zeros(6))
 
 
 @mark.parametrize("gain", (0.1, 1.0, 2.0))
-def test_xavier_uniform_init_gain(gain: float) -> None:
+def test_xavier_uniform(gain: float) -> None:
     module = nn.Linear(100, 100)
-    constant_init(module, 0.0)
-    xavier_uniform_init(module, gain=gain)
+    constant(module, 0.0)
+    xavier_uniform(module, gain=gain)
     assert math.isclose(module.weight.data.mean().item(), 0.0, abs_tol=0.01)
     assert module.weight.data.max().item() <= gain * 0.17320508075688773
     assert module.weight.data.min().item() >= -gain * 0.17320508075688773
 
 
-def test_xavier_uniform_init_learnable_only_true() -> None:
+def test_xavier_uniform_learnable_only_true() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     freeze_module(module[1])
-    xavier_uniform_init(module, learnable_only=True)
+    xavier_uniform(module, learnable_only=True)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.zeros(6))
     # The second linear should not be initialized because it is frozen
@@ -234,32 +234,32 @@ def test_xavier_uniform_init_learnable_only_true() -> None:
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_xavier_uniform_init_learnable_only_false() -> None:
+def test_xavier_uniform_learnable_only_false() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.Linear(6, 6))
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     freeze_module(module[1])
-    xavier_uniform_init(module, learnable_only=False)
+    xavier_uniform(module, learnable_only=False)
     assert not module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.zeros(6))
     assert not module[1].weight.data.equal(torch.zeros(6, 6))
     assert module[1].bias.data.equal(torch.zeros(6))
 
 
-def test_xavier_uniform_init_log_info_true(caplog: LogCaptureFixture) -> None:
+def test_xavier_uniform_log_info_true(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     with caplog.at_level(level=logging.INFO):
-        xavier_uniform_init(module, log_info=True)
+        xavier_uniform(module, log_info=True)
         assert not module.weight.data.equal(torch.zeros(6, 4))
         assert module.bias.data.equal(torch.zeros(6))
         assert caplog.messages
 
 
-def test_xavier_uniform_init_log_info_false(caplog: LogCaptureFixture) -> None:
+def test_xavier_uniform_log_info_false(caplog: LogCaptureFixture) -> None:
     module = nn.Linear(4, 6)
-    constant_init(module, 0.0)
+    constant(module, 0.0)
     with caplog.at_level(level=logging.INFO):
-        xavier_uniform_init(module)
+        xavier_uniform(module)
         assert not module.weight.data.equal(torch.zeros(6, 4))
         assert module.bias.data.equal(torch.zeros(6))
         assert not caplog.messages

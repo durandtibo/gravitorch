@@ -1,8 +1,8 @@
 __all__ = [
     "Constant",
     "ConstantBias",
-    "constant_init",
-    "constant_bias_init",
+    "constant",
+    "constant_bias",
 ]
 
 import logging
@@ -52,7 +52,7 @@ class Constant(BaseInitializer):
         logger.info(
             f"Initializing weights with {self._value} (learnable_only: {self._learnable_only})..."
         )
-        constant_init(
+        constant(
             module=module,
             value=self._value,
             learnable_only=self._learnable_only,
@@ -96,7 +96,7 @@ class ConstantBias(BaseInitializer):
         logger.info(
             f"Initializing biases with {self._value} (learnable_only: {self._learnable_only})..."
         )
-        constant_bias_init(
+        constant_bias(
             module=module,
             value=self._value,
             learnable_only=self._learnable_only,
@@ -104,7 +104,7 @@ class ConstantBias(BaseInitializer):
         )
 
 
-def constant_bias_init(
+def constant_bias(
     module: Module,
     value: Union[int, float],
     learnable_only: bool = True,
@@ -131,10 +131,10 @@ def constant_bias_init(
 
     .. code-block:: python
 
-        >>> from gravitorch.nn.init import constant_bias_init
+        >>> from gravitorch.nn.init import constant_bias
         >>> from torch import nn
         >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> constant_bias_init(net, 2)
+        >>> constant_bias(net, 2)
         >>> for key, param in net.named_parameters():
         ...     print(key, param)
         0.weight Parameter containing:
@@ -163,7 +163,7 @@ def constant_bias_init(
             nn.init.constant_(params.data, value)
 
 
-def constant_init(
+def constant(
     module: Module,
     value: Union[int, float],
     learnable_only: bool = True,
@@ -187,10 +187,10 @@ def constant_init(
 
     .. code-block:: python
 
-        >>> from gravitorch.nn.init import constant_init
+        >>> from gravitorch.nn.init import constant
         >>> from torch import nn
         >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> constant_init(net, 2.0)
+        >>> constant(net, 2.0)
         >>> for key, param in net.named_parameters():
         ...     print(key, param)
         0.weight Parameter containing:
