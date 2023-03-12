@@ -1,3 +1,0 @@
-parameter_initializer:
-  _target_: gravitorch.handlers.ParameterInitializer
-  parameter_initializer: ${oc.select:parameter_initializer,null}

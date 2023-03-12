@@ -52,6 +52,6 @@ class ModelInitializer(BaseHandler):
             event=self._event,
             event_handler=VanillaEventHandler(
                 self._initializer.initialize,
-                handler_kwargs={"engine": engine},
+                handler_kwargs={"module": engine.model},
             ),
         )
