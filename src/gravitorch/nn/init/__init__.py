@@ -6,13 +6,15 @@ __all__ = [
     "KaimingUniform",
     "NoOpInitializer",
     "SequentialInitializer",
+    "TruncNormal",
     "XavierNormal",
     "XavierUniform",
-    "constant_bias",
     "constant",
+    "constant_bias",
     "kaiming_normal",
     "kaiming_uniform",
     "setup_initializer",
+    "trunc_normal",
     "xavier_normal",
     "xavier_uniform",
 ]
@@ -27,6 +29,7 @@ from gravitorch.nn.init.kaiming import (
     kaiming_uniform,
 )
 from gravitorch.nn.init.noop import NoOpInitializer
+from gravitorch.nn.init.normal import TruncNormal, trunc_normal
 from gravitorch.nn.init.sequential import SequentialInitializer
 from gravitorch.nn.init.xavier import (
     XavierNormal,
