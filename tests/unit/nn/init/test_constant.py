@@ -7,7 +7,7 @@ from pytest import LogCaptureFixture, mark
 from torch import nn
 
 from gravitorch.nn import freeze_module
-from gravitorch.nn.init import ConstantBias, constant_bias_init, constant_init
+from gravitorch.nn.init import Constant, ConstantBias, constant_bias_init, constant_init
 
 MODULE_WITH_BIAS = (
     nn.Linear(4, 6),
@@ -33,6 +33,93 @@ MODULE_WITHOUT_BIAS = (
     nn.BatchNorm2d(6, affine=False),
     nn.BatchNorm3d(6, affine=False),
 )
+
+
+##############################
+#     Tests for Constant     #
+##############################
+
+
+def test_constant_str() -> None:
+    assert str(Constant()).startswith("Constant(")
+
+
+@mark.parametrize("value", (1, 2.0))
+def test_constant_value(value: Union[int, float]) -> None:
+    assert Constant(value=value)._value == value
+
+
+def test_constant_value_default() -> None:
+    assert Constant()._value == 0.0
+
+
+@mark.parametrize("learnable_only", (True, False))
+def test_constant_learnable_only(learnable_only: bool) -> None:
+    assert Constant(learnable_only=learnable_only)._learnable_only == learnable_only
+
+
+def test_constant_learnable_only_default() -> None:
+    assert Constant()._learnable_only
+
+
+@mark.parametrize("log_info", (True, False))
+def test_constant_log_info(log_info: bool) -> None:
+    assert Constant(log_info=log_info)._log_info == log_info
+
+
+def test_constant_log_info_default() -> None:
+    assert not Constant()._log_info
+
+
+def test_constant_initialize_linear() -> None:
+    module = nn.Linear(4, 6)
+    constant_init(module, 0.0)
+    Constant(value=1.0).initialize(module)
+    assert module.weight.equal(torch.ones(6, 4))
+    assert module.bias.equal(torch.ones(6))
+
+
+def test_constant_initialize_sequential() -> None:
+    module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6))
+    constant_init(module, 0.0)
+    Constant(value=1.0).initialize(module)
+    assert module[0].weight.data.equal(torch.ones(6, 4))
+    assert module[0].bias.data.equal(torch.ones(6))
+    assert module[2].weight.data.equal(torch.ones(6, 6))
+    assert module[2].bias.data.equal(torch.ones(6))
+
+
+@mark.parametrize("value", (1, 2.0))
+def test_constant_initialize_value(value: Union[int, float]) -> None:
+    module = nn.Linear(4, 6)
+    constant_init(module, 1.0)
+    with patch("gravitorch.nn.init.constant.constant_init") as init:
+        Constant(value=value).initialize(module)
+        init.assert_called_once_with(
+            module=module, value=value, learnable_only=True, log_info=False
+        )
+
+
+@mark.parametrize("learnable_only", (True, False))
+def test_constant_initialize_learnable_only(
+    learnable_only: bool,
+) -> None:
+    module = nn.Linear(4, 6)
+    with patch("gravitorch.nn.init.constant.constant_init") as init:
+        Constant(learnable_only=learnable_only).initialize(module)
+        init.assert_called_once_with(
+            module=module, value=0.0, learnable_only=learnable_only, log_info=False
+        )
+
+
+@mark.parametrize("log_info", (True, False))
+def test_constant_initialize_log_info(log_info: bool) -> None:
+    module = nn.Linear(4, 6)
+    with patch("gravitorch.nn.init.constant.constant_init") as init:
+        Constant(log_info=log_info).initialize(module)
+        init.assert_called_once_with(
+            module=module, value=0.0, learnable_only=True, log_info=log_info
+        )
 
 
 ##################################
@@ -74,7 +161,7 @@ def test_constant_bias_log_info_default() -> None:
 def test_constant_bias_initialize_linear() -> None:
     module = nn.Linear(4, 6)
     constant_init(module, 0.0)
-    ConstantBias(value=1).initialize(module)
+    ConstantBias(value=1.0).initialize(module)
     assert module.weight.equal(torch.zeros(6, 4))
     assert module.bias.equal(torch.ones(6))
 
@@ -82,7 +169,7 @@ def test_constant_bias_initialize_linear() -> None:
 def test_constant_bias_initialize_sequential() -> None:
     module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.Linear(6, 6))
     constant_init(module, 0.0)
-    ConstantBias(value=1).initialize(module)
+    ConstantBias(value=1.0).initialize(module)
     assert module[0].weight.data.equal(torch.zeros(6, 4))
     assert module[0].bias.data.equal(torch.ones(6))
     assert module[2].weight.data.equal(torch.zeros(6, 6))

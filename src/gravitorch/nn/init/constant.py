@@ -1,4 +1,5 @@
 __all__ = [
+    "Constant",
     "ConstantBias",
     "constant_init",
     "constant_bias_init",
@@ -15,8 +16,8 @@ from gravitorch.nn.init.base import BaseInitializer
 logger = logging.getLogger(__name__)
 
 
-class ConstantBias(BaseInitializer):
-    r"""Implements a module parameter initializer where the biases are
+class Constant(BaseInitializer):
+    r"""Implements a module parameter initializer where the weights are
     initialized with constant values.
 
     Args:
@@ -49,7 +50,51 @@ class ConstantBias(BaseInitializer):
 
     def initialize(self, module: Module) -> None:
         logger.info(
-            f"Initializing biases to {self._value} (learnable_only: {self._learnable_only})..."
+            f"Initializing weights with {self._value} (learnable_only: {self._learnable_only})..."
+        )
+        constant_init(
+            module=module,
+            value=self._value,
+            learnable_only=self._learnable_only,
+            log_info=self._log_info,
+        )
+
+
+class ConstantBias(BaseInitializer):
+    r"""Implements a module parameter initializer where the biases are
+    initialized with constant values.
+
+    Args:
+    ----
+        value (float): Specifies the value to initialize the
+            parameters with.
+        learnable_only (bool, optional): If ``True``, only the
+            learnable parameters are initialized, otherwise all the
+            parameters are initialized. Default: ``True``
+        log_info (bool, optional): If ``True``, log some information
+            about the biases that are initialized. Default: ``False``
+    """
+
+    def __init__(
+        self,
+        value: Union[int, float] = 0.0,
+        learnable_only: bool = True,
+        log_info: bool = False,
+    ) -> None:
+        super().__init__()
+        self._value = float(value)
+        self._learnable_only = bool(learnable_only)
+        self._log_info = bool(log_info)
+
+    def __str__(self) -> str:
+        return (
+            f"{self.__class__.__qualname__}(value={self._value}, "
+            f"learnable_only={self._learnable_only}, log_info={self._log_info})"
+        )
+
+    def initialize(self, module: Module) -> None:
+        logger.info(
+            f"Initializing biases with {self._value} (learnable_only: {self._learnable_only})..."
         )
         constant_bias_init(
             module=module,
@@ -114,7 +159,7 @@ def constant_bias_init(
     for name, params in module.named_parameters():
         if "bias" in name and (not learnable_only or learnable_only and params.requires_grad):
             if log_info:
-                logger.info(f"Initializing bias '{name}' to {value} | shape={params.shape}")
+                logger.info(f"Initializing bias '{name}' with {value} | shape={params.shape}")
             nn.init.constant_(params.data, value)
 
 
@@ -169,5 +214,5 @@ def constant_init(
     for name, params in module.named_parameters():
         if not learnable_only or learnable_only and params.requires_grad:
             if log_info:
-                logger.info(f"Initializing '{name}' to {value} | shape={params.shape}")
+                logger.info(f"Initializing '{name}' with {value} | shape={params.shape}")
             nn.init.constant_(params.data, value)
