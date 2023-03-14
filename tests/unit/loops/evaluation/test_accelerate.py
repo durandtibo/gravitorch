@@ -39,7 +39,7 @@ if is_accelerate_available():
 @fixture(autouse=True)
 def reset_accelerate_state() -> None:
     if is_accelerate_available():
-        AcceleratorState._reset_state()
+        AcceleratorState._reset_state(reset_partial_state=True)
 
 
 def increment_epoch_handler(engine: BaseEngine) -> None:

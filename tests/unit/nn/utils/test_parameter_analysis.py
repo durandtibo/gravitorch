@@ -15,7 +15,7 @@ from gravitorch.utils import get_available_devices
 def test_compute_parameter_stats_linear() -> None:
     stats = compute_parameter_stats(nn.Linear(4, 6))
     assert len(stats) == 3
-    assert stats[0] == ["parameter", "mean", "median", "std", "min", "max", "learnable"]
+    assert stats[0] == ["name", "mean", "median", "std", "min", "max", "learnable"]
     assert stats[1][0] == "weight"
     assert isinstance(stats[1][1], float)  # mean
     assert isinstance(stats[1][2], float)  # median
@@ -27,7 +27,7 @@ def test_compute_parameter_stats_linear() -> None:
 
 def test_compute_parameter_stats_empty_tensor() -> None:
     assert compute_parameter_stats(nn.Linear(4, 0)) == [
-        ["parameter", "mean", "median", "std", "min", "max", "learnable"]
+        ["name", "mean", "median", "std", "min", "max", "learnable"]
     ]
 
 
