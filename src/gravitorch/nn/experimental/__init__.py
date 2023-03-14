@@ -1,4 +1,3 @@
-__all__ = ["AppVAETimeLoss", "ExponentialNLLLoss"]
+__all__ = ["ExponentialNLLLoss"]
 
-from gravitorch.nn.experimental.app_vae import AppVAETimeLoss
 from gravitorch.nn.experimental.exponential_nll import ExponentialNLLLoss
