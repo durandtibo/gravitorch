@@ -1,5 +1,6 @@
 __all__ = [
     "ModuleSummary",
+    "ParameterSummary",
     "compute_parameter_stats",
     "find_module_state_dict",
     "freeze_module",
@@ -8,6 +9,7 @@ __all__ = [
     "get_module_input_size",
     "get_module_name",
     "get_module_output_size",
+    "get_parameter_summaries",
     "has_batch_norm",
     "has_learnable_parameters",
     "has_parameters",
@@ -23,6 +25,7 @@ __all__ = [
     "num_parameters",
     "setup_module",
     "show_parameter_stats",
+    "show_parameter_summary",
     "show_state_dict_info",
     "state_dicts_are_equal",
     "top_module_mode",
@@ -48,9 +51,12 @@ from gravitorch.nn.utils.module_helpers import (
     top_module_mode,
     unfreeze_module,
 )
-from gravitorch.nn.utils.parameter_analysis import (
+from gravitorch.nn.utils.parameter import (
+    ParameterSummary,
     compute_parameter_stats,
+    get_parameter_summaries,
     show_parameter_stats,
+    show_parameter_summary,
 )
 from gravitorch.nn.utils.state_dict import (
     find_module_state_dict,

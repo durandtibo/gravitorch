@@ -6,7 +6,7 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
-from gravitorch.nn.utils.parameter_analysis import show_parameter_stats
+from gravitorch.nn.utils.parameter import show_parameter_stats
 from gravitorch.utils.events import VanillaEventHandler
 
 
