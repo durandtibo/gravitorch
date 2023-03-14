@@ -22,7 +22,7 @@ def compute_parameter_stats(module: Module) -> list[list]:
     -------
         list: The list of statistics per parameters.
     """
-    stats = [["parameter", "mean", "median", "std", "min", "max", "learnable"]]
+    stats = [["name", "mean", "median", "std", "min", "max", "learnable"]]
     for key, weight in module.named_parameters():
         weight = weight.flatten()
         if weight.numel() > 0:
