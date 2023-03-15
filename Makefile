@@ -49,6 +49,12 @@ integration-test :
 integration-test-cov :
 	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/integration
 
+.PHONY : test
+make test : unit-test integration-test
+
+.PHONY : test-cov
+make test-cov : unit-test-cov integration-test-cov
+
 .PHONY : publish-pypi
 publish-pypi :
 	poetry config pypi-token.pypi ${GRAVITORCH_PYPI_TOKEN}
