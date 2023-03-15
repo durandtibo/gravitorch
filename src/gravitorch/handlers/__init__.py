@@ -27,7 +27,7 @@ __all__ = [
     "ModelArchitectureAnalyzer",
     "ModelFreezer",
     "ModelInitializer",
-    "ModelNetworkArchitectureAnalyzer",
+    "NetworkArchitectureAnalyzer",
     "ModelParameterAnalyzer",
     "ModelStateDictLoader",
     "PartialModelStateDictLoader",
@@ -72,9 +72,9 @@ from gravitorch.handlers.lr_scheduler_updater import (
     MetricLRSchedulerUpdater,
 )
 from gravitorch.handlers.model import ModelFreezer
-from gravitorch.handlers.model_architecture_analyzer import (
+from gravitorch.handlers.model_architecture import (
     ModelArchitectureAnalyzer,
-    ModelNetworkArchitectureAnalyzer,
+    NetworkArchitectureAnalyzer,
 )
 from gravitorch.handlers.model_initializer import ModelInitializer
 from gravitorch.handlers.model_parameter import ModelParameterAnalyzer

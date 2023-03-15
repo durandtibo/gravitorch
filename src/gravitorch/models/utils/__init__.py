@@ -3,7 +3,7 @@ r"""This package contains some utility functions for the models."""
 __all__ = [
     "ModelSummary",
     "analyze_model_architecture",
-    "analyze_model_network_architecture",
+    "analyze_network_architecture",
     "analyze_module_architecture",
     "attach_module_to_engine",
     "is_loss_decreasing",
@@ -13,10 +13,10 @@ __all__ = [
     "setup_model",
 ]
 
-from gravitorch.models.utils.architecture_analysis import (
+from gravitorch.models.utils.architecture import (
     analyze_model_architecture,
-    analyze_model_network_architecture,
     analyze_module_architecture,
+    analyze_network_architecture,
 )
 from gravitorch.models.utils.setup_and_attach import (
     attach_module_to_engine,

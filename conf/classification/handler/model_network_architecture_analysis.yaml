@@ -1,4 +1,0 @@
-model_network_architecture_analysis:
-  _target_: gravitorch.handlers.ModelNetworkArchitectureAnalyzer
-  events:
-    - started

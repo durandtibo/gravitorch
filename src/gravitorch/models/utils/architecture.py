@@ -69,7 +69,7 @@ def analyze_model_architecture(model: Module, engine: Optional[BaseEngine] = Non
     analyze_module_architecture(module=model, engine=engine, prefix="model.")
 
 
-def analyze_model_network_architecture(model: Module, engine: Optional[BaseEngine] = None) -> None:
+def analyze_network_architecture(model: Module, engine: Optional[BaseEngine] = None) -> None:
     r"""Analyzes the network architecture of a model.
 
     This function assumes the model has a  ``network`` attribute.

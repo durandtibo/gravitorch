@@ -21,7 +21,7 @@ defaults:
       - model_parameter_analysis
       - model_initializer
       - model_architecture_analysis
-      - model_network_architecture_analysis
+      - network_architecture_analysis
       - sysinfo_monitor_epoch
       - cuda_memory_monitor_epoch
       - epoch_lr_scheduler_updater
