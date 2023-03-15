@@ -24,6 +24,8 @@ class ModelParameterAnalyzer(BaseHandler):
             find the valid formats at
             https://pypi.org/project/tabulate/.
             Default: ``'fancy_outline'``
+        floatfmt (str, optional): Specifies the float format.
+            Default: ``'.6f'``
     """
 
     def __init__(
@@ -33,12 +35,17 @@ class ModelParameterAnalyzer(BaseHandler):
             EngineEvents.TRAIN_COMPLETED,
         ),
         tablefmt: str = "fancy_outline",
+        floatfmt: str = ".6f",
     ) -> None:
         self._events = to_events(events)
-        self._tablefmt = tablefmt
+        self._tablefmt = str(tablefmt)
+        self._floatfmt = str(floatfmt)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}(events={self._events}, tablefmt={self._tablefmt})"
+        return (
+            f"{self.__class__.__qualname__}(events={self._events}, "
+            f"tablefmt={self._tablefmt}, floatfmt={self._floatfmt})"
+        )
 
     def attach(self, engine: BaseEngine) -> None:
         for event in self._events:
@@ -55,4 +62,6 @@ class ModelParameterAnalyzer(BaseHandler):
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
         """
-        show_parameter_summary(module=engine.model, tablefmt=self._tablefmt)
+        show_parameter_summary(
+            module=engine.model, tablefmt=self._tablefmt, floatfmt=self._floatfmt
+        )

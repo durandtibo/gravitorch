@@ -35,6 +35,15 @@ def test_model_parameter_analyzer_tablefmt_default() -> None:
     assert ModelParameterAnalyzer()._tablefmt == "fancy_outline"
 
 
+@mark.parametrize("floatfmt", (".6f", ".3f"))
+def test_model_parameter_analyzer_floatfmt(floatfmt: str) -> None:
+    assert ModelParameterAnalyzer(floatfmt=floatfmt)._floatfmt == floatfmt
+
+
+def test_model_parameter_analyzer_floatfmt_default() -> None:
+    assert ModelParameterAnalyzer()._floatfmt == ".6f"
+
+
 @mark.parametrize("event", EVENTS)
 def test_model_parameter_analyzer_attach(event: str) -> None:
     handler = ModelParameterAnalyzer(events=event)
@@ -61,11 +70,12 @@ def test_model_parameter_analyzer_attach_2_events() -> None:
 
 
 @mark.parametrize("tablefmt", ("rst", "github"))
-def test_model_parameter_analyzer_analyze(tablefmt: str) -> None:
-    handler = ModelParameterAnalyzer(tablefmt=tablefmt)
+@mark.parametrize("floatfmt", (".6f", ".3f"))
+def test_model_parameter_analyzer_analyze(tablefmt: str, floatfmt: str) -> None:
+    handler = ModelParameterAnalyzer(tablefmt=tablefmt, floatfmt=floatfmt)
     engine = Mock(spec=BaseEngine)
-    with patch(
-        "gravitorch.handlers.model_parameter_analyzer.show_parameter_summary"
-    ) as analyze_mock:
+    with patch("gravitorch.handlers.model_parameter.show_parameter_summary") as analyze_mock:
         handler.analyze(engine)
-        analyze_mock.assert_called_once_with(module=engine.model, tablefmt=tablefmt)
+        analyze_mock.assert_called_once_with(
+            module=engine.model, tablefmt=tablefmt, floatfmt=floatfmt
+        )
