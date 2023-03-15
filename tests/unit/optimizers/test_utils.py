@@ -118,7 +118,7 @@ def test_show_optimizer_parameters_per_group_adam_1_group(caplog: LogCaptureFixt
             "╒═════════╤═══════════╤══════════════╤══════════════╤══════════════════╤═══════╤═══════════╤═════════╤══════╤════════════╤════════════════╕\n"  # noqa: E501,B950
             "│         │ amsgrad   │ betas        │ capturable   │ differentiable   │   eps │ foreach   │ fused   │   lr │ maximize   │   weight_decay │\n"  # noqa: E501,B950
             "╞═════════╪═══════════╪══════════════╪══════════════╪══════════════════╪═══════╪═══════════╪═════════╪══════╪════════════╪════════════════╡\n"  # noqa: E501,B950
-            "│ Group 0 │ False     │ (0.9, 0.999) │ False        │ False            │ 1e-08 │           │ False   │ 0.01 │ False      │              0 │\n"  # noqa: E501,B950
+            "│ Group 0 │ False     │ (0.9, 0.999) │ False        │ False            │ 1e-08 │           │         │ 0.01 │ False      │              0 │\n"  # noqa: E501,B950
             "╘═════════╧═══════════╧══════════════╧══════════════╧══════════════════╧═══════╧═══════════╧═════════╧══════╧════════════╧════════════════╛"  # noqa: E501,B950
         )
 
@@ -130,11 +130,11 @@ def test_show_optimizer_parameters_per_group_adagrad_1_group(caplog: LogCaptureF
         show_optimizer_parameters_per_group(optimizer)
         assert caplog.records[0].message == (
             "Optimizer: parameters per group\n"
-            "╒═════════╤═══════╤═══════════╤═════════════════════════════╤══════╤════════════╤════════════╤════════════════╕\n"  # noqa: E501,B950
-            "│         │   eps │ foreach   │   initial_accumulator_value │   lr │   lr_decay │ maximize   │   weight_decay │\n"  # noqa: E501,B950
-            "╞═════════╪═══════╪═══════════╪═════════════════════════════╪══════╪════════════╪════════════╪════════════════╡\n"  # noqa: E501,B950
-            "│ Group 0 │ 1e-10 │           │                           0 │ 0.01 │          0 │ False      │              0 │\n"  # noqa: E501,B950
-            "╘═════════╧═══════╧═══════════╧═════════════════════════════╧══════╧════════════╧════════════╧════════════════╛"  # noqa: E501,B950
+            "╒═════════╤══════════════════╤═══════╤═══════════╤═════════════════════════════╤══════╤════════════╤════════════╤════════════════╕\n"  # noqa: E501,B950
+            "│         │ differentiable   │   eps │ foreach   │   initial_accumulator_value │   lr │   lr_decay │ maximize   │   weight_decay │\n"  # noqa: E501,B950
+            "╞═════════╪══════════════════╪═══════╪═══════════╪═════════════════════════════╪══════╪════════════╪════════════╪════════════════╡\n"  # noqa: E501,B950
+            "│ Group 0 │ False            │ 1e-10 │           │                           0 │ 0.01 │          0 │ False      │              0 │\n"  # noqa: E501,B950
+            "╘═════════╧══════════════════╧═══════╧═══════════╧═════════════════════════════╧══════╧════════════╧════════════╧════════════════╛"  # noqa: E501,B950
         )
 
 
@@ -246,7 +246,6 @@ def test_log_optimizer_parameters_per_group_adam_1_group() -> None:
             "optimizer.group0.capturable": False,
             "optimizer.group0.differentiable": False,
             "optimizer.group0.eps": 1e-08,
-            "optimizer.group0.fused": False,
             "optimizer.group0.lr": 0.01,
             "optimizer.group0.maximize": False,
             "optimizer.group0.weight_decay": 0,
@@ -262,6 +261,7 @@ def test_log_optimizer_parameters_per_group_adagrad_1_group() -> None:
     log_optimizer_parameters_per_group(optimizer, engine)
     engine.log_metrics.assert_called_once_with(
         {
+            "optimizer.group0.differentiable": False,
             "optimizer.group0.eps": 1e-10,
             "optimizer.group0.initial_accumulator_value": 0,
             "optimizer.group0.lr": 0.01,
