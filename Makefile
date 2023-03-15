@@ -43,11 +43,11 @@ unit-test-cov :
 
 .PHONY : integration-test
 integration-test :
-	python -m pytest tests/integration
+	python -m pytest --timeout 60 tests/integration
 
 .PHONY : integration-test-cov
 integration-test-cov :
-	python -m pytest --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/integration
+	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/integration
 
 .PHONY : publish-pypi
 publish-pypi :
