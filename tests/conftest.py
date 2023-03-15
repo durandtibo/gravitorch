@@ -18,12 +18,13 @@ def parallel_gloo_2() -> Generator[Parallel, None, None]:
         yield parallel
 
 
-@fixture
-def parallel_nccl_2() -> Parallel:
-    return Parallel(
+@fixture(scope="session")
+def parallel_nccl_2() -> Generator[Parallel, None, None]:
+    with Parallel(
         backend=Backend.NCCL,
         nproc_per_node=2,
         nnodes=1,
         master_addr="127.0.0.1",
         master_port=29508,
-    )
+    ) as parallel:
+        yield parallel

@@ -64,8 +64,7 @@ def test_broadcast_object_list_gloo(parallel_gloo_2: Parallel) -> None:
 @distributed_available
 @nccl_available
 def test_broadcast_object_list_nccl(parallel_nccl_2: Parallel) -> None:
-    with parallel_nccl_2 as parallel:
-        parallel.run(check_sync_reduce_inplace)
+    parallel_nccl_2.run(check_sync_reduce_inplace)
 
 
 def check_sync_reduce_tensor_int(local_rank: int) -> None:
@@ -318,16 +317,14 @@ def test_sync_reduce_inplace_gloo(parallel_gloo_2: Parallel) -> None:
 @distributed_available
 @nccl_available
 def test_sync_reduce_nccl(parallel_nccl_2: Parallel, func: Callable) -> None:
-    with parallel_nccl_2 as parallel:
-        parallel.run(func)
+    parallel_nccl_2.run(func)
 
 
 @two_gpus_available
 @distributed_available
 @nccl_available
 def test_sync_reduce_inplace_nccl(parallel_nccl_2: Parallel) -> None:
-    with parallel_nccl_2 as parallel:
-        parallel.run(check_sync_reduce_inplace)
+    parallel_nccl_2.run(check_sync_reduce_inplace)
 
 
 ################################################
@@ -378,5 +375,4 @@ def test_all_gather_tensor_varshape_gloo(parallel_gloo_2: Parallel) -> None:
 @distributed_available
 @nccl_available
 def test_all_gather_tensor_varshape_nccl(parallel_nccl_2: Parallel) -> None:
-    with parallel_nccl_2 as parallel:
-        parallel.run(check_all_gather_tensor_varshape)
+    parallel_nccl_2.run(check_all_gather_tensor_varshape)
