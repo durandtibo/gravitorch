@@ -12,6 +12,7 @@ def parallel_gloo_2() -> idist.Parallel:
         nnodes=1,
         master_addr="127.0.0.1",
         master_port=29507,
+        daemon=True,
     )
 
 
@@ -23,4 +24,5 @@ def parallel_nccl_2() -> idist.Parallel:
         nnodes=1,
         master_addr="127.0.0.1",
         master_port=29508,
+        daemon=True,
     )
