@@ -29,10 +29,6 @@ lint :
 format :
 	black --check .
 
-.PHONY : test
-test :
-	python -m pytest tests/
-
 .PHONY : unit-test
 unit-test :
 	python -m pytest --timeout 10 tests/unit
@@ -43,11 +39,17 @@ unit-test-cov :
 
 .PHONY : integration-test
 integration-test :
-	python -m pytest tests/integration
+	python -m pytest --timeout 60 tests/integration
 
 .PHONY : integration-test-cov
 integration-test-cov :
-	python -m pytest --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/integration
+	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/integration
+
+.PHONY : test
+make test : unit-test integration-test
+
+.PHONY : test-cov
+make test-cov : unit-test-cov integration-test-cov
 
 .PHONY : publish-pypi
 publish-pypi :

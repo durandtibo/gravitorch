@@ -90,7 +90,11 @@ def test_concat_fusion_forward(device: str) -> None:
     assert net(
         torch.tensor([[2, 3, 4], [5, 6, 7]], dtype=torch.long, device=device),
         torch.tensor([[12, 13, 14], [15, 16, 17]], dtype=torch.long, device=device),
-    ).equal(torch.tensor([[2, 3, 4, 12, 13, 14], [5, 6, 7, 15, 16, 17]], dtype=torch.long))
+    ).equal(
+        torch.tensor(
+            [[2, 3, 4, 12, 13, 14], [5, 6, 7, 15, 16, 17]], dtype=torch.long, device=device
+        )
+    )
 
 
 @mark.parametrize("device", get_available_devices())

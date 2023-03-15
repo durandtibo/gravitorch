@@ -51,7 +51,7 @@ def test_vanilla_training_loop_set_grad_to_none(set_grad_to_none: bool) -> None:
 
 
 def test_vanilla_training_loop_set_grad_to_none_default() -> None:
-    assert not VanillaTrainingLoop()._set_grad_to_none
+    assert VanillaTrainingLoop()._set_grad_to_none
 
 
 def test_vanilla_training_loop_batch_device_placement_cpu() -> None:

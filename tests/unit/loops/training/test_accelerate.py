@@ -75,7 +75,7 @@ def test_accelerate_training_loop_set_grad_to_none(set_grad_to_none: bool) -> No
 
 @accelerate_available
 def test_accelerate_training_loop_set_grad_to_none_default() -> None:
-    assert not AccelerateTrainingLoop()._set_grad_to_none
+    assert AccelerateTrainingLoop()._set_grad_to_none
 
 
 @accelerate_available
