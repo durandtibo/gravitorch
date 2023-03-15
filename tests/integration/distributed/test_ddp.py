@@ -57,8 +57,7 @@ def check_broadcast_object_list(local_rank: int) -> None:
 @distributed_available
 @gloo_available
 def test_broadcast_object_list_gloo(parallel_gloo_2: Parallel) -> None:
-    with parallel_gloo_2 as parallel:
-        parallel.run(check_sync_reduce_inplace)
+    parallel_gloo_2.run(check_sync_reduce_inplace)
 
 
 @two_gpus_available
@@ -297,15 +296,13 @@ def check_sync_reduce_inplace(local_rank: int) -> None:
 @distributed_available
 @gloo_available
 def test_sync_reduce_gloo(parallel_gloo_2: Parallel, func: Callable) -> None:
-    with parallel_gloo_2 as parallel:
-        parallel.run(func)
+    parallel_gloo_2.run(func)
 
 
 @distributed_available
 @gloo_available
 def test_sync_reduce_inplace_gloo(parallel_gloo_2: Parallel) -> None:
-    with parallel_gloo_2 as parallel:
-        parallel.run(check_sync_reduce_inplace)
+    parallel_gloo_2.run(check_sync_reduce_inplace)
 
 
 @mark.parametrize(
@@ -374,8 +371,7 @@ def check_all_gather_tensor_varshape(local_rank: int) -> None:
 @distributed_available
 @gloo_available
 def test_all_gather_tensor_varshape_gloo(parallel_gloo_2: Parallel) -> None:
-    with parallel_gloo_2 as parallel:
-        parallel.run(check_all_gather_tensor_varshape)
+    parallel_gloo_2.run(check_all_gather_tensor_varshape)
 
 
 @two_gpus_available
