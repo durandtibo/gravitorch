@@ -29,10 +29,6 @@ lint :
 format :
 	black --check .
 
-.PHONY : test
-test :
-	python -m pytest tests/
-
 .PHONY : unit-test
 unit-test :
 	python -m pytest --timeout 10 tests/unit
