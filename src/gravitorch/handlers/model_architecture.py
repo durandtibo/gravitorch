@@ -1,4 +1,4 @@
-__all__ = ["ModelArchitectureAnalyzer", "ModelNetworkArchitectureAnalyzer"]
+__all__ = ["ModelArchitectureAnalyzer", "NetworkArchitectureAnalyzer"]
 
 from typing import Union
 
@@ -8,7 +8,7 @@ from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
 from gravitorch.models.utils import (
     analyze_model_architecture,
-    analyze_model_network_architecture,
+    analyze_network_architecture,
 )
 from gravitorch.utils.events import VanillaEventHandler
 
@@ -51,7 +51,7 @@ class ModelArchitectureAnalyzer(BaseHandler):
         analyze_model_architecture(model=engine.model, engine=engine)
 
 
-class ModelNetworkArchitectureAnalyzer(ModelArchitectureAnalyzer):
+class NetworkArchitectureAnalyzer(ModelArchitectureAnalyzer):
     r"""Implements a handler to analyze the network architecture of a model.
 
     This handler assumes the model has an attribute ``network``.
@@ -65,4 +65,4 @@ class ModelNetworkArchitectureAnalyzer(ModelArchitectureAnalyzer):
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
         """
-        analyze_model_network_architecture(model=engine.model, engine=engine)
+        analyze_network_architecture(model=engine.model, engine=engine)

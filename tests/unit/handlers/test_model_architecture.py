@@ -4,9 +4,7 @@ from pytest import mark
 
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.handlers import ModelArchitectureAnalyzer
-from gravitorch.handlers.model_architecture_analyzer import (
-    ModelNetworkArchitectureAnalyzer,
-)
+from gravitorch.handlers.model_architecture import NetworkArchitectureAnalyzer
 from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
@@ -57,23 +55,21 @@ def test_model_architecture_analyzer_attach_2_events() -> None:
 def test_model_architecture_analyzer_analyze() -> None:
     handler = ModelArchitectureAnalyzer()
     engine = Mock(spec=BaseEngine)
-    with patch(
-        "gravitorch.handlers.model_architecture_analyzer.analyze_model_architecture"
-    ) as analyze_mock:
+    with patch("gravitorch.handlers.model_architecture.analyze_model_architecture") as analyze_mock:
         handler.analyze(engine)
         analyze_mock.assert_called_once_with(model=engine.model, engine=engine)
 
 
-######################################################
-#     Tests for ModelNetworkArchitectureAnalyzer     #
-######################################################
+#################################################
+#     Tests for NetworkArchitectureAnalyzer     #
+#################################################
 
 
-def test_model_network_architecture_analyzer_analyze() -> None:
-    handler = ModelNetworkArchitectureAnalyzer()
+def test_network_architecture_analyzer_analyze() -> None:
+    handler = NetworkArchitectureAnalyzer()
     engine = Mock(spec=BaseEngine)
     with patch(
-        "gravitorch.handlers.model_architecture_analyzer.analyze_model_network_architecture"
+        "gravitorch.handlers.model_architecture.analyze_network_architecture"
     ) as analyze_mock:
         handler.analyze(engine)
         analyze_mock.assert_called_once_with(model=engine.model, engine=engine)
