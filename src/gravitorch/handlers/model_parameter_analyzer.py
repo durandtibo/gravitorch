@@ -6,7 +6,7 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
-from gravitorch.nn.utils.parameter import show_parameter_stats
+from gravitorch.nn.utils.parameter import show_parameter_summary
 from gravitorch.utils.events import VanillaEventHandler
 
 
@@ -22,7 +22,8 @@ class ModelParameterAnalyzer(BaseHandler):
             Default: ``('started', 'train_completed')``
         tablefmt (str, optional): Specifies the table format. You can
             find the valid formats at
-            https://pypi.org/project/tabulate/. Default: ``'rst'``
+            https://pypi.org/project/tabulate/.
+            Default: ``'fancy_outline'``
     """
 
     def __init__(
@@ -31,7 +32,7 @@ class ModelParameterAnalyzer(BaseHandler):
             EngineEvents.STARTED,
             EngineEvents.TRAIN_COMPLETED,
         ),
-        tablefmt: str = "rst",
+        tablefmt: str = "fancy_outline",
     ) -> None:
         self._events = to_events(events)
         self._tablefmt = tablefmt
@@ -54,4 +55,4 @@ class ModelParameterAnalyzer(BaseHandler):
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
         """
-        show_parameter_stats(module=engine.model, tablefmt=self._tablefmt)
+        show_parameter_summary(module=engine.model, tablefmt=self._tablefmt)

@@ -1,7 +1,6 @@
 __all__ = [
     "ModuleSummary",
     "ParameterSummary",
-    "compute_parameter_stats",
     "find_module_state_dict",
     "freeze_module",
     "get_module_device",
@@ -24,7 +23,6 @@ __all__ = [
     "num_learnable_parameters",
     "num_parameters",
     "setup_module",
-    "show_parameter_stats",
     "show_parameter_summary",
     "show_state_dict_info",
     "state_dicts_are_equal",
@@ -53,9 +51,7 @@ from gravitorch.nn.utils.module_helpers import (
 )
 from gravitorch.nn.utils.parameter import (
     ParameterSummary,
-    compute_parameter_stats,
     get_parameter_summaries,
-    show_parameter_stats,
     show_parameter_summary,
 )
 from gravitorch.nn.utils.state_dict import (
