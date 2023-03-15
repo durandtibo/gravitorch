@@ -77,7 +77,7 @@ from gravitorch.handlers.model_architecture_analyzer import (
     ModelNetworkArchitectureAnalyzer,
 )
 from gravitorch.handlers.model_initializer import ModelInitializer
-from gravitorch.handlers.model_parameter_analyzer import ModelParameterAnalyzer
+from gravitorch.handlers.model_parameter import ModelParameterAnalyzer
 from gravitorch.handlers.model_state_dict_loader import (
     ModelStateDictLoader,
     PartialModelStateDictLoader,
