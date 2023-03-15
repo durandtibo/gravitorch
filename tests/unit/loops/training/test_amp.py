@@ -22,6 +22,15 @@ def test_amp_training_loop_str() -> None:
     assert str(AMPTrainingLoop()).startswith("AMPTrainingLoop(")
 
 
+@mark.parametrize("set_grad_to_none", (True, False))
+def test_amp_training_loop_set_grad_to_none(set_grad_to_none: bool) -> None:
+    assert AMPTrainingLoop(set_grad_to_none=set_grad_to_none)._set_grad_to_none == set_grad_to_none
+
+
+def test_amp_training_loop_set_grad_to_none_default() -> None:
+    assert AMPTrainingLoop()._set_grad_to_none
+
+
 @mark.parametrize("amp_enabled", (True, False))
 def test_amp_training_loop_amp_enabled(amp_enabled: bool) -> None:
     with patch("gravitorch.loops.training.amp.GradScaler") as scaler_mock:

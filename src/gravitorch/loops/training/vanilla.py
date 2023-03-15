@@ -37,7 +37,7 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
             gradients to ``None``, otherwise set the gradients to
             zero. Setting the gradients to ``None`` will in general
             have lower memory footprint, and can modestly improve
-            performance. Default: ``False``
+            performance. Default: ``True``
         batch_device_placement (``BaseDevicePlacement`` or dict or
             ``None``, optional): Specifies the batch device placement
             module. This module moves the batch on a target device.
@@ -61,7 +61,7 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
 
     def __init__(
         self,
-        set_grad_to_none: bool = False,
+        set_grad_to_none: bool = True,
         batch_device_placement: Union[BaseDevicePlacement, dict, None] = None,
         tag: str = ct.TRAIN,
         clip_grad: Optional[dict] = None,

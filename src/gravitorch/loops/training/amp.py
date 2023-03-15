@@ -32,7 +32,7 @@ class AMPTrainingLoop(VanillaTrainingLoop):
             gradients to ``None``, otherwise set the gradients to
             zero. Setting the gradients to ``None`` will in general
             have lower memory footprint, and can modestly improve
-            performance. Default: ``False``
+            performance. Default: ``True``
         amp_enabled (bool, optional): If ``True``, automatic mixed
             precision (AMP) is enabled, otherwise it is disabled.
             Default: ``True``
@@ -59,7 +59,7 @@ class AMPTrainingLoop(VanillaTrainingLoop):
     def __init__(
         self,
         clip_grad: Optional[dict] = None,
-        set_grad_to_none: bool = False,
+        set_grad_to_none: bool = True,
         amp_enabled: bool = True,
         batch_device_placement: Union[BaseDevicePlacement, dict, None] = None,
         tag: str = "train",

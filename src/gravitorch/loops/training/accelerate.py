@@ -48,7 +48,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
             gradients to ``None``, otherwise set the gradients to
             zero. Setting the gradients to ``None`` will in general
             have lower memory footprint, and can modestly improve
-            performance. Default: ``False``
+            performance. Default: ``True``
         tag (str, optional): Specifies the tag which is used to log
             metrics. Default: ``"train"``
         clip_grad (dict or None, optional): Specifies the
@@ -67,7 +67,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
     def __init__(
         self,
         accelerator: Union[Accelerator, dict, None] = None,
-        set_grad_to_none: bool = False,
+        set_grad_to_none: bool = True,
         tag: str = "train",
         clip_grad: Optional[dict] = None,
         observer: Union[BaseLoopObserver, dict, None] = None,
