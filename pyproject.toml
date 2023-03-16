@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.9a1"
+version = "0.0.9a2"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -107,7 +107,7 @@ filterwarnings = [
 
 [tool.black]
 line-length = 100
-target-version = ["py39", "py310"]
+target-version = ["py39", "py310", "py311"]
 include = '\.pyi?$'
 
 [tool.pylint.FORMAT]
