@@ -57,7 +57,7 @@ def check_broadcast_object_list(local_rank: int) -> None:
 @distributed_available
 @gloo_available
 def test_broadcast_object_list_gloo(parallel_gloo_2: Parallel) -> None:
-    print('parallel_gloo_2', parallel_gloo_2)
+    print("parallel_gloo_2", parallel_gloo_2)
     parallel_gloo_2.run(check_sync_reduce_inplace)
 
 
@@ -296,14 +296,14 @@ def check_sync_reduce_inplace(local_rank: int) -> None:
 @distributed_available
 @gloo_available
 def test_sync_reduce_gloo(parallel_gloo_2: Parallel, func: Callable) -> None:
-    print('parallel_gloo_2', parallel_gloo_2)
+    print("parallel_gloo_2", parallel_gloo_2)
     parallel_gloo_2.run(func)
 
 
 @distributed_available
 @gloo_available
 def test_sync_reduce_inplace_gloo(parallel_gloo_2: Parallel) -> None:
-    print('parallel_gloo_2', parallel_gloo_2)
+    print("parallel_gloo_2", parallel_gloo_2)
     parallel_gloo_2.run(check_sync_reduce_inplace)
 
 
@@ -371,7 +371,7 @@ def check_all_gather_tensor_varshape(local_rank: int) -> None:
 @distributed_available
 @gloo_available
 def test_all_gather_tensor_varshape_gloo(parallel_gloo_2: Parallel) -> None:
-    print('parallel_gloo_2', parallel_gloo_2)
+    print("parallel_gloo_2", parallel_gloo_2)
     parallel_gloo_2.run(check_all_gather_tensor_varshape)
 
 
