@@ -72,6 +72,7 @@ initialize = utils.initialize
 model_name = utils.model_name
 set_local_rank = utils.set_local_rank
 show_config = utils.show_config
+spawn = utils.spawn
 
 
 class UnknownBackendError(Exception):
