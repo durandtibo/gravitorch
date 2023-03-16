@@ -15,7 +15,7 @@ def parallel_gloo_2() -> Generator[Parallel, None, None]:
         # master_addr="localhost",
         # master_port=29507,
     ) as parallel:
-        print('parallel_gloo_2 is initialized')
+        print("parallel_gloo_2 is initialized")
         yield parallel
 
 
@@ -28,5 +28,5 @@ def parallel_nccl_2() -> Generator[Parallel, None, None]:
         # master_addr="localhost",
         # master_port=29508,
     ) as parallel:
-        print('parallel_nccl_2 is initialized')
+        print("parallel_nccl_2 is initialized")
         yield parallel
