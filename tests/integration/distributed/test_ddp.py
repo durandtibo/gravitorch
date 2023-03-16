@@ -5,8 +5,9 @@ from coola import objects_are_equal
 from ignite.distributed import Parallel
 from pytest import mark, raises
 
-from gravitorch.distributed import comm as dist
+from gravitorch.distributed import comm as dist, gloocontext, backend as dist_backend
 from gravitorch.distributed import ddp
+from gravitorch.distributed.comm import spawn
 from gravitorch.distributed.ddp import all_gather_tensor_varshape
 from gravitorch.testing import (
     distributed_available,
@@ -294,8 +295,11 @@ def check_sync_reduce_inplace(local_rank: int) -> None:
 )
 @distributed_available
 @gloo_available
+# def test_sync_reduce_gloo(parallel_gloo_2: Parallel, func: Callable) -> None:
+#     parallel_gloo_2.run(func)
 def test_sync_reduce_gloo(parallel_gloo_2: Parallel, func: Callable) -> None:
-    parallel_gloo_2.run(func)
+    with gloocontext():
+        spawn(backend=dist_backend(), fn=func, args=tuple(), nproc_per_node=2)
 
 
 @distributed_available
@@ -367,8 +371,16 @@ def check_all_gather_tensor_varshape(local_rank: int) -> None:
 
 @distributed_available
 @gloo_available
-def test_all_gather_tensor_varshape_gloo(parallel_gloo_2: Parallel) -> None:
-    parallel_gloo_2.run(check_all_gather_tensor_varshape)
+# def test_all_gather_tensor_varshape_gloo(parallel_gloo_2: Parallel) -> None:
+# parallel_gloo_2.run(check_all_gather_tensor_varshape)
+def test_all_gather_tensor_varshape_gloo() -> None:
+    with gloocontext():
+        spawn(
+            backend=dist_backend(),
+            fn=check_all_gather_tensor_varshape,
+            args=tuple(),
+            nproc_per_node=2,
+        )
 
 
 @two_gpus_available
