@@ -2,6 +2,7 @@ __all__ = [
     "Asinh",
     "Isymlog",
     "Log1p",
+    "Mul",
     "OnePolynomial",
     "Safeexp",
     "Safelog",
@@ -46,6 +47,37 @@ class Log1p(Module):
 
     def forward(self, tensor: Tensor) -> Tensor:
         return tensor.log1p()
+
+
+class Mul(Module):
+    r"""Implements a ``torch.nn.Module`` to multiply the input tensor with a
+    float scalar value.
+
+    Args:
+        value (float): Specifies the value.
+    """
+
+    def __init__(self, value: float) -> None:
+        super().__init__()
+        self.value = float(value)
+
+    def forward(self, tensor: Tensor) -> Tensor:
+        r"""Multiplies the input tensor with a scalar value.
+
+        Note: the output is a float tensor.
+
+        Args:
+        ----
+            tensor (``torch.Tensor`` of shape
+                ``(d0, d1, ..., dn)``): Specifies the tensor of values
+                to transform.
+
+        Returns:
+        -------
+            ``torch.Tensor`` of type float and shape
+                ``(d0, d1, ..., dn)``: The transformed values.
+        """
+        return tensor.mul(self.value)
 
 
 class OnePolynomial(Module):

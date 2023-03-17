@@ -10,6 +10,7 @@ from gravitorch.nn import (
     Clamp,
     Isymlog,
     Log1p,
+    Mul,
     OnePolynomial,
     Safeexp,
     Safelog,
@@ -77,6 +78,38 @@ def test_log1p_forward(device: str) -> None:
         torch.tensor(
             [0.0, 0.6931471805599453, 1.0986122886681098], dtype=torch.float, device=device
         ),
+    )
+
+
+#########################
+#     Tests for Mul     #
+#########################
+
+
+@mark.parametrize("device", get_available_devices())
+def test_mul_forward_2(device: str) -> None:
+    device = torch.device(device)
+    module = Mul(2.0).to(device=device)
+    assert module(torch.tensor([0.0, 1.0, 2.0], dtype=torch.float, device=device)).allclose(
+        torch.tensor([0, 2.0, 4.0], dtype=torch.float, device=device),
+    )
+
+
+@mark.parametrize("device", get_available_devices())
+def test_mul_forward_4(device: str) -> None:
+    device = torch.device(device)
+    module = Mul(4.0).to(device=device)
+    assert module(torch.tensor([0.0, 1.0, 2.0], dtype=torch.float, device=device)).allclose(
+        torch.tensor([0, 4.0, 8.0], dtype=torch.float, device=device),
+    )
+
+
+@mark.parametrize("device", get_available_devices())
+def test_mul_forward_long(device: str) -> None:
+    device = torch.device(device)
+    module = Mul(2.0).to(device=device)
+    assert module(torch.tensor([0, 1, 2], dtype=torch.long, device=device)).allclose(
+        torch.tensor([0, 2.0, 4.0], dtype=torch.float, device=device),
     )
 
 
