@@ -3,6 +3,7 @@ __all__ = ["VanillaModelCreator"]
 import logging
 from typing import Union
 
+import torch
 from torch import nn
 
 from gravitorch import constants as ct
@@ -68,6 +69,7 @@ class VanillaModelCreator(BaseModelCreator):
         else:
             model = setup_model(model=self._model_config)
         model = self._device_placement.send(model)
+        model = torch.compile(model)
         if self._add_module_to_engine:
             logger.info(f"Adding a model to the engine state (key: {ct.MODEL})...")
             engine.add_module(ct.MODEL, model)
