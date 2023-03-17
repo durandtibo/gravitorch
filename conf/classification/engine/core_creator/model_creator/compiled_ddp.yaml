@@ -1,0 +1,5 @@
+defaults:
+  - .@model_creator: ddp
+  - _self_
+
+_target_: gravitorch.creators.model.CompiledModelCreator

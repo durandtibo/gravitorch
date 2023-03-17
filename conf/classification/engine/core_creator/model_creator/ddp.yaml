@@ -1,0 +1,7 @@
+defaults:
+  - .@model_creator: vanilla
+  - _self_
+
+_target_: gravitorch.creators.model.DataDistributedParallelModelCreator
+ddp_kwargs:
+  find_unused_parameters: false
