@@ -61,6 +61,9 @@ class Mul(Module):
         super().__init__()
         self.value = float(value)
 
+    def extra_repr(self) -> str:
+        return f"value={self.value}"
+
     def forward(self, tensor: Tensor) -> Tensor:
         r"""Multiplies the input tensor with a scalar value.
 
