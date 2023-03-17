@@ -86,6 +86,10 @@ def test_log1p_forward(device: str) -> None:
 #########################
 
 
+def test_mul_str() -> None:
+    assert str(Mul(2.0)).startswith("Mul(")
+
+
 @mark.parametrize("device", get_available_devices())
 def test_mul_forward_2(device: str) -> None:
     device = torch.device(device)
