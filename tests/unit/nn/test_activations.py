@@ -29,7 +29,7 @@ def test_relun_forward(device: str, dtype: torch.dtype) -> None:
 def test_relun_forward_max_value_2(device: str) -> None:
     device = torch.device(device)
     module = ReLUn(max_value=2).to(device=device)
-    assert module(torch.arange(-1, 4, device=device)).equal(
+    assert module(torch.arange(-1, 4, dtype=torch.float, device=device)).equal(
         torch.tensor([0.0, 0.0, 1.0, 2.0, 2.0], dtype=torch.float, device=device)
     )
 
