@@ -104,6 +104,7 @@ filterwarnings = [
     'ignore::DeprecationWarning:tensorboard.*',
     'ignore::DeprecationWarning:torch.utils.tensorboard.*',
 ]
+timeout_func_only = false
 
 [tool.black]
 line-length = 100
