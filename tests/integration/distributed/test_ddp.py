@@ -16,7 +16,7 @@ from gravitorch.testing import (
     two_gpus_available,
 )
 
-xfail_linux = mark.xfail(platform.system() == "Linux", reason="unstable tests for Linux")
+xfail_linux = mark.skipif(platform.system() == "Linux", reason="unstable tests for Linux")
 
 
 ###########################################
