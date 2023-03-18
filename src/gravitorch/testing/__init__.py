@@ -14,7 +14,6 @@ __all__ = [
     "tensorboard_available",
     "torchvision_available",
     "two_gpus_available",
-    "skip_linux",
 ]
 
 from gravitorch.testing._pytest import (
@@ -25,7 +24,6 @@ from gravitorch.testing._pytest import (
     nccl_available,
     pillow_available,
     psutil_available,
-    skip_linux,
     tensorboard_available,
     torchvision_available,
     two_gpus_available,

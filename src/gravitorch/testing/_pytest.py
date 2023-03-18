@@ -46,9 +46,3 @@ torchvision_available = mark.skipif(
         "to run this test"
     ),
 )
-
-
-skip_linux = mark.skipif(
-    platform.system() == "Linux",
-    reason=("skip this test because it is run on a linux machine"),
-)
