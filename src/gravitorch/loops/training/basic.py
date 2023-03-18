@@ -17,11 +17,6 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.observers import BaseLoopObserver, setup_loop_observer
 from gravitorch.loops.training.base import BaseTrainingLoop
-from gravitorch.optimizers.utils import (
-    log_optimizer_parameters_per_group,
-    show_optimizer_parameters_per_group,
-)
-from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import MinScalarHistory
 from gravitorch.utils.metric_tracker import ScalarMetricTracker
 from gravitorch.utils.profilers import BaseProfiler, setup_profiler
@@ -134,14 +129,6 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
 
         if not engine.has_history(f"{self._tag}/{ct.LOSS}"):
             engine.add_history(MinScalarHistory(f"{self._tag}/{ct.LOSS}"))
-
-        show_optimizer_parameters_per_group(engine.optimizer)  # TODO: move to handler
-        log_optimizer_parameters_per_group(
-            optimizer=engine.optimizer,
-            engine=engine,
-            step=EpochStep(engine.epoch),
-            prefix=f"{self._tag}/",
-        )
 
     @abstractmethod
     def _prepare_model_optimizer_data_loader(
