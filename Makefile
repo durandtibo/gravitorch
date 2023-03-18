@@ -45,11 +45,19 @@ integration-test :
 integration-test-cov :
 	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/integration
 
+.PHONY : functional-test
+functional-test :
+	python -m pytest --timeout 60 tests/functional
+
+.PHONY : functional-test-cov
+functional-test-cov :
+	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/functional
+
 .PHONY : test
-make test : unit-test integration-test
+make test : unit-test integration-test functional-test
 
 .PHONY : test-cov
-make test-cov : unit-test-cov integration-test-cov
+make test-cov : unit-test-cov integration-test-cov functional-test-cov
 
 .PHONY : publish-pypi
 publish-pypi :
