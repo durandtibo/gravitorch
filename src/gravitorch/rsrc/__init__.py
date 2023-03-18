@@ -7,6 +7,8 @@ __all__ = [
     "PyTorchConfig",
     "PyTorchCudaBackend",
     "PyTorchCudnnBackend",
+    "PyTorchMpsBackend",
+    "PyTorchMpsBackendState",
     "setup_resource",
 ]
 
@@ -17,5 +19,7 @@ from gravitorch.rsrc.pytorch import (
     PyTorchConfig,
     PyTorchCudaBackend,
     PyTorchCudnnBackend,
+    PyTorchMpsBackend,
+    PyTorchMpsBackendState,
 )
 from gravitorch.rsrc.sysinfo import LogCudaMemory, LogSysInfo

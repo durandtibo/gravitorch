@@ -3,10 +3,15 @@ from unittest.mock import patch
 
 import torch
 from pytest import LogCaptureFixture, mark
-from torch.backends import cuda, cudnn
+from torch.backends import cuda, cudnn, mps
 
 from gravitorch.rsrc import PyTorchConfig, PyTorchCudaBackend, PyTorchCudnnBackend
-from gravitorch.rsrc.pytorch import PyTorchCudaBackendState, PyTorchCudnnBackendState
+from gravitorch.rsrc.pytorch import (
+    PyTorchCudaBackendState,
+    PyTorchCudnnBackendState,
+    PyTorchMpsBackend,
+    PyTorchMpsBackendState,
+)
 
 ###################################
 #     Tests for PyTorchConfig     #
@@ -253,3 +258,49 @@ def test_pytorch_cudnn_backend_reentrant() -> None:
     with resource, resource:
         assert cudnn.allow_tf32
     assert cudnn.allow_tf32 == default
+
+
+############################################
+#     Tests for PyTorchMpsBackendState     #
+############################################
+
+
+def test_pytorch_mps_backend_state_create() -> None:
+    state = PyTorchMpsBackendState.create()
+    assert isinstance(state.is_available, bool)
+    assert isinstance(state.is_built, bool)
+
+
+def test_pytorch_mps_backend_state_restore() -> None:
+    with PyTorchMpsBackend():
+        PyTorchMpsBackendState(is_available=False, is_built=False).restore()
+
+
+#######################################
+#     Tests for PyTorchMpsBackend     #
+#######################################
+
+
+def test_pytorch_mps_backend_str() -> None:
+    assert str(PyTorchMpsBackend()).startswith("PyTorchMpsBackend(")
+
+
+def test_pytorch_mps_backend_log_info_true(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(logging.INFO):
+        with PyTorchMpsBackend(log_info=True):
+            pass
+        assert len(caplog.messages) == 3
+
+
+def test_pytorch_mps_backend_log_info_false(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(logging.INFO):
+        with PyTorchMpsBackend():
+            pass
+        assert len(caplog.messages) == 2
+
+
+def test_pytorch_mps_backend_reentrant() -> None:
+    resource = PyTorchMpsBackend()
+    with resource, resource:
+        assert isinstance(mps.is_available(), bool)
+    assert isinstance(mps.is_available(), bool)
