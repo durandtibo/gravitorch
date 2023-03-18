@@ -7,11 +7,39 @@ from torch.backends import cuda, cudnn, mps
 
 from gravitorch.rsrc import PyTorchConfig, PyTorchCudaBackend, PyTorchCudnnBackend
 from gravitorch.rsrc.pytorch import (
+    PyTorchConfigState,
     PyTorchCudaBackendState,
     PyTorchCudnnBackendState,
     PyTorchMpsBackend,
     PyTorchMpsBackendState,
 )
+
+########################################
+#     Tests for PyTorchConfigState     #
+########################################
+
+
+def test_pytorch_config_state_create() -> None:
+    state = PyTorchConfigState.create()
+    assert state.float32_matmul_precision == torch.get_float32_matmul_precision()
+    assert state.deterministic_algorithms_mode == torch.are_deterministic_algorithms_enabled()
+    assert (
+        state.deterministic_algorithms_warn_only
+        == torch.is_deterministic_algorithms_warn_only_enabled()
+    )
+
+
+def test_pytorch_config_state_restore() -> None:
+    with PyTorchConfig():
+        PyTorchConfigState(
+            float32_matmul_precision="high",
+            deterministic_algorithms_mode=True,
+            deterministic_algorithms_warn_only=True,
+        ).restore()
+        assert torch.get_float32_matmul_precision()
+        assert torch.are_deterministic_algorithms_enabled()
+        assert torch.is_deterministic_algorithms_warn_only_enabled()
+
 
 ###################################
 #     Tests for PyTorchConfig     #
@@ -30,7 +58,7 @@ def test_pytorch_config_with_cuda(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with PyTorchConfig():
             pass
-        assert len(caplog.messages) == 6
+        assert len(caplog.messages) == 8
 
 
 @patch("torch.cuda.is_available", lambda *args: False)
@@ -38,7 +66,59 @@ def test_pytorch_config_without_cuda(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         with PyTorchConfig():
             pass
-        assert len(caplog.messages) == 4
+        assert len(caplog.messages) == 6
+
+
+@mark.parametrize("float32_matmul_precision", ("highest", "high"))
+def test_pytorch_config_float32_matmul_precision(float32_matmul_precision: str) -> None:
+    default = torch.get_float32_matmul_precision()
+    with PyTorchConfig(float32_matmul_precision=float32_matmul_precision):
+        assert torch.get_float32_matmul_precision() == float32_matmul_precision
+    assert torch.get_float32_matmul_precision() == default
+
+
+@mark.parametrize("deterministic_algorithms_mode", (True, False))
+@mark.parametrize("deterministic_algorithms_warn_only", (True, False))
+def test_pytorch_config_deterministic_algorithms(
+    deterministic_algorithms_mode: bool, deterministic_algorithms_warn_only: bool
+) -> None:
+    default_mode = torch.are_deterministic_algorithms_enabled()
+    default_warn_only = torch.is_deterministic_algorithms_warn_only_enabled()
+    with PyTorchConfig(
+        deterministic_algorithms_mode=deterministic_algorithms_mode,
+        deterministic_algorithms_warn_only=deterministic_algorithms_warn_only,
+    ):
+        assert torch.are_deterministic_algorithms_enabled() == deterministic_algorithms_mode
+        assert (
+            torch.is_deterministic_algorithms_warn_only_enabled()
+            == deterministic_algorithms_warn_only
+        )
+    assert torch.are_deterministic_algorithms_enabled() == default_mode
+    assert torch.is_deterministic_algorithms_warn_only_enabled() == default_warn_only
+
+
+@patch("torch.cuda.is_available", lambda *args: False)
+def test_pytorch_config_log_info_true(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(logging.INFO):
+        with PyTorchConfig(log_info=True):
+            pass
+        assert len(caplog.messages) == 7
+
+
+@patch("torch.cuda.is_available", lambda *args: False)
+def test_pytorch_config_log_info_false(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(logging.INFO):
+        with PyTorchConfig():
+            pass
+        assert len(caplog.messages) == 6
+
+
+def test_pytorch_config_reentrant() -> None:
+    default = torch.get_float32_matmul_precision()
+    resource = PyTorchConfig(float32_matmul_precision="high")
+    with resource, resource:
+        assert torch.get_float32_matmul_precision() == "high"
+    assert torch.get_float32_matmul_precision() == default
 
 
 #############################################

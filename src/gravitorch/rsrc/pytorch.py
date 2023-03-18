@@ -1,5 +1,6 @@
 __all__ = [
     "PyTorchConfig",
+    "PyTorchConfigState",
     "PyTorchCudaBackend",
     "PyTorchCudaBackendState",
     "PyTorchCudnnBackend",
@@ -22,8 +23,52 @@ from gravitorch.utils.format import to_pretty_dict_str
 logger = logging.getLogger(__name__)
 
 
+@dataclass
+class PyTorchConfigState:
+    float32_matmul_precision: str
+    deterministic_algorithms_mode: bool
+    deterministic_algorithms_warn_only: bool
+
+    def restore(self) -> None:
+        r"""Restores the PyTorch configuration by using the values in the
+        state."""
+        torch.set_float32_matmul_precision(self.float32_matmul_precision)
+        torch.use_deterministic_algorithms(
+            mode=self.deterministic_algorithms_mode,
+            warn_only=self.deterministic_algorithms_warn_only,
+        )
+
+    @classmethod
+    def create(cls) -> "PyTorchConfigState":
+        r"""Creates a state to capture the current PyTorch configuration.
+
+        Returns
+        -------
+            ``PyTorchConfigState``: The current state.
+        """
+        return cls(
+            float32_matmul_precision=torch.get_float32_matmul_precision(),
+            deterministic_algorithms_mode=torch.are_deterministic_algorithms_enabled(),
+            deterministic_algorithms_warn_only=torch.is_deterministic_algorithms_warn_only_enabled(),
+        )
+
+
 class PyTorchConfig(BaseResource):
     r"""Implements a context manager to show the PyTorch configuration."""
+
+    def __init__(
+        self,
+        float32_matmul_precision: Optional[str] = None,
+        deterministic_algorithms_mode: Optional[bool] = None,
+        deterministic_algorithms_warn_only: bool = False,
+        log_info: bool = False,
+    ) -> None:
+        self._float32_matmul_precision = float32_matmul_precision
+        self._deterministic_algorithms_mode = deterministic_algorithms_mode
+        self._deterministic_algorithms_warn_only = deterministic_algorithms_warn_only
+
+        self._log_info = bool(log_info)
+        self._state: list[PyTorchConfigState] = []
 
     def __enter__(self) -> "PyTorchConfig":
         logger.info(f"PyTorch version: {torch.version.__version__}  ({torch.version.git_version})")
@@ -35,6 +80,12 @@ class PyTorchConfig(BaseResource):
             cap = torch.cuda.get_device_capability(device)
             logger.info(f"PyTorch CUDA compute capability: {'.'.join(str(ver) for ver in cap)}")
             logger.info(f"PyTorch GPU name: {torch.cuda.get_device_name(device)}")
+
+        logger.info("Configuring PyTorch...")
+        self._state.append(PyTorchConfigState.create())
+        self._configure()
+        if self._log_info:
+            self._show()
         return self
 
     def __exit__(
@@ -43,10 +94,34 @@ class PyTorchConfig(BaseResource):
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
-        pass
+        logger.info("Restoring PyTorch configuration...")
+        self._state.pop().restore()
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}()"
+        return (
+            f"{self.__class__.__qualname__}("
+            f"float32_matmul_precision={self._float32_matmul_precision}, "
+            f"deterministic_algorithms_mode={self._deterministic_algorithms_mode}, "
+            f"deterministic_algorithms_warn_only={self._deterministic_algorithms_warn_only})"
+        )
+
+    def _configure(self) -> None:
+        if self._float32_matmul_precision is not None:
+            torch.set_float32_matmul_precision(self._float32_matmul_precision)
+        if self._deterministic_algorithms_mode is not None:
+            torch.use_deterministic_algorithms(
+                mode=self._deterministic_algorithms_mode,
+                warn_only=self._deterministic_algorithms_warn_only,
+            )
+
+    def _show(self) -> None:
+        prefix = "torch"
+        info = {
+            f"{prefix}.float32_matmul_precision": torch.get_float32_matmul_precision(),
+            f"{prefix}.deterministic_algorithms_mode": torch.are_deterministic_algorithms_enabled(),
+            f"{prefix}.deterministic_algorithms_warn_only": torch.is_deterministic_algorithms_warn_only_enabled(),
+        }
+        logger.info(f"PyTorch config:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
 
 
 @dataclass
