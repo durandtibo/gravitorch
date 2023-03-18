@@ -6,6 +6,11 @@ from pytest import fixture
 from gravitorch.distributed.comm import Backend
 
 
+@fixture(autouse=True)
+def clean_distributed():
+    finalize()
+
+
 @fixture(scope="session")
 def parallel_gloo_2() -> Generator[Parallel, None, None]:
     with Parallel(
@@ -15,10 +20,7 @@ def parallel_gloo_2() -> Generator[Parallel, None, None]:
         master_addr="localhost",
         master_port=29507,
     ) as parallel:
-        try:
-            yield parallel
-        finally:
-            finalize()
+        yield parallel
 
 
 @fixture(scope="session")
@@ -30,7 +32,4 @@ def parallel_nccl_2() -> Generator[Parallel, None, None]:
         master_addr="localhost",
         master_port=29508,
     ) as parallel:
-        try:
-            yield parallel
-        finally:
-            finalize()
+        yield parallel
