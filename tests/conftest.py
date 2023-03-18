@@ -1,6 +1,6 @@
 from collections.abc import Generator
 
-from ignite.distributed import Parallel
+from ignite.distributed import Parallel, finalize
 from pytest import fixture
 
 from gravitorch.distributed.comm import Backend
@@ -15,7 +15,10 @@ def parallel_gloo_2() -> Generator[Parallel, None, None]:
         master_addr="localhost",
         master_port=29507,
     ) as parallel:
-        yield parallel
+        try:
+            yield parallel
+        finally:
+            finalize()
 
 
 @fixture(scope="session")
@@ -27,4 +30,7 @@ def parallel_nccl_2() -> Generator[Parallel, None, None]:
         master_addr="localhost",
         master_port=29508,
     ) as parallel:
-        yield parallel
+        try:
+            yield parallel
+        finally:
+            finalize()
