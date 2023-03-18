@@ -4,6 +4,8 @@ __all__ = [
     "PyTorchCudaBackendState",
     "PyTorchCudnnBackend",
     "PyTorchCudnnBackendState",
+    "PyTorchMpsBackend",
+    "PyTorchMpsBackendState",
 ]
 
 import logging
@@ -12,7 +14,7 @@ from types import TracebackType
 from typing import Any, Optional
 
 import torch
-from torch.backends import cuda, cudnn
+from torch.backends import cuda, cudnn, mps
 
 from gravitorch.rsrc.base import BaseResource
 from gravitorch.utils.format import to_pretty_dict_str
@@ -206,7 +208,7 @@ class PyTorchCudnnBackendState:
 
     @classmethod
     def create(cls) -> "PyTorchCudnnBackendState":
-        r"""Creates a state to capture the current PyTorch CUDA CUDNN.
+        r"""Creates a state to capture the current PyTorch CUDNN backend.
 
         Returns
         -------
@@ -312,3 +314,64 @@ class PyTorchCudnnBackend(BaseResource):
             f"{prefix}.version": cudnn.version(),
         }
         logger.info(f"CUDNN backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
+
+
+@dataclass
+class PyTorchMpsBackendState:
+    is_available: bool
+    is_built: bool
+
+    def restore(self) -> None:
+        r"""Restores the PyTorch MPS backend configuration by using the values
+        in the state."""
+
+    @classmethod
+    def create(cls) -> "PyTorchMpsBackendState":
+        r"""Creates a state to capture the current PyTorch MPS backend.
+
+        Returns
+        -------
+            ``PyTorchMpsBackendState``: The current state.
+        """
+        return cls(is_available=mps.is_available(), is_built=mps.is_built())
+
+
+class PyTorchMpsBackend(BaseResource):
+    r"""Implements a context manager to configure the PyTorch MPS backend.
+
+    Args:
+    ----
+        log_info (bool, optional): If ``True``, the state is shown
+            after the context manager is created. Default: ``False``
+    """
+
+    def __init__(self, log_info: bool = False) -> None:
+        self._log_info = bool(log_info)
+        self._state: list[PyTorchMpsBackendState] = []
+
+    def __enter__(self) -> "PyTorchMpsBackend":
+        logger.info("Configuring MPS backend...")
+        self._state.append(PyTorchMpsBackendState.create())
+        if self._log_info:
+            self._show()
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
+        logger.info("Restoring MPS backend configuration...")
+        self._state.pop().restore()
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__qualname__}(log_info={self._log_info})"
+
+    def _show(self) -> None:
+        prefix = "torch.backends.mps"
+        info = {
+            f"{prefix}.is_available": mps.is_available(),
+            f"{prefix}.is_built": mps.is_built(),
+        }
+        logger.info(f"MPS backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")

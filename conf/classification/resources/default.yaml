@@ -11,6 +11,8 @@
   benchmark: true
   enabled: true
   log_info: true
+- _target_: gravitorch.rsrc.PyTorchMpsBackend
+  log_info: true
 - _target_: gravitorch.rsrc.DistributedContext
   backend: auto
   log_info: true
