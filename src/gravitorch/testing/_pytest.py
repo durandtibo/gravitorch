@@ -1,4 +1,3 @@
-import platform
 
 import torch
 from pytest import mark
