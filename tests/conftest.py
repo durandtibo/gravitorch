@@ -7,7 +7,7 @@ from gravitorch.distributed.comm import Backend
 
 
 @fixture(autouse=True)
-def clean_distributed():
+def clean_distributed() -> None:
     finalize()
 
 
