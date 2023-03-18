@@ -267,8 +267,8 @@ def test_pytorch_cudnn_backend_reentrant() -> None:
 
 def test_pytorch_mps_backend_state_create() -> None:
     state = PyTorchMpsBackendState.create()
-    assert isinstance(state.is_available, bool)
-    assert isinstance(state.is_built, bool)
+    assert state.is_available == mps.is_available()
+    assert state.is_built == mps.is_built()
 
 
 def test_pytorch_mps_backend_state_restore() -> None:
