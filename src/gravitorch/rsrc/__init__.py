@@ -5,6 +5,7 @@ __all__ = [
     "LogSysInfo",
     "Logging",
     "PyTorchConfig",
+    "PyTorchConfigState",
     "PyTorchCudaBackend",
     "PyTorchCudnnBackend",
     "PyTorchMpsBackend",
@@ -17,6 +18,7 @@ from gravitorch.rsrc.distributed import DistributedContext
 from gravitorch.rsrc.logging import Logging
 from gravitorch.rsrc.pytorch import (
     PyTorchConfig,
+    PyTorchConfigState,
     PyTorchCudaBackend,
     PyTorchCudnnBackend,
     PyTorchMpsBackend,
