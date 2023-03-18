@@ -1,3 +1,5 @@
+import platform
+
 import torch
 from pytest import mark
 from torch import distributed as tdist
@@ -43,4 +45,10 @@ torchvision_available = mark.skipif(
         "`torchvision` is not available. Please install `torchvision` if you want "
         "to run this test"
     ),
+)
+
+
+skip_linux = mark.skipif(
+    platform.system() == "Linux",
+    reason=("skip this test because it is run on a linux machine"),
 )

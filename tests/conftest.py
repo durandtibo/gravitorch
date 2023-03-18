@@ -1,14 +1,9 @@
 from collections.abc import Generator
 
-from ignite.distributed import Parallel, finalize
+from ignite.distributed import Parallel
 from pytest import fixture
 
 from gravitorch.distributed.comm import Backend
-
-
-@fixture(autouse=True)
-def clean_distributed() -> None:
-    finalize()
 
 
 @fixture(scope="session")
