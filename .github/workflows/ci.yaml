@@ -57,7 +57,6 @@ jobs:
           poetry run make integration-test-cov
 
       - name: Run functional tests
-        continue-on-error: true
         timeout-minutes: 4
         run: |
           poetry run make functional-test-cov
