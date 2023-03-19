@@ -52,7 +52,7 @@ jobs:
         run: |
           poetry run make integration-test-cov
 
-  test_minimal:
+  test-minimal:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:

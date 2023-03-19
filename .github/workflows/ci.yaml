@@ -75,7 +75,7 @@ jobs:
           fail_ci_if_error: false
 
 
-  test_minimal:
+  test-minimal:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     strategy:
