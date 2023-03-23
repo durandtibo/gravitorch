@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.9a6"
+version = "0.0.9a7"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -74,7 +74,7 @@ pylint = "^2.15"
 pytest = "^7.2"
 pytest-cov = "^4.0"
 pytest-timeout = "^2.1"
-ruff = "^0.0"
+ruff = "^0.0.257"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
