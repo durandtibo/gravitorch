@@ -8,6 +8,7 @@ from gravitorch.utils.integrations import (
     check_matplotlib,
     check_pillow,
     check_tensorboard,
+    check_torchdata,
     check_torchvision,
     is_accelerate_available,
     is_fairscale_available,
@@ -15,6 +16,7 @@ from gravitorch.utils.integrations import (
     is_pillow_available,
     is_psutil_available,
     is_tensorboard_available,
+    is_torchdata_available,
     is_torchvision_available,
 )
 
@@ -125,6 +127,26 @@ def test_check_tensorboard_without_package() -> None:
 
 def test_is_tensorboard_available() -> None:
     assert isinstance(is_tensorboard_available(), bool)
+
+
+#######################
+#     torchdata     #
+#######################
+
+
+def test_check_torchdata_with_package() -> None:
+    with patch("gravitorch.utils.integrations.is_torchdata_available", lambda *args: True):
+        check_torchdata()
+
+
+def test_check_torchdata_without_package() -> None:
+    with patch("gravitorch.utils.integrations.is_torchdata_available", lambda *args: False):
+        with raises(RuntimeError):
+            check_torchdata()
+
+
+def test_is_torchdata_available() -> None:
+    assert isinstance(is_torchdata_available(), bool)
 
 
 #######################
