@@ -7,6 +7,7 @@ from pytest import fixture, mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.loops.evaluation import AccelerateEvaluationLoop
 from gravitorch.loops.evaluation.conditions import (
     EveryEpochEvalCondition,
@@ -20,7 +21,6 @@ from gravitorch.testing import (
     accelerate_available,
     create_dummy_engine,
 )
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.integrations import is_accelerate_available

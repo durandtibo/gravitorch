@@ -9,9 +9,9 @@ from objectory import AbstractFactory
 from torch.nn import Module
 from torch.optim import Optimizer
 
+from gravitorch.events import BaseEventHandler
 from gravitorch.lr_schedulers import LRSchedulerType
 from gravitorch.utils.artifacts import BaseArtifact
-from gravitorch.utils.events import BaseEventHandler
 from gravitorch.utils.exp_trackers.steps import Step
 from gravitorch.utils.history import BaseHistory
 
@@ -108,7 +108,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: python
 
             >>> from gravitorch.engines import BaseEngine
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             >>> def hello_handler():
             ...     print('Hello!')
@@ -218,7 +218,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: python
 
             >>> from gravitorch.engines import BaseEngine
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.fire_event('my_event')  # should do nothing because there is no event handler
             >>> def hello_handler():
@@ -326,7 +326,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: python
 
             >>> from gravitorch.engines import BaseEngine
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             # Define a handler
             >>> def hello_handler():
@@ -609,7 +609,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: python
 
             >>> from gravitorch.engines import BaseEngine
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             >>> def hello_handler():
             ...     print('Hello!')

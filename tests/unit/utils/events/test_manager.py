@@ -5,8 +5,8 @@ from typing import Any
 
 from pytest import fixture, mark, raises
 
-from gravitorch.utils.events import VanillaEventHandler
-from gravitorch.utils.events.manager import EventManager, to_event_handlers_str
+from gravitorch.events import VanillaEventHandler
+from gravitorch.events.manager import EventManager, to_event_handlers_str
 
 logger = logging.getLogger(__name__)
 

@@ -4,14 +4,14 @@ import torch
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.handlers.base import BaseHandler
-from gravitorch.handlers.utils import add_unique_event_handler
-from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
-from gravitorch.utils.events import (
+from gravitorch.events import (
     ConditionalEventHandler,
     EpochPeriodicCondition,
     IterationPeriodicCondition,
 )
+from gravitorch.handlers.base import BaseHandler
+from gravitorch.handlers.utils import add_unique_event_handler
+from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 

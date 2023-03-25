@@ -12,9 +12,9 @@ from typing import Union
 import torch
 
 from gravitorch.engines.base import BaseEngine
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.path import sanitize_path
 
 logger = logging.getLogger(__name__)

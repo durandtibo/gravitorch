@@ -6,9 +6,9 @@ from typing import Optional, Union
 from gravitorch import constants as ct
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.models.metrics.base import BaseMetric
 from gravitorch.models.metrics.state import BaseState, setup_state
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 
 logger = logging.getLogger(__name__)

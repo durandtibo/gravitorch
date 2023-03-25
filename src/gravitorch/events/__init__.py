@@ -11,15 +11,15 @@ __all__ = [
     "VanillaEventHandler",
 ]
 
-from gravitorch.utils.events.conditions import (
+from gravitorch.events.conditions import (
     EpochPeriodicCondition,
     IterationPeriodicCondition,
     PeriodicCondition,
 )
-from gravitorch.utils.events.event_handlers import (
+from gravitorch.events.event_handlers import (
     BaseEventHandler,
     BaseEventHandlerWithArguments,
     ConditionalEventHandler,
     VanillaEventHandler,
 )
-from gravitorch.utils.events.manager import EventManager
+from gravitorch.events.manager import EventManager

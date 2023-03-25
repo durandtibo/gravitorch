@@ -4,14 +4,14 @@ import logging
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.handlers.base import BaseHandler
-from gravitorch.handlers.utils import add_unique_event_handler
-from gravitorch.optimizers.utils import get_learning_rate_per_group
-from gravitorch.utils.events import (
+from gravitorch.events import (
     ConditionalEventHandler,
     EpochPeriodicCondition,
     IterationPeriodicCondition,
 )
+from gravitorch.handlers.base import BaseHandler
+from gravitorch.handlers.utils import add_unique_event_handler
+from gravitorch.optimizers.utils import get_learning_rate_per_group
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 logger = logging.getLogger(__name__)

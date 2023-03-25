@@ -5,10 +5,10 @@ from pytest import mark
 from torch.nn import Linear, Module
 
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ModelInitializer
 from gravitorch.nn.init import Constant, constant
 from gravitorch.testing import create_dummy_engine
-from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 

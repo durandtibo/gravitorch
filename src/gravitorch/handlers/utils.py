@@ -4,8 +4,8 @@ import logging
 from typing import Union
 
 from gravitorch.engines.base import BaseEngine
+from gravitorch.events import BaseEventHandler
 from gravitorch.handlers.base import BaseHandler
-from gravitorch.utils.events import BaseEventHandler
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
@@ -39,7 +39,7 @@ def add_unique_event_handler(
         >>> def hello_handler():
         ...     print('Hello!')
         ...
-        >>> from gravitorch.utils.events import VanillaEventHandler
+        >>> from gravitorch.events import VanillaEventHandler
         >>> event_handler = VanillaEventHandler(hello_handler)
         # Add an event handler to the engine
         >>> from gravitorch.handlers import add_unique_event_handler

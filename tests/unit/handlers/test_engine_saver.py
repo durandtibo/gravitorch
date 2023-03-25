@@ -6,6 +6,7 @@ from unittest.mock import Mock, patch
 from pytest import LogCaptureFixture, mark
 
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     BestEngineStateSaver,
     BestHistorySaver,
@@ -13,7 +14,6 @@ from gravitorch.handlers import (
     LastHistorySaver,
     TagEngineStateSaver,
 )
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import GenericHistory, MaxScalarHistory
 
 EVENTS = ("my_event", "my_other_event")

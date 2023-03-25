@@ -4,13 +4,13 @@ from typing import Union
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
 from gravitorch.models.utils import (
     analyze_model_architecture,
     analyze_network_architecture,
 )
-from gravitorch.utils.events import VanillaEventHandler
 
 
 class ModelArchitectureAnalyzer(BaseHandler):

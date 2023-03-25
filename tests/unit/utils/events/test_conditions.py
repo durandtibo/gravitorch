@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 from pytest import mark
 
-from gravitorch.utils.events import (
+from gravitorch.events import (
     EpochPeriodicCondition,
     IterationPeriodicCondition,
     PeriodicCondition,

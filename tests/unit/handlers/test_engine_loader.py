@@ -6,12 +6,12 @@ import torch
 from pytest import mark, raises
 
 from gravitorch.engines import BaseEngine
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     EngineStateLoader,
     EngineStateLoaderWithExcludeKeys,
     EngineStateLoaderWithIncludeKeys,
 )
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.io import save_pytorch
 
 EVENTS = ("my_event", "my_other_event")

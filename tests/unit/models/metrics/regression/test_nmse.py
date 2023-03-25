@@ -3,10 +3,10 @@ from pytest import fixture, mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.models.metrics import EmptyMetricError, NormalizedMeanSquaredError
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import MinScalarHistory
 
 MODES = (ct.TRAIN, ct.EVAL)

@@ -4,10 +4,10 @@ import logging
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn import freeze_module
-from gravitorch.utils.events import VanillaEventHandler
 
 logger = logging.getLogger(__name__)
 
