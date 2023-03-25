@@ -4,10 +4,10 @@ from typing import Union
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
 from gravitorch.nn.utils.parameter import show_parameter_summary
-from gravitorch.utils.events import VanillaEventHandler
 
 
 class ModelParameterAnalyzer(BaseHandler):

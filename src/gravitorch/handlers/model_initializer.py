@@ -7,10 +7,10 @@ from typing import Union
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn.init import BaseInitializer, setup_initializer
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.format import str_indent
 
 logger = logging.getLogger(__name__)

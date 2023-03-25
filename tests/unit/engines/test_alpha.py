@@ -9,12 +9,12 @@ from torch.optim import SGD, Optimizer
 from gravitorch import constants as ct
 from gravitorch.creators.core import BaseCoreCreator
 from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.loops.evaluation import VanillaEvaluationLoop
 from gravitorch.loops.training import VanillaTrainingLoop
 from gravitorch.testing import DummyDataSource
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import VanillaEngineState
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import BaseExpTracker, EpochStep, NoOpExpTracker
 from gravitorch.utils.history import GenericHistory, MinScalarHistory
 

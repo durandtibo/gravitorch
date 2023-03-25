@@ -3,9 +3,9 @@ from unittest.mock import Mock, patch
 from pytest import mark
 
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ModelArchitectureAnalyzer
 from gravitorch.handlers.model_architecture import NetworkArchitectureAnalyzer
-from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 

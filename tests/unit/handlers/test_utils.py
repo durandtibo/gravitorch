@@ -3,6 +3,7 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 from pytest import mark
 
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     EpochLRMonitor,
     add_unique_event_handler,
@@ -10,7 +11,6 @@ from gravitorch.handlers import (
     setup_handler,
     to_events,
 )
-from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 

@@ -4,8 +4,8 @@ from pytest import mark
 from torch.nn import Linear, ModuleDict, Sequential
 
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ModelFreezer
-from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 

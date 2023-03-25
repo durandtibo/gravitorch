@@ -3,6 +3,7 @@ from unittest.mock import Mock
 from pytest import mark
 
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     EpochLRSchedulerUpdater,
     IterationLRSchedulerUpdater,
@@ -10,7 +11,6 @@ from gravitorch.handlers import (
     MetricEpochLRSchedulerUpdater,
     MetricLRSchedulerUpdater,
 )
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import MinScalarHistory
 
 EVENTS = ("my_event", "my_other_event")

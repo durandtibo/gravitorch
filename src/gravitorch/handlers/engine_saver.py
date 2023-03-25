@@ -15,9 +15,9 @@ from typing import Union
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import get_best_values, get_last_values
 from gravitorch.utils.io import save_pytorch
 from gravitorch.utils.path import sanitize_path

@@ -8,6 +8,7 @@ from torch.nn import Identity
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.models.metrics import (
     BinaryAccuracy,
     CategoricalAccuracy,
@@ -22,7 +23,6 @@ from gravitorch.models.metrics.state import (
 from gravitorch.nn import ToBinaryLabel
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import MaxScalarHistory, MinScalarHistory
 
 MODES = (ct.TRAIN, ct.EVAL)

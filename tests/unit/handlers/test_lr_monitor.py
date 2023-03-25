@@ -5,12 +5,12 @@ from torch import nn
 from torch.optim import SGD
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.handlers import EpochLRMonitor, IterationLRMonitor
-from gravitorch.utils.events import (
+from gravitorch.events import (
     ConditionalEventHandler,
     EpochPeriodicCondition,
     IterationPeriodicCondition,
 )
+from gravitorch.handlers import EpochLRMonitor, IterationLRMonitor
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 EVENTS = ("my_event", "my_other_event")

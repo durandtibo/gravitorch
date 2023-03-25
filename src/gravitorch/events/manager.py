@@ -6,7 +6,7 @@ import logging
 from collections import defaultdict
 from typing import Optional
 
-from gravitorch.utils.events.event_handlers import BaseEventHandler
+from gravitorch.events.event_handlers import BaseEventHandler
 from gravitorch.utils.format import str_indent, to_torch_sequence_str
 
 logger = logging.getLogger(__name__)
@@ -67,13 +67,13 @@ class EventManager:
         .. code-block:: python
 
             # Create an event manager
-            >>> from gravitorch.utils.events import EventManager
+            >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Add an event handler to the event manager
             >>> def hello_handler():
             ...     print('Hello!')
             ...
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
         """
         self._event_handlers[str(event)].append(event_handler)
@@ -91,7 +91,7 @@ class EventManager:
         .. code-block:: python
 
             # Create an event manager
-            >>> from gravitorch.utils.events import EventManager
+            >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Fire the 'my_event' event
             >>> event_manager.fire_event('my_event')  # should do nothing because there is no event handler
@@ -99,7 +99,7 @@ class EventManager:
             >>> def hello_handler():
             ...     print("Hello!")
             ...
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
             # Fire the 'my_event' event
             >>> event_manager.fire_event('my_event')
@@ -131,14 +131,14 @@ class EventManager:
         .. code-block:: python
 
             # Create an event manager
-            >>> from gravitorch.utils.events import EventManager
+            >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Define a handler
             >>> def hello_handler():
             ...     print("Hello!")
             ...
             # Check if `hello_handler` is registered in the event manager
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler))
             False
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
@@ -187,13 +187,13 @@ class EventManager:
         .. code-block:: python
 
             # Create an event manager
-            >>> from gravitorch.utils.events import EventManager
+            >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Add an event handler to the engine
             >>> def hello_handler():
             ...     print('Hello!')
             ...
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
             >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
@@ -230,13 +230,13 @@ class EventManager:
         .. code-block:: python
 
             # Create an event manager
-            >>> from gravitorch.utils.events import EventManager
+            >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Add an event handler to the engine
             >>> def hello_handler():
             ...     print('Hello!')
             ...
-            >>> from gravitorch.utils.events import VanillaEventHandler
+            >>> from gravitorch.events import VanillaEventHandler
             >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
             >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')

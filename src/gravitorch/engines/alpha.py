@@ -13,12 +13,12 @@ from gravitorch.creators.core.base import BaseCoreCreator, setup_core_creator
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import BaseEventHandler, EventManager
 from gravitorch.loops.evaluation import BaseEvaluationLoop, setup_evaluation_loop
 from gravitorch.loops.training import BaseTrainingLoop, setup_training_loop
 from gravitorch.lr_schedulers import LRSchedulerType
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import BaseEngineState, setup_engine_state
-from gravitorch.utils.events import BaseEventHandler, EventManager
 from gravitorch.utils.exp_trackers import BaseExpTracker, Step, setup_exp_tracker
 from gravitorch.utils.format import str_indent
 from gravitorch.utils.history import BaseHistory

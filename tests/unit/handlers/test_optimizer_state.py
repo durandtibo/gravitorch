@@ -6,8 +6,8 @@ from torch import nn
 from torch.optim import SGD
 
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ConsolidateOptimizerState
-from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 

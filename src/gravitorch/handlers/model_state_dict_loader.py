@@ -9,13 +9,13 @@ from typing import Optional, Union
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn.utils.state_dict import (
     load_checkpoint_to_module,
     load_model_state_dict,
 )
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.path import sanitize_path
 
 logger = logging.getLogger(__name__)

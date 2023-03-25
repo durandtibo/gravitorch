@@ -9,8 +9,8 @@ from torch import nn
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ModelStateDictLoader, PartialModelStateDictLoader
-from gravitorch.utils.events import VanillaEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 KEYS = (None, "my_key", ["key1", "key2"], ("key1", "key2"))

@@ -9,6 +9,7 @@ from torch.optim import SGD, Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
 from gravitorch.loops.training import VanillaTrainingLoop
 from gravitorch.testing import (
@@ -24,7 +25,6 @@ from gravitorch.utils.device_placement import (
     CpuDevicePlacement,
     ManualDevicePlacement,
 )
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler

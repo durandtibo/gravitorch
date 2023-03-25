@@ -5,7 +5,7 @@ from typing import Any
 
 from pytest import fixture, raises
 
-from gravitorch.utils.events import (
+from gravitorch.events import (
     ConditionalEventHandler,
     PeriodicCondition,
     VanillaEventHandler,

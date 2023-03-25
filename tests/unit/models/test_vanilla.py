@@ -10,13 +10,13 @@ from torch.nn.utils.rnn import pack_sequence
 
 from gravitorch import constants as ct
 from gravitorch.engines.events import EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.models.criteria import VanillaLoss
 from gravitorch.models.metrics import CategoricalAccuracy, VanillaMetric
 from gravitorch.models.networks import BetaMLP
 from gravitorch.models.vanilla import VanillaModel
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
-from gravitorch.utils.events import VanillaEventHandler
 
 SIZES = (1, 2)
 

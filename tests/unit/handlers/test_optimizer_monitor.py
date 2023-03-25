@@ -3,12 +3,12 @@ from unittest.mock import Mock, patch
 from pytest import mark, raises
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.handlers import EpochOptimizerMonitor, IterationOptimizerMonitor
-from gravitorch.utils.events import (
+from gravitorch.events import (
     ConditionalEventHandler,
     EpochPeriodicCondition,
     IterationPeriodicCondition,
 )
+from gravitorch.handlers import EpochOptimizerMonitor, IterationOptimizerMonitor
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 EVENTS = ("my_event", "my_other_event")

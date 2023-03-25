@@ -4,8 +4,8 @@ from pytest import mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import EarlyStopping
-from gravitorch.utils.events import VanillaEventHandler
 from gravitorch.utils.history import (
     EmptyHistoryError,
     GenericHistory,

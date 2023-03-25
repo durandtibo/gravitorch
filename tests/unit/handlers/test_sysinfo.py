@@ -4,8 +4,8 @@ from unittest.mock import Mock
 from pytest import LogCaptureFixture, mark, raises
 
 from gravitorch.engines import BaseEngine, EngineEvents
+from gravitorch.events import ConditionalEventHandler, EpochPeriodicCondition
 from gravitorch.handlers import EpochSysInfoMonitor
-from gravitorch.utils.events import ConditionalEventHandler, EpochPeriodicCondition
 
 EVENTS = ("my_event", "my_other_event")
 
