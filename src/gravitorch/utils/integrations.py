@@ -157,6 +157,34 @@ def is_tensorboard_available() -> bool:
     return find_spec("tensorboard") is not None
 
 
+#####################
+#     torchdata     #
+#####################
+
+
+def check_torchdata() -> None:
+    r"""Checks if the ``torchdata`` package is installed.
+
+    Raises
+    ------
+        RuntimeError if the ``torchdata`` package is not installed.
+    """
+    if not is_torchdata_available():
+        raise RuntimeError(
+            "`torchdata` package is required but not installed. "
+            "You can install `torchdata` package with the command:\n\n"
+            "pip install torchdata\n"
+        )
+
+
+def is_torchdata_available() -> bool:
+    r"""Indicates if the ``torchdata`` package is installed or not.
+
+    https://pytorch.org/vision/stable/index.html
+    """
+    return find_spec("torchdata") is not None
+
+
 #######################
 #     torchvision     #
 #######################
