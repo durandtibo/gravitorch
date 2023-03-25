@@ -8,7 +8,7 @@ from pytest import mark
 from torch import nn
 from torch.nn.utils.rnn import PackedSequence, pack_sequence
 
-from gravitorch.utils.torch_device import get_available_devices, move_to_device
+from gravitorch.utils.device import get_available_devices, move_to_device
 
 ###########################################
 #     Tests for get_available_devices     #
