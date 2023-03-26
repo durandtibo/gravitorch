@@ -7,6 +7,7 @@ from gravitorch.utils.integrations import (
     is_accelerate_available,
     is_pillow_available,
     is_tensorboard_available,
+    is_torchdata_available,
     is_torchvision_available,
 )
 
@@ -35,6 +36,12 @@ tensorboard_available = mark.skipif(
     reason=(
         "`tensorboard` is not available. Please install `tensorboard` if you want "
         "to run this test"
+    ),
+)
+torchdata_available = mark.skipif(
+    not is_torchdata_available(),
+    reason=(
+        "`torchdata` is not available. Please install `torchdata` if you want " "to run this test"
     ),
 )
 torchvision_available = mark.skipif(

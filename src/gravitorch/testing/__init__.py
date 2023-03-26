@@ -12,6 +12,7 @@ __all__ = [
     "pillow_available",
     "psutil_available",
     "tensorboard_available",
+    "torchdata_available",
     "torchvision_available",
     "two_gpus_available",
 ]
@@ -25,6 +26,7 @@ from gravitorch.testing._pytest import (
     pillow_available,
     psutil_available,
     tensorboard_available,
+    torchdata_available,
     torchvision_available,
     two_gpus_available,
 )
