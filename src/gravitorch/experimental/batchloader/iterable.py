@@ -31,7 +31,7 @@ class IterableBatchLoader(BaseBatchLoader[T]):
         pass
 
     def __iter__(self) -> Iterator[T]:
-        yield from self._iterable
+        return iter(self._iterable)
 
     def __str__(self) -> str:
         return f"{self.__class__.__qualname__}(iterable={self._iterable})"
