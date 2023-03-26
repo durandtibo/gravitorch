@@ -28,7 +28,7 @@ class LooperIterDataPipe(IterDataPipe[T]):
 
     .. code-block:: python
 
-        >>> from gravitorch.data.datapipes.iter import Looper, SourceWrapper
+        >>> from gravitorch.datapipes.iter import Looper, SourceWrapper
         >>> dp = Looper(SourceWrapper([1, 2, 3, 4]), length=10)
         >>> list(dp)
         [1, 2, 3, 4, 1, 2, 3, 4, 1, 2]

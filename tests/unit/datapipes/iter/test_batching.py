@@ -5,7 +5,7 @@ from coola import objects_are_equal
 from pytest import mark, raises
 
 from gravitorch import constants as ct
-from gravitorch.data.datapipes.iter import DictBatcher, SourceWrapper, TupleBatcher
+from gravitorch.datapipes.iter import DictBatcher, SourceWrapper, TupleBatcher
 
 #################################
 #     Tests for DictBatcher     #
@@ -106,7 +106,7 @@ def test_dict_batcher_iter_datapipe_batch_size_4() -> None:
 
 
 @patch(
-    "gravitorch.data.datapipes.iter.batching.torch.randperm",
+    "gravitorch.datapipes.iter.batching.torch.randperm",
     lambda *args, **kwargs: torch.tensor([5, 4, 6, 3, 7, 2, 8, 1, 9, 0]),
 )
 def test_dict_batcher_iter_shuffle_true() -> None:
@@ -289,7 +289,7 @@ def test_tuple_batcher_iter_datapipe_batch_size_4() -> None:
 
 
 @patch(
-    "gravitorch.data.datapipes.iter.batching.torch.randperm",
+    "gravitorch.datapipes.iter.batching.torch.randperm",
     lambda *args, **kwargs: torch.tensor([5, 4, 6, 3, 7, 2, 8, 1, 9, 0]),
 )
 def test_tuple_batcher_iter_shuffle_true() -> None:

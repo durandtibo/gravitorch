@@ -7,8 +7,8 @@ from coola import objects_are_equal
 from pytest import mark, raises
 from torch import Tensor
 
-from gravitorch.data.datapipes.iter import SourceWrapper, TensorDictShuffler
-from gravitorch.data.datapipes.iter.shuffling import (
+from gravitorch.datapipes.iter import SourceWrapper, TensorDictShuffler
+from gravitorch.datapipes.iter.shuffling import (
     get_first_dimension,
     shuffle_tensor_mapping,
     shuffle_tensors,
@@ -30,7 +30,7 @@ def test_tensor_dict_shuffler_iter_random_seed(random_seed: int) -> None:
 
 
 @patch(
-    "gravitorch.data.datapipes.iter.shuffling.torch.randperm",
+    "gravitorch.datapipes.iter.shuffling.torch.randperm",
     lambda *args, **kwargs: torch.tensor([0, 2, 1, 3]),
 )
 def test_tensor_dict_shuffler_iter() -> None:
@@ -48,7 +48,7 @@ def test_tensor_dict_shuffler_iter() -> None:
 @mark.parametrize("dim", (0, 1, 2))
 def test_tensor_dict_shuffler_iter_dim_int(dim: int) -> None:
     source = SourceWrapper([{"key": torch.arange(4) + i} for i in range(3)])
-    with patch("gravitorch.data.datapipes.iter.shuffling.shuffle_tensor_mapping") as shuffle_mock:
+    with patch("gravitorch.datapipes.iter.shuffling.shuffle_tensor_mapping") as shuffle_mock:
         next(iter(TensorDictShuffler(source, dim=dim)))
         assert shuffle_mock.call_args.kwargs["dim"] == dim
 
@@ -56,7 +56,7 @@ def test_tensor_dict_shuffler_iter_dim_int(dim: int) -> None:
 @mark.parametrize("dim", (0, 1, 2))
 def test_tensor_dict_shuffler_iter_dim_dict(dim: int) -> None:
     source = SourceWrapper([{"key": torch.arange(4) + i} for i in range(3)])
-    with patch("gravitorch.data.datapipes.iter.shuffling.shuffle_tensor_mapping") as shuffle_mock:
+    with patch("gravitorch.datapipes.iter.shuffling.shuffle_tensor_mapping") as shuffle_mock:
         next(iter(TensorDictShuffler(source, dim={"key": dim})))
         assert shuffle_mock.call_args.kwargs["dim"] == {"key": dim}
 
@@ -95,21 +95,21 @@ def test_tensor_dict_shuffler_no_len() -> None:
 def test_shuffle_tensors_generator() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     generator = Mock(spec=torch.Generator)
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)], generator=generator)
         randperm_mock.assert_called_once_with(4, generator=generator)
 
 
 def test_shuffle_tensors_generator_default() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)])
         randperm_mock.assert_called_once_with(4, generator=None)
 
 
 def test_shuffle_tensors_dim_0() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)]),
             [
@@ -123,7 +123,7 @@ def test_shuffle_tensors_dim_0() -> None:
 
 def test_shuffle_tensors_dim_1() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensors([torch.arange(4).view(1, 4), torch.arange(20).view(5, 4)], dim=1),
             [
@@ -137,7 +137,7 @@ def test_shuffle_tensors_dim_1() -> None:
 
 def test_shuffle_tensors_dim_2() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensors([torch.arange(4).view(1, 1, 4), torch.arange(20).view(5, 1, 4)], dim=2),
             [
@@ -192,7 +192,7 @@ def test_shuffle_tensors_different_random_seeds() -> None:
 def test_shuffle_tensor_mapping_generator() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
     generator = Mock(spec=torch.Generator)
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         shuffle_tensor_mapping(
             mapping={"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)},
             generator=generator,
@@ -202,7 +202,7 @@ def test_shuffle_tensor_mapping_generator() -> None:
 
 def test_shuffle_tensor_mapping_generator_default() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         shuffle_tensor_mapping(
             mapping={"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)}
         )
@@ -211,7 +211,7 @@ def test_shuffle_tensor_mapping_generator_default() -> None:
 
 def test_shuffle_tensor_mapping_dim_int_0() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensor_mapping({"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)}),
             {
@@ -225,7 +225,7 @@ def test_shuffle_tensor_mapping_dim_int_0() -> None:
 
 def test_shuffle_tensor_mapping_dim_int_1() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensor_mapping(
                 {"key1": torch.arange(4).view(1, 4), "key2": torch.arange(20).view(5, 4)}, dim=1
@@ -241,7 +241,7 @@ def test_shuffle_tensor_mapping_dim_int_1() -> None:
 
 def test_shuffle_tensor_mapping_dim_int_2() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensor_mapping(
                 {"key1": torch.arange(4).view(1, 1, 4), "key2": torch.arange(20).view(5, 1, 4)},
@@ -274,7 +274,7 @@ def test_shuffle_tensor_mapping_dim(dim: int) -> None:
 
 def test_shuffle_tensor_mapping_dim_dict_same_dimension() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensor_mapping(
                 {"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)},
@@ -291,7 +291,7 @@ def test_shuffle_tensor_mapping_dim_dict_same_dimension() -> None:
 
 def test_shuffle_tensor_mapping_dim_dict_different_dimensions() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensor_mapping(
                 {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)},
@@ -308,7 +308,7 @@ def test_shuffle_tensor_mapping_dim_dict_different_dimensions() -> None:
 
 def test_shuffle_tensor_mapping_dim_dict_single_tensor() -> None:
     randperm_mock = Mock(return_value=torch.tensor([0, 2, 1, 3]))
-    with patch("gravitorch.data.datapipes.iter.shuffling.torch.randperm", randperm_mock):
+    with patch("gravitorch.datapipes.iter.shuffling.torch.randperm", randperm_mock):
         assert objects_are_equal(
             shuffle_tensor_mapping(
                 {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)}, dim={"key2": 1}

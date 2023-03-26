@@ -4,12 +4,7 @@ from unittest.mock import Mock
 from pytest import raises
 from torch.utils.data import IterDataPipe
 
-from gravitorch.data.datapipes.iter import (
-    DirFilter,
-    FileFilter,
-    PathLister,
-    SourceWrapper,
-)
+from gravitorch.datapipes.iter import DirFilter, FileFilter, PathLister, SourceWrapper
 from gravitorch.utils.io import save_text
 
 

@@ -9,7 +9,7 @@ from gravitorch.creators.datapipe import (
     SequentialIterDataPipeCreator,
 )
 from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCreator
-from gravitorch.data.datapipes.iter import SourceWrapper
+from gravitorch.datapipes.iter import SourceWrapper
 from gravitorch.datasources import (
     DataCreatorIterDataPipeCreatorDataSource,
     IterDataPipeCreatorDataSource,
@@ -31,7 +31,7 @@ def data_source() -> IterDataPipeCreatorDataSource:
                 OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
                 "config": [
                     {
-                        OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
+                        OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
                         "source": [1, 2, 3, 4],
                     },
                 ],
@@ -40,7 +40,7 @@ def data_source() -> IterDataPipeCreatorDataSource:
                 OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
                 "config": [
                     {
-                        OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper",
+                        OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
                         "source": ["a", "b", "c"],
                     },
                 ],
@@ -224,7 +224,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_get_data_loader() -> No
         datapipe_creators={
             "train": SequentialIterDataPipeCreator(
                 config=[
-                    {OBJECT_TARGET: "gravitorch.data.datapipes.iter.SourceWrapper"},
+                    {OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
                 ]
             )
         },

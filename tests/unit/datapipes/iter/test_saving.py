@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from pytest import mark, raises
 
-from gravitorch.data.datapipes.iter import PickleSaver, PyTorchSaver, SourceWrapper
+from gravitorch.datapipes.iter import PickleSaver, PyTorchSaver, SourceWrapper
 from gravitorch.utils.io import save_text
 
 #################################
@@ -48,7 +48,7 @@ def test_pickle_saver_iter_pattern(tmp_path: Path) -> None:
 
 def test_pickle_saver_iter_file(tmp_path: Path) -> None:
     datapipe = PickleSaver(SourceWrapper([1]), root_path=tmp_path)
-    with patch("gravitorch.data.datapipes.iter.saving.save_pickle") as save_mock:
+    with patch("gravitorch.datapipes.iter.saving.save_pickle") as save_mock:
         list(datapipe)
         save_mock.assert_called_once_with(1, tmp_path.joinpath("data_0000.pkl"))
 
@@ -104,7 +104,7 @@ def test_pytorch_saver_iter_pattern(tmp_path: Path) -> None:
 
 def test_pytorch_saver_iter_file(tmp_path: Path) -> None:
     datapipe = PyTorchSaver(SourceWrapper([1]), root_path=tmp_path)
-    with patch("gravitorch.data.datapipes.iter.saving.save_pytorch") as save_mock:
+    with patch("gravitorch.datapipes.iter.saving.save_pytorch") as save_mock:
         list(datapipe)
         save_mock.assert_called_once_with(1, tmp_path.joinpath("data_0000.pt"))
 
