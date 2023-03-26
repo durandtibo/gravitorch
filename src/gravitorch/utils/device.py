@@ -21,7 +21,7 @@ def get_available_devices() -> tuple[str, ...]:
 
     .. code-block:: python
 
-        >>> from gravitorch.utils.torch_device import get_available_devices
+        >>> from gravitorch.utils import get_available_devices
         >>> get_available_devices()
         ('cpu', 'cuda:0')
     """
@@ -66,7 +66,7 @@ def move_to_device(data: T, device: torch.device) -> T:
     .. code-block:: python
 
         >>> import torch
-        >>> from gravitorch.utils.torch_device import move_to_device
+        >>> from gravitorch.utils import move_to_device
         >>> move_to_device(
         ...     {'tensor1': torch.ones(2, 3), 'tensor2': torch.zeros(4)},
         ...     device=torch.device('cuda:0'),
