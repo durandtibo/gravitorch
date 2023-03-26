@@ -58,7 +58,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
     .. code-block:: python
 
         >>> from torch.utils.data import IterDataPipe
-        >>> from gravitorch.data.datapipes.iter import TensorDictShuffler
+        >>> from gravitorch.datapipes.iter import TensorDictShuffler
         >>> class MyIterDataPipe(IterDataPipe[dict]):
         ...     def __iter__(self) -> Iterator[dict]:
         ...         for i in range(3):
@@ -139,7 +139,7 @@ def shuffle_tensors(
 
     .. code-block:: python
 
-        >>> from gravitorch.data.datapipes.iter.shuffling import shuffle_tensors
+        >>> from gravitorch.datapipes.iter.shuffling import shuffle_tensors
         >>> shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)])
         [
             torch.tensor([0, 2, 1, 3]),
@@ -210,7 +210,7 @@ def shuffle_tensor_mapping(
 
     .. code-block:: python
 
-        >>> from gravitorch.data.datapipes.iter.shuffling import shuffle_tensor_mapping
+        >>> from gravitorch.datapipes.iter.shuffling import shuffle_tensor_mapping
         # Shuffle all the tensors on dimension 0 (default)
         >>> shuffle_tensor_mapping({"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)})
         {
@@ -306,7 +306,7 @@ def get_first_dimension(data: Union[Tensor, np.ndarray, list, tuple]) -> int:
 
     .. code-block:: python
 
-        >>> from gravitorch.data.datapipes.iter.shuffling import get_first_dimension
+        >>> from gravitorch.datapipes.iter.shuffling import get_first_dimension
         # torch tensor
         >>> import torch
         >>> get_first_dimension(torch.ones(5, 4))

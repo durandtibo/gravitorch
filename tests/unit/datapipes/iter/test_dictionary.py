@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 from pytest import raises
 
-from gravitorch.data.datapipes.iter import (
+from gravitorch.datapipes.iter import (
     DictOfListConverter,
     ListOfDictConverter,
     SourceWrapper,

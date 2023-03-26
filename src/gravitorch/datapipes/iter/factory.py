@@ -35,11 +35,11 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
 
     .. code-block:: python
 
-        >>> from gravitorch.data.datapipes.iter.factory import create_sequential_iter_datapipe
+        >>> from gravitorch.datapipes.iter.factory import create_sequential_iter_datapipe
         >>> datapipe = create_sequential_iter_datapipe(
         ...     [
         ...         {
-        ...             '_target_': "gravitorch.data.datapipes.iter.SourceWrapper",
+        ...             '_target_': "gravitorch.datapipes.iter.SourceWrapper",
         ...             "data": [1, 2, 3, 4],
         ...         },
         ...     ],
@@ -49,7 +49,7 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
         >>> datapipe = create_sequential_iter_datapipe(
         ...     [
         ...         {
-        ...             '_target_': "gravitorch.data.datapipes.iter.SourceWrapper",
+        ...             '_target_': "gravitorch.datapipes.iter.SourceWrapper",
         ...             "data": [1, 2, 3, 4],
         ...         },
         ...         {'_target_': "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
@@ -88,11 +88,11 @@ def setup_iter_datapipe(datapipe: Union[IterDataPipe, Sequence[dict]]) -> IterDa
 
     .. code-block:: python
 
-        >>> from gravitorch.data.datapipes.iter import setup_iter_datapipe
+        >>> from gravitorch.datapipes.iter import setup_iter_datapipe
         >>> datapipe = setup_iter_datapipe(
         ...     [
         ...         {
-        ...             '_target_': "gravitorch.data.datapipes.iter.SourceWrapper",
+        ...             '_target_': "gravitorch.datapipes.iter.SourceWrapper",
         ...             "data": [1, 2, 3, 4],
         ...         },
         ...     ],
@@ -102,7 +102,7 @@ def setup_iter_datapipe(datapipe: Union[IterDataPipe, Sequence[dict]]) -> IterDa
         >>> datapipe = setup_iter_datapipe(
         ...     [
         ...         {
-        ...             '_target_': "gravitorch.data.datapipes.iter.SourceWrapper",
+        ...             '_target_': "gravitorch.datapipes.iter.SourceWrapper",
         ...             "data": [1, 2, 3, 4],
         ...         },
         ...         {'_target_': "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},

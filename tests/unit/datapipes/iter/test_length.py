@@ -1,6 +1,6 @@
 from pytest import mark, raises
 
-from gravitorch.data.datapipes.iter import Looper, SourceWrapper
+from gravitorch.datapipes.iter import Looper, SourceWrapper
 
 ############################
 #     Tests for Looper     #

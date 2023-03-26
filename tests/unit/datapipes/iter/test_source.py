@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from pytest import mark, raises
 
-from gravitorch.data.datapipes.iter import SourceWrapper
+from gravitorch.datapipes.iter import SourceWrapper
 
 ###################################
 #     Tests for SourceWrapper     #
