@@ -68,7 +68,7 @@ jupyterlab = "^3.6"
 torch-tb-profiler = "^0.4"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.10"
+black = "^23.3"
 codecov = "^2.1"
 coverage = { extras = ["toml"], version = "^6.5" }
 pre-commit = "^2.20"
@@ -76,7 +76,7 @@ pylint = "^2.15"
 pytest = "^7.2"
 pytest-cov = "^4.0"
 pytest-timeout = "^2.1"
-ruff = "^0.0.257"
+ruff = "^0.0.260"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -128,8 +128,6 @@ syntax = "google"
 
 [tool.ruff]
 # Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
-#select = ["ANN", "B", "E", "F"]
-#select = ["ANN", "B", "C", "D", "E", "F", "S", "W"]
 select = [
     "A",   # builtins
     "ANN", # annotations

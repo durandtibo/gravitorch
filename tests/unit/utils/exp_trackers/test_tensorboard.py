@@ -493,7 +493,7 @@ def test_tensorboard_exp_tracker_not_activated_artifact_dir(
     not_activated_tracker: TensorBoardExpTracker,
 ) -> None:
     with raises(NotActivatedExpTrackerError):
-        not_activated_tracker.artifact_path
+        not_activated_tracker.artifact_path  # noqa: B018
 
 
 @tensorboard_available
@@ -501,7 +501,7 @@ def test_tensorboard_exp_tracker_not_activated_checkpoint_dir(
     not_activated_tracker: TensorBoardExpTracker,
 ) -> None:
     with raises(NotActivatedExpTrackerError):
-        not_activated_tracker.checkpoint_path
+        not_activated_tracker.checkpoint_path  # noqa: B018
 
 
 @tensorboard_available
@@ -509,7 +509,7 @@ def test_tensorboard_exp_tracker_not_activated_experiment_id(
     not_activated_tracker: TensorBoardExpTracker,
 ) -> None:
     with raises(NotActivatedExpTrackerError):
-        not_activated_tracker.experiment_id
+        not_activated_tracker.experiment_id  # noqa: B018
 
 
 @tensorboard_available
