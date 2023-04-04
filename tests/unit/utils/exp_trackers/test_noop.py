@@ -198,21 +198,21 @@ def test_not_activated_noop_exp_tracker_artifact_path(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
     with raises(NotActivatedExpTrackerError):
-        not_activated_tracker.artifact_path
+        not_activated_tracker.artifact_path  # noqa: B018
 
 
 def test_not_activated_noop_exp_tracker_checkpoint_path(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
     with raises(NotActivatedExpTrackerError):
-        not_activated_tracker.checkpoint_path
+        not_activated_tracker.checkpoint_path  # noqa: B018
 
 
 def test_not_activated_noop_exp_tracker_experiment_id(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
     with raises(NotActivatedExpTrackerError):
-        not_activated_tracker.experiment_id
+        not_activated_tracker.experiment_id  # noqa: B018
 
 
 def test_not_activated_noop_exp_tracker_flush(not_activated_tracker: NoOpExpTracker) -> None:

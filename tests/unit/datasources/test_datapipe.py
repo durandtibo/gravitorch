@@ -207,7 +207,9 @@ def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data_creator_with_engine() -> None:
+def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data_creator_with_engine() -> (
+    None
+):
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
