@@ -51,7 +51,7 @@ class ConcatFusion(Module):
 
     def forward(self, *inputs: Tensor) -> Tensor:
         r"""Concatenates the list or tuple of inputs and then applied a
-        feed- forward network (FFN) on the fused representation.
+        feed-forward network (FFN) on the fused representation.
 
         Args:
         ----
@@ -69,7 +69,7 @@ class ConcatFusion(Module):
 
 class FusionFFN(Module):
     r"""Implements a module that fuses representations and then applies a
-    feed- forward network (FFN) on the fused representation.
+    feed-forward network (FFN) on the fused representation.
 
     Args:
     ----
