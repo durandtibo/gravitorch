@@ -30,8 +30,6 @@ class BaseDataCreator(ABC, Generic[T], metaclass=AbstractFactory):
         ------
             The created data.
         """
-
-
 def setup_data_creator(data_creator: Union[BaseDataCreator, dict]) -> BaseDataCreator:
     r"""Sets up a data creator.
 

@@ -169,7 +169,6 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         -------
             dict: Some results about the batch.
         """
-
     @abstractmethod
     def _prepare_model_data_loader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         r"""Prepares the model, optimizer and data loader.

@@ -31,7 +31,6 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
         ----
             engine (``BaseEngine``): Specifies the engine.
         """
-
     @abstractmethod
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
         r"""Sets up the evaluation loop from a dictionary containing the state
@@ -42,7 +41,6 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
             state_dict (dict): Specifies a dictionary
                 containing state keys with values.
         """
-
     @abstractmethod
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.

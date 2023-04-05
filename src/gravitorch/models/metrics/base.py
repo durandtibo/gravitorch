@@ -39,7 +39,6 @@ class BaseMetric(Module, metaclass=AbstractFactory):
         ----
             engine (``BaseEngine``): Specifies the engine.
         """
-
     @abstractmethod
     def forward(self, *args, **kwargs) -> Optional[dict]:
         r"""Updates the metric given a mini-batch of examples.
@@ -49,7 +48,6 @@ class BaseMetric(Module, metaclass=AbstractFactory):
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-
     @abstractmethod
     def reset(self) -> None:
         r"""Resets the metric."""
@@ -67,8 +65,6 @@ class BaseMetric(Module, metaclass=AbstractFactory):
         -------
              dict: The results of the metric.
         """
-
-
 class EmptyMetricError(Exception):
     r"""This error is raised when you try to evaluate an empty metric."""
 

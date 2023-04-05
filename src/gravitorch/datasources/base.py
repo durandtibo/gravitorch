@@ -46,7 +46,6 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> data_source: BaseDataSource = ...  # Instantiate a data source
             >>> data_source.attach(my_engine)
         """
-
     @abstractmethod
     def get_asset(self, asset_id: str) -> Any:
         r"""Gets a data asset from this data source.
@@ -75,7 +74,6 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> data_source: BaseDataSource = ...  # Instantiate a data source
             >>> my_asset = data_source.get_asset('my_asset_id')
         """
-
     @abstractmethod
     def has_asset(self, asset_id: str) -> bool:
         r"""Indicates if the asset exists or not.
@@ -97,7 +95,6 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> data_source.has_asset('my_asset_id')
             False
         """
-
     @abstractmethod
     def get_data_loader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
         r"""Gets a data loader.
@@ -132,7 +129,6 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> my_engine = AlphaEngine()  # Work with any engine
             >>> data_loader = data_source.get_data_loader('train', my_engine)
         """
-
     @abstractmethod
     def has_data_loader(self, loader_id: str) -> bool:
         r"""Indicates if the data source has a data loader with the given ID.
@@ -159,7 +155,6 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> data_source.has_data_loader('eval')
             True or False
         """
-
     def load_state_dict(self, state_dict: dict) -> None:
         r"""Loads the state values from a dict.
 
@@ -178,7 +173,6 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> state_dict = {...}
             >>> data_source.load_state_dict(state_dict)
         """
-
     def state_dict(self) -> dict:
         r"""Returns a dictionary containing state values.
 

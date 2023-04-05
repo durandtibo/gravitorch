@@ -24,7 +24,6 @@ class BaseLoopObserver(ABC, metaclass=AbstractFactory):
         ----
             engine (``BaseEngine``): Specifies the engine.
         """
-
     @abstractmethod
     def end(self, engine: BaseEngine) -> None:
         r"""Performs an action at the end of each training or evaluation loop.
@@ -33,7 +32,6 @@ class BaseLoopObserver(ABC, metaclass=AbstractFactory):
         ----
             engine (``BaseEngine``): Specifies the engine.
         """
-
     @abstractmethod
     def update(self, engine: BaseEngine, model_input: Any, model_output: Any) -> None:
         r"""Update the observer.

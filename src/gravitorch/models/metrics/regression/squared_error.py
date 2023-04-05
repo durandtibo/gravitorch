@@ -67,7 +67,7 @@ class SquaredError(BaseStateEpochMetric):
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
-        r"""Updates the squared logarithmic error metric given a mini-batch of
+        r"""Updates the squared logarithmic error metric given a mini- batch of
         examples.
 
         Args:

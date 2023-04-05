@@ -90,7 +90,6 @@ class ModuleSummary:
         ------
             ``RemovableHandle``: A handle for the installed hook.
         """
-
         def hook(module: Module, inp: Any, out: Any) -> None:
             if len(inp) == 1:
                 inp = inp[0]

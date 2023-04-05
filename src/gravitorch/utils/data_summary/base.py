@@ -25,7 +25,6 @@ class BaseDataSummary(Generic[T], ABC, metaclass=AbstractFactory):
         ----
             data: Specifies the data to add to the summary.
         """
-
     @abstractmethod
     def reset(self) -> None:
         r"""Resets the data summary."""
@@ -42,8 +41,6 @@ class BaseDataSummary(Generic[T], ABC, metaclass=AbstractFactory):
         ------
             ``EmptyDataSummaryError`` is the data summary is empty.
         """
-
-
 class EmptyDataSummaryError(Exception):
     r"""Raised when the data summary is empty because it is not possible to
     evaluate an empty data summary."""

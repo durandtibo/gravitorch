@@ -34,7 +34,6 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
         ----
             engine (``BaseEngine``): Specifies the engine.
         """
-
     @abstractmethod
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
         r"""Sets up the training loop from a dictionary containing the state
@@ -45,7 +44,6 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
             state_dict (dict): Specifies a dictionary
                 containing state keys with values.
         """
-
     @abstractmethod
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.

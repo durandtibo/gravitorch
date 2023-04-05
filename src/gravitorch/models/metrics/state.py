@@ -71,7 +71,6 @@ class BaseState(ABC, metaclass=AbstractFactory):
         -------
             tuple: The history trackers.
         """
-
     @abstractmethod
     def reset(self) -> None:
         r"""Resets the state."""
@@ -85,7 +84,6 @@ class BaseState(ABC, metaclass=AbstractFactory):
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-
     @abstractmethod
     def value(self, prefix: str = "", suffix: str = "") -> dict[str, Union[int, float]]:
         r"""Computes the metric values given the current state.
@@ -101,8 +99,6 @@ class BaseState(ABC, metaclass=AbstractFactory):
         -------
             dict: The metric values.
         """
-
-
 class MeanErrorState(BaseState):
     r"""Implements a metric state to capture the mean error value.
 

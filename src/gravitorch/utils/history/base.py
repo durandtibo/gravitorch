@@ -91,7 +91,6 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> history.add_value(value=2)
             >>> history.add_value(value=torch.zeros(2, 3), step=1)
         """
-
     def clone(self) -> "BaseHistory":
         r"""Clones the current history.
 
@@ -132,7 +131,6 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> history1.equal(history2)
             False
         """
-
     def get_best_value(self) -> T:
         r"""Gets the best value of this history.
 
@@ -205,7 +203,6 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> history.get_last_value()
             0.8
         """
-
     @abstractmethod
     def get_recent_history(self) -> tuple[tuple[Optional[int], T], ...]:
         r"""Gets the list of value in the recent history.
@@ -230,7 +227,6 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> history.get_recent_history()
             ((None, 2), (1, 1.2), (2, 0.8))
         """
-
     def has_improved(self) -> bool:
         r"""Indicates if the last value is the best value.
 
@@ -300,7 +296,6 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> history.is_comparable()
             False
         """
-
     @abstractmethod
     def is_empty(self) -> bool:
         r"""Indicates if the history is empty or not.
@@ -317,7 +312,6 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> history.is_empty()
             True
         """
-
     def config_dict(self) -> dict[str, Any]:
         r"""Gets the config of the history.
 
@@ -363,7 +357,6 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> history = GenericHistory('loss')
             >>> history.load_state_dict({...})
         """
-
     @abstractmethod
     def state_dict(self) -> dict[str, Any]:
         r"""Gets a dictionary containing the state values of the history.
@@ -379,7 +372,6 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> from gravitorch.utils.history import GenericHistory
             >>> state = GenericHistory('loss').state_dict()
         """
-
     @classmethod
     def from_dict(cls, data: dict) -> "BaseHistory":
         r"""Instantiates a history from a dictionary.

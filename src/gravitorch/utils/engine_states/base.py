@@ -47,7 +47,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.epoch
             -1
         """
-
     @property
     @abstractmethod
     def iteration(self) -> int:
@@ -70,7 +69,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.iteration
             -1
         """
-
     @property
     @abstractmethod
     def max_epochs(self) -> int:
@@ -89,7 +87,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.max_epochs
             1
         """
-
     @property
     @abstractmethod
     def random_seed(self) -> int:
@@ -108,7 +105,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.random_seed
             42
         """
-
     @abstractmethod
     def add_history(self, history: BaseHistory, key: Optional[str] = None) -> None:
         r"""Adds a history to the state.
@@ -131,7 +127,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.add_history(MinScalarHistory("loss"))
             >>> state.add_history(MinScalarHistory("loss"), 'my key')
         """
-
     @abstractmethod
     def add_module(self, name: str, module: Any) -> None:
         r"""Adds a module to the engine state.
@@ -154,7 +149,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_module('model', nn.Linear(4, 6))
         """
-
     @abstractmethod
     def get_best_values(self, prefix: str = "", suffix: str = "") -> dict[str, Any]:
         r"""Gets the best value of each metric.
@@ -193,7 +187,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.get_best_values(suffix='/best')
             {'accuracy/best': 42}
         """
-
     @abstractmethod
     def get_history(self, key: str) -> BaseHistory:
         r"""Gets the history associated to a key.
@@ -221,7 +214,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.get_history('new_history')
             GenericHistory(name='new_history', ...)
         """
-
     @abstractmethod
     def get_histories(self) -> dict[str, BaseHistory]:
         r"""Gets all histories in the state.
@@ -241,7 +233,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.get_histories()
             {'loss': MinScalarHistory(name='loss', ...)}
         """
-
     @abstractmethod
     def get_module(self, name: str) -> Any:
         r"""Gets a module.
@@ -271,7 +262,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.get_module('missing_module')
             ValueError
         """
-
     @abstractmethod
     def has_history(self, key: str) -> bool:
         r"""Indicates if the state has a history for the given key.
@@ -297,7 +287,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.has_history('missing_history')
             False
         """
-
     @abstractmethod
     def has_module(self, name: str) -> bool:
         r"""Indicates if there is module for the given name.
@@ -323,7 +312,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.has_module('missing_module')
             False
         """
-
     @abstractmethod
     def increment_epoch(self, increment: int = 1) -> None:
         r"""Increments the epoch value by the given value.
@@ -350,7 +338,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.epoch
             11
         """
-
     @abstractmethod
     def increment_iteration(self, increment: int = 1) -> None:
         r"""Increments the iteration value by the given value.
@@ -377,7 +364,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.iteration
             11
         """
-
     @abstractmethod
     def load_state_dict(self, state_dict: dict) -> None:
         r"""Loads the state values from a dict.
@@ -397,7 +383,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> my_state_dict = {...}
             >>> state.load_state_dict(my_state_dict)
         """
-
     @abstractmethod
     def remove_module(self, name: str) -> None:
         r"""Removes a module from the state.
@@ -426,7 +411,6 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             >>> state.remove_module('model')
             ValueError
         """
-
     @abstractmethod
     def state_dict(self) -> dict:
         r"""Returns a dictionary containing state values.
