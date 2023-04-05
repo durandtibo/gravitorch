@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.10a0"
+version = "0.0.10a1"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -71,6 +71,7 @@ torch-tb-profiler = "^0.4"
 black = "^23.3"
 codecov = "^2.1"
 coverage = { extras = ["toml"], version = "^6.5" }
+docformatter = "^1.6"
 pre-commit = "^2.20"
 pylint = "^2.15"
 pytest = "^7.2"

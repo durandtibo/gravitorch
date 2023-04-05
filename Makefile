@@ -1,3 +1,10 @@
+SHELL=/bin/bash
+NAME=gravitorch
+SOURCE=src/$(NAME)
+TESTS=tests
+UNIT_TESTS=tests/unit
+INTEGRATION_TESTS=tests/integration
+
 .PHONY : conda
 conda :
 	conda env create -f environment.yaml --force
@@ -29,21 +36,25 @@ lint :
 format :
 	black --check .
 
+.PHONY : docformat
+docformat :
+	docformatter --config ./pyproject.toml --in-place $(SOURCE)
+
 .PHONY : unit-test
 unit-test :
-	python -m pytest --timeout 10 tests/unit
+	python -m pytest --timeout 10 $(UNIT_TESTS)
 
 .PHONY : unit-test-cov
 unit-test-cov :
-	python -m pytest --timeout 10 --cov-report html --cov-report xml --cov-report term --cov=gravitorch tests/unit
+	python -m pytest --timeout 10 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) $(UNIT_TESTS)
 
 .PHONY : integration-test
 integration-test :
-	python -m pytest --timeout 60 tests/integration
+	python -m pytest --timeout 60 $(INTEGRATION_TESTS)
 
 .PHONY : integration-test-cov
 integration-test-cov :
-	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/integration
+	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) --cov-append $(INTEGRATION_TESTS)
 
 .PHONY : functional-test
 functional-test :
@@ -51,7 +62,7 @@ functional-test :
 
 .PHONY : functional-test-cov
 functional-test-cov :
-	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=gravitorch --cov-append tests/functional
+	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) --cov-append tests/functional
 
 .PHONY : test
 make test : unit-test integration-test functional-test
