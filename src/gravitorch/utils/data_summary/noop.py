@@ -22,6 +22,7 @@ class NoOpDataSummary(BaseDataSummary[T]):
         ----
             data: Specifies the data to add to the summary.
         """
+
     def reset(self) -> None:
         r"""Resets the data summary."""
 

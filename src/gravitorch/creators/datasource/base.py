@@ -42,6 +42,8 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
             ``gravitorch.datasources.BaseDataSource``: The created data
                 source.
         """
+
+
 def setup_data_source_creator(creator: BaseDataSourceCreator | dict) -> BaseDataSourceCreator:
     r"""Sets up the data source creator.
 

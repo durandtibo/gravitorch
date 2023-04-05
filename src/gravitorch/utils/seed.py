@@ -110,6 +110,8 @@ class BaseRandomSeedSetter(ABC):
             >>> setter: BaseRandomSeedSetter = ...  # Initialize a random seed setter.
             >>> setter.manual_seed(42)
         """
+
+
 class NumpyRandomSeedSetter(BaseRandomSeedSetter):
     r"""Implements a random seed setter for the library ``numpy``.
 

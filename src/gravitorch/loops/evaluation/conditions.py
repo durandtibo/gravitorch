@@ -29,6 +29,8 @@ class BaseEvalCondition(metaclass=AbstractFactory):
             bool: ``True`` if the evaluation loop should be evaluated,
                 otherwise ``False``
         """
+
+
 class EveryEpochEvalCondition(BaseEvalCondition):
     r"""Implements a condition that is true every N epoch.
 

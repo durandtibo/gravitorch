@@ -41,6 +41,8 @@ class BaseModelCreator(ABC, metaclass=AbstractFactory):
         -------
             ``torch.nn.Module``: The created model.
         """
+
+
 def setup_model_creator(creator: BaseModelCreator | dict) -> BaseModelCreator:
     r"""Sets up the model creator.
 

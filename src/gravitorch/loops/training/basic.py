@@ -163,6 +163,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         ------
             ValueError: if it is an invalid clipping gradient option.
         """
+
     @abstractmethod
     def _train_one_batch(
         self, engine: BaseEngine, model: Module, optimizer: Optimizer, batch: Any

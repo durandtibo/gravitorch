@@ -32,6 +32,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         r"""``BaseDataSource``: The data source object associated to
         the engine.
         """
+
     @property
     @abstractmethod
     def epoch(self) -> int:
@@ -39,6 +40,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         epoch is 0. The value ``-1`` is used to indicate the training
         has not started.
         """
+
     @property
     @abstractmethod
     def iteration(self) -> int:
@@ -46,6 +48,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         the first iteration is 0. The value ``-1`` is used to indicate
         the training has not started.
         """
+
     @property
     @abstractmethod
     def lr_scheduler(self) -> LRSchedulerType | None:
@@ -70,6 +73,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         It can be ``None`` if the model is not trained.
         """
+
     @property
     @abstractmethod
     def random_seed(self) -> int:
@@ -85,6 +89,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         current epoch. Use the ``terminate()`` method to set this flag
         to ``True``.
         """
+
     @abstractmethod
     def add_event_handler(self, event: str, event_handler: BaseEventHandler) -> None:
         r"""Adds an event handler to an event.
@@ -109,6 +114,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             ...     print('Hello!')
             >>> engine.add_event_handler('my_event', VanillaEventHandler(hello_handler))
         """
+
     @abstractmethod
     def add_history(self, history: BaseHistory, key: str | None = None) -> None:
         r"""Adds a history to the engine state.
@@ -131,6 +137,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.add_history(MinScalarHistory("loss"))
             >>> engine.add_history(MinScalarHistory("loss"), 'my key')
         """
+
     @abstractmethod
     def add_module(self, name: str, module: Any) -> None:
         r"""Adds a module to the engine.
@@ -158,6 +165,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.add_module('my_module', nn.Linear(4, 5))
         """
+
     @abstractmethod
     def create_artifact(self, artifact: BaseArtifact) -> None:
         r"""Creates an artifact.
@@ -176,6 +184,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.create_artifact(JSONArtifact(tag='metric', data={'f1_score': 42}))
         """
+
     @abstractmethod
     def eval(self) -> None:
         r"""Evaluates the model on the given evaluation dataset with the given
@@ -195,6 +204,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.eval()
         """
+
     @abstractmethod
     def fire_event(self, event: str) -> None:
         r"""Fires the handler(s) for the given event.
@@ -217,6 +227,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.fire_event('my_event')
             Hello!
         """
+
     @abstractmethod
     def get_history(self, key: str) -> BaseHistory:
         r"""Gets the history associated to a key.
@@ -244,6 +255,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.get_history('new_history')
             GenericHistory(name='new_history', ...)
         """
+
     @abstractmethod
     def get_histories(self) -> dict[str, BaseHistory]:
         r"""Gets all histories in the state.
@@ -263,6 +275,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.get_histories()
             {'loss': MinScalarHistory(name='loss', ...)}
         """
+
     @abstractmethod
     def get_module(self, name: str) -> Any:
         r"""Gets a module.
@@ -292,6 +305,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.get_module('missing_module')
             ValueError
         """
+
     @abstractmethod
     def has_event_handler(self, event_handler: BaseEventHandler, event: str | None = None) -> bool:
         r"""Indicates if a handler is registered in the event manager.
@@ -329,6 +343,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.has_event_handler(VanillaEventHandler(hello_handler), 'other_event')
             False
         """
+
     @abstractmethod
     def has_history(self, key: str) -> bool:
         r"""Indicates if the engine has a history for the given key.
@@ -354,6 +369,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.has_history('missing_history')
             False
         """
+
     @abstractmethod
     def has_module(self, name: str) -> bool:
         r"""Indicates if the engine has a module for the given name.
@@ -379,6 +395,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.has_module('missing_module')
             False
         """
+
     @abstractmethod
     def increment_epoch(self, increment: int = 1) -> None:
         r"""Increments the epoch value by the given value.
@@ -405,6 +422,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.epoch
             10
         """
+
     @abstractmethod
     def increment_iteration(self, increment: int = 1) -> None:
         r"""Increments the iteration value by the given value.
@@ -431,6 +449,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.iteration
             10
         """
+
     @abstractmethod
     def load_state_dict(self, state_dict: dict) -> None:
         r"""Loads the state values from a dict.
@@ -448,6 +467,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> state = {...}  # The content of the state dict depends on the engine.
             >>> engine.load_state_dict(state)
         """
+
     @abstractmethod
     def log_figure(
         self,
@@ -536,6 +556,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.log_metric(key='metric name', value=1.2, step=EpochStep(2))
             >>> engine.log_metric(key='metric name', value=1.2, step=IterationStep(10))
         """
+
     @abstractmethod
     def log_metrics(self, metrics: dict[str, int | float], step: Step | None = None) -> None:
         r"""Logs a dictionary of multiple metrics.
@@ -562,6 +583,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.log_metrics(my_metrics, EpochStep(2))
             >>> engine.log_metrics(my_metrics, IterationStep(10))
         """
+
     @abstractmethod
     def remove_event_handler(self, event: str, event_handler: BaseEventHandler) -> None:
         r"""Removes an event handler of a given event.
@@ -598,6 +620,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
             False
         """
+
     @abstractmethod
     def remove_module(self, name: str) -> None:
         r"""Removes a module from the engine state.
@@ -626,6 +649,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.remove_module('missing_model')
             ValueError
         """
+
     @abstractmethod
     def state_dict(self) -> dict[str, Any]:
         r"""Gets a dictionary containing a state of the engine.
@@ -644,6 +668,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine: BaseEngine = ...  # Create an engine
             >>> state = engine.state_dict()
         """
+
     @abstractmethod
     def terminate(self) -> None:
         r"""Sends terminate signal to the engine to stop the training after the
@@ -661,6 +686,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine.should_terminate
             True
         """
+
     @abstractmethod
     def train(self) -> None:
         r"""Trains the model on the given training dataset.

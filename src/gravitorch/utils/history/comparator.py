@@ -42,6 +42,7 @@ class BaseComparator(Generic[T], ABC):
             bool: ``True`` if the comparators are equal,
                 ``False`` otherwise.
         """
+
     @abstractmethod
     def get_initial_best_value(self) -> T:
         r"""Gets the initial best value.
@@ -50,6 +51,7 @@ class BaseComparator(Generic[T], ABC):
         -------
             The initial best value.
         """
+
     @abstractmethod
     def is_better(self, old_value: T, new_value: T) -> bool:
         r"""Indicates if the new value is better than the old value.
@@ -64,6 +66,8 @@ class BaseComparator(Generic[T], ABC):
             bool: ``True`` if the new value is better than the old
                 value, otherwise ``False``.
         """
+
+
 class MaxScalarComparator(BaseComparator[Union[float, int]]):
     r"""Implementation of a max comparator for scalar value.
 

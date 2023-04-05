@@ -29,6 +29,7 @@ class NoOpEvaluationLoop(BaseEvaluationLoop):
         ----
             engine (``BaseEngine``): Specifies the engine.
         """
+
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
         pass
 

@@ -91,6 +91,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
+
     @property
     @abstractmethod
     def checkpoint_path(self) -> Path:
@@ -106,6 +107,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
+
     @property
     @abstractmethod
     def experiment_id(self) -> str:
@@ -120,6 +122,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
+
     @abstractmethod
     def start(self) -> None:
         r"""Starts a new experiment tracking."""
@@ -143,6 +146,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
+
     @abstractmethod
     def end(self) -> None:
         r"""Ends the tracking of the current experiment.
@@ -152,6 +156,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             ``NotActivatedExpTrackerError`` if the experiment tracker
                 is not activated.
         """
+
     @abstractmethod
     def is_activated(self) -> bool:
         r"""Indicates if the tracker is activated or not.
@@ -175,6 +180,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker.is_activated()
             True
         """
+
     @abstractmethod
     def is_resumed(self) -> bool:
         r"""Indicates if the experiment was resumed or not.
@@ -197,6 +203,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> exp_tracker.is_resumed()
         """
+
     @abstractmethod
     def add_tag(self, name: str, value: Any) -> None:
         r"""Adds a tag to the experiment.
@@ -220,6 +227,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> exp_tracker.add_tag('mode', 'training')
         """
+
     @abstractmethod
     def add_tags(self, tags: dict[str, Any]) -> None:
         r"""Adds tags to the experiment.
@@ -243,6 +251,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> exp_tracker.add_tags({'mode': 'training', 'machine': 'mac'})
         """
+
     @abstractmethod
     def create_artifact(self, artifact: BaseArtifact) -> None:
         r"""Creates an artifact.
@@ -265,6 +274,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> from gravitorch.utils.artifacts import JSONArtifact
             >>> exp_tracker.create_artifact(JSONArtifact(tag='metric', data={'f1_score': 42}))
         """
+
     @abstractmethod
     def log_best_metric(self, key: str, value: Any) -> None:
         r"""Logs the best value of a metric.
@@ -290,6 +300,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> exp_tracker.log_best_metric('my_metric', 1.2)
         """
+
     @abstractmethod
     def log_best_metrics(self, metrics: dict[str, Any]) -> None:
         r"""Logs a dictionary of the best metrics.
@@ -314,6 +325,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> exp_tracker.log_best_metrics({"my_metric_1": 12, "my_metric_2": 3.5})
         """
+
     @abstractmethod
     def log_figure(self, key: str, figure: Figure, step: Optional[Step] = None) -> None:
         r"""Logs a figure for the given key and step.
@@ -344,6 +356,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> from gravitorch.utils.exp_trackers import EpochStep
             >>> exp_tracker.log_figure('my_figure', fig, EpochStep(2))  # with step
         """
+
     @abstractmethod
     def log_figures(self, figures: dict[str, Figure], step: Optional[Step] = None) -> None:
         r"""Logs a dictionary of figures for a given step.
@@ -372,6 +385,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> from gravitorch.utils.exp_trackers import EpochStep
             >>> exp_tracker.log_figures({'my_figure_1': fig, 'my_figure_2': fig}, EpochStep(2))  # with step
         """
+
     @abstractmethod
     def log_hyper_parameter(self, key: str, value: Any) -> None:
         r"""Logs a single hyper-parameter.
@@ -394,6 +408,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> exp_tracker.log_hyper_parameter('my_hparam', 32)
         """
+
     @abstractmethod
     def log_hyper_parameters(self, params: dict[str, Any]) -> None:
         r"""Logs a dictionary of multiple hyper-parameters.
@@ -415,6 +430,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> exp_tracker.log_hyper_parameters({'input_size': 32, 'output_size': 16})
         """
+
     @abstractmethod
     def log_image(self, key: str, image: Image, step: Optional[Step] = None) -> None:
         r"""Logs an image for the given key and step.
@@ -444,6 +460,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> from gravitorch.utils.exp_trackers import EpochStep
             >>> exp_tracker.log_image('my_image', img, EpochStep(2))  # with step
         """
+
     @abstractmethod
     def log_images(self, images: dict[str, Image], step: Optional[Step] = None) -> None:
         r"""Logs a dictionary of images for a given step.
@@ -473,6 +490,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> from gravitorch.utils.exp_trackers.steps import EpochStep
             >>> exp_tracker.log_images({'my_image_1': img, 'my_image_2': img}, EpochStep(2))  # with step
         """
+
     @abstractmethod
     def log_metric(self, key: str, value: Union[int, float], step: Optional[Step] = None) -> None:
         r"""Logs a single metric.
@@ -503,6 +521,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> from gravitorch.utils.exp_trackers import EpochStep
             >>> exp_tracker.log_metric('my_metric', 1.2, EpochStep(2))  # with step
         """
+
     @abstractmethod
     def log_metrics(
         self, metrics: dict[str, Union[int, float]], step: Optional[Step] = None
@@ -550,6 +569,8 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> exp_tracker.upload_checkpoints()
         """
+
+
 class NotActivatedExpTrackerError(Exception):
     r"""This exception is raised when you try to do an action with an
     experiment tracker which is not activated."""
@@ -597,6 +618,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 checkpoints are uploaded or not when this method is
                 called. Default: ``True``
         """
+
     def end(self) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -625,6 +647,7 @@ class BaseBasicExpTracker(BaseExpTracker):
             bool: ``True`` if the experiment was resumed, otherwise
                 ``False``.
         """
+
     def add_tag(self, name: str, value: Any) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -643,6 +666,7 @@ class BaseBasicExpTracker(BaseExpTracker):
             value: Specifies the value of the tag. The value should be
                 convertible to a string with the ``str`` function.
         """
+
     def add_tags(self, tags: dict[str, Any]) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -661,6 +685,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 The value should be convertible to a string with the
                 ``str`` function.
         """
+
     def create_artifact(self, artifact: BaseArtifact) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -678,6 +703,7 @@ class BaseBasicExpTracker(BaseExpTracker):
             artifact (``BaseArtifact``): Specifies the artifact to
                 create.
         """
+
     def log_best_metric(self, key: str, value: Any) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -698,6 +724,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 reserved for specific uses.
             value (int or float): Specifies the best value to log.
         """
+
     def log_best_metrics(self, metrics: dict[str, Any]) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -717,6 +744,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 ``'iteration'``, and ``'step'`` because they are
                 reserved for specific uses.
         """
+
     def log_figure(self, key: str, figure: Figure, step: Optional[Step] = None) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -738,6 +766,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 record. If ``None``, it will use the default step.
                 Default: ``None``
         """
+
     def log_figures(self, figures: dict[str, Figure], step: Optional[Step] = None) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -757,6 +786,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 record. If ``None``, it will use the default step.
                 Default: ``None``
         """
+
     def log_hyper_parameter(self, key: str, value: Any) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -774,6 +804,7 @@ class BaseBasicExpTracker(BaseExpTracker):
             key (str): Specifies the name of the hyper-parameter.
             value (str): Specifies the value of the hyper-parameter.
         """
+
     def log_hyper_parameters(self, params: dict[str, Any]) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -790,6 +821,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         ----
             params (dict): Specifies the hyper-parameters to log.
         """
+
     def log_image(
         self,
         key: str,
@@ -840,6 +872,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 record. If ``None``, it will use the default step.
                 Default: ``None``.
         """
+
     def log_metric(self, key: str, value: Union[int, float], step: Optional[Step] = None) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -863,6 +896,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 record. If ``None``, it will use the default step.
                 Default: ``None``.
         """
+
     def log_metrics(
         self, metrics: dict[str, Union[int, float]], step: Optional[Step] = None
     ) -> None:
