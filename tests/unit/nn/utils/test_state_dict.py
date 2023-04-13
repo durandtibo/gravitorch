@@ -107,21 +107,21 @@ def test_load_checkpoint_to_module_find_module(tmp_path: Path, state_dict: dict)
 
 
 def test_load_checkpoint_to_module_incorrect_path(tmp_path: Path) -> None:
-    with raises(FileNotFoundError):
+    with raises(FileNotFoundError, match="No such file or directory:"):
         load_checkpoint_to_module(tmp_path.joinpath("checkpoint.pt"), nn.Linear(4, 5))
 
 
 def test_load_checkpoint_to_module_incompatible_module(tmp_path: Path) -> None:
     checkpoint_path = tmp_path.joinpath("checkpoint.pt")
     torch.save(LINEAR_STATE_DICT, checkpoint_path)
-    with raises(RuntimeError):
+    with raises(RuntimeError, match=r"Error\(s\) in loading state_dict for Linear:"):
         load_checkpoint_to_module(checkpoint_path, nn.Linear(6, 10))
 
 
 def test_load_checkpoint_to_module_partial_state_dict(tmp_path: Path) -> None:
     checkpoint_path = tmp_path.joinpath("checkpoint.pt")
     torch.save(OrderedDict([("weight", torch.ones(5, 4))]), checkpoint_path)
-    with raises(RuntimeError):
+    with raises(RuntimeError, match=r"Error\(s\) in loading state_dict for Linear:"):
         load_checkpoint_to_module(checkpoint_path, nn.Linear(4, 5))
 
 
@@ -208,12 +208,12 @@ def test_load_state_dict_to_module_find_module(tmp_path: Path, state_dict: dict)
 
 
 def test_load_state_dict_to_module_incompatible_module() -> None:
-    with raises(RuntimeError):
+    with raises(RuntimeError, match=r"Error\(s\) in loading state_dict for Linear:"):
         load_state_dict_to_module(LINEAR_STATE_DICT, nn.Linear(6, 10))
 
 
 def test_load_state_dict_to_module_partial_state_dict() -> None:
-    with raises(RuntimeError):
+    with raises(RuntimeError, match=r"Error\(s\) in loading state_dict for Linear:"):
         load_state_dict_to_module(OrderedDict([("weight", torch.ones(5, 4))]), nn.Linear(4, 5))
 
 
@@ -345,5 +345,5 @@ def test_load_model_state_dict_dict_strict_true_partial_state(tmp_path: Path) ->
     )
 
     module = nn.Linear(4, 5)
-    with raises(RuntimeError):
+    with raises(RuntimeError, match=r"Error\(s\) in loading state_dict for Linear:"):
         load_model_state_dict(checkpoint_path, module, strict=True, exclude_key_prefixes=["bias"])

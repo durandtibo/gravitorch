@@ -207,7 +207,7 @@ class RandomSeedSetter(BaseRandomSeedSetter):
         """
         if name in cls.registry and not exist_ok:
             raise ValueError(
-                f"A setter ({cls.registry[name]}) is already registered for the name {name}. "
+                f"A setter ({cls.registry[name]}) is already registered for the name `{name}`. "
                 "Please use `exist_ok=True` if you want to overwrite the setter for this name"
             )
         cls.registry[name] = setter
