@@ -283,7 +283,7 @@ def test_get_module_input_size_transformer(module: nn.Module) -> None:
 
 
 def test_get_module_input_size_incorrect_type() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match=".*Dropout.* is not supported"):
         get_module_input_size(nn.Dropout(0.5))
 
 
@@ -307,12 +307,15 @@ def test_get_sequential_input_size_non_first(input_size: int) -> None:
 
 
 def test_get_sequential_input_size_error() -> None:
-    with raises(TypeError):
+    with raises(
+        TypeError,
+        match="Cannot find the input size because the child modules are not supported",
+    ):
         _get_sequential_input_size(nn.Sequential(nn.Dropout(0.5), nn.ReLU()))
 
 
 def test_get_sequential_input_size_incorrect_input() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="Only `torch.nn.Sequential` is supported."):
         _get_sequential_input_size(nn.Dropout(0.5))
 
 
@@ -428,7 +431,7 @@ def test_get_module_output_size_transformer(module: nn.Module) -> None:
 
 
 def test_get_module_output_size_incorrect_type() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match=".*Dropout.* is not supported"):
         get_module_output_size(nn.Dropout(0.5))
 
 
@@ -456,12 +459,14 @@ def test_get_sequential_output_size_non_last(output_size: int) -> None:
 
 
 def test_get_sequential_output_size_error() -> None:
-    with raises(TypeError):
+    with raises(
+        TypeError, match="Cannot find the output size because the child modules are not supported"
+    ):
         _get_sequential_output_size(nn.Sequential(nn.Dropout(0.5), nn.ReLU()))
 
 
 def test_get_sequential_output_size_incorrect_input() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="Only `torch.nn.Sequential` is supported."):
         _get_sequential_output_size(nn.Dropout(0.5))
 
 
@@ -587,7 +592,7 @@ def test_is_batch_first_false(module: nn.Module) -> None:
 
 
 def test_is_batch_first_incorrect_type() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match=".*Linear.* is not supported"):
         is_batch_first(nn.Linear(4, 8))
 
 
@@ -629,12 +634,12 @@ def test_module_mode_eval() -> None:
 def test_module_mode_with_exception() -> None:
     module = nn.ModuleDict({"module1": nn.Linear(4, 6), "module2": nn.Linear(2, 4).eval()})
     assert module.training
-    with raises(RuntimeError), module_mode(module):
+    with raises(RuntimeError, match="Exception"), module_mode(module):
         module.eval()
         assert not module.training
         assert not module["module1"].training
         assert not module["module2"].training
-        raise RuntimeError
+        raise RuntimeError("Exception")
 
     assert module.training
     assert module["module1"].training
@@ -668,8 +673,8 @@ def test_top_module_mode_eval() -> None:
 def test_top_module_mode_with_exception() -> None:
     module = nn.Linear(4, 6)
     assert module.training
-    with raises(RuntimeError), top_module_mode(module):
+    with raises(RuntimeError, match="Exception"), top_module_mode(module):
         module.eval()
         assert not module.training
-        raise RuntimeError
+        raise RuntimeError("Exception")
     assert module.training

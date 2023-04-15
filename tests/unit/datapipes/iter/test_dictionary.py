@@ -45,7 +45,7 @@ def test_dict_of_list_converter_len() -> None:
 
 
 def test_dict_of_list_converter_no_len() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'Mock' has no len()"):
         len(DictOfListConverter(Mock()))
 
 
@@ -86,5 +86,5 @@ def test_list_of_dict_converter_len() -> None:
 
 
 def test_list_of_dict_converter_no_len() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'Mock' has no len()"):
         len(ListOfDictConverter(Mock()))

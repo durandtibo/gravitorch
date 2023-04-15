@@ -38,7 +38,7 @@ def test_dir_filter_iter_recursive(tmp_path: Path) -> None:
 
 
 def test_dir_filter_len(tmp_path: Path) -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'DirFilterIterDataPipe' has no len()"):
         len(DirFilter(Mock(spec=IterDataPipe)))
 
 
@@ -70,7 +70,7 @@ def test_file_filter_iter_recursive(tmp_path: Path) -> None:
 
 
 def test_file_filter_len(tmp_path: Path) -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'FileFilterIterDataPipe' has no len()"):
         len(FileFilter(Mock(spec=IterDataPipe)))
 
 
@@ -111,5 +111,5 @@ def test_path_lister_iter_deterministic_false(tmp_path: Path) -> None:
 
 
 def test_path_lister_len(tmp_path: Path) -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'PathListerIterDataPipe' has no len()"):
         len(PathLister(tmp_path))

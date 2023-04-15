@@ -156,7 +156,9 @@ def sync_reduce_(tensor: Tensor, op: str) -> Tensor:
         >>> ddp.sync_reduce_(x, op=ddp.SUM)  # in-place reduction
     """
     if not torch.is_tensor(tensor):
-        raise TypeError("The function sync_reduce_ only supports Tensor")
+        raise TypeError(
+            f"The function `sync_reduce_` only supports Tensor but received {type(tensor)}"
+        )
 
     if is_distributed():
         divide_by_world_size = False

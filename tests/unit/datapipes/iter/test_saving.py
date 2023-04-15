@@ -58,7 +58,7 @@ def test_pickle_saver_len(tmp_path: Path) -> None:
 
 
 def test_pickle_saver_no_len(tmp_path: Path) -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'Mock' has no len()"):
         len(PickleSaver(SourceWrapper(Mock()), root_path=tmp_path))
 
 
@@ -114,5 +114,5 @@ def test_pytorch_saver_len(tmp_path: Path) -> None:
 
 
 def test_pytorch_saver_no_len(tmp_path: Path) -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'Mock' has no len()"):
         len(PyTorchSaver(SourceWrapper(Mock()), root_path=tmp_path))

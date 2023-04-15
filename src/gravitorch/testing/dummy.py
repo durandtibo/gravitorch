@@ -88,7 +88,7 @@ class DummyIterableDataset(IterableDataset):
     def __len__(self) -> int:
         if self._has_length:
             return self._num_examples
-        raise TypeError
+        raise TypeError(f"{type(self).__qualname__} instance doesn't have valid length")
 
     def __repr__(self) -> str:
         return (

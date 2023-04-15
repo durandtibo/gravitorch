@@ -114,7 +114,7 @@ def test_sync_reduce__avg_world_size_2_is_not_distributed(device: str) -> None:
 
 
 def test_sync_reduce__incorrect_input() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="The function `sync_reduce_` only supports Tensor"):
         ddp.sync_reduce_(1, ddp.SUM)
 
 

@@ -184,7 +184,7 @@ def test_dict_batcher_generator_repeat() -> None:
 
 
 def test_dict_batcher_len_datapipe() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="DictBatcherIterDataPipe instance doesn't have valid length"):
         len(DictBatcher(SourceWrapper({}), batch_size=4))
 
 
@@ -367,7 +367,7 @@ def test_tuple_batcher_generator_repeat() -> None:
 
 
 def test_tuple_batcher_len_datapipe() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="TupleBatcherIterDataPipe instance doesn't have valid length"):
         len(TupleBatcher(SourceWrapper([]), batch_size=4))
 
 

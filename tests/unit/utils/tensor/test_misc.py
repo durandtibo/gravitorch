@@ -183,7 +183,7 @@ def test_to_tensor_empty_list() -> None:
 
 
 def test_to_tensor_incorrect() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="Incorrect type:"):
         to_tensor(Mock())
 
 

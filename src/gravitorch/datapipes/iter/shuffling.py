@@ -326,6 +326,5 @@ def get_first_dimension(data: Union[Tensor, np.ndarray, list, tuple]) -> int:
     if isinstance(data, (list, tuple)):
         return len(data)
     raise TypeError(
-        f"Incorrect type. The supported types are: torch.Tensor, numpy.ndarray, list and tuple. "
-        f"(received: {data})"
+        f"The supported types are: torch.Tensor, numpy.ndarray, list and tuple. (received: {data})"
     )

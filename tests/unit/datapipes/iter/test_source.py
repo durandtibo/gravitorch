@@ -45,5 +45,5 @@ def test_source_wrapper_len() -> None:
 
 
 def test_source_wrapper_no_len() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'Mock' has no len()"):
         len(SourceWrapper(Mock()))
