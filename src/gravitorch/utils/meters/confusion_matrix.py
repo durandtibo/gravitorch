@@ -1340,7 +1340,7 @@ def check_op_compatibility_multiclass(
     """
     if not isinstance(other, MulticlassConfusionMatrix):
         raise TypeError(
-            f"Incorrect type {type(other)}. No implementation available to `{op_name}` "
+            f"Incorrect type: {type(other)}. No implementation available to `{op_name}` "
             f"{type(current)} with {type(other)}"
         )
     if current.matrix.shape != other.matrix.shape:

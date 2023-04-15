@@ -83,7 +83,7 @@ def test_tensor_dict_shuffler_len() -> None:
 
 def test_tensor_dict_shuffler_no_len() -> None:
     source = SourceWrapper({"key": torch.arange(4) + i} for i in range(3))
-    with raises(TypeError):
+    with raises(TypeError, match="object of type 'generator' has no len()"):
         len(TensorDictShuffler(source))
 
 
@@ -389,5 +389,8 @@ def test_get_first_dimension_list_tuple(sequence: Union[list, tuple], num_exampl
 
 @mark.parametrize("obj", (1, "abc", set()))
 def test_get_first_dimension_incorrect_type(obj: Any) -> None:
-    with raises(TypeError):
+    with raises(
+        TypeError,
+        match="The supported types are: torch.Tensor, numpy.ndarray, list and tuple.",
+    ):
         get_first_dimension(obj)

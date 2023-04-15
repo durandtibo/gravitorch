@@ -1415,7 +1415,7 @@ def test_check_op_compatibility_binary_correct() -> None:
 
 
 def test_check_op_compatibility_binary_incorrect_type() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="Incorrect type .*Mock.*"):
         check_op_compatibility_binary(BinaryConfusionMatrix(), Mock(), "op")
 
 
@@ -1434,7 +1434,7 @@ def test_check_op_compatibility_multiclass_correct() -> None:
 
 
 def test_check_op_compatibility_multiclass_incorrect_type() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="Incorrect type: .*Mock.*"):
         check_op_compatibility_multiclass(
             MulticlassConfusionMatrix.from_num_classes(3),
             Mock(),
@@ -1443,7 +1443,7 @@ def test_check_op_compatibility_multiclass_incorrect_type() -> None:
 
 
 def test_check_op_compatibility_multiclass_incorrect_shape() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect shape:"):
         check_op_compatibility_multiclass(
             MulticlassConfusionMatrix.from_num_classes(3),
             MulticlassConfusionMatrix.from_num_classes(4),

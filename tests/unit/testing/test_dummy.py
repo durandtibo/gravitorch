@@ -62,7 +62,7 @@ def test_dummy_iterable_dataset_getitem() -> None:
 
 
 def test_dummy_iterable_dataset_len_has_length_false() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="DummyIterableDataset instance doesn't have valid length"):
         len(DummyIterableDataset())
 
 

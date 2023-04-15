@@ -205,7 +205,7 @@ def get_module_input_size(module: nn.Module) -> int:
     if isinstance(module, (nn.TransformerEncoder, nn.TransformerDecoder)):
         return get_module_input_size(module.layers)
 
-    raise TypeError(f"{type(module)} module is not supported")
+    raise TypeError(f"{type(module)} is not supported")
 
 
 def _get_sequential_input_size(sequential: nn.Sequential) -> int:
@@ -230,17 +230,13 @@ def _get_sequential_input_size(sequential: nn.Sequential) -> int:
             if none of the child modules are supported.
     """
     if not isinstance(sequential, nn.Sequential):
-        raise TypeError(
-            f"Only the `torch.nn.Sequential` inputs are supported. (received: {sequential})"
-        )
+        raise TypeError(f"Only `torch.nn.Sequential` is supported. (received: {sequential})")
     for module in sequential:
         try:
             return get_module_input_size(module)
         except TypeError:
             pass
-    raise TypeError(
-        "It is not possible to find the input size because none of the child modules are supported"
-    )
+    raise TypeError("Cannot find the input size because the child modules are not supported")
 
 
 def get_module_output_size(module: nn.Module) -> int:
@@ -312,16 +308,14 @@ def _get_sequential_output_size(sequential: nn.Sequential) -> int:
             if none of the child modules are supported.
     """
     if not isinstance(sequential, nn.Sequential):
-        raise TypeError(
-            f"Only the `torch.nn.Sequential` inputs are supported. (received: {sequential})"
-        )
+        raise TypeError(f"Only `torch.nn.Sequential` is supported. (received: {sequential})")
     for module in sequential[::-1]:
         try:
             return get_module_output_size(module)
         except TypeError:
             pass
     raise TypeError(
-        "It is not possible to find the output size because none of the child modules are supported"
+        TypeError("Cannot find the output size because the child modules are not supported")
     )
 
 
@@ -398,7 +392,7 @@ def is_batch_first(module: nn.Module) -> bool:
         return is_batch_first(module.self_attn)
     if isinstance(module, (nn.TransformerEncoder, nn.TransformerDecoder)):
         return is_batch_first(module.layers[0])
-    raise TypeError(f"{type(module)} module is not supported")
+    raise TypeError(f"{type(module)} is not supported")
 
 
 @contextmanager

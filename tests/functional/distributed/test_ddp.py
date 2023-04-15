@@ -276,10 +276,10 @@ def check_sync_reduce_inplace(local_rank: int) -> None:
         )  # bitwise OR
         assert x_tensor.equal(torch.tensor([2, 3], device=device))
 
-    with raises(TypeError):
+    with raises(TypeError, match="The function `sync_reduce_` only supports Tensor"):
         ddp.sync_reduce_(1.0, op=ddp.SUM)  # Does not support float
 
-    with raises(TypeError):
+    with raises(TypeError, match="The function `sync_reduce_` only supports Tensor"):
         ddp.sync_reduce_(2, op=ddp.SUM)  # Does not support integer
 
 
