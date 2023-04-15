@@ -84,5 +84,5 @@ def test_load_examples_pt(tmp_path: Path, examples: Sequence) -> None:
 
 
 def test_load_examples_incorrect_extension(tmp_path: Path) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect file extension '.something'"):
         _load_examples(tmp_path.joinpath("data.something"))

@@ -31,7 +31,7 @@ def test_generic_history_init_max_size(max_size: int) -> None:
 
 
 def test_generic_history_init_max_size_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="History size must be greater than 0"):
         GenericHistory("loss", max_size=0)
 
 

@@ -128,19 +128,19 @@ def test_asinh_scalar_encoder_dim(dim: int, module_init: Callable) -> None:
 @mark.parametrize("dim", (0, -1))
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
 def test_asinh_scalar_encoder_dim_incorrect(dim: int, module_init: Callable) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="dim has to be greater or equal to 1"):
         module_init(dim=dim, min_scale=0.1, max_scale=10.0)
 
 
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
 def test_asinh_scalar_encoder_min_scale_incorrect(module_init: Callable) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="min_scale has to be greater than 0"):
         module_init(dim=2, min_scale=0, max_scale=1)
 
 
 @mark.parametrize("module_init", MODULE_CONSTRUCTORS)
 def test_asinh_scalar_encoder_max_scale_incorrect(module_init: Callable) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="max_scale has to be greater than min_scale"):
         module_init(dim=2, min_scale=0.1, max_scale=0.01)
 
 
@@ -234,12 +234,12 @@ def test_cos_sin_scalar_encoder_frequency_phase_shift(
 
 
 def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_dim() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect number of dimensions for frequency"):
         CosSinScalarEncoder(torch.rand(1, 6), torch.rand(6))
 
 
 def test_cos_sin_scalar_encoder_frequency_phase_shift_incorrect_shape() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect shapes. The shape of frequency"):
         CosSinScalarEncoder(torch.rand(6), torch.rand(4))
 
 
@@ -328,22 +328,24 @@ def test_cos_sin_scalar_encoder_dim(dim: int, module_init: Callable) -> None:
     assert module.phase_shift.shape == (dim * 2,)
 
 
-@mark.parametrize("dim", (0, -1))
+@mark.parametrize("num_frequencies", (0, -1))
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
-def test_cos_sin_scalar_encoder_dim_incorrect(dim: int, module_init: Callable) -> None:
-    with raises(ValueError):
-        module_init(num_frequencies=dim, min_frequency=0.1, max_frequency=10.0)
+def test_cos_sin_scalar_encoder_num_frequencies_incorrect(
+    num_frequencies: int, module_init: Callable
+) -> None:
+    with raises(ValueError, match="num_frequencies has to be greater or equal to 1"):
+        module_init(num_frequencies=num_frequencies, min_frequency=0.1, max_frequency=10.0)
 
 
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
 def test_cos_sin_scalar_encoder_min_frequency_incorrect(module_init: Callable) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="min_frequency has to be greater than 0"):
         module_init(num_frequencies=2, min_frequency=0, max_frequency=1)
 
 
 @mark.parametrize("module_init", COSSIN_MODULE_CONSTRUCTORS)
 def test_cos_sin_scalar_encoder_max_frequency_incorrect(module_init: Callable) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="max_frequency has to be greater than min_frequency"):
         module_init(num_frequencies=2, min_frequency=0.1, max_frequency=0.01)
 
 

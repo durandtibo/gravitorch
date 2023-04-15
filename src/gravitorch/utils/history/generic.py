@@ -42,7 +42,7 @@ class GenericHistory(BaseHistory[T]):
     ) -> None:
         super().__init__(name)
         if max_size <= 0:
-            raise ValueError(f"History size must be greater than 0! (received: {max_size})")
+            raise ValueError(f"History size must be greater than 0 (received: {max_size})")
         self._history = deque(elements, maxlen=max_size)
 
     def __repr__(self) -> str:

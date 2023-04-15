@@ -18,7 +18,7 @@ def test_demo_multiclass_cls_dataset_num_examples(num_examples: int) -> None:
 
 
 def test_demo_multiclass_cls_dataset_incorrect_num_examples() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="The number of examples (.*) has to be greater than 0"):
         DemoMultiClassClsDataset(num_examples=0)
 
 
@@ -31,7 +31,7 @@ def test_demo_multiclass_cls_dataset_num_classes(num_classes: int) -> None:
 
 
 def test_demo_multiclass_cls_dataset_incorrect_num_classes() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="The number of classes (.*) has to be greater than 0"):
         DemoMultiClassClsDataset(num_classes=0)
 
 
@@ -43,7 +43,7 @@ def test_demo_multiclass_cls_dataset_feature_size(feature_size: int) -> None:
 
 
 def test_demo_multiclass_cls_dataset_incorrect_feature_size() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="The feature dimension (.*) has to be greater or equal"):
         DemoMultiClassClsDataset(num_classes=50, feature_size=32)
 
 
@@ -59,7 +59,7 @@ def test_demo_multiclass_cls_dataset_noise_std_0() -> None:
 
 
 def test_demo_multiclass_cls_dataset_incorrect_noise_std() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="The standard deviation of the Gaussian noise (.*)"):
         DemoMultiClassClsDataset(noise_std=-1)
 
 
@@ -76,8 +76,7 @@ def test_demo_multiclass_cls_dataset_getitem() -> None:
 
 @mark.parametrize("num_examples", (1, 4, 8))
 def test_demo_multiclass_cls_dataset_len(num_examples: int) -> None:
-    dataset = DemoMultiClassClsDataset(num_examples)
-    assert len(dataset) == num_examples
+    assert len(DemoMultiClassClsDataset(num_examples)) == num_examples
 
 
 def test_demo_multiclass_cls_dataset_str() -> None:

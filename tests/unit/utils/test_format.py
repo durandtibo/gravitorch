@@ -61,7 +61,7 @@ def test_human_byte_size_auto(size: int, output: str) -> None:
 
 
 def test_human_byte_size_incorrect_unit() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect unit ''. The available units are"):
         assert human_byte_size(1, "")
 
 
@@ -88,7 +88,7 @@ def test_human_count(count: Union[int, float], human: str) -> None:
 
 
 def test_human_count_incorrect_value() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="The number should be a positive number"):
         human_count(-1)
 
 
@@ -545,7 +545,7 @@ def test_to_pretty_dict_str_nested_dict() -> None:
 
 
 def test_to_pretty_dict_str_incorrect_indent() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="The indent has to be greater or equal to 0"):
         to_pretty_dict_str(data={"my_key": "my_value"}, indent=-1)
 
 

@@ -39,7 +39,7 @@ def test_barron_robust_loss_scale_default() -> None:
 
 
 def test_barron_robust_loss_incorrect_scale() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="scale has to be greater than 0 but received"):
         BarronRobustLoss(scale=0)
 
 
@@ -53,7 +53,7 @@ def test_barron_robust_loss_reduction_default() -> None:
 
 
 def test_barron_robust_loss_incorrect_reduction() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect"):
         BarronRobustLoss(reduction="incorrect")
 
 

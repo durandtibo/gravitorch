@@ -193,7 +193,7 @@ def test_conditional_event_handler_callable_condition() -> None:
 
 
 def test_conditional_event_handler_non_callable_condition() -> None:
-    with raises(ValueError):
+    with raises(TypeError, match="The condition is not callable"):
         ConditionalEventHandler(hello_handler, 123)
 
 

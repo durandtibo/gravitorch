@@ -66,7 +66,7 @@ def test_msle_loss_reduction_none(device: str) -> None:
 
 
 def test_msle_loss_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="incorrect is not a valid value for reduction"):
         msle_loss(torch.ones(2, 2), torch.eye(2), reduction="incorrect")
 
 
@@ -140,7 +140,7 @@ def test_asinh_mse_loss_reduction_none(device: str) -> None:
 
 
 def test_asinh_mse_loss_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="incorrect is not a valid value for reduction"):
         asinh_mse_loss(torch.ones(2, 2), torch.eye(2), reduction="incorrect")
 
 
@@ -214,7 +214,7 @@ def test_symlog_mse_loss_reduction_none(device: str) -> None:
 
 
 def test_symlog_mse_loss_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="incorrect is not a valid value for reduction"):
         symlog_mse_loss(torch.ones(2, 2), torch.eye(2), reduction="incorrect")
 
 
@@ -294,7 +294,7 @@ def test_relative_mse_loss_reduction_none(device: str) -> None:
 
 
 def test_relative_mse_loss_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect."):
         relative_mse_loss(torch.ones(2, 2), torch.ones(2, 2), reduction="incorrect")
 
 
@@ -374,7 +374,7 @@ def test_relative_smooth_l1_loss_reduction_none(device: str) -> None:
 
 
 def test_relative_smooth_l1_loss_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect."):
         relative_smooth_l1_loss(torch.ones(2, 2), torch.ones(2, 2), reduction="incorrect")
 
 
@@ -454,7 +454,7 @@ def test_symmetric_relative_smooth_l1_loss_reduction_none(device: str) -> None:
 
 
 def test_symmetric_relative_smooth_l1_loss_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect."):
         symmetric_relative_smooth_l1_loss(torch.ones(2, 2), torch.ones(2, 2), reduction="incorrect")
 
 
@@ -550,7 +550,7 @@ def test_log_cosh_loss_reduction_none(device: str) -> None:
 
 
 def test_log_cosh_loss_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect."):
         log_cosh_loss(torch.ones(2, 2), torch.ones(2, 2), reduction="incorrect")
 
 

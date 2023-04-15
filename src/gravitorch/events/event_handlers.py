@@ -120,7 +120,7 @@ class ConditionalEventHandler(BaseEventHandlerWithArguments):
     ) -> None:
         super().__init__(handler=handler, handler_args=handler_args, handler_kwargs=handler_kwargs)
         if not callable(condition):
-            raise ValueError(f"The condition is not callable (received: {condition})")
+            raise TypeError(f"The condition is not callable (received: {condition})")
         self._condition = condition
 
     def __eq__(self, other: Any) -> bool:

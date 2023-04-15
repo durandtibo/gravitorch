@@ -106,6 +106,6 @@ def _load_examples(path: Path) -> tuple[T, ...]:
     if path.suffix == ".json":
         return tuple(load_json(path))
     raise ValueError(
-        f"Incorrect file extension {path.suffix}. The supported file extensions "
+        f"Incorrect file extension '{path.suffix}'. The supported file extensions "
         "are '.pt', '.pkl' and '.json'"
     )

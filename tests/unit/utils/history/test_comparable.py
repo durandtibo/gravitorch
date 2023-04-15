@@ -40,7 +40,7 @@ def test_comparable_history_max_size(max_size: int) -> None:
 
 
 def test_comparable_history_max_size_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="History size must be greater than 0"):
         ComparableHistory[Number]("accuracy", MaxScalarComparator(), max_size=0)
 
 

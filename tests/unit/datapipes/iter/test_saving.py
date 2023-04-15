@@ -20,27 +20,25 @@ def test_pickle_saver_str(tmp_path: Path) -> None:
 def test_pickle_saver_incorrect_root_path(tmp_path: Path) -> None:
     root_path = tmp_path.joinpath("file.txt")
     save_text("abc", root_path)
-    with raises(ValueError):
+    with raises(NotADirectoryError, match="root_path has to be a directory"):
         PickleSaver(SourceWrapper([1, 2]), root_path=root_path)
 
 
 def test_pickle_saver_incorrect_pattern(tmp_path: Path) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="pattern does not have 'index'"):
         PickleSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="data.pkl")
 
 
 @mark.parametrize("num_samples", (1, 2))
 def test_pickle_saver_iter(tmp_path: Path, num_samples: int) -> None:
-    datapipe = PickleSaver(SourceWrapper(list(range(num_samples))), root_path=tmp_path)
-    files = list(datapipe)
+    files = list(PickleSaver(SourceWrapper(list(range(num_samples))), root_path=tmp_path))
     assert files == [tmp_path.joinpath(f"data_{i:04d}.pkl") for i in range(num_samples)]
     for file in files:
         assert file.is_file()
 
 
 def test_pickle_saver_iter_pattern(tmp_path: Path) -> None:
-    datapipe = PickleSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="file{index}.pkl")
-    files = list(datapipe)
+    files = list(PickleSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="file{index}.pkl"))
     assert files == [tmp_path.joinpath("file0.pkl"), tmp_path.joinpath("file1.pkl")]
     for file in files:
         assert file.is_file()
@@ -76,27 +74,25 @@ def test_pytorch_saver_str(tmp_path: Path) -> None:
 def test_pytorch_saver_incorrect_root_path(tmp_path: Path) -> None:
     root_path = tmp_path.joinpath("file.txt")
     save_text("abc", root_path)
-    with raises(ValueError):
+    with raises(NotADirectoryError, match="root_path has to be a directory"):
         PyTorchSaver(SourceWrapper([1, 2]), root_path=root_path)
 
 
 def test_pytorch_saver_incorrect_pattern(tmp_path: Path) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="pattern does not have 'index'"):
         PyTorchSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="data.pt")
 
 
 @mark.parametrize("num_samples", (1, 2))
 def test_pytorch_saver_iter(tmp_path: Path, num_samples: int) -> None:
-    datapipe = PyTorchSaver(SourceWrapper(list(range(num_samples))), root_path=tmp_path)
-    files = list(datapipe)
+    files = list(PyTorchSaver(SourceWrapper(list(range(num_samples))), root_path=tmp_path))
     assert files == [tmp_path.joinpath(f"data_{i:04d}.pt") for i in range(num_samples)]
     for file in files:
         assert file.is_file()
 
 
 def test_pytorch_saver_iter_pattern(tmp_path: Path) -> None:
-    datapipe = PyTorchSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="file{index}.pt")
-    files = list(datapipe)
+    files = list(PyTorchSaver(SourceWrapper([1, 2]), root_path=tmp_path, pattern="file{index}.pt"))
     assert files == [tmp_path.joinpath("file0.pt"), tmp_path.joinpath("file1.pt")]
     for file in files:
         assert file.is_file()

@@ -104,7 +104,7 @@ class BaseConfusionMatrix:
             # Clamp to avoid division by 0
             return self.matrix / self.matrix.sum().clamp(min=1e-8)
         raise ValueError(
-            f"Incorrect normalization {normalization}. The supported normalization strategies "
+            f"Incorrect normalization: {normalization}. The supported normalization strategies "
             "are `true`, `pred` and `all`"
         )
 
@@ -151,7 +151,9 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         if matrix is None:
             matrix = torch.zeros(2, 2, dtype=torch.long)
         if matrix.shape != (2, 2):
-            raise ValueError
+            raise ValueError(
+                f"Incorrect shape. Expected a (2, 2) matrix but received {matrix.shape}"
+            )
         super().__init__(matrix)
 
     def clone(self) -> "BinaryConfusionMatrix":
@@ -655,7 +657,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         """
         if num_classes < 1:
             raise ValueError(
-                "Incorrect `num_classes`. `num_classes` has to be greater or equal to 1 but "
+                "Incorrect number of classes. `num_classes` has to be greater or equal to 1 but "
                 f"received {num_classes}"
             )
         return cls(matrix=torch.zeros(num_classes, num_classes, dtype=torch.long))
@@ -1143,7 +1145,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         """
         if self.num_predictions == 0:
             raise EmptyMeterError(
-                "It is not possible to compute the `macro` metrics because the confusion "
+                "It is not possible to compute the 'macro' metrics because the confusion "
                 "matrix is empty"
             )
         metrics = {
@@ -1181,7 +1183,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         """
         if self.num_predictions == 0:
             raise EmptyMeterError(
-                "It is not possible to compute the `micro` metrics because the confusion "
+                "It is not possible to compute the 'micro' metrics because the confusion "
                 "matrix is empty"
             )
         metrics = {
@@ -1219,7 +1221,7 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         """
         if self.num_predictions == 0:
             raise EmptyMeterError(
-                "It is not possible to compute the `weighted` metrics because the confusion "
+                "It is not possible to compute the 'weighted' metrics because the confusion "
                 "matrix is empty"
             )
         metrics = {

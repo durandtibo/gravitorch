@@ -89,7 +89,7 @@ def test_clamp_loss_reduction_default() -> None:
 
 
 def test_clamp_loss_incorrect_reduction() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect"):
         ClampLoss(MSELoss(), min_value=0.0, max_value=1.0, reduction="incorrect")
 
 

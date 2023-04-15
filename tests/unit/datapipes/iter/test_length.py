@@ -30,5 +30,5 @@ def test_looper_len(length: int) -> None:
 
 @mark.parametrize("length", (-1, 0))
 def test_looper_incorrect_length(length: int) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect length:"):
         Looper(SourceWrapper([1, 2, 3, 4, 5]), length=length)

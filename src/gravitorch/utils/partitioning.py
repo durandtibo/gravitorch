@@ -61,7 +61,7 @@ def ddp_partitions(items: Sequence[T], partition_size: int) -> list[Sequence[T]]
     world_size = dist.get_world_size()
     if len(items) < partition_size * world_size:
         raise ValueError(
-            f"Incorrect `partition_size` {partition_size:,}. The partition size should be lower "
+            f"Incorrect partition_size {partition_size}. The partition size should be lower "
             f"than {len(items) // world_size:,}"
         )
     return [items[i * partition_size : (i + 1) * partition_size] for i in range(world_size)]
