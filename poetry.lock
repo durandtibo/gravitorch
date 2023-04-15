@@ -721,14 +721,14 @@ test-no-images = ["pytest"]
 
 [[package]]
 name = "coola"
-version = "0.0.5"
+version = "0.0.6"
 description = "A light library to check if two complex/nested objects are equal or not"
 category = "main"
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "coola-0.0.5-py3-none-any.whl", hash = "sha256:b7eed679eb06ce35f8dfa280f2a93a06ff218a315018cf301d014f0dcabb1b0f"},
-    {file = "coola-0.0.5.tar.gz", hash = "sha256:ffcdcf18308536dbd813828a7669c15255340f67784dc2cce67ec9f3a29eb4cd"},
+    {file = "coola-0.0.6-py3-none-any.whl", hash = "sha256:3300c1a245df9e5d9c3d49d9147ed1612b2aeb3eb2152616cb3b1efa5abc58e0"},
+    {file = "coola-0.0.6.tar.gz", hash = "sha256:6d0ecbe4ea993111a404cdae0425a42410f64c1c9f11372ac9162fb9d112f50d"},
 ]
 
 [package.extras]
@@ -4276,4 +4276,4 @@ vision = ["pillow", "torchvision"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "0ae433bf4e0b9216368b93600e7fd952a2db4c85919d44b54509117d14adebb7"
+content-hash = "53830eafd4e92035ba018577a2234d34b4ae8934a9f77291ebf76ac17c49dcda"
