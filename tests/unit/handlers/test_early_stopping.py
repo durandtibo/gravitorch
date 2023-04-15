@@ -37,7 +37,7 @@ def test_early_stopping_patience(patience: int) -> None:
 
 
 def test_early_stopping_incorrect_patience() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="patience must be a positive integer"):
         EarlyStopping(patience=0)
 
 
@@ -47,7 +47,7 @@ def test_early_stopping_delta(delta: float) -> None:
 
 
 def test_early_stopping_incorrect_delta() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="delta should not be a negative number"):
         EarlyStopping(delta=-0.1)
 
 

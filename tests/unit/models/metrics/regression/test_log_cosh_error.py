@@ -49,7 +49,7 @@ def test_log_cosh_error_init_scale(scale: float) -> None:
 
 
 def test_log_cosh_error_init_scale_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect scale"):
         LogCoshError(ct.EVAL, scale=0.0)
 
 

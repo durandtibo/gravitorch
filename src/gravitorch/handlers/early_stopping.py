@@ -63,12 +63,10 @@ class EarlyStopping(BaseHandler):
     ) -> None:
         self._metric_name = str(metric_name)
         if patience < 1:
-            raise ValueError(f"Argument patience should be positive integer (received: {patience})")
+            raise ValueError(f"patience must be a positive integer (received: {patience})")
         self._patience = int(patience)
         if delta < 0.0:
-            raise ValueError(
-                f"Argument 'min_delta' should not be a negative number  (received: {patience})"
-            )
+            raise ValueError(f"delta should not be a negative number (received: {patience})")
         self._delta = float(delta)
         self._cumulative_delta = bool(cumulative_delta)
 

@@ -37,7 +37,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
 
     def __init__(self, config: Union[dict, Sequence[dict]]) -> None:
         if not config:
-            raise ValueError("It is not possible to create a DataPipe because `config` is empty")
+            raise ValueError("It is not possible to create a DataPipe because config is empty")
         self._config = config
 
     def __repr__(self) -> str:
@@ -293,7 +293,7 @@ def create_sequential_iter_datapipe(
         ([1, 11], [2, 12], [3, 13], [4, 14])
     """
     if not config:
-        raise ValueError("It is not possible to create a DataPipe because `config` is empty")
+        raise ValueError("It is not possible to create a DataPipe because config is empty")
     source_inputs = source_inputs or ()
     if isinstance(config, dict):
         config = config.copy()  # Make a copy because the dict is modified below.
@@ -323,7 +323,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
 
     def __init__(self, creators: Sequence[Union[BaseIterDataPipeCreator, dict]]) -> None:
         if not creators:
-            raise ValueError("It is not possible to create a DataPipe because `creators` is empty")
+            raise ValueError("It is not possible to create a DataPipe because creators is empty")
         self._creators = [setup_iter_datapipe_creator(creator) for creator in creators]
 
     def __repr__(self) -> str:

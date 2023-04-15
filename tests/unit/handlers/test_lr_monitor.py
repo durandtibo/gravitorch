@@ -41,7 +41,7 @@ def test_epoch_lr_monitor_freq(freq: int) -> None:
 
 @mark.parametrize("freq", (0, -1))
 def test_epoch_lr_monitor_incorrect_freq(freq: int) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="freq has to be greater than 0"):
         EpochLRMonitor(freq=freq)
 
 
@@ -110,7 +110,7 @@ def test_iteration_lr_monitor_freq(freq: int) -> None:
 
 @mark.parametrize("freq", (0, -1))
 def test_iteration_lr_monitor_incorrect_freq(freq: int) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="freq has to be greater than 0"):
         IterationLRMonitor(freq=freq)
 
 

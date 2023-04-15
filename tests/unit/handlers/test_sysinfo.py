@@ -35,7 +35,7 @@ def test_epoch_sysinfo_monitor_freq(freq: int) -> None:
 
 @mark.parametrize("freq", (0, -1))
 def test_epoch_sysinfo_monitor_incorrect_freq(freq: int) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="freq has to be greater than 0"):
         EpochSysInfoMonitor(freq=freq)
 
 

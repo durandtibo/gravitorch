@@ -11,7 +11,9 @@ from gravitorch.datapipes.iter.factory import create_sequential_iter_datapipe
 
 
 def test_create_sequential_iter_datapipe_empty() -> None:
-    with raises(ValueError):
+    with raises(
+        ValueError, match="It is not possible to create a DataPipe because the configs are empty"
+    ):
         create_sequential_iter_datapipe([])
 
 

@@ -164,7 +164,9 @@ def test_shuffle_tensors_dim(dim: int) -> None:
 
 
 def test_shuffle_tensors_incorrect_shape() -> None:
-    with raises(ValueError):
+    with raises(
+        ValueError, match="The tensors do not have the same shape for the common dimension"
+    ):
         shuffle_tensors([torch.rand(1), torch.ones(4)])
 
 
@@ -337,7 +339,9 @@ def test_shuffle_tensor_mapping_dim_dict_empty() -> None:
 
 
 def test_shuffle_tensor_mapping_incorrect_shape() -> None:
-    with raises(ValueError):
+    with raises(
+        ValueError, match="The tensors do not have the same shape for the common dimension:"
+    ):
         shuffle_tensor_mapping(mapping={"key1": torch.rand(1), "key2": torch.ones(4)})
 
 

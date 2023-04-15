@@ -39,7 +39,7 @@ def test_epoch_optimizer_monitor_freq(freq: int) -> None:
 
 @mark.parametrize("freq", (0, -1))
 def test_epoch_optimizer_monitor_incorrect_freq(freq: int) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="freq has to be greater than 0"):
         EpochOptimizerMonitor(freq=freq)
 
 
@@ -147,7 +147,7 @@ def test_iteration_optimizer_monitor_freq(freq: int) -> None:
 
 @mark.parametrize("freq", (0, -1))
 def test_iteration_optimizer_monitor_incorrect_freq(freq: int) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="freq has to be greater than 0"):
         IterationOptimizerMonitor(freq=freq)
 
 
