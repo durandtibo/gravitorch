@@ -115,7 +115,7 @@ def test_vanilla_engine_state_get_module() -> None:
 
 def test_vanilla_engine_state_get_module_missing() -> None:
     state = VanillaEngineState()
-    with raises(ValueError):
+    with raises(ValueError, match="The module 'my_module' does not exist"):
         state.get_module("my_module")
 
 
@@ -200,7 +200,9 @@ def test_vanilla_engine_state_remove_module_exists() -> None:
 
 def test_vanilla_engine_state_remove_module_does_not_exist() -> None:
     state = VanillaEngineState()
-    with raises(ValueError):
+    with raises(
+        ValueError, match="The module 'my_module' does not exist so it is not possible to remove it"
+    ):
         state.remove_module("my_module")
 
 

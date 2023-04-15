@@ -17,7 +17,7 @@ def test_epoch_random_iter_data_pipe_creator_str() -> None:
 
 
 def test_epoch_random_iter_data_pipe_creator_create_engine_none() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="engine cannot be None because the epoch value is used"):
         EpochRandomIterDataPipeCreator({}).create()
 
 

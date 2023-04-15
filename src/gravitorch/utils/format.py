@@ -75,7 +75,7 @@ def human_byte_size(size: int, unit: Optional[str] = None) -> str:
 
     if unit not in BYTE_UNITS:
         raise ValueError(
-            f"Incorrect unit {unit}. The available units are {list(BYTE_UNITS.keys())}"
+            f"Incorrect unit '{unit}'. The available units are {list(BYTE_UNITS.keys())}"
         )
 
     return f"{size / BYTE_UNITS.get(unit, 1):,.2f} {unit}"

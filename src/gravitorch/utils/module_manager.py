@@ -82,7 +82,7 @@ class ModuleManager:
             nn.Linear(4, 6)
         """
         if not self.has_module(name):
-            raise ValueError(f"The module `{name}` does not exist")
+            raise ValueError(f"The module '{name}' does not exist")
         return self._modules[name]
 
     def has_module(self, name: str) -> bool:
@@ -136,7 +136,7 @@ class ModuleManager:
         """
         if name not in self._modules:
             raise ValueError(
-                f"The module `{name}` does not exist so it is not possible to remove it"
+                f"The module '{name}' does not exist so it is not possible to remove it"
             )
         self._modules.pop(name)
 

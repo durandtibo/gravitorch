@@ -6,7 +6,7 @@ from torch import Tensor
 from torch.nn import Module
 
 from gravitorch.nn.functional import asinh_barron_robust_loss, barron_robust_loss
-from gravitorch.nn.functional.loss_helpers import VALID_REDUCTIONS
+from gravitorch.nn.functional.loss_helpers import check_basic_loss_reduction
 
 
 class BarronRobustLoss(Module):
@@ -50,10 +50,7 @@ class BarronRobustLoss(Module):
         self._scale = float(scale)
         self._max_value = max_value
 
-        if reduction not in VALID_REDUCTIONS:
-            raise ValueError(
-                f"Incorrect reduction: {reduction}. The valid reductions are: {VALID_REDUCTIONS}"
-            )
+        check_basic_loss_reduction(reduction)
         self.reduction = reduction
 
     def extra_repr(self) -> str:

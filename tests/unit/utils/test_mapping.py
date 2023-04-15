@@ -88,7 +88,7 @@ def test_remove_keys_starting_with_another_key() -> None:
 
 
 def test_get_first_value_empty() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="First value cannot be returned because the mapping is empty"):
         get_first_value({})
 
 

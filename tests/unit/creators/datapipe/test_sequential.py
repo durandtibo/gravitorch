@@ -31,7 +31,9 @@ def test_sequential_iter_datapipe_creator_str() -> None:
 
 
 def test_sequential_iter_datapipe_creator_empty() -> None:
-    with raises(ValueError):
+    with raises(
+        ValueError, match="It is not possible to create a DataPipe because config is empty"
+    ):
         SequentialIterDataPipeCreator([])
 
 
@@ -152,12 +154,16 @@ def test_sequential_iter_datapipe_creator_sequence_multiple_input_datapipes() ->
 
 
 def test_create_sequential_iter_datapipe_empty_dict() -> None:
-    with raises(ValueError):
+    with raises(
+        ValueError, match="It is not possible to create a DataPipe because config is empty"
+    ):
         create_sequential_iter_datapipe({})
 
 
 def test_create_sequential_iter_datapipe_empty_sequence() -> None:
-    with raises(ValueError):
+    with raises(
+        ValueError, match="It is not possible to create a DataPipe because config is empty"
+    ):
         create_sequential_iter_datapipe([])
 
 
@@ -300,7 +306,9 @@ def test_sequential_creator_iter_datapipe_creator_creators() -> None:
 
 
 def test_sequential_creator_iter_datapipe_creator_creators_empty() -> None:
-    with raises(ValueError):
+    with raises(
+        ValueError, match="It is not possible to create a DataPipe because creators is empty"
+    ):
         SequentialCreatorIterDataPipeCreator([])
 
 

@@ -65,7 +65,7 @@ def test_module_manager_get_module() -> None:
 
 def test_module_manager_get_module_missing() -> None:
     manager = ModuleManager()
-    with raises(ValueError, match="The module `my_module` does not exist"):
+    with raises(ValueError, match="The module 'my_module' does not exist"):
         manager.get_module("my_module")
 
 
@@ -90,7 +90,7 @@ def test_module_manager_remove_module_missing() -> None:
     manager = ModuleManager()
     with raises(
         ValueError,
-        match="The module `my_module` does not exist so it is not possible to remove it",
+        match="The module 'my_module' does not exist so it is not possible to remove it",
     ):
         manager.remove_module("my_module")
 

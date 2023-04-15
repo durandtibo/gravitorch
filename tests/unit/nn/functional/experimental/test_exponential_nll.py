@@ -54,7 +54,7 @@ def test_exponential_nll_loss_log_reduction_none() -> None:
 
 
 def test_exponential_nll_loss_log_incorrect_reduction() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect."):
         exponential_nll_loss(
             log_rate=torch.tensor([0, 1, 2], dtype=torch.float),
             target=torch.tensor([0, 1, 2], dtype=torch.float),

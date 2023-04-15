@@ -129,7 +129,7 @@ class MyNetwork(nn.Module):
 
 def test_model_summary_linear_invalid_mode() -> None:
     module = nn.Linear(4, 5)
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect mode: invalid mode."):
         ModelSummary(module, mode="invalid mode")
 
 

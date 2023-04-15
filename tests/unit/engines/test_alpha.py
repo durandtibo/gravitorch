@@ -10,8 +10,8 @@ from gravitorch import constants as ct
 from gravitorch.creators.core import BaseCoreCreator
 from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
 from gravitorch.events import VanillaEventHandler
-from gravitorch.loops.evaluation import VanillaEvaluationLoop
-from gravitorch.loops.training import VanillaTrainingLoop
+from gravitorch.loops.evaluation import BaseEvaluationLoop, VanillaEvaluationLoop
+from gravitorch.loops.training import BaseTrainingLoop, VanillaTrainingLoop
 from gravitorch.testing import DummyDataSource
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import VanillaEngineState
@@ -141,7 +141,7 @@ def test_alpha_engine_create_artifact(core_creator: BaseCoreCreator) -> None:
 
 
 def test_alpha_engine_eval(core_creator: BaseCoreCreator) -> None:
-    evaluation_loop = Mock()
+    evaluation_loop = Mock(spec=BaseEvaluationLoop)
     engine = AlphaEngine(core_creator, evaluation_loop=evaluation_loop)
     engine.eval()
     evaluation_loop.eval.assert_called_once_with(engine)
@@ -194,7 +194,7 @@ def test_alpha_engine_get_module_exists(core_creator: BaseCoreCreator) -> None:
 
 def test_alpha_engine_get_module_does_not_exists(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
-    with raises(ValueError):
+    with raises(ValueError, match="The module 'my_module' does not exist"):
         engine.get_module("my_module")
 
 
@@ -355,7 +355,7 @@ def test_alpha_engine_remove_event_handler_does_not_exist(
     core_creator: BaseCoreCreator,
 ) -> None:
     engine = AlphaEngine(core_creator)
-    with raises(ValueError):
+    with raises(ValueError, match="'my_event' event does not exist"):
         engine.remove_event_handler(
             "my_event",
             VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
@@ -371,7 +371,9 @@ def test_alpha_engine_remove_module_exists(core_creator: BaseCoreCreator) -> Non
 
 def test_alpha_engine_remove_module_does_not_exists(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
-    with raises(ValueError):
+    with raises(
+        ValueError, match="The module 'my_module' does not exist so it is not possible to remove it"
+    ):
         engine.remove_module("my_module")
 
 
@@ -394,8 +396,8 @@ def test_alpha_engine_terminate_initial_true(core_creator: BaseCoreCreator) -> N
 
 
 def test_alpha_engine_train(core_creator: BaseCoreCreator) -> None:
-    evaluation_loop = Mock()
-    training_loop = Mock()
+    evaluation_loop = Mock(spec=BaseEvaluationLoop)
+    training_loop = Mock(spec=BaseTrainingLoop)
     engine = AlphaEngine(core_creator, evaluation_loop=evaluation_loop, training_loop=training_loop)
     engine.train()
     assert engine.epoch == 0
@@ -404,8 +406,8 @@ def test_alpha_engine_train(core_creator: BaseCoreCreator) -> None:
 
 
 def test_alpha_engine_train_max_epochs_2(core_creator: BaseCoreCreator) -> None:
-    evaluation_loop = Mock()
-    training_loop = Mock()
+    evaluation_loop = Mock(spec=BaseEvaluationLoop)
+    training_loop = Mock(spec=BaseTrainingLoop)
     engine = AlphaEngine(
         core_creator,
         evaluation_loop=evaluation_loop,
@@ -419,8 +421,8 @@ def test_alpha_engine_train_max_epochs_2(core_creator: BaseCoreCreator) -> None:
 
 
 def test_alpha_engine_train_should_terminate_true(core_creator: BaseCoreCreator) -> None:
-    evaluation_loop = Mock()
-    training_loop = Mock()
+    evaluation_loop = Mock(spec=BaseEvaluationLoop)
+    training_loop = Mock(spec=BaseTrainingLoop)
     engine = AlphaEngine(core_creator, evaluation_loop=evaluation_loop, training_loop=training_loop)
     engine.terminate()
     engine.train()
@@ -434,8 +436,8 @@ def test_alpha_engine_train_with_terminate(core_creator: BaseCoreCreator) -> Non
         if engine.epoch == 2:
             engine.terminate()
 
-    evaluation_loop = Mock()
-    training_loop = Mock()
+    evaluation_loop = Mock(spec=BaseEvaluationLoop)
+    training_loop = Mock(spec=BaseTrainingLoop)
     engine = AlphaEngine(
         core_creator,
         evaluation_loop=evaluation_loop,

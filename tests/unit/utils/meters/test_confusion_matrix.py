@@ -41,22 +41,22 @@ def test_binary_confusion_matrix_init() -> None:
 
 
 def test_binary_confusion_matrix_init_incorrect_ndim() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect shape."):
         BinaryConfusionMatrix(torch.zeros(3))
 
 
 def test_binary_confusion_matrix_init_incorrect_shape() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect shape."):
         BinaryConfusionMatrix(torch.zeros(3, 5))
 
 
 def test_binary_confusion_matrix_init_incorrect_dtype() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix data type."):
         BinaryConfusionMatrix(torch.zeros(2, 2, dtype=torch.float))
 
 
 def test_binary_confusion_matrix_init_negative_value() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix values."):
         BinaryConfusionMatrix(torch.tensor([[0, 0], [-1, 0]]))
 
 
@@ -152,7 +152,7 @@ def test_binary_confusion_matrix_get_normalized_matrix_normalization_all_empty()
 
 
 def test_binary_confusion_matrix_get_normalized_matrix_incorrect_normalization() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect normalization: incorrect"):
         BinaryConfusionMatrix().get_normalized_matrix(normalization="incorrect")
 
 
@@ -325,7 +325,10 @@ def test_binary_confusion_matrix_accuracy_imbalanced() -> None:
 
 
 def test_binary_confusion_matrix_accuracy_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the accuracy because the confusion matrix is empty",
+    ):
         BinaryConfusionMatrix().accuracy()
 
 
@@ -338,7 +341,13 @@ def test_binary_confusion_matrix_balanced_accuracy_imbalanced() -> None:
 
 
 def test_binary_confusion_matrix_balanced_accuracy_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the balanced accuracy because "
+            "the confusion matrix is empty"
+        ),
+    ):
         BinaryConfusionMatrix().balanced_accuracy()
 
 
@@ -360,7 +369,13 @@ def test_binary_confusion_matrix_f_beta_score_0_5() -> None:
 
 
 def test_binary_confusion_matrix_f_beta_score_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the F-beta score because "
+            "the confusion matrix is empty"
+        ),
+    ):
         BinaryConfusionMatrix().f_beta_score()
 
 
@@ -369,7 +384,13 @@ def test_binary_confusion_matrix_false_negative_rate() -> None:
 
 
 def test_binary_confusion_matrix_false_negative_rate_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the false negative rate because "
+            "the confusion matrix is empty"
+        ),
+    ):
         BinaryConfusionMatrix().false_negative_rate()
 
 
@@ -378,7 +399,13 @@ def test_binary_confusion_matrix_false_positive_rate() -> None:
 
 
 def test_binary_confusion_matrix_false_positive_rate_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the false positive rate because "
+            "the confusion matrix is empty"
+        ),
+    ):
         BinaryConfusionMatrix().false_positive_rate()
 
 
@@ -387,7 +414,13 @@ def test_binary_confusion_matrix_jaccard_index() -> None:
 
 
 def test_binary_confusion_matrix_jaccard_index_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the Jaccard index because "
+            "the confusion matrix is empty"
+        ),
+    ):
         BinaryConfusionMatrix().jaccard_index()
 
 
@@ -396,7 +429,10 @@ def test_binary_confusion_matrix_precision() -> None:
 
 
 def test_binary_confusion_matrix_precision_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the precision because the confusion matrix is empty",
+    ):
         BinaryConfusionMatrix().precision()
 
 
@@ -405,7 +441,10 @@ def test_binary_confusion_matrix_recall() -> None:
 
 
 def test_binary_confusion_matrix_recall_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the recall because the confusion matrix is empty",
+    ):
         BinaryConfusionMatrix().recall()
 
 
@@ -414,7 +453,13 @@ def test_binary_confusion_matrix_true_negative_rate() -> None:
 
 
 def test_binary_confusion_matrix_true_negative_rate_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the true negative rate because "
+            "the confusion matrix is empty"
+        ),
+    ):
         BinaryConfusionMatrix().true_negative_rate()
 
 
@@ -423,7 +468,13 @@ def test_binary_confusion_matrix_true_positive_rate() -> None:
 
 
 def test_binary_confusion_matrix_true_positive_rate_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the true positive rate because "
+            "the confusion matrix is empty"
+        ),
+    ):
         BinaryConfusionMatrix().true_positive_rate()
 
 
@@ -485,7 +536,10 @@ def test_binary_confusion_matrix_compute_all_metrics_prefix_suffix() -> None:
 
 
 def test_binary_confusion_matrix_compute_all_metrics_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the metrics because the confusion matrix is empty",
+    ):
         BinaryConfusionMatrix().compute_all_metrics()
 
 
@@ -507,22 +561,22 @@ def test_multiclass_confusion_matrix_str() -> None:
 
 
 def test_multiclass_confusion_matrix_init_incorrect_ndim() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix dimensions."):
         MulticlassConfusionMatrix(torch.zeros(3))
 
 
 def test_multiclass_confusion_matrix_init_incorrect_shape() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix shape."):
         MulticlassConfusionMatrix(torch.zeros(3, 5))
 
 
 def test_multiclass_confusion_matrix_init_incorrect_dtype() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix data type."):
         MulticlassConfusionMatrix(torch.zeros(3, 3, dtype=torch.float))
 
 
 def test_multiclass_confusion_matrix_init_negative_value() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix values."):
         MulticlassConfusionMatrix(torch.tensor([[0, 0], [-1, 0]]))
 
 
@@ -643,7 +697,7 @@ def test_multiclass_confusion_matrix_get_normalized_matrix_normalization_all_emp
 
 
 def test_multiclass_confusion_matrix_get_normalized_matrix_incorrect_normalization() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect normalization: incorrect."):
         MulticlassConfusionMatrix(torch.zeros(3, 3, dtype=torch.long)).get_normalized_matrix(
             normalization="incorrect"
         )
@@ -679,7 +733,7 @@ def test_multiclass_confusion_matrix_resize_incorrect_num_classes() -> None:
     meter = MulticlassConfusionMatrix(
         torch.tensor([[2, 1, 0], [0, 0, 0], [1, 1, 1]], dtype=torch.long)
     )
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect number of classes: 2."):
         meter.resize(num_classes=2)
 
 
@@ -713,7 +767,7 @@ def test_multiclass_confusion_matrix_from_num_classes(num_classes: int) -> None:
 
 
 def test_multiclass_confusion_matrix_from_num_classes_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect number of classes."):
         MulticlassConfusionMatrix.from_num_classes(num_classes=0)
 
 
@@ -837,7 +891,10 @@ def test_multiclass_confusion_matrix_accuracy() -> None:
 
 
 def test_multiclass_confusion_matrix_accuracy_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the accuracy because the confusion matrix is empty",
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).accuracy()
 
 
@@ -851,7 +908,13 @@ def test_multiclass_confusion_matrix_balanced_accuracy() -> None:
 
 
 def test_multiclass_confusion_matrix_balanced_accuracy_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the balanced accuracy because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).balanced_accuracy()
 
 
@@ -890,7 +953,13 @@ def test_multiclass_confusion_matrix_f_beta_score_0_5() -> None:
 
 
 def test_multiclass_confusion_matrix_f_beta_score_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the F-beta score because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).f_beta_score()
 
 
@@ -922,7 +991,13 @@ def test_multiclass_confusion_matrix_macro_f_beta_score_0_5() -> None:
 
 
 def test_multiclass_confusion_matrix_macro_f_beta_score_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the F-beta score because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).macro_f_beta_score()
 
 
@@ -957,7 +1032,13 @@ def test_multiclass_confusion_matrix_micro_f_beta_score_0_5() -> None:
 
 
 def test_multiclass_confusion_matrix_micro_f_beta_score_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the micro F-beta score because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).micro_f_beta_score()
 
 
@@ -992,7 +1073,13 @@ def test_multiclass_confusion_matrix_weighted_f_beta_score_0_5() -> None:
 
 
 def test_multiclass_confusion_matrix_weighted_f_beta_score_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the F-beta score because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).weighted_f_beta_score()
 
 
@@ -1013,7 +1100,10 @@ def test_multiclass_confusion_matrix_precision_zero() -> None:
 
 
 def test_multiclass_confusion_matrix_precision_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the precision because the confusion matrix is empty",
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).precision()
 
 
@@ -1028,7 +1118,10 @@ def test_multiclass_confusion_matrix_macro_precision() -> None:
 
 
 def test_multiclass_confusion_matrix_macro_precision_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the precision because the confusion matrix is empty",
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).macro_precision()
 
 
@@ -1043,7 +1136,13 @@ def test_multiclass_confusion_matrix_micro_precision() -> None:
 
 
 def test_multiclass_confusion_matrix_micro_precision_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the micro precision because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).micro_precision()
 
 
@@ -1057,7 +1156,12 @@ def test_multiclass_confusion_matrix_weighted_precision() -> None:
 
 
 def test_multiclass_confusion_matrix_weighted_precision_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the precision because " "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).weighted_precision()
 
 
@@ -1078,7 +1182,10 @@ def test_multiclass_confusion_matrix_recall_zero() -> None:
 
 
 def test_multiclass_confusion_matrix_recall_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the recall because the confusion matrix is empty",
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).recall()
 
 
@@ -1092,7 +1199,10 @@ def test_multiclass_confusion_matrix_macro_recall() -> None:
 
 
 def test_multiclass_confusion_matrix_macro_recall_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the recall because the confusion matrix is empty",
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).macro_recall()
 
 
@@ -1107,7 +1217,13 @@ def test_multiclass_confusion_matrix_micro_recall() -> None:
 
 
 def test_multiclass_confusion_matrix_micro_recall_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the micro recall because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).micro_recall()
 
 
@@ -1122,7 +1238,10 @@ def test_multiclass_confusion_matrix_weighted_recall() -> None:
 
 
 def test_multiclass_confusion_matrix_weighted_recall_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the recall because the confusion matrix is empty",
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).weighted_recall()
 
 
@@ -1169,7 +1288,10 @@ def test_multiclass_confusion_matrix_compute_per_class_metrics_prefix_suffix() -
 
 
 def test_multiclass_confusion_matrix_compute_per_class_metrics_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the metrics because the confusion matrix is empty",
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).compute_per_class_metrics()
 
 
@@ -1214,7 +1336,13 @@ def test_multiclass_confusion_matrix_compute_macro_metrics_prefix_suffix() -> No
 
 
 def test_multiclass_confusion_matrix_compute_macro_metrics_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the 'macro' metrics because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).compute_macro_metrics()
 
 
@@ -1259,7 +1387,13 @@ def test_multiclass_confusion_matrix_compute_micro_metrics_prefix_suffix() -> No
 
 
 def test_multiclass_confusion_matrix_compute_micro_metrics_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the 'micro' metrics because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).compute_micro_metrics()
 
 
@@ -1304,7 +1438,13 @@ def test_multiclass_confusion_matrix_compute_weighted_metrics_prefix_suffix() ->
 
 
 def test_multiclass_confusion_matrix_compute_weighted_metrics_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match=(
+            "It is not possible to compute the 'weighted' metrics because "
+            "the confusion matrix is empty"
+        ),
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).compute_weighted_metrics()
 
 
@@ -1375,7 +1515,10 @@ def test_multiclass_confusion_matrix_compute_scalar_metrics_prefix_suffix() -> N
 
 
 def test_multiclass_confusion_matrix_compute_scalar_metrics_empty() -> None:
-    with raises(EmptyMeterError):
+    with raises(
+        EmptyMeterError,
+        match="It is not possible to compute the metrics because the confusion matrix is empty",
+    ):
         MulticlassConfusionMatrix.from_num_classes(3).compute_scalar_metrics()
 
 
@@ -1385,22 +1528,22 @@ def test_multiclass_confusion_matrix_compute_scalar_metrics_empty() -> None:
 
 
 def test_check_confusion_matrix_incorrect_ndim() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix dimensions."):
         check_confusion_matrix(torch.zeros(3))
 
 
 def test_check_confusion_matrix_incorrect_shape() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix shape."):
         check_confusion_matrix(torch.zeros(3, 5))
 
 
 def test_check_confusion_matrix_incorrect_dtype() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix data type."):
         check_confusion_matrix(torch.zeros(2, 2, dtype=torch.float))
 
 
 def test_check_confusion_matrix_negative_value() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect matrix values."):
         check_confusion_matrix(torch.tensor([[0, 0], [-1, 0]]))
 
 

@@ -34,7 +34,7 @@ def test_exponential_nll_loss_module_eps_default() -> None:
 
 
 def test_exponential_nll_loss_module_incorrect_eps() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="eps has to be greater or equal to 0"):
         ExponentialNLLLoss(eps=-1)
 
 
@@ -53,7 +53,7 @@ def test_exponential_nll_loss_module_reduction(reduction: str) -> None:
 
 
 def test_exponential_nll_loss_module_incorrect_reduction() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect."):
         ExponentialNLLLoss(reduction="incorrect")
 
 

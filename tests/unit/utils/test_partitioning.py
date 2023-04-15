@@ -42,7 +42,7 @@ def test_ddp_partitions_world_size_2_partition_size_2() -> None:
 
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 1)
 def test_ddp_partitions_incorrect_partition_size() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect partition_size 5."):
         ddp_partitions([1, 2, 3, 4], partition_size=5)
 
 
@@ -159,7 +159,7 @@ def test_select_partition_by_rank_rank_1() -> None:
 @patch("gravitorch.utils.partitioning.dist.get_world_size", lambda *args, **kwargs: 4)
 @patch("gravitorch.utils.partitioning.dist.get_rank", lambda *args, **kwargs: 0)
 def test_select_partition_by_rank_incorrect_number_of_partitions() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect number of partitions."):
         select_partition_by_rank([1, 2, 3])
 
 

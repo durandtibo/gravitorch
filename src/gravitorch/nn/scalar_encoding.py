@@ -208,13 +208,13 @@ class CosSinScalarEncoder(Module):
         phase_shift = to_tensor(phase_shift)
         if frequency.ndim != 1:
             raise ValueError(
-                f"Incorrect number of dimensions for `frequency` (shape={frequency.shape}). "
-                f"`frequency` has to be a 1D tensor or equivalent."
+                f"Incorrect number of dimensions for frequency (shape={frequency.shape}). "
+                f"frequency has to be a 1D tensor or equivalent."
             )
         if frequency.shape != phase_shift.shape:
             raise ValueError(
-                f"Incorrect shapes. The shape of `frequency` (shape={frequency.shape})"
-                f"does not match with `phase_shift` (shape={phase_shift.shape})"
+                f"Incorrect shapes. The shape of frequency (shape={frequency.shape})"
+                f"does not match with phase_shift (shape={phase_shift.shape})"
             )
         self.frequency = Parameter(frequency, requires_grad=learnable)
         self.phase_shift = Parameter(phase_shift, requires_grad=learnable)

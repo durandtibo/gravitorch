@@ -148,7 +148,7 @@ def test_partial_transpose_dict_3d_transpose_1_2() -> None:
 
 
 def test_partial_transpose_dict_missing_key() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="key 'another_key' is not in the data dict"):
         partial_transpose_dict({"my_key": torch.arange(10).view(2, 5)}, {"another_key": [0, 1]})
 
 

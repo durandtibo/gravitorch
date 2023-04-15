@@ -53,7 +53,7 @@ def test_absolute_relative_error_init_eps_default() -> None:
 
 @mark.parametrize("eps", (0.0, -0.1))
 def test_absolute_relative_error_init_eps_incorrect(eps: float) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect eps"):
         AbsoluteRelativeError(mode=ct.EVAL, eps=eps)
 
 
@@ -394,7 +394,7 @@ def test_symmetric_absolute_relative_error_eps_default() -> None:
 
 @mark.parametrize("eps", (0.0, -0.1))
 def test_symmetric_absolute_relative_error_eps_incorrect(eps: float) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect eps"):
         SymmetricAbsoluteRelativeError(mode=ct.EVAL, eps=eps)
 
 
