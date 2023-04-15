@@ -114,7 +114,7 @@ def test_vanilla_training_loop_clip_grad_clip_grad_norm_with_max_norm_and_norm_t
 
 
 def test_vanilla_training_loop_clip_grad_incorrect_name() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match=r"Incorrect clip grad name \(incorrect name\)."):
         VanillaTrainingLoop(clip_grad={"name": "incorrect name"})
 
 
@@ -161,7 +161,10 @@ def test_vanilla_training_loop_train_loss_nan(device: str) -> None:
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
     assert engine.epoch == -1
     assert engine.iteration == 3
-    with raises(EmptyHistoryError):
+    with raises(
+        EmptyHistoryError,
+        match="It is not possible to get the last value because the history train/loss is empty",
+    ):
         engine.get_history(
             f"train/{ct.LOSS}"
         ).get_last_value()  # The loss is not logged because it is NaN
@@ -231,7 +234,10 @@ def test_vanilla_training_loop_train_empty_map_dataset(device: str) -> None:
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1
-    with raises(EmptyHistoryError):
+    with raises(
+        EmptyHistoryError,
+        match="It is not possible to get the last value because the history train/loss is empty",
+    ):
         engine.get_history(
             f"train/{ct.LOSS}"
         ).get_last_value()  # The loss is not logged because there is no batch
@@ -262,7 +268,10 @@ def test_vanilla_training_loop_train_empty_iterable_dataset(device: str) -> None
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1
-    with raises(EmptyHistoryError):
+    with raises(
+        EmptyHistoryError,
+        match="It is not possible to get the last value because the history train/loss is empty",
+    ):
         engine.get_history(
             f"train/{ct.LOSS}"
         ).get_last_value()  # The loss is not logged because there is no batch

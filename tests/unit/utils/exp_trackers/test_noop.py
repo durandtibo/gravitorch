@@ -55,7 +55,7 @@ def test_noop_exp_tracker_experiment_id(tracker: NoOpExpTracker) -> None:
 
 
 def test_noop_exp_tracker_start_already_activated(tracker: NoOpExpTracker) -> None:
-    with raises(RuntimeError):
+    with raises(RuntimeError, match="The experiment tracker is already activated"):
         tracker.start()
 
 
@@ -174,7 +174,7 @@ def test_noop_exp_tracker_upload_checkpoints(tracker: NoOpExpTracker) -> None:
 
 
 def test_noop_exp_tracker_duplicate_start(tracker: NoOpExpTracker) -> None:
-    with raises(RuntimeError):
+    with raises(RuntimeError, match="The experiment tracker is already activated"):
         tracker.start()
 
 

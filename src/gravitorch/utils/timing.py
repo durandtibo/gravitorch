@@ -94,7 +94,7 @@ def timeblock(message: str = "Total time: {time}") -> Generator[None, None, None
         INFO:gravitorch.utils.time_tracking:Training: 0:00:00.000035
     """
     if "{time}" not in message:
-        raise ValueError(f"{time} is missing in the message (received: {message})")
+        raise ValueError(f"{{time}} is missing in the message (received: {message})")
     start_time = sync_perf_counter()
     try:
         yield

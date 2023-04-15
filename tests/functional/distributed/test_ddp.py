@@ -138,9 +138,9 @@ def check_sync_reduce_tensor_float(local_rank: int) -> None:
         torch.tensor([2.0, 3.0], device=device)
     )  # sum
 
-    with raises(RuntimeError):
+    with raises(RuntimeError, match="Cannot use ReduceOp.BAND with non-integral dtype"):
         ddp.sync_reduce(x_tensor, op=ddp.BAND)  # bitwise AND is not valid for float number
-    with raises(RuntimeError):
+    with raises(RuntimeError, match="Cannot use ReduceOp.BOR with non-integral dtype"):
         ddp.sync_reduce(x_tensor, op=ddp.BOR)  # bitwise OR is not valid for float number
 
     # Verify that the original value did not change
@@ -195,9 +195,9 @@ def sync_reduce_float(local_rank: int) -> None:
     assert ddp.sync_reduce(x_float, op=ddp.PRODUCT) == 3.5  # product
     assert ddp.sync_reduce(x_float, op=ddp.SUM) == 4.5  # sum
 
-    with raises(RuntimeError):
+    with raises(RuntimeError, match="Cannot use ReduceOp.BAND with non-integral dtype"):
         ddp.sync_reduce(x_float, op=ddp.BAND)  # bitwise AND is not valid for float number
-    with raises(RuntimeError):
+    with raises(RuntimeError, match="Cannot use ReduceOp.BOR with non-integral dtype"):
         ddp.sync_reduce(x_float, op=ddp.BOR)  # bitwise OR is not valid for float number
 
     # Verify that the original value did not change

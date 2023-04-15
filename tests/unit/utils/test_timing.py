@@ -60,7 +60,7 @@ def test_timeblock_custom_message(caplog: LogCaptureFixture) -> None:
 
 
 def test_timeblock_custom_missing_time() -> None:
-    with raises(ValueError), timeblock("message"):
+    with raises(ValueError, match="{time} is missing in the message"), timeblock("message"):
         pass
 
 

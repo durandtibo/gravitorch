@@ -64,7 +64,7 @@ class AssetManager:
         """
         if name in self._assets and not replace_ok:
             raise AssetExistsError(
-                f"{name} is already used to register an asset. "
+                f"`{name}` is already used to register an asset. "
                 "Use `replace_ok=True` to replace an asset"
             )
         self._assets[name] = asset

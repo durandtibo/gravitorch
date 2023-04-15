@@ -43,7 +43,7 @@ def test_asset_manager_add_asset(name: str) -> None:
 def test_asset_manager_add_asset_duplicate_name_replace_ok_false() -> None:
     manager = AssetManager()
     manager.add_asset("name", 5)
-    with raises(AssetExistsError):
+    with raises(AssetExistsError, match="`name` is already used to register an asset."):
         manager.add_asset("name", 2)
 
 

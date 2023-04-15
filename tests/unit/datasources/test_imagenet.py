@@ -197,5 +197,5 @@ def test_create_train_eval_datasets_v1_input_size_320(dataset_path: Path) -> Non
 
 def test_create_train_eval_datasets_v1_without_torchvision() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
-        with raises(RuntimeError):
+        with raises(RuntimeError, match="`torchvision` package is required but not installed."):
             create_train_eval_datasets_v1(train_path="", eval_path="", input_size=320)

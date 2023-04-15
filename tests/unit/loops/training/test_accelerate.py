@@ -43,7 +43,7 @@ def test_accelerate_training_loop_str() -> None:
 
 def test_accelerate_training_loop_missing_package() -> None:
     with patch("gravitorch.utils.integrations.is_accelerate_available", lambda *args: False):
-        with raises(RuntimeError):
+        with raises(RuntimeError, match="`accelerate` package is required but not installed."):
             AccelerateTrainingLoop()
 
 
@@ -137,7 +137,7 @@ def test_accelerate_training_loop_clip_grad_clip_grad_norm_with_max_norm_and_nor
 
 @accelerate_available
 def test_accelerate_training_loop_clip_grad_incorrect_name() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match=r"Incorrect clip grad name \(incorrect name\)."):
         AccelerateTrainingLoop(clip_grad={"name": "incorrect name"})
 
 
@@ -186,7 +186,10 @@ def test_accelerate_training_loop_train_loss_nan() -> None:
     AccelerateTrainingLoop().train(engine)
     assert engine.epoch == -1
     assert engine.iteration == 3
-    with raises(EmptyHistoryError):
+    with raises(
+        EmptyHistoryError,
+        match="It is not possible to get the last value because the history train/loss is empty",
+    ):
         engine.get_history(
             f"train/{ct.LOSS}"
         ).get_last_value()  # The loss is not logged because it is NaN
@@ -243,7 +246,7 @@ def test_accelerate_training_loop_train_with_clip_grad_norm() -> None:
 #     AccelerateTrainingLoop().train(engine)
 #     assert engine.epoch == -1
 #     assert engine.iteration == -1
-#     with raises(EmptyHistoryError):
+#     with raises(EmptyHistoryError, match="It is not possible to get the last value because the history train/loss is empty",):
 #         # The loss is not logged because there is no batch
 #         engine.get_history(f"train/{ct.LOSS}").get_last_value()
 
@@ -269,7 +272,7 @@ def test_accelerate_training_loop_train_iterable_dataset() -> None:
 #     AccelerateTrainingLoop().train(engine)
 #     assert engine.epoch == -1
 #     assert engine.iteration == -1
-#     with raises(EmptyHistoryError):
+#     with raises(EmptyHistoryError, match="It is not possible to get the last value because the history train/loss is empty",):
 #         # The loss is not logged because there is no batch
 #         engine.get_history(f"train/{ct.LOSS}").get_last_value()
 
