@@ -43,7 +43,7 @@ def test_basic_loss_reduction_none(device: str, dtype: torch.dtype) -> None:
 
 
 def test_basic_loss_reduction_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect."):
         basic_loss_reduction(torch.ones(2, 2), reduction="incorrect")
 
 
@@ -58,5 +58,5 @@ def test_check_basic_loss_reduction_valid(reduction: str) -> None:
 
 
 def test_check_basic_loss_reduction_incorrect() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect."):
         check_basic_loss_reduction("incorrect")

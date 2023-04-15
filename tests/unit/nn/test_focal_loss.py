@@ -26,7 +26,7 @@ def test_binary_focal_loss_valid_alpha(alpha: float) -> None:
 
 @mark.parametrize("alpha", (-1, 2))
 def test_binary_focal_loss_invalid_alpha(alpha: float) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect parameter alpha"):
         BinaryFocalLoss(alpha=alpha)
 
 
@@ -37,7 +37,7 @@ def test_binary_focal_loss_valid_gamma(gamma: float) -> None:
 
 @mark.parametrize("gamma", (-1, -0.5))
 def test_binary_focal_loss_invalid_gamma(gamma: float) -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect parameter gamma"):
         BinaryFocalLoss(gamma=gamma)
 
 
@@ -167,7 +167,7 @@ def test_binary_focal_loss_forward_mean_reduction_alpha_0_25(device: str) -> Non
 
 
 def test_binary_focal_loss_forward_incorrect_reduction() -> None:
-    with raises(ValueError):
+    with raises(ValueError, match="Incorrect reduction: incorrect reduction."):
         BinaryFocalLoss(alpha=0.25, reduction="incorrect reduction")
 
 

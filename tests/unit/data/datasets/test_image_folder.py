@@ -57,12 +57,12 @@ def test_image_folder_dataset(dataset_path: Path) -> None:
 
 def test_image_folder_dataset_without_torchvision() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
-        with raises(RuntimeError):
+        with raises(RuntimeError, match="`torchvision` package is required but not installed."):
             ImageFolderDataset()
 
 
 def test_image_folder_dataset_without_pillow() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: True):
         with patch("gravitorch.utils.integrations.is_pillow_available", lambda *args: False):
-            with raises(RuntimeError):
+            with raises(RuntimeError, match="`pillow` package is required but not installed."):
                 ImageFolderDataset()

@@ -83,7 +83,13 @@ def test_early_stopping_attach_with_incorrect_metric() -> None:
         get_history=Mock(return_value=GenericHistory("my_metric")),
     )
     handler = EarlyStopping(metric_name="my_metric")
-    with raises(RuntimeError):
+    with raises(
+        RuntimeError,
+        match=(
+            "The early stopping handler only supports ``MaxScalarHistory`` or "
+            "``MinScalarHistory`` history tracker"
+        ),
+    ):
         handler.attach(engine)
 
 

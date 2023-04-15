@@ -44,5 +44,5 @@ def test_mnist_dataset_getitem(mnist_path: Path) -> None:
 
 def test_mnist_dataset_without_torchvision() -> None:
     with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
-        with raises(RuntimeError):
+        with raises(RuntimeError, match="`torchvision` package is required but not installed."):
             MNISTDataset()
