@@ -78,7 +78,7 @@ def test_dataset_data_source_get_asset_exists() -> None:
 
 def test_dataset_data_source_get_asset_does_not_exist() -> None:
     data_source = DatasetDataSource(datasets={}, data_loader_creators={})
-    with raises(AssetNotFoundError):
+    with raises(AssetNotFoundError, match="The asset 'something' does not exist"):
         data_source.get_asset("something")
 
 

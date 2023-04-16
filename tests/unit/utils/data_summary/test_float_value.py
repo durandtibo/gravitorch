@@ -57,7 +57,7 @@ def test_float_data_summary_max() -> None:
 
 def test_float_data_summary_max_empty() -> None:
     summary = FloatDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.max()
 
 
@@ -70,7 +70,7 @@ def test_float_data_summary_mean() -> None:
 
 def test_float_data_summary_mean_empty() -> None:
     summary = FloatDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.mean()
 
 
@@ -83,7 +83,7 @@ def test_float_data_summary_median() -> None:
 
 def test_float_data_summary_median_empty() -> None:
     summary = FloatDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.median()
 
 
@@ -96,7 +96,7 @@ def test_float_data_summary_min() -> None:
 
 def test_float_data_summary_min_empty() -> None:
     summary = FloatDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.min()
 
 
@@ -121,7 +121,7 @@ def test_float_data_summary_quantiles_custom_quantiles(
 
 def test_float_data_summary_quantiles_empty() -> None:
     summary = FloatDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.quantiles()
 
 
@@ -147,7 +147,7 @@ def test_float_data_summary_std_2() -> None:
 
 def test_float_data_summary_std_empty() -> None:
     summary = FloatDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.std()
 
 
@@ -160,7 +160,7 @@ def test_float_data_summary_sum() -> None:
 
 def test_float_data_summary_sum_empty() -> None:
     summary = FloatDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.sum()
 
 
@@ -228,5 +228,5 @@ def test_float_data_summary_summary_default_no_quantile(
 
 def test_float_data_summary_summary_empty() -> None:
     summary = FloatDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.summary()

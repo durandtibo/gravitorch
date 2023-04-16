@@ -101,7 +101,7 @@ class AverageMeter:
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
-            raise EmptyMeterError("The average meter is empty")
+            raise EmptyMeterError("The meter is empty")
         return self._total / float(self._count)
 
     def clone(self) -> "AverageMeter":
@@ -199,7 +199,7 @@ class AverageMeter:
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
-            raise EmptyMeterError("The average meter is empty")
+            raise EmptyMeterError("The meter is empty")
         return self._total
 
     def update(self, value: float, num_examples: int = 1) -> None:

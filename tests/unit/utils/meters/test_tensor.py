@@ -109,7 +109,7 @@ def test_mean_tensor_meter_average() -> None:
 
 def test_mean_tensor_meter_average_empty() -> None:
     meter = MeanTensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.average()
 
 
@@ -119,7 +119,7 @@ def test_mean_tensor_meter_mean() -> None:
 
 def test_mean_tensor_meter_mean_empty() -> None:
     meter = MeanTensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.mean()
 
 
@@ -137,7 +137,7 @@ def test_mean_tensor_meter_sum_float() -> None:
 
 def test_mean_tensor_meter_sum_empty() -> None:
     meter = MeanTensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.sum()
 
 
@@ -326,7 +326,7 @@ def test_extrema_tensor_meter_max(max_value: float) -> None:
 
 def test_extrema_tensor_meter_max_empty() -> None:
     meter = ExtremaTensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.max()
 
 
@@ -337,7 +337,7 @@ def test_extrema_tensor_meter_min(min_value: float) -> None:
 
 def test_extrema_tensor_meter_min_empty() -> None:
     meter = ExtremaTensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.min()
 
 
@@ -555,7 +555,7 @@ def test_tensor_meter_average() -> None:
 
 def test_tensor_meter_average_empty() -> None:
     meter = TensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.average()
 
 
@@ -566,7 +566,7 @@ def test_tensor_meter_max(max_value: float) -> None:
 
 def test_tensor_meter_max_empty() -> None:
     meter = TensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.max()
 
 
@@ -576,7 +576,7 @@ def test_tensor_meter_mean() -> None:
 
 def test_tensor_meter_mean_empty() -> None:
     meter = TensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.mean()
 
 
@@ -587,7 +587,7 @@ def test_tensor_meter_min(min_value: float) -> None:
 
 def test_tensor_meter_min_empty() -> None:
     meter = TensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.min()
 
 
@@ -701,7 +701,7 @@ def test_tensor_meter_sum(total: float) -> None:
 
 def test_tensor_meter_sum_empty() -> None:
     meter = TensorMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.sum()
 
 
@@ -826,7 +826,7 @@ def test_tensor_meter2_average_long() -> None:
 
 def test_tensor_meter2_average_empty() -> None:
     meter = TensorMeter2()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.average()
 
 
@@ -844,7 +844,7 @@ def test_tensor_meter2_max_long() -> None:
 
 def test_tensor_meter2_max_empty() -> None:
     meter = TensorMeter2()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.max()
 
 
@@ -858,7 +858,7 @@ def test_tensor_meter2_mean_long() -> None:
 
 def test_tensor_meter2_mean_empty() -> None:
     meter = TensorMeter2()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.mean()
 
 
@@ -872,7 +872,7 @@ def test_tensor_meter2_median_long() -> None:
 
 def test_tensor_meter2_median_empty() -> None:
     meter = TensorMeter2()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.median()
 
 
@@ -890,7 +890,7 @@ def test_tensor_meter2_min_long() -> None:
 
 def test_tensor_meter2_min_empty() -> None:
     meter = TensorMeter2()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.min()
 
 
@@ -912,7 +912,7 @@ def test_tensor_meter2_quantile_long() -> None:
 
 def test_tensor_meter2_quantile_empty() -> None:
     meter = TensorMeter2()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.quantile(q=torch.tensor([0.5, 0.9]))
 
 
@@ -926,7 +926,7 @@ def test_tensor_meter2_std_long() -> None:
 
 def test_tensor_meter2_std_empty() -> None:
     meter = TensorMeter2()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.std()
 
 
@@ -944,7 +944,7 @@ def test_tensor_meter2_sum_long() -> None:
 
 def test_tensor_meter2_sum_empty() -> None:
     meter = TensorMeter2()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.sum()
 
 

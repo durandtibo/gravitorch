@@ -130,7 +130,7 @@ def test_resolve_backend_auto_should_initialize(backend: str) -> None:
 
 
 def test_resolve_backend_incorrect_backend() -> None:
-    with raises(UnknownBackendError):
+    with raises(UnknownBackendError, match="Unknown distributed backend 'incorrect'"):
         resolve_backend("incorrect")
 
 

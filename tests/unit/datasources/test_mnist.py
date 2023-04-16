@@ -77,7 +77,7 @@ def test_mnist_data_source_get_asset(mnist_path: Path) -> None:
     data_source = MnistDataSource(
         path=mnist_path, data_loader_creators={ct.TRAIN: None, ct.EVAL: None}
     )
-    with raises(AssetNotFoundError):
+    with raises(AssetNotFoundError, match="The asset 'something' does not exist"):
         data_source.get_asset("something")
 
 

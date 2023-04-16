@@ -55,7 +55,7 @@ def test_average_meter_average() -> None:
 
 def test_average_meter_average_empty() -> None:
     meter = AverageMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.average()
 
 
@@ -142,7 +142,7 @@ def test_average_meter_sum() -> None:
 
 def test_average_meter_sum_empty() -> None:
     meter = AverageMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.sum()
 
 

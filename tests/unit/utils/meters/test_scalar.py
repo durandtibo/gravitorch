@@ -94,7 +94,7 @@ def test_scalar_meter_average() -> None:
 
 def test_scalar_meter_average_empty() -> None:
     meter = ScalarMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.average()
 
 
@@ -195,7 +195,7 @@ def test_scalar_meter_max() -> None:
 
 def test_scalar_meter_max_empty() -> None:
     meter = ScalarMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.max()
 
 
@@ -210,7 +210,7 @@ def test_scalar_meter_median() -> None:
 
 def test_scalar_meter_median_empty() -> None:
     meter = ScalarMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.median()
 
 
@@ -266,7 +266,7 @@ def test_scalar_meter_min() -> None:
 
 def test_scalar_meter_min_empty() -> None:
     meter = ScalarMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.min()
 
 
@@ -317,7 +317,7 @@ def test_scalar_meter_std() -> None:
 
 def test_scalar_meter_std_empty() -> None:
     meter = ScalarMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.std()
 
 
@@ -332,7 +332,7 @@ def test_scalar_meter_sum() -> None:
 
 def test_scalar_meter_sum_empty() -> None:
     meter = ScalarMeter()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.sum()
 
 

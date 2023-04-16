@@ -86,7 +86,7 @@ class MovingAverage:
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._deque:
-            raise EmptyMeterError("The moving average meter is empty")
+            raise EmptyMeterError("The meter is empty")
         return torch.tensor(self.values).float().mean().item()
 
     def state_dict(self) -> dict[str, Any]:
@@ -204,7 +204,7 @@ class ExponentialMovingAverage:
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
-            raise EmptyMeterError("The exponential moving average meter is empty")
+            raise EmptyMeterError("The meter is empty")
         return self._smoothed_average
 
     def state_dict(self) -> dict[str, Any]:

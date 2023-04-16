@@ -46,7 +46,7 @@ def test_integer_data_summary_most_common_2() -> None:
 
 def test_integer_data_summary_most_common_empty() -> None:
     summary = IntegerDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.most_common()
 
 
@@ -77,5 +77,5 @@ def test_integer_data_summary_summary() -> None:
 
 def test_integer_data_summary_summary_empty() -> None:
     summary = IntegerDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.summary()

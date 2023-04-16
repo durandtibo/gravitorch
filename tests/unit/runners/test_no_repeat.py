@@ -35,6 +35,6 @@ def test_no_repeat_runner_run_already_successful(tmp_path: Path) -> None:
 def test_no_repeat_runner_run_not_successful(tmp_path: Path) -> None:
     internal_runner = Mock(run=Mock(side_effect=RuntimeError("Test")))
     runner = NoRepeatRunner(path=tmp_path, runner=internal_runner)
-    with raises(Exception):
+    with raises(RuntimeError, match="Test"):
         runner.run()
     assert not runner._success_path.is_file()

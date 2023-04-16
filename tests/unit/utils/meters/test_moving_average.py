@@ -95,7 +95,7 @@ def test_moving_average_smoothed_average() -> None:
 
 def test_moving_average_smoothed_average_empty() -> None:
     meter = MovingAverage()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.smoothed_average()
 
 
@@ -220,7 +220,7 @@ def test_exponential_moving_average_smoothed_average() -> None:
 
 def test_exponential_moving_average_smoothed_average_empty() -> None:
     meter = ExponentialMovingAverage()
-    with raises(EmptyMeterError):
+    with raises(EmptyMeterError, match="The meter is empty"):
         meter.smoothed_average()
 
 

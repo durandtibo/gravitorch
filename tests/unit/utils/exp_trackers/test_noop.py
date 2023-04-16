@@ -197,31 +197,31 @@ def not_activated_tracker(tmp_path_factory: TempPathFactory) -> NoOpExpTracker:
 def test_not_activated_noop_exp_tracker_artifact_path(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.artifact_path  # noqa: B018
 
 
 def test_not_activated_noop_exp_tracker_checkpoint_path(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.checkpoint_path  # noqa: B018
 
 
 def test_not_activated_noop_exp_tracker_experiment_id(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.experiment_id  # noqa: B018
 
 
 def test_not_activated_noop_exp_tracker_flush(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.flush()
 
 
 def test_not_activated_noop_exp_tracker_end(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.end()
 
 
@@ -230,48 +230,48 @@ def test_not_activated_noop_exp_tracker_is_activated(not_activated_tracker: NoOp
 
 
 def test_not_activated_noop_exp_tracker_is_resumed(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.is_resumed()
 
 
 def test_not_activated_noop_exp_tracker_add_tag(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.add_tag("mode", "eval")
 
 
 def test_not_activated_noop_exp_tracker_add_tags(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.add_tags({"machine": "mac", "mode": "training"})
 
 
 def test_not_activated_noop_exp_tracker_create_artifact(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.create_artifact(JSONArtifact(tag="metric", data={"f1_score": 42}))
 
 
 def test_not_activated_noop_exp_tracker_log_best_metric(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_best_metric("my_metric", 12)
 
 
 def test_not_activated_noop_exp_tracker_log_best_metrics(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_best_metrics({"my_metric_1": 12, "my_metric_2": 3.5})
 
 
 def test_not_activated_noop_exp_tracker_log_figure(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_figure("my_figure", Mock(spec=Figure))
 
 
 def test_not_activated_noop_exp_tracker_log_figures(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_figures(
             {"my_figure_1": Mock(spec=Figure), "my_figure_2": Mock(spec=Figure)}
         )
@@ -280,43 +280,43 @@ def test_not_activated_noop_exp_tracker_log_figures(not_activated_tracker: NoOpE
 def test_not_activated_noop_exp_tracker_log_hyper_parameter(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_hyper_parameter("model.network.input_size", 12)
 
 
 def test_not_activated_noop_exp_tracker_log_hyper_parameters(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_hyper_parameters(
             {"model.network.hidden_size": 16, "model.network.dropout": 0.5}
         )
 
 
 def test_not_activated_noop_exp_tracker_log_image(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_image("my_image", Mock(spec=Image))
 
 
 def test_not_activated_noop_exp_tracker_log_images(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_images(
             {"my_image_1": Mock(spec=Image), "my_image_2": Mock(spec=Image)}
         )
 
 
 def test_not_activated_noop_exp_tracker_log_metric(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_metric("my_metric", 0.12)
 
 
 def test_not_activated_noop_exp_tracker_log_metrics(not_activated_tracker: NoOpExpTracker) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.log_metrics({"accuracy1": 1.12, "accuracy2": 2.12})
 
 
 def test_not_activated_noop_exp_tracker_upload_checkpoints(
     not_activated_tracker: NoOpExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.upload_checkpoints()

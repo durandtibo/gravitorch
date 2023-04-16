@@ -95,7 +95,7 @@ def test_asset_manager_get_asset_exists() -> None:
 
 def test_asset_manager_get_asset_does_not_exist() -> None:
     manager = AssetManager()
-    with raises(AssetNotFoundError):
+    with raises(AssetNotFoundError, match="The asset 'name' does not exist"):
         manager.get_asset("name")
 
 
@@ -123,7 +123,10 @@ def test_asset_manager_remove_asset_exists() -> None:
 
 def test_asset_manager_remove_asset_does_not_exist() -> None:
     manager = AssetManager()
-    with raises(AssetNotFoundError):
+    with raises(
+        AssetNotFoundError,
+        match="The asset 'name' does not exist so it is not possible to remove it",
+    ):
         manager.remove_asset("name")
 
 

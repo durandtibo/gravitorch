@@ -314,7 +314,7 @@ def test_absolute_relative_error_forward_multiple_batches_with_reset(
 
 @mark.parametrize("mode", MODES)
 def test_absolute_relative_error_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ErrorState is empty"):
         AbsoluteRelativeError(mode).value()
 
 
@@ -670,7 +670,7 @@ def test_symmetric_absolute_relative_error_forward_multiple_batches_with_reset(
 
 @mark.parametrize("mode", MODES)
 def test_symmetric_absolute_relative_error_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ErrorState is empty"):
         SymmetricAbsoluteRelativeError(mode).value()
 
 

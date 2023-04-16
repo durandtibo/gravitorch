@@ -96,7 +96,7 @@ def test_mean_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
 
 def test_mean_error_state_value_empty() -> None:
     state = MeanErrorState()
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="MeanErrorState is empty"):
         state.value()
 
 
@@ -178,7 +178,7 @@ def test_root_mean_error_state_value_prefix_suffix(prefix: str, suffix: str) -> 
 
 def test_root_mean_error_state_value_empty() -> None:
     state = RootMeanErrorState()
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="RootMeanErrorState is empty"):
         state.value()
 
 
@@ -273,7 +273,7 @@ def test_error_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
 
 def test_error_state_value_empty() -> None:
     state = ErrorState()
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ErrorState is empty"):
         state.value()
 
 
@@ -411,7 +411,7 @@ def test_extended_error_state_value_prefix_suffix(prefix: str, suffix: str) -> N
 
 def test_extended_error_state_value_empty() -> None:
     state = ExtendedErrorState()
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ExtendedErrorState is empty"):
         state.value()
 
 
@@ -499,7 +499,7 @@ def test_accuracy_state_value_prefix_suffix(prefix: str, suffix: str) -> None:
 
 def test_accuracy_state_value_empty() -> None:
     state = AccuracyState()
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="AccuracyState is empty"):
         state.value()
 
 
@@ -614,7 +614,7 @@ def test_extended_accuracy_state_value_prefix_suffix(prefix: str, suffix: str) -
 
 def test_extended_accuracy_state_value_empty() -> None:
     state = ExtendedAccuracyState()
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ExtendedAccuracyState is empty"):
         state.value()
 
 

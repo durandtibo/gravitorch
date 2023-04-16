@@ -186,10 +186,7 @@ def test_accelerate_training_loop_train_loss_nan() -> None:
     AccelerateTrainingLoop().train(engine)
     assert engine.epoch == -1
     assert engine.iteration == 3
-    with raises(
-        EmptyHistoryError,
-        match="It is not possible to get the last value because the history train/loss is empty",
-    ):
+    with raises(EmptyHistoryError, match=f"'train/{ct.LOSS}' history is empty."):
         engine.get_history(
             f"train/{ct.LOSS}"
         ).get_last_value()  # The loss is not logged because it is NaN
@@ -246,7 +243,7 @@ def test_accelerate_training_loop_train_with_clip_grad_norm() -> None:
 #     AccelerateTrainingLoop().train(engine)
 #     assert engine.epoch == -1
 #     assert engine.iteration == -1
-#     with raises(EmptyHistoryError, match="It is not possible to get the last value because the history train/loss is empty",):
+#     with raises(EmptyHistoryError, match=f"'train/{ct.LOSS}' history is empty."):
 #         # The loss is not logged because there is no batch
 #         engine.get_history(f"train/{ct.LOSS}").get_last_value()
 
@@ -272,7 +269,7 @@ def test_accelerate_training_loop_train_iterable_dataset() -> None:
 #     AccelerateTrainingLoop().train(engine)
 #     assert engine.epoch == -1
 #     assert engine.iteration == -1
-#     with raises(EmptyHistoryError, match="It is not possible to get the last value because the history train/loss is empty",):
+#     with raises(EmptyHistoryError, match=f"'train/{ct.LOSS}' history is empty."):
 #         # The loss is not logged because there is no batch
 #         engine.get_history(f"train/{ct.LOSS}").get_last_value()
 

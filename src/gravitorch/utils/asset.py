@@ -151,7 +151,7 @@ class AssetManager:
             5
         """
         if name not in self._assets:
-            raise AssetNotFoundError(f"The asset {name} does not exist")
+            raise AssetNotFoundError(f"The asset '{name}' does not exist")
         return self._assets[name]
 
     def get_asset_names(self) -> tuple[str, ...]:
@@ -223,7 +223,7 @@ class AssetManager:
         """
         if name not in self._assets:
             raise AssetNotFoundError(
-                f"The asset {name} does not exist so it is not possible to remove it"
+                f"The asset '{name}' does not exist so it is not possible to remove it"
             )
         del self._assets[name]
 

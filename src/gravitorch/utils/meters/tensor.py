@@ -104,7 +104,7 @@ class MeanTensorMeter:
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
-            raise EmptyMeterError("The tensor meter is empty")
+            raise EmptyMeterError("The meter is empty")
         return float(self._total) / float(self._count)
 
     def sum(self) -> Union[int, float]:
@@ -686,7 +686,7 @@ class TensorMeter:
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
-            raise EmptyMeterError("The tensor meter is empty")
+            raise EmptyMeterError("The meter is empty")
         return self._total / float(self._count)
 
     def max(self) -> float:
@@ -716,7 +716,7 @@ class TensorMeter:
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
-            raise EmptyMeterError("The tensor meter is empty")
+            raise EmptyMeterError("The meter is empty")
         return self._total / float(self._count)
 
     def min(self) -> float:
@@ -856,7 +856,7 @@ class TensorMeter2:
             ``EmptyMeterError`` if the meter is empty.
         """
         if not self._count:
-            raise EmptyMeterError("The tensor meter is empty")
+            raise EmptyMeterError("The meter is empty")
         return self._values.values().float().mean().item()
 
     def median(self) -> float:
