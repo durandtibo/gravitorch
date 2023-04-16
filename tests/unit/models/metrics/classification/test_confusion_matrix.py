@@ -251,7 +251,7 @@ def test_binary_confusion_matrix_forward_multiple_batches_with_reset(
 
 @mark.parametrize("mode", MODES)
 def test_binary_confusion_matrix_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="BinaryConfusionMatrix is empty"):
         BinaryConfusionMatrix(mode).value()
 
 
@@ -597,7 +597,7 @@ def test_categorical_confusion_matrix_forward_multiple_batches_with_reset(
 
 @mark.parametrize("mode", MODES)
 def test_categorical_confusion_matrix_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="CategoricalConfusionMatrix is empty"):
         CategoricalConfusionMatrix(mode, num_classes=3).value()
 
 

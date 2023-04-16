@@ -181,7 +181,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         ------
             ``NotImplementedError``: if this method is not implemented.
         """
-        raise NotImplementedError
+        raise NotImplementedError("_get_best_value method is not implemented")
 
     @abstractmethod
     def get_last_value(self) -> T:
@@ -279,7 +279,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         ------
             ``NotImplementedError``: if this method is not implemented
         """
-        raise NotImplementedError
+        raise NotImplementedError("_has_improved method is not implemented")
 
     @abstractmethod
     def is_comparable(self) -> bool:

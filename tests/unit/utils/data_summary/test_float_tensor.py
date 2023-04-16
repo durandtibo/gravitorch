@@ -90,7 +90,7 @@ def test_float_tensor_data_summary_max(tensor: Tensor, max_value: float) -> None
 
 def test_float_tensor_data_summary_max_empty() -> None:
     summary = FloatTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.max()
 
 
@@ -106,7 +106,7 @@ def test_float_tensor_data_summary_mean(tensor: Tensor, mean_value: float) -> No
 
 def test_float_tensor_data_summary_mean_empty() -> None:
     summary = FloatTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.mean()
 
 
@@ -122,7 +122,7 @@ def test_float_tensor_data_summary_median(tensor: Tensor, median_value: float) -
 
 def test_float_tensor_data_summary_median_empty() -> None:
     summary = FloatTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.median()
 
 
@@ -137,7 +137,7 @@ def test_float_tensor_data_summary_min(tensor: Tensor, min_value: float) -> None
 
 def test_float_tensor_data_summary_min_empty() -> None:
     summary = FloatTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.min()
 
 
@@ -160,7 +160,7 @@ def test_float_tensor_data_summary_quantiles_custom_quantiles(
 
 def test_float_tensor_data_summary_quantiles_empty() -> None:
     summary = FloatTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.quantiles()
 
 
@@ -173,7 +173,7 @@ def test_float_tensor_data_summary_std(tensor: Tensor, std_value: float) -> None
 
 def test_float_tensor_data_summary_std_empty() -> None:
     summary = FloatTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.std()
 
 
@@ -189,7 +189,7 @@ def test_float_tensor_data_summary_sum(tensor: Tensor, sum_value: float) -> None
 
 def test_float_tensor_data_summary_sum_empty() -> None:
     summary = FloatTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.sum()
 
 
@@ -255,7 +255,7 @@ def test_float_tensor_data_summary_summary_default_no_quantile(
 
 def test_float_tensor_data_summary_summary_empty() -> None:
     summary = FloatTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.summary()
 
 
@@ -294,5 +294,5 @@ def test_float_tensor_sequence_data_summary_summary() -> None:
 
 def test_float_tensor_sequence_data_summary_summary_empty() -> None:
     summary = FloatTensorSequenceDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.summary()

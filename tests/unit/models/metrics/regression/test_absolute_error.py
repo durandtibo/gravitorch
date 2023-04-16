@@ -249,7 +249,7 @@ def test_absolute_error_forward_multiple_batches_with_reset(device: str, mode: s
 
 @mark.parametrize("mode", MODES)
 def test_absolute_error_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ErrorState is empty"):
         AbsoluteError(mode).value()
 
 

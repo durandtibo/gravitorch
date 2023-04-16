@@ -74,7 +74,7 @@ def test_long_tensor_data_summary_most_common_2() -> None:
 
 def test_long_tensor_data_summary_most_common_empty() -> None:
     summary = LongTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.most_common()
 
 
@@ -103,7 +103,7 @@ def test_long_tensor_data_summary_summary() -> None:
 
 def test_long_tensor_data_summary_summary_empty() -> None:
     summary = LongTensorDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.summary()
 
 
@@ -142,5 +142,5 @@ def test_long_tensor_sequence_data_summary_summary() -> None:
 
 def test_long_tensor_sequence_data_summary_summary_empty() -> None:
     summary = LongTensorSequenceDataSummary()
-    with raises(EmptyDataSummaryError):
+    with raises(EmptyDataSummaryError, match="The summary is empty"):
         summary.summary()

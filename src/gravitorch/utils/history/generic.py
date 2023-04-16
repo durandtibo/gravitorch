@@ -66,10 +66,7 @@ class GenericHistory(BaseHistory[T]):
 
     def get_last_value(self) -> Any:
         if self.is_empty():
-            raise EmptyHistoryError(
-                f"It is not possible to get the last value because the history {self._name} "
-                "is empty"
-            )
+            raise EmptyHistoryError(f"'{self.name}' history is empty.")
         return self._history[-1][1]
 
     def get_recent_history(self) -> tuple[tuple[Optional[int], T], ...]:

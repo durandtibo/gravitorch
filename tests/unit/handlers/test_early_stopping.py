@@ -159,7 +159,7 @@ def test_early_stopping_start_should_terminate_true() -> None:
 def test_early_stopping_step_empty_history() -> None:
     engine = Mock(spec=BaseEngine, get_history=Mock(return_value=MinScalarHistory("my_metric")))
     handler = EarlyStopping(metric_name="my_metric")
-    with raises(EmptyHistoryError):
+    with raises(EmptyHistoryError, match="'my_metric' history is empty."):
         handler.step(engine)
 
 

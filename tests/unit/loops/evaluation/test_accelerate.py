@@ -147,10 +147,7 @@ def test_accelerate_evaluation_loop_eval_loss_nan() -> None:
     evaluation_loop.eval(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1
-    with raises(
-        EmptyHistoryError,
-        match="It is not possible to get the last value because the history eval/loss is empty",
-    ):
+    with raises(EmptyHistoryError, match=f"'eval/{ct.LOSS}' history is empty."):
         engine.get_history(
             f"eval/{ct.LOSS}"
         ).get_last_value()  # The loss is not logged because it is NaN
@@ -176,10 +173,7 @@ def test_accelerate_evaluation_loop_eval_no_dataset() -> None:
     evaluation_loop.eval(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1
-    with raises(
-        EmptyHistoryError,
-        match="It is not possible to get the last value because the history eval/loss is empty",
-    ):
+    with raises(EmptyHistoryError, match=f"'eval/{ct.LOSS}' history is empty."):
         engine.get_history(
             f"eval/{ct.LOSS}"
         ).get_last_value()  # The loss is not logged because there is no batch
@@ -194,7 +188,7 @@ def test_accelerate_evaluation_loop_eval_no_dataset() -> None:
 #     evaluation_loop.eval(engine)
 #     assert engine.epoch == -1
 #     assert engine.iteration == -1
-#     with raises(EmptyHistoryError, match="It is not possible to get the last value because the history eval/loss is empty",):
+#     with raises(EmptyHistoryError,match=f"'eval/{ct.LOSS}' history is empty."):
 #         # The loss is not logged because there is no batch
 #         engine.get_history(f"eval/{ct.LOSS}").get_last_value()
 
@@ -222,7 +216,7 @@ def test_accelerate_evaluation_loop_eval_iterable_dataset() -> None:
 #     evaluation_loop.eval(engine)
 #     assert engine.epoch == -1
 #     assert engine.iteration == -1
-#     with raises(EmptyHistoryError, match="It is not possible to get the last value because the history eval/loss is empty",):
+#     with raises(EmptyHistoryError,match=f"'eval/{ct.LOSS}' history is empty."):
 #         # The loss is not logged because there is no batch
 #         engine.get_history(f"eval/{ct.LOSS}").get_last_value()
 
@@ -232,10 +226,7 @@ def test_accelerate_evaluation_loop_eval_skip_evaluation() -> None:
     engine = create_dummy_engine()
     evaluation_loop = AccelerateEvaluationLoop(condition=Mock(return_value=False))
     evaluation_loop.eval(engine)
-    with raises(
-        EmptyHistoryError,
-        match="It is not possible to get the last value because the history eval/loss is empty",
-    ):
+    with raises(EmptyHistoryError, match=f"'eval/{ct.LOSS}' history is empty."):
         engine.get_history(
             f"eval/{ct.LOSS}"
         ).get_last_value()  # The loss is not logged because it is NaN

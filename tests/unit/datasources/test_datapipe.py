@@ -73,7 +73,7 @@ def test_iter_data_pipe_creator_data_source_get_asset_exists(
 def test_iter_data_pipe_creator_data_source_get_asset_does_not_exist(
     data_source: IterDataPipeCreatorDataSource,
 ) -> None:
-    with raises(AssetNotFoundError):
+    with raises(AssetNotFoundError, match="The asset 'something' does not exist"):
         data_source.get_asset("something")
 
 

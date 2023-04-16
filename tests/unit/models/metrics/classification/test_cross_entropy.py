@@ -298,7 +298,7 @@ def test_categorical_cross_entropy_forward_multiple_batches_with_reset(
 
 @mark.parametrize("mode", MODES)
 def test_categorical_cross_entropy_value_empty(mode: bool) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="MeanErrorState is empty"):
         CategoricalCrossEntropy(mode).value()
 
 

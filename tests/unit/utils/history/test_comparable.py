@@ -84,7 +84,7 @@ def test_comparable_history_get_best_value_last_is_not_best() -> None:
 
 def test_comparable_history_get_best_value_empty() -> None:
     history = ComparableHistory[Number]("accuracy", MaxScalarComparator())
-    with raises(EmptyHistoryError):
+    with raises(EmptyHistoryError, match="The history is empty."):
         history.get_best_value()
 
 
@@ -128,7 +128,7 @@ def test_comparable_history_get_last_value() -> None:
 
 def test_comparable_history_get_last_value_empty() -> None:
     history = ComparableHistory("accuracy", comparator=MaxScalarComparator())
-    with raises(EmptyHistoryError):
+    with raises(EmptyHistoryError, match="'accuracy' history is empty."):
         history.get_last_value()
 
 
@@ -148,7 +148,7 @@ def test_comparable_history_has_improved_false() -> None:
 
 def test_comparable_history_has_improved_empty() -> None:
     history = ComparableHistory("accuracy", comparator=MaxScalarComparator())
-    with raises(EmptyHistoryError):
+    with raises(EmptyHistoryError, match="The history is empty."):
         history.has_improved()
 
 

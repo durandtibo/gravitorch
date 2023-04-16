@@ -307,7 +307,7 @@ def test_binary_accuracy_forward_multiple_batches_with_reset(device: str, mode: 
 
 @mark.parametrize("mode", MODES)
 def test_binary_accuracy_value_empty(mode: bool) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="AccuracyState is empty"):
         BinaryAccuracy(mode).value()
 
 
@@ -588,7 +588,7 @@ def test_categorical_accuracy_forward_multiple_batches_with_reset(device: str, m
 
 @mark.parametrize("mode", MODES)
 def test_categorical_accuracy_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="AccuracyState is empty"):
         CategoricalAccuracy(mode).value()
 
 
@@ -994,7 +994,7 @@ def test_top_k_accuracy_forward_top_1_multiple_batches_with_reset(device: str, m
 
 @mark.parametrize("mode", MODES)
 def test_top_k_accuracy_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="AccuracyState is empty"):
         TopKAccuracy(mode).value()
 
 

@@ -98,13 +98,13 @@ def test_generic_history_equal_false_different_types_history() -> None:
 
 def test_generic_history_get_best_value() -> None:
     history = GenericHistory("loss")
-    with raises(NotAComparableHistoryError):
+    with raises(NotAComparableHistoryError, match="It is not possible to get the best value"):
         history.get_best_value()
 
 
 def test_generic_history__get_best_value() -> None:
     history = GenericHistory("loss")
-    with raises(NotImplementedError):
+    with raises(NotImplementedError, match="_get_best_value method is not implemented"):
         history._get_best_value()
 
 
@@ -138,19 +138,22 @@ def test_generic_history_get_last_value() -> None:
 
 def test_generic_history_get_last_value_empty() -> None:
     history = GenericHistory("loss")
-    with raises(EmptyHistoryError):
+    with raises(EmptyHistoryError, match="'loss' history is empty."):
         history.get_last_value()
 
 
 def test_generic_history_has_improved() -> None:
     history = GenericHistory("loss")
-    with raises(NotAComparableHistoryError):
+    with raises(
+        NotAComparableHistoryError,
+        match="It is not possible to indicate if the last value is the best value",
+    ):
         history.has_improved()
 
 
 def test_generic_history__has_improved() -> None:
     history = GenericHistory("loss")
-    with raises(NotImplementedError):
+    with raises(NotImplementedError, match="_has_improved method is not implemented"):
         history._has_improved()
 
 

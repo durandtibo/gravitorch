@@ -492,7 +492,7 @@ def not_activated_tracker(tmp_path_factory: TempPathFactory) -> TensorBoardExpTr
 def test_tensorboard_exp_tracker_not_activated_artifact_dir(
     not_activated_tracker: TensorBoardExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.artifact_path  # noqa: B018
 
 
@@ -500,7 +500,7 @@ def test_tensorboard_exp_tracker_not_activated_artifact_dir(
 def test_tensorboard_exp_tracker_not_activated_checkpoint_dir(
     not_activated_tracker: TensorBoardExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.checkpoint_path  # noqa: B018
 
 
@@ -508,7 +508,7 @@ def test_tensorboard_exp_tracker_not_activated_checkpoint_dir(
 def test_tensorboard_exp_tracker_not_activated_experiment_id(
     not_activated_tracker: TensorBoardExpTracker,
 ) -> None:
-    with raises(NotActivatedExpTrackerError):
+    with raises(NotActivatedExpTrackerError, match="the experiment tracker is not activated"):
         not_activated_tracker.experiment_id  # noqa: B018
 
 
@@ -534,7 +534,9 @@ def test_gravitorch_summary_writer(tmp_path: Path) -> None:
 
 @tensorboard_available
 def test_gravitorch_summary_writer_incorrect_type(tmp_path: Path) -> None:
-    with MLTorchSummaryWriter(tmp_path.as_posix()) as writer, raises(TypeError):
+    with MLTorchSummaryWriter(tmp_path.as_posix()) as writer, raises(
+        TypeError, match="hparam_dict and metric_dict should be dictionary."
+    ):
         writer.add_hparams(hparam_dict=Mock(), metric_dict=Mock())
 
 

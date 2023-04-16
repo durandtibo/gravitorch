@@ -292,7 +292,7 @@ def test_squared_log_error_forward_multiple_batches_with_reset(device: str, mode
 
 @mark.parametrize("mode", MODES)
 def test_squared_log_error_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ErrorState is empty"):
         SquaredLogError(mode).value()
 
 
@@ -628,7 +628,7 @@ def test_squared_symlog_error_forward_multiple_batches_with_reset(device: str, m
 
 @mark.parametrize("mode", MODES)
 def test_squared_symlog_error_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ErrorState is empty"):
         SquaredSymlogError(mode).value()
 
 
@@ -964,7 +964,7 @@ def test_squared_asinh_error_forward_multiple_batches_with_reset(device: str, mo
 
 @mark.parametrize("mode", MODES)
 def test_squared_asinh_error_value_empty(mode: str) -> None:
-    with raises(EmptyMetricError):
+    with raises(EmptyMetricError, match="ErrorState is empty"):
         SquaredAsinhError(mode).value()
 
 
