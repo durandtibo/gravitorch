@@ -11,7 +11,7 @@ from torch import Tensor
 from gravitorch.utils.tensor import (
     has_name,
     partial_transpose_dict,
-    permute,
+    permute_along_dim,
     shapes_are_equal,
     str_full_tensor,
     to_tensor,
@@ -45,35 +45,35 @@ def test_has_name_false() -> None:
     assert not has_name(torch.ones(2, 3))
 
 
-#############################
-#     Tests for permute     #
-#############################
+#######################################
+#     Tests for permute_along_dim     #
+#######################################
 
 
-def test_permute_1d() -> None:
-    assert permute(tensor=torch.arange(4), permutation=torch.tensor([0, 2, 1, 3])).equal(
+def test_permute_along_dim_1d() -> None:
+    assert permute_along_dim(tensor=torch.arange(4), permutation=torch.tensor([0, 2, 1, 3])).equal(
         torch.tensor([0, 2, 1, 3])
     )
 
 
-def test_permute_2d_dim_0() -> None:
-    assert permute(
+def test_permute_along_dim_2d_dim_0() -> None:
+    assert permute_along_dim(
         tensor=torch.arange(20).view(4, 5), permutation=torch.tensor([0, 2, 1, 3])
     ).equal(
         torch.tensor([[0, 1, 2, 3, 4], [10, 11, 12, 13, 14], [5, 6, 7, 8, 9], [15, 16, 17, 18, 19]])
     )
 
 
-def test_permute_2d_dim_1() -> None:
-    assert permute(
+def test_permute_along_dim_2d_dim_1() -> None:
+    assert permute_along_dim(
         tensor=torch.arange(20).view(4, 5), permutation=torch.tensor([0, 4, 2, 1, 3]), dim=1
     ).equal(
         torch.tensor([[0, 4, 2, 1, 3], [5, 9, 7, 6, 8], [10, 14, 12, 11, 13], [15, 19, 17, 16, 18]])
     )
 
 
-def test_permute_3d_dim_2() -> None:
-    assert permute(
+def test_permute_along_dim_3d_dim_2() -> None:
+    assert permute_along_dim(
         tensor=torch.arange(20).view(2, 2, 5), permutation=torch.tensor([0, 4, 2, 1, 3]), dim=2
     ).equal(
         torch.tensor(

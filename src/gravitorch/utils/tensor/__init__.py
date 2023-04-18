@@ -7,7 +7,7 @@ __all__ = [
     "isymlog",
     "isymlog_",
     "partial_transpose_dict",
-    "permute",
+    "permute_along_dim",
     "recursive_apply",
     "recursive_contiguous",
     "recursive_detach",
@@ -36,7 +36,7 @@ from gravitorch.utils.tensor.math_ops import (
 from gravitorch.utils.tensor.misc import (
     has_name,
     partial_transpose_dict,
-    permute,
+    permute_along_dim,
     shapes_are_equal,
     str_full_tensor,
     to_tensor,
