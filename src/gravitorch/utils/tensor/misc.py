@@ -3,7 +3,7 @@ r"""This module implements some utility functions to use ``torch.Tensor``s."""
 __all__ = [
     "has_name",
     "partial_transpose_dict",
-    "permute",
+    "permute_along_dim",
     "shapes_are_equal",
     "str_full_tensor",
     "to_tensor",
@@ -64,7 +64,7 @@ def has_name(tensor: Tensor) -> bool:
     return set(tensor.names) != {None}
 
 
-def permute(tensor: Tensor, permutation: Tensor, dim: int = 0) -> Tensor:
+def permute_along_dim(tensor: Tensor, permutation: Tensor, dim: int = 0) -> Tensor:
     r"""Permutes a tensor on a given dimension and a permutation.
 
     Args:
@@ -85,12 +85,15 @@ def permute(tensor: Tensor, permutation: Tensor, dim: int = 0) -> Tensor:
 
     .. code-block:: python
 
-        >>> from gravitorch.utils.tensor import permute
-        >>> permute(tensor=torch.arange(4), permutation=torch.tensor([0, 2, 1, 3]))
+        >>> from gravitorch.utils.tensor import permute_along_dim
+        >>> permute_along_dim(tensor=torch.arange(4), permutation=torch.tensor([0, 2, 1, 3]))
         tensor([0, 2, 1, 3])
-        >>> permute(tensor=torch.arange(20).view(4, 5), permutation=torch.tensor([0, 2, 1, 3]))
+        >>> permute_along_dim(
+        ...     tensor=torch.arange(20).view(4, 5),
+        ...     permutation=torch.tensor([0, 2, 1, 3]),
+        ... )
         tensor([[0, 1, 2, 3, 4], [10, 11, 12, 13, 14], [5, 6, 7, 8, 9], [15, 16, 17, 18, 19]])
-        >>> permute(
+        >>> permute_along_dim(
         ...     tensor=torch.arange(20).view(4, 5),
         ...     permutation=torch.tensor([0, 4, 2, 1, 3]),
         ...     dim=1,
@@ -99,7 +102,7 @@ def permute(tensor: Tensor, permutation: Tensor, dim: int = 0) -> Tensor:
                 [ 5,  9,  7,  6,  8],
                 [10, 14, 12, 11, 13],
                 [15, 19, 17, 16, 18]])
-        >>> permute(
+        >>> permute_along_dim(
         ...     tensor=torch.arange(20).view(2, 2, 5),
         ...     permutation=torch.tensor([0, 4, 2, 1, 3]),
         ...     dim=2,

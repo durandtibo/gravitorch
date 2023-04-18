@@ -16,7 +16,7 @@ from torch.utils.data import IterDataPipe
 
 from gravitorch.utils.format import str_indent
 from gravitorch.utils.seed import get_torch_generator
-from gravitorch.utils.tensor import permute
+from gravitorch.utils.tensor import permute_along_dim
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +164,7 @@ def shuffle_tensors(
             f"The tensors do not have the same shape for the common dimension (dim={dim}): {dims}"
         )
     permutation = torch.randperm(tensors[0].shape[dim], generator=generator)
-    return [permute(tensor, permutation, dim) for tensor in tensors]
+    return [permute_along_dim(tensor, permutation, dim) for tensor in tensors]
 
 
 def shuffle_tensor_mapping(
@@ -275,7 +275,7 @@ def shuffle_tensor_mapping(
     output = {}
     for key, tensor in mapping.items():
         if key in dims:
-            tensor = permute(tensor, permutation, dims[key])
+            tensor = permute_along_dim(tensor, permutation, dims[key])
         output[key] = tensor
     return output
 
