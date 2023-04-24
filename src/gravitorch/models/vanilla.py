@@ -55,14 +55,17 @@ class VanillaModel(BaseModel):
     ----
         network (``torch.nn.Module`` or dict): Specifies the network
             module or its configuration.
-        criterion (``torch.nn.Module`` or dict): Specifies the
-            criterion module or its configuration.
-        metrics (``torch.nn.ModuleDict`` or dict): Specifies the
-            metrics or their configuration.
+        criterion (``torch.nn.Module`` or dict or ``None``): Specifies
+            the criterion module or its configuration. ``None`` means
+            no criterion is used to the model cannot be used for
+            training because no loss is computed.
+        metrics (``torch.nn.ModuleDict`` or dict or ``None``):
+            Specifies the metrics or their configuration.
+            ``None`` means no metrics are used. Default: ``None``
         checkpoint_path (``pathlib.Path`` or str or ``None``):
             Specifies a path to a model checkpoint. This weights in
             the checkpoint are used to initialize the model. ``None``
-             means there is no checkpoint to load. Default: ``None``.
+            means there is no checkpoint to load. Default: ``None``.
         random_seed (int, optional): Specifies the random seed.
             Default: ``6671429959452193306``
     """
@@ -70,7 +73,7 @@ class VanillaModel(BaseModel):
     def __init__(
         self,
         network: Union[Module, dict],
-        criterion: Union[Module, dict],
+        criterion: Union[Module, dict, None],
         metrics: Union[ModuleDict, dict, None] = None,
         checkpoint_path: Union[Path, str, None] = None,
         random_seed: int = 6671429959452193306,
@@ -102,7 +105,7 @@ class VanillaModel(BaseModel):
         net_out = self._parse_net_out(
             self.network(*tuple(batch[key] for key in self.network.get_input_names()))
         )
-        cri_out = self.criterion(net_out, batch)
+        cri_out = self.criterion(net_out, batch) if self.criterion else {}
         met_out = self._get_metric_out(cri_out, net_out, batch)
         return self._get_model_out(net_out, cri_out, met_out)
 
