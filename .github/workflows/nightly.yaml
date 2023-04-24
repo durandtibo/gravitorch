@@ -9,6 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
+      max-parallel: 8
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest ]
@@ -56,6 +57,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
+      max-parallel: 8
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest ]
@@ -103,6 +105,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
+      max-parallel: 8
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest ]
