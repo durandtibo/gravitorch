@@ -30,22 +30,6 @@ class VanillaModel(BaseModel):
     r"""Implements a simple model which is composed of 3 modules: network,
     criterion and metrics.
 
-    The assumptions of the ``VanillaModel`` are:
-
-        - the input of the model is a dict containing the data of the
-            mini-batch.
-        - the network follow the ``BaseNetwork`` API.
-        - the input of the criterion is the dicts containing the
-            network output and the mini-batch data.
-        - the criterion should return a dictionary containing the
-            loss.
-        - the metrics are optional, or it is possible to define a
-            metric only for train or eval.
-        - the input of the metric is the dicts containing the
-            criterion output, network output and the mini-batch data.
-        - the keys returned by the network, criterion and metrics must
-            be different.
-
     Note that the metric names are ``'train_metric'`` and
     ``'eval_metric'`` because it is not possible to use
     ``'train'`` and ``'eval'`` because they are already used by
