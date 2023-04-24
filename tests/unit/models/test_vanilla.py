@@ -28,6 +28,14 @@ SIZES = (1, 2)
 # TODO: add GRU based model
 
 
+def test_vanilla_model_init_mlp_without_criterion() -> None:
+    model = VanillaModel(network=BetaMLP(input_size=16, hidden_sizes=(32, 8)), criterion=None)
+    assert isinstance(model.network, BetaMLP)
+    assert model.criterion is None
+    assert isinstance(model.metrics, nn.ModuleDict)
+    assert len(model.metrics) == 0
+
+
 def test_vanilla_model_init_mlp_without_metric() -> None:
     model = VanillaModel(
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
@@ -160,6 +168,27 @@ def test_vanilla_model_init_mlp_with_hybrid_metrics() -> None:
     assert isinstance(model.metrics[f"{ct.TRAIN}_metric"], VanillaMetric)
     assert isinstance(model.metrics[f"{ct.EVAL}_metric"], VanillaMetric)
     assert len(model.metrics) == 2
+
+
+@mark.parametrize("device", get_available_devices())
+@mark.parametrize("batch_size", SIZES)
+@mark.parametrize("mode", (True, False))
+def test_vanilla_model_forward_mlp_without_criterion(
+    device: str, batch_size: int, mode: bool
+) -> None:
+    device = torch.device(device)
+    model = VanillaModel(network=BetaMLP(input_size=16, hidden_sizes=(32, 8)), criterion=None).to(
+        device=device
+    )
+    model.train(mode)
+    output = model(
+        {
+            ct.INPUT: torch.ones(batch_size, 16, device=device),
+            ct.TARGET: torch.zeros(batch_size, dtype=torch.long, device=device),
+        }
+    )
+    assert len(output) == 1
+    assert output[ct.PREDICTION].size() == (batch_size, 8)
 
 
 @mark.parametrize("device", get_available_devices())

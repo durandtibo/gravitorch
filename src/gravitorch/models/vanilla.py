@@ -30,22 +30,6 @@ class VanillaModel(BaseModel):
     r"""Implements a simple model which is composed of 3 modules: network,
     criterion and metrics.
 
-    The assumptions of the ``VanillaModel`` are:
-
-        - the input of the model is a dict containing the data of the
-            mini-batch.
-        - the network follow the ``BaseNetwork`` API.
-        - the input of the criterion is the dicts containing the
-            network output and the mini-batch data.
-        - the criterion should return a dictionary containing the
-            loss.
-        - the metrics are optional, or it is possible to define a
-            metric only for train or eval.
-        - the input of the metric is the dicts containing the
-            criterion output, network output and the mini-batch data.
-        - the keys returned by the network, criterion and metrics must
-            be different.
-
     Note that the metric names are ``'train_metric'`` and
     ``'eval_metric'`` because it is not possible to use
     ``'train'`` and ``'eval'`` because they are already used by
@@ -55,14 +39,17 @@ class VanillaModel(BaseModel):
     ----
         network (``torch.nn.Module`` or dict): Specifies the network
             module or its configuration.
-        criterion (``torch.nn.Module`` or dict): Specifies the
-            criterion module or its configuration.
-        metrics (``torch.nn.ModuleDict`` or dict): Specifies the
-            metrics or their configuration.
+        criterion (``torch.nn.Module`` or dict or ``None``): Specifies
+            the criterion module or its configuration. ``None`` means
+            no criterion is used to the model cannot be used for
+            training because no loss is computed.
+        metrics (``torch.nn.ModuleDict`` or dict or ``None``):
+            Specifies the metrics or their configuration.
+            ``None`` means no metrics are used. Default: ``None``
         checkpoint_path (``pathlib.Path`` or str or ``None``):
             Specifies a path to a model checkpoint. This weights in
             the checkpoint are used to initialize the model. ``None``
-             means there is no checkpoint to load. Default: ``None``.
+            means there is no checkpoint to load. Default: ``None``.
         random_seed (int, optional): Specifies the random seed.
             Default: ``6671429959452193306``
     """
@@ -70,7 +57,7 @@ class VanillaModel(BaseModel):
     def __init__(
         self,
         network: Union[Module, dict],
-        criterion: Union[Module, dict],
+        criterion: Union[Module, dict, None],
         metrics: Union[ModuleDict, dict, None] = None,
         checkpoint_path: Union[Path, str, None] = None,
         random_seed: int = 6671429959452193306,
@@ -102,7 +89,7 @@ class VanillaModel(BaseModel):
         net_out = self._parse_net_out(
             self.network(*tuple(batch[key] for key in self.network.get_input_names()))
         )
-        cri_out = self.criterion(net_out, batch)
+        cri_out = self.criterion(net_out, batch) if self.criterion else {}
         met_out = self._get_metric_out(cri_out, net_out, batch)
         return self._get_model_out(net_out, cri_out, met_out)
 
