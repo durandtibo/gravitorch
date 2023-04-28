@@ -60,7 +60,7 @@ class MeanTensorMeter:
 
     @property
     def total(self) -> Union[int, float]:
-        r"""int or float: The total sum value in the meter."""
+        r"""Int or float: The total sum value in the meter."""
         return self._total
 
     def reset(self) -> None:
@@ -521,7 +521,7 @@ class TensorMeter:
 
     @property
     def total(self) -> Union[int, float]:
-        r"""int or float: The total sum value in the meter."""
+        r"""Int or float: The total sum value in the meter."""
         return self._total
 
     def all_reduce(self) -> "TensorMeter":
