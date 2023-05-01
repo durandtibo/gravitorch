@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.10a13"
+version = "0.0.10a14"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -32,7 +32,10 @@ numpy = "^1.24"
 objectory = "^0.0.2"
 psutil = "^5.9"
 python = "^3.9"
-pytorch-ignite = "^0.4"
+pytorch-ignite = [
+    {version = "^0.4.12", python = "^3.11"},
+    {version = "^0.4"},
+]
 tabulate = "^0.9"
 torch = "^2.0"
 tqdm = "^4.64"
