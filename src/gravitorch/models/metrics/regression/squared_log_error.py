@@ -74,8 +74,8 @@ class SquaredLogError(BaseStateEpochMetric):
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
-        r"""Updates the squared logarithmic error metric given a mini-batch of
-        examples.
+        r"""Updates the squared logarithmic error metric given a mini-
+        batch of examples.
 
         Args:
         ----
@@ -147,8 +147,8 @@ class SquaredSymlogError(BaseStateEpochMetric):
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
-        r"""Updates the squared error on the symlog transformed predictions and
-        targets given a mini-batch of examples.
+        r"""Updates the squared error on the symlog transformed
+        predictions and targets given a mini-batch of examples.
 
         Args:
         ----
@@ -216,8 +216,9 @@ class SquaredAsinhError(BaseStateEpochMetric):
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
-        r"""Updates the squared error on the inverse hyperbolic sine (arcsinh)
-        transformed predictions and targets given a mini-batch of examples.
+        r"""Updates the squared error on the inverse hyperbolic sine
+        (arcsinh) transformed predictions and targets given a mini-batch
+        of examples.
 
         Args:
         ----

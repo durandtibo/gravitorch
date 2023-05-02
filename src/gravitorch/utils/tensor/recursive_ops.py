@@ -161,8 +161,8 @@ def recursive_apply(data: Any, tensor_fn: Callable, other_fn: Optional[Callable]
 def recursive_contiguous(
     data: T, memory_format: torch.memory_format = torch.contiguous_format
 ) -> T:
-    r"""Returns contiguous in memory tensors containing the same data as the
-    input.
+    r"""Returns contiguous in memory tensors containing the same data as
+    the input.
 
     The current implementation supports the following types:
 

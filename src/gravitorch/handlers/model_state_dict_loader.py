@@ -88,7 +88,8 @@ class ModelStateDictLoader(BaseHandler):
 
 
 class PartialModelStateDictLoader(BaseHandler):
-    r"""Implements a handler to load some model weights from a checkpoint.
+    r"""Implements a handler to load some model weights from a
+    checkpoint.
 
     Args:
     ----

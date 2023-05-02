@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class PickleSaverIterDataPipe(IterDataPipe[Path]):
-    r"""Implements a DataPipe to save each value from the source DataPipe in a
-    pickle file.
+    r"""Implements a DataPipe to save each value from the source DataPipe
+    in a pickle file.
 
     This DataPipe returns the path to each pickle file. If the source
     DataPipe has ``M`` values, ``M`` pickle files are created.
@@ -67,8 +67,8 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
 
 
 class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
-    r"""Implements a DataPipe to save each value from the source DataPipe in a
-    PyTorch file.
+    r"""Implements a DataPipe to save each value from the source DataPipe
+    in a PyTorch file.
 
     This DataPipe returns the path to each PyTorch file. If the source
     DataPipe has ``M`` values, ``M`` PyTorch files are created.

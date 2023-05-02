@@ -27,7 +27,8 @@ class BaseLoopObserver(ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def end(self, engine: BaseEngine) -> None:
-        r"""Performs an action at the end of each training or evaluation loop.
+        r"""Performs an action at the end of each training or evaluation
+        loop.
 
         Args:
         ----

@@ -27,8 +27,8 @@ logger = logging.getLogger(__name__)
 
 
 class VanillaModel(BaseModel):
-    r"""Implements a simple model which is composed of 3 modules: network,
-    criterion and metrics.
+    r"""Implements a simple model which is composed of 3 modules:
+    network, criterion and metrics.
 
     Note that the metric names are ``'train_metric'`` and
     ``'eval_metric'`` because it is not possible to use
@@ -75,7 +75,8 @@ class VanillaModel(BaseModel):
             load_checkpoint_to_module(checkpoint_path, self)
 
     def forward(self, batch: dict) -> dict:
-        """Prepares the batch and feed it to the network, criterion and metric.
+        """Prepares the batch and feed it to the network, criterion and
+        metric.
 
         Args:
         ----
@@ -170,8 +171,8 @@ class VanillaModel(BaseModel):
         return met_out or {}
 
     def _get_model_out(self, net_out: dict, cri_out: dict, met_out: dict) -> dict:
-        r"""Computes the model output by combining the outputs of the network,
-        criterion and metric.
+        r"""Computes the model output by combining the outputs of the
+        network, criterion and metric.
 
         Note that the keys have to be unique otherwise only one will
         be returned by the model.

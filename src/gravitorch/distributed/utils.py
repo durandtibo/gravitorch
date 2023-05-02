@@ -1,4 +1,5 @@
-r"""This module defines some utility functions for distributed experiments."""
+r"""This module defines some utility functions for distributed
+experiments."""
 
 __all__ = [
     "has_slurm_distributed_env_vars",
@@ -43,7 +44,8 @@ def is_slurm_job() -> bool:
 
 
 def is_distributed_ready() -> bool:
-    r"""Indicates if the distributed context is ready to be activated or not.
+    r"""Indicates if the distributed context is ready to be activated or
+    not.
 
     Returns
     -------
@@ -73,8 +75,8 @@ def has_torch_distributed_env_vars() -> bool:
 
 
 def has_slurm_distributed_env_vars() -> bool:
-    r"""Indicates if the environment variables required to initialize the native
-    PyTorch distributed backends are set or not.
+    r"""Indicates if the environment variables required to initialize the
+    native PyTorch distributed backends are set or not.
 
     Returns
     -------
@@ -94,8 +96,8 @@ def show_distributed_env_vars() -> None:
 
 
 def show_torch_distributed_env_vars() -> None:
-    r"""Shows the value of the environment variables used to set up the PyTorch
-    distributed context.
+    r"""Shows the value of the environment variables used to set up the
+    PyTorch distributed context.
 
     This function shows the value of the following environment
     variables:

@@ -1,4 +1,5 @@
-r"""This package contains the implementation of some evaluation loops."""
+r"""This package contains the implementation of some evaluation
+loops."""
 
 __all__ = [
     "BaseHistory",

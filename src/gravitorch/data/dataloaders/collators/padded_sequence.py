@@ -1,5 +1,5 @@
-r"""This module defines some collators using padding to deal with variable size
-data."""
+r"""This module defines some collators using padding to deal with
+variable size data."""
 
 __all__ = ["PaddedSequenceCollator", "DictPaddedSequenceCollator"]
 
@@ -97,9 +97,9 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
 
 
 class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
-    r"""Implements a collator to create batch of padded sequences because the
-    default PyTorch collate function does not work with sequences of different
-    lengths.
+    r"""Implements a collator to create batch of padded sequences because
+    the default PyTorch collate function does not work with sequences of
+    different lengths.
 
     With this collator, each example in the batch can have a different
     length. Each example has to be a dict, and you need to specify the

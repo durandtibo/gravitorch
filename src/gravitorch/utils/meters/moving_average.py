@@ -10,8 +10,8 @@ from gravitorch.utils.meters.exceptions import EmptyMeterError
 
 
 class MovingAverage:
-    r"""Defines a class to compute and store the exponential moving average
-    value of float number.
+    r"""Defines a class to compute and store the exponential moving
+    average value of float number.
 
     Args:
     ----
@@ -110,8 +110,8 @@ class MovingAverage:
 
 
 class ExponentialMovingAverage:
-    r"""Defines a class to compute and store the exponential moving average
-    value of float number.
+    r"""Defines a class to compute and store the exponential moving
+    average value of float number.
 
     Args:
     ----

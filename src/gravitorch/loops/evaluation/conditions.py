@@ -1,4 +1,5 @@
-r"""This module implements some conditions used in the evaluation loops."""
+r"""This module implements some conditions used in the evaluation
+loops."""
 
 __all__ = ["BaseEvalCondition", "EveryEpochEvalCondition", "LastEpochEvalCondition"]
 

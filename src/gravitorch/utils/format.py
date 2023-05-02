@@ -1,4 +1,5 @@
-r"""This module defines some utility functions to format some objects."""
+r"""This module defines some utility functions to format some
+objects."""
 
 __all__ = [
     "human_byte_size",
@@ -82,8 +83,8 @@ def human_byte_size(size: int, unit: Optional[str] = None) -> str:
 
 
 def human_count(number: Union[int, float]) -> str:
-    r"""Converts an integer number with K, M, B, T for thousands, millions,
-    billions and trillions, respectively.
+    r"""Converts an integer number with K, M, B, T for thousands,
+    millions, billions and trillions, respectively.
 
     Args:
     ----
@@ -131,7 +132,8 @@ def human_count(number: Union[int, float]) -> str:
 
 
 def human_time(seconds: Union[int, float]) -> str:
-    r"""Converts a number of seconds in an easier format to read hh:mm:ss.
+    r"""Converts a number of seconds in an easier format to read
+    hh:mm:ss.
 
     If the number of seconds is bigger than 1 day, this representation
     also encodes the number of days.
@@ -264,7 +266,8 @@ def to_flat_dict(
     separator: str = ".",
     to_str: Union[type[object], tuple[type[object], ...], None] = None,
 ) -> dict[str, Union[str, bool, int, float, None]]:
-    r"""Computes a flat representation of a nested dict with the dot format.
+    r"""Computes a flat representation of a nested dict with the dot
+    format.
 
     Args:
     ----

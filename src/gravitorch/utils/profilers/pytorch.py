@@ -46,7 +46,8 @@ class PyTorchProfiler(BaseProfiler):
         return f"{self.__class__.__qualname__}()"
 
     def step(self) -> None:
-        r"""Signals the profiler that the next profiling step has started."""
+        r"""Signals the profiler that the next profiling step has
+        started."""
         self._profiler.step()
 
     @classmethod

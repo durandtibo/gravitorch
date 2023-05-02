@@ -10,7 +10,8 @@ from gravitorch.nn.functional import basic_loss_reduction, check_basic_loss_redu
 
 
 class _BinaryFocalLoss(Module):
-    r"""Base class to implement the binary Focal Loss with and without logits.
+    r"""Base class to implement the binary Focal Loss with and without
+    logits.
 
     Based on "Focal Loss for Dense Object Detection"
     (https://arxiv.org/pdf/1708.02002.pdf)

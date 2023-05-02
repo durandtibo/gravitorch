@@ -60,8 +60,8 @@ class BaseConfusionMatrix:
         return self._num_predictions
 
     def all_reduce(self) -> None:
-        r"""Reduces the meter values across all machines in such a way that all
-        get the final result.
+        r"""Reduces the meter values across all machines in such a way
+        that all get the final result.
 
         The confusion matrix is reduced by summing all the confusion
         matrices (1 confusion matrix per distributed process).
@@ -184,7 +184,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
 
     @classmethod
     def from_predictions(cls, prediction: Tensor, target: Tensor) -> "BinaryConfusionMatrix":
-        r"""Creates a confusion matrix given ground truth and predicted labels.
+        r"""Creates a confusion matrix given ground truth and predicted
+        labels.
 
         Args:
         ----
@@ -243,8 +244,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         self._num_predictions = self._compute_num_predictions()
 
     def merge(self, meters: Iterable["BinaryConfusionMatrix"]) -> "BinaryConfusionMatrix":
-        r"""Merges several meters with the current meter and returns a new
-        meter.
+        r"""Merges several meters with the current meter and returns a
+        new meter.
 
         Args:
         ----
@@ -422,8 +423,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         return float(self.false_negative) / float(self.positive)
 
     def false_positive_rate(self) -> float:
-        r"""Computes the false positive rate i.e. the probability of false
-        alarm.
+        r"""Computes the false positive rate i.e. the probability of
+        false alarm.
 
         Returns
         -------
@@ -479,7 +480,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         return float(self.true_positive) / float(self.predictive_positive)
 
     def recall(self) -> float:
-        r"""Computes the recall i.e. the probability of positive detection.
+        r"""Computes the recall i.e. the probability of positive
+        detection.
 
         Returns
         -------
@@ -626,7 +628,8 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         return self.matrix.equal(other.matrix)
 
     def resize(self, num_classes: int) -> None:
-        r"""Resizes the current confusion matrix to a larger number of classes.
+        r"""Resizes the current confusion matrix to a larger number of
+        classes.
 
         Args:
         ----
@@ -664,7 +667,8 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
 
     @classmethod
     def from_predictions(cls, prediction: Tensor, target: Tensor) -> "MulticlassConfusionMatrix":
-        r"""Creates a confusion matrix given ground truth and predicted labels.
+        r"""Creates a confusion matrix given ground truth and predicted
+        labels.
 
         Note: the number of classes is inferred from the maximum
         ground truth and predicted labels.
@@ -731,8 +735,8 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         self._num_predictions = self._compute_num_predictions()
 
     def merge(self, meters: Iterable["MulticlassConfusionMatrix"]) -> "MulticlassConfusionMatrix":
-        r"""Merges several meters with the current meter and returns a new
-        meter.
+        r"""Merges several meters with the current meter and returns a
+        new meter.
 
         Args:
         ----
@@ -1003,7 +1007,8 @@ class MulticlassConfusionMatrix(BaseConfusionMatrix):
         )
 
     def weighted_precision(self) -> float:
-        r"""Computes the weighted mean (a.k.a. unweighted mean) precision.
+        r"""Computes the weighted mean (a.k.a. unweighted mean)
+        precision.
 
         Returns
         -------
@@ -1303,7 +1308,8 @@ def check_confusion_matrix(matrix: Tensor) -> None:
 def check_op_compatibility_binary(
     current: BinaryConfusionMatrix, other: BinaryConfusionMatrix, op_name: str
 ) -> None:
-    r"""Checks if the confusion matrices for binary labels are compatible.
+    r"""Checks if the confusion matrices for binary labels are
+    compatible.
 
     Args:
     ----
@@ -1325,7 +1331,8 @@ def check_op_compatibility_binary(
 def check_op_compatibility_multiclass(
     current: MulticlassConfusionMatrix, other: MulticlassConfusionMatrix, op_name: str
 ) -> None:
-    r"""Checks if the confusion matrices for multiclass labels are compatible.
+    r"""Checks if the confusion matrices for multiclass labels are
+    compatible.
 
     Args:
     ----

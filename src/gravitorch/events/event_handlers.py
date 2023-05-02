@@ -29,8 +29,8 @@ class BaseEventHandler(ABC):
 
 
 class BaseEventHandlerWithArguments(BaseEventHandler):
-    r"""Defines a base class to implement an event handler with positional
-    and/or keyword arguments.
+    r"""Defines a base class to implement an event handler with
+    positional and/or keyword arguments.
 
     A child class has to implement the ``__eq__`` method.
 

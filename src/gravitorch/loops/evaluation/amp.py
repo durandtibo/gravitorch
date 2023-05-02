@@ -1,5 +1,5 @@
-r"""This module implements an evaluation loop using automatic mixed precision
-(AMP)."""
+r"""This module implements an evaluation loop using automatic mixed
+precision (AMP)."""
 
 __all__ = ["AMPEvaluationLoop"]
 

@@ -1,4 +1,5 @@
-r"""This module implements PyTorch sampler functions for data loaders."""
+r"""This module implements PyTorch sampler functions for data
+loaders."""
 
 __all__ = ["ReproducibleBatchSampler", "PartialSequentialSampler", "PartialRandomSampler"]
 
@@ -62,8 +63,8 @@ class ReproducibleBatchSampler(BatchSampler):
 
 
 class PartialSequentialSampler(Sampler):
-    r"""Implements a partial sequential sampler that samples only the first
-    items in the dataset.
+    r"""Implements a partial sequential sampler that samples only the
+    first items in the dataset.
 
     Args:
     ----
@@ -92,8 +93,8 @@ class PartialSequentialSampler(Sampler):
 
 
 class PartialRandomSampler(PartialSequentialSampler):
-    r"""Implements a partial random sampler that samples randomly some items of
-    the dataset."""
+    r"""Implements a partial random sampler that samples randomly some
+    items of the dataset."""
 
     def __iter__(self) -> Iterator:
         return iter(torch.randperm(len(self.data_source))[: self.num_samples].tolist())

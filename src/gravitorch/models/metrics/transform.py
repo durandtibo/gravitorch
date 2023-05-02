@@ -11,8 +11,8 @@ from gravitorch.nn import Asinh, Log1p, Symlog, setup_module
 
 
 class TransformedPredictionTarget(BaseMetric):
-    r"""Implements a metric wrapper to transform the prediction and target
-    inputs.
+    r"""Implements a metric wrapper to transform the prediction and
+    target inputs.
 
     Args:
     ----
@@ -71,8 +71,8 @@ class TransformedPredictionTarget(BaseMetric):
         self.metric.reset()
 
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates the metric and logs the results given all the examples
-        previously seen.
+        r"""Evaluates the metric and logs the results given all the
+        examples previously seen.
 
         Args:
         ----

@@ -14,8 +14,8 @@ T = TypeVar("T")
 
 
 class EpochShufflePartitioner(BasePartitioner[T]):
-    r"""Implements a partitioner that shuffles the data before to partition
-    them.
+    r"""Implements a partitioner that shuffles the data before to
+    partition them.
 
     To be reproducible, the shuffling is controlled by the engine
     epoch value and a base random seed. If no engine is provided,

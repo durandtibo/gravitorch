@@ -13,7 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class ModelFreezer(BaseHandler):
-    r"""Implements a handler to freeze the model or one of its submodules.
+    r"""Implements a handler to freeze the model or one of its
+    submodules.
 
     Args:
     ----

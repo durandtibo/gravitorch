@@ -28,8 +28,8 @@ logger = logging.getLogger(__name__)
 
 
 class VanillaEvaluationLoop(BaseBasicEvaluationLoop):
-    r"""Implements a simple evaluation loop to evaluate a model on a given
-    dataset.
+    r"""Implements a simple evaluation loop to evaluate a model on a
+    given dataset.
 
     Args:
     ----

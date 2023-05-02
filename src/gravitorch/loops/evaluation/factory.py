@@ -1,4 +1,5 @@
-r"""This module implements some utility functions for the evaluation loops."""
+r"""This module implements some utility functions for the evaluation
+loops."""
 
 __all__ = ["setup_evaluation_loop"]
 

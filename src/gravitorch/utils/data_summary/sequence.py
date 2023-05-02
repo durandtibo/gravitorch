@@ -1,5 +1,5 @@
-r"""This module implements a base class to compute a descriptive summary of
-sequences."""
+r"""This module implements a base class to compute a descriptive summary
+of sequences."""
 
 __all__ = ["BaseSequenceDataSummary"]
 
@@ -13,7 +13,8 @@ T = TypeVar("T")
 
 
 class BaseSequenceDataSummary(BaseDataSummary[T]):
-    r"""Implements a base class to compute a descriptive summary of sequences.
+    r"""Implements a base class to compute a descriptive summary of
+    sequences.
 
     A child class has to implement the ``_get_sequence_length`` method.
 

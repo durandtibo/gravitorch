@@ -84,7 +84,8 @@ def trunc_normal(
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
-    r"""Initializes the module parameters with the truncated Normal strategy.
+    r"""Initializes the module parameters with the truncated Normal
+    strategy.
 
     Args:
     ----

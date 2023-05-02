@@ -13,8 +13,8 @@ def exponential_nll_loss(
     max_log_value: float = 20.0,
     reduction: str = "mean",
 ) -> Tensor:
-    r"""Computes the negative log-likelihood (NLL) with Exponential distribution
-    of target.
+    r"""Computes the negative log-likelihood (NLL) with Exponential
+    distribution of target.
 
     Args:
     ----

@@ -79,7 +79,8 @@ def safelog(tensor: Tensor, min_value: float = 1e-8) -> Tensor:
 
 
 def symlog(tensor: Tensor) -> Tensor:
-    r"""Computes the symmetric logarithm natural logarithm of the elements.
+    r"""Computes the symmetric logarithm natural logarithm of the
+    elements.
 
     Note this transformation supports negative values.
 
@@ -113,7 +114,8 @@ def symlog_(tensor: Tensor) -> None:
 
 
 def isymlog(tensor: Tensor, max_value: float = 10) -> Tensor:
-    r"""Computes the inverse of the symmetric logarithm natural of the elements.
+    r"""Computes the inverse of the symmetric logarithm natural of the
+    elements.
 
     Args:
     ----
@@ -129,7 +131,8 @@ def isymlog(tensor: Tensor, max_value: float = 10) -> Tensor:
 
 
 def isymlog_(tensor: Tensor, max_value: float = 10) -> None:
-    r"""Computes the inverse of the symmetric logarithm natural of the elements.
+    r"""Computes the inverse of the symmetric logarithm natural of the
+    elements.
 
     In-place version of ``isymlog``.
 

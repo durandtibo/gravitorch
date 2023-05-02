@@ -9,8 +9,8 @@ from gravitorch.nn import setup_module
 
 
 class WeightedSumLoss(Module):
-    r"""Implements a loss function (a.k.a. criterion) that computes the weighted
-    sum of multiple loss functions.
+    r"""Implements a loss function (a.k.a. criterion) that computes the
+    weighted sum of multiple loss functions.
 
     Args:
     ----

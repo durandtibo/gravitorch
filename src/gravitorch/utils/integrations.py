@@ -1,5 +1,5 @@
-r"""This module implements some utility functions to check if some packages are
-available."""
+r"""This module implements some utility functions to check if some
+packages are available."""
 
 __all__ = [
     "check_accelerate",

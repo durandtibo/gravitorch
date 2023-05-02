@@ -1,4 +1,5 @@
-r"""This package contains the implementation of some data loader collators."""
+r"""This package contains the implementation of some data loader
+collators."""
 
 __all__ = [
     "BaseCollator",

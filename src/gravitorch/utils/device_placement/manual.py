@@ -14,7 +14,8 @@ from gravitorch.utils.device_placement.base import BaseDevicePlacement
 
 
 class ManualDevicePlacement(BaseDevicePlacement):
-    r"""Implements a device placement class to send objects on a given device.
+    r"""Implements a device placement class to send objects on a given
+    device.
 
     The user is responsible to choose the target device.
     """
@@ -42,14 +43,16 @@ class ManualDevicePlacement(BaseDevicePlacement):
 
 
 class CpuDevicePlacement(ManualDevicePlacement):
-    r"""Implements a device placement class to send objects on a cpu device."""
+    r"""Implements a device placement class to send objects on a cpu
+    device."""
 
     def __init__(self) -> None:
         super().__init__(torch.device("cpu"))
 
 
 class CudaDevicePlacement(ManualDevicePlacement):
-    r"""Implements a device placement class to send objects on a cuda device.
+    r"""Implements a device placement class to send objects on a cuda
+    device.
 
     Args:
     ----

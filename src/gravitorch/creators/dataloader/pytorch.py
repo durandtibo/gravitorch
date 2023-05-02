@@ -20,8 +20,8 @@ T = TypeVar("T")
 
 
 class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
-    r"""Defines a PyTorch data loader creator that automatically chooses the
-    data loader creator based on the context.
+    r"""Defines a PyTorch data loader creator that automatically chooses
+    the data loader creator based on the context.
 
     If the distributed package is activated, it uses the
     ``DistributedDataLoaderCreator``, otherwise it uses

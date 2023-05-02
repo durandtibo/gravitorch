@@ -150,7 +150,8 @@ def get_module_devices(module: nn.Module) -> tuple[torch.device, ...]:
 
 
 def is_module_on_device(module: nn.Module, device: torch.device) -> bool:
-    r"""Indicates if all the parameters of a module are on the specified device.
+    r"""Indicates if all the parameters of a module are on the specified
+    device.
 
     Args:
     ----
@@ -397,8 +398,8 @@ def is_batch_first(module: nn.Module) -> bool:
 
 @contextmanager
 def module_mode(module: nn.Module) -> Generator[None, None, None]:
-    r"""Implements a context manager that restores the mode (train or eval) of
-    every submodule individually.
+    r"""Implements a context manager that restores the mode (train or
+    eval) of every submodule individually.
 
     This context manager only restores the mode at the top-level.
 
@@ -435,8 +436,8 @@ def module_mode(module: nn.Module) -> Generator[None, None, None]:
 
 @contextmanager
 def top_module_mode(module: nn.Module) -> Generator[None, None, None]:
-    r"""Implements a context manager that restores the mode (train or eval) of a
-    given module.
+    r"""Implements a context manager that restores the mode (train or
+    eval) of a given module.
 
     This context manager only restores the mode at the top-level.
 

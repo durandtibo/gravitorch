@@ -1,4 +1,5 @@
-r"""This module defines some primitives for distributed communication."""
+r"""This module defines some primitives for distributed
+communication."""
 
 __all__ = [
     "Backend",
@@ -45,7 +46,8 @@ logger = logging.getLogger(__name__)
 
 
 class Backend:
-    r"""Defines the name of the distributed backends currently supported."""
+    r"""Defines the name of the distributed backends currently
+    supported."""
 
     NCCL = "nccl"
     GLOO = "gloo"
@@ -76,7 +78,8 @@ spawn = utils.spawn
 
 
 class UnknownBackendError(Exception):
-    r"""This exception is raised when you try to use an unknown backend."""
+    r"""This exception is raised when you try to use an unknown
+    backend."""
 
 
 def is_main_process() -> bool:

@@ -20,8 +20,8 @@ class BaseModel(Module, metaclass=AbstractFactory):
 
     @abstractmethod
     def forward(self, batch: Any) -> dict:
-        r"""Defines the forward function of the model that returns a dictionary
-        containing the loss value.
+        r"""Defines the forward function of the model that returns a
+        dictionary containing the loss value.
 
         Args:
         ----

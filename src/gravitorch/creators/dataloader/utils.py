@@ -1,4 +1,5 @@
-r"""This module defines some utility functions for the data loader creators."""
+r"""This module defines some utility functions for the data loader
+creators."""
 
 __all__ = ["setup_data_loader_creator"]
 

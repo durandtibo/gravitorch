@@ -57,8 +57,8 @@ class BaseState(ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def get_histories(self, prefix: str = "", suffix: str = "") -> tuple[BaseHistory, ...]:
-        r"""Gets the history trackers for the metric values associated to the
-        current state.
+        r"""Gets the history trackers for the metric values associated to
+        the current state.
 
         Args:
         ----
@@ -234,7 +234,8 @@ class RootMeanErrorState(BaseState):
 
 
 class ErrorState(BaseState):
-    r"""Implements a metric state to capture some metrics about the errors.
+    r"""Implements a metric state to capture some metrics about the
+    errors.
 
     This state has a constant space complexity.
 
@@ -307,7 +308,8 @@ class ErrorState(BaseState):
 
 
 class ExtendedErrorState(BaseState):
-    r"""Implements a metric state to capture some metrics about the errors.
+    r"""Implements a metric state to capture some metrics about the
+    errors.
 
     This state stores all the error values, so it may not scale to large
     datasets. This state has a linear space complexity.
@@ -478,7 +480,8 @@ class AccuracyState(BaseState):
 
 
 class ExtendedAccuracyState(BaseState):
-    r"""Implements a metric state to compute the accuracy and other metrics.
+    r"""Implements a metric state to compute the accuracy and other
+    metrics.
 
     This state has a constant space complexity.
 

@@ -1,4 +1,5 @@
-r"""This package contains the implementation of some data loader creators."""
+r"""This package contains the implementation of some data loader
+creators."""
 
 __all__ = [
     "AutoDataLoaderCreator",

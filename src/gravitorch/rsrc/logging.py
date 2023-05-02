@@ -16,8 +16,8 @@ class LoggingState:
     disabled_level: int
 
     def restore(self) -> None:
-        r"""Restores the logging configuration by using the values in the
-        state."""
+        r"""Restores the logging configuration by using the values in
+        the state."""
         logging.disable(self.disabled_level)
 
     @classmethod

@@ -34,8 +34,9 @@ class ImageNetDataSource(DatasetDataSource):
         data_loader_creators: dict[str, Union[BaseDataLoaderCreator, dict, None]],
         input_size: int = 224,
     ) -> "ImageNetDataSource":
-        r"""Creates a data source for the ImageNet dataset the training and
-        evaluation datasets with their original data augmentations (V1).
+        r"""Creates a data source for the ImageNet dataset the training
+        and evaluation datasets with their original data augmentations
+        (V1).
 
         This function initializes the original data augmentations,
         sometimes called V1
@@ -91,8 +92,8 @@ def create_train_eval_datasets_v1(
     eval_path: Union[Path, str, None],
     input_size: int = 224,
 ) -> tuple[Optional[Dataset], Optional[Dataset]]:
-    r"""Creates the training and evaluation datasets with the original data
-    augmentations (V1).
+    r"""Creates the training and evaluation datasets with the original
+    data augmentations (V1).
 
     This function initializes the original data augmentations,
     sometimes called V1

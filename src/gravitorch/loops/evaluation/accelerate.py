@@ -1,5 +1,5 @@
-r"""This module implements an evaluation loop using the Accelerate library
-(https://huggingface.co/docs/accelerate)."""
+r"""This module implements an evaluation loop using the Accelerate
+library (https://huggingface.co/docs/accelerate)."""
 
 __all__ = ["AccelerateEvaluationLoop"]
 

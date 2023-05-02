@@ -135,7 +135,8 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
     @abstractmethod
     def has_data_loader(self, loader_id: str) -> bool:
-        r"""Indicates if the data source has a data loader with the given ID.
+        r"""Indicates if the data source has a data loader with the given
+        ID.
 
         Args:
         ----

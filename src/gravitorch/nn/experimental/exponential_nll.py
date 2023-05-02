@@ -8,8 +8,8 @@ from gravitorch.nn.functional.loss_helpers import check_basic_loss_reduction
 
 
 class ExponentialNLLLoss(Module):
-    r"""Implements a criterion to compute the negative log-likelihood (NLL) with
-    Exponential distribution of target.
+    r"""Implements a criterion to compute the negative log-likelihood
+    (NLL) with Exponential distribution of target.
 
     Args:
     ----

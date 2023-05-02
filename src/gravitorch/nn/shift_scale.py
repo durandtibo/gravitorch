@@ -7,8 +7,8 @@ from torch.nn import Module
 
 
 class ShiftScale(Module):
-    r"""Implements a layer to shift and scale an input sequence from a source
-    range to a destination range."""
+    r"""Implements a layer to shift and scale an input sequence from a
+    source range to a destination range."""
 
     def forward(self, tensor: Tensor, src_range: Tensor, dst_range: Tensor) -> Tensor:
         r"""Shifts and scales the input sequence from a source range to a
@@ -42,8 +42,8 @@ class ShiftScale(Module):
 
 
 class SequenceShiftScale(Module):
-    r"""Implements a layer to shift and scale sequences from a source range to a
-    destination range.
+    r"""Implements a layer to shift and scale sequences from a source
+    range to a destination range.
 
     Args:
     ----
@@ -73,8 +73,8 @@ class SequenceShiftScale(Module):
         return f"batch_first={self._batch_first}"
 
     def forward(self, sequence: Tensor, src_range: Tensor, dst_range: Tensor) -> Tensor:
-        r"""Shifts and scales a sequence from a source range to a destination
-        range.
+        r"""Shifts and scales a sequence from a source range to a
+        destination range.
 
         Args:
         ----
@@ -108,7 +108,8 @@ class SequenceShiftScale(Module):
 
 
 def shift_scale(tensor: Tensor, src_range: Tensor, dst_range: Tensor) -> Tensor:
-    r"""Shifts and scales a tensor from a source range to a destination range.
+    r"""Shifts and scales a tensor from a source range to a destination
+    range.
 
     Args:
     ----
@@ -146,8 +147,8 @@ def sequence_shift_scale(
     dst_range: Tensor,
     batch_first: bool = False,
 ) -> Tensor:
-    r"""Shifts and scales a sequences from a source range to a destination
-    range.
+    r"""Shifts and scales a sequences from a source range to a
+    destination range.
 
     Args:
     ----

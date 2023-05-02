@@ -1,4 +1,5 @@
-r"""This module implements some utility functions for the data summary."""
+r"""This module implements some utility functions for the data
+summary."""
 
 __all__ = ["setup_data_summary"]
 

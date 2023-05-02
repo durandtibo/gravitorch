@@ -1,5 +1,5 @@
-r"""This module contains implementation to use PyTorch criterion on sequences
-with a warm-up approach."""
+r"""This module contains implementation to use PyTorch criterion on
+sequences with a warm-up approach."""
 
 __all__ = ["WarmupSequenceLoss"]
 
@@ -12,8 +12,8 @@ from gravitorch.nn import setup_module
 
 
 class WarmupSequenceLoss(Module):
-    r"""Implements a wrapper to adapt PyTorch loss on sequences with a warm-up
-    approach.
+    r"""Implements a wrapper to adapt PyTorch loss on sequences with a
+    warm-up approach.
 
     The loss is computed only on the time steps after the warm-up to
     give the model time to warm-up its internal state before making a
@@ -67,8 +67,8 @@ class WarmupSequenceLoss(Module):
         self._batch_first = bool(batch_first)
 
     def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
-        r"""Computes the criterion function given the network output and the
-        batch.
+        r"""Computes the criterion function given the network output and
+        the batch.
 
         Args:
         ----

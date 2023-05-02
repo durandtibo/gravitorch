@@ -60,8 +60,8 @@ class BaseEpochMetric(BaseMetric):
 
 
 class BaseStateEpochMetric(BaseEpochMetric):
-    r"""Defines a base class to implement a metric where a lower value is better
-    than a large value.
+    r"""Defines a base class to implement a metric where a lower value is
+    better than a large value.
 
     Child classes must implement the following method:
         - ``forward``
@@ -103,8 +103,8 @@ class BaseStateEpochMetric(BaseEpochMetric):
         self._state.reset()
 
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates the metric and log the results given all the predictions
-        previously seen.
+        r"""Evaluates the metric and log the results given all the
+        predictions previously seen.
 
         Args:
         ----

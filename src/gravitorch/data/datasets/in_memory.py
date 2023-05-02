@@ -1,4 +1,5 @@
-r"""This module implements datasets that stores all the examples in memory."""
+r"""This module implements datasets that stores all the examples in
+memory."""
 
 __all__ = ["InMemoryDataset", "FileToInMemoryDataset"]
 
@@ -45,8 +46,8 @@ class InMemoryDataset(Dataset[T]):
 
 
 class FileToInMemoryDataset(Dataset[T]):
-    r"""Implements a dataset that loads examples from a file and store them in
-    memory.
+    r"""Implements a dataset that loads examples from a file and store
+    them in memory.
 
     The data in the files should already be preprocessed and organized
     by examples. The file should store a tuple (or list) of examples.

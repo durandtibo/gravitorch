@@ -119,7 +119,8 @@ class ComparableHistory(GenericHistory[T]):
 
 
 class MaxScalarHistory(ComparableHistory[Number]):
-    r"""A specific implementation to track the max value of a scalar history.
+    r"""A specific implementation to track the max value of a scalar
+    history.
 
     This history uses the ``MaxScalarComparator`` to find the
     best value of the history.
@@ -163,7 +164,8 @@ class MaxScalarHistory(ComparableHistory[Number]):
 
 
 class MinScalarHistory(ComparableHistory[Number]):
-    r"""A specific implementation to track the min value of a scalar history.
+    r"""A specific implementation to track the min value of a scalar
+    history.
 
     This history uses the ``MinScalarComparator`` to find the
     best value of the history.

@@ -1,4 +1,5 @@
-r"""This module defines the confusion matrix metric for binary labels."""
+r"""This module defines the confusion matrix metric for binary
+labels."""
 
 __all__ = ["BinaryConfusionMatrix", "CategoricalConfusionMatrix"]
 
@@ -101,8 +102,8 @@ class BinaryConfusionMatrix(BaseEpochMetric):
         self._confusion_matrix.reset()
 
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates the metric and log the results given all the examples
-        previously seen.
+        r"""Evaluates the metric and log the results given all the
+        examples previously seen.
 
         Args:
         ----
@@ -225,8 +226,8 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
         self._confusion_matrix.reset()
 
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates the metric and log the results given all the examples
-        previously seen.
+        r"""Evaluates the metric and log the results given all the
+        examples previously seen.
 
         Args:
         ----

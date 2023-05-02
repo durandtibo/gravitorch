@@ -217,8 +217,8 @@ class ModelSummary:
 
 
 def model_forward_dummy_input(model: Module) -> None:
-    r"""Runs the example input through each layer to get input- and output sizes
-    and data types.
+    r"""Runs the example input through each layer to get input- and
+    output sizes and data types.
 
     Args:
     ----

@@ -1,4 +1,5 @@
-r"""This module implements a handler to initialize model's parameters."""
+r"""This module implements a handler to initialize model's
+parameters."""
 
 __all__ = ["ModelInitializer"]
 

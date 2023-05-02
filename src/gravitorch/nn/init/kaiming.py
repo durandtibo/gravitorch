@@ -17,8 +17,8 @@ logger = logging.getLogger(__name__)
 
 
 class BaseKaiming(BaseInitializer):
-    r"""Implements a module parameter initializer with the Kaiming Normal or
-    uniform strategy.
+    r"""Implements a module parameter initializer with the Kaiming Normal
+    or uniform strategy.
 
     Args:
     ----
@@ -64,8 +64,8 @@ class BaseKaiming(BaseInitializer):
 
 
 class KaimingNormal(BaseKaiming):
-    r"""Implements a module parameter initializer with the Kaiming Normal
-    strategy."""
+    r"""Implements a module parameter initializer with the Kaiming
+    Normal strategy."""
 
     def initialize(self, module: Module) -> None:
         logger.info(
@@ -84,8 +84,8 @@ class KaimingNormal(BaseKaiming):
 
 
 class KaimingUniform(BaseKaiming):
-    r"""Implements a module parameter initializer with the Kaiming uniform
-    strategy."""
+    r"""Implements a module parameter initializer with the Kaiming
+    uniform strategy."""
 
     def initialize(self, module: Module) -> None:
         logger.info(
@@ -111,7 +111,8 @@ def kaiming_normal(
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
-    r"""Initializes the module parameters with the Kaiming Normal strategy.
+    r"""Initializes the module parameters with the Kaiming Normal
+    strategy.
 
     Args:
     ----
@@ -161,7 +162,8 @@ def kaiming_uniform(
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
-    r"""Initializes the module parameters with the Kaiming uniform strategy.
+    r"""Initializes the module parameters with the Kaiming uniform
+    strategy.
 
     Args:
     ----

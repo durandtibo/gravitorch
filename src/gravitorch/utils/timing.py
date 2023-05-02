@@ -73,8 +73,8 @@ def sync_perf_counter() -> float:
 
 @contextmanager
 def timeblock(message: str = "Total time: {time}") -> Generator[None, None, None]:
-    r"""Implements a context manager to measure the execution time of a block of
-    code.
+    r"""Implements a context manager to measure the execution time of a
+    block of code.
 
     Args:
     ----
@@ -103,8 +103,8 @@ def timeblock(message: str = "Total time: {time}") -> Generator[None, None, None
 
 
 class BatchLoadingTimer(Iterable[T]):
-    r"""Implements an iterator around a batch loader iterable to monitor the
-    time performances.
+    r"""Implements an iterator around a batch loader iterable to monitor
+    the time performances.
 
     Args:
     ----

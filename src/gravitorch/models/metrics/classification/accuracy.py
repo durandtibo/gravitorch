@@ -48,7 +48,8 @@ class BinaryAccuracy(BaseStateEpochMetric):
         self.prediction_transform = Identity() if threshold is None else ToBinaryLabel(threshold)
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
-        r"""Updates the binary accuracy metric given a mini-batch of examples.
+        r"""Updates the binary accuracy metric given a mini-batch of
+        examples.
 
         Args:
         ----
@@ -188,8 +189,8 @@ class TopKAccuracy(BaseEpochMetric):
             state.reset()
 
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates the metric and log the results given all the examples
-        previously seen.
+        r"""Evaluates the metric and log the results given all the
+        examples previously seen.
 
         Args:
         ----

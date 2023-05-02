@@ -12,7 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class DistributedContext(BaseResource):
-    r"""Implements a context manager to initialize the distributed backend.
+    r"""Implements a context manager to initialize the distributed
+    backend.
 
     Args:
     ----

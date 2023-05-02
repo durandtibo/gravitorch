@@ -256,7 +256,8 @@ def log_cosh_loss(
     reduction: str = "mean",
     scale: float = 1.0,
 ) -> Tensor:
-    r"""Computes the logarithm of the hyperbolic cosine of the prediction error.
+    r"""Computes the logarithm of the hyperbolic cosine of the prediction
+    error.
 
     Args:
     ----

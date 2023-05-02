@@ -14,8 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 class DemoMultiClassClsDataset(Dataset):
-    r"""Implements a toy multi-class classification dataset in a map- style
-    format.
+    r"""Implements a toy multi-class classification dataset in a map-
+    style format.
 
     Args:
     ----

@@ -85,7 +85,8 @@ class SequenceGaussianRFF(Module):
         )
 
     def forward(self, sequence: Tensor) -> Tensor:
-        r"""Computes the Fourier feature mappings of the input representation.
+        r"""Computes the Fourier feature mappings of the input
+        representation.
 
         Args:
         ----
@@ -200,7 +201,8 @@ class ScaleShiftSequenceGaussianRFF(Module):
         return self._batch_first
 
     def forward(self, sequence: Tensor, src_range: Tensor, dst_range: Tensor) -> Tensor:
-        r"""Computes the Fourier feature mappings of the input representation.
+        r"""Computes the Fourier feature mappings of the input
+        representation.
 
         Args:
         ----

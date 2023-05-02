@@ -21,8 +21,8 @@ from gravitorch.nn.functional import (
 
 
 class AsinhMSELoss(Module):
-    r"""Implements the mean squared error (MSE) loss with inverse hyperbolic
-    sine (arcsinh) transformation.
+    r"""Implements the mean squared error (MSE) loss with inverse
+    hyperbolic sine (arcsinh) transformation.
 
     Args:
     ----
@@ -92,8 +92,8 @@ class MSLELoss(Module):
 
 
 class SymlogMSELoss(Module):
-    r"""Implements the mean squared error (MSE) loss with symmetric logarithmic
-    (symlog) transformation.
+    r"""Implements the mean squared error (MSE) loss with symmetric
+    logarithmic (symlog) transformation.
 
     Args:
     ----
