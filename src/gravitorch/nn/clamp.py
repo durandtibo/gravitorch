@@ -82,7 +82,8 @@ class ClampLoss(Module):
         self.reduction = reduction
 
     def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
-        r"""Computes the loss values, then clamps the values and reduces them.
+        r"""Computes the loss values, then clamps the values and reduces
+        them.
 
         Args:
         ----

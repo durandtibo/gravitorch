@@ -214,7 +214,8 @@ class RandomSeedSetter(BaseRandomSeedSetter):
 
     @classmethod
     def has_setter(cls, name: str) -> bool:
-        r"""Indicates if a random seed setter is registered for the given name.
+        r"""Indicates if a random seed setter is registered for the given
+        name.
 
         Args:
         ----
@@ -275,8 +276,8 @@ def manual_seed(seed: int, setter: Optional[BaseRandomSeedSetter] = None) -> Non
 
 @contextmanager
 def numpy_seed(seed: int) -> Generator[None, None, None]:
-    r"""Implements a context manager to manage the NumPy random seed and random
-    number generator (RNG) state.
+    r"""Implements a context manager to manage the NumPy random seed and
+    random number generator (RNG) state.
 
     The context manager sets the specified NumPy random seed and
     restores the original RNG state afterward.
@@ -311,8 +312,8 @@ def numpy_seed(seed: int) -> Generator[None, None, None]:
 
 @contextmanager
 def torch_seed(seed: int) -> Generator[None, None, None]:
-    r"""Implements a context manager to manage the PyTorch random seed and
-    random number generator (RNG) state.
+    r"""Implements a context manager to manage the PyTorch random seed
+    and random number generator (RNG) state.
 
     The context manager sets the specified PyTorch random seed and
     restores the original RNG state afterward.

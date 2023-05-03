@@ -13,8 +13,8 @@ T = TypeVar("T")
 
 
 class DDPPartitioner(BasePartitioner[T]):
-    r"""Implements a partitioner designed for a Distributed Data Parallel (DDP)
-    setting.
+    r"""Implements a partitioner designed for a Distributed Data Parallel
+    (DDP) setting.
 
     All the partitions have the same number of items. The number of
     partitions is the world size of the distributed system.

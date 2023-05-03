@@ -200,8 +200,8 @@ class ScalarMeter:
         return torch.tensor(list(self._values)).median().item()
 
     def merge(self, meters: Iterable["ScalarMeter"]) -> "ScalarMeter":
-        r"""Merges several meters with the current meter and returns a new
-        meter.
+        r"""Merges several meters with the current meter and returns a
+        new meter.
 
         Only the values of the current meter are copied to the merged
         meter.

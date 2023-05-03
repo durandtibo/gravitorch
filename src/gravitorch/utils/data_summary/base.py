@@ -1,4 +1,5 @@
-r"""This module implements the base class to implement a data summary."""
+r"""This module implements the base class to implement a data
+summary."""
 
 __all__ = ["BaseDataSummary", "EmptyDataSummaryError"]
 
@@ -45,5 +46,5 @@ class BaseDataSummary(Generic[T], ABC, metaclass=AbstractFactory):
 
 
 class EmptyDataSummaryError(Exception):
-    r"""Raised when the data summary is empty because it is not possible to
-    evaluate an empty data summary."""
+    r"""Raised when the data summary is empty because it is not possible
+    to evaluate an empty data summary."""

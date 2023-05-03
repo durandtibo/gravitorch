@@ -31,4 +31,5 @@ class BaseProfiler(ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def step(self) -> None:
-        r"""Signals the profiler that the next profiling step has started."""
+        r"""Signals the profiler that the next profiling step has
+        started."""

@@ -74,8 +74,8 @@ class SequentialMetric(BaseMetric):
             metric.reset()
 
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates all the metrics and log the results given all the examples
-        previously seen.
+        r"""Evaluates all the metrics and log the results given all the
+        examples previously seen.
 
         This method calls the ``value`` method of each metric and
         combines the outputs in a single dictionary.

@@ -1,4 +1,5 @@
-r"""This package contains the implementation of some experiment trackers."""
+r"""This package contains the implementation of some experiment
+trackers."""
 
 __all__ = [
     "BaseBasicExpTracker",

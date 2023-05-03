@@ -1,4 +1,5 @@
-r"""This package contains the model base class and some implemented models."""
+r"""This package contains the model base class and some implemented
+models."""
 
 __all__ = [
     "BaseModel",

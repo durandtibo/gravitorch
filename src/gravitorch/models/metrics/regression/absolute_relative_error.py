@@ -79,8 +79,8 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
         self._eps = float(eps)
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
-        r"""Updates the mean absolute percentage error metric given a mini-batch
-        of examples.
+        r"""Updates the mean absolute percentage error metric given a
+        mini-batch of examples.
 
         Args:
         ----
@@ -158,8 +158,8 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
         self._eps = float(eps)
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
-        r"""Updates the mean absolute percentage error metric given a mini-batch
-        of examples.
+        r"""Updates the mean absolute percentage error metric given a
+        mini-batch of examples.
 
         Args:
         ----

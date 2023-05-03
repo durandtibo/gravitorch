@@ -14,8 +14,8 @@ T = TypeVar("T")
 
 
 class OneCacheDataCreator(BaseDataCreator[T]):
-    r"""Implements a data creator that creates the data only once, then cache
-    them and return them.
+    r"""Implements a data creator that creates the data only once, then
+    cache them and return them.
 
     Args:
     ----

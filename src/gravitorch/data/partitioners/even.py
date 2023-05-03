@@ -11,8 +11,8 @@ T = TypeVar("T")
 
 
 class EvenPartitioner(BasePartitioner[T]):
-    r"""Implements a partitioner that creates even partitions i.e. partitions
-    with (almost) equal number of items.
+    r"""Implements a partitioner that creates even partitions i.e.
+    partitions with (almost) equal number of items.
 
     Args:
     ----

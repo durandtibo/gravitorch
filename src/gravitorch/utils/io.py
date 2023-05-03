@@ -27,8 +27,8 @@ logger = logging.getLogger(__name__)
 
 
 def numpy_array_yaml_representer(dumper: yaml.Dumper, data: Union[np.ndarray, Tensor]) -> Any:
-    r"""This function computes the yaml representation of a numpy array or
-    torch tensor."""
+    r"""This function computes the yaml representation of a numpy array
+    or torch tensor."""
     if data.ndim == 0:
         scalar = data.item()
         if isinstance(scalar, float):
@@ -129,7 +129,8 @@ def save_text(to_save: str, path: Path) -> None:
 
 
 class TensorJSONEncoder(json.JSONEncoder):
-    r"""Defines a custom json encoder to work with numpy arrays and tensors."""
+    r"""Defines a custom json encoder to work with numpy arrays and
+    tensors."""
 
     def default(self, o: Any) -> Any:
         if isinstance(o, (Tensor, np.ndarray)):

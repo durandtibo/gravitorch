@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class BaseResourceRunner(BaseRunner):
-    r"""Implements a base class to easily implement a runner using resource
-    managers.
+    r"""Implements a base class to easily implement a runner using
+    resource managers.
 
     Args:
     ----

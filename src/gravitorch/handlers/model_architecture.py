@@ -52,7 +52,8 @@ class ModelArchitectureAnalyzer(BaseHandler):
 
 
 class NetworkArchitectureAnalyzer(ModelArchitectureAnalyzer):
-    r"""Implements a handler to analyze the network architecture of a model.
+    r"""Implements a handler to analyze the network architecture of a
+    model.
 
     This handler assumes the model has an attribute ``network``.
     """

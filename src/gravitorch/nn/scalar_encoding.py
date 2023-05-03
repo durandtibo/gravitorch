@@ -17,7 +17,8 @@ from gravitorch.utils.tensor.misc import to_tensor
 
 
 class AsinhScalarEncoder(Module):
-    r"""Implements a scalar encoder using the inverse hyperbolic sine (arcsinh).
+    r"""Implements a scalar encoder using the inverse hyperbolic sine
+    (arcsinh).
 
     Args:
     ----
@@ -183,8 +184,8 @@ class AsinhScalarEncoder(Module):
 
 
 class CosSinScalarEncoder(Module):
-    r"""Implements a frequency/phase-shift scalar encoder where the periodic
-    functions are cosine and sine.
+    r"""Implements a frequency/phase-shift scalar encoder where the
+    periodic functions are cosine and sine.
 
     Args:
     ----

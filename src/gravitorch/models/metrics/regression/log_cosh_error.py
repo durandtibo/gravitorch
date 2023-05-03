@@ -1,5 +1,5 @@
-r"""This module defines a metric to compute the logarithm of the hyperbolic
-cosine of the prediction error."""
+r"""This module defines a metric to compute the logarithm of the
+hyperbolic cosine of the prediction error."""
 
 __all__ = ["LogCoshError"]
 
@@ -16,8 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 class LogCoshError(BaseStateEpochMetric):
-    r"""Implements a metric to compute the logarithm of the hyperbolic cosine of
-    the prediction error.
+    r"""Implements a metric to compute the logarithm of the hyperbolic
+    cosine of the prediction error.
 
     Args:
     ----

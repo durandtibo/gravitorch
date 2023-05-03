@@ -170,7 +170,8 @@ def shuffle_tensors(
 def shuffle_tensor_mapping(
     mapping: Mapping, dim: Union[int, dict] = 0, generator: Optional[torch.Generator] = None
 ) -> dict:
-    r"""Shuffles the tensors that are in a mapping with the same permutation.
+    r"""Shuffles the tensors that are in a mapping with the same
+    permutation.
 
     This function shuffles each tensor on one dimension. It is
     possible to control the dimension used to shuffle the tensors

@@ -1,4 +1,5 @@
-r"""This module implements some utility functions for the engine states."""
+r"""This module implements some utility functions for the engine
+states."""
 
 __all__ = ["setup_engine_state"]
 

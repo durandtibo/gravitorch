@@ -1,5 +1,5 @@
-r"""This package contains the implementation of a lot of utilities used in the
-other packages."""
+r"""This package contains the implementation of a lot of utilities used
+in the other packages."""
 
 __all__ = ["get_available_devices", "manual_seed", "move_to_device", "to_tuple"]
 

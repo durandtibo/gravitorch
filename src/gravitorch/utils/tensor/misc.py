@@ -20,7 +20,8 @@ T = TypeVar("T")
 
 
 def str_full_tensor(tensor: Tensor) -> str:
-    r"""Computes a string representation of the tensor with all the values.
+    r"""Computes a string representation of the tensor with all the
+    values.
 
     Args:
     ----

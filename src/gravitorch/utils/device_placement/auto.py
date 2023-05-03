@@ -5,8 +5,8 @@ from gravitorch.utils.device_placement.manual import ManualDevicePlacement
 
 
 class AutoDevicePlacement(ManualDevicePlacement):
-    r"""Implements a device placement class that automatically find the "best"
-    device to use.
+    r"""Implements a device placement class that automatically find the
+    "best" device to use.
 
     It uses a cuda device if cuda is available, otherwise it uses a cpu
     device.

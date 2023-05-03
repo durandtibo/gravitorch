@@ -1,4 +1,5 @@
-r"""This module defines dome utility functions for the experiment trackers."""
+r"""This module defines dome utility functions for the experiment
+trackers."""
 
 __all__ = ["setup_exp_tracker", "main_process_only", "sanitize_metrics"]
 

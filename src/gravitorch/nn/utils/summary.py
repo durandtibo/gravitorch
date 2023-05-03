@@ -79,8 +79,8 @@ class ModuleSummary:
         self.detach_hook()
 
     def _register_hook(self) -> RemovableHandle:
-        r"""Registers a hook on the module that computes the input and output
-        size(s) on the first forward pass.
+        r"""Registers a hook on the module that computes the input and
+        output size(s) on the first forward pass.
 
         If the hook is called, it will remove itself from the module,
         meaning that recursive models will only record their input and

@@ -98,8 +98,8 @@ class BaseEngineSaver(BaseHandler):
 
 
 class BestHistorySaver(BaseEngineSaver):
-    r"""Implements a handler to save the best history values in a PyTorch
-    file."""
+    r"""Implements a handler to save the best history values in a
+    PyTorch file."""
 
     def __init__(
         self,
@@ -116,8 +116,8 @@ class BestHistorySaver(BaseEngineSaver):
 
 
 class LastHistorySaver(BaseEngineSaver):
-    r"""Implements a handler to save the last history values in a PyTorch
-    file."""
+    r"""Implements a handler to save the last history values in a
+    PyTorch file."""
 
     def __init__(
         self,
@@ -139,7 +139,8 @@ class LastHistorySaver(BaseEngineSaver):
 
 
 class BestEngineStateSaver(BaseEngineSaver):
-    r"""Implements a handler to save the engine state dict in a PyTorch file.
+    r"""Implements a handler to save the engine state dict in a PyTorch
+    file.
 
     This handler saves the best checkpoint of a set of metrics.
     Internally, this handler uses the history to know if a
@@ -219,7 +220,8 @@ class BestEngineStateSaver(BaseEngineSaver):
 
 
 class EpochEngineStateSaver(BaseEngineSaver):
-    r"""Implements a handler to save the engine state dict in a PyTorch file.
+    r"""Implements a handler to save the engine state dict in a PyTorch
+    file.
 
     This engine state dict saver creates a new file for each epoch.
 
@@ -250,7 +252,8 @@ class EpochEngineStateSaver(BaseEngineSaver):
 
 
 class TagEngineStateSaver(BaseEngineSaver):
-    r"""Implements a handler to save the engine state dict in a PyTorch file.
+    r"""Implements a handler to save the engine state dict in a PyTorch
+    file.
 
     This handler overrides the previous file everytime the ``save``
     method is called.

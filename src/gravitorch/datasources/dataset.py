@@ -20,8 +20,8 @@ T = TypeVar("T")
 
 
 class DatasetDataSource(BaseDataSource):
-    r"""Implements a data source that uses regular PyTorch datasets and data
-    loaders.
+    r"""Implements a data source that uses regular PyTorch datasets and
+    data loaders.
 
     To create a data loader, the user should indicate the dataset and
     the data loader creator. Note that the regular PyTorch data

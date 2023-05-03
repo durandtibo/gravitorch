@@ -26,8 +26,8 @@ logger = logging.getLogger(__name__)
 
 
 def find_module_state_dict(state_dict: Union[dict, list, tuple], module_keys: set) -> dict:
-    r"""Tries to find automatically the part of the state dict related to a
-    module.
+    r"""Tries to find automatically the part of the state dict related to
+    a module.
 
     The user should specify the set of module's keys:
     ``set(module.state_dict().keys())``. This function assumes that
@@ -86,7 +86,8 @@ def load_checkpoint_to_module(
     strict: bool = True,
     key: Optional[Union[str, Sequence[str]]] = None,
 ) -> None:
-    r"""Loads the weights store in a checkpoint file into the given module.
+    r"""Loads the weights store in a checkpoint file into the given
+    module.
 
     The checkpoint should contain the state dict of the module, which
     is the recommended way to store the model state/weights

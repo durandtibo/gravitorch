@@ -1,5 +1,5 @@
-r"""The code is in this module is designed to be used for testing purpose
-only."""
+r"""The code is in this module is designed to be used for testing
+purpose only."""
 
 __all__ = [
     "DummyDataset",

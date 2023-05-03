@@ -216,7 +216,8 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         return self._create_datapipe(loader_id=loader_id, engine=engine)
 
     def has_data_loader(self, loader_id: str) -> bool:
-        r"""Indicates if the data source has a data loader with the given ID.
+        r"""Indicates if the data source has a data loader with the given
+        ID.
 
         Args:
         ----

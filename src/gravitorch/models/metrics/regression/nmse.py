@@ -83,8 +83,8 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         self._num_predictions = 0
 
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates the metric and log the results given all the examples
-        previously seen.
+        r"""Evaluates the metric and log the results given all the
+        examples previously seen.
 
         Args:
         ----

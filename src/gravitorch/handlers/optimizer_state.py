@@ -13,7 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class ConsolidateOptimizerState(BaseHandler):
-    r"""Implements a handler to consolidate the state dict of an optimizer.
+    r"""Implements a handler to consolidate the state dict of an
+    optimizer.
 
     Args:
     ----

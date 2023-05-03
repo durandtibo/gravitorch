@@ -17,8 +17,8 @@ logger = logging.getLogger(__name__)
 
 
 class BaseXavier(BaseInitializer):
-    r"""Implements a module parameter initializer with the Xavier Normal or
-    uniform strategy.
+    r"""Implements a module parameter initializer with the Xavier Normal
+    or uniform strategy.
 
     Args:
     ----
@@ -67,8 +67,8 @@ class XavierNormal(BaseXavier):
 
 
 class XavierUniform(BaseXavier):
-    r"""Implements a module parameter initializer with the Xavier uniform
-    strategy."""
+    r"""Implements a module parameter initializer with the Xavier
+    uniform strategy."""
 
     def initialize(self, module: Module) -> None:
         logger.info(
@@ -125,7 +125,8 @@ def xavier_uniform(
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
-    r"""Initializes the module parameters with the Xavier uniform strategy.
+    r"""Initializes the module parameters with the Xavier uniform
+    strategy.
 
     Args:
     ----

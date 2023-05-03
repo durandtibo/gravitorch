@@ -14,7 +14,8 @@ logger = logging.getLogger(__name__)
 def add_unique_event_handler(
     engine: BaseEngine, event: str, event_handler: BaseEventHandler
 ) -> None:
-    r"""Adds an event handler to the engine if it was not added previously.
+    r"""Adds an event handler to the engine if it was not added
+    previously.
 
     This function checks if the event handler was already added to the
     engine. If not, the event handler is added to the engine otherwise

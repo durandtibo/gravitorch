@@ -91,8 +91,8 @@ class BaseMLP(nn.Module):
         return (self._input_name,)
 
     def get_onnx_dynamic_axis(self) -> dict:
-        r"""Gets the dynamic axes (e.g. batch size or sequence length) when
-        serializing a model to ONNX format.
+        r"""Gets the dynamic axes (e.g. batch size or sequence length)
+        when serializing a model to ONNX format.
 
         See https://pytorch.org/docs/stable/onnx.html#torch.onnx.export
         to have more information on how to create the ``dict``.
@@ -117,7 +117,8 @@ class BaseMLP(nn.Module):
 
 
 class AlphaMLP(BaseMLP):
-    r"""Implements a MLP network where the last layer is an activation layer.
+    r"""Implements a MLP network where the last layer is an activation
+    layer.
 
     Args:
     ----
@@ -157,8 +158,8 @@ class AlphaMLP(BaseMLP):
 
 
 class BetaMLP(BaseMLP):
-    r"""Implements a MLP network where the last layer is a linear layer (without
-    activation).
+    r"""Implements a MLP network where the last layer is a linear layer
+    (without activation).
 
     Args:
     ----
@@ -203,7 +204,8 @@ def create_alpha_mlp(
     activation: Optional[dict] = None,
     dropout: float = 0.0,
 ) -> nn.Sequential:
-    r"""Creates a MLP network where the last layer is an activation layer.
+    r"""Creates a MLP network where the last layer is an activation
+    layer.
 
     Args:
     ----
@@ -238,8 +240,8 @@ def create_beta_mlp(
     activation: Optional[dict] = None,
     dropout: float = 0.0,
 ) -> nn.Sequential:
-    r"""Creates a MLP network where the last layer is a linear layer (without
-    activation).
+    r"""Creates a MLP network where the last layer is a linear layer
+    (without activation).
 
     Args:
     ----

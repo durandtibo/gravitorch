@@ -123,8 +123,8 @@ class MeanTensorMeter:
         return self._total
 
     def all_reduce(self) -> "MeanTensorMeter":
-        r"""Reduces the meter values across all machines in such a way that all
-        get the final result.
+        r"""Reduces the meter values across all machines in such a way
+        that all get the final result.
 
         The sum value is reduced by summing all the sum values (1 sum
         value per distributed process). The count value is reduced by
@@ -178,8 +178,8 @@ class MeanTensorMeter:
         return self.state_dict() == other.state_dict()
 
     def merge(self, meters: Iterable["MeanTensorMeter"]) -> "MeanTensorMeter":
-        r"""Merges several meters with the current meter and returns a new
-        meter.
+        r"""Merges several meters with the current meter and returns a
+        new meter.
 
         Args:
         ----
@@ -332,8 +332,8 @@ class ExtremaTensorMeter:
         return float(self._min_value)
 
     def all_reduce(self) -> "ExtremaTensorMeter":
-        r"""Reduces the meter values across all machines in such a way that all
-        get the final result.
+        r"""Reduces the meter values across all machines in such a way
+        that all get the final result.
 
         The maximum value is reduced by computing the maximum between
         the maximum values (1 maximum value per distributed process).
@@ -388,8 +388,8 @@ class ExtremaTensorMeter:
         return self.state_dict() == other.state_dict()
 
     def merge(self, meters: Iterable["ExtremaTensorMeter"]) -> "ExtremaTensorMeter":
-        r"""Merges several meters with the current meter and returns a new
-        meter.
+        r"""Merges several meters with the current meter and returns a
+        new meter.
 
         Args:
         ----
@@ -525,8 +525,8 @@ class TensorMeter:
         return self._total
 
     def all_reduce(self) -> "TensorMeter":
-        r"""Reduces the meter values across all machines in such a way that all
-        get the final result.
+        r"""Reduces the meter values across all machines in such a way
+        that all get the final result.
 
         The sum value is reduced by summing all the sum values (1 sum
         value per distributed process). The count value is reduced by
@@ -589,8 +589,8 @@ class TensorMeter:
         return self.state_dict() == other.state_dict()
 
     def merge(self, meters: Iterable["TensorMeter"]) -> "TensorMeter":
-        r"""Merges several meters with the current meter and returns a new
-        meter.
+        r"""Merges several meters with the current meter and returns a
+        new meter.
 
         Args:
         ----
@@ -947,8 +947,8 @@ class TensorMeter2:
         return self._values.values().sum().item()
 
     def all_reduce(self) -> "TensorMeter2":
-        r"""Reduces the meter values across all machines in such a way that all
-        get the final result.
+        r"""Reduces the meter values across all machines in such a way
+        that all get the final result.
 
         Returns
         -------
@@ -992,8 +992,8 @@ class TensorMeter2:
         return objects_are_equal(self.state_dict(), other.state_dict())
 
     def merge(self, meters: Iterable["TensorMeter2"]) -> "TensorMeter2":
-        r"""Merges several meters with the current meter and returns a new
-        meter.
+        r"""Merges several meters with the current meter and returns a
+        new meter.
 
         Args:
         ----

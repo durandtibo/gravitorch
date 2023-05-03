@@ -1,5 +1,5 @@
-r"""This module implements some utility functions to do standard element-wise
-operations on some data structures."""
+r"""This module implements some utility functions to do standard
+element-wise operations on some data structures."""
 
 __all__ = ["add_objects", "sub_objects"]
 

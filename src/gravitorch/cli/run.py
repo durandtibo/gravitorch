@@ -26,7 +26,8 @@ logger = logging.getLogger(__name__)
 
 
 def main(config: dict[str, Any]) -> None:
-    r"""Initializes a runner given its configuration and executes its logic.
+    r"""Initializes a runner given its configuration and executes its
+    logic.
 
     Args:
     ----

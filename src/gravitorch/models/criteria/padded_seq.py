@@ -14,8 +14,8 @@ from gravitorch.nn import setup_module
 
 
 class PaddedSequenceLoss(Module):
-    r"""Implements a wrapper to adapt PyTorch loss function (a.k.a. criterion)
-    to deal with zero padded sequential inputs.
+    r"""Implements a wrapper to adapt PyTorch loss function (a.k.a.
+    criterion) to deal with zero padded sequential inputs.
 
     This class works for most of the PyTorch criterion that has two
     inputs: prediction and target. It assumes that the valid time
@@ -113,7 +113,8 @@ class PaddedSequenceLoss(Module):
         self._mask_in_batch = bool(mask_in_batch)
 
     def forward(self, net_out: dict, batch: dict) -> dict[str, Tensor]:
-        r"""Computes the loss value given the network output and the batch.
+        r"""Computes the loss value given the network output and the
+        batch.
 
         Args:
         ----
@@ -160,8 +161,8 @@ class PaddedSequenceLoss(Module):
         return net_out[self._prediction_key]
 
     def _get_target_from_batch(self, batch: dict) -> Tensor:
-        r"""Gets the target from the batch. The target is the tensor with the
-        key 'target'.
+        r"""Gets the target from the batch. The target is the tensor with
+        the key 'target'.
 
         Args:
         ----

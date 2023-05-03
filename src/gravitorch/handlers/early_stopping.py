@@ -155,8 +155,8 @@ class EarlyStopping(BaseHandler):
         }
 
     def start(self, engine: BaseEngine) -> None:
-        r"""Stops the training if the requirements to stop the training are
-        already met.
+        r"""Stops the training if the requirements to stop the training
+        are already met.
 
         Args:
         ----
@@ -175,8 +175,8 @@ class EarlyStopping(BaseHandler):
             engine.terminate()
 
     def step(self, engine: BaseEngine) -> None:
-        """Updates the early stopping handler by using the last value of the
-        monitored metric.
+        """Updates the early stopping handler by using the last value of
+        the monitored metric.
 
         Args:
         ----

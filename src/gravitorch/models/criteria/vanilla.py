@@ -66,7 +66,8 @@ class VanillaLoss(Module):
         self._target_key = target_key
 
     def forward(self, net_out: dict, batch: dict) -> dict[str, Tensor]:
-        r"""Computes the loss value given the network output and the batch.
+        r"""Computes the loss value given the network output and the
+        batch.
 
         Args:
         ----
@@ -97,8 +98,8 @@ class VanillaLoss(Module):
         return net_out[self._prediction_key]
 
     def _get_target_from_batch(self, batch: dict) -> Tensor:
-        r"""Gets the target from the batch. The target is the tensor with the
-        key 'target'.
+        r"""Gets the target from the batch. The target is the tensor with
+        the key 'target'.
 
         Args:
         ----

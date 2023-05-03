@@ -82,8 +82,9 @@ class BarronRobustLoss(Module):
 
 
 class AsinhBarronRobustLoss(BarronRobustLoss):
-    r"""Implements the Barron robust loss function where the inverse hyperbolic
-    sine (arcsinh) transformation is applied on the prediction and target."""
+    r"""Implements the Barron robust loss function where the inverse
+    hyperbolic sine (arcsinh) transformation is applied on the
+    prediction and target."""
 
     def forward(self, prediction: Tensor, target: Tensor) -> Tensor:
         r"""Computes the loss values and reduces them.

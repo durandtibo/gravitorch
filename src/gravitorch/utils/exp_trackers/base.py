@@ -129,7 +129,8 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def flush(self, upload_checkpoints: bool = True) -> None:
-        r"""Flushes all the current artifacts/metrics to the remote server.
+        r"""Flushes all the current artifacts/metrics to the remote
+        server.
 
         This function is expected to be called not at a high frequency.
         For example, you can call this function at the end of each
@@ -556,8 +557,8 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def upload_checkpoints(self) -> None:
-        r"""Uploads all the checkpoints that are in the checkpoint path to the
-        remote server.
+        r"""Uploads all the checkpoints that are in the checkpoint path
+        to the remote server.
 
         This method does nothing if no remote server is used.
 
@@ -606,7 +607,8 @@ class BaseBasicExpTracker(BaseExpTracker):
 
     @abstractmethod
     def _flush(self, upload_checkpoints: bool = True) -> None:
-        r"""Flushes all the current artifacts/metrics to the remote server.
+        r"""Flushes all the current artifacts/metrics to the remote
+        server.
 
         This function is expected to be called not at a high frequency.
         For example, you can call this function at the end of each

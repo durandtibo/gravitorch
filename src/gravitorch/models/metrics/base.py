@@ -56,8 +56,8 @@ class BaseMetric(Module, metaclass=AbstractFactory):
 
     @abstractmethod
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates the metric and log the results given all the examples
-        previously seen.
+        r"""Evaluates the metric and log the results given all the
+        examples previously seen.
 
         Args:
         ----
@@ -70,7 +70,8 @@ class BaseMetric(Module, metaclass=AbstractFactory):
 
 
 class EmptyMetricError(Exception):
-    r"""This error is raised when you try to evaluate an empty metric."""
+    r"""This error is raised when you try to evaluate an empty
+    metric."""
 
 
 def setup_metric(metric: Union[BaseMetric, dict]) -> BaseMetric:

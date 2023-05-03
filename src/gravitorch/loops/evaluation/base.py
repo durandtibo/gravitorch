@@ -34,8 +34,8 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
-        r"""Sets up the evaluation loop from a dictionary containing the state
-        values.
+        r"""Sets up the evaluation loop from a dictionary containing the
+        state values.
 
         Args:
         ----

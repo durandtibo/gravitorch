@@ -1,5 +1,5 @@
-r"""This module implements some utility functions to automatically do some
-operations.
+r"""This module implements some utility functions to automatically do
+some operations.
 
 These implementations cover a large set of use cases but you may need to
 implement your own functions for some special use cases.

@@ -16,9 +16,9 @@ from gravitorch.data.dataloaders.collators.base import BaseCollator
 
 
 class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
-    """Implements a collator to create batch of packed sequences because the
-    default PyTorch collate function does not work with sequences of different
-    lenghts.
+    """Implements a collator to create batch of packed sequences because
+    the default PyTorch collate function does not work with sequences of
+    different lenghts.
 
     With this collator, each example in the batch can have a different
     length. The examples have to be formatted in a specified format.
@@ -83,9 +83,9 @@ class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
 
 
 class DictPackedSequenceCollator(BaseCollator[dict, dict]):
-    r"""Implements a collator to create batch of packed sequences because the
-    default PyTorch collate function does not work with sequences of different
-    lengths.
+    r"""Implements a collator to create batch of packed sequences because
+    the default PyTorch collate function does not work with sequences of
+    different lengths.
 
     With this collator, each example in the batch can have a different
     length. Each example has to be a dict, and you need to specify the

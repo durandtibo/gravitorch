@@ -1,4 +1,5 @@
-r"""This module implements a data summary for discrete numerical values."""
+r"""This module implements a data summary for discrete numerical
+values."""
 
 __all__ = ["BaseDiscreteDataSummary"]
 

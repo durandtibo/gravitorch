@@ -38,8 +38,8 @@ def hello_handler() -> None:
 
 @trace
 def hello_name_handler(first_name: str, last_name: str) -> None:
-    r"""Implements a simple handler that prints hello and the name of the
-    person."""
+    r"""Implements a simple handler that prints hello and the name of
+    the person."""
     logger.info(f"Hello. I am {first_name} {last_name}")
 
 

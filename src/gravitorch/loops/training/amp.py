@@ -1,5 +1,5 @@
-r"""This module implements a training loop using automatic mixed precision
-(AMP)."""
+r"""This module implements a training loop using automatic mixed
+precision (AMP)."""
 
 __all__ = ["AMPTrainingLoop"]
 

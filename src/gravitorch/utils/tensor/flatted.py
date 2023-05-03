@@ -69,8 +69,8 @@ class LazyFlattedTensor:
         )
 
     def all_reduce(self) -> "LazyFlattedTensor":
-        r"""Reduces the values across all machines in such a way that all get
-        the all the values.
+        r"""Reduces the values across all machines in such a way that all
+        get the all the values.
 
         Returns
         -------
@@ -104,8 +104,8 @@ class LazyFlattedTensor:
         return LazyFlattedTensor(self.values().clone())
 
     def consolidate(self) -> None:
-        r"""Consolidates the current values and internal buffer in a single
-        flatted tensor.
+        r"""Consolidates the current values and internal buffer in a
+        single flatted tensor.
 
         This method does nothing if the lazy tensor is already
         consolidated.

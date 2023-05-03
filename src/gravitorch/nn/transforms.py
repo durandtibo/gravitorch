@@ -134,8 +134,8 @@ class OnePolynomial(Module):
         output_min_value: float = 0.0,
         output_max_value: float = 1.0,
     ) -> "OnePolynomial":
-        r"""Instantiates a polynomial transform module for a given input and
-        output ranges.
+        r"""Instantiates a polynomial transform module for a given input
+        and output ranges.
 
         Args:
         ----

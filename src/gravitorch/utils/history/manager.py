@@ -208,7 +208,8 @@ class HistoryManager:
                 self._histories[key] = BaseHistory.from_dict(state)
 
     def state_dict(self) -> dict:
-        r"""Returns a dictionary containing state values of all the histories.
+        r"""Returns a dictionary containing state values of all the
+        histories.
 
         Returns:
         -------

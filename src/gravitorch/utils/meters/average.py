@@ -9,7 +9,8 @@ from gravitorch.utils.meters.exceptions import EmptyMeterError
 
 
 class AverageMeter:
-    r"""Defines a class to compute and store the average value of float number.
+    r"""Defines a class to compute and store the average value of float
+    number.
 
     Args:
     ----
@@ -63,8 +64,8 @@ class AverageMeter:
         return self._total
 
     def all_reduce(self) -> "AverageMeter":
-        r"""Reduces the meter values across all machines in such a way that all
-        get the final result.
+        r"""Reduces the meter values across all machines in such a way
+        that all get the final result.
 
         The total value is reduced by summing all the sum values
         (1 total value per distributed process).
@@ -130,8 +131,8 @@ class AverageMeter:
         return self.state_dict() == other.state_dict()
 
     def merge(self, meters: Iterable["AverageMeter"]) -> "AverageMeter":
-        r"""Merges several meters with the current meter and returns a new
-        meter.
+        r"""Merges several meters with the current meter and returns a
+        new meter.
 
         Args:
         ----
@@ -203,7 +204,8 @@ class AverageMeter:
         return self._total
 
     def update(self, value: float, num_examples: int = 1) -> None:
-        r"""Updates the meter given a new value and the number of examples.
+        r"""Updates the meter given a new value and the number of
+        examples.
 
         Args:
         ----

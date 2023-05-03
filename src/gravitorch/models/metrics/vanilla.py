@@ -103,8 +103,8 @@ class VanillaMetric(BaseMetric):
         self.metric.reset()
 
     def value(self, engine: Optional[BaseEngine] = None) -> dict:
-        r"""Evaluates the metric and log the results given all the examples
-        previously seen.
+        r"""Evaluates the metric and log the results given all the
+        examples previously seen.
 
         Args:
         ----
@@ -131,8 +131,8 @@ class VanillaMetric(BaseMetric):
         return net_out[self._prediction_key].detach()
 
     def _get_target_from_batch(self, batch: dict) -> Tensor:
-        r"""Gets the target from the batch. The target is the tensor with the
-        key 'target'.
+        r"""Gets the target from the batch. The target is the tensor with
+        the key 'target'.
 
         Args:
         ----

@@ -1,4 +1,5 @@
-r"""This module contains handlers to update a learning rate (LR) scheduler."""
+r"""This module contains handlers to update a learning rate (LR)
+scheduler."""
 
 __all__ = [
     "EpochLRSchedulerUpdater",
@@ -21,8 +22,8 @@ logger = logging.getLogger(__name__)
 
 
 class LRSchedulerUpdater(BaseHandler):
-    r"""Implements a handler to update the learning rate (LR) scheduler at a
-    given event.
+    r"""Implements a handler to update the learning rate (LR) scheduler
+    at a given event.
 
     Args:
     ----
@@ -48,24 +49,24 @@ class LRSchedulerUpdater(BaseHandler):
 
 
 class EpochLRSchedulerUpdater(LRSchedulerUpdater):
-    r"""Implements a handler to update the learning rate (LR) scheduler at the
-    end of each training epoch."""
+    r"""Implements a handler to update the learning rate (LR) scheduler
+    at the end of each training epoch."""
 
     def __init__(self) -> None:
         super().__init__(event=EngineEvents.TRAIN_EPOCH_COMPLETED)
 
 
 class IterationLRSchedulerUpdater(LRSchedulerUpdater):
-    r"""Implements a handler to update the learning rate (LR) scheduler at the
-    end of each training iteration."""
+    r"""Implements a handler to update the learning rate (LR) scheduler
+    at the end of each training iteration."""
 
     def __init__(self) -> None:
         super().__init__(event=EngineEvents.TRAIN_ITERATION_COMPLETED)
 
 
 class MetricLRSchedulerUpdater(BaseHandler):
-    r"""Implements a handler to update the learning rate (LR) scheduler with a
-    metric value at a given event.
+    r"""Implements a handler to update the learning rate (LR) scheduler
+    with a metric value at a given event.
 
     This updater was designed to be used with ``ReduceLROnPlateau``
     or any LR schedulers that use a metric value as input of the
@@ -116,8 +117,8 @@ class MetricLRSchedulerUpdater(BaseHandler):
 
 
 class MetricEpochLRSchedulerUpdater(MetricLRSchedulerUpdater):
-    r"""Implements a handler to update the learning rate (LR) scheduler with a
-    metric value at the end of each epoch.
+    r"""Implements a handler to update the learning rate (LR) scheduler
+    with a metric value at the end of each epoch.
 
     This updater was designed to be used with ``ReduceLROnPlateau`` or
     any LR schedulers that use a metric value as input of the ``step``

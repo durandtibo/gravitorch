@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 
 
 class EngineStateLoader(BaseHandler):
-    r"""Implements a handler to load the engine state dict from a PyTorch file.
+    r"""Implements a handler to load the engine state dict from a PyTorch
+    file.
 
     Note that the state dict in the file should be compatible with
     the engine.
@@ -90,7 +91,8 @@ class EngineStateLoader(BaseHandler):
 
 
 class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
-    r"""Implements a handler to load the engine state dict from a PyTorch file.
+    r"""Implements a handler to load the engine state dict from a PyTorch
+    file.
 
     This state dict loader excludes the keys that are specified in
     ``exclude_keys``. Note that the state dict in the file should be
@@ -154,7 +156,8 @@ class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
 
 
 class EngineStateLoaderWithIncludeKeys(EngineStateLoader):
-    r"""Implements a handler to load the engine state dict from a PyTorch file.
+    r"""Implements a handler to load the engine state dict from a PyTorch
+    file.
 
     This state dict loader loads only the keys that are specified in
     ``include_keys``. If a key is not present in the state dict, this

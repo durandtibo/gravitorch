@@ -283,7 +283,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def is_comparable(self) -> bool:
-        r"""Indicates if it is possible to compare the values in the history.
+        r"""Indicates if it is possible to compare the values in the
+        history.
 
         Note that it is possible to compute the best value only for
         histories that are comparable.
@@ -348,7 +349,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
-        r"""Sets up the history from a dictionary containing the state values.
+        r"""Sets up the history from a dictionary containing the state
+        values.
 
         Args:
         ----
@@ -446,8 +448,8 @@ class EmptyHistoryError(Exception):
 
 
 class NotAComparableHistoryError(Exception):
-    r"""Generates an error if it is not possible to compare the values in the
-    history."""
+    r"""Generates an error if it is not possible to compare the values
+    in the history."""
 
 
 class HistoryAllCloseOperator(BaseAllCloseOperator[BaseHistory]):

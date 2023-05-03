@@ -1,4 +1,5 @@
-r"""This module implements some utility functions for the training loops."""
+r"""This module implements some utility functions for the training
+loops."""
 
 __all__ = ["setup_training_loop"]
 

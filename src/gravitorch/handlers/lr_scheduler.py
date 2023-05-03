@@ -44,8 +44,8 @@ class VanillaLRScheduler(BaseHandler):
         )
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches the handler to update a LR scheduler and monitor the LR
-        value.
+        r"""Attaches the handler to update a LR scheduler and monitor the
+        LR value.
 
         Args:
         ----
@@ -56,8 +56,8 @@ class VanillaLRScheduler(BaseHandler):
 
 
 class EpochLRScheduler(VanillaLRScheduler):
-    r"""Implements a handler to update a learning rate (LR) scheduler at the end
-    of each training epoch and monitor the LR value.
+    r"""Implements a handler to update a learning rate (LR) scheduler at
+    the end of each training epoch and monitor the LR value.
 
     This LR scheduler handler sets up:
 
@@ -74,8 +74,8 @@ class EpochLRScheduler(VanillaLRScheduler):
 
 
 class IterationLRScheduler(VanillaLRScheduler):
-    r"""Implements a handler to update a learning rate (LR) scheduler at the end
-    of each training iteration and monitor the LR value.
+    r"""Implements a handler to update a learning rate (LR) scheduler at
+    the end of each training iteration and monitor the LR value.
 
     This LR scheduler handler sets up:
 

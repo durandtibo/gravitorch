@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 class NoOpInitializer(BaseInitializer):
-    r"""This is the special class that does not update the module parameters.
+    r"""This is the special class that does not update the module
+    parameters.
 
     You should use this class if the parameters of the module are
     initialized somewhere else.

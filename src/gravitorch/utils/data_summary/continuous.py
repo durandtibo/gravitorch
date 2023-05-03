@@ -1,4 +1,5 @@
-r"""This module implements a data summary for continuous numerical values."""
+r"""This module implements a data summary for continuous numerical
+values."""
 
 __all__ = ["BaseContinuousDataSummary", "prepare_quantiles"]
 

@@ -13,8 +13,8 @@ from gravitorch.nn import setup_module
 
 
 class PackedSequenceLoss(Module):
-    r"""Implements a wrapper to adapt PyTorch criterion to deal with packed
-    sequence inputs.
+    r"""Implements a wrapper to adapt PyTorch criterion to deal with
+    packed sequence inputs.
 
     This class works for every PyTorch criterion that has two inputs:
     prediction and target.
@@ -67,7 +67,8 @@ class PackedSequenceLoss(Module):
         self._mask_key = mask_key
 
     def forward(self, net_out: dict, batch: dict) -> dict[str, Tensor]:
-        r"""Computes the loss value given the network output and the batch.
+        r"""Computes the loss value given the network output and the
+        batch.
 
         Args:
         ----
@@ -106,8 +107,8 @@ class PackedSequenceLoss(Module):
         return net_out[self._prediction_key].data
 
     def _get_target_from_batch(self, batch: dict) -> Tensor:
-        r"""Gets the target from the batch. The target is the tensor with the
-        key 'target'.
+        r"""Gets the target from the batch. The target is the tensor with
+        the key 'target'.
 
         Args:
         ----

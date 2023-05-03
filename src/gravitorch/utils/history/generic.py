@@ -14,8 +14,8 @@ T = TypeVar("T")
 
 
 class GenericHistory(BaseHistory[T]):
-    r"""Implements a generic history to store the recent values added in the
-    history.
+    r"""Implements a generic history to store the recent values added in
+    the history.
 
     Internally, this class uses a ``deque`` to keep the most recent
     values added in the history. Note that this class does not allow

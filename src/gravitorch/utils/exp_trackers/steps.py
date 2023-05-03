@@ -1,4 +1,5 @@
-r"""This module defines some steps that are used in the experiment tracker."""
+r"""This module defines some steps that are used in the experiment
+tracker."""
 
 __all__ = ["Step", "EpochStep", "IterationStep"]
 

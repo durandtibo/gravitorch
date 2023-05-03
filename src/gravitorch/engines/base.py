@@ -187,8 +187,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def eval(self) -> None:
-        r"""Evaluates the model on the given evaluation dataset with the given
-        metrics/loss.
+        r"""Evaluates the model on the given evaluation dataset with the
+        given metrics/loss.
 
         The evaluation dataset has to be defined.
 
@@ -671,8 +671,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def terminate(self) -> None:
-        r"""Sends terminate signal to the engine to stop the training after the
-        current epoch.
+        r"""Sends terminate signal to the engine to stop the training
+        after the current epoch.
 
         Example usage:
 

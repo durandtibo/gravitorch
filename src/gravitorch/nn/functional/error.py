@@ -64,8 +64,8 @@ def absolute_relative_error(prediction: Tensor, target: Tensor, eps: float = 1e-
 def symmetric_absolute_relative_error(
     prediction: Tensor, target: Tensor, eps: float = 1e-8
 ) -> Tensor:
-    r"""Computes the symmetric absolute relative error between the predictions
-    and targets.
+    r"""Computes the symmetric absolute relative error between the
+    predictions and targets.
 
     Args:
     ----

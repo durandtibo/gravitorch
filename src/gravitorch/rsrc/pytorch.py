@@ -30,8 +30,8 @@ class PyTorchConfigState:
     deterministic_algorithms_warn_only: bool
 
     def restore(self) -> None:
-        r"""Restores the PyTorch configuration by using the values in the
-        state."""
+        r"""Restores the PyTorch configuration by using the values in
+        the state."""
         torch.set_float32_matmul_precision(self.float32_matmul_precision)
         torch.use_deterministic_algorithms(
             mode=self.deterministic_algorithms_mode,
@@ -54,7 +54,8 @@ class PyTorchConfigState:
 
 
 class PyTorchConfig(BaseResource):
-    r"""Implements a context manager to show the PyTorch configuration."""
+    r"""Implements a context manager to show the PyTorch
+    configuration."""
 
     def __init__(
         self,
@@ -133,8 +134,8 @@ class PyTorchCudaBackendState:
     preferred_linalg_backend: Any
 
     def restore(self) -> None:
-        r"""Restores the PyTorch CUDA backend configuration by using the values
-        in the state."""
+        r"""Restores the PyTorch CUDA backend configuration by using the
+        values in the state."""
         cuda.matmul.allow_tf32 = self.allow_tf32
         cuda.matmul.allow_fp16_reduced_precision_reduction = (
             self.allow_fp16_reduced_precision_reduction
@@ -163,7 +164,8 @@ class PyTorchCudaBackendState:
 
 
 class PyTorchCudaBackend(BaseResource):
-    r"""Implements a context manager to configure the PyTorch CUDA backend.
+    r"""Implements a context manager to configure the PyTorch CUDA
+    backend.
 
     Args:
     ----
@@ -273,8 +275,8 @@ class PyTorchCudnnBackendState:
     enabled: bool
 
     def restore(self) -> None:
-        r"""Restores the PyTorch CUDNN backend configuration by using the
-        values in the state."""
+        r"""Restores the PyTorch CUDNN backend configuration by using
+        the values in the state."""
         cudnn.allow_tf32 = self.allow_tf32
         cudnn.benchmark = self.benchmark
         cudnn.benchmark_limit = self.benchmark_limit
@@ -299,7 +301,8 @@ class PyTorchCudnnBackendState:
 
 
 class PyTorchCudnnBackend(BaseResource):
-    r"""Implements a context manager to configure the PyTorch CUDNN backend.
+    r"""Implements a context manager to configure the PyTorch CUDNN
+    backend.
 
     Args:
     ----
@@ -397,8 +400,8 @@ class PyTorchMpsBackendState:
     is_built: bool
 
     def restore(self) -> None:
-        r"""Restores the PyTorch MPS backend configuration by using the values
-        in the state."""
+        r"""Restores the PyTorch MPS backend configuration by using the
+        values in the state."""
 
     @classmethod
     def create(cls) -> "PyTorchMpsBackendState":
@@ -412,7 +415,8 @@ class PyTorchMpsBackendState:
 
 
 class PyTorchMpsBackend(BaseResource):
-    r"""Implements a context manager to configure the PyTorch MPS backend.
+    r"""Implements a context manager to configure the PyTorch MPS
+    backend.
 
     Args:
     ----

@@ -25,7 +25,8 @@ from gravitorch.utils.format import human_byte_size
 
 
 def get_original_cwd() -> Path:
-    r"""Gets the original working directory the experiment was launched from.
+    r"""Gets the original working directory the experiment was launched
+    from.
 
     The problem is that Hydra change the working directory when the
     application is launched.
@@ -42,8 +43,8 @@ def get_original_cwd() -> Path:
 
 
 def get_pythonpath() -> Path:
-    r"""Gets the value of PYTHONPATH or the original working directory if this
-    value is not defined.
+    r"""Gets the value of PYTHONPATH or the original working directory if
+    this value is not defined.
 
     Returns
     -------
@@ -55,8 +56,8 @@ def get_pythonpath() -> Path:
 
 @contextlib.contextmanager
 def working_directory(path: Path) -> Generator[None, None, None]:
-    r"""A context manager which changes the working directory to the given path,
-    and then changes it back to its previous value on exit.
+    r"""A context manager which changes the working directory to the
+    given path, and then changes it back to its previous value on exit.
 
     SOURCE: https://gist.github.com/nottrobin/3d675653244f8814838a
 
