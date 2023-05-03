@@ -53,6 +53,12 @@ jobs:
         run: |
           poetry run make integration-test-cov
 
+      - name: Run functional tests
+        continue-on-error: true
+        timeout-minutes: 4
+        run: |
+          poetry run make functional-test-cov
+
   test-minimal:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
