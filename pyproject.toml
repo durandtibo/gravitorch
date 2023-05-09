@@ -38,11 +38,11 @@ pytorch-ignite = [
     {version = "^0.4"},
 ]
 tabulate = "^0.9"
-torch = "^2.0"
+torch = "2.0.0"
 tqdm = "^4.64"
 
 # Optional dependencies
-accelerate = { version = "^0.18", optional = true }
+accelerate = { version = "^0.19", optional = true }
 colorlog = { version = "^6.7", optional = true }
 matplotlib = { version = "^3.7", optional = true }
 pillow = { version = "^9.5", optional = true }
