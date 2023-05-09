@@ -101,7 +101,7 @@ jobs:
       - name: Install packages
         run: |
           poetry run make config-poetry
-          poetry run poetry install
+          poetry run make install-min
 
       - name: Show installed packages
         run: |

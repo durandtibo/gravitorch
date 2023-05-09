@@ -16,6 +16,7 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
@@ -37,7 +38,7 @@ pytorch-ignite = [
     {version = "^0.4"},
 ]
 tabulate = "^0.9"
-torch = "2.0.0"
+torch = "^2.0"
 tqdm = "^4.64"
 
 # Optional dependencies
@@ -113,7 +114,7 @@ timeout_func_only = false
 
 [tool.black]
 line-length = 100
-target-version = ["py39", "py310"]
+target-version = ["py39", "py310", "py311"]
 include = '\.pyi?$'
 
 [tool.pylint.FORMAT]
