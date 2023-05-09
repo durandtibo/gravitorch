@@ -24,6 +24,11 @@ install-all :
 	poetry install --no-interaction --with exp --all-extras
 	pip install --upgrade torch>=2.0.1
 
+.PHONY : install-min
+install-min :
+	poetry install
+	pip install --upgrade torch>=2.0.1
+
 .PHONY : update
 update :
 	-poetry self update
