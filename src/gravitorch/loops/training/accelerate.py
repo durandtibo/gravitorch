@@ -19,7 +19,7 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.observers import BaseLoopObserver
 from gravitorch.loops.training.basic import BaseBasicTrainingLoop
-from gravitorch.utils.integrations import check_accelerate, is_accelerate_available
+from gravitorch.utils.imports import check_accelerate, is_accelerate_available
 from gravitorch.utils.profilers import BaseProfiler
 
 if is_accelerate_available():

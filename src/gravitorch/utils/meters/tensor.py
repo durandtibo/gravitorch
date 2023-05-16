@@ -11,7 +11,7 @@ from gravitorch.distributed.ddp import MAX, MIN, SUM, sync_reduce
 from gravitorch.utils.format import to_pretty_dict_str
 from gravitorch.utils.meters.exceptions import EmptyMeterError
 from gravitorch.utils.tensor import scalable_quantile
-from gravitorch.utils.tensor.flatted import LazyFlattedTensor
+from gravitorch.utils.tensor.flat import LazyFlattedTensor
 
 
 class MeanTensorMeter:

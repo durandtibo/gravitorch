@@ -7,7 +7,7 @@ from pytest import TempPathFactory, fixture, raises
 from gravitorch import constants as ct
 from gravitorch.data.datasets import MNISTDataset
 from gravitorch.testing import torchvision_available
-from gravitorch.utils.integrations import is_torchvision_available
+from gravitorch.utils.imports import is_torchvision_available
 from gravitorch.utils.io import save_pytorch
 
 if is_torchvision_available():
@@ -43,6 +43,6 @@ def test_mnist_dataset_getitem(mnist_path: Path) -> None:
 
 
 def test_mnist_dataset_without_torchvision() -> None:
-    with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError, match="`torchvision` package is required but not installed."):
             MNISTDataset()

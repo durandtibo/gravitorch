@@ -3,7 +3,7 @@ from pytest import mark
 from torch import distributed as tdist
 
 from gravitorch.distributed.comm import Backend, available_backends
-from gravitorch.utils.integrations import (
+from gravitorch.utils.imports import (
     is_accelerate_available,
     is_pillow_available,
     is_tensorboard_available,

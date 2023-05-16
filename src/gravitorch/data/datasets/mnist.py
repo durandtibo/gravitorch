@@ -3,7 +3,7 @@ __all__ = ["MNISTDataset"]
 from unittest.mock import Mock
 
 from gravitorch import constants as ct
-from gravitorch.utils.integrations import check_torchvision, is_torchvision_available
+from gravitorch.utils.imports import check_torchvision, is_torchvision_available
 
 if is_torchvision_available():
     from torchvision.datasets import MNIST

@@ -22,7 +22,7 @@ from typing import Union
 from torch import Tensor
 from torch.nn import Module
 
-from gravitorch.utils.tensor.math_ops import isymlog, safeexp, safelog, symlog
+from gravitorch.utils.tensor.mathops import isymlog, safeexp, safelog, symlog
 
 
 class Asinh(Module):

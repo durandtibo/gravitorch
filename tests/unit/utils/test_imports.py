@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from pytest import raises
 
-from gravitorch.utils.integrations import (
+from gravitorch.utils.imports import (
     check_accelerate,
     check_fairscale,
     check_matplotlib,
@@ -26,12 +26,12 @@ from gravitorch.utils.integrations import (
 
 
 def test_check_accelerate_with_package() -> None:
-    with patch("gravitorch.utils.integrations.is_accelerate_available", lambda *args: True):
+    with patch("gravitorch.utils.imports.is_accelerate_available", lambda *args: True):
         check_accelerate()
 
 
 def test_check_accelerate_without_package() -> None:
-    with patch("gravitorch.utils.integrations.is_accelerate_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_accelerate_available", lambda *args: False):
         with raises(RuntimeError, match="`accelerate` package is required but not installed."):
             check_accelerate()
 
@@ -46,12 +46,12 @@ def test_is_accelerate_available() -> None:
 
 
 def test_check_fairscale_with_package() -> None:
-    with patch("gravitorch.utils.integrations.is_fairscale_available", lambda *args: True):
+    with patch("gravitorch.utils.imports.is_fairscale_available", lambda *args: True):
         check_fairscale()
 
 
 def test_check_fairscale_without_package() -> None:
-    with patch("gravitorch.utils.integrations.is_fairscale_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_fairscale_available", lambda *args: False):
         with raises(RuntimeError, match="`fairscale` package is required but not installed."):
             check_fairscale()
 
@@ -66,12 +66,12 @@ def test_is_fairscale_available() -> None:
 
 
 def test_check_matplotlib_with_package() -> None:
-    with patch("gravitorch.utils.integrations.is_matplotlib_available", lambda *args: True):
+    with patch("gravitorch.utils.imports.is_matplotlib_available", lambda *args: True):
         check_matplotlib()
 
 
 def test_check_matplotlib_without_package() -> None:
-    with patch("gravitorch.utils.integrations.is_matplotlib_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_matplotlib_available", lambda *args: False):
         with raises(RuntimeError, match="`matplotlib` package is required but not installed."):
             check_matplotlib()
 
@@ -86,12 +86,12 @@ def test_is_matplotlib_available() -> None:
 
 
 def test_check_pillow_with_package() -> None:
-    with patch("gravitorch.utils.integrations.is_pillow_available", lambda *args: True):
+    with patch("gravitorch.utils.imports.is_pillow_available", lambda *args: True):
         check_pillow()
 
 
 def test_check_pillow_without_package() -> None:
-    with patch("gravitorch.utils.integrations.is_pillow_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_pillow_available", lambda *args: False):
         with raises(RuntimeError, match="`pillow` package is required but not installed."):
             check_pillow()
 
@@ -115,12 +115,12 @@ def test_is_psutil_available() -> None:
 
 
 def test_check_tensorboard_with_package() -> None:
-    with patch("gravitorch.utils.integrations.is_tensorboard_available", lambda *args: True):
+    with patch("gravitorch.utils.imports.is_tensorboard_available", lambda *args: True):
         check_tensorboard()
 
 
 def test_check_tensorboard_without_package() -> None:
-    with patch("gravitorch.utils.integrations.is_tensorboard_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_tensorboard_available", lambda *args: False):
         with raises(RuntimeError, match="`tensorboard` package is required but not installed."):
             check_tensorboard()
 
@@ -135,12 +135,12 @@ def test_is_tensorboard_available() -> None:
 
 
 def test_check_torchdata_with_package() -> None:
-    with patch("gravitorch.utils.integrations.is_torchdata_available", lambda *args: True):
+    with patch("gravitorch.utils.imports.is_torchdata_available", lambda *args: True):
         check_torchdata()
 
 
 def test_check_torchdata_without_package() -> None:
-    with patch("gravitorch.utils.integrations.is_torchdata_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_torchdata_available", lambda *args: False):
         with raises(RuntimeError, match="`torchdata` package is required but not installed."):
             check_torchdata()
 
@@ -155,12 +155,12 @@ def test_is_torchdata_available() -> None:
 
 
 def test_check_torchvision_with_package() -> None:
-    with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: True):
+    with patch("gravitorch.utils.imports.is_torchvision_available", lambda *args: True):
         check_torchvision()
 
 
 def test_check_torchvision_without_package() -> None:
-    with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError, match="`torchvision` package is required but not installed."):
             check_torchvision()
 

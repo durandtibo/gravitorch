@@ -25,7 +25,7 @@ def test_lazy_flatted_tensor_str() -> None:
     assert str(LazyFlattedTensor()).startswith("LazyFlattedTensor(")
 
 
-@patch("gravitorch.utils.tensor.flatted.all_gather_tensor_varshape", lambda tensor: [tensor])
+@patch("gravitorch.utils.tensor.flat.all_gather_tensor_varshape", lambda tensor: [tensor])
 def test_lazy_flatted_tensor_all_reduce_non_distributed() -> None:
     lazy_tensor = LazyFlattedTensor(values=torch.arange(4))
     lazy_tensor.update(torch.tensor([-3, 1, 7]))
@@ -40,7 +40,7 @@ def test_lazy_flatted_tensor_all_reduce_non_distributed() -> None:
 
 
 @patch(
-    "gravitorch.utils.tensor.flatted.all_gather_tensor_varshape",
+    "gravitorch.utils.tensor.flat.all_gather_tensor_varshape",
     lambda tensor: [tensor, torch.tensor([3, 2, 1])],
 )
 def test_lazy_flatted_tensor_all_reduce_distributed() -> None:

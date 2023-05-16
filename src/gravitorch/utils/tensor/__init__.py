@@ -23,8 +23,8 @@ __all__ = [
     "to_tensor",
 ]
 
-from gravitorch.utils.tensor.flatted import LazyFlattedTensor
-from gravitorch.utils.tensor.math_ops import (
+from gravitorch.utils.tensor.flat import LazyFlattedTensor
+from gravitorch.utils.tensor.mathops import (
     isymlog,
     isymlog_,
     safeexp,
@@ -41,7 +41,7 @@ from gravitorch.utils.tensor.misc import (
     str_full_tensor,
     to_tensor,
 )
-from gravitorch.utils.tensor.recursive_ops import (
+from gravitorch.utils.tensor.recursive import (
     UNKNOWN,
     get_dtype,
     get_shape,

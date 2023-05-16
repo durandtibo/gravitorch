@@ -23,7 +23,7 @@ from gravitorch.testing import (
 )
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
-from gravitorch.utils.integrations import is_accelerate_available
+from gravitorch.utils.imports import is_accelerate_available
 from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
 
 if is_accelerate_available():
@@ -52,7 +52,7 @@ def test_accelerate_evaluation_loop_str() -> None:
 
 
 def test_accelerate_evaluation_loop_missing_package() -> None:
-    with patch("gravitorch.utils.integrations.is_accelerate_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_accelerate_available", lambda *args: False):
         with raises(RuntimeError, match="`accelerate` package is required but not installed."):
             AccelerateEvaluationLoop()
 

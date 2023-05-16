@@ -7,7 +7,7 @@ from pytest import TempPathFactory, fixture, raises
 from gravitorch import constants as ct
 from gravitorch.data.datasets import ImageFolderDataset
 from gravitorch.testing import pillow_available, torchvision_available
-from gravitorch.utils.integrations import is_pillow_available
+from gravitorch.utils.imports import is_pillow_available
 
 if is_pillow_available():
     from PIL import Image
@@ -56,13 +56,13 @@ def test_image_folder_dataset(dataset_path: Path) -> None:
 
 
 def test_image_folder_dataset_without_torchvision() -> None:
-    with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError, match="`torchvision` package is required but not installed."):
             ImageFolderDataset()
 
 
 def test_image_folder_dataset_without_pillow() -> None:
-    with patch("gravitorch.utils.integrations.is_torchvision_available", lambda *args: True):
-        with patch("gravitorch.utils.integrations.is_pillow_available", lambda *args: False):
+    with patch("gravitorch.utils.imports.is_torchvision_available", lambda *args: True):
+        with patch("gravitorch.utils.imports.is_pillow_available", lambda *args: False):
             with raises(RuntimeError, match="`pillow` package is required but not installed."):
                 ImageFolderDataset()

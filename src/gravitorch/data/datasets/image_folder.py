@@ -5,7 +5,7 @@ __all__ = ["ImageFolderDataset"]
 from unittest.mock import Mock
 
 from gravitorch import constants as ct
-from gravitorch.utils.integrations import (
+from gravitorch.utils.imports import (
     check_pillow,
     check_torchvision,
     is_torchvision_available,

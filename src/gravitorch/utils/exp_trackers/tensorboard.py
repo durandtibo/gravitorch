@@ -19,7 +19,7 @@ from gravitorch.utils.exp_trackers.base import (
 )
 from gravitorch.utils.exp_trackers.steps import Step
 from gravitorch.utils.format import to_flat_dict
-from gravitorch.utils.integrations import (
+from gravitorch.utils.imports import (
     check_tensorboard,
     is_matplotlib_available,
     is_pillow_available,

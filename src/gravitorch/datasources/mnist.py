@@ -11,7 +11,7 @@ from gravitorch import constants as ct
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.data.datasets import MNISTDataset
 from gravitorch.datasources.dataset import DatasetDataSource
-from gravitorch.utils.integrations import is_torchvision_available
+from gravitorch.utils.imports import is_torchvision_available
 from gravitorch.utils.path import sanitize_path
 
 if is_torchvision_available():

@@ -13,7 +13,7 @@ from gravitorch.utils.exp_trackers import (
     NoOpExpTracker,
     NotActivatedExpTrackerError,
 )
-from gravitorch.utils.integrations import is_matplotlib_available, is_pillow_available
+from gravitorch.utils.imports import is_matplotlib_available, is_pillow_available
 
 if is_matplotlib_available():
     from matplotlib.pyplot import Figure
