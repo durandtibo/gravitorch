@@ -19,7 +19,7 @@ from gravitorch.utils.exp_trackers.tensorboard import (
     TensorBoardExpTracker,
     _sanitize_dict,
 )
-from gravitorch.utils.integrations import is_matplotlib_available, is_pillow_available
+from gravitorch.utils.imports import is_matplotlib_available, is_pillow_available
 from gravitorch.utils.io import save_json
 
 if is_matplotlib_available():

@@ -12,7 +12,7 @@ from torch import Tensor
 from torch.nn.functional import mse_loss, smooth_l1_loss
 
 from gravitorch.nn.functional.loss_helpers import basic_loss_reduction
-from gravitorch.utils.tensor.math_ops import symlog
+from gravitorch.utils.tensor.mathops import symlog
 
 
 def msle_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") -> Tensor:

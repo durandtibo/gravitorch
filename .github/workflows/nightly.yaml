@@ -132,14 +132,14 @@ jobs:
 
       - name: Run short experiment
         run: |
-          python -c "from gravitorch.utils import integrations; " \
-            "assert not integrations.is_accelerate_available();" \
-            "assert not integrations.is_fairscale_available();" \
-            "assert not integrations.is_matplotlib_available();" \
-            "assert not integrations.is_pillow_available();" \
-            "assert not integrations.is_psutil_available();" \
-            "assert not integrations.is_tensorboard_available();" \
-            "assert not integrations.is_torchvision_available();"
+          python -c "from gravitorch.utils import imports; " \
+            "assert not imports.is_accelerate_available();" \
+            "assert not imports.is_fairscale_available();" \
+            "assert not imports.is_matplotlib_available();" \
+            "assert not imports.is_pillow_available();" \
+            "assert not imports.is_psutil_available();" \
+            "assert not imports.is_tensorboard_available();" \
+            "assert not imports.is_torchvision_available();"
 
   package-all:
     runs-on: ${{ matrix.os }}

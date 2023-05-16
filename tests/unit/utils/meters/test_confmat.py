@@ -7,7 +7,7 @@ from pytest import mark, raises
 
 from gravitorch.distributed.ddp import SUM
 from gravitorch.utils.meters import EmptyMeterError
-from gravitorch.utils.meters.confusion_matrix import (
+from gravitorch.utils.meters.confmat import (
     BinaryConfusionMatrix,
     MulticlassConfusionMatrix,
     check_confusion_matrix,
@@ -73,7 +73,7 @@ def test_binary_confusion_matrix_all_reduce() -> None:
 
 def test_binary_confusion_matrix_all_reduce_sum_reduce() -> None:
     meter = BinaryConfusionMatrix(torch.ones(2, 2, dtype=torch.long))
-    with patch("gravitorch.utils.meters.confusion_matrix.sync_reduce_") as reduce_mock:
+    with patch("gravitorch.utils.meters.confmat.sync_reduce_") as reduce_mock:
         meter.all_reduce()
         assert objects_are_equal(
             reduce_mock.call_args.args, (torch.ones(2, 2, dtype=torch.long), SUM)
@@ -166,7 +166,7 @@ def test_binary_confusion_matrix_reset() -> None:
 def test_binary_confusion_matrix_sync_update_matrix() -> None:
     meter = BinaryConfusionMatrix(torch.ones(2, 2, dtype=torch.long))
     with patch(
-        "gravitorch.utils.meters.confusion_matrix.sync_reduce_",
+        "gravitorch.utils.meters.confmat.sync_reduce_",
         lambda variable, op: variable.mul_(4),
     ):
         meter.all_reduce()
