@@ -43,7 +43,7 @@ class BaseMLP(nn.Module):
 
     @property
     def input_size(self) -> int:
-        r"""int: The input size of the MLP network."""
+        r"""``int``: The input size of the MLP network."""
         return self._input_size
 
     def forward(self, inputs: Tensor) -> Tensor:

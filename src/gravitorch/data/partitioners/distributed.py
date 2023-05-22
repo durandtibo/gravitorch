@@ -33,7 +33,7 @@ class DDPPartitioner(BasePartitioner[T]):
 
     @property
     def partition_size(self) -> int:
-        r"""int: The partition size."""
+        r"""``int``: The partition size."""
         return self._partition_size
 
     def partition(

@@ -46,7 +46,7 @@ class PeriodicCondition:
 
     @property
     def freq(self) -> int:
-        r"""int: The frequency of the condition."""
+        r"""``int``: The frequency of the condition."""
         return self._freq
 
 
@@ -85,7 +85,7 @@ class EpochPeriodicCondition:
 
     @property
     def freq(self) -> int:
-        r"""int: The frequency of the condition."""
+        r"""``int``: The frequency of the condition."""
         return self._freq
 
 
@@ -126,5 +126,5 @@ class IterationPeriodicCondition:
 
     @property
     def freq(self) -> int:
-        r"""int: The frequency of the condition."""
+        r"""``int``: The frequency of the condition."""
         return self._freq

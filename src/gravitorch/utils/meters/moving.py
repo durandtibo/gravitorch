@@ -141,9 +141,8 @@ class ExponentialMovingAverage:
 
     @property
     def count(self) -> int:
-        r"""int: The number of examples in the meter since the last
-        reset.
-        """
+        r"""``int``: The number of examples in the meter since the last
+        reset."""
         return self._count
 
     def clone(self) -> "ExponentialMovingAverage":

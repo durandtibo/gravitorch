@@ -64,8 +64,8 @@ class SequenceGaussianRFF(Module):
 
     @property
     def batch_first(self) -> bool:
-        r"""bool: Indicates if the first dimension is the batch or
-        the sequence.
+        r"""Bool: Indicates if the first dimension is the batch or the
+        sequence.
 
         If ``True``, the input sequence should have the shape
         ``(batch_size, sequence_length, input_size)``, otherwise
@@ -75,7 +75,7 @@ class SequenceGaussianRFF(Module):
 
     @property
     def input_size(self) -> int:
-        r"""int: The input size of the sequence."""
+        r"""``int``: The input size of the sequence."""
         return self._input_size
 
     def extra_repr(self) -> str:
@@ -193,8 +193,10 @@ class ScaleShiftSequenceGaussianRFF(Module):
 
     @property
     def batch_first(self) -> bool:
-        r"""bool: Indicates if the first dimension is the batch or the
-        sequence. If ``True``, the input representation should have
+        r"""Bool: Indicates if the first dimension is the batch or the
+        sequence.
+
+        If ``True``, the input representation should have
         the shape ``(batch_size, sequence_length, input_size)``,
         otherwise ``(sequence_length, batch_size, input_size)``.
         """

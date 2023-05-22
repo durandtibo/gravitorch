@@ -128,17 +128,17 @@ class ModuleSummary:
 
     @property
     def layer_type(self) -> str:
-        r"""str: The class name of the module."""
+        r"""Str: The class name of the module."""
         return str(self._module.__class__.__qualname__)
 
     @property
     def num_parameters(self) -> int:
-        r"""int: The number of parameters in this module."""
+        r"""``int``: The number of parameters in this module."""
         return num_parameters(self._module)
 
     @property
     def num_learnable_parameters(self) -> int:
-        r"""int: The number of learnable parameters in this module."""
+        r"""``int``: The number of learnable parameters in this module."""
         return num_learnable_parameters(self._module)
 
 

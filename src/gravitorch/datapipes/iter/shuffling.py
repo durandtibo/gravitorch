@@ -101,7 +101,8 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
 
     @property
     def random_seed(self) -> int:
-        r"""int: The random seed used to initialize the pseudo random generator."""
+        r"""``int``: The random seed used to initialize the pseudo random
+        generator."""
         return self._generator.initial_seed()
 
 

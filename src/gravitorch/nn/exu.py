@@ -45,12 +45,12 @@ class ExU(Module):
 
     @property
     def input_size(self) -> int:
-        r"""int: The input size."""
+        r"""``int``: The input size."""
         return self.weight.shape[0]
 
     @property
     def output_size(self) -> int:
-        r"""int: The output size."""
+        r"""``int``: The output size."""
         return self.weight.shape[1]
 
     def extra_repr(self) -> str:

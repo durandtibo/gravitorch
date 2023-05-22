@@ -39,7 +39,7 @@ class AsinhScalarEncoder(Module):
 
     @property
     def input_size(self) -> int:
-        r"""int: The input feature size."""
+        r"""``int``: The input feature size."""
         return 1
 
     def extra_repr(self) -> str:
@@ -223,7 +223,7 @@ class CosSinScalarEncoder(Module):
 
     @property
     def input_size(self) -> int:
-        r"""int: The input feature size."""
+        r"""``int``: The input feature size."""
         return 1
 
     def extra_repr(self) -> str:
@@ -548,7 +548,7 @@ class ScalarEncoderFFN(Module):
 
     @property
     def input_size(self) -> int:
-        r"""int: The input feature size."""
+        r"""``int``: The input feature size."""
         return self.encoder.input_size
 
     def forward(self, scalar: Tensor) -> Tensor:

@@ -68,7 +68,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
     @property
     def name(self) -> str:
-        r"""str: The name of the history."""
+        r"""Str: The name of the history."""
         return self._name
 
     @abstractmethod

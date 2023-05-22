@@ -100,19 +100,20 @@ class ScalarMeter:
 
     @property
     def count(self) -> int:
-        r"""int: The number of examples in the meter."""
+        r"""``int``: The number of examples in the meter."""
         return self._count
 
     @property
     def total(self) -> float:
-        r"""float: The total of the values added to the meter."""
+        r"""``float``: The total of the values added to the meter."""
         return self._total
 
     @property
     def values(self) -> tuple[float, ...]:
-        r"""tuple: The values store in this meter. If there are more
-        values that the maximum size, only the last values are
-        returned.
+        r"""``tuple``: The values store in this meter.
+
+        If there are more values that the maximum size, only the last
+        values are returned.
         """
         return tuple(self._values)
 

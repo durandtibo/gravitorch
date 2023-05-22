@@ -41,7 +41,7 @@ class EvenPartitioner(BasePartitioner[T]):
 
     @property
     def num_partitions(self) -> int:
-        r"""int: The number of partitions."""
+        r"""``int``: The number of partitions."""
         return self._num_partitions
 
     def partition(

@@ -36,7 +36,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def epoch(self) -> int:
-        r"""int: The epoch value. The epoch is 0-based, i.e. the first
+        r"""``int``: The epoch value.
+
+        The epoch is 0-based, i.e. the first
         epoch is 0. The value ``-1`` is used to indicate the training
         has not started.
         """
@@ -44,7 +46,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def iteration(self) -> int:
-        r"""int: The iteration value. The iteration is 0-based, i.e.
+        r"""``int``: The iteration value.
+
+        The iteration is 0-based, i.e.
         the first iteration is 0. The value ``-1`` is used to indicate
         the training has not started.
         """
@@ -58,7 +62,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def max_epochs(self) -> int:
-        r"""int: The maximum number of training epochs."""
+        r"""``int``: The maximum number of training epochs."""
 
     @property
     @abstractmethod
@@ -77,13 +81,13 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def random_seed(self) -> int:
-        r"""int: The random seed."""
+        r"""``int``: The random seed."""
 
     @property
     @abstractmethod
     def should_terminate(self) -> bool:
-        r"""bool: Flag to indicate if this engine should terminate training
-        at the end of the current epoch.
+        r"""Bool: Flag to indicate if this engine should terminate
+        training at the end of the current epoch.
 
         If ``True``, the engine should terminate at the end of the
         current epoch. Use the ``terminate()`` method to set this flag
