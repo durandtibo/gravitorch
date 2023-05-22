@@ -128,7 +128,7 @@ class ModuleSummary:
 
     @property
     def layer_type(self) -> str:
-        r"""Str: The class name of the module."""
+        r"""``str``: The class name of the module."""
         return str(self._module.__class__.__qualname__)
 
     @property
