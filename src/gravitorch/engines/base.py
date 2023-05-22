@@ -86,7 +86,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def should_terminate(self) -> bool:
-        r"""Bool: Flag to indicate if this engine should terminate
+        r"""``bool``: Flag to indicate if this engine should terminate
         training at the end of the current epoch.
 
         If ``True``, the engine should terminate at the end of the

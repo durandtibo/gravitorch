@@ -34,7 +34,7 @@ class FixedSizePartitioner(BasePartitioner[T]):
 
     @property
     def drop_last(self) -> bool:
-        r"""Bool: Indicates if the last items are dropped or not if
+        r"""``bool``: Indicates if the last items are dropped or not if
         there are not enough items."""
         return self._drop_last
 

@@ -55,7 +55,7 @@ class OneCacheDataCreator(BaseDataCreator[T]):
 
     @property
     def deepcopy(self) -> bool:
-        r"""Bool: Indicates if a deepcopy of the data is done before to
+        r"""``bool``: Indicates if a deepcopy of the data is done before to
         return the data."""
         return self._deepcopy
 
