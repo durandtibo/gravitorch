@@ -198,7 +198,7 @@ class ScalarMeter:
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
-        return torch.tensor(list(self._values)).median().item()
+        return torch.as_tensor(list(self._values)).median().item()
 
     def merge(self, meters: Iterable["ScalarMeter"]) -> "ScalarMeter":
         r"""Merges several meters with the current meter and returns a
@@ -311,7 +311,7 @@ class ScalarMeter:
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
-        return torch.tensor(self.values, dtype=torch.float).std(dim=0).item()
+        return torch.as_tensor(self.values, dtype=torch.float).std(dim=0).item()
 
     def sum(self) -> float:
         r"""Computes the sum value.

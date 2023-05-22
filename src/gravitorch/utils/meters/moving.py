@@ -87,7 +87,7 @@ class MovingAverage:
         """
         if not self._deque:
             raise EmptyMeterError("The meter is empty")
-        return torch.tensor(self.values).float().mean().item()
+        return torch.as_tensor(self.values).float().mean().item()
 
     def state_dict(self) -> dict[str, Any]:
         r"""Returns a dictionary containing state values.
