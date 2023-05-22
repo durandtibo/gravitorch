@@ -53,7 +53,7 @@ class BaseState(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def num_predictions(self) -> int:
-        r"""int: The number of predictions."""
+        r"""``int``: The number of predictions."""
 
     @abstractmethod
     def get_histories(self, prefix: str = "", suffix: str = "") -> tuple[BaseHistory, ...]:

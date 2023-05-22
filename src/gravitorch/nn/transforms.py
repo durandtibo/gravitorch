@@ -185,7 +185,8 @@ class Safeexp(Module):
 
     @property
     def max_value(self) -> float:
-        r"""float: The maximum value before to compute the exponential."""
+        r"""``float``: The maximum value before to compute the
+        exponential."""
         return self._max_value
 
     def extra_repr(self) -> str:
@@ -215,7 +216,8 @@ class Safelog(Module):
 
     @property
     def min_value(self) -> float:
-        r"""float: The minimum value before to compute the exponential."""
+        r"""``float``: The minimum value before to compute the
+        exponential."""
         return self._min_value
 
     def extra_repr(self) -> str:
@@ -281,7 +283,7 @@ class ToBinaryLabel(Module):
 
     @property
     def threshold(self) -> float:
-        r"""float: The threshold used to compute the binary label."""
+        r"""``float``: The threshold used to compute the binary label."""
         return self._threshold
 
     def extra_repr(self) -> str:

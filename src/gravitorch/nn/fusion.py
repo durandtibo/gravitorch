@@ -106,7 +106,7 @@ class FusionFFN(Module):
 
     @property
     def output_size(self) -> int:
-        r"""int: The output size of the module."""
+        r"""``int``: The output size of the module."""
         return get_module_output_size(self.ffn)
 
     def forward(self, *inputs: Tensor) -> Tensor:

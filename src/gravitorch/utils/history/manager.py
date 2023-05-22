@@ -26,7 +26,7 @@ class HistoryManager:
         self._histories = {}
 
     def __len__(self) -> int:
-        r"""int: The number of histories in the manager."""
+        r"""``int``: The number of histories in the manager."""
         return len(self._histories)
 
     def __repr__(self) -> str:

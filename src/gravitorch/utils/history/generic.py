@@ -53,7 +53,7 @@ class GenericHistory(BaseHistory[T]):
 
     @property
     def max_size(self) -> int:
-        r"""int: The maximum size of the history."""
+        r"""``int``: The maximum size of the history."""
         return self._history.maxlen
 
     def add_value(self, value: T, step: Optional[int] = None) -> None:

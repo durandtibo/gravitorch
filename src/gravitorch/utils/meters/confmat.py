@@ -51,12 +51,12 @@ class BaseConfusionMatrix:
 
     @property
     def num_classes(self) -> int:
-        r"""int: The number of classes."""
+        r"""``int``: The number of classes."""
         return self._matrix.shape[0]
 
     @property
     def num_predictions(self) -> int:
-        r"""int: The number of predictions."""
+        r"""``int``: The number of predictions."""
         return self._num_predictions
 
     def all_reduce(self) -> None:
@@ -297,50 +297,46 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
 
     @property
     def false_negative(self) -> int:
-        r"""int: The false negative i.e. the number of incorrectly
-        classified negative examples.
-        """
+        r"""``int``: The false negative i.e. the number of incorrectly
+        classified negative examples."""
         return self._matrix[0, 1].item()
 
     @property
     def false_positive(self) -> int:
-        r"""int: The false positive i.e. the number of incorrectly
-        classified positive examples.
-        """
+        r"""``int``: The false positive i.e. the number of incorrectly
+        classified positive examples."""
         return self._matrix[1, 0].item()
 
     @property
     def negative(self) -> int:
-        r"""int: The number of negative true labels."""
+        r"""``int``: The number of negative true labels."""
         return self.true_negative + self.false_positive
 
     @property
     def positive(self) -> int:
-        r"""int: The number of positive true labels."""
+        r"""``int``: The number of positive true labels."""
         return self.true_positive + self.false_negative
 
     @property
     def predictive_negative(self) -> int:
-        r"""int: The number of negative predictions."""
+        r"""``int``: The number of negative predictions."""
         return self.false_negative + self.true_negative
 
     @property
     def predictive_positive(self) -> int:
-        r"""int: The number of positive predictions."""
+        r"""``int``: The number of positive predictions."""
         return self.true_positive + self.false_positive
 
     @property
     def true_negative(self) -> int:
-        r"""int: The true negative i.e. the number of correctly
-        classified negative examples.
-        """
+        r"""``int``: The true negative i.e. the number of correctly
+        classified negative examples."""
         return self._matrix[1, 1].item()
 
     @property
     def true_positive(self) -> int:
-        r"""int: The true positive i.e. the number of correctly
-        classified positive examples.
-        """
+        r"""``int``: The true positive i.e. the number of correctly
+        classified positive examples."""
         return self._matrix[0, 0].item()
 
     def accuracy(self) -> float:

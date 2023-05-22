@@ -61,8 +61,10 @@ class SequenceShiftScale(Module):
 
     @property
     def batch_first(self) -> bool:
-        r"""bool: Indicates if the first dimension is the batch or
-        the sequence. If ``True``, the input representation
+        r"""``bool``: Indicates if the first dimension is the batch or the
+        sequence.
+
+        If ``True``, the input representation
         should have the shape
         ``(batch_size, sequence_length, feature_size)``, otherwise
         ``(sequence_length, batch_size, feature_size)``.

@@ -55,7 +55,7 @@ class MeanTensorMeter:
 
     @property
     def count(self) -> int:
-        r"""int: The number of predictions in the meter."""
+        r"""``int``: The number of predictions in the meter."""
         return self._count
 
     @property
@@ -279,7 +279,7 @@ class ExtremaTensorMeter:
 
     @property
     def count(self) -> int:
-        r"""int: The number of predictions in the meter."""
+        r"""``int``: The number of predictions in the meter."""
         return self._count
 
     def reset(self) -> None:
@@ -516,7 +516,7 @@ class TensorMeter:
 
     @property
     def count(self) -> int:
-        r"""int: The number of predictions in the meter."""
+        r"""``int``: The number of predictions in the meter."""
         return self._count
 
     @property
@@ -797,7 +797,7 @@ class TensorMeter2:
 
     @property
     def count(self) -> int:
-        r"""int: The number of predictions in the meter."""
+        r"""``int``: The number of predictions in the meter."""
         return self._count
 
     def reset(self) -> None:

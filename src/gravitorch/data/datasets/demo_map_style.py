@@ -83,22 +83,22 @@ class DemoMultiClassClsDataset(Dataset):
 
     @property
     def num_examples(self) -> int:
-        r"""int: The number of examples when the data are created."""
+        r"""``int``: The number of examples when the data are created."""
         return self._data_creator.num_examples
 
     @property
     def num_classes(self) -> int:
-        r"""int: The number of classes when the data are created."""
+        r"""``int``: The number of classes when the data are created."""
         return self._data_creator.num_classes
 
     @property
     def feature_size(self) -> int:
-        r"""int: The feature size when the data are created."""
+        r"""``int``: The feature size when the data are created."""
         return self._data_creator.feature_size
 
     @property
     def noise_std(self) -> float:
-        r"""float: The standard deviation of the Gaussian noise."""
+        r"""``float``: The standard deviation of the Gaussian noise."""
         return self._data_creator.noise_std
 
     @property

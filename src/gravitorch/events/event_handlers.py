@@ -62,17 +62,17 @@ class BaseEventHandlerWithArguments(BaseEventHandler):
 
     @property
     def handler(self) -> Callable:
-        r"""callable: The handler."""
+        r"""Callable: The handler."""
         return self._handler
 
     @property
     def handler_args(self) -> tuple:
-        r"""tuple: Variable length argument list of the handler."""
+        r"""``tuple``: Variable length argument list of the handler."""
         return self._handler_args
 
     @property
     def handler_kwargs(self) -> dict:
-        r"""dict: Arbitrary keyword arguments of the handler."""
+        r"""``dict``: Arbitrary keyword arguments of the handler."""
         return self._handler_kwargs
 
     def handle(self) -> None:
@@ -143,7 +143,7 @@ class ConditionalEventHandler(BaseEventHandlerWithArguments):
 
     @property
     def condition(self) -> Callable:
-        r"""callable: The condition."""
+        r"""Callable: The condition."""
         return self._condition
 
     def handle(self) -> None:

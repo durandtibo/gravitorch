@@ -52,7 +52,7 @@ class EpochShufflePartitioner(BasePartitioner[T]):
 
     @property
     def random_seed(self) -> int:
-        r"""int: The base random seed."""
+        r"""``int``: The base random seed."""
         return self._random_seed
 
     def partition(

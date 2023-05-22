@@ -34,14 +34,13 @@ class FixedSizePartitioner(BasePartitioner[T]):
 
     @property
     def drop_last(self) -> bool:
-        r"""bool: Indicates if the last items are dropped
-        or not if there are not enough items.
-        """
+        r"""``bool``: Indicates if the last items are dropped or not if
+        there are not enough items."""
         return self._drop_last
 
     @property
     def partition_size(self) -> int:
-        r"""int: The partition size."""
+        r"""``int``: The partition size."""
         return self._partition_size
 
     def partition(
