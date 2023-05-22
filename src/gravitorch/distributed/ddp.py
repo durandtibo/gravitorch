@@ -202,7 +202,7 @@ def all_gather_tensor_varshape(tensor: Tensor) -> list[Tensor]:
     if not is_distributed():
         return [tensor]
 
-    shapes = all_gather(torch.tensor(tensor.shape).unsqueeze(dim=0))
+    shapes = all_gather(torch.as_tensor(tensor.shape).unsqueeze(dim=0))
     numels = shapes.prod(dim=1)
     tensor_padded = torch.zeros(numels.max().item(), dtype=tensor.dtype, device=dist_device())
     tensor_padded[: tensor.numel()] = tensor.flatten()

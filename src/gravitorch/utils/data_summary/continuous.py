@@ -125,7 +125,7 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
         """
         if not self._count:
             raise EmptyDataSummaryError("The summary is empty")
-        return torch.tensor(list(self._values), dtype=torch.float).median().item()
+        return torch.as_tensor(list(self._values), dtype=torch.float).median().item()
 
     def min(self) -> float:
         r"""Gets the min value.
@@ -160,7 +160,9 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
         """
         if not self._count:
             raise EmptyDataSummaryError("The summary is empty")
-        return torch.quantile(torch.tensor(tuple(self._values), dtype=torch.float), self._quantiles)
+        return torch.quantile(
+            torch.as_tensor(tuple(self._values), dtype=torch.float), self._quantiles
+        )
 
     def reset(self) -> None:
         r"""Resets the data summary."""
@@ -188,7 +190,7 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
         """
         if not self._count:
             raise EmptyDataSummaryError("The summary is empty")
-        return torch.tensor(self._values, dtype=torch.float).std(dim=0).item()
+        return torch.as_tensor(self._values, dtype=torch.float).std(dim=0).item()
 
     def sum(self) -> float:
         r"""Gets the sum value.
@@ -251,5 +253,5 @@ def prepare_quantiles(quantiles: Union[Tensor, tuple[float, ...], list[float]]) 
             The prepare quantiles.
     """
     if isinstance(quantiles, (list, tuple)):
-        quantiles = torch.tensor(quantiles)
+        quantiles = torch.as_tensor(quantiles)
     return torch.sort(quantiles)[0]

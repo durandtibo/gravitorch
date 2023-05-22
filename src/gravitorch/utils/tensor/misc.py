@@ -249,10 +249,8 @@ def to_tensor(value: Any) -> Tensor:
         return value
     if isinstance(value, np.ndarray):
         return torch.from_numpy(value)
-    if isinstance(value, Sequence):
-        return torch.tensor(value)
-    if isinstance(value, (int, float)):
-        return torch.tensor(value)
+    if isinstance(value, (Sequence, int, float)):
+        return torch.as_tensor(value)
     raise TypeError(f"Incorrect type: {type(value)}")
 
 
