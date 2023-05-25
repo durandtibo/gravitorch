@@ -7,6 +7,7 @@ from gravitorch.utils.imports import (
     check_fairscale,
     check_matplotlib,
     check_pillow,
+    check_safetensors,
     check_tensorboard,
     check_torchdata,
     check_torchvision,
@@ -15,6 +16,7 @@ from gravitorch.utils.imports import (
     is_matplotlib_available,
     is_pillow_available,
     is_psutil_available,
+    is_safetensors_available,
     is_tensorboard_available,
     is_torchdata_available,
     is_torchvision_available,
@@ -107,6 +109,26 @@ def test_is_pillow_available() -> None:
 
 def test_is_psutil_available() -> None:
     assert isinstance(is_psutil_available(), bool)
+
+
+#######################
+#     safetensors     #
+#######################
+
+
+def test_check_safetensors_with_package() -> None:
+    with patch("gravitorch.utils.imports.is_safetensors_available", lambda *args: True):
+        check_safetensors()
+
+
+def test_check_safetensors_without_package() -> None:
+    with patch("gravitorch.utils.imports.is_safetensors_available", lambda *args: False):
+        with raises(RuntimeError, match="`safetensors` package is required but not installed."):
+            check_safetensors()
+
+
+def test_is_safetensors_available() -> None:
+    assert isinstance(is_safetensors_available(), bool)
 
 
 #######################

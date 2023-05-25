@@ -6,14 +6,18 @@ __all__ = [
     "check_fairscale",
     "check_matplotlib",
     "check_pillow",
+    "check_safetensors",
     "check_tensorboard",
+    "check_torchdata",
     "check_torchvision",
     "is_accelerate_available",
     "is_fairscale_available",
     "is_matplotlib_available",
     "is_pillow_available",
     "is_psutil_available",
+    "is_safetensors_available",
     "is_tensorboard_available",
+    "is_torchdata_available",
     "is_torchvision_available",
 ]
 
@@ -130,6 +134,35 @@ def is_pillow_available() -> bool:
 def is_psutil_available() -> bool:
     r"""Indicates if the ``psutil`` package is installed or not."""
     return find_spec("psutil") is not None
+
+
+#######################
+#     safetensors     #
+#######################
+
+
+def check_safetensors() -> None:
+    r"""Checks if the ``safetensors`` package is installed.
+
+    Raises
+    ------
+        RuntimeError if the ``safetensors`` package is not installed.
+    """
+    if not is_safetensors_available():
+        raise RuntimeError(
+            "`safetensors` package is required but not installed. "
+            "You can install `safetensors` package with the command:\n\n"
+            "pip install safetensors\n"
+        )
+
+
+def is_safetensors_available() -> bool:
+    r"""Indicates if the ``safetensors`` package is installed or not.
+
+    GitHub: https://github.com/huggingface/safetensors
+    Docs: https://huggingface.co/docs/safetensors/index
+    """
+    return find_spec("safetensors") is not None
 
 
 #######################
