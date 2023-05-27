@@ -24,7 +24,7 @@ def convert_to_dict_of_lists(seq_of_mappings: Sequence[Mapping]) -> dict[Hashabl
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.mapping import convert_to_dict_of_lists
         >>> convert_to_dict_of_lists(
@@ -53,7 +53,7 @@ def convert_to_list_of_dicts(mapping_of_seqs: Mapping[Hashable, Sequence]) -> li
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.mapping import convert_to_list_of_dicts
         >>> convert_to_list_of_dicts({"key1": [1, 2, 3], "key2": [10, 20, 30]})
@@ -75,11 +75,12 @@ def remove_keys_starting_with(mapping: Mapping, prefix: str) -> dict:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.mapping import remove_keys_starting_with
         >>> remove_keys_starting_with(
-        ...     {"key": 1, "key.abc": 2, "abc": 3, "abc.key": 4, 1: 5, (2, 3): 6}, "key",
+        ...     {"key": 1, "key.abc": 2, "abc": 3, "abc.key": 4, 1: 5, (2, 3): 6},
+        ...     "key",
         ... )
         {'abc': 3, 'abc.key': 4, 1: 5, (2, 3): 6}
     """
@@ -104,7 +105,7 @@ def get_first_value(data: Mapping) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.mapping import get_first_value
         >>> get_first_value({"key1": 1, "key2": 2})

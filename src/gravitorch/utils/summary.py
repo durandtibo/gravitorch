@@ -44,10 +44,10 @@ def concise_summary(value: Any, num_spaces: int = 2, max_length: int = 5) -> str
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.summary import concise_summary
-        >>> print(concise_summary([1, 2, 3, 'abc', 5, 6, 7, 8, 9, 10]))
+        >>> print(concise_summary([1, 2, 3, "abc", 5, 6, 7, 8, 9, 10]))
         <class 'list'> | length=10
           (0) <class 'int'> | value=1
           (1) <class 'int'> | value=2

@@ -135,7 +135,7 @@ def relative_mse_loss(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.functional import relative_mse_loss
@@ -183,7 +183,7 @@ def relative_smooth_l1_loss(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.functional import relative_smooth_l1_loss
@@ -233,7 +233,7 @@ def symmetric_relative_smooth_l1_loss(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.functional import symmetric_relative_smooth_l1_loss
@@ -281,7 +281,7 @@ def log_cosh_loss(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.functional import log_cosh_loss

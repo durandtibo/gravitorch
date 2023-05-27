@@ -16,11 +16,11 @@ def log_cuda_memory_summary() -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.cuda_memory import log_cuda_memory_summary
-        >>> torch.randn(4, 6, device='cuda:0')
+        >>> torch.randn(4, 6, device="cuda:0")
         tensor([[ 0.9865, -0.5485, -0.9522,  0.0158,  1.1500, -1.9437],
                 [ 0.4883,  0.8954, -1.1421,  0.4309, -0.7286,  0.5707],
                 [ 0.2984, -1.7045, -0.1694,  0.7324,  0.2014,  0.6356],
@@ -85,11 +85,11 @@ def log_max_cuda_memory_allocated() -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.cuda_memory import log_max_cuda_memory_allocated
-        >>> torch.randn(4, 6, device='cuda:0')
+        >>> torch.randn(4, 6, device="cuda:0")
         tensor([[ 0.9865, -0.5485, -0.9522,  0.0158,  1.1500, -1.9437],
                 [ 0.4883,  0.8954, -1.1421,  0.4309, -0.7286,  0.5707],
                 [ 0.2984, -1.7045, -0.1694,  0.7324,  0.2014,  0.6356],

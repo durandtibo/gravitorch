@@ -27,7 +27,7 @@ class ConcatFusion(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import ConcatFusion
@@ -80,7 +80,7 @@ class FusionFFN(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import ConcatFusion, FusionFFN
@@ -131,7 +131,7 @@ class MultiplicationFusion(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import MultiplicationFusion
@@ -185,7 +185,7 @@ class SumFusion(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import SumFusion
@@ -244,7 +244,7 @@ class AverageFusion(SumFusion):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import AverageFusion

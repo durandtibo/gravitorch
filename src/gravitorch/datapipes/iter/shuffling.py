@@ -55,7 +55,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from torch.utils.data import IterDataPipe
         >>> from gravitorch.datapipes.iter import TensorDictShuffler
@@ -68,7 +68,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
         [{'key': tensor([2, 3, 0, 1])},
          {'key': tensor([3, 2, 4, 1])},
          {'key': tensor([2, 5, 4, 3])}]
-        >>> list(TensorDictShuffler(MyIterDataPipe(), dim={'key': 0}))
+        >>> list(TensorDictShuffler(MyIterDataPipe(), dim={"key": 0}))
         [{'key': tensor([2, 3, 0, 1])},
          {'key': tensor([3, 2, 4, 1])},
          {'key': tensor([2, 5, 4, 3])}]
@@ -138,7 +138,7 @@ def shuffle_tensors(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.datapipes.iter.shuffling import shuffle_tensors
         >>> shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)])
@@ -210,7 +210,7 @@ def shuffle_tensor_mapping(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.datapipes.iter.shuffling import shuffle_tensor_mapping
         # Shuffle all the tensors on dimension 0 (default)
@@ -238,7 +238,7 @@ def shuffle_tensor_mapping(
         # Shuffle the tensor "key1" on dimension 0 and the tensor "key2" on dimension 1
         >>> shuffle_tensor_mapping(
         ...     {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)},
-        ...     dim={'key1': 0, 'key2': 1}
+        ...     dim={"key1": 0, "key2": 1},
         ... )
         {
             'key1': tensor([1, 2, 0, 3]),
@@ -251,7 +251,7 @@ def shuffle_tensor_mapping(
         # Shuffle only the tensor "key2" on dimension 1
         >>> shuffle_tensor_mapping(
         ...     {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)},
-        ...     dim={'key2': 1},
+        ...     dim={"key2": 1},
         ... )
         {
             'key1': tensor([0, 1, 2, 3]),
@@ -306,7 +306,7 @@ def get_first_dimension(data: Union[Tensor, np.ndarray, list, tuple]) -> int:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.datapipes.iter.shuffling import get_first_dimension
         # torch tensor

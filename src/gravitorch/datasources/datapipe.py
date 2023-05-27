@@ -38,7 +38,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
     Example:
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
         # Create by using a ``BaseIterDataPipeCreator`` object.
@@ -49,7 +49,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...         "train": SequentialIterDataPipeCreator(
         ...             config=[
         ...                 {
-        ...                     '_target_': "gravitorch.datapipes.iter.SourceWrapper",
+        ...                     "_target_": "gravitorch.datapipes.iter.SourceWrapper",
         ...                     "data": [1, 2, 3, 4],
         ...                 },
         ...             ]
@@ -57,7 +57,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...         "val": SequentialIterDataPipeCreator(
         ...             config=[
         ...                 {
-        ...                     '_target_': "gravitorch.datapipes.iter.SourceWrapper",
+        ...                     "_target_": "gravitorch.datapipes.iter.SourceWrapper",
         ...                     "data": ["a", "b", "c"],
         ...                 },
         ...             ]
@@ -69,19 +69,19 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         >>> data_source = IterDataPipeCreatorDataSource(
         ...     datapipe_creators={
         ...         "train": {
-        ...             '_target_': "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+        ...             "_target_": "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
         ...             "config": [
         ...                 {
         ...                     OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
-        ...                    "data": [1, 2, 3, 4],
-        ...                },
+        ...                     "data": [1, 2, 3, 4],
+        ...                 },
         ...             ],
         ...         },
         ...         "val": {
-        ...             '_target_': "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+        ...             "_target_": "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
         ...             "config": [
         ...                 {
-        ...                     '_target_': "gravitorch.datapipes.iter.SourceWrapper",
+        ...                     "_target_": "gravitorch.datapipes.iter.SourceWrapper",
         ...                     "data": ["a", "b", "c"],
         ...                 },
         ...             ],
@@ -117,7 +117,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
             >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
@@ -148,11 +148,11 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
             >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
-            >>> my_asset = data_source.get_asset('my_asset_id')
+            >>> my_asset = data_source.get_asset("my_asset_id")
         """
         return self._asset_manager.get_asset(asset_id)
 
@@ -169,11 +169,11 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
             >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
-            >>> data_source.has_asset('my_asset_id')
+            >>> data_source.has_asset("my_asset_id")
             False
         """
         return self._asset_manager.has_asset(asset_id)
@@ -200,16 +200,16 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
             >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
             # Get the data loader associated to the ID 'train'
-            >>> data_loader = data_source.get_data_loader('train')
+            >>> data_loader = data_source.get_data_loader("train")
             # Get a data loader that can use information from an engine
             >>> from gravitorch.engines import AlphaEngine
             >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> data_loader = data_source.get_data_loader('train', my_engine)
+            >>> data_loader = data_source.get_data_loader("train", my_engine)
         """
         if not self.has_data_loader(loader_id):
             raise LoaderNotFoundError(f"{loader_id} does not exist")
@@ -230,15 +230,15 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
             >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
             # Check if the data source has a data loader for ID 'train'
-            >>> data_source.has_data_loader('train')
+            >>> data_source.has_data_loader("train")
             True or False
             # Check if the data source has a data loader for ID 'eval'
-            >>> data_source.has_data_loader('eval')
+            >>> data_source.has_data_loader("eval")
             True or False
         """
         return loader_id in self._datapipe_creators

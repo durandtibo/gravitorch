@@ -31,7 +31,7 @@ class MeanTensorMeter:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.meters import TensorMeter
@@ -140,7 +140,7 @@ class MeanTensorMeter:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import torch
             >>> from gravitorch.utils.meters import MeanTensorMeter
@@ -251,7 +251,7 @@ class ExtremaTensorMeter:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.meters import ExtremaTensorMeter
@@ -346,7 +346,7 @@ class ExtremaTensorMeter:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import torch
             >>> from gravitorch.utils.meters import ExtremaTensorMeter
@@ -463,7 +463,7 @@ class TensorMeter:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.meters import TensorMeter
@@ -543,7 +543,7 @@ class TensorMeter:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import torch
             >>> from gravitorch.utils.meters import TensorMeter
@@ -763,7 +763,7 @@ class TensorMeter2:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.meters import TensorMeter2
@@ -956,7 +956,7 @@ class TensorMeter2:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import torch
             >>> from gravitorch.utils.meters import TensorMeter2

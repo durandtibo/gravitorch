@@ -32,11 +32,11 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics import AbsoluteRelativeError
-        >>> metric = AbsoluteRelativeError('eval')
+        >>> metric = AbsoluteRelativeError("eval")
         >>> metric
         AbsoluteRelativeErrorMetric(mode=eval, name=abs_rel_err, eps=1e-08)
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
@@ -111,11 +111,11 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics import SymmetricAbsoluteRelativeError
-        >>> metric = SymmetricAbsoluteRelativeError('eval')
+        >>> metric = SymmetricAbsoluteRelativeError("eval")
         >>> metric
         SymmetricAbsoluteRelativeErrorMetric(mode=eval, name=sym_abs_rel_err, eps=1e-08)
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))

@@ -29,13 +29,13 @@ class ScalarMetricTracker:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.metric_tracker import ScalarMetricTracker
         >>> tracker = ScalarMetricTracker()
-        >>> tracker.update({'metric1': 1, 'metric2': 2})
-        >>> tracker.update({'metric1': 11, 'metric2': 12})
-        >>> tracker.update({'metric1': 21, 'metric2': 22})
+        >>> tracker.update({"metric1": 1, "metric2": 2})
+        >>> tracker.update({"metric1": 11, "metric2": 12})
+        >>> tracker.update({"metric1": 21, "metric2": 22})
         >>> tracker.log_average_value()
         INFO:gravitorch.utils.metric_tracker:metric1: 11.0000
         INFO:gravitorch.utils.metric_tracker:metric2: 12.0000
@@ -57,11 +57,11 @@ class ScalarMetricTracker:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.metric_tracker import ScalarMetricTracker
             >>> tracker = ScalarMetricTracker()
-            >>> tracker.update({'metric1': 1, 'metric2': 2})
+            >>> tracker.update({"metric1": 1, "metric2": 2})
         """
         for key, value in data.items():
             if torch.is_tensor(value) and value.numel() == 1:
@@ -81,15 +81,15 @@ class ScalarMetricTracker:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.metric_tracker import ScalarMetricTracker
             >>> tracker = ScalarMetricTracker()
-            >>> tracker.update({'metric1': 1, 'metric2': 2})
+            >>> tracker.update({"metric1": 1, "metric2": 2})
             >>> tracker.log_average_value()
             INFO:gravitorch.utils.metric_tracker:metric1: 1.000000
             INFO:gravitorch.utils.metric_tracker:metric2: 2.000000
-            >>> tracker.log_average_value(prefix='train/')
+            >>> tracker.log_average_value(prefix="train/")
             INFO:gravitorch.utils.metric_tracker:train/metric1: 1.000000
             INFO:gravitorch.utils.metric_tracker:train/metric2: 2.000000
         """

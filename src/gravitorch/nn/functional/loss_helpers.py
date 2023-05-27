@@ -31,17 +31,17 @@ def basic_loss_reduction(tensor: Tensor, reduction: str) -> Tensor:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.functional import basic_loss_reduction
         >>> tensor = torch.arange(6).view(2, 3)
-        >>> basic_loss_reduction(tensor, 'none')
+        >>> basic_loss_reduction(tensor, "none")
         tensor([[0, 1, 2],
                 [3, 4, 5]])
-        >>> basic_loss_reduction(tensor, 'sum')
+        >>> basic_loss_reduction(tensor, "sum")
         tensor(15)
-        >>> basic_loss_reduction(tensor, 'mean')
+        >>> basic_loss_reduction(tensor, "mean")
         tensor(2.5000)
     """
     if reduction == "mean":
@@ -71,11 +71,11 @@ def check_basic_loss_reduction(reduction: str) -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn.functional import check_basic_loss_reduction
-        >>> check_basic_loss_reduction('mean')
-        >>> check_basic_loss_reduction('incorrect')
+        >>> check_basic_loss_reduction("mean")
+        >>> check_basic_loss_reduction("incorrect")
         Traceback (most recent call last): ...
     """
     if reduction not in VALID_REDUCTIONS:

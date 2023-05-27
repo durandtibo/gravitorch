@@ -105,7 +105,7 @@ def xavier_normal(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn.init import xavier_normal
         >>> from torch import nn
@@ -142,7 +142,7 @@ def xavier_uniform(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn.init import xavier_uniform
         >>> from torch import nn

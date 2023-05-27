@@ -34,7 +34,7 @@ class InverseSquareRootLR(LambdaLR):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.lr_schedulers import InverseSquareRootLR

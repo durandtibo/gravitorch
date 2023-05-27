@@ -57,7 +57,7 @@ def sync_perf_counter() -> float:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.timing import sync_perf_counter
         >>> tic = sync_perf_counter()
@@ -83,14 +83,16 @@ def timeblock(message: str = "Total time: {time}") -> Generator[None, None, None
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.timing import timeblock
         >>> with timeblock():
         ...     x = [1, 2, 3]
+        ...
         INFO:gravitorch.utils.time_tracking:Total time: 0:00:00.000039
         >>> with timeblock("Training: {time}"):
         ...     x = [1, 2, 3]
+        ...
         INFO:gravitorch.utils.time_tracking:Training: 0:00:00.000035
     """
     if "{time}" not in message:
@@ -116,13 +118,14 @@ class BatchLoadingTimer(Iterable[T]):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.timing import BatchLoadingTimer
         >>> my_batch_loader = [1, 2, 3, 4, 5]
         >>> batch_loader = BatchLoadingTimer(my_batch_loader, epoch=0, prefix="train")
         >>> for batch in batch_loader:
-        ...     pass # do something
+        ...     pass  # do something
+        ...
         >>> batch_loader.get_stats()
         {'batch_load_time_avg_ms': 0.003508200001078876,
          'batch_load_time_max_ms': 0.010916999997334642,

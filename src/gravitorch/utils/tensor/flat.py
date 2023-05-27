@@ -37,7 +37,7 @@ class LazyFlattedTensor:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.tensor import LazyFlattedTensor
@@ -78,7 +78,7 @@ class LazyFlattedTensor:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import torch
             >>> from gravitorch.utils.tensor import LazyFlattedTensor

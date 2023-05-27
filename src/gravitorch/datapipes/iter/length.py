@@ -26,7 +26,7 @@ class LooperIterDataPipe(IterDataPipe[T]):
 
      Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.datapipes.iter import Looper, SourceWrapper
         >>> dp = Looper(SourceWrapper([1, 2, 3, 4]), length=10)

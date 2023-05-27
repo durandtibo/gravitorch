@@ -21,12 +21,13 @@ class AverageMeter:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.meters import AverageMeter
         >>> meter = AverageMeter()
         >>> for i in range(11):
         ...     meter.update(i)
+        ...
         >>> meter.average()
         5.0
     """
@@ -76,7 +77,7 @@ class AverageMeter:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.meters import AverageMeter
             >>> meter = AverageMeter()

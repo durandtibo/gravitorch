@@ -34,22 +34,22 @@ class VanillaLoss(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from torch import nn
         >>> from gravitorch.models.criteria import VanillaLoss
         # Initialization with a nn.Module
         >>> criterion = VanillaLoss(criterion=nn.MSELoss())
         # Initialization with a config
-        >>> criterion = VanillaLoss(criterion={'_target_': 'torch.nn.MSELoss'})
+        >>> criterion = VanillaLoss(criterion={"_target_": "torch.nn.MSELoss"})
         # Customize keys.
         >>> criterion = VanillaLoss(
         ...     criterion=nn.MSELoss(),
-        ...     prediction_key='my_prediction',
-        ...     target_key='my_target',
+        ...     prediction_key="my_prediction",
+        ...     target_key="my_target",
         ... )
-        >>> net_out = {'my_prediction': ...}
-        >>> batch = {'my_target': ...}
+        >>> net_out = {"my_prediction": ...}
+        >>> batch = {"my_target": ...}
         >>> loss = criterion(net_out, batch)
         {'loss': torch.tensor(...)}
     """

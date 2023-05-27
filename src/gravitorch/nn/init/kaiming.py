@@ -137,7 +137,7 @@ def kaiming_normal(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn.init import kaiming_normal
         >>> from torch import nn
@@ -188,7 +188,7 @@ def kaiming_uniform(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn.init import kaiming_uniform
         >>> from torch import nn

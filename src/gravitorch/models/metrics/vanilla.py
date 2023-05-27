@@ -33,20 +33,20 @@ class VanillaMetric(BaseMetric):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.models.metrics import TopKAccuracy
         # Initialization with a metric object.
-        >>> metric = VanillaMetric(TopKAccuracy(mode='train', topk=[1]))
+        >>> metric = VanillaMetric(TopKAccuracy(mode="train", topk=[1]))
         # Initialization with the config of a metric.
-        >>> metric = VanillaMetric(mode='eval', metric={'_target_': 'TopKAccuracy', 'topk': [1]})
+        >>> metric = VanillaMetric(mode="eval", metric={"_target_": "TopKAccuracy", "topk": [1]})
         # Customize keys.
-        >>> net_out = {'next_sentence_prediction': ...}
-        >>> batch = {'next_sentence_target': ...}
+        >>> net_out = {"next_sentence_prediction": ...}
+        >>> batch = {"next_sentence_target": ...}
         >>> metric = VanillaMetric(
-        ...     TopKAccuracy(mode='train', topk=[1]),
-        ...     prediction_key='next_sentence_prediction',
-        ...     target_key='next_sentence_target',
+        ...     TopKAccuracy(mode="train", topk=[1]),
+        ...     prediction_key="next_sentence_prediction",
+        ...     target_key="next_sentence_target",
         ... )
     """
 
@@ -226,25 +226,25 @@ class PaddedSequenceMetric(VanillaMetric):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics import PaddedSequenceMetric, AbsoluteError
-        >>> metric = PaddedSequenceMetric(AbsoluteError(mode='train'))
+        >>> metric = PaddedSequenceMetric(AbsoluteError(mode="train"))
         >>> metric(
         ...     cri_out={},
-        ...     net_out={'prediction': torch.ones(2, 6, 1)},
-        ...     batch={'target': torch.zeros(2, 6, 1)},
+        ...     net_out={"prediction": torch.ones(2, 6, 1)},
+        ...     batch={"target": torch.zeros(2, 6, 1)},
         ... )
         >>> metric.value()
         {'train/mae': 1.0, 'train/mae_num_examples': 12}
         >>> metric(
         ...     cri_out={},
-        ...     net_out={'prediction': torch.ones(2, 4, 1)},
+        ...     net_out={"prediction": torch.ones(2, 4, 1)},
         ...     batch={
-        ...         'target': torch.zeros(2, 4, 1),
-        ...         'mask': torch.tensor([[True, True, False, True], [True, True, True, False]]),
-        ...    }
+        ...         "target": torch.zeros(2, 4, 1),
+        ...         "mask": torch.tensor([[True, True, False, True], [True, True, True, False]]),
+        ...     },
         ... )
         >>> metric.value()
         {'train/mae': 1.0, 'train/mae_num_examples': 18}

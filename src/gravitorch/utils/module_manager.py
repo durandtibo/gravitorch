@@ -44,12 +44,12 @@ class ModuleManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.module_manager import ModuleManager
             >>> manager = ModuleManager()
             >>> from torch import nn
-            >>> manager.add_module('my_module', nn.Linear(4, 6))
+            >>> manager.add_module("my_module", nn.Linear(4, 6))
         """
         if name in self._modules:
             logger.info(f"Overriding the '{name}' module")
@@ -72,13 +72,13 @@ class ModuleManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.module_manager import ModuleManager
             >>> manager = ModuleManager()
             >>> from torch import nn
-            >>> manager.add_module('my_module', nn.Linear(4, 6))
-            >>> manager.get_module('my_module')
+            >>> manager.add_module("my_module", nn.Linear(4, 6))
+            >>> manager.get_module("my_module")
             nn.Linear(4, 6)
         """
         if not self.has_module(name):
@@ -98,15 +98,15 @@ class ModuleManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.module_manager import ModuleManager
             >>> manager = ModuleManager()
             >>> from torch import nn
-            >>> manager.add_module('my_module', nn.Linear(4, 6))
-            >>> manager.has_module('my_module')
+            >>> manager.add_module("my_module", nn.Linear(4, 6))
+            >>> manager.has_module("my_module")
             True
-            >>> manager.has_module('missing')
+            >>> manager.has_module("missing")
             False
         """
         return name in self._modules
@@ -124,14 +124,14 @@ class ModuleManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.module_manager import ModuleManager
             >>> manager = ModuleManager()
             >>> from torch import nn
-            >>> manager.add_module('my_module', nn.Linear(4, 6))
-            >>> manager.remove_module('my_module')
-            >>> manager.has_module('my_module')
+            >>> manager.add_module("my_module", nn.Linear(4, 6))
+            >>> manager.remove_module("my_module")
+            >>> manager.has_module("my_module")
             False
         """
         if name not in self._modules:
@@ -182,12 +182,12 @@ class ModuleManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.module_manager import ModuleManager
             >>> manager = ModuleManager()
             >>> from torch import nn
-            >>> manager.add_module('my_module', nn.Linear(4, 6))
+            >>> manager.add_module("my_module", nn.Linear(4, 6))
             >>> manager.state_dict()
             {'my_module': OrderedDict([('weight', tensor([[-0.3810, -0.3761,  0.3272,  0.2582],
                     [ 0.4013,  0.0173,  0.3931, -0.1642],
@@ -196,7 +196,7 @@ class ModuleManager:
                     [ 0.0111, -0.2536, -0.3626, -0.0810],
                     [-0.1757, -0.4256, -0.1076, -0.2050]])),
                 ('bias', tensor([ 0.2897, -0.4282, -0.2547, -0.2704, -0.1545,  0.2825]))])}
-            >>> manager.add_module('int', 123)
+            >>> manager.add_module("int", 123)
             >>> manager.state_dict()
             {'my_module': OrderedDict([('weight', tensor([[-0.3810, -0.3761,  0.3272,  0.2582],
                     [ 0.4013,  0.0173,  0.3931, -0.1642],

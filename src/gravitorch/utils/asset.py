@@ -56,11 +56,11 @@ class AssetManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.asset import AssetManager
             >>> manager = AssetManager()
-            >>> manager.add_asset('mean', 5)
+            >>> manager.add_asset("mean", 5)
         """
         if name in self._assets and not replace_ok:
             raise AssetExistsError(
@@ -78,12 +78,12 @@ class AssetManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.asset import AssetManager
-            >>> manager = AssetManager({'name': 5})
+            >>> manager = AssetManager({"name": 5})
             >>> clone = manager.clone()
-            >>> manager.add_asset('name', 7)
+            >>> manager.add_asset("name", 7)
             >>> manager
             AssetManager(
               (name) <class 'int'>  7
@@ -109,15 +109,15 @@ class AssetManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.asset import AssetManager
             >>> manager = AssetManager()
-            >>> manager.add_asset('mean', 5)
+            >>> manager.add_asset("mean", 5)
             >>> manager2 = AssetManager()
             >>> manager.equal(manager2)
             False
-            >>> manager2.add_asset('mean', 5)
+            >>> manager2.add_asset("mean", 5)
             >>> manager.equal(manager2)
             True
         """
@@ -142,12 +142,12 @@ class AssetManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.asset import AssetManager
             >>> manager = AssetManager()
-            >>> manager.add_asset('mean', 5)
-            >>> manager.get_asset('mean')
+            >>> manager.add_asset("mean", 5)
+            >>> manager.get_asset("mean")
             5
         """
         if name not in self._assets:
@@ -163,11 +163,11 @@ class AssetManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.asset import AssetManager
             >>> manager = AssetManager()
-            >>> manager.add_asset('mean', 5)
+            >>> manager.add_asset("mean", 5)
             >>> manager.get_asset_names()
             ('mean',)
         """
@@ -186,14 +186,14 @@ class AssetManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.asset import AssetManager
             >>> manager = AssetManager()
-            >>> manager.has_asset('mean')
+            >>> manager.has_asset("mean")
             False
-            >>> manager.add_asset('mean', 5)
-            >>> manager.has_asset('mean')
+            >>> manager.add_asset("mean", 5)
+            >>> manager.has_asset("mean")
             True
         """
         return name in self._assets
@@ -211,14 +211,14 @@ class AssetManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.asset import AssetManager
             >>> manager = AssetManager()
-            >>> manager.add_asset('mean', 5)
-            >>> manager.remove_asset('mean')
+            >>> manager.add_asset("mean", 5)
+            >>> manager.remove_asset("mean")
             5
-            >>> manager.has_asset('mean')
+            >>> manager.has_asset("mean")
             False
         """
         if name not in self._assets:
@@ -244,7 +244,7 @@ def get_asset_summary(asset: Any) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.asset import get_asset_summary

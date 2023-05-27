@@ -29,11 +29,11 @@ class SquaredError(BaseStateEpochMetric):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics import SquaredError
-        >>> metric = SquaredError('eval')
+        >>> metric = SquaredError("eval")
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
         {'eval/sq_err_mean': 0.0,
@@ -97,11 +97,11 @@ class RootMeanSquaredError(SquaredError):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics import RootMeanSquaredError
-        >>> metric = RootMeanSquaredError('eval')
+        >>> metric = RootMeanSquaredError("eval")
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
         {'eval/rmse_root_mean': 0.0, 'eval/rmse_num_predictions': 8}

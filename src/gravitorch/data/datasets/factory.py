@@ -33,11 +33,11 @@ def setup_dataset(dataset: Union[Dataset, dict, None]) -> Optional[Dataset]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.data.datasets import setup_dataset
         >>> mnist = setup_dataset(
-        ...     {'_target_': 'torchvision.datasets.MNIST', 'root': '/my/path/', 'download': True},
+        ...     {"_target_": "torchvision.datasets.MNIST", "root": "/my/path/", "download": True},
         ... )
         >>> mnist
         Dataset MNIST

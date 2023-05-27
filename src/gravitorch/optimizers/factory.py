@@ -35,13 +35,12 @@ def setup_optimizer(model: Module, optimizer: Union[Optimizer, dict, None]) -> O
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.optimizers import setup_optimizer
         >>> import torch
         >>> optimizer = setup_optimizer(
-        ...     torch.nn.Linear(4, 6),
-        ...     optimizer={'_target_': "torch.optim.SGD", "lr": 0.01}
+        ...     torch.nn.Linear(4, 6), optimizer={"_target_": "torch.optim.SGD", "lr": 0.01}
         ... )
         >>> optimizer
         SGD (

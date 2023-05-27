@@ -31,20 +31,20 @@ def add_unique_event_handler(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         # Create an engine
         >>> from gravitorch.engines import AlphaEngine
         >>> engine = AlphaEngine(...)
         # Create an event handler
         >>> def hello_handler():
-        ...     print('Hello!')
+        ...     print("Hello!")
         ...
         >>> from gravitorch.events import VanillaEventHandler
         >>> event_handler = VanillaEventHandler(hello_handler)
         # Add an event handler to the engine
         >>> from gravitorch.handlers import add_unique_event_handler
-        >>> add_unique_event_handler(engine, 'my_event', event_handler)
+        >>> add_unique_event_handler(engine, "my_event", event_handler)
     """
     if engine.has_event_handler(event_handler, event):
         logger.info(f"{event_handler} is already added to the engine for '{event}' event")
@@ -116,14 +116,14 @@ def to_events(events: Union[str, tuple[str, ...], list[str]]) -> tuple[str, ...]
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.handlers import to_events
-        >>> to_events('my_event')
+        >>> to_events("my_event")
         ('my_event',)
-        >>> to_events(('my_event', 'my_other_event'))
+        >>> to_events(("my_event", "my_other_event"))
         ('my_event', 'my_other_event')
-        >>> to_events(['my_event', 'my_other_event'])
+        >>> to_events(["my_event", "my_other_event"])
         ('my_event', 'my_other_event')
     """
     if isinstance(events, str):

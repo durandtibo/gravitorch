@@ -19,7 +19,7 @@ def absolute_error(prediction: Tensor, target: Tensor) -> Tensor:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.functional import absolute_error
@@ -50,7 +50,7 @@ def absolute_relative_error(prediction: Tensor, target: Tensor, eps: float = 1e-
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.functional import absolute_relative_error
@@ -83,7 +83,7 @@ def symmetric_absolute_relative_error(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.functional import symmetric_absolute_relative_error

@@ -38,7 +38,7 @@ def create_sequential_lr(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.lr_schedulers import create_sequential_lr

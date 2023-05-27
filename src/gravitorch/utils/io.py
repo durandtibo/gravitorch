@@ -84,11 +84,11 @@ def load_text(path: Path) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import load_text
-        >>> data = load_text(Path('/path/to/data.txt'))
+        >>> data = load_text(Path("/path/to/data.txt"))
     """
     logger.debug(f"read {path}")
     with Path.open(path) as file:
@@ -107,11 +107,11 @@ def save_text(to_save: str, path: Path) -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import save_text
-        >>> save_text("abc", Path('/path/to/data.txt'))
+        >>> save_text("abc", Path("/path/to/data.txt"))
     """
     logger.debug(f"write data in a text file: {path}")
     path.parents[0].mkdir(exist_ok=True, parents=True)
@@ -155,11 +155,11 @@ def load_json(path: Path) -> dict:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import load_json
-        >>> data = load_json(Path('/path/to/data.json'))
+        >>> data = load_json(Path("/path/to/data.json"))
     """
     logger.debug(f"Loading data from {path}...")
     with Path.open(path, mode="rb") as file:
@@ -181,11 +181,11 @@ def save_json(to_save: Any, path: Path) -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import save_json
-        >>> save_json({"key": "value"}, Path('/path/to/data.json'))
+        >>> save_json({"key": "value"}, Path("/path/to/data.json"))
     """
     logger.debug(f"Saving data in a JSON file: {path}")
     path.parents[0].mkdir(exist_ok=True, parents=True)
@@ -216,11 +216,11 @@ def load_pickle(path: Path) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import load_pickle
-        >>> data = load_pickle(Path('/path/to/data.pkl'))
+        >>> data = load_pickle(Path("/path/to/data.pkl"))
     """
     logger.debug(f"Loading data from {path}...")
     with Path.open(path, mode="rb") as file:
@@ -241,11 +241,11 @@ def save_pickle(to_save: Any, path: Path, protocol: int = pickle.HIGHEST_PROTOCO
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import save_pickle
-        >>> save_pickle({"key": "value"}, Path('/path/to/data.pkl'))
+        >>> save_pickle({"key": "value"}, Path("/path/to/data.pkl"))
     """
     logger.debug(f"Saving data in pickle file: {path}  (protocol={protocol})")
     path.parents[0].mkdir(exist_ok=True, parents=True)
@@ -273,11 +273,11 @@ def save_pytorch(to_save: Any, path: Path) -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import save_pytorch
-        >>> save_pytorch({"key": "value"}, Path('/path/to/data.pt'))
+        >>> save_pytorch({"key": "value"}, Path("/path/to/data.pt"))
     """
     logger.debug(f"Saving data in a PyTorch file: {path}")
     path.parents[0].mkdir(exist_ok=True, parents=True)
@@ -306,11 +306,11 @@ def load_yaml(path: Path) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import load_yaml
-        >>> data = load_yaml(Path('/path/to/data.yaml'))
+        >>> data = load_yaml(Path("/path/to/data.yaml"))
     """
     logger.debug(f"Loading data from {path}...")
     with Path.open(path, mode="rb") as file:
@@ -329,11 +329,11 @@ def save_yaml(to_save: Any, path: Path) -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.io import save_yaml
-        >>> save_yaml({"key": "value"}, Path('/path/to/data.yaml'))
+        >>> save_yaml({"key": "value"}, Path("/path/to/data.yaml"))
     """
     logger.debug(f"Saving data in a yaml file: {path}")
     path.parents[0].mkdir(exist_ok=True, parents=True)

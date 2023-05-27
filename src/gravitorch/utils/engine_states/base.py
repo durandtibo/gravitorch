@@ -15,14 +15,14 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
     A state should implement the following attributes:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.engine_states import BaseEngineState
         >>> state: BaseEngineState = ...  # Create an engine state
-        >>> state.epoch             # 0-based, the first epoch is 0. -1 means the training has not started
-        >>> state.iteration         # 0-based, the first iteration is 0. -1 means the training has not started
-        >>> state.max_epochs        # maximum number of epochs to run
-        >>> state.random_seed       # random seed
+        >>> state.epoch  # 0-based, the first epoch is 0. -1 means the training has not started
+        >>> state.iteration  # 0-based, the first iteration is 0. -1 means the training has not started
+        >>> state.max_epochs  # maximum number of epochs to run
+        >>> state.random_seed  # random seed
     """
 
     @property
@@ -40,7 +40,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
@@ -63,7 +63,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
@@ -82,7 +82,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
@@ -101,7 +101,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
@@ -123,13 +123,13 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> from gravitorch.utils.history import MinScalarHistory
             >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_history(MinScalarHistory("loss"))
-            >>> state.add_history(MinScalarHistory("loss"), 'my key')
+            >>> state.add_history(MinScalarHistory("loss"), "my key")
         """
 
     @abstractmethod
@@ -147,12 +147,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch import nn
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
-            >>> state.add_module('model', nn.Linear(4, 6))
+            >>> state.add_module("model", nn.Linear(4, 6))
         """
 
     @abstractmethod
@@ -181,16 +181,16 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             # Create an engine state where the best value of 'accuracy' is 42.
             >>> state: BaseEngineState = ...
             >>> best_values = state.get_best_values()
             {'accuracy': 42}
-            >>> state.get_best_values(prefix='best/')
+            >>> state.get_best_values(prefix="best/")
             {'best/accuracy': 42}
-            >>> state.get_best_values(suffix='/best')
+            >>> state.get_best_values(suffix="/best")
             {'accuracy/best': 42}
         """
 
@@ -210,15 +210,15 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> from gravitorch.utils.history import MinScalarHistory
             >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_history(MinScalarHistory("loss"))
-            >>> state.get_history('loss')
+            >>> state.get_history("loss")
             MinScalarHistory(name='loss', ...)
-            >>> state.get_history('new_history')
+            >>> state.get_history("new_history")
             GenericHistory(name='new_history', ...)
         """
 
@@ -232,7 +232,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> from gravitorch.utils.history import MinScalarHistory
@@ -260,15 +260,15 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch import nn
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
-            >>> state.add_module('model', nn.Linear(4, 6))
-            >>> state.get_module('model')
+            >>> state.add_module("model", nn.Linear(4, 6))
+            >>> state.get_module("model")
             Linear(in_features=4, out_features=6, bias=True)
-            >>> state.get_module('missing_module')
+            >>> state.get_module("missing_module")
             ValueError
         """
 
@@ -286,15 +286,15 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> from gravitorch.utils.history import MinScalarHistory
             >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_history(MinScalarHistory("loss"))
-            >>> state.has_history('loss')
+            >>> state.has_history("loss")
             True
-            >>> state.has_history('missing_history')
+            >>> state.has_history("missing_history")
             False
         """
 
@@ -312,15 +312,15 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch import nn
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
-            >>> state.add_module('model', nn.Linear(4, 6))
-            >>> state.has_module('model')
+            >>> state.add_module("model", nn.Linear(4, 6))
+            >>> state.has_module("model")
             True
-            >>> state.has_module('missing_module')
+            >>> state.has_module("missing_module")
             False
         """
 
@@ -335,7 +335,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
@@ -362,7 +362,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
@@ -388,7 +388,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
@@ -412,18 +412,18 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch import nn
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state
-            >>> state.add_module('model', nn.Linear(4, 6))
-            >>> state.has_module('model')
+            >>> state.add_module("model", nn.Linear(4, 6))
+            >>> state.has_module("model")
             True
-            >>> state.remove_module('model')
-            >>> state.has_module('model')
+            >>> state.remove_module("model")
+            >>> state.has_module("model")
             False
-            >>> state.remove_module('model')
+            >>> state.remove_module("model")
             ValueError
         """
 
@@ -437,7 +437,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.engine_states import BaseEngineState
             >>> state: BaseEngineState = ...  # Create an engine state

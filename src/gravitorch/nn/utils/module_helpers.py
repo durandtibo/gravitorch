@@ -378,7 +378,7 @@ def is_batch_first(module: nn.Module) -> bool:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from torch import nn
         >>> from gravitorch.nn import is_batch_first
@@ -410,18 +410,19 @@ def module_mode(module: nn.Module) -> Generator[None, None, None]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from torch import nn
         >>> from gravitorch.nn import module_mode
-        >>> module = nn.ModuleDict({'module1': nn.Linear(4, 6), 'module2': nn.Linear(2, 4).eval()})
-        >>> print(module['module1'].training, module['module2'].training)
+        >>> module = nn.ModuleDict({"module1": nn.Linear(4, 6), "module2": nn.Linear(2, 4).eval()})
+        >>> print(module["module1"].training, module["module2"].training)
         True False
         >>> with module_mode(module):
         ...     module.eval()
-        ...     print(module['module1'].training, module['module2'].training)
+        ...     print(module["module1"].training, module["module2"].training)
+        ...
         False False
-        >>> print(module['module1'].training, module['module2'].training)
+        >>> print(module["module1"].training, module["module2"].training)
         True False
     """
     modes = {}
@@ -448,7 +449,7 @@ def top_module_mode(module: nn.Module) -> Generator[None, None, None]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from torch import nn
         >>> from gravitorch.nn import module_mode
@@ -458,6 +459,7 @@ def top_module_mode(module: nn.Module) -> Generator[None, None, None]:
         >>> with top_module_mode(module):
         ...     module.eval()
         ...     print(module)
+        ...
         False
         >>> print(module.training)
         True

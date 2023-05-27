@@ -64,17 +64,17 @@ class EventManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             # Create an event manager
             >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Add an event handler to the event manager
             >>> def hello_handler():
-            ...     print('Hello!')
+            ...     print("Hello!")
             ...
             >>> from gravitorch.events import VanillaEventHandler
-            >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
+            >>> event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
         """
         self._event_handlers[str(event)].append(event_handler)
         logger.debug(f"Added {event_handler} to event {event}")
@@ -88,21 +88,23 @@ class EventManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             # Create an event manager
             >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Fire the 'my_event' event
-            >>> event_manager.fire_event('my_event')  # should do nothing because there is no event handler
+            >>> event_manager.fire_event(
+            ...     "my_event"
+            ... )  # should do nothing because there is no event handler
             # Add an event handler
             >>> def hello_handler():
             ...     print("Hello!")
             ...
             >>> from gravitorch.events import VanillaEventHandler
-            >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
+            >>> event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
             # Fire the 'my_event' event
-            >>> event_manager.fire_event('my_event')
+            >>> event_manager.fire_event("my_event")
             Hello!
         """
         logger.debug(f"Firing {event} event")
@@ -128,7 +130,7 @@ class EventManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             # Create an event manager
             >>> from gravitorch.events import EventManager
@@ -142,18 +144,18 @@ class EventManager:
             >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler))
             False
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
-            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             False
             # Add an event handler
-            >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
+            >>> event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
             # Check if `hello_handler` is registered in the event manager
             >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler))
             True
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
-            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             True
             # Check if `hello_handler` is registered in the event manager for 'my_other_event' event
-            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_other_event')
+            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), "my_other_event")
             False
         """
         events = [event] if event else self._event_handlers
@@ -184,24 +186,24 @@ class EventManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             # Create an event manager
             >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Add an event handler to the engine
             >>> def hello_handler():
-            ...     print('Hello!')
+            ...     print("Hello!")
             ...
             >>> from gravitorch.events import VanillaEventHandler
-            >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
+            >>> event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
-            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             True
             # Remove the event handler of the engine
-            >>> event_manager.remove_event_handler('my_event', VanillaEventHandler(hello_handler))
+            >>> event_manager.remove_event_handler("my_event", VanillaEventHandler(hello_handler))
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
-            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             False
         """
         if event not in self._event_handlers:
@@ -227,27 +229,27 @@ class EventManager:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             # Create an event manager
             >>> from gravitorch.events import EventManager
             >>> event_manager = EventManager()
             # Add an event handler to the engine
             >>> def hello_handler():
-            ...     print('Hello!')
+            ...     print("Hello!")
             ...
             >>> from gravitorch.events import VanillaEventHandler
-            >>> event_manager.add_event_handler('my_event', VanillaEventHandler(hello_handler))
+            >>> event_manager.add_event_handler("my_event", VanillaEventHandler(hello_handler))
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
-            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             True
-            >>> event_manager.fire_event('my_event')
+            >>> event_manager.fire_event("my_event")
             >>> event_manager.last_fired_event
             my_event
             # Reset the event manager
             >>> event_manager.reset()
             # Check if `hello_handler` is registered in the event manager for 'my_event' event
-            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> event_manager.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             False
             >>> event_manager.last_fired_event
             None

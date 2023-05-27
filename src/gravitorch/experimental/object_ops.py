@@ -39,7 +39,7 @@ def add_objects(object1: Any, object2: Any) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.experimental.object_ops import add_objects
@@ -93,7 +93,7 @@ def sub_objects(object1: Any, object2: Any) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.experimental.object_ops import sub_objects

@@ -43,7 +43,7 @@ def get_dtype(data: Any) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import get_dtype
         >>> get_dtype(torch.ones(1, 2, 3))
@@ -84,7 +84,7 @@ def get_shape(data: Any) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import get_shape
         >>> get_shape(torch.ones(1, 2, 3))
@@ -131,7 +131,7 @@ def recursive_apply(data: Any, tensor_fn: Callable, other_fn: Optional[Callable]
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.tensor import recursive_apply
@@ -139,9 +139,9 @@ def recursive_apply(data: Any, tensor_fn: Callable, other_fn: Optional[Callable]
         torch.float32
         >>> recursive_apply(
         ...     {
-        ...         'key1': torch.ones(2, 3),
-        ...         'key2': 'abc',
-        ...         'key3': [torch.ones(2, 3), torch.arange(6)]
+        ...         "key1": torch.ones(2, 3),
+        ...         "key2": "abc",
+        ...         "key3": [torch.ones(2, 3), torch.arange(6)],
         ...     },
         ...     lambda tensor: tensor.dtype,
         ... )
@@ -189,7 +189,7 @@ def recursive_contiguous(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import recursive_contiguous
         >>> x = torch.ones(2, 3).transpose(0, 1)
@@ -197,8 +197,8 @@ def recursive_contiguous(
         False
         >>> recursive_contiguous(x).is_contiguous()
         True
-        >>> out = recursive_contiguous({'key': x})
-        >>> out['key'].is_contiguous()
+        >>> out = recursive_contiguous({"key": x})
+        >>> out["key"].is_contiguous()
         True
     """
     return recursive_apply(data, lambda tensor: tensor.contiguous(memory_format=memory_format))
@@ -227,13 +227,13 @@ def recursive_detach(data: T) -> T:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import recursive_detach
         >>> recursive_detach(torch.ones(2, 3, requires_grad=True)).requires_grad
         False
-        >>> out = recursive_detach({'key': torch.ones(2, 3, requires_grad=True)})
-        >>> out['key'].requires_grad
+        >>> out = recursive_detach({"key": torch.ones(2, 3, requires_grad=True)})
+        >>> out["key"].requires_grad
         False
     """
     return recursive_apply(data, lambda tensor: tensor.detach())
@@ -268,13 +268,13 @@ def recursive_transpose(data: T, dim0: int, dim1: int) -> T:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import recursive_transpose
         >>> recursive_transpose(torch.ones(3, 2), 0, 1).shape
         torch.Size([2, 3])
-        >>> out = recursive_transpose({'key': torch.ones(3, 2)})
-        >>> out['key'].shape
+        >>> out = recursive_transpose({"key": torch.ones(3, 2)})
+        >>> out["key"].shape
         torch.Size([2, 3])
     """
     return recursive_apply(data, lambda tensor: tensor.transpose(dim0, dim1))
@@ -304,7 +304,7 @@ def recursive_from_numpy(data: Any) -> Any:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import numpy as np
         >>> from gravitorch.utils.tensor import recursive_from_numpy
@@ -312,7 +312,7 @@ def recursive_from_numpy(data: Any) -> Any:
         tensor([[1., 1.],
                 [1., 1.],
                 [1., 1.]], dtype=torch.float64)
-        >>> recursive_from_numpy({'key': np.ones((3, 2), dtype=np.float32)})
+        >>> recursive_from_numpy({"key": np.ones((3, 2), dtype=np.float32)})
         {'key': tensor([[1., 1.],
                 [1., 1.],
                 [1., 1.]])}

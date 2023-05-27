@@ -55,7 +55,7 @@ def human_byte_size(size: int, unit: Optional[str] = None) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import human_byte_size
         >>> human_byte_size(2)
@@ -64,7 +64,7 @@ def human_byte_size(size: int, unit: Optional[str] = None) -> str:
         2.00 KB
         >>> human_byte_size(2097152)
         2.00 MB
-        >>> human_byte_size(2048, unit='B')
+        >>> human_byte_size(2048, unit="B")
         2,048.00 B
     """
     if unit is None:  # Find the best unit.
@@ -98,16 +98,16 @@ def human_count(number: Union[int, float]) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import human_count
         >>> human_count(123)
         '123  '
         >>> human_count(1234)  # (one thousand)
         '1.2 K'
-        >>> human_count(2e6)   # (two million)
+        >>> human_count(2e6)  # (two million)
         '2.0 M'
-        >>> human_count(3e9)   # (three billion)
+        >>> human_count(3e9)  # (three billion)
         '3.0 B'
         >>> human_count(4e14)  # (four hundred trillion)
         '400 T'
@@ -148,7 +148,7 @@ def human_time(seconds: Union[int, float]) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import human_time
         >>> human_time(1.2)
@@ -178,7 +178,7 @@ def str_indent(original: Any, num_spaces: int = 2) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> string_to_print = "string1\nstring2"
         >>> print(f"{string_to_print}")
@@ -215,7 +215,7 @@ def str_scalar(value: Union[int, float]) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import str_scalar
         >>> str_scalar(123456.789)
@@ -249,7 +249,7 @@ def str_target_object(config: dict) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import str_target_object
         >>> str_target_object({OBJECT_TARGET: "something.MyClass"})
@@ -287,18 +287,18 @@ def to_flat_dict(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import to_flat_dict
         >>> data = {
-                'str': 'def',
-                'module': {
-                    'component': {
-                        'float': 3.5,
-                        'int': 2,
-                    },
-                },
-            }
+        ...     "str": "def",
+        ...     "module": {
+        ...         "component": {
+        ...             "float": 3.5,
+        ...             "int": 2,
+        ...         },
+        ...     },
+        ... }
         >>> to_flat_dict(data)
         {
             'module.component.float': 3.5,
@@ -307,9 +307,9 @@ def to_flat_dict(
         }
         # Example with lists (also works with tuple)
         >>> data = {
-                'module': [[1, 2, 3], {'bool': True}],
-                'str': 'abc',
-            }
+        ...     "module": [[1, 2, 3], {"bool": True}],
+        ...     "str": "abc",
+        ... }
         >>> to_flat_dict(data)
         {
             'module.0.0': 1,
@@ -318,12 +318,11 @@ def to_flat_dict(
             'module.1.bool': True,
             'str': 'abc',
         }
-
         # Example with lists with to_str=(list) (also works with tuple)
         >>> data = {
-                'module': [[1, 2, 3], {'bool': True}],
-                'str': 'abc',
-            }
+        ...     "module": [[1, 2, 3], {"bool": True}],
+        ...     "str": "abc",
+        ... }
         >>> to_flat_dict(data)
         {
             'module': "[[1, 2, 3], {'bool': True}]",
@@ -382,7 +381,7 @@ def to_pretty_json_str(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import to_pretty_json_str
         >>> to_pretty_json_str({"my_key": "my_value"})
@@ -421,7 +420,7 @@ def to_pretty_yaml_str(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import to_pretty_yaml_str
         >>> to_pretty_yaml_str({"my_key": "my_value"})
@@ -459,7 +458,7 @@ def to_pretty_dict_str(data: dict[str, Any], sorted_keys: bool = False, indent: 
 
         Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import to_pretty_dict_str
         >>> to_pretty_dict_str({"my_key": "my_value"})
@@ -497,10 +496,10 @@ def to_torch_mapping_str(mapping: Mapping, sorted_keys: bool = False, num_spaces
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import to_torch_mapping_str
-        >>> to_torch_mapping_str({'key1': 'abc', 'key2': 'something\nelse'})
+        >>> to_torch_mapping_str({"key1": "abc", "key2": "something\nelse"})
         (key1) abc
         (key2) something
           else
@@ -527,7 +526,7 @@ def to_torch_sequence_str(sequence: Sequence, num_spaces: int = 2) -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.format import to_torch_sequence_str
         >>> to_torch_sequence_str(["abc", "something\nelse"])

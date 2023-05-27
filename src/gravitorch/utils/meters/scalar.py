@@ -40,7 +40,7 @@ class ScalarMeter:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.meters import ScalarMeter
         >>> meter = ScalarMeter()

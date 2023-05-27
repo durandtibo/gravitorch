@@ -44,7 +44,7 @@ def ddp_partitions(items: Sequence[T], partition_size: int) -> list[Sequence[T]]
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.partitioning import ddp_partitions
         # World size 1
@@ -89,7 +89,7 @@ def even_partitions(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.partitioning import even_partitions
         >>> even_partitions([1, 2, 3, 4, 5, 6, 7, 8], num_partitions=3)
@@ -124,7 +124,7 @@ def fixed_size_partitions(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.partitioning import fixed_size_partitions
         >>> fixed_size_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=3)
@@ -150,7 +150,7 @@ def select_partition_by_rank(partitions: Sequence[T]) -> T:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.partitioning import select_partition_by_rank
         # Rank 0
@@ -189,7 +189,7 @@ def split_into_two_partitions(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.partitioning import split_into_two_partitions
         >>> first, second = split_into_two_partitions([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
