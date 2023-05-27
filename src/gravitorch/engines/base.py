@@ -109,14 +109,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.events import VanillaEventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             >>> def hello_handler():
-            ...     print('Hello!')
-            >>> engine.add_event_handler('my_event', VanillaEventHandler(hello_handler))
+            ...     print("Hello!")
+            ...
+            >>> engine.add_event_handler("my_event", VanillaEventHandler(hello_handler))
         """
 
     @abstractmethod
@@ -133,13 +134,13 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.history import MinScalarHistory
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.add_history(MinScalarHistory("loss"))
-            >>> engine.add_history(MinScalarHistory("loss"), 'my key')
+            >>> engine.add_history(MinScalarHistory("loss"), "my key")
         """
 
     @abstractmethod
@@ -162,12 +163,12 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch import nn
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
-            >>> engine.add_module('my_module', nn.Linear(4, 5))
+            >>> engine.add_module("my_module", nn.Linear(4, 5))
         """
 
     @abstractmethod
@@ -181,12 +182,12 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.artifacts import JSONArtifact
             >>> engine: BaseEngine = ...  # Create an engine
-            >>> engine.create_artifact(JSONArtifact(tag='metric', data={'f1_score': 42}))
+            >>> engine.create_artifact(JSONArtifact(tag="metric", data={"f1_score": 42}))
         """
 
     @abstractmethod
@@ -202,7 +203,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
@@ -219,16 +220,17 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.events import VanillaEventHandler
             >>> engine: BaseEngine = ...  # Create an engine
-            >>> engine.fire_event('my_event')  # should do nothing because there is no event handler
+            >>> engine.fire_event("my_event")  # should do nothing because there is no event handler
             >>> def hello_handler():
             ...     print("Hello!")
-            >>> engine.add_event_handler('my_event', VanillaEventHandler(hello_handler))
-            >>> engine.fire_event('my_event')
+            ...
+            >>> engine.add_event_handler("my_event", VanillaEventHandler(hello_handler))
+            >>> engine.fire_event("my_event")
             Hello!
         """
 
@@ -248,15 +250,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.history import MinScalarHistory
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.add_history(MinScalarHistory("loss"))
-            >>> engine.get_history('loss')
+            >>> engine.get_history("loss")
             MinScalarHistory(name='loss', ...)
-            >>> engine.get_history('new_history')
+            >>> engine.get_history("new_history")
             GenericHistory(name='new_history', ...)
         """
 
@@ -270,7 +272,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.history import MinScalarHistory
@@ -298,15 +300,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch import nn
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
-            >>> engine.add_module('model', nn.Linear(4, 6))
-            >>> engine.get_module('model')
+            >>> engine.add_module("model", nn.Linear(4, 6))
+            >>> engine.get_module("model")
             Linear(in_features=4, out_features=6, bias=True)
-            >>> engine.get_module('missing_module')
+            >>> engine.get_module("missing_module")
             ValueError
         """
 
@@ -327,7 +329,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.events import VanillaEventHandler
@@ -335,16 +337,17 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             # Define a handler
             >>> def hello_handler():
             ...     print("Hello!")
+            ...
             >>> engine.has_event_handler(VanillaEventHandler(hello_handler))
             False
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             False
-            >>> engine.add_event_handler('my_event', VanillaEventHandler(hello_handler))
+            >>> engine.add_event_handler("my_event", VanillaEventHandler(hello_handler))
             >>> engine.has_event_handler(VanillaEventHandler(hello_handler))
             True
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             True
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), 'other_event')
+            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "other_event")
             False
         """
 
@@ -362,15 +365,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.history import MinScalarHistory
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.add_history(MinScalarHistory("loss"))
-            >>> engine.has_history('loss')
+            >>> engine.has_history("loss")
             True
-            >>> engine.has_history('missing_history')
+            >>> engine.has_history("missing_history")
             False
         """
 
@@ -388,15 +391,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch import nn
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
-            >>> engine.add_module('model', nn.Linear(4, 6))
-            >>> engine.has_module('model')
+            >>> engine.add_module("model", nn.Linear(4, 6))
+            >>> engine.has_module("model")
             True
-            >>> engine.has_module('missing_module')
+            >>> engine.has_module("missing_module")
             False
         """
 
@@ -411,7 +414,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
@@ -438,7 +441,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
@@ -464,7 +467,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
@@ -492,16 +495,16 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import matplotlib.pyplot as plt
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.exp_trackers import EpochStep, IterationStep
             >>> engine: BaseEngine = ...  # Create an engine
             >>> fig, axes = plt.subplots()
-            >>> engine.log_figure('my_figure', fig)
-            >>> engine.log_figure('my_figure', fig, EpochStep(2))
-            >>> engine.log_figure('my_figure', fig, IterationStep(10))
+            >>> engine.log_figure("my_figure", fig)
+            >>> engine.log_figure("my_figure", fig, EpochStep(2))
+            >>> engine.log_figure("my_figure", fig, IterationStep(10))
         """
 
     @abstractmethod
@@ -521,16 +524,16 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import matplotlib.pyplot as plt
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.exp_trackers import EpochStep, IterationStep
             >>> engine: BaseEngine = ...  # Create an engine
             >>> fig, axes = plt.subplots()
-            >>> engine.log_figures({'my_figure_1': fig, 'my_figure_2': fig})
-            >>> engine.log_figures({'my_figure_1': fig, 'my_figure_2': fig}, EpochStep(2))
-            >>> engine.log_figures({'my_figure_1': fig, 'my_figure_2': fig}, IterationStep(10))
+            >>> engine.log_figures({"my_figure_1": fig, "my_figure_2": fig})
+            >>> engine.log_figures({"my_figure_1": fig, "my_figure_2": fig}, EpochStep(2))
+            >>> engine.log_figures({"my_figure_1": fig, "my_figure_2": fig}, IterationStep(10))
         """
 
     @abstractmethod
@@ -551,14 +554,14 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.exp_trackers import EpochStep, IterationStep
             >>> engine: BaseEngine = ...  # Create an engine
-            >>> engine.log_metric(key='metric name', value=1.2)
-            >>> engine.log_metric(key='metric name', value=1.2, step=EpochStep(2))
-            >>> engine.log_metric(key='metric name', value=1.2, step=IterationStep(10))
+            >>> engine.log_metric(key="metric name", value=1.2)
+            >>> engine.log_metric(key="metric name", value=1.2, step=EpochStep(2))
+            >>> engine.log_metric(key="metric name", value=1.2, step=IterationStep(10))
         """
 
     @abstractmethod
@@ -577,12 +580,12 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.exp_trackers import EpochStep, IterationStep
             >>> engine: BaseEngine = ...  # Create an engine
-            >>> my_metrics = {'metric1': 12, 'metric2': 0.35}
+            >>> my_metrics = {"metric1": 12, "metric2": 0.35}
             >>> engine.log_metrics(metrics)
             >>> engine.log_metrics(my_metrics, EpochStep(2))
             >>> engine.log_metrics(my_metrics, IterationStep(10))
@@ -610,18 +613,19 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.events import VanillaEventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             >>> def hello_handler():
-            ...     print('Hello!')
-            >>> engine.add_event_handler('my_event', VanillaEventHandler(hello_handler))
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            ...     print("Hello!")
+            ...
+            >>> engine.add_event_handler("my_event", VanillaEventHandler(hello_handler))
+            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             True
-            >>> engine.remove_event_handler('my_event', VanillaEventHandler(hello_handler))
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), 'my_event')
+            >>> engine.remove_event_handler("my_event", VanillaEventHandler(hello_handler))
+            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
             False
         """
 
@@ -639,18 +643,18 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch import nn
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
-            >>> engine.add_module('model', nn.Linear(4, 6))
-            >>> engine.has_module('model')
+            >>> engine.add_module("model", nn.Linear(4, 6))
+            >>> engine.has_module("model")
             True
-            >>> engine.remove_module('model')
-            >>> engine.has_module('model')
+            >>> engine.remove_module("model")
+            >>> engine.has_module("model")
             False
-            >>> engine.remove_module('missing_model')
+            >>> engine.remove_module("missing_model")
             ValueError
         """
 
@@ -666,7 +670,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
@@ -680,7 +684,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine
@@ -700,7 +704,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
             >>> engine: BaseEngine = ...  # Create an engine

@@ -24,7 +24,7 @@ class ReproducibleBatchSampler(BatchSampler):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.data.dataloaders.samplers import ReproducibleBatchSampler
         >>> from torch.utils.data import BatchSampler, SequentialSampler

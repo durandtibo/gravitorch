@@ -49,15 +49,15 @@ def find_module_state_dict(state_dict: Union[dict, list, tuple], module_keys: se
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import find_module_state_dict
         >>> state = {
-        ...     'model': {
-        ...         'network': {
-        ...             'weight': torch.ones(5, 4),
-        ...             'bias': 2 * torch.ones(5),
+        ...     "model": {
+        ...         "network": {
+        ...             "weight": torch.ones(5, 4),
+        ...             "bias": 2 * torch.ones(5),
         ...         }
         ...     }
         ... }
@@ -118,7 +118,7 @@ def load_checkpoint_to_module(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import load_checkpoint_to_module
@@ -172,7 +172,7 @@ def load_state_dict_to_module(state_dict: dict, module: Module, strict: bool = T
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn.utils import load_state_dict_to_module

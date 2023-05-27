@@ -107,7 +107,7 @@ def trunc_normal(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn.init import trunc_normal
         >>> from torch import nn

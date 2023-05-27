@@ -40,7 +40,7 @@ def get_random_seed(seed: int) -> int:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.seed import get_random_seed
         >>> get_random_seed(44)
@@ -70,7 +70,7 @@ def get_torch_generator(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.seed import get_torch_generator
@@ -104,7 +104,7 @@ class BaseRandomSeedSetter(ABC):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.seed import BaseRandomSeedSetter
             >>> setter: BaseRandomSeedSetter = ...  # Initialize a random seed setter.
@@ -195,15 +195,16 @@ class RandomSeedSetter(BaseRandomSeedSetter):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.seed import BaseRandomSeedSetter, RandomSeedSetter
             >>> class OtherRandomSeedSetter(BaseRandomSeedSetter):
-            ...    def manual_seed(self, seed: int) -> None:
-            ...        ...  # Custom implementation
-            >>> RandomSeedSetter.add_setter('other', OtherRandomSeedSetter())
+            ...     def manual_seed(self, seed: int) -> None:
+            ...         ...  # Custom implementation
+            ...
+            >>> RandomSeedSetter.add_setter("other", OtherRandomSeedSetter())
             # To overwrite an existing random seed setter
-            >>> RandomSeedSetter.add_setter('other', OtherRandomSeedSetter(), exist_ok=True)
+            >>> RandomSeedSetter.add_setter("other", OtherRandomSeedSetter(), exist_ok=True)
         """
         if name in cls.registry and not exist_ok:
             raise ValueError(
@@ -228,12 +229,12 @@ class RandomSeedSetter(BaseRandomSeedSetter):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.seed import RandomSeedSetter
-            >>> RandomSeedSetter.has_setter('torch')
+            >>> RandomSeedSetter.has_setter("torch")
             True
-            >>> RandomSeedSetter.has_setter('missing')
+            >>> RandomSeedSetter.has_setter("missing")
             False
         """
         return name in cls.registry
@@ -252,7 +253,7 @@ def manual_seed(seed: int, setter: Optional[BaseRandomSeedSetter] = None) -> Non
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.seed import manual_seed
         >>> manual_seed(42)
@@ -289,16 +290,18 @@ def numpy_seed(seed: int) -> Generator[None, None, None]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import numpy
         >>> from gravitorch.utils.seed import numpy_seed
         >>> with numpy_seed(42):
         ...     print(numpy.random.randn(2, 4))
+        ...
         [[ 0.49671415 -0.1382643   0.64768854  1.52302986]
          [-0.23415337 -0.23413696  1.57921282  0.76743473]]
         >>> with numpy_seed(42):
         ...     print(numpy.random.randn((2, 4)))
+        ...
         [[ 0.49671415 -0.1382643   0.64768854  1.52302986]
          [-0.23415337 -0.23413696  1.57921282  0.76743473]]
     """
@@ -325,16 +328,18 @@ def torch_seed(seed: int) -> Generator[None, None, None]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.seed import torch_seed
         >>> with torch_seed(42):
         ...     print(torch.randn(2, 4))
+        ...
         tensor([[ 0.3367,  0.1288,  0.2345,  0.2303],
                 [-1.1229, -0.1863,  2.2082, -0.6380]])
         >>> with torch_seed(42):
         ...     print(torch.randn(2, 4))
+        ...
         tensor([[ 0.3367,  0.1288,  0.2345,  0.2303],
                 [-1.1229, -0.1863,  2.2082, -0.6380]])
     """

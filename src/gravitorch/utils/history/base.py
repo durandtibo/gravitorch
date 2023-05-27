@@ -83,11 +83,11 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import torch
             >>> from gravitorch.utils.history import GenericHistory
-            >>> history = GenericHistory('loss')
+            >>> history = GenericHistory("loss")
             >>> history.add_value(value=2)
             >>> history.add_value(value=torch.zeros(2, 3), step=1)
         """
@@ -101,10 +101,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> history = GenericHistory('epoch')
+            >>> history = GenericHistory("epoch")
             >>> history_cloned = history.clone()
         """
         return self.from_dict(self.to_dict())
@@ -124,11 +124,11 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> history1 = GenericHistory('loss')
-            >>> history2 = GenericHistory('accuracy')
+            >>> history1 = GenericHistory("loss")
+            >>> history2 = GenericHistory("accuracy")
             >>> history1.equal(history2)
             False
         """
@@ -152,10 +152,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import MaxScalarHistory
-            >>> history = MaxScalarHistory('accuracy')
+            >>> history = MaxScalarHistory("accuracy")
             >>> history.add_value(value=2, step=0)
             >>> history.add_value(value=4, step=1)
             >>> history.get_best_value()
@@ -193,10 +193,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> history = GenericHistory('loss')
+            >>> history = GenericHistory("loss")
             >>> history.add_value(value=2, step=0)
             >>> history.add_value(value=1.2, step=1)
             >>> history.get_last_value()
@@ -220,10 +220,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> history = GenericHistory('loss')
+            >>> history = GenericHistory("loss")
             >>> history.add_value(value=2)
             >>> history.add_value(value=1.2, step=1)
             >>> history.add_value(value=0.8, step=2)
@@ -249,10 +249,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
                 history.
             ``EmptyHistoryError``: if the history is empty
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import MaxScalarHistory
-            >>> history = MaxScalarHistory('accuracy')
+            >>> history = MaxScalarHistory("accuracy")
             >>> history.add_value(value=2, step=0)
             >>> history.add_value(value=4, step=1)
             >>> history.has_improved()
@@ -294,10 +294,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             bool: ``True`` if it is possible to compare the values in
             the history, otherwise ``False``.
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> history = GenericHistory('loss')
+            >>> history = GenericHistory("loss")
             >>> history.is_comparable()
             False
         """
@@ -311,10 +311,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             bool: ``True`` if the history is empty, otherwise
                 ``False``.
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> history = GenericHistory('loss')
+            >>> history = GenericHistory("loss")
             >>> history.is_empty()
             True
         """
@@ -336,10 +336,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import BaseHistory, GenericHistory
-            >>> config = GenericHistory('loss').config_dict()
+            >>> config = GenericHistory("loss").config_dict()
             >>> history = BaseHistory.factory(**config)  # Note that the state is not copied.
         """
         return {
@@ -359,10 +359,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> history = GenericHistory('loss')
+            >>> history = GenericHistory("loss")
             >>> history.load_state_dict({...})
         """
 
@@ -376,10 +376,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> state = GenericHistory('loss').state_dict()
+            >>> state = GenericHistory("loss").state_dict()
         """
 
     @classmethod
@@ -400,7 +400,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import BaseHistory
             >>> from objectory import OBJECT_TARGET
@@ -434,10 +434,10 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import BaseHistory, GenericHistory
-            >>> history_dict = GenericHistory('loss').to_dict()
+            >>> history_dict = GenericHistory("loss").to_dict()
             >>> history = BaseHistory.from_dict(**history_dict)
         """
         return {"config": self.config_dict(), "state": self.state_dict()}

@@ -119,15 +119,16 @@ def distributed_context(backend: str) -> Generator[None, None, None]:
 
     Example usage
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch import distributed as dist
-        >>> with dist.distributed_context(backend='gloo'):
+        >>> with dist.distributed_context(backend="gloo"):
         ...     print(dist.backend())
         ...     x = torch.ones(2, 3, device=dist.device())
         ...     dist.all_reduce(x, op="SUM")
         ...     print(x)
+        ...
         gloo
         tensor([[1., 1., 1.],
                 [1., 1., 1.]])
@@ -170,7 +171,7 @@ def auto_backend() -> Optional[str]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch import distributed as dist
         >>> dist.auto_backend()
@@ -200,7 +201,7 @@ def resolve_backend(backend: Optional[str]) -> Optional[str]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch import distributed as dist
         >>> dist.resolve_backend("auto")
@@ -227,11 +228,12 @@ def gloocontext() -> Generator[None, None, None]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.distributed import backend, gloocontext
         >>> with gloocontext():
         ...     print(backend())
+        ...
         gloo
     """
     if Backend.GLOO not in available_backends():
@@ -252,11 +254,12 @@ def ncclcontext() -> Generator[None, None, None]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.distributed import backend, ncclcontext
         >>> with ncclcontext():
         ...     print(backend())
+        ...
         nccl
     """
     if Backend.NCCL not in available_backends():

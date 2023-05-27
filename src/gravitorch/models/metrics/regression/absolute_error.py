@@ -29,11 +29,11 @@ class AbsoluteError(BaseStateEpochMetric):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics import AbsoluteError
-        >>> metric = AbsoluteError('eval')
+        >>> metric = AbsoluteError("eval")
         >>> metric
         AbsoluteErrorMetric(mode=eval, name=abs_err)
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))

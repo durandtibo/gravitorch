@@ -42,7 +42,7 @@ def is_loss_decreasing(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch import nn
@@ -59,7 +59,7 @@ def is_loss_decreasing(
         >>> is_loss_decreasing(
         ...     model=model,
         ...     optimizer=optimizer,
-        ...     batch={'input': torch.randn(2, 6), 'target': torch.randn(2, 4)},
+        ...     batch={"input": torch.randn(2, 6), "target": torch.randn(2, 4)},
         ... )
         True
     """
@@ -114,7 +114,7 @@ def is_loss_decreasing_with_adam(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch import nn
@@ -128,7 +128,7 @@ def is_loss_decreasing_with_adam(
         ...         criterion=VanillaLoss(criterion=nn.MSELoss()),
         ...     ),
         ...     lr=0.0003,
-        ...     batch={'input': torch.randn(2, 6), 'target': torch.randn(2, 4)},
+        ...     batch={"input": torch.randn(2, 6), "target": torch.randn(2, 4)},
         ... )
         True
     """
@@ -170,7 +170,7 @@ def is_loss_decreasing_with_sgd(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch import nn
@@ -184,7 +184,7 @@ def is_loss_decreasing_with_sgd(
         ...         criterion=VanillaLoss(criterion=nn.MSELoss()),
         ...     ),
         ...     lr=0.01,
-        ...     batch={'input': torch.randn(2, 6), 'target': torch.randn(2, 4)},
+        ...     batch={"input": torch.randn(2, 6), "target": torch.randn(2, 4)},
         ... )
         True
     """

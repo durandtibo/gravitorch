@@ -129,7 +129,7 @@ def constant_bias(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn.init import constant_bias
         >>> from torch import nn
@@ -137,6 +137,7 @@ def constant_bias(
         >>> constant_bias(net, 2)
         >>> for key, param in net.named_parameters():
         ...     print(key, param)
+        ...
         0.weight Parameter containing:
         tensor([[ 0.1911,  0.2128, -0.3738,  0.3777],
                 [ 0.3394,  0.1795, -0.1418,  0.1076],
@@ -185,7 +186,7 @@ def constant(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn.init import constant
         >>> from torch import nn
@@ -193,6 +194,7 @@ def constant(
         >>> constant(net, 2.0)
         >>> for key, param in net.named_parameters():
         ...     print(key, param)
+        ...
         0.weight Parameter containing:
         tensor([[2., 2., 2., 2.],
                 [2., 2., 2., 2.],

@@ -18,7 +18,7 @@ def to_tuple(value: Any) -> tuple:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils import to_tuple
     """

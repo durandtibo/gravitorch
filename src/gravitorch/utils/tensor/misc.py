@@ -52,14 +52,14 @@ def has_name(tensor: Tensor) -> bool:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import has_name
         >>> has_name(torch.ones(2, 3))
         False
-        >>> has_name(torch.ones(2, 3, names=('B', None)))
+        >>> has_name(torch.ones(2, 3, names=("B", None)))
         True
-        >>> has_name(torch.ones(2, 3, names=('B', 'F')))
+        >>> has_name(torch.ones(2, 3, names=("B", "F")))
         True
     """
     return set(tensor.names) != {None}
@@ -84,7 +84,7 @@ def permute_along_dim(tensor: Tensor, permutation: Tensor, dim: int = 0) -> Tens
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import permute_along_dim
         >>> permute_along_dim(tensor=torch.arange(4), permutation=torch.tensor([0, 2, 1, 3]))
@@ -138,7 +138,7 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> x = torch.arange(10).view(2, 5)
         >>> x
@@ -146,18 +146,18 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
                 [5, 6, 7, 8, 9]])
         # No transposition
         >>> from gravitorch.utils.tensor import partial_transpose_dict
-        >>> partial_transpose_dict({'my_key': x}, {})
+        >>> partial_transpose_dict({"my_key": x}, {})
         {'my_key': tensor([[0, 1, 2, 3, 4],
                  [5, 6, 7, 8, 9]])}
         # Transpose the first two dimensions
-        >>> partial_transpose_dict({'my_key': x}, {'my_key': [0, 1]})
+        >>> partial_transpose_dict({"my_key": x}, {"my_key": [0, 1]})
         {'my_key': tensor([[0, 5],
                  [1, 6],
                  [2, 7],
                  [3, 8],
                  [4, 9]])}
         # The order of the dimensions is not important  [0, 1] <> [1, 0]
-        >>> partial_transpose_dict({'my_key': x}, {'my_key': [1, 0]})
+        >>> partial_transpose_dict({"my_key": x}, {"my_key": [1, 0]})
         {'my_key': tensor([[0, 5],
                  [1, 6],
                  [2, 7],
@@ -172,7 +172,7 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
                 [[12, 13, 14, 15],
                  [16, 17, 18, 19],
                  [20, 21, 22, 23]]])
-        >>> partial_transpose_dict({'my_key': x}, {'my_key': [0, 1]})
+        >>> partial_transpose_dict({"my_key": x}, {"my_key": [0, 1]})
         {'my_key': tensor([[[ 0,  1,  2,  3],
                   [12, 13, 14, 15]],
 
@@ -181,7 +181,7 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
 
                  [[ 8,  9, 10, 11],
                   [20, 21, 22, 23]]])}
-        >>> partial_transpose_dict({'my_key': x}, {'my_key': [0, 2]})
+        >>> partial_transpose_dict({"my_key": x}, {"my_key": [0, 2]})
         {'my_key': tensor([[[ 0, 12],
                   [ 4, 16],
                   [ 8, 20]],
@@ -197,7 +197,7 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
                  [[ 3, 15],
                   [ 7, 19],
                   [11, 23]]])}
-        >>> partial_transpose_dict({'my_key': x}, {'my_key': [1, 2]})
+        >>> partial_transpose_dict({"my_key": x}, {"my_key": [1, 2]})
         {'my_key': tensor([[[ 0,  4,  8],
                   [ 1,  5,  9],
                   [ 2,  6, 10],
@@ -232,7 +232,7 @@ def to_tensor(value: Any) -> Tensor:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.tensor import to_tensor
@@ -272,7 +272,7 @@ def shapes_are_equal(tensors: Sequence[Tensor]) -> bool:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.utils.tensor import shapes_are_equal

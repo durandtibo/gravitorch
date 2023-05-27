@@ -32,23 +32,23 @@ class PackedSequenceLoss(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from torch import nn
         >>> from gravitorch.models.criteria import PackedSequenceLoss
         # Init with a nn.Module
         >>> criterion = PackedSequenceLoss(criterion=nn.MSELoss())
         # Init with a config
-        >>> criterion = PackedSequenceLoss(criterion={'_target_': 'torch.nn.MSELoss'})
+        >>> criterion = PackedSequenceLoss(criterion={"_target_": "torch.nn.MSELoss"})
         # Customize keys.
         >>> criterion = PackedSequenceLoss(
         ...     criterion=nn.MSELoss(),
-        ...     prediction_key='my_prediction',
-        ...     target_key='my_target',
-        ...     mask_key='my_mask',
+        ...     prediction_key="my_prediction",
+        ...     target_key="my_target",
+        ...     mask_key="my_mask",
         ... )
-        >>> net_out = {'my_prediction': ...}
-        >>> batch = {'my_target': ..., 'my_mask': ...}
+        >>> net_out = {"my_prediction": ...}
+        >>> batch = {"my_target": ..., "my_mask": ...}
         >>> loss = criterion(net_out, batch)
         {'loss': torch.tensor(...)}
     """

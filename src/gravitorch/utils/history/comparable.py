@@ -74,11 +74,11 @@ class ComparableHistory(GenericHistory[T]):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.history import ComparableHistory
             >>> from gravitorch.utils.history.comparator import MaxScalarComparator
-            >>> history = ComparableHistory('accuracy', comparator=MaxScalarComparator())
+            >>> history = ComparableHistory("accuracy", comparator=MaxScalarComparator())
             >>> history.is_better(new_value=1, old_value=0)
             True
             >>> history.is_better(new_value=0, old_value=1)

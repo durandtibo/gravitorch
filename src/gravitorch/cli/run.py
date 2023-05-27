@@ -37,13 +37,13 @@ def main(config: dict[str, Any]) -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.cli.run import main
         >>> config = {
-        ...     '_target_': 'gravitorch.runners.TrainingRunner',
-        ...     'engine': {'_target_': 'gravitorch.engines.AlphaEngine', ...},
-        ...     'exp_tracker': {'_target_': 'gravitorch.utils.exp_trackers.NoOpExpTracker', ...},
+        ...     "_target_": "gravitorch.runners.TrainingRunner",
+        ...     "engine": {"_target_": "gravitorch.engines.AlphaEngine"},
+        ...     "exp_tracker": {"_target_": "gravitorch.utils.exp_trackers.NoOpExpTracker"},
         ... }
         >>> main(config)
     """
@@ -71,7 +71,7 @@ def run_cli(config: DictConfig) -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.cli.run import run_cli
         >>> run_cli()

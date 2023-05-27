@@ -43,14 +43,14 @@ class EarlyStopping(BaseHandler):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         # Create an engine
         >>> engine = ...
         >>> from gravitorch.handlers import EarlyStopping
         # Add the early stopping handler to the engine with a patience of 10 epochs
         # for the accuracy metric.
-        >>> handler = EarlyStopping(metric_name='eval/accuracy', patience=10)
+        >>> handler = EarlyStopping(metric_name="eval/accuracy", patience=10)
         >>> handler.attach(engine)
     """
 
@@ -124,7 +124,7 @@ class EarlyStopping(BaseHandler):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> handler = EarlyStopping(...)
             >>> state = {...}
@@ -143,7 +143,7 @@ class EarlyStopping(BaseHandler):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> state = EarlyStopping(...)
             >>> state_dict = state.state_dict()

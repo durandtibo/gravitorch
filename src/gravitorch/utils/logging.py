@@ -19,14 +19,14 @@ def disable_logging(level: Union[int, str] = logging.CRITICAL) -> Generator[None
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import logging
         >>> from gravitorch.utils.logging import disable_logging
-        >>> with disable_logging('INFO'):
-        ...     logging.critical('CRITICAL')
-        ...     logging.info('INFO')
-        ...     logging.debug('DEBUG')
+        >>> with disable_logging("INFO"):
+        ...     logging.critical("CRITICAL")
+        ...     logging.info("INFO")
+        ...     logging.debug("DEBUG")
         ...
         CRITICAL:root:CRITICAL
     """

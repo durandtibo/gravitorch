@@ -23,7 +23,7 @@ def cpu_human_summary() -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.sysinfo import cpu_human_summary
         >>> cpu_human_summary()
@@ -42,7 +42,7 @@ def log_system_info() -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.sysinfo import log_system_info
         >>> log_system_info()
@@ -61,7 +61,7 @@ def swap_memory_human_summary() -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.sysinfo import swap_memory_human_summary
         >>> swap_memory_human_summary()
@@ -87,7 +87,7 @@ def virtual_memory_human_summary() -> str:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.sysinfo import virtual_memory_human_summary
         >>> virtual_memory_human_summary()

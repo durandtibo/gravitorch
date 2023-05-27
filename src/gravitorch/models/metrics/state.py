@@ -31,7 +31,7 @@ class BaseState(ABC, metaclass=AbstractFactory):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics.state import ErrorState
@@ -116,7 +116,7 @@ class MeanErrorState(BaseState):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics.state import MeanErrorState
@@ -181,7 +181,7 @@ class RootMeanErrorState(BaseState):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics.state import RootMeanErrorState
@@ -241,7 +241,7 @@ class ErrorState(BaseState):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics.state import ErrorState
@@ -322,7 +322,7 @@ class ExtendedErrorState(BaseState):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics.state import ExtendedErrorState
@@ -425,7 +425,7 @@ class AccuracyState(BaseState):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics.state import AccuracyState
@@ -487,7 +487,7 @@ class ExtendedAccuracyState(BaseState):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics.state import ExtendedAccuracyState

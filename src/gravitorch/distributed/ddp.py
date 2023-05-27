@@ -43,7 +43,7 @@ def broadcast_object_list(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> # Note: Process group initialization omitted on each rank.
         >>> import torch
@@ -104,7 +104,7 @@ def sync_reduce(variable: Union[Tensor, int, float], op: str) -> Union[Tensor, i
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch import distributed as dist
@@ -147,7 +147,7 @@ def sync_reduce_(tensor: Tensor, op: str) -> Tensor:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch import distributed as dist
@@ -190,7 +190,7 @@ def all_gather_tensor_varshape(tensor: Tensor) -> list[Tensor]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> x = torch.tensor([[0, 1, 2], [3, 4, 5]])  # process 0

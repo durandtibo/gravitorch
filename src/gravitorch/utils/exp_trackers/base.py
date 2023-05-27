@@ -39,7 +39,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.exp_trackers import BaseExpTracker
         # Context manager approach (recommended)
@@ -48,6 +48,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         False
         >>> with my_exp_tracker as exp_tracker:
         ...     print(exp_tracker.is_activated())
+        ...
         True
         >>> print(my_exp_tracker.is_activated())
         False
@@ -174,7 +175,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
@@ -198,7 +199,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
@@ -222,11 +223,11 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
-            >>> exp_tracker.add_tag('mode', 'training')
+            >>> exp_tracker.add_tag("mode", "training")
         """
 
     @abstractmethod
@@ -246,11 +247,11 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
-            >>> exp_tracker.add_tags({'mode': 'training', 'machine': 'mac'})
+            >>> exp_tracker.add_tags({"mode": "training", "machine": "mac"})
         """
 
     @abstractmethod
@@ -269,11 +270,11 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> from gravitorch.utils.artifacts import JSONArtifact
-            >>> exp_tracker.create_artifact(JSONArtifact(tag='metric', data={'f1_score': 42}))
+            >>> exp_tracker.create_artifact(JSONArtifact(tag="metric", data={"f1_score": 42}))
         """
 
     @abstractmethod
@@ -295,11 +296,11 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
-            >>> exp_tracker.log_best_metric('my_metric', 1.2)
+            >>> exp_tracker.log_best_metric("my_metric", 1.2)
         """
 
     @abstractmethod
@@ -320,7 +321,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
@@ -347,15 +348,15 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> import matplotlib.pyplot as plt
             >>> fig, axes = plt.subplots()
-            >>> exp_tracker.log_figure('my_figure', fig)  # without step
+            >>> exp_tracker.log_figure("my_figure", fig)  # without step
             >>> from gravitorch.utils.exp_trackers import EpochStep
-            >>> exp_tracker.log_figure('my_figure', fig, EpochStep(2))  # with step
+            >>> exp_tracker.log_figure("my_figure", fig, EpochStep(2))  # with step
         """
 
     @abstractmethod
@@ -376,15 +377,17 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> import matplotlib.pyplot as plt
             >>> fig, axes = plt.subplots()
-            >>> exp_tracker.log_figures({'my_figure_1': fig, 'my_figure_2': fig})  # without step
+            >>> exp_tracker.log_figures({"my_figure_1": fig, "my_figure_2": fig})  # without step
             >>> from gravitorch.utils.exp_trackers import EpochStep
-            >>> exp_tracker.log_figures({'my_figure_1': fig, 'my_figure_2': fig}, EpochStep(2))  # with step
+            >>> exp_tracker.log_figures(
+            ...     {"my_figure_1": fig, "my_figure_2": fig}, EpochStep(2)
+            ... )  # with step
         """
 
     @abstractmethod
@@ -403,11 +406,11 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
-            >>> exp_tracker.log_hyper_parameter('my_hparam', 32)
+            >>> exp_tracker.log_hyper_parameter("my_hparam", 32)
         """
 
     @abstractmethod
@@ -425,11 +428,11 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
-            >>> exp_tracker.log_hyper_parameters({'input_size': 32, 'output_size': 16})
+            >>> exp_tracker.log_hyper_parameters({"input_size": 32, "output_size": 16})
         """
 
     @abstractmethod
@@ -450,16 +453,16 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> from PIL import Image
             >>> import numpy as np
-            >>> img = Image.fromarray(np.zeros((256, 256, 3), dtype=np.uint8), 'RGB')
-            >>> exp_tracker.log_image('my_image', img)  # without step
+            >>> img = Image.fromarray(np.zeros((256, 256, 3), dtype=np.uint8), "RGB")
+            >>> exp_tracker.log_image("my_image", img)  # without step
             >>> from gravitorch.utils.exp_trackers import EpochStep
-            >>> exp_tracker.log_image('my_image', img, EpochStep(2))  # with step
+            >>> exp_tracker.log_image("my_image", img, EpochStep(2))  # with step
         """
 
     @abstractmethod
@@ -480,16 +483,18 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
             >>> from PIL import Image
             >>> import numpy as np
-            >>> img = Image.fromarray(np.zeros((256, 256, 3), dtype=np.uint8), 'RGB')
-            >>> exp_tracker.log_images({'my_image_1': img, 'my_image_2': img})  # without step
+            >>> img = Image.fromarray(np.zeros((256, 256, 3), dtype=np.uint8), "RGB")
+            >>> exp_tracker.log_images({"my_image_1": img, "my_image_2": img})  # without step
             >>> from gravitorch.utils.exp_trackers.steps import EpochStep
-            >>> exp_tracker.log_images({'my_image_1': img, 'my_image_2': img}, EpochStep(2))  # with step
+            >>> exp_tracker.log_images(
+            ...     {"my_image_1": img, "my_image_2": img}, EpochStep(2)
+            ... )  # with step
         """
 
     @abstractmethod
@@ -514,13 +519,13 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
-            >>> exp_tracker.log_metric('my_metric', 1.2)  # without step
+            >>> exp_tracker.log_metric("my_metric", 1.2)  # without step
             >>> from gravitorch.utils.exp_trackers import EpochStep
-            >>> exp_tracker.log_metric('my_metric', 1.2, EpochStep(2))  # with step
+            >>> exp_tracker.log_metric("my_metric", 1.2, EpochStep(2))  # with step
         """
 
     @abstractmethod
@@ -546,13 +551,15 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker
-            >>> exp_tracker.log_metrics({'my_metric_1': 1.2, 'my_metric_2': 42})  # without step
+            >>> exp_tracker.log_metrics({"my_metric_1": 1.2, "my_metric_2": 42})  # without step
             >>> from gravitorch.utils.exp_trackers import EpochStep
-            >>> exp_tracker.log_metrics({'my_metric_1': 1.2, 'my_metric_2': 42}, EpochStep(2))  # with step
+            >>> exp_tracker.log_metrics(
+            ...     {"my_metric_1": 1.2, "my_metric_2": 42}, EpochStep(2)
+            ... )  # with step
         """
 
     @abstractmethod
@@ -564,7 +571,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.utils.exp_trackers import BaseExpTracker
             >>> exp_tracker: BaseExpTracker = ...  # Initialize and activate the experiment tracker

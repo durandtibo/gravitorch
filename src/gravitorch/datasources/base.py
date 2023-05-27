@@ -38,7 +38,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
             >>> from gravitorch.engines import AlphaEngine
@@ -69,11 +69,11 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
             >>> data_source: BaseDataSource = ...  # Instantiate a data source
-            >>> my_asset = data_source.get_asset('my_asset_id')
+            >>> my_asset = data_source.get_asset("my_asset_id")
         """
 
     @abstractmethod
@@ -90,11 +90,11 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
             >>> data_source: BaseDataSource = ...  # Instantiate a data source
-            >>> data_source.has_asset('my_asset_id')
+            >>> data_source.has_asset("my_asset_id")
             False
         """
 
@@ -121,16 +121,16 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
             >>> data_source: BaseDataSource = ...  # Instantiate a data source
             # Get the data loader associated to the ID 'train'
-            >>> data_loader = data_source.get_data_loader('train')
+            >>> data_loader = data_source.get_data_loader("train")
             # Get a data loader that can use information from an engine
             >>> from gravitorch.engines import AlphaEngine
             >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> data_loader = data_source.get_data_loader('train', my_engine)
+            >>> data_loader = data_source.get_data_loader("train", my_engine)
         """
 
     @abstractmethod
@@ -149,15 +149,15 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
             >>> data_source: BaseDataSource = ...  # Instantiate a data source
             # Check if the data source has a data loader for ID 'train'
-            >>> data_source.has_data_loader('train')
+            >>> data_source.has_data_loader("train")
             True or False
             # Check if the data source has a data loader for ID 'eval'
-            >>> data_source.has_data_loader('eval')
+            >>> data_source.has_data_loader("eval")
             True or False
         """
 
@@ -170,7 +170,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
             >>> data_source: BaseDataSource = ...  # Instantiate a data source
@@ -189,7 +189,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
         Example:
         -------
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
             >>> data_source: BaseDataSource = ...  # Instantiate a data source

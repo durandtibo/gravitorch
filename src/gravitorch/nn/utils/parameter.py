@@ -51,12 +51,12 @@ class ParameterSummary:
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> import torch
             >>> from torch.nn import Parameter
             >>> from gravitorch.nn import ParameterSummary
-            >>> ParameterSummary.from_parameter('weight', Parameter(torch.randn(6, 4)))
+            >>> ParameterSummary.from_parameter("weight", Parameter(torch.randn(6, 4)))
             ParameterSummary(name='weight', mean=0.10939589142799377, median=-0.018833406269550323,
             std=0.8310111165046692, min=-1.6590238809585571, max=2.0370750427246094,
             learnable=True, shape=(6, 4))
@@ -110,7 +110,7 @@ def get_parameter_summaries(module: Module) -> list[ParameterSummary]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch.nn import Linear

@@ -54,7 +54,7 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from gravitorch.creators.datapipe import BaseIterDataPipeCreator
             >>> creator: BaseIterDataPipeCreator = ...  # Create an IterDataPipe creator
@@ -91,7 +91,7 @@ def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> Base
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.creators.datapipe import setup_iter_datapipe_creator
         # Set up an ``IterDataPipe`` creator from an ``IterDataPipe`` creator i.e. do nothing ;)

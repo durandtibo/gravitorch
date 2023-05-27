@@ -49,7 +49,7 @@ def is_loss_decreasing(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch import nn
@@ -122,7 +122,7 @@ def is_loss_decreasing_with_adam(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch import nn
@@ -183,7 +183,7 @@ def is_loss_decreasing_with_sgd(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch import nn

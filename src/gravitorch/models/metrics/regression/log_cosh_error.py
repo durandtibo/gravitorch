@@ -33,11 +33,11 @@ class LogCoshError(BaseStateEpochMetric):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.models.metrics import LogCoshError
-        >>> metric = LogCoshError('eval')
+        >>> metric = LogCoshError("eval")
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
         {'eval/log_cosh_err_mean': 0.0,

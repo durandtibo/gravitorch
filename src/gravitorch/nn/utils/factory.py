@@ -26,11 +26,11 @@ def setup_module(module: Union[Module, dict]) -> Module:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.nn import setup_module
         >>> linear = setup_module(
-        ...     {'_target_': 'torch.nn.Linear', 'in_features': 4, 'out_features': 6}
+        ...     {"_target_": "torch.nn.Linear", "in_features": 4, "out_features": 6}
         ... )
         >>> linear
         Linear(in_features=4, out_features=6, bias=True)

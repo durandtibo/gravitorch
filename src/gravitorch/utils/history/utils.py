@@ -35,24 +35,24 @@ def get_best_values(
 
     Example:
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.history import (
         ...     MinScalarHistory,
         ...     MaxScalarHistory,
         ...     get_best_values,
         ... )
-        >>> history1 = MinScalarHistory('loss')
+        >>> history1 = MinScalarHistory("loss")
         >>> history1.add_value(1.9)
         >>> history1.add_value(1.2)
-        >>> history2 = MaxScalarHistory('accuracy')
+        >>> history2 = MaxScalarHistory("accuracy")
         >>> history2.add_value(42)
         >>> history2.add_value(35)
-        >>> get_best_values({'loss': history1, 'accuracy': history2})
+        >>> get_best_values({"loss": history1, "accuracy": history2})
         {'loss': 1.2, 'accuracy': 42}
-        >>> get_best_values({'loss': history1, 'accuracy': history2}, prefix='best/')
+        >>> get_best_values({"loss": history1, "accuracy": history2}, prefix="best/")
         {'best/loss': 1.2, 'best/accuracy': 42}
-        >>> get_best_values({'loss': history1, 'accuracy': history2}, suffix='/best')
+        >>> get_best_values({"loss": history1, "accuracy": history2}, suffix="/best")
         {'loss/best': 1.2, 'accuracy/best': 42}
     """
     values = {}
@@ -93,24 +93,24 @@ def get_last_values(
 
     Example:
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.history import (
         ...     MinScalarHistory,
         ...     MaxScalarHistory,
         ...     get_best_values,
         ... )
-        >>> history1 = MinScalarHistory('loss')
+        >>> history1 = MinScalarHistory("loss")
         >>> history1.add_value(1.9)
         >>> history1.add_value(1.2)
-        >>> history2 = MaxScalarHistory('accuracy')
+        >>> history2 = MaxScalarHistory("accuracy")
         >>> history2.add_value(42)
         >>> history2.add_value(35)
-        >>> get_best_values({'loss': history1, 'accuracy': history2})
+        >>> get_best_values({"loss": history1, "accuracy": history2})
         {'loss': 1.2, 'accuracy': 42}
-        >>> get_best_values({'loss': history1, 'accuracy': history2}, prefix='best/')
+        >>> get_best_values({"loss": history1, "accuracy": history2}, prefix="best/")
         {'best/loss': 1.2, 'best/accuracy': 42}
-        >>> get_best_values({'loss': history1, 'accuracy': history2}, suffix='/best')
+        >>> get_best_values({"loss": history1, "accuracy": history2}, suffix="/best")
         {'loss/best': 1.2, 'accuracy/best': 42}
     """
     values = {}

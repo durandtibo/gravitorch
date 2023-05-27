@@ -16,7 +16,7 @@ def log_box_dataset_class(dataset: Dataset) -> None:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torchvision
         >>> from gravitorch.data.datasets import log_box_dataset_class

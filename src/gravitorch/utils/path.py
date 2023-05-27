@@ -68,11 +68,12 @@ def working_directory(path: Path) -> Generator[None, None, None]:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         # Do something in original directory
-        >>> with working_directory(Path('/my/new/path')):
-        ...     # Do something in new directory
+        >>> with working_directory(Path("/my/new/path")):
+        ...     x = 1  # Do something in new directory
+        ...
         # Back to old directory
     """
     path = sanitize_path(path)
@@ -144,7 +145,7 @@ def sanitize_path(path: Union[Path, str]) -> Path:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         # Let's assume the current path is /my/path
         >>> from pathlib import Path
@@ -158,7 +159,7 @@ def sanitize_path(path: Union[Path, str]) -> Path:
         >>> sanitize_path(Path("something/./../"))
         PosixPath('/my/path')
         # Support URI syntax
-        >>> sanitize_path('file:///my/path/something/./../')
+        >>> sanitize_path("file:///my/path/something/./../")
         PosixPath('/my/path')
     """
     if isinstance(path, str):
@@ -184,10 +185,10 @@ def get_human_readable_file_size(path: Union[Path, str], unit: Optional[str] = N
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from gravitorch.utils.path import get_human_readable_file_size
-        >>> get_human_readable_file_size('/my/path/data.txt')
+        >>> get_human_readable_file_size("/my/path/data.txt")
         2.00 KB
     """
     return human_byte_size(size=sanitize_path(path).stat().st_size, unit=unit)

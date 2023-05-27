@@ -35,7 +35,7 @@ class AsinhMSELoss(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import AsinhMSELoss
@@ -71,7 +71,7 @@ class MSLELoss(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import MSLELoss
@@ -106,7 +106,7 @@ class SymlogMSELoss(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import SymlogMSELoss
@@ -143,7 +143,7 @@ class RelativeMSELoss(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import RelativeMSELoss
@@ -184,7 +184,7 @@ class RelativeSmoothL1Loss(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import RelativeSmoothL1Loss
@@ -232,7 +232,7 @@ class SymmetricRelativeSmoothL1Loss(Module):
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from gravitorch.nn import SymmetricRelativeSmoothL1Loss

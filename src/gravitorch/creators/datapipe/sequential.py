@@ -70,7 +70,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch.utils.data import IterDataPipe
             >>> from objectory import OBJECT_TARGET
@@ -149,7 +149,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
             ...     ],
             ... )
             >>> datapipe: IterDataPipe = creator.create(
-            ...    source_inputs=[
+            ...     source_inputs=[
             ...         SourceWrapper(data=[1, 2, 3, 4]),
             ...         SourceWrapper(data=[11, 12, 13, 14]),
             ...     ],
@@ -221,7 +221,7 @@ def create_sequential_iter_datapipe(
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from torch.utils.data import IterDataPipe
         >>> from objectory import OBJECT_TARGET
@@ -357,7 +357,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
 
         Example usage:
 
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> from torch.utils.data import IterDataPipe
             >>> from objectory import OBJECT_TARGET
@@ -442,7 +442,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             ...     ]
             ... )
             >>> datapipe: IterDataPipe = creator.create(
-            ...    source_inputs=[
+            ...     source_inputs=[
             ...         SourceWrapper(data=[1, 2, 3, 4]),
             ...         SourceWrapper(data=[11, 12, 13, 14]),
             ...     ],

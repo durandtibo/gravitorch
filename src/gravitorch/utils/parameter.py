@@ -19,7 +19,7 @@ def is_parameter(value: Any) -> bool:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch.nn import Parameter, UninitializedParameter
@@ -48,7 +48,7 @@ def is_uninitialized_parameter(value: Any) -> bool:
 
     Example usage:
 
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch.nn import Parameter, UninitializedParameter
