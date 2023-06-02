@@ -7,9 +7,9 @@ from torch.nn import ReLU
 
 from gravitorch.nn import setup_module
 
-#####################################
+##################################
 #     Tests for setup_module     #
-#####################################
+##################################
 
 
 @mark.parametrize("module", (ReLU(), {OBJECT_TARGET: "torch.nn.ReLU"}))
