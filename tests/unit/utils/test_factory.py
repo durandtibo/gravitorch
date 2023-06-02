@@ -1,20 +1,21 @@
+from typing import Union
+
 from objectory import OBJECT_TARGET
-from torch.distributions import Uniform
+from pytest import mark
+from torch.nn import Module, ReLU
 
-from gravitorch.utils.factory import setup_distribution
+from gravitorch.utils import setup_object
 
 ########################################
-#     Tests for setup_distribution     #
+#     Tests for setup_object     #
 ########################################
 
 
-def test_setup_distribution_object() -> None:
-    distribution = Uniform(0.0, 2.0)
-    assert setup_distribution(distribution) is distribution
+@mark.parametrize("module", (ReLU(), {OBJECT_TARGET: "torch.nn.ReLU"}))
+def test_setup_object(module: Union[Module, dict]) -> None:
+    assert isinstance(setup_object(module), ReLU)
 
 
-def test_setup_distribution_dict() -> None:
-    assert isinstance(
-        setup_distribution({OBJECT_TARGET: "torch.distributions.Uniform", "low": 0.0, "high": 2.0}),
-        Uniform,
-    )
+def test_setup_object_object() -> None:
+    module = ReLU()
+    assert setup_object(module) is module

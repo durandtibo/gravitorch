@@ -1,32 +1,45 @@
-__all__ = ["setup_distribution"]
+__all__ = ["setup_object"]
 
 import logging
-from typing import Union
+from typing import TypeVar, Union
 
 from objectory import factory
-from torch.distributions import Distribution
 
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
 
+T = TypeVar("T")
 
-def setup_distribution(distribution: Union[Distribution, dict]) -> Distribution:
-    r"""Sets up a distribution.
+
+def setup_object(obj_or_config: Union[T, dict]) -> T:
+    r"""Sets up an object from its configuration.
 
     Args:
     ----
-        distribution (``torch.distributions.Distribution`` or dict
-            or None): Specifies the distribution or its configuration.
+        obj_or_config: Specifies the object or its configuration.
 
     Returns:
     -------
-        ``torch.distributions.Distribution``: The distribution.
+        The instantiated object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+       >>> from gravitorch.utils import setup_object
+       >>> linear = setup_object(
+       ...     {"_target_": "torch.nn.Linear", "in_features": 4, "out_features": 6}
+       ... )
+       >>> linear
+       Linear(in_features=4, out_features=6, bias=True)
+       >>> setup_object(linear)  # Do nothing because the module is already instantiated
+       Linear(in_features=4, out_features=6, bias=True)
     """
-    if isinstance(distribution, dict):
+    if isinstance(obj_or_config, dict):
         logger.info(
-            "Initializing a distribution from its configuration... "
-            f"{str_target_object(distribution)}"
+            "Initializing an object from its configuration... "
+            f"{str_target_object(obj_or_config)}"
         )
-        distribution = factory(**distribution)
-    return distribution
+        obj_or_config = factory(**obj_or_config)
+    return obj_or_config
