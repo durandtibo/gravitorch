@@ -72,6 +72,34 @@ def is_fairscale_available() -> bool:
     return find_spec("fairscale") is not None
 
 
+#####################
+#     lightning     #
+#####################
+
+
+def check_lightning() -> None:
+    r"""Checks if the ``lightning`` package is installed.
+
+    Raises
+    ------
+        RuntimeError if the ``lightning`` package is not installed.
+    """
+    if not is_lightning_available():
+        raise RuntimeError(
+            "`lightning` package is required but not installed. "
+            "You can install `lightning` package with the command:\n\n"
+            "pip install lightning\n"
+        )
+
+
+def is_lightning_available() -> bool:
+    r"""Indicates if the ``lightning`` package is installed or not.
+
+    https://lightning.ai/docs/pytorch/latest/
+    """
+    return find_spec("lightning") is not None
+
+
 ######################
 #     matplotlib     #
 ######################

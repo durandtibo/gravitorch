@@ -15,6 +15,8 @@ __all__ = [
     "torchdata_available",
     "torchvision_available",
     "two_gpus_available",
+    "lightning_available",
+    "matplotlib_available",
 ]
 
 from gravitorch.testing._pytest import (
@@ -22,6 +24,8 @@ from gravitorch.testing._pytest import (
     cuda_available,
     distributed_available,
     gloo_available,
+    lightning_available,
+    matplotlib_available,
     nccl_available,
     pillow_available,
     psutil_available,

@@ -5,6 +5,7 @@ from pytest import raises
 from gravitorch.utils.imports import (
     check_accelerate,
     check_fairscale,
+    check_lightning,
     check_matplotlib,
     check_pillow,
     check_tensorboard,
@@ -12,6 +13,7 @@ from gravitorch.utils.imports import (
     check_torchvision,
     is_accelerate_available,
     is_fairscale_available,
+    is_lightning_available,
     is_matplotlib_available,
     is_pillow_available,
     is_psutil_available,
@@ -58,6 +60,26 @@ def test_check_fairscale_without_package() -> None:
 
 def test_is_fairscale_available() -> None:
     assert isinstance(is_fairscale_available(), bool)
+
+
+#####################
+#     lightning     #
+#####################
+
+
+def test_check_lightning_with_package() -> None:
+    with patch("gravitorch.utils.imports.is_lightning_available", lambda *args: True):
+        check_lightning()
+
+
+def test_check_lightning_without_package() -> None:
+    with patch("gravitorch.utils.imports.is_lightning_available", lambda *args: False):
+        with raises(RuntimeError, match="`lightning` package is required but not installed."):
+            check_lightning()
+
+
+def test_is_lightning_available() -> None:
+    assert isinstance(is_lightning_available(), bool)
 
 
 ######################
