@@ -1,4 +1,3 @@
-import math
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
@@ -10,7 +9,11 @@ from torch.optim import SGD, Optimizer
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.events import VanillaEventHandler
-from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
+from gravitorch.loops.observers import (
+    BaseLoopObserver,
+    NoOpLoopObserver,
+    PyTorchBatchSaver,
+)
 from gravitorch.loops.training import VanillaTrainingLoop
 from gravitorch.testing import (
     DummyClassificationModel,
@@ -27,7 +30,7 @@ from gravitorch.utils.device_placement import (
 )
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
-from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
+from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler, PyTorchProfiler
 
 
 def increment_epoch_handler(engine: BaseEngine) -> None:
@@ -321,7 +324,7 @@ def test_vanilla_training_loop_fire_event_train_iteration_events(device: str, ev
 def test_vanilla_training_loop_train_with_observer(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
-    observer = MagicMock()
+    observer = Mock(spec=BaseLoopObserver)
     VanillaTrainingLoop(
         observer=observer, batch_device_placement=ManualDevicePlacement(device)
     ).train(engine)
@@ -333,7 +336,7 @@ def test_vanilla_training_loop_train_with_observer(device: str) -> None:
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_training_loop_train_with_profiler(device: str) -> None:
     device = torch.device(device)
-    profiler = MagicMock()
+    profiler = MagicMock(spec=BaseProfiler)
     VanillaTrainingLoop(
         profiler=profiler, batch_device_placement=ManualDevicePlacement(device)
     ).train(engine=create_dummy_engine(device=device))
@@ -429,7 +432,7 @@ def test_vanilla_training_loop_train_one_batch_clip_grad_norm(device: str) -> No
 
 def test_vanilla_training_loop_train_one_batch_loss_nan() -> None:
     engine = Mock(spec=BaseEngine)
-    model = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(math.nan)})
+    model = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(float("nan"))})
     optimizer = Mock(spec=Optimizer)
     out = VanillaTrainingLoop(
         clip_grad={"name": "clip_grad_norm", "max_norm": 1, "norm_type": 2}
