@@ -359,6 +359,7 @@ def test_vanilla_training_loop_train_one_batch_fired_events() -> None:
     ]
 
 
+@accelerate_available
 @mark.parametrize("set_grad_to_none", (True, False))
 def test_vanilla_training_loop_train_one_batch_set_grad_to_none(set_grad_to_none: bool) -> None:
     engine = Mock(spec=BaseEngine)
@@ -375,6 +376,7 @@ def test_vanilla_training_loop_train_one_batch_set_grad_to_none(set_grad_to_none
     assert torch.is_tensor(out[ct.LOSS])
 
 
+@accelerate_available
 def test_vanilla_training_loop_train_one_batch_clip_grad_value() -> None:
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel()
@@ -390,6 +392,7 @@ def test_vanilla_training_loop_train_one_batch_clip_grad_value() -> None:
     assert torch.is_tensor(out[ct.LOSS])
 
 
+@accelerate_available
 def test_vanilla_training_loop_train_one_batch_clip_grad_norm() -> None:
     engine = Mock(spec=BaseEngine)
     model = DummyClassificationModel()
@@ -405,6 +408,7 @@ def test_vanilla_training_loop_train_one_batch_clip_grad_norm() -> None:
     assert torch.is_tensor(out[ct.LOSS])
 
 
+@accelerate_available
 def test_vanilla_training_loop_train_one_batch_loss_nan() -> None:
     engine = Mock(spec=BaseEngine)
     model = Mock(spec=Module, return_value={ct.LOSS: torch.tensor(float("nan"))})
