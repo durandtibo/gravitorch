@@ -45,12 +45,12 @@ def setup_clip_grad(config: Optional[dict]) -> tuple[Optional[Callable], tuple]:
 
     name = config["name"]
     if name == "clip_grad_value":
-        clip_value = config.get("clip_value", 0.25)
+        clip_value = float(config.get("clip_value", 0.25))
         logger.info(f"clip gradient by value {clip_value}")
         return torch.nn.utils.clip_grad_value_, (clip_value,)
     if name == "clip_grad_norm":
-        max_norm = config.get("max_norm", 1.0)
-        norm_type = config.get("norm_type", 2.0)
+        max_norm = float(config.get("max_norm", 1.0))
+        norm_type = float(config.get("norm_type", 2.0))
         logger.info(f"clip gradient by maximum norm {max_norm} (norm type: {norm_type})")
         return torch.nn.utils.clip_grad_norm_, (max_norm, norm_type)
     raise RuntimeError(
