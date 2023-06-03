@@ -1,4 +1,3 @@
-import math
 from unittest.mock import Mock, patch
 
 import torch
@@ -152,7 +151,7 @@ def test_amp_training_loop_train_one_batch_clip_grad_norm(device: str) -> None:
 
 def test_amp_training_loop_train_one_batch_loss_nan() -> None:
     engine = Mock(spec=BaseEngine)
-    model = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(math.nan)})
+    model = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(float("nan"))})
     optimizer = Mock(spec=Optimizer)
     out = AMPTrainingLoop(
         clip_grad={"name": "clip_grad_norm", "max_norm": 1, "norm_type": 2}, amp_enabled=False

@@ -1,13 +1,19 @@
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import torch
 from pytest import fixture, mark, raises
+from torch.nn import Module
+from torch.optim import SGD, Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.events import VanillaEventHandler
-from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
+from gravitorch.loops.observers import (
+    BaseLoopObserver,
+    NoOpLoopObserver,
+    PyTorchBatchSaver,
+)
 from gravitorch.loops.training import AccelerateTrainingLoop
 from gravitorch.testing import (
     DummyClassificationModel,
@@ -19,7 +25,7 @@ from gravitorch.testing import (
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.imports import is_accelerate_available
-from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
+from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler, PyTorchProfiler
 
 if is_accelerate_available():
     from accelerate import Accelerator
@@ -311,7 +317,7 @@ def test_accelerate_training_loop_train_fire_event_train_iteration_events(event:
 @accelerate_available
 def test_accelerate_training_loop_train_with_observer() -> None:
     engine = create_dummy_engine()
-    observer = MagicMock()
+    observer = Mock(spec=BaseLoopObserver)
     AccelerateTrainingLoop(observer=observer).train(engine)
     observer.start.assert_called_once_with(engine)
     assert observer.update.call_count == 4
@@ -320,7 +326,7 @@ def test_accelerate_training_loop_train_with_observer() -> None:
 
 @accelerate_available
 def test_accelerate_training_loop_train_with_profiler() -> None:
-    profiler = MagicMock()
+    profiler = MagicMock(spec=BaseProfiler)
     AccelerateTrainingLoop(profiler=profiler).train(engine=create_dummy_engine())
     assert profiler.__enter__().step.call_count == 4
 
@@ -333,3 +339,88 @@ def test_accelerate_training_loop_load_state_dict() -> None:
 @accelerate_available
 def test_accelerate_training_loop_state_dict() -> None:
     assert AccelerateTrainingLoop().state_dict() == {}
+
+
+@accelerate_available
+def test_vanilla_training_loop_train_one_batch_fired_events() -> None:
+    engine = Mock(spec=BaseEngine)
+    model = DummyClassificationModel()
+    AccelerateTrainingLoop()._train_one_batch(
+        engine=engine,
+        model=model,
+        optimizer=SGD(model.parameters(), lr=0.01),
+        batch={ct.INPUT: torch.ones(8, 4), ct.TARGET: torch.ones(8, dtype=torch.long)},
+    )
+    assert engine.fire_event.call_args_list == [
+        ((EngineEvents.TRAIN_ITERATION_STARTED,), {}),
+        ((EngineEvents.TRAIN_FORWARD_COMPLETED,), {}),
+        ((EngineEvents.TRAIN_BACKWARD_COMPLETED,), {}),
+        ((EngineEvents.TRAIN_ITERATION_COMPLETED,), {}),
+    ]
+
+
+@mark.parametrize("set_grad_to_none", (True, False))
+def test_vanilla_training_loop_train_one_batch_set_grad_to_none(set_grad_to_none: bool) -> None:
+    engine = Mock(spec=BaseEngine)
+    model = DummyClassificationModel()
+    out = AccelerateTrainingLoop(
+        set_grad_to_none=set_grad_to_none,
+    )._train_one_batch(
+        engine=engine,
+        model=model,
+        optimizer=SGD(model.parameters(), lr=0.01),
+        batch={ct.INPUT: torch.ones(8, 4), ct.TARGET: torch.ones(8, dtype=torch.long)},
+    )
+    assert isinstance(out, dict)
+    assert torch.is_tensor(out[ct.LOSS])
+
+
+def test_vanilla_training_loop_train_one_batch_clip_grad_value() -> None:
+    engine = Mock(spec=BaseEngine)
+    model = DummyClassificationModel()
+    out = AccelerateTrainingLoop(
+        clip_grad={"name": "clip_grad_value", "clip_value": 0.25},
+    )._train_one_batch(
+        engine=engine,
+        model=model,
+        optimizer=SGD(model.parameters(), lr=0.01),
+        batch={ct.INPUT: torch.ones(8, 4), ct.TARGET: torch.ones(8, dtype=torch.long)},
+    )
+    assert isinstance(out, dict)
+    assert torch.is_tensor(out[ct.LOSS])
+
+
+def test_vanilla_training_loop_train_one_batch_clip_grad_norm() -> None:
+    engine = Mock(spec=BaseEngine)
+    model = DummyClassificationModel()
+    out = AccelerateTrainingLoop(
+        clip_grad={"name": "clip_grad_norm", "max_norm": 1, "norm_type": 2},
+    )._train_one_batch(
+        engine=engine,
+        model=model,
+        optimizer=SGD(model.parameters(), lr=0.01),
+        batch={ct.INPUT: torch.ones(8, 4), ct.TARGET: torch.ones(8, dtype=torch.long)},
+    )
+    assert isinstance(out, dict)
+    assert torch.is_tensor(out[ct.LOSS])
+
+
+def test_vanilla_training_loop_train_one_batch_loss_nan() -> None:
+    engine = Mock(spec=BaseEngine)
+    model = Mock(spec=Module, return_value={ct.LOSS: torch.tensor(float("nan"))})
+    optimizer = Mock(spec=Optimizer)
+    out = AccelerateTrainingLoop(
+        clip_grad={"name": "clip_grad_norm", "max_norm": 1, "norm_type": 2}
+    )._train_one_batch(
+        engine=engine,
+        model=model,
+        optimizer=optimizer,
+        batch={ct.INPUT: torch.ones(8, 4), ct.TARGET: torch.ones(8, dtype=torch.long)},
+    )
+    assert isinstance(out, dict)
+    assert torch.isnan(out[ct.LOSS])
+    assert engine.fire_event.call_args_list == [
+        ((EngineEvents.TRAIN_ITERATION_STARTED,), {}),
+        ((EngineEvents.TRAIN_FORWARD_COMPLETED,), {}),
+        ((EngineEvents.TRAIN_ITERATION_COMPLETED,), {}),
+    ]
