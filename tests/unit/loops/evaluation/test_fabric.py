@@ -54,6 +54,7 @@ def increment_epoch_handler(engine: BaseEngine) -> None:
 ##########################################
 
 
+@lightning_available
 def test_fabric_evaluation_loop_str() -> None:
     assert str(FabricEvaluationLoop()).startswith("FabricEvaluationLoop(")
 
@@ -64,15 +65,18 @@ def test_fabric_evaluation_loop_missing_package() -> None:
             FabricEvaluationLoop()
 
 
+@lightning_available
 @mark.parametrize("tag", ("val", "test"))
 def test_fabric_evaluation_loop_tag(tag: str) -> None:
     assert FabricEvaluationLoop(tag=tag)._tag == tag
 
 
+@lightning_available
 def test_fabric_evaluation_loop_tag_default() -> None:
     assert FabricEvaluationLoop()._tag == "eval"
 
 
+@lightning_available
 def test_fabric_evaluation_loop_condition() -> None:
     evaluation_loop = FabricEvaluationLoop(
         condition={OBJECT_TARGET: "gravitorch.loops.evaluation.conditions.LastEpochEvalCondition"}
@@ -80,10 +84,12 @@ def test_fabric_evaluation_loop_condition() -> None:
     assert isinstance(evaluation_loop._condition, LastEpochEvalCondition)
 
 
+@lightning_available
 def test_fabric_evaluation_loop_condition_default() -> None:
     assert isinstance(FabricEvaluationLoop()._condition, EveryEpochEvalCondition)
 
 
+@lightning_available
 def test_fabric_evaluation_loop_observer(tmp_path: Path) -> None:
     assert isinstance(
         FabricEvaluationLoop(observer=PyTorchBatchSaver(tmp_path))._observer,
@@ -91,14 +97,17 @@ def test_fabric_evaluation_loop_observer(tmp_path: Path) -> None:
     )
 
 
+@lightning_available
 def test_fabric_evaluation_loop_observer_default() -> None:
     assert isinstance(FabricEvaluationLoop()._observer, NoOpLoopObserver)
 
 
+@lightning_available
 def test_fabric_evaluation_loop_no_profiler() -> None:
     assert isinstance(FabricEvaluationLoop()._profiler, NoOpProfiler)
 
 
+@lightning_available
 def test_fabric_evaluation_loop_profiler_tensorboard() -> None:
     assert isinstance(
         FabricEvaluationLoop(profiler=PyTorchProfiler(torch.profiler.profile()))._profiler,
@@ -152,6 +161,7 @@ def test_fabric_evaluation_loop_eval_with_loss_history(device: str, accelerator:
     assert len(loss_history.get_recent_history()) == 2
 
 
+@lightning_available
 def test_fabric_evaluation_loop_eval_no_dataset() -> None:
     engine = create_dummy_engine(data_source=Mock(has_data_loader=Mock(return_value=False)))
     FabricEvaluationLoop(Fabric(accelerator="cpu")).eval(engine)
@@ -229,6 +239,7 @@ def test_fabric_evaluation_loop_eval_skip_evaluation(device: str) -> None:
         ).get_last_value()  # The loss is not logged because it is NaN
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("event", (EngineEvents.EVAL_EPOCH_STARTED, EngineEvents.EVAL_EPOCH_COMPLETED))
 def test_fabric_evaluation_loop_fire_event_eval_epoch_events(device: str, event: str) -> None:
@@ -242,6 +253,7 @@ def test_fabric_evaluation_loop_fire_event_eval_epoch_events(device: str, event:
     assert engine.iteration == -1
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize(
     "event", (EngineEvents.EVAL_ITERATION_STARTED, EngineEvents.EVAL_ITERATION_COMPLETED)
@@ -283,14 +295,17 @@ def test_fabric_evaluation_loop_eval_with_profiler(device: str) -> None:
     assert profiler.__enter__().step.call_count == 4
 
 
+@lightning_available
 def test_fabric_evaluation_loop_load_state_dict() -> None:
     FabricEvaluationLoop().load_state_dict({})  # Verify it does not raise error
 
 
+@lightning_available
 def test_fabric_evaluation_loop_state_dict() -> None:
     assert FabricEvaluationLoop().state_dict() == {}
 
 
+@lightning_available
 def test_fabric_evaluation_loop_grad_enabled_false() -> None:
     engine = create_dummy_engine()
     out = FabricEvaluationLoop(Fabric(accelerator="cpu"), grad_enabled=False)._eval_one_batch(
@@ -304,6 +319,7 @@ def test_fabric_evaluation_loop_grad_enabled_false() -> None:
     assert not out[ct.LOSS].requires_grad
 
 
+@lightning_available
 def test_fabric_evaluation_loop_grad_enabled_true() -> None:
     engine = create_dummy_engine()
     batch = {
@@ -318,6 +334,7 @@ def test_fabric_evaluation_loop_grad_enabled_true() -> None:
     assert torch.is_tensor(batch[ct.INPUT].grad)
 
 
+@lightning_available
 def test_fabric_evaluation_loop_eval_one_batch_fired_events() -> None:
     engine = Mock(spec=BaseEngine)
     FabricEvaluationLoop(Fabric(accelerator="cpu"))._eval_one_batch(
