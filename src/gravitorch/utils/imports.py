@@ -4,16 +4,20 @@ packages are available."""
 __all__ = [
     "check_accelerate",
     "check_fairscale",
+    "check_lightning",
     "check_matplotlib",
     "check_pillow",
     "check_tensorboard",
+    "check_torchdata",
     "check_torchvision",
     "is_accelerate_available",
     "is_fairscale_available",
+    "is_lightning_available",
     "is_matplotlib_available",
     "is_pillow_available",
     "is_psutil_available",
     "is_tensorboard_available",
+    "is_torchdata_available",
     "is_torchvision_available",
 ]
 
