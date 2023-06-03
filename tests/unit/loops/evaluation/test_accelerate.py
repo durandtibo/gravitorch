@@ -13,7 +13,11 @@ from gravitorch.loops.evaluation.conditions import (
     EveryEpochEvalCondition,
     LastEpochEvalCondition,
 )
-from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
+from gravitorch.loops.observers import (
+    BaseLoopObserver,
+    NoOpLoopObserver,
+    PyTorchBatchSaver,
+)
 from gravitorch.testing import (
     DummyClassificationModel,
     DummyDataSource,
@@ -24,7 +28,7 @@ from gravitorch.testing import (
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.imports import is_accelerate_available
-from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
+from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler, PyTorchProfiler
 
 if is_accelerate_available():
     from accelerate import Accelerator
@@ -289,7 +293,7 @@ def test_accelerate_evaluation_loop_grad_enabled_true() -> None:
 @accelerate_available
 def test_accelerate_evaluation_loop_train_with_observer() -> None:
     engine = create_dummy_engine()
-    observer = MagicMock()
+    observer = Mock(spec=BaseLoopObserver)
     AccelerateEvaluationLoop(observer=observer).eval(engine)
     observer.start.assert_called_once_with(engine)
     assert observer.update.call_count == 4
@@ -298,7 +302,7 @@ def test_accelerate_evaluation_loop_train_with_observer() -> None:
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_with_profiler() -> None:
-    profiler = MagicMock()
+    profiler = MagicMock(spec=BaseProfiler)
     training_loop = AccelerateEvaluationLoop(profiler=profiler)
     training_loop.eval(engine=create_dummy_engine())
     assert profiler.__enter__().step.call_count == 4

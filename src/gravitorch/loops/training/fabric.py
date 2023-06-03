@@ -107,7 +107,7 @@ class FabricTrainingLoop(BaseBasicTrainingLoop):
                 and the data loader.
         """
         logger.info("Preparing the model and optimizer...")
-        model, optimizer = self._fabric.setup(engine.model, engine.optimizer, move_to_device=True)
+        model, optimizer = self._fabric.setup(engine.model, engine.optimizer)
         logger.info("Model and optimizer are ready")
 
         logger.info("Preparing the data loader...")
@@ -155,11 +155,13 @@ class FabricTrainingLoop(BaseBasicTrainingLoop):
 
         Args:
         ----
-            accelerator (``lightning.Fabric`` or dict, optional):
+            fabric (``lightning.Fabric`` or dict or None, optional):
                 Specifies the ``lightning.Fabric`` object or the
                 parameters to instantiate it. Please read the
                 ``lightning.Fabric`` documentation to know the
-                parameters https://lightning.ai/docs/fabric/stable/.
+                parameters
+                https://lightning.ai/docs/fabric/stable/.
+                If ``None``, it will use the default parameters.
 
         Returns:
         -------

@@ -13,7 +13,11 @@ from gravitorch.loops.evaluation.conditions import (
     EveryEpochEvalCondition,
     LastEpochEvalCondition,
 )
-from gravitorch.loops.observers import NoOpLoopObserver, PyTorchBatchSaver
+from gravitorch.loops.observers import (
+    BaseLoopObserver,
+    NoOpLoopObserver,
+    PyTorchBatchSaver,
+)
 from gravitorch.testing import (
     DummyClassificationModel,
     DummyDataset,
@@ -29,7 +33,7 @@ from gravitorch.utils.device_placement import (
 )
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
-from gravitorch.utils.profilers import NoOpProfiler, PyTorchProfiler
+from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler, PyTorchProfiler
 
 
 def increment_epoch_handler(engine: BaseEngine) -> None:
@@ -254,7 +258,7 @@ def test_vanilla_evaluation_loop_fire_event_eval_iteration_events(device: str, e
 def test_vanilla_evaluation_loop_train_with_observer(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
-    observer = MagicMock()
+    observer = MagicMock(spec=BaseLoopObserver)
     VanillaEvaluationLoop(
         observer=observer, batch_device_placement=ManualDevicePlacement(device)
     ).eval(engine)
@@ -266,7 +270,7 @@ def test_vanilla_evaluation_loop_train_with_observer(device: str) -> None:
 @mark.parametrize("device", get_available_devices())
 def test_vanilla_evaluation_loop_eval_with_profiler(device: str) -> None:
     device = torch.device(device)
-    profiler = MagicMock()
+    profiler = MagicMock(spec=BaseProfiler)
     VanillaEvaluationLoop(
         profiler=profiler, batch_device_placement=ManualDevicePlacement(device)
     ).eval(engine=create_dummy_engine(device=device))
