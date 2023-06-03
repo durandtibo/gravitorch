@@ -55,7 +55,7 @@ torchvision = { version = "^0.15", optional = true }
 all = [
     "accelerate",
     "colorlog",
-    "lightning-fabric",
+    "lightning",
     "matplotlib",
     "pillow",
     "tensorboard",
