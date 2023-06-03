@@ -133,14 +133,16 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         output = model(batch)
         engine.fire_event(EngineEvents.TRAIN_FORWARD_COMPLETED)
 
-        if not torch.isnan(output[ct.LOSS]):
-            self._accelerator.backward(output[ct.LOSS])
-        else:
+        loss = output[ct.LOSS]
+        if torch.isnan(loss):
             logger.warning(
                 "NaN detected. The gradient is not computed for this batch "
                 f"(iteration: {engine.iteration})"
             )
+            engine.fire_event(EngineEvents.TRAIN_ITERATION_COMPLETED)
+            return output
 
+        self._accelerator.backward(loss)
         if self._clip_grad_fn:
             self._clip_grad_fn(model.parameters(), *self._clip_grad_args)
         engine.fire_event(EngineEvents.TRAIN_BACKWARD_COMPLETED)
