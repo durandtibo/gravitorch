@@ -23,6 +23,7 @@ from gravitorch.testing import (
     DummyDataSource,
     DummyIterableDataset,
     create_dummy_engine,
+    lightning_available,
 )
 from gravitorch.utils import get_available_devices
 from gravitorch.utils.exp_trackers import EpochStep
@@ -32,14 +33,12 @@ from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler, PyTorchProfil
 
 if is_lightning_available():
     from lightning import Fabric
-
 else:
     Fabric = None  # pragma: no cover
 
 ACCELERATORS = ["auto", "cpu"]
 if torch.cuda.is_available():
     ACCELERATORS.append("cuda")
-
 if mps.is_available():
     ACCELERATORS.append("mps")
 
@@ -53,10 +52,12 @@ def increment_epoch_handler(engine: BaseEngine) -> None:
 #########################################
 
 
+@lightning_available
 def test_fabric_training_loop_str() -> None:
     assert str(FabricTrainingLoop()).startswith("FabricTrainingLoop(")
 
 
+@lightning_available
 @mark.parametrize("set_grad_to_none", (True, False))
 def test_fabric_training_loop_set_grad_to_none(set_grad_to_none: bool) -> None:
     assert (
@@ -64,31 +65,37 @@ def test_fabric_training_loop_set_grad_to_none(set_grad_to_none: bool) -> None:
     )
 
 
+@lightning_available
 def test_fabric_training_loop_set_grad_to_none_default() -> None:
     assert FabricTrainingLoop()._set_grad_to_none
 
 
+@lightning_available
 @mark.parametrize("tag", ("pre-training", "custom name"))
 def test_fabric_training_loop_prefix(tag: str) -> None:
     assert FabricTrainingLoop(tag=tag)._tag == tag
 
 
+@lightning_available
 def test_fabric_training_loop_prefix_default() -> None:
     assert FabricTrainingLoop()._tag == "train"
 
 
+@lightning_available
 def test_fabric_training_loop_clip_grad_none() -> None:
     training_loop = FabricTrainingLoop()
     assert training_loop._clip_grad_fn is None
     assert training_loop._clip_grad_args == ()
 
 
+@lightning_available
 def test_fabric_training_loop_clip_grad_clip_grad_value_without_clip_value() -> None:
     training_loop = FabricTrainingLoop(clip_grad={"name": "clip_grad_value"})
     assert callable(training_loop._clip_grad_fn)
     assert training_loop._clip_grad_args == (0.25,)
 
 
+@lightning_available
 @mark.parametrize("clip_value", (0.1, 1))
 def test_fabric_training_loop_clip_grad_clip_grad_value_with_clip_value(clip_value: float) -> None:
     training_loop = FabricTrainingLoop(
@@ -98,12 +105,14 @@ def test_fabric_training_loop_clip_grad_clip_grad_value_with_clip_value(clip_val
     assert training_loop._clip_grad_args == (clip_value,)
 
 
+@lightning_available
 def test_fabric_training_loop_clip_grad_clip_grad_norm_without_max_norm_and_norm_type() -> None:
     training_loop = FabricTrainingLoop(clip_grad={"name": "clip_grad_norm"})
     assert callable(training_loop._clip_grad_fn)
     assert training_loop._clip_grad_args == (1, 2)
 
 
+@lightning_available
 @mark.parametrize("max_norm", (0.1, 1))
 @mark.parametrize("norm_type", (1, 2))
 def test_fabric_training_loop_clip_grad_clip_grad_norm_with_max_norm_and_norm_type(
@@ -116,15 +125,18 @@ def test_fabric_training_loop_clip_grad_clip_grad_norm_with_max_norm_and_norm_ty
     assert training_loop._clip_grad_args == (max_norm, norm_type)
 
 
+@lightning_available
 def test_fabric_training_loop_clip_grad_incorrect_name() -> None:
     with raises(ValueError, match=r"Incorrect clip grad name \(incorrect name\)."):
         FabricTrainingLoop(clip_grad={"name": "incorrect name"})
 
 
+@lightning_available
 def test_fabric_training_loop_observer_default() -> None:
     assert isinstance(FabricTrainingLoop()._observer, NoOpLoopObserver)
 
 
+@lightning_available
 def test_fabric_training_loop_observer(tmp_path: Path) -> None:
     assert isinstance(
         FabricTrainingLoop(observer=PyTorchBatchSaver(tmp_path))._observer,
@@ -132,10 +144,12 @@ def test_fabric_training_loop_observer(tmp_path: Path) -> None:
     )
 
 
+@lightning_available
 def test_fabric_training_loop_no_profiler() -> None:
     assert isinstance(FabricTrainingLoop()._profiler, NoOpProfiler)
 
 
+@lightning_available
 def test_fabric_training_loop_profiler_tensorboard() -> None:
     assert isinstance(
         FabricTrainingLoop(profiler=PyTorchProfiler(torch.profiler.profile()))._profiler,
@@ -143,6 +157,7 @@ def test_fabric_training_loop_profiler_tensorboard() -> None:
     )
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("accelerator", ACCELERATORS)
 def test_fabric_training_loop_train(device: str, accelerator: str) -> None:
@@ -158,6 +173,7 @@ def test_fabric_training_loop_train(device: str, accelerator: str) -> None:
     assert len(loss_history.get_recent_history()) == 1
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("accelerator", ACCELERATORS)
 def test_fabric_training_loop_train_loss_nan(device: str, accelerator: str) -> None:
@@ -172,6 +188,7 @@ def test_fabric_training_loop_train_loss_nan(device: str, accelerator: str) -> N
         ).get_last_value()  # The loss is not logged because it is NaN
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("accelerator", ACCELERATORS)
 def test_fabric_training_loop_train_with_loss_history(device: str, accelerator: str) -> None:
@@ -186,6 +203,7 @@ def test_fabric_training_loop_train_with_loss_history(device: str, accelerator: 
     assert len(loss_history.get_recent_history()) == 2
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("accelerator", ACCELERATORS)
 def test_fabric_training_loop_train_set_grad_to_none_true(device: str, accelerator: str) -> None:
@@ -203,6 +221,7 @@ def test_fabric_training_loop_train_set_grad_to_none_true(device: str, accelerat
     assert isinstance(loss_history.get_last_value(), float)
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("accelerator", ACCELERATORS)
 def test_fabric_training_loop_train_with_clip_grad_value(device: str, accelerator: str) -> None:
@@ -217,6 +236,7 @@ def test_fabric_training_loop_train_with_clip_grad_value(device: str, accelerato
     assert isinstance(engine.get_history(f"train/{ct.LOSS}").get_last_value(), float)
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("accelerator", ACCELERATORS)
 def test_fabric_training_loop_train_with_clip_grad_norm(device: str, accelerator: str) -> None:
@@ -231,6 +251,7 @@ def test_fabric_training_loop_train_with_clip_grad_norm(device: str, accelerator
     assert isinstance(engine.get_history(f"train/{ct.LOSS}").get_last_value(), float)
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 def test_fabric_training_loop_train_empty_map_dataset(device: str) -> None:
     device = torch.device(device)
@@ -247,6 +268,7 @@ def test_fabric_training_loop_train_empty_map_dataset(device: str) -> None:
         ).get_last_value()  # The loss is not logged because there is no batch
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 def test_fabric_training_loop_train_iterable_dataset(device: str) -> None:
     device = torch.device(device)
@@ -260,6 +282,7 @@ def test_fabric_training_loop_train_iterable_dataset(device: str) -> None:
     assert isinstance(engine.get_history(f"train/{ct.LOSS}").get_last_value(), float)
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 def test_fabric_training_loop_train_empty_iterable_dataset(device: str) -> None:
     device = torch.device(device)
@@ -278,6 +301,7 @@ def test_fabric_training_loop_train_empty_iterable_dataset(device: str) -> None:
         ).get_last_value()  # The loss is not logged because there is no batch
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("event", (EngineEvents.TRAIN_EPOCH_STARTED, EngineEvents.TRAIN_EPOCH_COMPLETED))
 def test_fabric_training_loop_fire_event_train_epoch_events(device: str, event: str) -> None:
@@ -291,6 +315,7 @@ def test_fabric_training_loop_fire_event_train_epoch_events(device: str, event: 
     assert engine.iteration == 3
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize(
     "event",
@@ -312,6 +337,7 @@ def test_fabric_training_loop_fire_event_train_iteration_events(device: str, eve
     assert engine.iteration == 3
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 def test_fabric_training_loop_train_with_observer(device: str) -> None:
     device = torch.device(device)
@@ -326,6 +352,7 @@ def test_fabric_training_loop_train_with_observer(device: str) -> None:
     observer.end.assert_called_once_with(engine)
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 def test_fabric_training_loop_train_with_profiler(device: str) -> None:
     device = torch.device(device)
@@ -337,14 +364,17 @@ def test_fabric_training_loop_train_with_profiler(device: str) -> None:
     assert profiler.__enter__().step.call_count == 4
 
 
+@lightning_available
 def test_fabric_training_loop_load_state_dict() -> None:
     FabricTrainingLoop().load_state_dict({})  # Verify it does not raise error
 
 
+@lightning_available
 def test_fabric_training_loop_state_dict() -> None:
     assert FabricTrainingLoop().state_dict() == {}
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 def test_fabric_training_loop_train_one_batch_fired_events(device: str) -> None:
     device = torch.device(device)
@@ -364,6 +394,7 @@ def test_fabric_training_loop_train_one_batch_fired_events(device: str) -> None:
     ]
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("set_grad_to_none", (True, False))
 def test_fabric_training_loop_train_one_batch_set_grad_to_none(
@@ -386,6 +417,7 @@ def test_fabric_training_loop_train_one_batch_set_grad_to_none(
     assert out[ct.LOSS].device == device
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 def test_fabric_training_loop_train_one_batch_clip_grad_value(device: str) -> None:
     device = torch.device(device)
@@ -405,6 +437,7 @@ def test_fabric_training_loop_train_one_batch_clip_grad_value(device: str) -> No
     assert out[ct.LOSS].device == device
 
 
+@lightning_available
 @mark.parametrize("device", get_available_devices())
 def test_fabric_training_loop_train_one_batch_clip_grad_norm(device: str) -> None:
     device = torch.device(device)
@@ -424,6 +457,7 @@ def test_fabric_training_loop_train_one_batch_clip_grad_norm(device: str) -> Non
     assert out[ct.LOSS].device == device
 
 
+@lightning_available
 def test_fabric_training_loop_train_one_batch_loss_nan() -> None:
     engine = Mock(spec=BaseEngine)
     model = Mock(spec=nn.Module, return_value={ct.LOSS: torch.tensor(math.nan)})
