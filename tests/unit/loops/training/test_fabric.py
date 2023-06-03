@@ -1,6 +1,6 @@
 import math
 from pathlib import Path
-from unittest.mock import MagicMock, Mock
+from unittest.mock import MagicMock, Mock, patch
 
 import torch
 from pytest import mark, raises
@@ -55,6 +55,12 @@ def increment_epoch_handler(engine: BaseEngine) -> None:
 @lightning_available
 def test_fabric_training_loop_str() -> None:
     assert str(FabricTrainingLoop()).startswith("FabricTrainingLoop(")
+
+
+def test_fabric_training_loop_missing_package() -> None:
+    with patch("gravitorch.utils.imports.is_lightning_available", lambda *args: False):
+        with raises(RuntimeError, match="`lightning` package is required but not installed."):
+            FabricTrainingLoop()
 
 
 @lightning_available
