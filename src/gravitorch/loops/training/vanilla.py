@@ -18,6 +18,7 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.observers import BaseLoopObserver
 from gravitorch.loops.training.basic import BaseBasicTrainingLoop
+from gravitorch.loops.training.utils import setup_clip_grad
 from gravitorch.utils.device_placement import (
     AutoDevicePlacement,
     BaseDevicePlacement,
@@ -129,25 +130,5 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
 
         return output
 
-    def _setup_clip_grad(self, clip_grad: dict) -> tuple[Optional[Callable], tuple]:
-        if not clip_grad:
-            return None, ()
-
-        name = clip_grad["name"]
-        if name == "clip_grad_value":
-            clip_grad_fn = torch.nn.utils.clip_grad_value_
-            clip_grad_args = (clip_grad.get("clip_value", 0.25),)
-            logger.info(f"clip gradient by value {clip_grad_args[0]}")
-            return clip_grad_fn, clip_grad_args
-        if name == "clip_grad_norm":
-            clip_grad_fn = torch.nn.utils.clip_grad_norm_
-            clip_grad_args = clip_grad.get("max_norm", 1), clip_grad.get("norm_type", 2)
-            logger.info(
-                f"clip gradient by maximum norm {clip_grad_args[0]} "
-                f"(norm type: {clip_grad_args[1]})"
-            )
-            return clip_grad_fn, clip_grad_args
-        raise ValueError(
-            f"Incorrect clip grad name ({name}). The valid values are ``clip_grad_value`` "
-            "and ``clip_grad_norm``"
-        )
+    def _setup_clip_grad(self, config: dict) -> tuple[Optional[Callable], tuple]:
+        return setup_clip_grad(config)

@@ -1,7 +1,7 @@
 from unittest.mock import Mock, patch
 
 import torch
-from pytest import mark
+from pytest import mark, raises
 from torch import nn
 from torch.optim import SGD, Optimizer
 
@@ -28,6 +28,55 @@ def test_amp_training_loop_set_grad_to_none(set_grad_to_none: bool) -> None:
 
 def test_amp_training_loop_set_grad_to_none_default() -> None:
     assert AMPTrainingLoop()._set_grad_to_none
+
+
+@mark.parametrize("tag", ("pre-training", "custom name"))
+def test_amp_training_loop_prefix(tag: str) -> None:
+    assert AMPTrainingLoop(tag=tag)._tag == tag
+
+
+def test_amp_training_loop_prefix_default() -> None:
+    assert AMPTrainingLoop()._tag == "train"
+
+
+def test_amp_training_loop_clip_grad_none() -> None:
+    training_loop = AMPTrainingLoop()
+    assert training_loop._clip_grad_fn is None
+    assert training_loop._clip_grad_args == ()
+
+
+def test_amp_training_loop_clip_grad_clip_grad_value_default() -> None:
+    training_loop = AMPTrainingLoop(clip_grad={"name": "clip_grad_value"})
+    assert training_loop._clip_grad_fn == torch.nn.utils.clip_grad_value_
+    assert training_loop._clip_grad_args == (0.25,)
+
+
+@mark.parametrize("clip_value", (0.1, 1))
+def test_amp_training_loop_clip_grad_clip_grad_value(clip_value: float) -> None:
+    training_loop = AMPTrainingLoop(clip_grad={"name": "clip_grad_value", "clip_value": clip_value})
+    assert training_loop._clip_grad_fn == torch.nn.utils.clip_grad_value_
+    assert training_loop._clip_grad_args == (clip_value,)
+
+
+def test_amp_training_loop_clip_grad_clip_grad_norm_default() -> None:
+    training_loop = AMPTrainingLoop(clip_grad={"name": "clip_grad_norm"})
+    assert training_loop._clip_grad_fn == torch.nn.utils.clip_grad_norm_
+    assert training_loop._clip_grad_args == (1, 2)
+
+
+@mark.parametrize("max_norm", (0.1, 1))
+@mark.parametrize("norm_type", (1, 2))
+def test_amp_training_loop_clip_grad_clip_grad_norm(max_norm: float, norm_type: float) -> None:
+    training_loop = AMPTrainingLoop(
+        clip_grad={"name": "clip_grad_norm", "max_norm": max_norm, "norm_type": norm_type}
+    )
+    assert training_loop._clip_grad_fn == torch.nn.utils.clip_grad_norm_
+    assert training_loop._clip_grad_args == (max_norm, norm_type)
+
+
+def test_amp_training_loop_clip_grad_incorrect_name() -> None:
+    with raises(RuntimeError, match="Incorrect clip grad name"):
+        AMPTrainingLoop(clip_grad={"name": "incorrect"})
 
 
 @mark.parametrize("amp_enabled", (True, False))

@@ -148,12 +148,12 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         """
 
     @abstractmethod
-    def _setup_clip_grad(self, clip_grad: dict) -> tuple[Optional[Callable], tuple]:
+    def _setup_clip_grad(self, config: dict) -> tuple[Optional[Callable], tuple]:
         r"""Initializes the clipping gradient strategy during training.
 
         Args:
         ----
-            clip_grad (dict): Specifies the clipping gradient option.
+            config (dict): Specifies the clipping gradient option.
 
         Returns:
         -------
