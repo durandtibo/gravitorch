@@ -28,14 +28,14 @@ jobs:
         run: |
           pip install gravitorch
 
-      - name: Run short experiment
+      - name: Test available packages
         run: |
           python -c "from gravitorch.utils import imports; " \
             "assert not imports.is_accelerate_available();" \
             "assert not imports.is_fairscale_available();" \
+            "assert not imports.is_lightning_available();" \
             "assert not imports.is_matplotlib_available();" \
             "assert not imports.is_pillow_available();" \
-            "assert not imports.is_psutil_available();" \
             "assert not imports.is_tensorboard_available();" \
             "assert not imports.is_torchvision_available();"
 
@@ -61,6 +61,17 @@ jobs:
       - name: Install package
         run: |
           pip install "gravitorch[all]"
+
+      - name: Test available packages
+        run: |
+          python -c "from gravitorch.utils import imports; " \
+            "assert imports.is_accelerate_available();" \
+            "assert imports.is_fairscale_available();" \
+            "assert imports.is_lightning_available();" \
+            "assert imports.is_matplotlib_available();" \
+            "assert imports.is_pillow_available();" \
+            "assert imports.is_tensorboard_available();" \
+            "assert imports.is_torchvision_available();"
 
       - name: Run short experiment
         run: |
