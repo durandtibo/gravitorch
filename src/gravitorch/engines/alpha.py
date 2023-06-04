@@ -14,8 +14,10 @@ from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.events import BaseEventHandler, EventManager
-from gravitorch.loops.evaluation import BaseEvaluationLoop, setup_evaluation_loop
-from gravitorch.loops.training import BaseTrainingLoop, setup_training_loop
+from gravitorch.loops.evaluation.base import BaseEvaluationLoop
+from gravitorch.loops.evaluation.factory import setup_evaluation_loop
+from gravitorch.loops.training.base import BaseTrainingLoop
+from gravitorch.loops.training.factory import setup_training_loop
 from gravitorch.lr_schedulers import LRSchedulerType
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import BaseEngineState, setup_engine_state
