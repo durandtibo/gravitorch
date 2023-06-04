@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.12a11"
+version = "0.0.12a12"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -126,6 +126,7 @@ max-line-length = 100
 profile = "black"
 
 [tool.docformatter]
+black = true
 recursive = true
 wrap-summaries = 72
 wrap-descriptions = 72
