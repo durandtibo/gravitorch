@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Union
 
 from gravitorch.engines.base import BaseEngine
-from gravitorch.loops.observers import BaseLoopObserver
+from gravitorch.loops.observers.base import BaseLoopObserver
 from gravitorch.utils.io import save_pytorch
 from gravitorch.utils.path import sanitize_path
 
