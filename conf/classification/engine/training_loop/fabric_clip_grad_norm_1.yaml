@@ -1,0 +1,7 @@
+_target_: gravitorch.loops.training.FabricTrainingLoop
+clip_grad:
+  name: clip_grad_norm
+  max_norm: 1
+  norm_type: 2
+set_grad_to_none: true
+profiler: null
