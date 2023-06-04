@@ -379,11 +379,9 @@ def test_fabric_training_loop_state_dict() -> None:
 
 
 @lightning_available
-@mark.parametrize("device", get_available_devices())
-def test_fabric_training_loop_train_one_batch_fired_events(device: str) -> None:
-    device = torch.device(device)
+def test_fabric_training_loop_train_one_batch_fired_events() -> None:
     engine = Mock(spec=BaseEngine)
-    model = DummyClassificationModel().to(device=device)
+    model = DummyClassificationModel()
     FabricTrainingLoop(Fabric(accelerator="cpu"))._train_one_batch(
         engine=engine,
         model=model,
@@ -399,14 +397,10 @@ def test_fabric_training_loop_train_one_batch_fired_events(device: str) -> None:
 
 
 @lightning_available
-@mark.parametrize("device", get_available_devices())
 @mark.parametrize("set_grad_to_none", (True, False))
-def test_fabric_training_loop_train_one_batch_set_grad_to_none(
-    device: str, set_grad_to_none: bool
-) -> None:
-    device = torch.device(device)
+def test_fabric_training_loop_train_one_batch_set_grad_to_none(set_grad_to_none: bool) -> None:
     engine = Mock(spec=BaseEngine)
-    model = DummyClassificationModel().to(device=device)
+    model = DummyClassificationModel()
     out = FabricTrainingLoop(
         Fabric(accelerator="cpu"),
         set_grad_to_none=set_grad_to_none,
@@ -418,15 +412,13 @@ def test_fabric_training_loop_train_one_batch_set_grad_to_none(
     )
     assert isinstance(out, dict)
     assert torch.is_tensor(out[ct.LOSS])
-    assert out[ct.LOSS].device == device
+    assert out[ct.LOSS].requires_grad
 
 
 @lightning_available
-@mark.parametrize("device", get_available_devices())
-def test_fabric_training_loop_train_one_batch_clip_grad_value(device: str) -> None:
-    device = torch.device(device)
+def test_fabric_training_loop_train_one_batch_clip_grad_value() -> None:
     engine = Mock(spec=BaseEngine)
-    model = DummyClassificationModel().to(device=device)
+    model = DummyClassificationModel()
     out = FabricTrainingLoop(
         Fabric(accelerator="cpu"),
         clip_grad={"name": "clip_grad_value", "clip_value": 0.25},
@@ -438,15 +430,13 @@ def test_fabric_training_loop_train_one_batch_clip_grad_value(device: str) -> No
     )
     assert isinstance(out, dict)
     assert torch.is_tensor(out[ct.LOSS])
-    assert out[ct.LOSS].device == device
+    assert out[ct.LOSS].requires_grad
 
 
 @lightning_available
-@mark.parametrize("device", get_available_devices())
-def test_fabric_training_loop_train_one_batch_clip_grad_norm(device: str) -> None:
-    device = torch.device(device)
+def test_fabric_training_loop_train_one_batch_clip_grad_norm() -> None:
     engine = Mock(spec=BaseEngine)
-    model = DummyClassificationModel().to(device=device)
+    model = DummyClassificationModel()
     out = FabricTrainingLoop(
         Fabric(accelerator="cpu"),
         clip_grad={"name": "clip_grad_norm", "max_norm": 1, "norm_type": 2},
@@ -458,7 +448,7 @@ def test_fabric_training_loop_train_one_batch_clip_grad_norm(device: str) -> Non
     )
     assert isinstance(out, dict)
     assert torch.is_tensor(out[ct.LOSS])
-    assert out[ct.LOSS].device == device
+    assert out[ct.LOSS].requires_grad
 
 
 @lightning_available
