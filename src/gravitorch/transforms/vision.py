@@ -9,7 +9,7 @@ from gravitorch.utils.imports import check_torchvision, is_torchvision_available
 if is_torchvision_available():
     from torchvision.transforms import Compose
 else:
-    Compose = None
+    Compose = None  # pragma: no cover
 
 
 def create_compose(transforms: Sequence[Union[Callable, dict]]) -> Compose:
@@ -34,7 +34,7 @@ def create_compose(transforms: Sequence[Union[Callable, dict]]) -> Compose:
         >>> from torchvision.transforms import PILToTensor
         >>> create_compose(
         ...     [
-        ...         {'_target_': "torchvision.transforms.CenterCrop", "size": 10},
+        ...         {"_target_": "torchvision.transforms.CenterCrop", "size": 10},
         ...         PILToTensor(),
         ...     ]
         ... )
