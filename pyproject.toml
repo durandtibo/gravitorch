@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.13a2"
+version = "0.0.13a3"
 description = "Warning: API is not stable"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -44,7 +44,6 @@ tqdm = "^4.65"
 # Optional dependencies
 accelerate = { version = "^0.19", optional = true }
 colorlog = { version = "^6.7", optional = true }
-lightning = { version = "^2.0", optional = true }
 matplotlib = { version = "^3.7", optional = true }
 pillow = { version = "^9.5", optional = true }
 tensorboard = { version = "^2.13", optional = true }

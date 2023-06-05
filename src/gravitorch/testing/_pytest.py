@@ -5,7 +5,6 @@ from torch import distributed as tdist
 from gravitorch.distributed.comm import Backend, available_backends
 from gravitorch.utils.imports import (
     is_accelerate_available,
-    is_lightning_available,
     is_matplotlib_available,
     is_pillow_available,
     is_tensorboard_available,
@@ -23,12 +22,6 @@ accelerate_available = mark.skipif(
     not is_accelerate_available(),
     reason=(
         "`accelerate` is not available. Please install `accelerate` if you want to run this test"
-    ),
-)
-lightning_available = mark.skipif(
-    not is_lightning_available(),
-    reason=(
-        "`lightning` is not available. Please install `lightning` if you want to run this test"
     ),
 )
 matplotlib_available = mark.skipif(
