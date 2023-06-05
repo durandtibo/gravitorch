@@ -4,7 +4,6 @@ packages are available."""
 __all__ = [
     "check_accelerate",
     "check_fairscale",
-    "check_lightning",
     "check_matplotlib",
     "check_pillow",
     "check_tensorboard",
@@ -12,7 +11,6 @@ __all__ = [
     "check_torchvision",
     "is_accelerate_available",
     "is_fairscale_available",
-    "is_lightning_available",
     "is_matplotlib_available",
     "is_pillow_available",
     "is_psutil_available",
@@ -74,34 +72,6 @@ def check_fairscale() -> None:
 def is_fairscale_available() -> bool:
     r"""Indicates if the ``fairscale`` package is installed or not."""
     return find_spec("fairscale") is not None
-
-
-#####################
-#     lightning     #
-#####################
-
-
-def check_lightning() -> None:
-    r"""Checks if the ``lightning`` package is installed.
-
-    Raises
-    ------
-        RuntimeError if the ``lightning`` package is not installed.
-    """
-    if not is_lightning_available():
-        raise RuntimeError(
-            "`lightning` package is required but not installed. "
-            "You can install `lightning` package with the command:\n\n"
-            "pip install lightning\n"
-        )
-
-
-def is_lightning_available() -> bool:
-    r"""Indicates if the ``lightning`` package is installed or not.
-
-    https://lightning.ai/docs/pytorch/latest/
-    """
-    return find_spec("lightning") is not None
 
 
 ######################
