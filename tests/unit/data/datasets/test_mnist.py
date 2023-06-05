@@ -5,13 +5,14 @@ import torch
 from pytest import TempPathFactory, fixture, raises
 
 from gravitorch import constants as ct
-from gravitorch.data.datasets import MNISTDataset
+from gravitorch.data.datasets import MNIST
+from gravitorch.data.datasets.mnist import get_default_transform
 from gravitorch.testing import torchvision_available
 from gravitorch.utils.imports import is_torchvision_available
 from gravitorch.utils.io import save_pytorch
 
 if is_torchvision_available():
-    from torchvision.transforms import ToTensor
+    from torchvision import transforms
 
 
 @fixture(scope="module")
@@ -22,8 +23,8 @@ def mnist_path(tmp_path_factory: TempPathFactory) -> Path:
         torch.zeros(num_examples, dtype=torch.long),
     )
     path = tmp_path_factory.mktemp("data")
-    save_pytorch(mock_data, path.joinpath("MNISTDataset/processed/training.pt"))
-    save_pytorch(mock_data, path.joinpath("MNISTDataset/processed/test.pt"))
+    save_pytorch(mock_data, path.joinpath("MNIST/processed/training.pt"))
+    save_pytorch(mock_data, path.joinpath("MNIST/processed/test.pt"))
     return path
 
 
@@ -34,7 +35,7 @@ def mnist_path(tmp_path_factory: TempPathFactory) -> Path:
 
 @torchvision_available
 def test_mnist_dataset_getitem(mnist_path: Path) -> None:
-    dataset = MNISTDataset(root=mnist_path.as_posix(), transform=ToTensor())
+    dataset = MNIST(mnist_path, transform=transforms.ToTensor())
     example = dataset[0]
     assert isinstance(example, dict)
     assert example[ct.INPUT].shape == (1, 28, 28)
@@ -42,7 +43,31 @@ def test_mnist_dataset_getitem(mnist_path: Path) -> None:
     assert isinstance(example[ct.TARGET], int)
 
 
-def test_mnist_dataset_without_torchvision() -> None:
+def test_mnist_dataset_without_torchvision(mnist_path: Path) -> None:
     with patch("gravitorch.utils.imports.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError, match="`torchvision` package is required but not installed."):
-            MNISTDataset()
+            MNIST(mnist_path)
+
+
+@torchvision_available
+def test_mnist_dataset_create_with_default_transforms(mnist_path: Path) -> None:
+    dataset = MNIST.create_with_default_transforms(mnist_path)
+    example = dataset[0]
+    assert isinstance(example, dict)
+    assert example[ct.INPUT].shape == (1, 28, 28)
+    assert example[ct.INPUT].dtype == torch.float
+    assert isinstance(example[ct.TARGET], int)
+
+
+###########################################
+#     Tests for get_default_transform     #
+###########################################
+
+
+@torchvision_available
+def test_get_default_transform() -> None:
+    transform = get_default_transform()
+    assert isinstance(transform, transforms.Compose)
+    assert len(transform.transforms) == 2
+    assert isinstance(transform.transforms[0], transforms.ToTensor)
+    assert isinstance(transform.transforms[1], transforms.Normalize)
