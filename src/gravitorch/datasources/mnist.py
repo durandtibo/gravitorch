@@ -9,15 +9,10 @@ from torch.utils.data import Dataset
 
 from gravitorch import constants as ct
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
-from gravitorch.data.datasets import MNISTDataset
+from gravitorch.data.datasets import MNIST
+from gravitorch.data.datasets.mnist import get_default_transform
 from gravitorch.datasources.dataset import DatasetDataSource
-from gravitorch.utils.imports import is_torchvision_available
 from gravitorch.utils.path import sanitize_path
-
-if is_torchvision_available():
-    from torchvision import transforms
-else:
-    transforms = None  # pragma: no cover
 
 
 class MnistDataSource(DatasetDataSource):
@@ -62,10 +57,8 @@ def create_standard_train_eval_dataset(path: Path) -> tuple[Dataset, Dataset]:
         ``Dataset, Dataset``: The training (first value in the tuple)
             and evaluation (second value in the tuple) datasets.
     """
-    transform = transforms.Compose(
-        [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-    )
+    transform = get_default_transform()
     return (
-        MNISTDataset(path.as_posix(), train=True, download=True, transform=transform),
-        MNISTDataset(path.as_posix(), train=False, download=True, transform=transform),
+        MNIST(path.as_posix(), train=True, download=True, transform=transform),
+        MNIST(path.as_posix(), train=False, download=True, transform=transform),
     )

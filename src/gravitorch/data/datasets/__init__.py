@@ -5,7 +5,7 @@ __all__ = [
     "FileToInMemoryDataset",
     "ImageFolderDataset",
     "InMemoryDataset",
-    "MNISTDataset",
+    "MNIST",
     "log_box_dataset_class",
     "setup_dataset",
 ]
@@ -14,5 +14,5 @@ from gravitorch.data.datasets.demo_map_style import DemoMultiClassClsDataset
 from gravitorch.data.datasets.factory import setup_dataset
 from gravitorch.data.datasets.image_folder import ImageFolderDataset
 from gravitorch.data.datasets.in_memory import FileToInMemoryDataset, InMemoryDataset
-from gravitorch.data.datasets.mnist import MNISTDataset
+from gravitorch.data.datasets.mnist import MNIST
 from gravitorch.data.datasets.utils import log_box_dataset_class
