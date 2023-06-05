@@ -41,4 +41,4 @@ def test_create_compose_2() -> None:
 def test_create_compose_no_torchvision() -> None:
     with patch("gravitorch.utils.imports.is_torchvision_available", lambda *args: False):
         with raises(RuntimeError, match="`torchvision` package is required but not installed."):
-            create_compose([transforms.PILToTensor()])
+            create_compose([])
