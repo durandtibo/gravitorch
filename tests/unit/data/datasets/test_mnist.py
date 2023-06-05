@@ -49,6 +49,16 @@ def test_mnist_dataset_without_torchvision(mnist_path: Path) -> None:
             MNIST(mnist_path)
 
 
+@torchvision_available
+def test_mnist_dataset_create_with_default_transforms(mnist_path: Path) -> None:
+    dataset = MNIST.create_with_default_transforms(mnist_path)
+    example = dataset[0]
+    assert isinstance(example, dict)
+    assert example[ct.INPUT].shape == (1, 28, 28)
+    assert example[ct.INPUT].dtype == torch.float
+    assert isinstance(example[ct.TARGET], int)
+
+
 ###########################################
 #     Tests for get_default_transform     #
 ###########################################

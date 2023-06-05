@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["MNIST", "get_default_transform"]
 
 from collections.abc import Callable
 from pathlib import Path
-from typing import Union
 from unittest.mock import Mock
 
 from gravitorch import constants as ct
@@ -23,10 +24,10 @@ class MNIST(MNIST_):
 
     def __init__(
         self,
-        root: Union[Path, str],
+        root: Path | str,
         train: bool = True,
-        transform: Union[Callable, dict, None] = None,
-        target_transform: Union[Callable, dict, None] = None,
+        transform: Callable | dict | None = None,
+        target_transform: Callable | dict | None = None,
         download: bool = False,
     ) -> None:
         check_torchvision()
@@ -52,6 +53,37 @@ class MNIST(MNIST_):
         """
         img, target = super().__getitem__(index)
         return {ct.INPUT: img, ct.TARGET: target}
+
+    @classmethod
+    def create_with_default_transforms(
+        cls,
+        root: Path | str,
+        train: bool = True,
+        download: bool = False,
+    ) -> MNIST:
+        r"""Creates a MNIST dataset wih default transforms.
+
+        Args:
+            root (``Path`` or str): Specifies the root directory of
+                the dataset.
+            train (bool, optional): If ``True``, returns the training
+                dataset, otherwise returns the test dataset.
+                Default: ``True``
+            download (bool, optional): If ``True``, downloads the
+                dataset from the internet and puts it in root
+                directory. If dataset is already downloaded, it is
+                not downloaded again. Default: ``False``
+
+        Returns:
+            ``MNIST``: A MNIST dataset with default transforms.
+        """
+        return cls(
+            root=root,
+            train=train,
+            download=download,
+            transform=get_default_transform(),
+            target_transform=None,
+        )
 
 
 def get_default_transform() -> Compose:
