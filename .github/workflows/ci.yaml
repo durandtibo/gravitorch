@@ -162,7 +162,7 @@ jobs:
           poetry run make integration-test-cov
 
       - name: Upload coverage to Codecov
-        if: github.repository == 'durandtibo/meteor' && (github.event_name == 'push' || github.event_name == 'pull_request')
+        if: github.repository == 'durandtibo/gravitorch' && (github.event_name == 'push' || github.event_name == 'pull_request')
         uses: codecov/codecov-action@v3
         with:
           files: ./coverage.xml

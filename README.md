@@ -1,15 +1,15 @@
 <p align="center">
     <a href="https://github.com/durandtibo/gravitorch/actions">
-        <img alt="CI" src="https://github.com/durandtibo/meteor/workflows/CI/badge.svg?event=push&branch=main">
+        <img alt="CI" src="https://github.com/durandtibo/gravitorch/workflows/CI/badge.svg?event=push&branch=main">
     </a>
     <a href="https://codecov.io/gh/durandtibo/gravitorch">
-        <img alt="Codecov" src="https://codecov.io/gh/durandtibo/meteor/branch/main/graph/badge.svg">
+        <img alt="Codecov" src="https://codecov.io/gh/durandtibo/gravitorch/branch/main/graph/badge.svg">
     </a>
     <a href="https://codeclimate.com/github/durandtibo/gravitorch/maintainability">
-        <img src="https://api.codeclimate.com/v1/badges/cbedbd2a20bf2a21cf22/maintainability" />
+        <img src="https://api.codeclimate.com/v1/badges/69a6d49da46fc4e12a5d/maintainability" />
     </a>
     <a href="https://codeclimate.com/github/durandtibo/gravitorch/test_coverage">
-        <img src="https://api.codeclimate.com/v1/badges/cbedbd2a20bf2a21cf22/test_coverage" />
+        <img src="https://api.codeclimate.com/v1/badges/69a6d49da46fc4e12a5d/test_coverage" />
     </a>
     <br/>
     <a href="https://pypi.org/project/gravitorch/">

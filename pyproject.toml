@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "gravitorch"
 version = "0.0.13a4"
-description = "Warning: API is not stable"
+description = "A library to train ML models with PyTorch"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
 homepage = "https://github.com/durandtibo/gravitorch"
