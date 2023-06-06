@@ -1,5 +1,0 @@
-# @package _global_
-defaults:
-  - mnist_conv_sgd
-  - override engine/training_loop: fabric_clip_grad_norm_1
-  - override engine/evaluation_loop: fabric
