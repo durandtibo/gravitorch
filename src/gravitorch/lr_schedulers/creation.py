@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "create_linear_warmup_cosine_decay_lr",
     "create_linear_warmup_linear_decay_lr",
@@ -5,7 +7,6 @@ __all__ = [
 ]
 
 from collections.abc import Sequence
-from typing import Union
 
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
@@ -15,7 +16,7 @@ from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
 
 def create_sequential_lr(
     optimizer: Optimizer,
-    schedulers: Sequence[Union[LRSchedulerType, dict]],
+    schedulers: Sequence[LRSchedulerType | dict],
     milestones: list[int],
     last_epoch: int = -1,
 ) -> SequentialLR:

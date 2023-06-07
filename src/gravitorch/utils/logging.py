@@ -1,13 +1,13 @@
 r"""This module implements some utilities for the loggers."""
+from __future__ import annotations
 
 import logging
 from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Union
 
 
 @contextmanager
-def disable_logging(level: Union[int, str] = logging.CRITICAL) -> Generator[None, None, None]:
+def disable_logging(level: int | str = logging.CRITICAL) -> Generator[None, None, None]:
     r"""Context manager to temporarily disable the logging.
 
     All logging calls of severity ``level`` and below will be

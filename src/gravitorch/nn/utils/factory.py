@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["setup_module"]
 
 import logging
-from typing import Union
 
 from objectory import factory
 from torch.nn import Module
@@ -11,7 +12,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_module(module: Union[Module, dict]) -> Module:
+def setup_module(module: Module | dict) -> Module:
     r"""Sets up a ``torch.nn.Module`` object.
 
     Args:

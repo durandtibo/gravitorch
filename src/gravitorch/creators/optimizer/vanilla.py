@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["VanillaOptimizerCreator"]
 
 import logging
-from typing import Optional
 
 from torch.nn import Module
 from torch.optim import Optimizer
@@ -30,7 +31,7 @@ class VanillaOptimizerCreator(BaseOptimizerCreator):
     """
 
     def __init__(
-        self, optimizer_config: Optional[dict] = None, add_module_to_engine: bool = True
+        self, optimizer_config: dict | None = None, add_module_to_engine: bool = True
     ) -> None:
         self._optimizer_config = optimizer_config
         self._add_module_to_engine = bool(add_module_to_engine)
@@ -38,7 +39,7 @@ class VanillaOptimizerCreator(BaseOptimizerCreator):
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(add_module_to_engine={self._add_module_to_engine})"
 
-    def create(self, engine: BaseEngine, model: Module) -> Optional[Optimizer]:
+    def create(self, engine: BaseEngine, model: Module) -> Optimizer | None:
         r"""Creates an optimizer.
 
         This method is responsible to register the event handlers

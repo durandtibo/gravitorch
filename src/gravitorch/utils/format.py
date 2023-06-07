@@ -1,6 +1,8 @@
 r"""This module defines some utility functions to format some
 objects."""
 
+from __future__ import annotations
+
 __all__ = [
     "human_byte_size",
     "human_count",
@@ -20,7 +22,7 @@ import datetime
 import json
 import math
 from collections.abc import Mapping, Sequence
-from typing import Any, Optional, TypeVar, Union
+from typing import Any, TypeVar
 
 import yaml
 from objectory import OBJECT_TARGET
@@ -38,7 +40,7 @@ BYTE_UNITS = {
 T = TypeVar("T")
 
 
-def human_byte_size(size: int, unit: Optional[str] = None) -> str:
+def human_byte_size(size: int, unit: str | None = None) -> str:
     r"""Gets a human-readable representation of the byte size.
 
     Args:
@@ -82,7 +84,7 @@ def human_byte_size(size: int, unit: Optional[str] = None) -> str:
     return f"{size / BYTE_UNITS.get(unit, 1):,.2f} {unit}"
 
 
-def human_count(number: Union[int, float]) -> str:
+def human_count(number: int | float) -> str:
     r"""Converts an integer number with K, M, B, T for thousands,
     millions, billions and trillions, respectively.
 
@@ -131,7 +133,7 @@ def human_count(number: Union[int, float]) -> str:
     return f"{number:,.1f} {labels[index]}"
 
 
-def human_time(seconds: Union[int, float]) -> str:
+def human_time(seconds: int | float) -> str:
     r"""Converts a number of seconds in an easier format to read
     hh:mm:ss.
 
@@ -202,7 +204,7 @@ def str_indent(original: Any, num_spaces: int = 2) -> str:
     return first + "\n" + formatted_str
 
 
-def str_scalar(value: Union[int, float]) -> str:
+def str_scalar(value: int | float) -> str:
     r"""Returns a string representation of a scalar value.
 
     Args:
@@ -261,11 +263,11 @@ def str_target_object(config: dict) -> str:
 
 
 def to_flat_dict(
-    data: Union[dict, list, tuple, str, bool, int, float, None],
-    prefix: Optional[str] = None,
+    data: dict | list | tuple | str | bool | int | float | None,
+    prefix: str | None = None,
     separator: str = ".",
-    to_str: Union[type[object], tuple[type[object], ...], None] = None,
-) -> dict[str, Union[str, bool, int, float, None]]:
+    to_str: type[object] | tuple[type[object], ...] | None = None,
+) -> dict[str, str | bool | int | float | None]:
     r"""Computes a flat representation of a nested dict with the dot
     format.
 

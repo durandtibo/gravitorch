@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["Logging", "LoggingState"]
 
 import logging
 from dataclasses import dataclass
 from types import TracebackType
-from typing import Optional, Union
 
 from gravitorch.distributed import comm as dist
 from gravitorch.rsrc.base import BaseResource
@@ -21,7 +22,7 @@ class LoggingState:
         logging.disable(self.disabled_level)
 
     @classmethod
-    def create(cls) -> "LoggingState":
+    def create(cls) -> LoggingState:
         r"""Creates a state to capture the current logging configuration.
 
         Returns
@@ -49,7 +50,7 @@ class Logging(BaseResource):
     """
 
     def __init__(
-        self, only_main_process: bool = False, disabled_level: Union[int, str] = logging.ERROR - 1
+        self, only_main_process: bool = False, disabled_level: int | str = logging.ERROR - 1
     ) -> None:
         self._only_main_process = bool(only_main_process)
         if isinstance(disabled_level, str):
@@ -58,7 +59,7 @@ class Logging(BaseResource):
 
         self._state: list[LoggingState] = []
 
-    def __enter__(self) -> "Logging":
+    def __enter__(self) -> Logging:
         logger.info("Setting logging configuration...")
         self._state.append(LoggingState.create())
         if self._only_main_process and not dist.is_main_process():
@@ -67,9 +68,9 @@ class Logging(BaseResource):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         logger.info("Restoring previous logging configuration...")
         self._state.pop().restore()

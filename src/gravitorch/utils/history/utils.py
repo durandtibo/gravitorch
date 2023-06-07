@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["get_best_values", "get_last_values"]
 
 from collections.abc import Mapping

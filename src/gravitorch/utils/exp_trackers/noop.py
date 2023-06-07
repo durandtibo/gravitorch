@@ -1,4 +1,5 @@
 r"""This module implements a no-operation experiment tracker."""
+from __future__ import annotations
 
 __all__ = ["NoOpExpTracker"]
 
@@ -6,7 +7,7 @@ import logging
 import shutil
 import tempfile
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any
 
 from gravitorch import constants as ct
 from gravitorch.utils.artifacts.base import BaseArtifact
@@ -49,7 +50,7 @@ class NoOpExpTracker(BaseBasicExpTracker):
             of the experiment. Default: ``None``
     """
 
-    def __init__(self, experiment_path: Union[Path, str, None] = None) -> None:
+    def __init__(self, experiment_path: Path | str | None = None) -> None:
         self._experiment_path = sanitize_path(experiment_path) if experiment_path else None
         # Flag to indicate if the tracker is activated or not
         self._is_activated = False
@@ -57,8 +58,8 @@ class NoOpExpTracker(BaseBasicExpTracker):
         self._remove_after_run = False
 
         # The following directories are defined when the start method is called
-        self._checkpoint_path: Optional[Path] = None
-        self._artifact_path: Optional[Path] = None
+        self._checkpoint_path: Path | None = None
+        self._artifact_path: Path | None = None
 
     def __repr__(self) -> str:
         return (
@@ -133,16 +134,16 @@ class NoOpExpTracker(BaseBasicExpTracker):
     def _create_artifact(self, artifact: BaseArtifact) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
-    def _log_best_metric(self, key: str, value: Union[int, float]) -> None:
+    def _log_best_metric(self, key: str, value: int | float) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
-    def _log_best_metrics(self, metrics: dict[str, Union[int, float]]) -> None:
+    def _log_best_metrics(self, metrics: dict[str, int | float]) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
-    def _log_figure(self, key: str, figure: Figure, step: Optional[Step] = None) -> None:
+    def _log_figure(self, key: str, figure: Figure, step: Step | None = None) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
-    def _log_figures(self, figures: dict[str, Figure], step: Optional[Step] = None) -> None:
+    def _log_figures(self, figures: dict[str, Figure], step: Step | None = None) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
     def _log_hyper_parameter(self, key: str, value: Any) -> None:
@@ -151,18 +152,16 @@ class NoOpExpTracker(BaseBasicExpTracker):
     def _log_hyper_parameters(self, params: dict[str, Any]) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
-    def _log_image(self, key: str, image: Image, step: Optional[Step] = None) -> None:
+    def _log_image(self, key: str, image: Image, step: Step | None = None) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
-    def _log_images(self, images: dict[str, Image], step: Optional[Step] = None) -> None:
+    def _log_images(self, images: dict[str, Image], step: Step | None = None) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
-    def _log_metric(self, key: str, value: Union[int, float], step: Optional[Step] = None) -> None:
+    def _log_metric(self, key: str, value: int | float, step: Step | None = None) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
-    def _log_metrics(
-        self, metrics: dict[str, Union[int, float]], step: Optional[Step] = None
-    ) -> None:
+    def _log_metrics(self, metrics: dict[str, int | float], step: Step | None = None) -> None:
         pass  # Do nothing because it is a no-operation experiment tracker.
 
     def _upload_checkpoints(self) -> None:

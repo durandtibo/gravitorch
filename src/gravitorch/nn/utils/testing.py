@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["is_loss_decreasing", "is_loss_decreasing_with_adam", "is_loss_decreasing_with_sgd"]
+
 
 import logging
 from collections.abc import Callable
-from typing import Union
 
 from torch import Tensor
 from torch.nn import Module
@@ -17,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def is_loss_decreasing(
     module: Module,
-    criterion: Union[Module, Callable[[Tensor, Tensor], Tensor]],
+    criterion: Module | Callable[[Tensor, Tensor], Tensor],
     optimizer: Optimizer,
     feature: Tensor,
     target: Tensor,
@@ -87,7 +89,7 @@ def is_loss_decreasing(
 
 def is_loss_decreasing_with_adam(
     module: Module,
-    criterion: Union[Module, Callable[[Tensor, Tensor], Tensor]],
+    criterion: Module | Callable[[Tensor, Tensor], Tensor],
     feature: Tensor,
     target: Tensor,
     lr: float = 0.0003,
@@ -149,7 +151,7 @@ def is_loss_decreasing_with_adam(
 
 def is_loss_decreasing_with_sgd(
     module: Module,
-    criterion: Union[Module, Callable[[Tensor, Tensor], Tensor]],
+    criterion: Module | Callable[[Tensor, Tensor], Tensor],
     feature: Tensor,
     target: Tensor,
     lr: float = 0.01,

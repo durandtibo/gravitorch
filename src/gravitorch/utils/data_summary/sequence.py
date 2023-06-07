@@ -1,5 +1,6 @@
 r"""This module implements a base class to compute a descriptive summary
 of sequences."""
+from __future__ import annotations
 
 __all__ = ["BaseSequenceDataSummary"]
 

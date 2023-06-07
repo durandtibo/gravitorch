@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "AsinhScalarEncoder",
     "AsinhCosSinScalarEncoder",
@@ -6,7 +8,6 @@ __all__ = [
 ]
 
 import math
-from typing import Union
 
 import torch
 from torch import Tensor
@@ -31,7 +32,7 @@ class AsinhScalarEncoder(Module):
 
     def __init__(
         self,
-        scale: Union[Tensor, list[float], tuple[float, ...]],
+        scale: Tensor | list[float] | tuple[float, ...],
         learnable: bool = False,
     ) -> None:
         super().__init__()
@@ -67,7 +68,7 @@ class AsinhScalarEncoder(Module):
         min_scale: float,
         max_scale: float,
         learnable: bool = False,
-    ) -> "AsinhScalarEncoder":
+    ) -> AsinhScalarEncoder:
         r"""Creates a `AsinhScalarEncoder`` where the scales are uniformly
         initialized in the specified scale range.
 
@@ -108,7 +109,7 @@ class AsinhScalarEncoder(Module):
         min_scale: float,
         max_scale: float,
         learnable: bool = False,
-    ) -> "AsinhScalarEncoder":
+    ) -> AsinhScalarEncoder:
         r"""Creates a `AsinhScalarEncoder`` where the scales are evenly spaced.
 
         Args:
@@ -148,7 +149,7 @@ class AsinhScalarEncoder(Module):
         min_scale: float,
         max_scale: float,
         learnable: bool = False,
-    ) -> "AsinhScalarEncoder":
+    ) -> AsinhScalarEncoder:
         r"""Creates a `AsinhScalarEncoder`` where the scales are evenly spaced
         in the log space.
 
@@ -200,8 +201,8 @@ class CosSinScalarEncoder(Module):
 
     def __init__(
         self,
-        frequency: Union[Tensor, list[float], tuple[float, ...]],
-        phase_shift: Union[Tensor, list[float], tuple[float, ...]],
+        frequency: Tensor | list[float] | tuple[float, ...],
+        phase_shift: Tensor | list[float] | tuple[float, ...],
         learnable: bool = False,
     ) -> None:
         super().__init__()
@@ -255,7 +256,7 @@ class CosSinScalarEncoder(Module):
         min_frequency: float,
         max_frequency: float,
         learnable: bool = True,
-    ) -> "CosSinScalarEncoder":
+    ) -> CosSinScalarEncoder:
         r"""Creates a `CosSinScalarEncoder`` where the frequencies are uniformly
         initialized in a frequency range.
 
@@ -302,7 +303,7 @@ class CosSinScalarEncoder(Module):
         min_abs_value: float,
         max_abs_value: float,
         learnable: bool = True,
-    ) -> "CosSinScalarEncoder":
+    ) -> CosSinScalarEncoder:
         r"""Creates a `CosSinScalarEncoder`` where the frequencies are uniformly
         initialized for a given value range.
 
@@ -338,7 +339,7 @@ class CosSinScalarEncoder(Module):
         min_frequency: float,
         max_frequency: float,
         learnable: bool = True,
-    ) -> "CosSinScalarEncoder":
+    ) -> CosSinScalarEncoder:
         r"""Creates a `CosSinScalarEncoder`` where the frequencies are evenly
         spaced in a frequency range.
 
@@ -384,7 +385,7 @@ class CosSinScalarEncoder(Module):
         min_abs_value: float,
         max_abs_value: float,
         learnable: bool = True,
-    ) -> "CosSinScalarEncoder":
+    ) -> CosSinScalarEncoder:
         r"""Creates a `CosSinScalarEncoder`` where the frequencies are evenly
         spaced given a value range.
 
@@ -420,7 +421,7 @@ class CosSinScalarEncoder(Module):
         min_frequency: float,
         max_frequency: float,
         learnable: bool = True,
-    ) -> "CosSinScalarEncoder":
+    ) -> CosSinScalarEncoder:
         r"""Creates a `CosSinScalarEncoder`` where the frequencies are evenly
         spaced in the log space in a frequency range.
 
@@ -468,7 +469,7 @@ class CosSinScalarEncoder(Module):
         min_abs_value: float,
         max_abs_value: float,
         learnable: bool = True,
-    ) -> "CosSinScalarEncoder":
+    ) -> CosSinScalarEncoder:
         r"""Creates a `CosSinScalarEncoder`` where the frequencies are evenly
         spaced in the log space given a value range.
 
@@ -541,7 +542,7 @@ class ScalarEncoderFFN(Module):
             network or its configuration.
     """
 
-    def __init__(self, encoder: Union[Module, dict], ffn: Union[Module, dict]) -> None:
+    def __init__(self, encoder: Module | dict, ffn: Module | dict) -> None:
         super().__init__()
         self.encoder = setup_module(encoder)
         self.ffn = setup_module(ffn)

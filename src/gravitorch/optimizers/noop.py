@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["NoOpOptimizer"]
 
 from collections.abc import Callable, Iterable
-from typing import Optional, Union
 
 from torch import Tensor
 from torch.optim import Optimizer
@@ -20,7 +21,7 @@ class NoOpOptimizer(Optimizer):
             compatible with the other optimizers.
     """
 
-    def __init__(self, params: Union[Iterable[Tensor], Iterable[dict]]) -> None:
+    def __init__(self, params: Iterable[Tensor] | Iterable[dict]) -> None:
         r"""Do nothing."""
 
     def load_state_dict(self, state_dict: dict) -> None:
@@ -29,5 +30,5 @@ class NoOpOptimizer(Optimizer):
     def state_dict(self) -> dict:
         return {}
 
-    def step(self, closure: Optional[Callable] = None) -> None:
+    def step(self, closure: Callable | None = None) -> None:
         r"""Do nothing."""

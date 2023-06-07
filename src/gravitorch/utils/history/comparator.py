@@ -1,4 +1,5 @@
 r"""This module defines the base comparator and some implementations."""
+from __future__ import annotations
 
 __all__ = [
     "BaseComparator",
@@ -81,7 +82,7 @@ class MaxScalarComparator(BaseComparator[Union[float, int]]):
     def get_initial_best_value(self) -> float:
         return -float("inf")
 
-    def is_better(self, old_value: Union[float, int], new_value: Union[float, int]) -> bool:
+    def is_better(self, old_value: float | int, new_value: float | int) -> bool:
         return old_value <= new_value
 
 
@@ -98,7 +99,7 @@ class MinScalarComparator(BaseComparator[Union[float, int]]):
     def get_initial_best_value(self) -> float:
         return float("inf")
 
-    def is_better(self, old_value: Union[float, int], new_value: Union[float, int]) -> bool:
+    def is_better(self, old_value: float | int, new_value: float | int) -> bool:
         return new_value <= old_value
 
 

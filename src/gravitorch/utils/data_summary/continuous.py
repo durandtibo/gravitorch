@@ -1,10 +1,11 @@
 r"""This module implements a data summary for continuous numerical
 values."""
+from __future__ import annotations
 
 __all__ = ["BaseContinuousDataSummary", "prepare_quantiles"]
 
 from collections import deque
-from typing import TypeVar, Union
+from typing import TypeVar
 
 import torch
 from torch import Tensor
@@ -47,7 +48,7 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
     def __init__(
         self,
         max_size: int = 10000,
-        quantiles: Union[Tensor, tuple[float, ...], list[float]] = DEFAULT_QUANTILES,
+        quantiles: Tensor | tuple[float, ...] | list[float] = DEFAULT_QUANTILES,
     ) -> None:
         self._sum = 0.0
         self._count = 0.0
@@ -238,7 +239,7 @@ class BaseContinuousDataSummary(BaseDataSummary[T]):
         return summary
 
 
-def prepare_quantiles(quantiles: Union[Tensor, tuple[float, ...], list[float]]) -> Tensor:
+def prepare_quantiles(quantiles: Tensor | tuple[float, ...] | list[float]) -> Tensor:
     r"""Prepares the quantiles to be comaptible with ``torch.quantile``.
 
     Args:

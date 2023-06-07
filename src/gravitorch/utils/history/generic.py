@@ -1,10 +1,11 @@
 r"""This module implements a generic history."""
+from __future__ import annotations
 
 __all__ = ["GenericHistory"]
 
 from collections import deque
 from collections.abc import Iterable
-from typing import Any, Optional, TypeVar
+from typing import Any, TypeVar
 
 from coola import objects_are_equal
 
@@ -37,7 +38,7 @@ class GenericHistory(BaseHistory[T]):
     def __init__(
         self,
         name: str,
-        elements: Iterable[tuple[Optional[int], T]] = (),
+        elements: Iterable[tuple[int | None, T]] = (),
         max_size: int = 10,
     ) -> None:
         super().__init__(name)
@@ -56,7 +57,7 @@ class GenericHistory(BaseHistory[T]):
         r"""``int``: The maximum size of the history."""
         return self._history.maxlen
 
-    def add_value(self, value: T, step: Optional[int] = None) -> None:
+    def add_value(self, value: T, step: int | None = None) -> None:
         self._history.append((step, value))
 
     def equal(self, other: Any) -> bool:
@@ -69,7 +70,7 @@ class GenericHistory(BaseHistory[T]):
             raise EmptyHistoryError(f"'{self.name}' history is empty.")
         return self._history[-1][1]
 
-    def get_recent_history(self) -> tuple[tuple[Optional[int], T], ...]:
+    def get_recent_history(self) -> tuple[tuple[int | None, T], ...]:
         return tuple(self._history)
 
     def is_comparable(self) -> bool:

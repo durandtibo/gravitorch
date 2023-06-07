@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["log_cuda_memory_summary", "log_max_cuda_memory_allocated"]
 
 import logging

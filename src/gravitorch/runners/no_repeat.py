@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["NoRepeatRunner"]
 
 from datetime import datetime
 from pathlib import Path
-from typing import Union
 
 from gravitorch.runners.base import BaseRunner
 from gravitorch.runners.utils import setup_runner
@@ -25,7 +26,7 @@ class NoRepeatRunner(BaseRunner):
             successful run.
     """
 
-    def __init__(self, runner: Union[Union[BaseRunner, dict]], path: Union[Path, str]) -> None:
+    def __init__(self, runner: BaseRunner | dict, path: Path | str) -> None:
         self._path = sanitize_path(path)
         self._success_path = self._path.joinpath("_GRAVITORCH_SUCCESS_")
         self._runner = setup_runner(runner)

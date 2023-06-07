@@ -1,5 +1,7 @@
 r"""This module contains some utility functions around ``torch.device``."""
 
+from __future__ import annotations
+
 __all__ = ["get_available_devices", "move_to_device"]
 
 from typing import TypeVar

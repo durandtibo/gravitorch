@@ -1,4 +1,5 @@
 r"""This module implements a data summary for integer values."""
+from __future__ import annotations
 
 __all__ = ["IntegerDataSummary"]
 

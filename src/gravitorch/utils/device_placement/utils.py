@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["setup_device_placement"]
 
 import logging
-from typing import Union
 
 from gravitorch.utils.device_placement.base import BaseDevicePlacement
 from gravitorch.utils.device_placement.noop import NoOpDevicePlacement
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 def setup_device_placement(
-    device_placement: Union[BaseDevicePlacement, dict, None]
+    device_placement: BaseDevicePlacement | dict | None,
 ) -> BaseDevicePlacement:
     r"""Sets up a device placement module.
 

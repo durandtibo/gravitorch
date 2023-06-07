@@ -1,6 +1,8 @@
 r"""The code is in this module is designed to be used for testing
 purpose only."""
 
+from __future__ import annotations
+
 __all__ = [
     "DummyDataset",
     "DummyIterableDataset",
@@ -10,7 +12,6 @@ __all__ = [
 ]
 
 from collections.abc import Iterator
-from typing import Optional, Union
 
 import torch
 from objectory import OBJECT_TARGET
@@ -114,9 +115,9 @@ class DummyDataSource(DatasetDataSource):
 
     def __init__(
         self,
-        train_dataset: Optional[Dataset] = None,
-        eval_dataset: Optional[Dataset] = None,
-        batch_size: Optional[int] = 1,
+        train_dataset: Dataset | None = None,
+        eval_dataset: Dataset | None = None,
+        batch_size: int | None = 1,
     ) -> None:
         if train_dataset is None:
             train_dataset = DummyDataset()
@@ -160,10 +161,10 @@ class DummyClassificationModel(BaseModel):
 
 
 def create_dummy_engine(
-    data_source: Union[BaseDataSource, dict, None] = None,
-    model: Union[Module, dict, None] = None,
-    optimizer: Union[Optimizer, dict, None] = None,
-    device: Optional[torch.device] = None,
+    data_source: BaseDataSource | dict | None = None,
+    model: Module | dict | None = None,
+    optimizer: Optimizer | dict | None = None,
+    device: torch.device | None = None,
     **kwargs,
 ) -> BaseEngine:
     r"""Creates an engine with dummy components for testing purpose.

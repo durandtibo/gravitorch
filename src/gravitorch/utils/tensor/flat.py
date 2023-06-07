@@ -1,8 +1,10 @@
 r"""This module implements some utility functions to use ``torch.Tensor``s."""
 
+from __future__ import annotations
+
 __all__ = ["LazyFlattedTensor"]
 
-from typing import Any, Optional
+from typing import Any
 
 import torch
 from torch import Tensor
@@ -55,7 +57,7 @@ class LazyFlattedTensor:
         >>> lazy_tensor.update(torch.arange(6))
     """
 
-    def __init__(self, values: Optional[Tensor] = None) -> None:
+    def __init__(self, values: Tensor | None = None) -> None:
         if values is None:
             values = torch.tensor([])
         self._values = values.flatten()
@@ -68,7 +70,7 @@ class LazyFlattedTensor:
             f"  buffer={str_indent(self._buffer)}\n)"
         )
 
-    def all_reduce(self) -> "LazyFlattedTensor":
+    def all_reduce(self) -> LazyFlattedTensor:
         r"""Reduces the values across all machines in such a way that all
         get the all the values.
 
@@ -93,7 +95,7 @@ class LazyFlattedTensor:
         self._values = torch.tensor([])
         self._buffer.clear()
 
-    def clone(self) -> "LazyFlattedTensor":
+    def clone(self) -> LazyFlattedTensor:
         r"""Creates a copy of the current lazy flatted tensor.
 
         Returns

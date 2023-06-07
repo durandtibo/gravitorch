@@ -1,5 +1,7 @@
 r"""This module implements some utility functions to use ``torch.Tensor``s."""
 
+from __future__ import annotations
+
 __all__ = [
     "has_name",
     "partial_transpose_dict",

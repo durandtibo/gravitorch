@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["AutoDevicePlacement"]
 
 from gravitorch import distributed as dist

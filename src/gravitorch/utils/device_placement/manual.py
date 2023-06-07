@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "CpuDevicePlacement",
     "CudaDevicePlacement",
@@ -5,7 +7,7 @@ __all__ = [
     "MpsDevicePlacement",
 ]
 
-from typing import Any, Union
+from typing import Any
 
 import torch
 
@@ -20,7 +22,7 @@ class ManualDevicePlacement(BaseDevicePlacement):
     The user is responsible to choose the target device.
     """
 
-    def __init__(self, device: Union[torch.device, str]) -> None:
+    def __init__(self, device: torch.device | str) -> None:
         if isinstance(device, str):
             device = torch.device(device)
         self.device = device

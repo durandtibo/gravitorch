@@ -4,6 +4,8 @@ Inspired from https://github.com/PyTorchLightning/pytorch-
 lightning/blob/master/pytorch_lightning/core/memory.py
 """
 
+from __future__ import annotations
+
 __all__ = [
     "ModuleSummary",
     "multiline_format_dtype",
@@ -12,7 +14,7 @@ __all__ = [
     "parse_batch_shape",
 ]
 
-from typing import Any, Union
+from typing import Any
 
 import torch
 from torch.nn import Module
@@ -111,19 +113,19 @@ class ModuleSummary:
         self._hook_handle.remove()
 
     @property
-    def in_dtype(self) -> Union[str, list]:
+    def in_dtype(self) -> str | list:
         return self._in_dtype or UNKNOWN_DTYPE
 
     @property
-    def out_dtype(self) -> Union[str, list]:
+    def out_dtype(self) -> str | list:
         return self._out_dtype or UNKNOWN_DTYPE
 
     @property
-    def in_size(self) -> Union[str, list]:
+    def in_size(self) -> str | list:
         return self._in_size or UNKNOWN_SIZE
 
     @property
-    def out_size(self) -> Union[str, list]:
+    def out_size(self) -> str | list:
         return self._out_size or UNKNOWN_SIZE
 
     @property
@@ -142,7 +144,7 @@ class ModuleSummary:
         return num_learnable_parameters(self._module)
 
 
-def parse_batch_shape(batch: Any) -> Union[str, tuple]:
+def parse_batch_shape(batch: Any) -> str | tuple:
     r"""Parses the shapes in the batch.
 
     For now, it only parses the shapes of a tensor, list of tensors
@@ -164,7 +166,7 @@ def parse_batch_shape(batch: Any) -> Union[str, tuple]:
     return UNKNOWN_SIZE
 
 
-def parse_batch_dtype(batch: Any) -> Union[str, tuple]:
+def parse_batch_dtype(batch: Any) -> str | tuple:
     r"""Parses the data types in the batch.
 
     For now, it only parses the data type of tensor, list of tensors
@@ -185,7 +187,7 @@ def parse_batch_dtype(batch: Any) -> Union[str, tuple]:
     return UNKNOWN_DTYPE
 
 
-def multiline_format_size(rows: Union[str, tuple, list]) -> tuple[str, ...]:
+def multiline_format_size(rows: str | tuple | list) -> tuple[str, ...]:
     formatted_rows = []
     for row in rows:
         if isinstance(row, (list, tuple)) and isinstance(row[0], (list, tuple)):
@@ -195,7 +197,7 @@ def multiline_format_size(rows: Union[str, tuple, list]) -> tuple[str, ...]:
     return tuple(formatted_rows)
 
 
-def multiline_format_dtype(rows: Union[str, tuple, list]) -> tuple[str, ...]:
+def multiline_format_dtype(rows: str | tuple | list) -> tuple[str, ...]:
     formatted_rows = []
     for row in rows:
         if isinstance(row, (list, tuple)):

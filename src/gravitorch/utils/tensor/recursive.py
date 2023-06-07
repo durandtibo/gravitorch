@@ -1,5 +1,7 @@
 r"""This module implements some utility functions to use ``torch.Tensor``s."""
 
+from __future__ import annotations
+
 __all__ = [
     "UNKNOWN",
     "get_dtype",
@@ -11,7 +13,7 @@ __all__ = [
 ]
 
 from collections.abc import Callable
-from typing import Any, Optional, TypeVar
+from typing import Any, TypeVar
 
 import numpy as np
 import torch
@@ -103,7 +105,7 @@ def get_shape(data: Any) -> Any:
     return UNKNOWN
 
 
-def recursive_apply(data: Any, tensor_fn: Callable, other_fn: Optional[Callable] = None) -> Any:
+def recursive_apply(data: Any, tensor_fn: Callable, other_fn: Callable | None = None) -> Any:
     r"""Recursively applies a function on all the ``torch.Tensor``s.
 
     The current implementation supports the following types:

@@ -1,9 +1,10 @@
 r"""This module implements some utility functions for the profilers."""
 
+from __future__ import annotations
+
 __all__ = ["setup_profiler"]
 
 import logging
-from typing import Union
 
 from gravitorch.utils.format import str_target_object
 from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler
@@ -11,7 +12,7 @@ from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler
 logger = logging.getLogger(__name__)
 
 
-def setup_profiler(profiler: Union[BaseProfiler, dict, None]) -> BaseProfiler:
+def setup_profiler(profiler: BaseProfiler | dict | None) -> BaseProfiler:
     r"""Sets up the profiler.
 
     The profiler is instantiated from its configuration by using the

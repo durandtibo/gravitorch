@@ -1,5 +1,6 @@
 r"""This module defines some steps that are used in the experiment
 tracker."""
+from __future__ import annotations
 
 __all__ = ["Step", "EpochStep", "IterationStep"]
 

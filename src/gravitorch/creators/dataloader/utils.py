@@ -1,10 +1,11 @@
 r"""This module defines some utility functions for the data loader
 creators."""
 
+from __future__ import annotations
+
 __all__ = ["setup_data_loader_creator"]
 
 import logging
-from typing import Union
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.creators.dataloader.pytorch import AutoDataLoaderCreator
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def setup_data_loader_creator(
-    creator: Union[BaseDataLoaderCreator, dict, None]
+    creator: BaseDataLoaderCreator | dict | None,
 ) -> BaseDataLoaderCreator:
     r"""Sets up a data loader creator.
 

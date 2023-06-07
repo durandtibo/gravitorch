@@ -1,9 +1,10 @@
 r"""This module contains implementation to use PyTorch criterion on
 sequences with a warm-up approach."""
 
+from __future__ import annotations
+
 __all__ = ["WarmupSequenceLoss"]
 
-from typing import Union
 
 from torch import Tensor
 from torch.nn import Module
@@ -57,7 +58,7 @@ class WarmupSequenceLoss(Module):
 
     def __init__(
         self,
-        criterion: Union[Module, dict],
+        criterion: Module | dict,
         warmup: int = 0,
         batch_first: bool = False,
     ) -> None:

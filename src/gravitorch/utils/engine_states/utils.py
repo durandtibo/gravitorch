@@ -1,10 +1,10 @@
 r"""This module implements some utility functions for the engine
 states."""
+from __future__ import annotations
 
 __all__ = ["setup_engine_state"]
 
 import logging
-from typing import Union
 
 from gravitorch.utils.engine_states.base import BaseEngineState
 from gravitorch.utils.engine_states.vanilla import VanillaEngineState
@@ -13,7 +13,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_engine_state(state: Union[BaseEngineState, dict, None]) -> BaseEngineState:
+def setup_engine_state(state: BaseEngineState | dict | None) -> BaseEngineState:
     r"""Sets up the engine state.
 
     The state is instantiated from its configuration by using the

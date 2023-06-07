@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["configure_pytorch", "show_cuda_info", "show_cudnn_info", "setup_runner"]
 
 import logging
-from typing import Union
 
 from torch.backends import cuda, cudnn
 
@@ -11,7 +12,7 @@ from gravitorch.utils.format import str_target_object, to_pretty_dict_str
 logger = logging.getLogger(__name__)
 
 
-def setup_runner(runner: Union[BaseRunner, dict]) -> BaseRunner:
+def setup_runner(runner: BaseRunner | dict) -> BaseRunner:
     r"""Sets up the runner.
 
     The runner is instantiated from its configuration by using the

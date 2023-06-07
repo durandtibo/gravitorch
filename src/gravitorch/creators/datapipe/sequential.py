@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "SequentialIterDataPipeCreator",
     "SequentialCreatorIterDataPipeCreator",
@@ -5,7 +7,6 @@ __all__ = [
 ]
 
 from collections.abc import Sequence
-from typing import Optional, Union
 
 from objectory import OBJECT_TARGET, factory
 from torch.utils.data import IterDataPipe
@@ -35,7 +36,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
             empty.
     """
 
-    def __init__(self, config: Union[dict, Sequence[dict]]) -> None:
+    def __init__(self, config: dict | Sequence[dict]) -> None:
         if not config:
             raise ValueError("It is not possible to create a DataPipe because config is empty")
         self._config = config
@@ -47,7 +48,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
         )
 
     def create(
-        self, engine: Optional[BaseEngine] = None, source_inputs: Optional[Sequence] = None
+        self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
     ) -> IterDataPipe:
         r"""Creates an ``IterDataPipe`` object.
 
@@ -161,8 +162,8 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
 
 
 def create_sequential_iter_datapipe(
-    config: Union[dict, Sequence[dict]],
-    source_inputs: Optional[Sequence] = None,
+    config: dict | Sequence[dict],
+    source_inputs: Sequence | None = None,
 ) -> IterDataPipe:
     r"""Creates a sequential ``IterDataPipe`` object.
 
@@ -321,7 +322,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
             argument, excepts for the source ``IterDataPipe``.
     """
 
-    def __init__(self, creators: Sequence[Union[BaseIterDataPipeCreator, dict]]) -> None:
+    def __init__(self, creators: Sequence[BaseIterDataPipeCreator | dict]) -> None:
         if not creators:
             raise ValueError("It is not possible to create a DataPipe because creators is empty")
         self._creators = [setup_iter_datapipe_creator(creator) for creator in creators]
@@ -333,7 +334,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
         )
 
     def create(
-        self, engine: Optional[BaseEngine] = None, source_inputs: Optional[Sequence] = None
+        self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
     ) -> IterDataPipe:
         r"""Creates an ``IterDataPipe`` object.
 

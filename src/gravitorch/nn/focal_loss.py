@@ -1,5 +1,7 @@
 r"""This module contains several focal loss implementations."""
 
+from __future__ import annotations
+
 __all__ = ["BinaryFocalLoss", "BinaryFocalLossWithLogits"]
 
 import torch

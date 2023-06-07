@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["FlattenModule", "MulticlassFlattenModule"]
 
-from typing import Any, Union
+from typing import Any
 
 import torch
 from torch import Tensor
@@ -18,7 +20,7 @@ class FlattenModule(Module):
             its configuration.
     """
 
-    def __init__(self, module: Union[Module, dict]) -> None:
+    def __init__(self, module: Module | dict) -> None:
         super().__init__()
         self.module = setup_module(module)
 

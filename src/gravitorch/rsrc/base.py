@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["BaseResource", "setup_resource"]
 
 import logging
 from contextlib import AbstractContextManager
-from typing import Union
 
 from objectory import AbstractFactory
 
@@ -15,7 +16,7 @@ class BaseResource(AbstractContextManager, metaclass=AbstractFactory):
     r"""Defines the base class to manage a resource."""
 
 
-def setup_resource(resource: Union[BaseResource, dict]) -> BaseResource:
+def setup_resource(resource: BaseResource | dict) -> BaseResource:
     r"""Sets up a resource.
 
     The resource manager is instantiated from its configuration by using the

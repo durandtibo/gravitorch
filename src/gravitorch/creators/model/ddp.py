@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["DataDistributedParallelModelCreator", "to_ddp"]
 
 import logging
-from typing import Optional, Union
 
 from torch import nn
 from torch.nn.parallel import DistributedDataParallel
@@ -33,7 +34,7 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
     """
 
     def __init__(
-        self, model_creator: Union[BaseModelCreator, dict], ddp_kwargs: Optional[dict] = None
+        self, model_creator: BaseModelCreator | dict, ddp_kwargs: dict | None = None
     ) -> None:
         self._model_creator = setup_model_creator(model_creator)
         self._ddp_kwargs = ddp_kwargs or {}
@@ -51,7 +52,7 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
         return to_ddp(module=model, ddp_kwargs=self._ddp_kwargs)
 
 
-def to_ddp(module: nn.Module, ddp_kwargs: Optional[dict] = None) -> nn.Module:
+def to_ddp(module: nn.Module, ddp_kwargs: dict | None = None) -> nn.Module:
     r"""Wraps a module with the ``DistributedDataParallel`` module.
 
     Args:

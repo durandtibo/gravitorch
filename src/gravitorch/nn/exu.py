@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 __all__ = ["ExU"]
 
-from typing import Union
 
 import torch
 from torch import Tensor
@@ -34,7 +35,7 @@ class ExU(Module):
         self,
         input_size: int,
         output_size: int,
-        activation: Union[Module, dict, None] = None,
+        activation: Module | dict | None = None,
     ) -> None:
         super().__init__()
         self.weight = Parameter(torch.empty(input_size, output_size))

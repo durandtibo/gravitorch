@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["ScalarMeter"]
 
 from collections import deque
 from collections.abc import Iterable
-from typing import Any, Union
+from typing import Any
 
 import torch
 
@@ -200,7 +202,7 @@ class ScalarMeter:
             raise EmptyMeterError("The meter is empty")
         return torch.as_tensor(list(self._values)).median().item()
 
-    def merge(self, meters: Iterable["ScalarMeter"]) -> "ScalarMeter":
+    def merge(self, meters: Iterable[ScalarMeter]) -> ScalarMeter:
         r"""Merges several meters with the current meter and returns a
         new meter.
 
@@ -232,7 +234,7 @@ class ScalarMeter:
             max_size=self._values.maxlen,
         )
 
-    def merge_(self, meters: Iterable["ScalarMeter"]) -> None:
+    def merge_(self, meters: Iterable[ScalarMeter]) -> None:
         r"""Merges several meters into the current meter.
 
         In-place version of ``merge``.
@@ -342,7 +344,7 @@ class ScalarMeter:
         self._max_value = max(self._max_value, value)
         self._values.append(value)
 
-    def update_sequence(self, values: Union[list[float], tuple[float, ...]]) -> None:
+    def update_sequence(self, values: list[float] | tuple[float, ...]) -> None:
         r"""Updates the meter given a list/tuple of values.
 
         Args:

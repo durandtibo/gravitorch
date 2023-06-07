@@ -1,5 +1,7 @@
 r"""This module implements some concatenation based fusion layers."""
 
+from __future__ import annotations
+
 __all__ = [
     "AverageFusion",
     "ConcatFusion",
@@ -8,7 +10,6 @@ __all__ = [
     "SumFusion",
 ]
 
-from typing import Union
 
 import torch
 from torch import Tensor
@@ -99,7 +100,7 @@ class FusionFFN(Module):
         >>> out.mean().backward()
     """
 
-    def __init__(self, fusion: Union[Module, dict], ffn: Union[Module, dict]) -> None:
+    def __init__(self, fusion: Module | dict, ffn: Module | dict) -> None:
         super().__init__()
         self.fusion = setup_module(fusion)
         self.ffn = setup_module(ffn)

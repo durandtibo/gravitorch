@@ -1,4 +1,5 @@
 r"""This module implements an experiment tracker using TensorBoard."""
+from __future__ import annotations
 
 __all__ = ["TensorBoardExpTracker"]
 
@@ -6,7 +7,7 @@ import logging
 import shutil
 import tempfile
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any
 from unittest.mock import Mock
 
 import torch
@@ -71,7 +72,7 @@ class TensorBoardExpTracker(BaseBasicExpTracker):
 
     def __init__(
         self,
-        experiment_path: Union[Path, str, None] = None,
+        experiment_path: Path | str | None = None,
         remove_after_run: bool = False,
     ) -> None:
         check_tensorboard()
@@ -82,9 +83,9 @@ class TensorBoardExpTracker(BaseBasicExpTracker):
         self._remove_after_run = bool(remove_after_run)
 
         # The following directories or filenames are defined in the start method
-        self._checkpoint_path: Optional[Path] = None
-        self._artifact_path: Optional[Path] = None
-        self._best_metric_path: Optional[Path] = None
+        self._checkpoint_path: Path | None = None
+        self._artifact_path: Path | None = None
+        self._best_metric_path: Path | None = None
         # The writer is initialized in the start method
         self._writer = None
 
@@ -183,17 +184,17 @@ class TensorBoardExpTracker(BaseBasicExpTracker):
     def _create_artifact(self, artifact: BaseArtifact) -> None:
         artifact.create(self.artifact_path)
 
-    def _log_best_metric(self, key: str, value: Union[int, float]) -> None:
+    def _log_best_metric(self, key: str, value: int | float) -> None:
         self._best_metrics[f"{key}.best"] = _sanitize_value(value)
 
-    def _log_best_metrics(self, metrics: dict[str, Union[int, float]]) -> None:
+    def _log_best_metrics(self, metrics: dict[str, int | float]) -> None:
         for key, value in metrics.items():
             self._log_best_metric(key, value)
 
-    def _log_figure(self, key: str, figure: Figure, step: Optional[Step] = None) -> None:
+    def _log_figure(self, key: str, figure: Figure, step: Step | None = None) -> None:
         self._writer.add_figure(key, figure, step.step if step else step)
 
-    def _log_figures(self, figures: dict[str, Figure], step: Optional[Step] = None) -> None:
+    def _log_figures(self, figures: dict[str, Figure], step: Step | None = None) -> None:
         step = step.step if step else step
         for key, figure in figures.items():
             self._writer.add_figure(key, figure, step)
@@ -204,18 +205,16 @@ class TensorBoardExpTracker(BaseBasicExpTracker):
     def _log_hyper_parameters(self, params: dict[str, Any]) -> None:
         self._hparams.update(params)
 
-    def _log_image(self, key: str, image: Image, step: Optional[Step] = None) -> None:
+    def _log_image(self, key: str, image: Image, step: Step | None = None) -> None:
         pass  # Do nothing because there is no equivalent feature in TensorBoard
 
-    def _log_images(self, images: dict[str, Image], step: Optional[Step] = None) -> None:
+    def _log_images(self, images: dict[str, Image], step: Step | None = None) -> None:
         pass  # Do nothing because there is no equivalent feature in TensorBoard
 
-    def _log_metric(self, key: str, value: Union[int, float], step: Optional[Step] = None) -> None:
+    def _log_metric(self, key: str, value: int | float, step: Step | None = None) -> None:
         self._writer.add_scalar(key, _sanitize_value(value), step.step if step else step)
 
-    def _log_metrics(
-        self, metrics: dict[str, Union[int, float]], step: Optional[Step] = None
-    ) -> None:
+    def _log_metrics(self, metrics: dict[str, int | float], step: Step | None = None) -> None:
         step = step.step if step else step
         for key, value in _sanitize_dict(metrics).items():
             self._writer.add_scalar(key, value, step)
@@ -295,7 +294,7 @@ def _sanitize_dict(hparams: dict[str, Any]) -> dict[str, Any]:
     return {key: _sanitize_value(value) for key, value in to_flat_dict(hparams).items()}
 
 
-def _sanitize_value(value: Any) -> Union[bool, int, float, str]:
+def _sanitize_value(value: Any) -> bool | int | float | str:
     """Computes a sanitized a value.
 
     The values that are not compatible with TensorBoard are converted

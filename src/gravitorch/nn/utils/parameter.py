@@ -1,6 +1,8 @@
 r"""This module contains some tools to analyze the parameters of a
 ``torch.nn.Module``."""
 
+from __future__ import annotations
+
 __all__ = [
     "ParameterSummary",
     "get_parameter_summaries",
@@ -9,7 +11,6 @@ __all__ = [
 
 import logging
 from dataclasses import asdict, dataclass
-from typing import Union
 
 import torch
 from tabulate import tabulate
@@ -28,19 +29,19 @@ class ParameterSummary:
     NP: No Parameter
     """
     name: str
-    mean: Union[float, str]
-    median: Union[float, str]
-    std: Union[float, str]
-    min: Union[float, str]
-    max: Union[float, str]
-    shape: Union[tuple[int, ...], str]
-    learnable: Union[bool, str]
-    device: Union[torch.device, str]
+    mean: float | str
+    median: float | str
+    std: float | str
+    min: float | str
+    max: float | str
+    shape: tuple[int, ...] | str
+    learnable: bool | str
+    device: torch.device | str
 
     @classmethod
     def from_parameter(
-        cls, name: str, parameter: Union[Parameter, UninitializedParameter]
-    ) -> "ParameterSummary":
+        cls, name: str, parameter: Parameter | UninitializedParameter
+    ) -> ParameterSummary:
         r"""Creates the parameter summary from the parameter object.
 
         Args:

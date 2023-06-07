@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "find_module_state_dict",
     "load_checkpoint_to_module",
@@ -10,7 +12,6 @@ __all__ = [
 import logging
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Optional, Union
 
 import torch
 from coola import objects_are_equal
@@ -25,7 +26,7 @@ from gravitorch.utils.path import sanitize_path
 logger = logging.getLogger(__name__)
 
 
-def find_module_state_dict(state_dict: Union[dict, list, tuple], module_keys: set) -> dict:
+def find_module_state_dict(state_dict: dict | list | tuple, module_keys: set) -> dict:
     r"""Tries to find automatically the part of the state dict related to
     a module.
 
@@ -81,10 +82,10 @@ def find_module_state_dict(state_dict: Union[dict, list, tuple], module_keys: se
 
 
 def load_checkpoint_to_module(
-    path: Union[Path, str],
+    path: Path | str,
     module: Module,
     strict: bool = True,
-    key: Optional[Union[str, Sequence[str]]] = None,
+    key: str | Sequence[str] | None = None,
 ) -> None:
     r"""Loads the weights store in a checkpoint file into the given
     module.
@@ -245,9 +246,9 @@ def show_state_dict_info(state_dict: dict, tablefmt: str = "simple") -> None:
 
 
 def load_model_state_dict(
-    path: Union[Path, str],
+    path: Path | str,
     module: Module,
-    exclude_key_prefixes: Optional[Sequence[str]] = None,
+    exclude_key_prefixes: Sequence[str] | None = None,
     strict: bool = True,
 ) -> None:
     r"""Loads a model state dict.

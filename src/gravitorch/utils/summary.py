@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["concise_summary"]
 
 from collections.abc import Mapping, Sequence
 from itertools import islice
-from typing import Any, Union
+from typing import Any
 
 import numpy as np
 import torch
@@ -67,7 +69,7 @@ def concise_summary(value: Any, num_spaces: int = 2, max_length: int = 5) -> str
     return f"{type(value)} | value={value}"
 
 
-def _concise_summary_tensor(tensor: Union[Tensor, np.ndarray]) -> str:
+def _concise_summary_tensor(tensor: Tensor | np.ndarray) -> str:
     r"""Creates a concise summary of a ``torch.Tensor`` or ``numpy.ndarray``.
 
     Args:

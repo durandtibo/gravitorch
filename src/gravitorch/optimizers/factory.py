@@ -1,9 +1,10 @@
 r"""This module defines the optimizer base class."""
 
+from __future__ import annotations
+
 __all__ = ["setup_optimizer"]
 
 import logging
-from typing import Optional, Union
 
 from objectory import factory
 from torch.nn import Module
@@ -15,7 +16,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_optimizer(model: Module, optimizer: Union[Optimizer, dict, None]) -> Optional[Optimizer]:
+def setup_optimizer(model: Module, optimizer: Optimizer | dict | None) -> Optimizer | None:
     r"""Sets up the optimizer.
 
     The optimizer is instantiated from its configuration by using the

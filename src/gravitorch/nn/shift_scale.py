@@ -1,5 +1,7 @@
 r"""This module contains some layers to shift and scale a sequence."""
 
+from __future__ import annotations
+
 __all__ = ["ShiftScale", "SequenceShiftScale", "shift_scale", "sequence_shift_scale"]
 
 from torch import Tensor
