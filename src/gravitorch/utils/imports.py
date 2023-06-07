@@ -1,6 +1,8 @@
 r"""This module implements some utility functions to check if some
 packages are available."""
 
+from __future__ import annotations
+
 __all__ = [
     "check_accelerate",
     "check_fairscale",

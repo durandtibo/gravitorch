@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "ddp_partitions",
     "even_partitions",

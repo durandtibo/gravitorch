@@ -1,4 +1,5 @@
 r"""This module defines the base class for the experiment trackers."""
+from __future__ import annotations
 
 __all__ = [
     "BaseBasicExpTracker",
@@ -9,7 +10,7 @@ __all__ = [
 from abc import ABC, abstractmethod
 from pathlib import Path
 from types import TracebackType
-from typing import Any, Optional, Union
+from typing import Any
 
 from objectory import AbstractFactory
 
@@ -65,15 +66,15 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         False
     """
 
-    def __enter__(self) -> "BaseExpTracker":
+    def __enter__(self) -> BaseExpTracker:
         self.start()
         return self
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         self.end()
 
@@ -329,7 +330,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def log_figure(self, key: str, figure: Figure, step: Optional[Step] = None) -> None:
+    def log_figure(self, key: str, figure: Figure, step: Step | None = None) -> None:
         r"""Logs a figure for the given key and step.
 
         Args:
@@ -360,7 +361,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def log_figures(self, figures: dict[str, Figure], step: Optional[Step] = None) -> None:
+    def log_figures(self, figures: dict[str, Figure], step: Step | None = None) -> None:
         r"""Logs a dictionary of figures for a given step.
 
         Args:
@@ -436,7 +437,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def log_image(self, key: str, image: Image, step: Optional[Step] = None) -> None:
+    def log_image(self, key: str, image: Image, step: Step | None = None) -> None:
         r"""Logs an image for the given key and step.
 
         Args:
@@ -466,7 +467,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def log_images(self, images: dict[str, Image], step: Optional[Step] = None) -> None:
+    def log_images(self, images: dict[str, Image], step: Step | None = None) -> None:
         r"""Logs a dictionary of images for a given step.
 
         Args:
@@ -498,7 +499,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def log_metric(self, key: str, value: Union[int, float], step: Optional[Step] = None) -> None:
+    def log_metric(self, key: str, value: int | float, step: Step | None = None) -> None:
         r"""Logs a single metric.
 
         Args:
@@ -529,9 +530,7 @@ class BaseExpTracker(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def log_metrics(
-        self, metrics: dict[str, Union[int, float]], step: Optional[Step] = None
-    ) -> None:
+    def log_metrics(self, metrics: dict[str, int | float], step: Step | None = None) -> None:
         r"""Logs a dictionary of multiple metrics.
 
         Args:
@@ -754,7 +753,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 reserved for specific uses.
         """
 
-    def log_figure(self, key: str, figure: Figure, step: Optional[Step] = None) -> None:
+    def log_figure(self, key: str, figure: Figure, step: Step | None = None) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
                 f"It is not possible to log the figure {key} because the experiment tracker "
@@ -763,7 +762,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         self._log_figure(key, figure, step)
 
     @abstractmethod
-    def _log_figure(self, key: str, figure: Figure, step: Optional[Step] = None) -> None:
+    def _log_figure(self, key: str, figure: Figure, step: Step | None = None) -> None:
         r"""Logs a figure for the given key and step.
 
         Args:
@@ -776,7 +775,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 Default: ``None``
         """
 
-    def log_figures(self, figures: dict[str, Figure], step: Optional[Step] = None) -> None:
+    def log_figures(self, figures: dict[str, Figure], step: Step | None = None) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
                 "It is not possible to log the figures because the experiment tracker "
@@ -785,7 +784,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         self._log_figures(figures, step)
 
     @abstractmethod
-    def _log_figures(self, figures: dict[str, Figure], step: Optional[Step] = None) -> None:
+    def _log_figures(self, figures: dict[str, Figure], step: Step | None = None) -> None:
         r"""Logs a dictionary of figures for a given step.
 
         Args:
@@ -835,7 +834,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         self,
         key: str,
         image: Image,  # noqa: F821
-        step: Optional[Step] = None,
+        step: Step | None = None,
     ) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
@@ -849,7 +848,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         self,
         key: str,
         image: Image,  # noqa: F821
-        step: Optional[Step] = None,
+        step: Step | None = None,
     ) -> None:
         r"""Logs an image for the given key and step.
 
@@ -862,7 +861,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 Default: ``None``.
         """
 
-    def log_images(self, images: dict[str, Image], step: Optional[Step] = None) -> None:
+    def log_images(self, images: dict[str, Image], step: Step | None = None) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
                 "It is not possible to log the images because the experiment tracker "
@@ -871,7 +870,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         self._log_images(images, step)
 
     @abstractmethod
-    def _log_images(self, images: dict[str, Image], step: Optional[Step] = None) -> None:
+    def _log_images(self, images: dict[str, Image], step: Step | None = None) -> None:
         r"""Logs a dictionary of images for a given step.
 
         Args:
@@ -882,7 +881,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 Default: ``None``.
         """
 
-    def log_metric(self, key: str, value: Union[int, float], step: Optional[Step] = None) -> None:
+    def log_metric(self, key: str, value: int | float, step: Step | None = None) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
                 f"It is not possible to log metric {key} because the experiment tracker "
@@ -891,7 +890,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         self._log_metric(key, value, step)
 
     @abstractmethod
-    def _log_metric(self, key: str, value: Union[int, float], step: Optional[Step] = None) -> None:
+    def _log_metric(self, key: str, value: int | float, step: Step | None = None) -> None:
         r"""Logs a single metric.
 
         Args:
@@ -906,9 +905,7 @@ class BaseBasicExpTracker(BaseExpTracker):
                 Default: ``None``.
         """
 
-    def log_metrics(
-        self, metrics: dict[str, Union[int, float]], step: Optional[Step] = None
-    ) -> None:
+    def log_metrics(self, metrics: dict[str, int | float], step: Step | None = None) -> None:
         if not self.is_activated():
             raise NotActivatedExpTrackerError(
                 "It is not possible to log metrics because the experiment tracker is not activated"
@@ -916,9 +913,7 @@ class BaseBasicExpTracker(BaseExpTracker):
         self._log_metrics(metrics, step)
 
     @abstractmethod
-    def _log_metrics(
-        self, metrics: dict[str, Union[int, float]], step: Optional[Step] = None
-    ) -> None:
+    def _log_metrics(self, metrics: dict[str, int | float], step: Step | None = None) -> None:
         r"""Logs a dictionary of multiple metrics.
 
         Args:

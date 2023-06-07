@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["BaseArtifact"]
 
 from abc import ABC, abstractmethod

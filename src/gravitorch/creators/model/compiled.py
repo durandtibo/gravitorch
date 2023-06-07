@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["CompiledModelCreator"]
 
 import logging
-from typing import Optional, Union
 
 import torch
 from torch.nn import Module
@@ -29,8 +30,8 @@ class CompiledModelCreator(BaseModelCreator):
 
     def __init__(
         self,
-        model_creator: Union[BaseModelCreator, dict],
-        compile_kwargs: Optional[dict] = None,
+        model_creator: BaseModelCreator | dict,
+        compile_kwargs: dict | None = None,
     ) -> None:
         self._model_creator = setup_model_creator(model_creator)
         self._compile_kwargs = compile_kwargs or {}

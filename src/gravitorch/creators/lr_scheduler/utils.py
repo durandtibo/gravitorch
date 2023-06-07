@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["setup_lr_scheduler_creator"]
 
 import logging
-from typing import Union
 
 from gravitorch.creators.lr_scheduler.base import BaseLRSchedulerCreator
 from gravitorch.creators.lr_scheduler.vanilla import VanillaLRSchedulerCreator
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 def setup_lr_scheduler_creator(
-    creator: Union[BaseLRSchedulerCreator, dict, None]
+    creator: BaseLRSchedulerCreator | dict | None,
 ) -> BaseLRSchedulerCreator:
     r"""Sets up the LR scheduler creator.
 

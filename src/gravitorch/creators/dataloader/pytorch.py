@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "AutoDataLoaderCreator",
     "VanillaDataLoaderCreator",
@@ -5,7 +7,7 @@ __all__ = [
 ]
 
 from collections.abc import Callable
-from typing import Optional, TypeVar, Union
+from typing import TypeVar
 
 import torch
 from torch.utils.data import DataLoader, Dataset
@@ -62,13 +64,13 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
 
     def __init__(
         self,
-        batch_size: Optional[int] = 1,
+        batch_size: int | None = 1,
         shuffle: bool = True,
         num_workers: int = 0,
         pin_memory: bool = False,
         drop_last: bool = False,
         seed: int = 0,
-        collate_fn: Union[Callable, dict, None] = None,
+        collate_fn: Callable | dict | None = None,
     ) -> None:
         if dist.is_distributed():
             self._data_loader_creator = DistributedDataLoaderCreator(
@@ -98,7 +100,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
             ")"
         )
 
-    def create(self, dataset: Dataset, engine: Optional[BaseEngine] = None) -> DataLoader[T]:
+    def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         return self._data_loader_creator.create(dataset=dataset, engine=engine)
 
 
@@ -140,13 +142,13 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
 
     def __init__(
         self,
-        batch_size: Optional[int] = 1,
+        batch_size: int | None = 1,
         shuffle: bool = True,
         num_workers: int = 0,
         pin_memory: bool = False,
         drop_last: bool = False,
         seed: int = 0,
-        collate_fn: Union[Callable, dict, None] = None,
+        collate_fn: Callable | dict | None = None,
     ) -> None:
         self._batch_size = batch_size
         self._shuffle = shuffle
@@ -170,7 +172,7 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
             ")"
         )
 
-    def create(self, dataset: Dataset, engine: Optional[BaseEngine] = None) -> DataLoader[T]:
+    def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         generator = torch.Generator()
         epoch = 0 if engine is None else engine.epoch
         generator.manual_seed(self._seed + epoch)
@@ -195,7 +197,7 @@ class DistributedDataLoaderCreator(VanillaDataLoaderCreator[T]):
     you will need to implement your own data loader creator.
     """
 
-    def create(self, dataset: Dataset, engine: Optional[BaseEngine] = None) -> DataLoader[T]:
+    def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         sampler = torch.utils.data.distributed.DistributedSampler(
             dataset,
             shuffle=self._shuffle,

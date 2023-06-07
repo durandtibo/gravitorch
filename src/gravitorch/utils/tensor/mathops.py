@@ -1,5 +1,7 @@
 r"""This module implements some utility functions to use ``torch.Tensor``s."""
 
+from __future__ import annotations
+
 __all__ = ["isymlog", "isymlog_", "safeexp", "safelog", "symlog", "symlog_", "scalable_quantile"]
 
 import numpy as np

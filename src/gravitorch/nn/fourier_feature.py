@@ -1,5 +1,7 @@
 r"""This module implements some random Fourier feature (RFF) layers."""
 
+from __future__ import annotations
+
 __all__ = ["SequenceGaussianRFF", "ScaleShiftSequenceGaussianRFF"]
 
 import math

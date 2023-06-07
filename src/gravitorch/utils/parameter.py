@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["is_parameter", "is_uninitialized_parameter"]
 
 from typing import Any

@@ -1,5 +1,6 @@
 r"""This module implements the base class to implement a data
 summary."""
+from __future__ import annotations
 
 __all__ = ["BaseDataSummary", "EmptyDataSummaryError"]
 

@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["VanillaLRSchedulerCreator"]
 
 import logging
-from typing import Optional, Union
 
 from torch.optim import Optimizer
 
@@ -44,8 +45,8 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
 
     def __init__(
         self,
-        lr_scheduler_config: Union[dict, None] = None,
-        lr_scheduler_handler: Union[BaseHandler, dict, None] = None,
+        lr_scheduler_config: dict | None = None,
+        lr_scheduler_handler: BaseHandler | dict | None = None,
         add_module_to_engine: bool = True,
     ) -> None:
         self._lr_scheduler_config = lr_scheduler_config
@@ -61,9 +62,7 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
             ")"
         )
 
-    def create(
-        self, engine: BaseEngine, optimizer: Optional[Optimizer]
-    ) -> Optional[LRSchedulerType]:
+    def create(self, engine: BaseEngine, optimizer: Optimizer | None) -> LRSchedulerType | None:
         lr_scheduler = setup_lr_scheduler(
             optimizer=optimizer, lr_scheduler=self._lr_scheduler_config
         )

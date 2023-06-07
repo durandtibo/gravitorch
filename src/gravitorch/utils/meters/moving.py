@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["ExponentialMovingAverage", "MovingAverage"]
 
 from collections import deque
 from collections.abc import Iterable
-from typing import Any, Union
+from typing import Any
 
 import torch
 
@@ -21,21 +23,21 @@ class MovingAverage:
             size. Default: ``20``
     """
 
-    def __init__(self, values: Iterable[Union[int, float]] = (), window_size: int = 20) -> None:
+    def __init__(self, values: Iterable[int | float] = (), window_size: int = 20) -> None:
         self._deque = deque(values, maxlen=window_size)
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(window_size={self.window_size:,})"
 
     @property
-    def values(self) -> tuple[Union[int, float]]:
+    def values(self) -> tuple[int | float]:
         return tuple(self._deque)
 
     @property
     def window_size(self) -> int:
         return self._deque.maxlen
 
-    def clone(self) -> "MovingAverage":
+    def clone(self) -> MovingAverage:
         r"""Creates a copy of the current meter.
 
         Returns
@@ -98,7 +100,7 @@ class MovingAverage:
         """
         return {"values": self.values, "window_size": self.window_size}
 
-    def update(self, value: Union[int, float]) -> None:
+    def update(self, value: int | float) -> None:
         r"""Updates the meter given a new value.
 
         Args:
@@ -145,7 +147,7 @@ class ExponentialMovingAverage:
         reset."""
         return self._count
 
-    def clone(self) -> "ExponentialMovingAverage":
+    def clone(self) -> ExponentialMovingAverage:
         r"""Creates a copy of the current meter.
 
         Returns

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["AverageMeter"]
 
 from collections.abc import Iterable
@@ -62,7 +64,7 @@ class AverageMeter:
         last reset."""
         return self._total
 
-    def all_reduce(self) -> "AverageMeter":
+    def all_reduce(self) -> AverageMeter:
         r"""Reduces the meter values across all machines in such a way
         that all get the final result.
 
@@ -104,7 +106,7 @@ class AverageMeter:
             raise EmptyMeterError("The meter is empty")
         return self._total / float(self._count)
 
-    def clone(self) -> "AverageMeter":
+    def clone(self) -> AverageMeter:
         r"""Creates a copy of the current meter.
 
         Returns
@@ -129,7 +131,7 @@ class AverageMeter:
             return False
         return self.state_dict() == other.state_dict()
 
-    def merge(self, meters: Iterable["AverageMeter"]) -> "AverageMeter":
+    def merge(self, meters: Iterable[AverageMeter]) -> AverageMeter:
         r"""Merges several meters with the current meter and returns a
         new meter.
 
@@ -148,7 +150,7 @@ class AverageMeter:
             total += meter.total
         return AverageMeter(total=total, count=count)
 
-    def merge_(self, meters: Iterable["AverageMeter"]) -> None:
+    def merge_(self, meters: Iterable[AverageMeter]) -> None:
         r"""Merges several meters into the current meter.
 
         In-place version of ``merge``.

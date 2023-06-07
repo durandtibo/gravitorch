@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "Asinh",
     "Isymlog",
@@ -17,7 +19,6 @@ __all__ = [
 ]
 
 import math
-from typing import Union
 
 from torch import Tensor
 from torch.nn import Module
@@ -133,7 +134,7 @@ class OnePolynomial(Module):
         input_max_value: float = 1.0,
         output_min_value: float = 0.0,
         output_max_value: float = 1.0,
-    ) -> "OnePolynomial":
+    ) -> OnePolynomial:
         r"""Instantiates a polynomial transform module for a given input
         and output ranges.
 
@@ -238,7 +239,7 @@ class Squeeze(Module):
             Default: ``None``
     """
 
-    def __init__(self, dim: Union[int, None] = None) -> None:
+    def __init__(self, dim: int | None = None) -> None:
         super().__init__()
         self._dim = dim
 

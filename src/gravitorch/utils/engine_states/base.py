@@ -1,9 +1,10 @@
 r"""This module defines the base engine state."""
+from __future__ import annotations
 
 __all__ = ["BaseEngineState"]
 
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Any
 
 from objectory import AbstractFactory
 
@@ -110,7 +111,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def add_history(self, history: BaseHistory, key: Optional[str] = None) -> None:
+    def add_history(self, history: BaseHistory, key: str | None = None) -> None:
         r"""Adds a history to the state.
 
         Args:

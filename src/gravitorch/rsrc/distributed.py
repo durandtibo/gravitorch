@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["DistributedContext"]
 
 import logging
 from types import TracebackType
-from typing import Optional
 
 from gravitorch.distributed.comm import BACKEND_TO_CONTEXT, resolve_backend
 from gravitorch.distributed.utils import show_distributed_context_info
@@ -26,13 +27,13 @@ class DistributedContext(BaseResource):
             Default: ``False``
     """
 
-    def __init__(self, backend: Optional[str] = "auto", log_info: bool = False) -> None:
+    def __init__(self, backend: str | None = "auto", log_info: bool = False) -> None:
         self._backend = resolve_backend(backend)
         self._context = BACKEND_TO_CONTEXT[self._backend]
 
         self._log_info = bool(log_info)
 
-    def __enter__(self) -> "DistributedContext":
+    def __enter__(self) -> DistributedContext:
         logger.info(f"Initialing `{self._backend}` distributed context...")
         self._context.__enter__()
         if self._log_info:
@@ -41,9 +42,9 @@ class DistributedContext(BaseResource):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         logger.info(f"Exiting `{self._backend}` distributed context...")
         self._context.__exit__(exc_type, exc_val, exc_tb)

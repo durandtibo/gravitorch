@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "freeze_module",
     "get_module_device",

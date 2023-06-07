@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "cpu_human_summary",
     "log_system_info",

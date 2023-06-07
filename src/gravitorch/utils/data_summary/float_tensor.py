@@ -1,9 +1,10 @@
 r"""This module implements a data summary for ``torch.Tensor``s of type
 float."""
 
+from __future__ import annotations
+
 __all__ = ["FloatTensorDataSummary", "FloatTensorSequenceDataSummary"]
 
-from typing import Union
 
 from torch import Tensor
 
@@ -92,7 +93,7 @@ class FloatTensorSequenceDataSummary(BaseSequenceDataSummary[Tensor]):
     def __init__(
         self,
         max_size: int = 10000,
-        quantiles: Union[Tensor, tuple[float, ...], list[float]] = DEFAULT_QUANTILES,
+        quantiles: Tensor | tuple[float, ...] | list[float] = DEFAULT_QUANTILES,
     ) -> None:
         super().__init__(
             value_summary=FloatTensorDataSummary(max_size=max_size, quantiles=quantiles)

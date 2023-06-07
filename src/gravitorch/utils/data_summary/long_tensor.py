@@ -1,6 +1,8 @@
 r"""This module implements a data summary for ``torch.Tensor``s of type
 long."""
 
+from __future__ import annotations
+
 __all__ = ["LongTensorDataSummary", "LongTensorSequenceDataSummary"]
 
 from torch import Tensor

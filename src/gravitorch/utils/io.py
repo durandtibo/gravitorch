@@ -1,5 +1,7 @@
 r"""IO-related utility functions."""
 
+from __future__ import annotations
+
 __all__ = [
     "load_json",
     "load_pickle",
@@ -16,7 +18,7 @@ import json
 import logging
 import pickle
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 import numpy as np
 import torch
@@ -26,7 +28,7 @@ from torch import Tensor
 logger = logging.getLogger(__name__)
 
 
-def numpy_array_yaml_representer(dumper: yaml.Dumper, data: Union[np.ndarray, Tensor]) -> Any:
+def numpy_array_yaml_representer(dumper: yaml.Dumper, data: np.ndarray | Tensor) -> Any:
     r"""This function computes the yaml representation of a numpy array
     or torch tensor."""
     if data.ndim == 0:

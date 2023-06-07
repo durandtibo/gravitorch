@@ -1,10 +1,10 @@
 r"""This module defines dome utility functions for the experiment
 trackers."""
+from __future__ import annotations
 
 __all__ = ["setup_exp_tracker", "main_process_only", "sanitize_metrics"]
 
 import logging
-from typing import Union
 
 from gravitorch.distributed import comm as dist
 from gravitorch.utils.exp_trackers.base import BaseExpTracker
@@ -14,7 +14,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_exp_tracker(exp_tracker: Union[BaseExpTracker, dict, None]) -> BaseExpTracker:
+def setup_exp_tracker(exp_tracker: BaseExpTracker | dict | None) -> BaseExpTracker:
     r"""Sets up the experiment tracker.
 
     Args:
@@ -38,7 +38,7 @@ def setup_exp_tracker(exp_tracker: Union[BaseExpTracker, dict, None]) -> BaseExp
     return exp_tracker
 
 
-def main_process_only(exp_tracker: Union[BaseExpTracker, dict, None]) -> BaseExpTracker:
+def main_process_only(exp_tracker: BaseExpTracker | dict | None) -> BaseExpTracker:
     r"""Instantiates the experiment tracker only for the main process.
 
     The non-main processes use the no-op experiment tracker.
@@ -58,7 +58,7 @@ def main_process_only(exp_tracker: Union[BaseExpTracker, dict, None]) -> BaseExp
     return NoOpExpTracker()
 
 
-def sanitize_metrics(metrics: dict) -> dict[str, Union[int, float]]:
+def sanitize_metrics(metrics: dict) -> dict[str, int | float]:
     r"""Sanitize a dictionary of metrics.
 
     This function removes all the values that are not an integer or

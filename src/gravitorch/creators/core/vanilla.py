@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 __all__ = ["VanillaCoreCreator"]
 
-from typing import Optional, Union
 
 from torch import nn
 from torch.optim import Optimizer
@@ -40,10 +41,10 @@ class VanillaCoreCreator(BaseCoreCreator):
 
     def __init__(
         self,
-        data_source: Union[BaseDataSource, dict],
-        model: Union[nn.Module, dict],
-        optimizer: Union[Optimizer, dict, None] = None,
-        lr_scheduler: Union[LRSchedulerType, dict, None] = None,
+        data_source: BaseDataSource | dict,
+        model: nn.Module | dict,
+        optimizer: Optimizer | dict | None = None,
+        lr_scheduler: LRSchedulerType | dict | None = None,
     ) -> None:
         self._data_source = setup_data_source(data_source)
         self._model = setup_model(model)
@@ -64,7 +65,7 @@ class VanillaCoreCreator(BaseCoreCreator):
 
     def create(
         self, engine: BaseEngine
-    ) -> tuple[BaseDataSource, nn.Module, Optional[Optimizer], Optional[LRSchedulerType]]:
+    ) -> tuple[BaseDataSource, nn.Module, Optimizer | None, LRSchedulerType | None]:
         engine.add_module(ct.DATA_SOURCE, self._data_source)
         engine.add_module(ct.MODEL, self._model)
         if self._optimizer:

@@ -1,9 +1,10 @@
 r"""This module defines the base LR scheduler."""
+from __future__ import annotations
 
 __all__ = ["BaseLRScheduler", "LRSchedulerType", "setup_lr_scheduler"]
 
 import logging
-from typing import Optional, Union
+from typing import Union
 
 from objectory import AbstractFactory
 from torch.optim import Optimizer
@@ -25,9 +26,9 @@ LRSchedulerType = Union[BaseLRScheduler, ReduceLROnPlateau, _LRScheduler]
 
 
 def setup_lr_scheduler(
-    optimizer: Optional[Optimizer],
-    lr_scheduler: Union[LRScheduler, dict, None],
-) -> Optional[LRScheduler]:
+    optimizer: Optimizer | None,
+    lr_scheduler: LRScheduler | dict | None,
+) -> LRScheduler | None:
     r"""Sets up a learning rate scheduler.
 
     Args:

@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["EpochRandomIterDataPipeCreator"]
 
 import logging
 from collections.abc import Sequence
-from typing import Optional
 
 from objectory import OBJECT_TARGET, factory
 from torch.utils.data import IterDataPipe
@@ -44,7 +45,7 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
         )
 
     def create(
-        self, engine: Optional[BaseEngine] = None, source_inputs: Optional[Sequence] = None
+        self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
     ) -> IterDataPipe:
         if engine is None:
             raise ValueError(

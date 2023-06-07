@@ -1,10 +1,12 @@
 r"""This file implements a history manager."""
 
+from __future__ import annotations
+
 __all__ = ["HistoryManager"]
 
 import copy
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from gravitorch.utils.format import str_indent, to_torch_mapping_str
 from gravitorch.utils.history.base import BaseHistory
@@ -37,7 +39,7 @@ class HistoryManager:
             )
         return f"{self.__class__.__qualname__}()"
 
-    def add_history(self, history: BaseHistory, key: Optional[str] = None) -> None:
+    def add_history(self, history: BaseHistory, key: str | None = None) -> None:
         r"""Adds a history to the manager.
 
         Args:

@@ -1,4 +1,5 @@
 r"""This module defines the base class of the history tracker."""
+from __future__ import annotations
 
 __all__ = [
     "BaseHistory",
@@ -10,7 +11,7 @@ __all__ = [
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, Generic, TypeVar
 
 from coola import (
     AllCloseTester,
@@ -72,7 +73,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         return self._name
 
     @abstractmethod
-    def add_value(self, value: T, step: Optional[int] = None) -> None:
+    def add_value(self, value: T, step: int | None = None) -> None:
         r"""Adds a new value to the history.
 
         Args:
@@ -92,7 +93,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> history.add_value(value=torch.zeros(2, 3), step=1)
         """
 
-    def clone(self) -> "BaseHistory":
+    def clone(self) -> BaseHistory:
         r"""Clones the current history.
 
         Returns
@@ -207,7 +208,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def get_recent_history(self) -> tuple[tuple[Optional[int], T], ...]:
+    def get_recent_history(self) -> tuple[tuple[int | None, T], ...]:
         r"""Gets the list of value in the recent history.
 
         The last value in the tuple is the last value added to the
@@ -383,7 +384,7 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         """
 
     @classmethod
-    def from_dict(cls, data: dict) -> "BaseHistory":
+    def from_dict(cls, data: dict) -> BaseHistory:
         r"""Instantiates a history from a dictionary.
 
         Args:

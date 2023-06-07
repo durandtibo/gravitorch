@@ -1,10 +1,12 @@
 r"""This module implements a data summary for discrete numerical
 values."""
 
+from __future__ import annotations
+
 __all__ = ["BaseDiscreteDataSummary"]
 
 from collections import Counter
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from gravitorch.utils.data_summary.base import BaseDataSummary, EmptyDataSummaryError
 
@@ -39,7 +41,7 @@ class BaseDiscreteDataSummary(BaseDataSummary[T]):
         """
         return len(tuple(self._counter.elements()))
 
-    def most_common(self, n: Optional[int] = None) -> list[tuple[int, int]]:
+    def most_common(self, n: int | None = None) -> list[tuple[int, int]]:
         r"""Gets a list of the ``n`` most common elements and their counts from
         the most common to the least.
 

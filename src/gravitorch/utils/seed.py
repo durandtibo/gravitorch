@@ -1,5 +1,7 @@
 """Helper functions to help to reproduce experiments."""
 
+from __future__ import annotations
+
 __all__ = [
     "BaseRandomSeedSetter",
     "NumpyRandomSeedSetter",
@@ -17,7 +19,6 @@ import random
 from abc import ABC, abstractmethod
 from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Optional, Union
 
 import numpy
 import torch
@@ -52,7 +53,7 @@ def get_random_seed(seed: int) -> int:
 
 
 def get_torch_generator(
-    random_seed: int = 1, device: Union[torch.device, str, None] = "cpu"
+    random_seed: int = 1, device: torch.device | str | None = "cpu"
 ) -> torch.Generator:
     r"""Creates a ``torch.Generator`` initialized with a given seed.
 
@@ -175,7 +176,7 @@ class RandomSeedSetter(BaseRandomSeedSetter):
             value.manual_seed(seed)
 
     @classmethod
-    def add_setter(cls, name: str, setter: "BaseRandomSeedSetter", exist_ok: bool = False) -> None:
+    def add_setter(cls, name: str, setter: BaseRandomSeedSetter, exist_ok: bool = False) -> None:
         r"""Adds a random seed setter for a given name.
 
         Args:
@@ -240,7 +241,7 @@ class RandomSeedSetter(BaseRandomSeedSetter):
         return name in cls.registry
 
 
-def manual_seed(seed: int, setter: Optional[BaseRandomSeedSetter] = None) -> None:
+def manual_seed(seed: int, setter: BaseRandomSeedSetter | None = None) -> None:
     r"""Sets the seed for generating random numbers.
 
     Args:

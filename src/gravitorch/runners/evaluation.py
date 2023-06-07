@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["EvaluationRunner"]
 
 import logging
 from collections.abc import Sequence
-from typing import Optional, Union
 
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
@@ -52,11 +53,11 @@ class EvaluationRunner(BaseResourceRunner):
 
     def __init__(
         self,
-        engine: Union[BaseEngine, dict],
-        handlers: Optional[Sequence[Union[BaseHandler, dict]]] = None,
-        exp_tracker: Union[BaseExpTracker, dict, None] = None,
+        engine: BaseEngine | dict,
+        handlers: Sequence[BaseHandler | dict] | None = None,
+        exp_tracker: BaseExpTracker | dict | None = None,
         random_seed: int = 10139531598155730726,
-        resources: Optional[Sequence[Union[BaseResource, dict]]] = None,
+        resources: Sequence[BaseResource | dict] | None = None,
     ) -> None:
         super().__init__(resources=resources)
         self._engine = engine
@@ -85,9 +86,9 @@ class EvaluationRunner(BaseResourceRunner):
 
 
 def _run_evaluation_pipeline(
-    engine: Union[BaseEngine, dict],
-    handlers: Union[tuple[Union[BaseHandler, dict], ...], list[Union[BaseHandler, dict]]],
-    exp_tracker: Union[BaseExpTracker, dict, None],
+    engine: BaseEngine | dict,
+    handlers: tuple[BaseHandler | dict, ...] | list[BaseHandler | dict],
+    exp_tracker: BaseExpTracker | dict | None,
     random_seed: int = 8514665479832555083,
 ) -> BaseEngine:
     r"""Implements the evaluation pipeline.

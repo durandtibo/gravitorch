@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["VanillaEngineState"]
 
-from typing import Any, Optional
+from typing import Any
 
 from gravitorch.utils.engine_states.base import BaseEngineState
 from gravitorch.utils.format import str_indent
@@ -66,7 +68,7 @@ class VanillaEngineState(BaseEngineState):
     def random_seed(self) -> int:
         return self._random_seed
 
-    def add_history(self, history: BaseHistory, key: Optional[str] = None) -> None:
+    def add_history(self, history: BaseHistory, key: str | None = None) -> None:
         self._histories.add_history(history=history, key=key)
 
     def add_module(self, name: str, module: Any) -> None:

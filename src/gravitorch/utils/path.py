@@ -1,5 +1,7 @@
 r"""This module defines some path utility functions."""
 
+from __future__ import annotations
+
 __all__ = [
     "find_tar_files",
     "get_human_readable_file_size",
@@ -15,7 +17,6 @@ import os
 import tarfile
 from collections.abc import Generator
 from pathlib import Path
-from typing import Optional, Union
 from urllib.parse import unquote, urlparse
 
 import hydra
@@ -131,7 +132,7 @@ def find_tar_files(path: Path, recursive: bool = True) -> tuple[Path, ...]:
     return ()
 
 
-def sanitize_path(path: Union[Path, str]) -> Path:
+def sanitize_path(path: Path | str) -> Path:
     r"""Sanitizes a given path.
 
     Args:
@@ -168,7 +169,7 @@ def sanitize_path(path: Union[Path, str]) -> Path:
     return path.expanduser().resolve()
 
 
-def get_human_readable_file_size(path: Union[Path, str], unit: Optional[str] = None) -> str:
+def get_human_readable_file_size(path: Path | str, unit: str | None = None) -> str:
     r"""Gets a human-readable representation of a file size.
 
     Args:

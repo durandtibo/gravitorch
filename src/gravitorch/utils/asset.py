@@ -1,10 +1,12 @@
 r"""This module implements an asset manager."""
 
+from __future__ import annotations
+
 __all__ = ["AssetExistsError", "AssetManager", "AssetNotFoundError", "get_asset_summary"]
 
 import copy
 import logging
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 import torch
@@ -26,7 +28,7 @@ class AssetNotFoundError(Exception):
 class AssetManager:
     r"""Implements an asset manager."""
 
-    def __init__(self, assets: Optional[dict[str, Any]] = None) -> None:
+    def __init__(self, assets: dict[str, Any] | None = None) -> None:
         self._assets = assets or {}
 
     def __repr__(self) -> str:
@@ -69,7 +71,7 @@ class AssetManager:
             )
         self._assets[name] = asset
 
-    def clone(self) -> "AssetManager":
+    def clone(self) -> AssetManager:
         r"""Creates a deep copy of the current asset manager.
 
         Returns

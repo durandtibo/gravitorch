@@ -1,10 +1,10 @@
 r"""This module implements a PyTorch profiler."""
+from __future__ import annotations
 
 __all__ = ["PyTorchProfiler"]
 
 import logging
 from types import TracebackType
-from typing import Optional
 
 import torch
 
@@ -28,16 +28,16 @@ class PyTorchProfiler(BaseProfiler):
     def __init__(self, profiler: torch.profiler.profile) -> None:
         self._profiler = profiler
 
-    def __enter__(self) -> "PyTorchProfiler":
+    def __enter__(self) -> PyTorchProfiler:
         logger.info("Starting PyTorch profiler...")
         self._profiler.__enter__()
         return self
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         logger.info("Ending PyTorch profiler")
         self._profiler.__exit__(exc_type, exc_val, exc_tb)
@@ -63,7 +63,7 @@ class PyTorchProfiler(BaseProfiler):
         profile_memory: bool = False,
         with_stack: bool = False,
         with_flops: bool = False,
-    ) -> "PyTorchProfiler":
+    ) -> PyTorchProfiler:
         r"""Implements a scheduled profiler with a TensorBoard trace.
 
         The profiler will skip the first ``skip_first`` steps, then

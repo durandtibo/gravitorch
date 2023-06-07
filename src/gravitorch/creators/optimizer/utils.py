@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["setup_optimizer_creator"]
 
 import logging
-from typing import Union
 
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
 from gravitorch.creators.optimizer.noo import NoOptimizerCreator
@@ -10,9 +11,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_optimizer_creator(
-    creator: Union[BaseOptimizerCreator, dict, None]
-) -> BaseOptimizerCreator:
+def setup_optimizer_creator(creator: BaseOptimizerCreator | dict | None) -> BaseOptimizerCreator:
     r"""Sets up the optimizer creator.
 
     The optimizer creator is instantiated from its configuration

@@ -1,9 +1,11 @@
 r"""This file implements a module manager."""
 
+from __future__ import annotations
+
 __all__ = ["ModuleManager"]
 
 import logging
-from typing import Any, Union
+from typing import Any
 
 from gravitorch.utils.format import str_indent, to_torch_mapping_str
 
@@ -140,7 +142,7 @@ class ModuleManager:
             )
         self._modules.pop(name)
 
-    def load_state_dict(self, state_dict: dict, keys: Union[list, tuple, None] = None) -> None:
+    def load_state_dict(self, state_dict: dict, keys: list | tuple | None = None) -> None:
         r"""Loads the state dict of each module.
 
         Note this method ignore the missing modules or keys. For

@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["VanillaModelCreator"]
 
 import logging
-from typing import Union
 
 from torch import nn
 
@@ -45,7 +46,7 @@ class VanillaModelCreator(BaseModelCreator):
         model_config: dict,
         attach_model_to_engine: bool = True,
         add_module_to_engine: bool = True,
-        device_placement: Union[BaseDevicePlacement, dict, None] = None,
+        device_placement: BaseDevicePlacement | dict | None = None,
     ) -> None:
         self._model_config = model_config
         self._attach_model_to_engine = bool(attach_model_to_engine)

@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["ExtremaTensorMeter", "MeanTensorMeter", "TensorMeter", "TensorMeter2"]
 
 from collections.abc import Iterable
-from typing import Any, Optional, Union
+from typing import Any
 
 import torch
 from coola import objects_are_equal
@@ -46,7 +48,7 @@ class MeanTensorMeter:
         8
     """
 
-    def __init__(self, count: int = 0, total: Union[int, float] = 0) -> None:
+    def __init__(self, count: int = 0, total: int | float = 0) -> None:
         self._count = int(count)
         self._total = total
 
@@ -59,7 +61,7 @@ class MeanTensorMeter:
         return self._count
 
     @property
-    def total(self) -> Union[int, float]:
+    def total(self) -> int | float:
         r"""Int or float: The total sum value in the meter."""
         return self._total
 
@@ -107,7 +109,7 @@ class MeanTensorMeter:
             raise EmptyMeterError("The meter is empty")
         return float(self._total) / float(self._count)
 
-    def sum(self) -> Union[int, float]:
+    def sum(self) -> int | float:
         r"""Gets the sum of all the values.
 
         Returns
@@ -122,7 +124,7 @@ class MeanTensorMeter:
             raise EmptyMeterError("The meter is empty")
         return self._total
 
-    def all_reduce(self) -> "MeanTensorMeter":
+    def all_reduce(self) -> MeanTensorMeter:
         r"""Reduces the meter values across all machines in such a way
         that all get the final result.
 
@@ -152,7 +154,7 @@ class MeanTensorMeter:
             count=sync_reduce(self._count, SUM), total=sync_reduce(self._total, SUM)
         )
 
-    def clone(self) -> "MeanTensorMeter":
+    def clone(self) -> MeanTensorMeter:
         r"""Creates a copy of the current meter.
 
         Returns
@@ -177,7 +179,7 @@ class MeanTensorMeter:
             return False
         return self.state_dict() == other.state_dict()
 
-    def merge(self, meters: Iterable["MeanTensorMeter"]) -> "MeanTensorMeter":
+    def merge(self, meters: Iterable[MeanTensorMeter]) -> MeanTensorMeter:
         r"""Merges several meters with the current meter and returns a
         new meter.
 
@@ -196,7 +198,7 @@ class MeanTensorMeter:
             total += meter.total
         return MeanTensorMeter(total=total, count=count)
 
-    def merge_(self, meters: Iterable["MeanTensorMeter"]) -> None:
+    def merge_(self, meters: Iterable[MeanTensorMeter]) -> None:
         r"""Merges several meters into the current meter.
 
         In-place version of ``merge``.
@@ -221,7 +223,7 @@ class MeanTensorMeter:
         self._count = state_dict["count"]
         self._total = state_dict["total"]
 
-    def state_dict(self) -> dict[str, Union[int, float]]:
+    def state_dict(self) -> dict[str, int | float]:
         r"""Returns a dictionary containing state values.
 
         Returns
@@ -331,7 +333,7 @@ class ExtremaTensorMeter:
             raise EmptyMeterError("The meter is empty")
         return float(self._min_value)
 
-    def all_reduce(self) -> "ExtremaTensorMeter":
+    def all_reduce(self) -> ExtremaTensorMeter:
         r"""Reduces the meter values across all machines in such a way
         that all get the final result.
 
@@ -360,7 +362,7 @@ class ExtremaTensorMeter:
             max_value=sync_reduce(self._max_value, MAX),
         )
 
-    def clone(self) -> "ExtremaTensorMeter":
+    def clone(self) -> ExtremaTensorMeter:
         r"""Creates a copy of the current meter.
 
         Returns
@@ -387,7 +389,7 @@ class ExtremaTensorMeter:
             return False
         return self.state_dict() == other.state_dict()
 
-    def merge(self, meters: Iterable["ExtremaTensorMeter"]) -> "ExtremaTensorMeter":
+    def merge(self, meters: Iterable[ExtremaTensorMeter]) -> ExtremaTensorMeter:
         r"""Merges several meters with the current meter and returns a
         new meter.
 
@@ -407,7 +409,7 @@ class ExtremaTensorMeter:
             max_value = max(max_value, meter._max_value)
         return ExtremaTensorMeter(count=count, min_value=min_value, max_value=max_value)
 
-    def merge_(self, meters: Iterable["ExtremaTensorMeter"]) -> None:
+    def merge_(self, meters: Iterable[ExtremaTensorMeter]) -> None:
         r"""Merges several meters into the current meter.
 
         In-place version of ``merge``.
@@ -520,11 +522,11 @@ class TensorMeter:
         return self._count
 
     @property
-    def total(self) -> Union[int, float]:
+    def total(self) -> int | float:
         r"""Int or float: The total sum value in the meter."""
         return self._total
 
-    def all_reduce(self) -> "TensorMeter":
+    def all_reduce(self) -> TensorMeter:
         r"""Reduces the meter values across all machines in such a way
         that all get the final result.
 
@@ -558,7 +560,7 @@ class TensorMeter:
             max_value=sync_reduce(self._max_value, MAX),
         )
 
-    def clone(self) -> "TensorMeter":
+    def clone(self) -> TensorMeter:
         r"""Creates a copy of the current meter.
 
         Returns
@@ -588,7 +590,7 @@ class TensorMeter:
             return False
         return self.state_dict() == other.state_dict()
 
-    def merge(self, meters: Iterable["TensorMeter"]) -> "TensorMeter":
+    def merge(self, meters: Iterable[TensorMeter]) -> TensorMeter:
         r"""Merges several meters with the current meter and returns a
         new meter.
 
@@ -610,7 +612,7 @@ class TensorMeter:
             max_value = max(max_value, meter._max_value)
         return TensorMeter(total=total, count=count, min_value=min_value, max_value=max_value)
 
-    def merge_(self, meters: Iterable["TensorMeter"]) -> None:
+    def merge_(self, meters: Iterable[TensorMeter]) -> None:
         r"""Merges several meters into the current meter.
 
         In-place version of ``merge``.
@@ -788,7 +790,7 @@ class TensorMeter2:
         1.7728105783462524
     """
 
-    def __init__(self, values: Optional[Tensor] = None) -> None:
+    def __init__(self, values: Tensor | None = None) -> None:
         self._values = LazyFlattedTensor(values)
         self._count = self._values.numel()
 
@@ -829,7 +831,7 @@ class TensorMeter2:
         """
         return self.mean()
 
-    def max(self) -> Union[int, float]:
+    def max(self) -> int | float:
         r"""Gets the max value.
 
         Returns
@@ -874,7 +876,7 @@ class TensorMeter2:
             raise EmptyMeterError("The meter is empty")
         return self._values.values().median().item()
 
-    def min(self) -> Union[int, float]:
+    def min(self) -> int | float:
         r"""Gets the min value.
 
         Returns
@@ -931,7 +933,7 @@ class TensorMeter2:
             raise EmptyMeterError("The meter is empty")
         return self._values.values().float().std(dim=0).item()
 
-    def sum(self) -> Union[int, float]:
+    def sum(self) -> int | float:
         r"""Gets the sum of all the values.
 
         Returns
@@ -946,7 +948,7 @@ class TensorMeter2:
             raise EmptyMeterError("The meter is empty")
         return self._values.values().sum().item()
 
-    def all_reduce(self) -> "TensorMeter2":
+    def all_reduce(self) -> TensorMeter2:
         r"""Reduces the meter values across all machines in such a way
         that all get the final result.
 
@@ -966,7 +968,7 @@ class TensorMeter2:
         """
         return TensorMeter2(self._values.all_reduce().values())
 
-    def clone(self) -> "TensorMeter2":
+    def clone(self) -> TensorMeter2:
         r"""Creates a copy of the current meter.
 
         Returns
@@ -991,7 +993,7 @@ class TensorMeter2:
             return False
         return objects_are_equal(self.state_dict(), other.state_dict())
 
-    def merge(self, meters: Iterable["TensorMeter2"]) -> "TensorMeter2":
+    def merge(self, meters: Iterable[TensorMeter2]) -> TensorMeter2:
         r"""Merges several meters with the current meter and returns a
         new meter.
 
@@ -1009,7 +1011,7 @@ class TensorMeter2:
             values.update(meter._values.values())
         return TensorMeter2(values.values())
 
-    def merge_(self, meters: Iterable["TensorMeter2"]) -> None:
+    def merge_(self, meters: Iterable[TensorMeter2]) -> None:
         r"""Merges several meters into the current meter.
 
         In-place version of ``merge``.

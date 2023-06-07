@@ -2,11 +2,12 @@ r"""This module contains the entrypoint to run experiments.
 
 Example usage:
 
-.. code-block::
+.. code-block:: shell
 
-python -m gravitorch.cli.run -cd=examples/classification
--cn=mlp_classification_sgd engine.state.max_epochs=2  # noqa: E501,B950
+    python -m gravitorch.cli.run -cd=examples/classification -cn=mlp_classification_sgd engine.state.max_epochs=2  # noqa: E501,B950
 """
+
+from __future__ import annotations
 
 __all__ = ["main", "run_cli"]
 

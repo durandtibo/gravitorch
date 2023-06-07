@@ -1,4 +1,5 @@
 r"""This module implements a no-operation data summary."""
+from __future__ import annotations
 
 __all__ = ["NoOpDataSummary"]
 

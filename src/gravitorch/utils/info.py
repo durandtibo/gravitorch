@@ -1,5 +1,7 @@
 r"""This module implements some helper functions to log information."""
 
+from __future__ import annotations
+
 __all__ = ["log_run_info"]
 
 import logging

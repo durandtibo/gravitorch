@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 __all__ = ["Clamp", "ClampLoss"]
 
-from typing import Optional, Union
 
 from torch import Tensor
 from torch.nn import Module
@@ -22,7 +23,7 @@ class Clamp(Module):
             value. Default: ``1.0``
     """
 
-    def __init__(self, min_value: Optional[float] = -1.0, max_value: Optional[float] = 1.0) -> None:
+    def __init__(self, min_value: float | None = -1.0, max_value: float | None = 1.0) -> None:
         super().__init__()
         self._min_value = min_value
         self._max_value = max_value
@@ -69,9 +70,9 @@ class ClampLoss(Module):
 
     def __init__(
         self,
-        criterion: Union[Module, dict],
-        min_value: Optional[float],
-        max_value: Optional[float],
+        criterion: Module | dict,
+        min_value: float | None,
+        max_value: float | None,
         reduction: str = "none",
     ) -> None:
         super().__init__()

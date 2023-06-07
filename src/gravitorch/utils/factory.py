@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["setup_object"]
 
 import logging
-from typing import TypeVar, Union
+from typing import TypeVar
 
 from objectory import factory
 
@@ -12,7 +14,7 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-def setup_object(obj_or_config: Union[T, dict]) -> T:
+def setup_object(obj_or_config: T | dict) -> T:
     r"""Sets up an object from its configuration.
 
     Args:

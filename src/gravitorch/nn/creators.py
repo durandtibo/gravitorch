@@ -1,14 +1,15 @@
+from __future__ import annotations
+
 __all__ = ["create_sequential"]
 
 from collections.abc import Sequence
-from typing import Union
 
 from torch.nn import Module, Sequential
 
 from gravitorch.nn.utils.factory import setup_module
 
 
-def create_sequential(modules: Sequence[Union[Module, dict]]) -> Sequential:
+def create_sequential(modules: Sequence[Module | dict]) -> Sequential:
     r"""Creates a ``torch.nn.Sequential`` from a sequence of modules.
 
     Args:

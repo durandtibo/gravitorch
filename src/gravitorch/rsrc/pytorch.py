@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "PyTorchConfig",
     "PyTorchConfigState",
@@ -12,7 +14,7 @@ __all__ = [
 import logging
 from dataclasses import dataclass
 from types import TracebackType
-from typing import Any, Optional
+from typing import Any
 
 import torch
 from torch.backends import cuda, cudnn, mps
@@ -39,7 +41,7 @@ class PyTorchConfigState:
         )
 
     @classmethod
-    def create(cls) -> "PyTorchConfigState":
+    def create(cls) -> PyTorchConfigState:
         r"""Creates a state to capture the current PyTorch configuration.
 
         Returns
@@ -59,8 +61,8 @@ class PyTorchConfig(BaseResource):
 
     def __init__(
         self,
-        float32_matmul_precision: Optional[str] = None,
-        deterministic_algorithms_mode: Optional[bool] = None,
+        float32_matmul_precision: str | None = None,
+        deterministic_algorithms_mode: bool | None = None,
         deterministic_algorithms_warn_only: bool = False,
         log_info: bool = False,
     ) -> None:
@@ -71,7 +73,7 @@ class PyTorchConfig(BaseResource):
         self._log_info = bool(log_info)
         self._state: list[PyTorchConfigState] = []
 
-    def __enter__(self) -> "PyTorchConfig":
+    def __enter__(self) -> PyTorchConfig:
         logger.info(f"PyTorch version: {torch.version.__version__}  ({torch.version.git_version})")
         logger.info(f"PyTorch configuration:\n{torch.__config__.show()}")
         logger.info(f"PyTorch parallel information:\n{torch.__config__.parallel_info()}")
@@ -91,9 +93,9 @@ class PyTorchConfig(BaseResource):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         logger.info("Restoring PyTorch configuration...")
         self._state.pop().restore()
@@ -145,7 +147,7 @@ class PyTorchCudaBackendState:
         cuda.preferred_linalg_library(self.preferred_linalg_backend)
 
     @classmethod
-    def create(cls) -> "PyTorchCudaBackendState":
+    def create(cls) -> PyTorchCudaBackendState:
         r"""Creates a state to capture the current PyTorch CUDA backend.
 
         Returns
@@ -192,11 +194,11 @@ class PyTorchCudaBackend(BaseResource):
 
     def __init__(
         self,
-        allow_tf32: Optional[bool] = None,
-        allow_fp16_reduced_precision_reduction: Optional[bool] = None,
-        flash_sdp_enabled: Optional[bool] = None,
-        math_sdp_enabled: Optional[bool] = None,
-        preferred_linalg_backend: Optional[str] = None,
+        allow_tf32: bool | None = None,
+        allow_fp16_reduced_precision_reduction: bool | None = None,
+        flash_sdp_enabled: bool | None = None,
+        math_sdp_enabled: bool | None = None,
+        preferred_linalg_backend: str | None = None,
         log_info: bool = False,
     ) -> None:
         self._allow_tf32 = allow_tf32
@@ -208,7 +210,7 @@ class PyTorchCudaBackend(BaseResource):
         self._log_info = bool(log_info)
         self._state: list[PyTorchCudaBackendState] = []
 
-    def __enter__(self) -> "PyTorchCudaBackend":
+    def __enter__(self) -> PyTorchCudaBackend:
         logger.info("Configuring CUDA backend...")
         self._state.append(PyTorchCudaBackendState.create())
         self._configure()
@@ -218,9 +220,9 @@ class PyTorchCudaBackend(BaseResource):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         logger.info("Restoring CUDA backend configuration...")
         self._state.pop().restore()
@@ -270,7 +272,7 @@ class PyTorchCudaBackend(BaseResource):
 class PyTorchCudnnBackendState:
     allow_tf32: bool
     benchmark: bool
-    benchmark_limit: Optional[int]
+    benchmark_limit: int | None
     deterministic: bool
     enabled: bool
 
@@ -284,7 +286,7 @@ class PyTorchCudnnBackendState:
         cudnn.enabled = self.enabled
 
     @classmethod
-    def create(cls) -> "PyTorchCudnnBackendState":
+    def create(cls) -> PyTorchCudnnBackendState:
         r"""Creates a state to capture the current PyTorch CUDNN backend.
 
         Returns
@@ -328,10 +330,10 @@ class PyTorchCudnnBackend(BaseResource):
     def __init__(
         self,
         allow_tf32: bool = None,
-        benchmark: Optional[bool] = None,
-        benchmark_limit: Optional[int] = None,
-        deterministic: Optional[bool] = None,
-        enabled: Optional[bool] = None,
+        benchmark: bool | None = None,
+        benchmark_limit: int | None = None,
+        deterministic: bool | None = None,
+        enabled: bool | None = None,
         log_info: bool = False,
     ) -> None:
         self._allow_tf32 = allow_tf32
@@ -343,7 +345,7 @@ class PyTorchCudnnBackend(BaseResource):
         self._log_info = bool(log_info)
         self._state: list[PyTorchCudnnBackendState] = []
 
-    def __enter__(self) -> "PyTorchCudnnBackend":
+    def __enter__(self) -> PyTorchCudnnBackend:
         logger.info("Configuring CUDNN backend...")
         self._state.append(PyTorchCudnnBackendState.create())
         self._configure()
@@ -353,9 +355,9 @@ class PyTorchCudnnBackend(BaseResource):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         logger.info("Restoring CUDNN backend configuration...")
         self._state.pop().restore()
@@ -404,7 +406,7 @@ class PyTorchMpsBackendState:
         values in the state."""
 
     @classmethod
-    def create(cls) -> "PyTorchMpsBackendState":
+    def create(cls) -> PyTorchMpsBackendState:
         r"""Creates a state to capture the current PyTorch MPS backend.
 
         Returns
@@ -428,7 +430,7 @@ class PyTorchMpsBackend(BaseResource):
         self._log_info = bool(log_info)
         self._state: list[PyTorchMpsBackendState] = []
 
-    def __enter__(self) -> "PyTorchMpsBackend":
+    def __enter__(self) -> PyTorchMpsBackend:
         logger.info("Configuring MPS backend...")
         self._state.append(PyTorchMpsBackendState.create())
         if self._log_info:
@@ -437,9 +439,9 @@ class PyTorchMpsBackend(BaseResource):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         logger.info("Restoring MPS backend configuration...")
         self._state.pop().restore()

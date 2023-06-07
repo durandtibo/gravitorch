@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 __all__ = ["AdvancedCoreCreator"]
 
-from typing import Optional, Union
 
 from torch.nn import Module
 from torch.optim import Optimizer
@@ -42,10 +43,10 @@ class AdvancedCoreCreator(BaseCoreCreator):
 
     def __init__(
         self,
-        data_source_creator: Union[BaseDataSourceCreator, dict],
-        model_creator: Union[BaseModelCreator, dict],
-        optimizer_creator: Union[BaseOptimizerCreator, dict, None] = None,
-        lr_scheduler_creator: Union[BaseLRSchedulerCreator, dict, None] = None,
+        data_source_creator: BaseDataSourceCreator | dict,
+        model_creator: BaseModelCreator | dict,
+        optimizer_creator: BaseOptimizerCreator | dict | None = None,
+        lr_scheduler_creator: BaseLRSchedulerCreator | dict | None = None,
     ) -> None:
         self._data_source_creator = setup_data_source_creator(data_source_creator)
         self._model_creator = setup_model_creator(model_creator)
@@ -64,7 +65,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
 
     def create(
         self, engine: BaseEngine
-    ) -> tuple[BaseDataSource, Module, Optional[Optimizer], Optional[LRSchedulerType]]:
+    ) -> tuple[BaseDataSource, Module, Optimizer | None, LRSchedulerType | None]:
         data_source = self._data_source_creator.create(engine=engine)
         model = self._model_creator.create(engine=engine)
         optimizer = self._optimizer_creator.create(engine=engine, model=model)

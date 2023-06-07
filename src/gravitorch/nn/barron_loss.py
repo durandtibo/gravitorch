@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 __all__ = ["AsinhBarronRobustLoss", "BarronRobustLoss"]
 
-from typing import Optional
 
 from torch import Tensor
 from torch.nn import Module
@@ -40,7 +41,7 @@ class BarronRobustLoss(Module):
         self,
         alpha: float = 2.0,
         scale: float = 1.0,
-        max_value: Optional[float] = None,
+        max_value: float | None = None,
         reduction: str = "mean",
     ) -> None:
         super().__init__()

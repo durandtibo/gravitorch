@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["ZeroRedundancyOptimizerCreator"]
 
 import logging
-from typing import Optional
 
 from objectory import OBJECT_TARGET
 from torch.distributed.optim import ZeroRedundancyOptimizer
@@ -56,7 +57,7 @@ class ZeroRedundancyOptimizerCreator(BaseOptimizerCreator):
     def __init__(
         self,
         optimizer_config: dict,
-        zero_kwargs: Optional[dict] = None,
+        zero_kwargs: dict | None = None,
         add_module_to_engine: bool = True,
         attach_handler: bool = True,
     ) -> None:

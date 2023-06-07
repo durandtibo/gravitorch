@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 __all__ = ["BaseResourceRunner"]
 
 import logging
 from abc import abstractmethod
 from collections.abc import Sequence
 from contextlib import ExitStack
-from typing import Any, Optional, Union
+from typing import Any
 
 from gravitorch.rsrc.base import BaseResource, setup_resource
 from gravitorch.runners.base import BaseRunner
@@ -23,7 +25,7 @@ class BaseResourceRunner(BaseRunner):
             Default: ``None``
     """
 
-    def __init__(self, resources: Optional[Sequence[Union[BaseResource, dict]]] = None) -> None:
+    def __init__(self, resources: Sequence[BaseResource | dict] | None = None) -> None:
         if resources is None:
             resources = ()
         self._resources = tuple(setup_resource(resource) for resource in resources)

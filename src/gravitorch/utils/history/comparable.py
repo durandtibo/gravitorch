@@ -1,10 +1,11 @@
 r"""This module implements some comparable histories."""
+from __future__ import annotations
 
 __all__ = ["ComparableHistory", "MaxScalarHistory", "MinScalarHistory"]
 
 from collections.abc import Iterable
 from numbers import Number
-from typing import Any, Optional, TypeVar
+from typing import Any, TypeVar
 
 from gravitorch.utils.history.base import EmptyHistoryError
 from gravitorch.utils.history.comparator import (
@@ -41,9 +42,9 @@ class ComparableHistory(GenericHistory[T]):
         self,
         name: str,
         comparator: BaseComparator[T],
-        elements: Iterable[tuple[Optional[int], T]] = (),
+        elements: Iterable[tuple[int | None, T]] = (),
         max_size: int = 10,
-        best_value: Optional[T] = None,
+        best_value: T | None = None,
         improved: bool = False,
     ) -> None:
         super().__init__(name=name, elements=elements, max_size=max_size)
@@ -53,7 +54,7 @@ class ComparableHistory(GenericHistory[T]):
 
     # TODO: add to string
 
-    def add_value(self, value: T, step: Optional[int] = None) -> None:
+    def add_value(self, value: T, step: int | None = None) -> None:
         self._improved = self.is_better(new_value=value, old_value=self._best_value)
         if self._improved:
             self._best_value = value
@@ -143,9 +144,9 @@ class MaxScalarHistory(ComparableHistory[Number]):
     def __init__(
         self,
         name: str,
-        elements: Iterable[tuple[Optional[int], T]] = (),
+        elements: Iterable[tuple[int | None, T]] = (),
         max_size: int = 10,
-        best_value: Optional[T] = None,
+        best_value: T | None = None,
         improved: bool = False,
     ) -> None:
         super().__init__(
@@ -188,9 +189,9 @@ class MinScalarHistory(ComparableHistory[Number]):
     def __init__(
         self,
         name: str,
-        elements: Iterable[tuple[Optional[int], T]] = (),
+        elements: Iterable[tuple[int | None, T]] = (),
         max_size: int = 10,
-        best_value: Optional[T] = None,
+        best_value: T | None = None,
         improved: bool = False,
     ) -> None:
         super().__init__(

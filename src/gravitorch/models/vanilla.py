@@ -3,11 +3,12 @@
 network, criterion and metrics.
 """
 
+from __future__ import annotations
+
 __all__ = ["VanillaModel"]
 
 import logging
 from pathlib import Path
-from typing import Union
 
 import torch
 from torch import Tensor
@@ -56,10 +57,10 @@ class VanillaModel(BaseModel):
 
     def __init__(
         self,
-        network: Union[Module, dict],
-        criterion: Union[Module, dict, None],
-        metrics: Union[ModuleDict, dict, None] = None,
-        checkpoint_path: Union[Path, str, None] = None,
+        network: Module | dict,
+        criterion: Module | dict | None,
+        metrics: ModuleDict | dict | None = None,
+        checkpoint_path: Path | str | None = None,
         random_seed: int = 6671429959452193306,
     ) -> None:
         super().__init__()
@@ -106,7 +107,7 @@ class VanillaModel(BaseModel):
         for metric in self.metrics.values():
             attach_module_to_engine(metric, engine)
 
-    def _setup_metrics(self, metrics: Union[ModuleDict, dict, None]) -> ModuleDict:
+    def _setup_metrics(self, metrics: ModuleDict | dict | None) -> ModuleDict:
         r"""Sets up the metrics.
 
         Args:
@@ -128,7 +129,7 @@ class VanillaModel(BaseModel):
             metrics[key] = metric
         return ModuleDict(metrics)
 
-    def _parse_net_out(self, net_out: Union[Tensor, PackedSequence, list, tuple]) -> dict:
+    def _parse_net_out(self, net_out: Tensor | PackedSequence | list | tuple) -> dict:
         r"""Parses the network outputs to a dict.
 
         Args:
