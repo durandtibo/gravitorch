@@ -12,4 +12,4 @@ __all__ = [
 from gravitorch.utils.device import get_available_devices, move_to_device
 from gravitorch.utils.factory import setup_object
 from gravitorch.utils.seed import manual_seed
-from gravitorch.utils.sequence import to_tuple
+from gravitorch.utils.seq import to_tuple

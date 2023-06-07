@@ -23,6 +23,10 @@ def to_tuple(value: Any) -> tuple:
     .. code-block:: pycon
 
         >>> from gravitorch.utils import to_tuple
+        >>> to_tuple(1)
+        (1,)
+        >>> to_tuple("abc")
+        ('abc',)
     """
     if isinstance(value, tuple):
         return value

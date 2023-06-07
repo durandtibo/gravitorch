@@ -2,7 +2,7 @@ import torch
 from pytest import mark
 from torch.nn import Linear, Parameter, UninitializedParameter
 
-from gravitorch.utils.parameter import is_parameter, is_uninitialized_parameter
+from gravitorch.utils.param import is_parameter, is_uninitialized_parameter
 
 ##################################
 #     Tests for is_parameter     #
