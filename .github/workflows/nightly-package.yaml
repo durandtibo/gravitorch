@@ -5,7 +5,7 @@ on:
   workflow_dispatch:  # manual trigger
 
 jobs:
-  package:
+  stable-package:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
@@ -33,13 +33,12 @@ jobs:
           python -c "from gravitorch.utils import imports; " \
             "assert not imports.is_accelerate_available();" \
             "assert not imports.is_fairscale_available();" \
-            "assert not imports.is_lightning_available();" \
             "assert not imports.is_matplotlib_available();" \
             "assert not imports.is_pillow_available();" \
             "assert not imports.is_tensorboard_available();" \
             "assert not imports.is_torchvision_available();"
 
-  package-all:
+  stable-package-all:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
@@ -67,7 +66,76 @@ jobs:
           python -c "from gravitorch.utils import imports; " \
             "assert imports.is_accelerate_available();" \
             "assert imports.is_fairscale_available();" \
-            "assert imports.is_lightning_available();" \
+            "assert imports.is_matplotlib_available();" \
+            "assert imports.is_pillow_available();" \
+            "assert imports.is_tensorboard_available();" \
+            "assert imports.is_torchvision_available();"
+
+      - name: Run short experiment
+        run: |
+          python -m gravitorch.cli.run -cd=conf/classification -cn=mlp_classification_sgd engine.state.max_epochs=2
+
+  latest-package:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+        python-version: [ '3.9', '3.10', '3.11' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: |
+          pip install --pre gravitorch
+
+      - name: Test available packages
+        run: |
+          python -c "from gravitorch.utils import imports; " \
+            "assert not imports.is_accelerate_available();" \
+            "assert not imports.is_fairscale_available();" \
+            "assert not imports.is_matplotlib_available();" \
+            "assert not imports.is_pillow_available();" \
+            "assert not imports.is_tensorboard_available();" \
+            "assert not imports.is_torchvision_available();"
+
+  latest-package-all:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+        python-version: [ '3.9', '3.10', '3.11' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: |
+          pip install --pre "gravitorch[all]"
+
+      - name: Test available packages
+        run: |
+          python -c "from gravitorch.utils import imports; " \
+            "assert imports.is_accelerate_available();" \
+            "assert imports.is_fairscale_available();" \
             "assert imports.is_matplotlib_available();" \
             "assert imports.is_pillow_available();" \
             "assert imports.is_tensorboard_available();" \
