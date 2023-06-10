@@ -656,13 +656,13 @@ test-no-images = ["pytest"]
 
 [[package]]
 name = "coola"
-version = "0.0.8"
-description = "A light library to check if two complex/nested objects are equal or not"
+version = "0.0.9"
+description = "A library to check if two complex/nested objects are equal or not"
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "coola-0.0.8-py3-none-any.whl", hash = "sha256:067aaf4a9e0e35640ba89a7042a4a9ced5c3839b93e575b043990c8cc9b223c8"},
-    {file = "coola-0.0.8.tar.gz", hash = "sha256:ca7d7c013d24e8219c07831d9625b8023869565e084204967c17b552bf9e3865"},
+    {file = "coola-0.0.9-py3-none-any.whl", hash = "sha256:511f67518b9546389c49b72c60515b91aa8820af9814f8e0da44c7b721ea5504"},
+    {file = "coola-0.0.9.tar.gz", hash = "sha256:f47fb151b11c38b165a4b3ebb7b1b12f00319a1bff68db98aecc9593ded755db"},
 ]
 
 [package.extras]
@@ -2321,18 +2321,18 @@ tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "pa
 
 [[package]]
 name = "platformdirs"
-version = "3.5.1"
+version = "3.5.2"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.5.1-py3-none-any.whl", hash = "sha256:e2378146f1964972c03c085bb5662ae80b2b8c06226c54b2ff4aa9483e8a13a5"},
-    {file = "platformdirs-3.5.1.tar.gz", hash = "sha256:412dae91f52a6f84830f39a8078cecd0e866cb72294a5c66808e74d5e88d251f"},
+    {file = "platformdirs-3.5.2-py3-none-any.whl", hash = "sha256:bfb917aff291e8587ac2c8c44d8ed1b14a775a250a4ed61935f34de4840c1ce8"},
+    {file = "platformdirs-3.5.2.tar.gz", hash = "sha256:f56f8067f85988d619f174a3c9dbb2c3c730c03edfd9dc10cb55a7de3498dd81"},
 ]
 
 [package.extras]
-docs = ["furo (>=2023.3.27)", "proselint (>=0.13)", "sphinx (>=6.2.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
-test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
+docs = ["furo (>=2023.5.20)", "proselint (>=0.13)", "sphinx (>=7.0.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)"]
 
 [[package]]
 name = "pluggy"
@@ -3494,13 +3494,13 @@ files = [
 
 [[package]]
 name = "websocket-client"
-version = "1.5.2"
+version = "1.5.3"
 description = "WebSocket client for Python with low level API options"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "websocket-client-1.5.2.tar.gz", hash = "sha256:c7d67c13b928645f259d9b847ab5b57fd2d127213ca41ebd880de1f553b7c23b"},
-    {file = "websocket_client-1.5.2-py3-none-any.whl", hash = "sha256:f8c64e28cd700e7ba1f04350d66422b6833b82a796b525a51e740b8cc8dab4b1"},
+    {file = "websocket-client-1.5.3.tar.gz", hash = "sha256:b96f3bce3e54e3486ebe6504bc22bd4c140392bd2eb71764db29be8f2639aa65"},
+    {file = "websocket_client-1.5.3-py3-none-any.whl", hash = "sha256:3566f8467cd350874c4913816355642a4942f6c1ed1e9406e3d42fae6d6c072a"},
 ]
 
 [package.extras]
@@ -3646,4 +3646,4 @@ vision = ["pillow", "torchvision"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "9a4a850d9a821fceb50cc0bab76e9b69be91749489ae2a71154e7f2934b468a4"
+content-hash = "9b5e2aae0ea890e25469bdae92d3eaec8501da31b7249d3d09188c013ed66b80"
