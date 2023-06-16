@@ -12,7 +12,7 @@ def test_iterable_dataflow_str() -> None:
 
 
 def test_iterable_dataflow_incorrect_type() -> None:
-    with raises(TypeError):
+    with raises(TypeError, match="Incorrect type. Expecting iterable but received"):
         IterableDataFlow(1)
 
 

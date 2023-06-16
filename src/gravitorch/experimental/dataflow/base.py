@@ -14,9 +14,10 @@ class BaseDataFlow(ABC):
 
     .. code-block:: pycon
 
-        >>> dataflow: BaseDataFlow = ...
-        >>> with dataflow as flow:
-        ...     list(flow)
+        >>> from gravitorch.experimental.dataflow import IterableDataFlow
+        >>> with IterableDataFlow([1, 2, 3, 4, 5]) as dataflow:
+        ...     for batch in dataflow:
+        ...         print(batch)  # do something
         ...
     """
 
