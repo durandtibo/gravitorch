@@ -3,10 +3,13 @@ from coola import objects_are_equal
 from pytest import raises
 from torch.utils.data import DataLoader, TensorDataset
 from torch.utils.data.datapipes.iter import Batcher, IterableWrapper
-from torchdata.dataloader2 import DataLoader2
 
 from gravitorch.experimental.dataflow import DataLoaderDataFlow
 from gravitorch.testing import torchdata_available
+from gravitorch.utils.imports import is_torchdata_available
+
+if is_torchdata_available():
+    from torchdata.dataloader2 import DataLoader2
 
 ########################################
 #     Tests for DataLoaderDataFlow     #
