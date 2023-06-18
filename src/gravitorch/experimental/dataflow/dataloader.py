@@ -9,8 +9,11 @@ from torch.utils.data import DataLoader
 from gravitorch.experimental.dataflow.base import BaseDataFlow
 from gravitorch.utils.imports import is_torchdata_available
 
+DataLoaderTypes = (DataLoader,)
 if is_torchdata_available():
     from torchdata.dataloader2 import DataLoader2
+
+    DataLoaderTypes = (DataLoader, DataLoader2)
 else:
     DataLoader2 = "DataLoader2"  # pragma: no cover
 
@@ -37,7 +40,7 @@ class DataLoaderDataFlow(BaseDataFlow):
     """
 
     def __init__(self, dataloader: DataLoader | DataLoader2) -> None:
-        if not isinstance(dataloader, (DataLoader, DataLoader2)):
+        if not isinstance(dataloader, DataLoaderTypes):
             raise TypeError(
                 "Incorrect type. Expecting DataLoader or DataLoader2 but "
                 f"received {type(dataloader)}"
