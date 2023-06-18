@@ -56,5 +56,5 @@ class DataLoaderDataFlow(BaseDataFlow):
         r"""Nothing to do for this dataflow."""
 
     def shutdown(self) -> None:
-        if isinstance(self.dataloader, DataLoader2):
+        if is_torchdata_available() and isinstance(self.dataloader, DataLoader2):
             self.dataloader.shutdown()
