@@ -456,6 +456,12 @@ class NotAComparableHistoryError(Exception):
 class HistoryAllCloseOperator(BaseAllCloseOperator[BaseHistory]):
     r"""Implements an allclose operator for ``BaseHistory`` objects."""
 
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, self.__class__)
+
+    def clone(self) -> HistoryAllCloseOperator:
+        return self.__class__()
+
     def allclose(
         self,
         tester: BaseAllCloseTester,
@@ -481,6 +487,12 @@ class HistoryAllCloseOperator(BaseAllCloseOperator[BaseHistory]):
 class HistoryEqualityOperator(BaseEqualityOperator[BaseHistory]):
     r"""Implements an equality operator for ``BaseHistory`` objects."""
 
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, self.__class__)
+
+    def clone(self) -> HistoryEqualityOperator:
+        return self.__class__()
+
     def equal(
         self,
         tester: BaseEqualityTester,
@@ -500,7 +512,7 @@ class HistoryEqualityOperator(BaseEqualityOperator[BaseHistory]):
         return object_equal
 
 
-if not AllCloseTester.has_allclose_operator(BaseHistory):
-    AllCloseTester.add_allclose_operator(BaseHistory, HistoryAllCloseOperator())  # pragma: no cover
-if not EqualityTester.has_equality_operator(BaseHistory):
-    EqualityTester.add_equality_operator(BaseHistory, HistoryEqualityOperator())  # pragma: no cover
+if not AllCloseTester.has_operator(BaseHistory):
+    AllCloseTester.add_operator(BaseHistory, HistoryAllCloseOperator())  # pragma: no cover
+if not EqualityTester.has_operator(BaseHistory):
+    EqualityTester.add_operator(BaseHistory, HistoryEqualityOperator())  # pragma: no cover

@@ -106,6 +106,12 @@ class MinScalarComparator(BaseComparator[Union[float, int]]):
 class ComparatorAllCloseOperator(BaseAllCloseOperator[BaseComparator]):
     r"""Implements an allclose operator for ``BaseComparator`` objects."""
 
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, self.__class__)
+
+    def clone(self) -> ComparatorAllCloseOperator:
+        return self.__class__()
+
     def allclose(
         self,
         tester: BaseAllCloseTester,
@@ -131,6 +137,12 @@ class ComparatorAllCloseOperator(BaseAllCloseOperator[BaseComparator]):
 class ComparatorEqualityOperator(BaseEqualityOperator[BaseComparator]):
     r"""Implements an equality operator for ``BaseComparator`` objects."""
 
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, self.__class__)
+
+    def clone(self) -> ComparatorEqualityOperator:
+        return self.__class__()
+
     def equal(
         self,
         tester: BaseEqualityTester,
@@ -150,11 +162,7 @@ class ComparatorEqualityOperator(BaseEqualityOperator[BaseComparator]):
         return object_equal
 
 
-if not AllCloseTester.has_allclose_operator(BaseComparator):
-    AllCloseTester.add_allclose_operator(
-        BaseComparator, ComparatorAllCloseOperator()
-    )  # pragma: no cover
-if not EqualityTester.has_equality_operator(BaseComparator):
-    EqualityTester.add_equality_operator(
-        BaseComparator, ComparatorEqualityOperator()
-    )  # pragma: no cover
+if not AllCloseTester.has_operator(BaseComparator):
+    AllCloseTester.add_operator(BaseComparator, ComparatorAllCloseOperator())  # pragma: no cover
+if not EqualityTester.has_operator(BaseComparator):
+    EqualityTester.add_operator(BaseComparator, ComparatorEqualityOperator())  # pragma: no cover

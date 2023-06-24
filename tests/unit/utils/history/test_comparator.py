@@ -82,6 +82,14 @@ def test_comparator_allclose_operator_str() -> None:
     assert str(ComparatorAllCloseOperator()) == "ComparatorAllCloseOperator()"
 
 
+def test_comparator_allclose_operator__eq__true() -> None:
+    assert ComparatorAllCloseOperator() == ComparatorAllCloseOperator()
+
+
+def test_comparator_allclose_operator__eq__false() -> None:
+    assert ComparatorAllCloseOperator() != 123
+
+
 def test_comparator_allclose_operator_equal_true() -> None:
     assert ComparatorAllCloseOperator().allclose(
         AllCloseTester(), MaxScalarComparator(), MaxScalarComparator()
@@ -135,6 +143,13 @@ def test_comparator_allclose_operator_equal_false_different_type_show_difference
         assert caplog.messages[0].startswith("object2 is not a `BaseComparator` object")
 
 
+def test_comparator_allclose_operator_clone() -> None:
+    op = ComparatorAllCloseOperator()
+    op_cloned = op.clone()
+    assert op is not op_cloned
+    assert op == op_cloned
+
+
 ################################################
 #     Tests for ComparatorEqualityOperator     #
 ################################################
@@ -142,6 +157,21 @@ def test_comparator_allclose_operator_equal_false_different_type_show_difference
 
 def test_comparator_equality_operator_str() -> None:
     assert str(ComparatorEqualityOperator()) == "ComparatorEqualityOperator()"
+
+
+def test_comparator_equality_operator__eq__true() -> None:
+    assert ComparatorEqualityOperator() == ComparatorEqualityOperator()
+
+
+def test_comparator_equality_operator__eq__false() -> None:
+    assert ComparatorEqualityOperator() != 123
+
+
+def test_comparator_equality_operator_clone() -> None:
+    op = ComparatorEqualityOperator()
+    op_cloned = op.clone()
+    assert op is not op_cloned
+    assert op == op_cloned
 
 
 def test_comparator_equality_operator_equal_true() -> None:

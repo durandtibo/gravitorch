@@ -21,17 +21,25 @@ def test_registered_operators() -> None:
 #############################################
 
 
-def test_comparator_allclose_operator_str() -> None:
+def test_history_allclose_operator_str() -> None:
     assert str(HistoryAllCloseOperator()) == "HistoryAllCloseOperator()"
 
 
-def test_comparator_allclose_operator_equal_true() -> None:
+def test_history_allclose_operator__eq__true() -> None:
+    assert HistoryAllCloseOperator() == HistoryAllCloseOperator()
+
+
+def test_history_allclose_operator__eq__false() -> None:
+    assert HistoryAllCloseOperator() != 123
+
+
+def test_history_allclose_operator_equal_true() -> None:
     assert HistoryAllCloseOperator().allclose(
         AllCloseTester(), MaxScalarHistory("accuracy"), MaxScalarHistory("accuracy")
     )
 
 
-def test_comparator_allclose_operator_equal_true_show_difference(caplog: LogCaptureFixture) -> None:
+def test_history_allclose_operator_equal_true_show_difference(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         assert HistoryAllCloseOperator().allclose(
             tester=AllCloseTester(),
@@ -42,13 +50,13 @@ def test_comparator_allclose_operator_equal_true_show_difference(caplog: LogCapt
         assert not caplog.messages
 
 
-def test_comparator_allclose_operator_equal_false_different_value() -> None:
+def test_history_allclose_operator_equal_false_different_value() -> None:
     assert not HistoryAllCloseOperator().allclose(
         AllCloseTester(), MaxScalarHistory("accuracy"), MinScalarHistory("loss")
     )
 
 
-def test_comparator_allclose_operator_equal_false_different_value_show_difference(
+def test_history_allclose_operator_equal_false_different_value_show_difference(
     caplog: LogCaptureFixture,
 ) -> None:
     with caplog.at_level(logging.INFO):
@@ -61,13 +69,13 @@ def test_comparator_allclose_operator_equal_false_different_value_show_differenc
         assert caplog.messages[0].startswith("`BaseHistory` objects are different")
 
 
-def test_comparator_allclose_operator_equal_false_different_type() -> None:
+def test_history_allclose_operator_equal_false_different_type() -> None:
     assert not HistoryAllCloseOperator().allclose(
         AllCloseTester(), MaxScalarHistory("accuracy"), 42
     )
 
 
-def test_comparator_allclose_operator_equal_false_different_type_show_difference(
+def test_history_allclose_operator_equal_false_different_type_show_difference(
     caplog: LogCaptureFixture,
 ) -> None:
     with caplog.at_level(logging.INFO):
@@ -80,22 +88,44 @@ def test_comparator_allclose_operator_equal_false_different_type_show_difference
         assert caplog.messages[0].startswith("object2 is not a `BaseHistory` object")
 
 
+def test_history_allclose_operator_clone() -> None:
+    op = HistoryAllCloseOperator()
+    op_cloned = op.clone()
+    assert op is not op_cloned
+    assert op == op_cloned
+
+
 #############################################
 #     Tests for HistoryEqualityOperator     #
 #############################################
 
 
-def test_equality_equality_operator_str() -> None:
+def test_history_equality_operator_str() -> None:
     assert str(HistoryEqualityOperator()) == "HistoryEqualityOperator()"
 
 
-def test_equality_equality_operator_equal_true() -> None:
+def test_history_equality_operator__eq__true() -> None:
+    assert HistoryEqualityOperator() == HistoryEqualityOperator()
+
+
+def test_history_equality_operator__eq__false() -> None:
+    assert HistoryEqualityOperator() != 123
+
+
+def test_history_equality_operator_clone() -> None:
+    op = HistoryEqualityOperator()
+    op_cloned = op.clone()
+    assert op is not op_cloned
+    assert op == op_cloned
+
+
+def test_history_equality_operator_equal_true() -> None:
     assert HistoryEqualityOperator().equal(
         EqualityTester(), MaxScalarHistory("accuracy"), MaxScalarHistory("accuracy")
     )
 
 
-def test_equality_equality_operator_equal_true_show_difference(caplog: LogCaptureFixture) -> None:
+def test_history_equality_operator_equal_true_show_difference(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
         assert HistoryEqualityOperator().equal(
             tester=EqualityTester(),
@@ -106,13 +136,13 @@ def test_equality_equality_operator_equal_true_show_difference(caplog: LogCaptur
         assert not caplog.messages
 
 
-def test_equality_equality_operator_equal_false_different_value() -> None:
+def test_history_equality_operator_equal_false_different_value() -> None:
     assert not HistoryEqualityOperator().equal(
         EqualityTester(), MaxScalarHistory("accuracy"), MinScalarHistory("loss")
     )
 
 
-def test_equality_equality_operator_equal_false_different_value_show_difference(
+def test_history_equality_operator_equal_false_different_value_show_difference(
     caplog: LogCaptureFixture,
 ) -> None:
     with caplog.at_level(logging.INFO):
@@ -125,11 +155,11 @@ def test_equality_equality_operator_equal_false_different_value_show_difference(
         assert caplog.messages[0].startswith("`BaseHistory` objects are different")
 
 
-def test_equality_equality_operator_equal_false_different_type() -> None:
+def test_history_equality_operator_equal_false_different_type() -> None:
     assert not HistoryEqualityOperator().equal(EqualityTester(), MaxScalarHistory("accuracy"), 42)
 
 
-def test_equality_equality_operator_equal_false_different_type_show_difference(
+def test_history_equality_operator_equal_false_different_type_show_difference(
     caplog: LogCaptureFixture,
 ) -> None:
     with caplog.at_level(logging.INFO):
