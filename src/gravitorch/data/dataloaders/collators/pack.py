@@ -4,6 +4,8 @@ r"""This module defines some collators that use packed sequence (https:/.
 l) to deal with variable size data.
 """
 
+from __future__ import annotations
+
 __all__ = ["PackedSequenceCollator", "DictPackedSequenceCollator"]
 
 from collections.abc import Hashable, Sequence

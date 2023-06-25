@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from collections.abc import Hashable
-from typing import Union
 
 import torch
 from pytest import mark
@@ -364,7 +365,7 @@ def test_dict_packed_sequence_collator_str() -> None:
 
 @mark.parametrize("keys_to_pad", (("key", 1), ["key", 1]))
 def test_dict_packed_sequence_collator_keys_to_pad(
-    keys_to_pad: Union[list[Hashable], tuple[Hashable, ...]]
+    keys_to_pad: list[Hashable] | tuple[Hashable, ...]
 ) -> None:
     assert DictPaddedSequenceCollator(keys_to_pad)._keys_to_pad == ("key", 1)
 

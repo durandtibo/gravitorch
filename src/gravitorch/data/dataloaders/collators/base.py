@@ -1,5 +1,7 @@
 r"""This module defines the base class for the data loader collators."""
 
+from __future__ import annotations
+
 __all__ = ["BaseCollator"]
 
 from abc import ABC, abstractmethod

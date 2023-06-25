@@ -1,6 +1,8 @@
 r"""This module implements PyTorch sampler functions for data
 loaders."""
 
+from __future__ import annotations
+
 __all__ = ["ReproducibleBatchSampler", "PartialSequentialSampler", "PartialRandomSampler"]
 
 from collections.abc import Generator, Iterator, Sized

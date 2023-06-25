@@ -1,6 +1,8 @@
 r"""This module defines some collators using padding to deal with
 variable size data."""
 
+from __future__ import annotations
+
 __all__ = ["PaddedSequenceCollator", "DictPaddedSequenceCollator"]
 
 from collections.abc import Hashable, Sequence
