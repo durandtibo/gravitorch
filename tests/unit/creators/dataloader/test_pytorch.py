@@ -40,16 +40,25 @@ def dataset() -> Dataset:
 ###########################################
 
 
-@mark.parametrize("batch_size", (None, 0, 1))
-def test_auto_dataloader_creator_str(batch_size: int) -> None:
-    assert str(AutoDataLoaderCreator(batch_size)).startswith("AutoDataLoaderCreator(")
+def test_auto_dataloader_creator_str() -> None:
+    assert str(AutoDataLoaderCreator()).startswith("AutoDataLoaderCreator(")
+
+
+@mark.parametrize("batch_size", (1, 2, 4))
+def test_auto_dataloader_creator_batch_size(dataset: Dataset, batch_size: int) -> None:
+    dataloader = AutoDataLoaderCreator(batch_size=batch_size).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.batch_size == batch_size
+    batch = next(iter(dataloader))
+    assert torch.is_tensor(batch)
+    assert batch.shape == (batch_size, 5)
 
 
 @mark.parametrize("batch_size", (1, 2, 4))
 @patch("gravitorch.creators.dataloader.pytorch.dist.is_distributed", lambda *args: False)
 def test_auto_dataloader_creator_non_distributed(dataset: Dataset, batch_size: int) -> None:
     creator = AutoDataLoaderCreator(batch_size=batch_size)
-    assert isinstance(creator._data_loader_creator, DataLoaderCreator)
+    assert isinstance(creator._creator, DataLoaderCreator)
     dataloader = creator.create(dataset)
     assert isinstance(dataloader, DataLoader)
     assert dataloader.batch_size == batch_size
@@ -59,7 +68,7 @@ def test_auto_dataloader_creator_non_distributed(dataset: Dataset, batch_size: i
 @patch("gravitorch.creators.dataloader.pytorch.dist.is_distributed", lambda *args: True)
 def test_auto_dataloader_creator_distributed(dataset: Dataset, batch_size: int) -> None:
     creator = AutoDataLoaderCreator(batch_size=batch_size)
-    assert isinstance(creator._data_loader_creator, DistributedDataLoaderCreator)
+    assert isinstance(creator._creator, DistributedDataLoaderCreator)
     dataloader = creator.create(dataset)
     assert isinstance(dataloader, DataLoader)
     assert dataloader.batch_size == batch_size
