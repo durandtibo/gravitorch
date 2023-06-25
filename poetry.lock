@@ -2074,13 +2074,13 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "objectory"
-version = "0.0.2"
+version = "0.0.3"
 description = "A light library for general purpose object factories"
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "objectory-0.0.2-py3-none-any.whl", hash = "sha256:5e7faf6b0aff30ddf5a58f295d0b5e5a68554bcbf9079c61169ff916da5509cc"},
-    {file = "objectory-0.0.2.tar.gz", hash = "sha256:e5510207e384c35817011af1608d93482419ff37a90565718221ba2d9f153381"},
+    {file = "objectory-0.0.3-py3-none-any.whl", hash = "sha256:30222b2c3744db83fcf8ba472d6f361765aa11fb3a408d3da0652a5653dc7138"},
+    {file = "objectory-0.0.3.tar.gz", hash = "sha256:469f2c7145c98b0e6904c71eb9708a70a0406e20352091685f854a838234e18d"},
 ]
 
 [package.dependencies]
@@ -3658,4 +3658,4 @@ vision = ["pillow", "torchvision"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "6d6b9a8a4397c3f2efa7c19c72faf7f5a757d10d4291085b374a33b1100011f8"
+content-hash = "67ee2c2e8dc86dc290db1eab2a37015a3a793a8f4df64f99882beee3c770f1cc"
