@@ -9,14 +9,15 @@ __all__ = [
 from collections.abc import Callable
 from typing import TypeVar
 
-import torch
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.data.dataloaders.collators.base import setup_collator
+from gravitorch.data.dataloaders.factory import create_dataloader
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_indent
+from gravitorch.utils.format import str_indent, to_pretty_dict_str
+from gravitorch.utils.seed import get_torch_generator
 
 T = TypeVar("T")
 
@@ -149,6 +150,7 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
         drop_last: bool = False,
         seed: int = 0,
         collate_fn: Callable | dict | None = None,
+        **kwargs,
     ) -> None:
         self._batch_size = batch_size
         self._shuffle = shuffle
@@ -158,6 +160,7 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
         self._seed = seed
 
         self._collate_fn = setup_collator(collate_fn)
+        self._kwargs = kwargs
 
     def __repr__(self) -> str:
         return (
@@ -173,9 +176,7 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
         )
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
-        generator = torch.Generator()
         epoch = 0 if engine is None else engine.epoch
-        generator.manual_seed(self._seed + epoch)
         return DataLoader(
             dataset=dataset,
             batch_size=self._batch_size,
@@ -184,21 +185,54 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
             pin_memory=self._pin_memory,
             drop_last=self._drop_last,
             collate_fn=self._collate_fn,
-            generator=generator,
+            generator=get_torch_generator(self._seed + epoch),
         )
 
 
-class DistributedDataLoaderCreator(VanillaDataLoaderCreator[T]):
+class DistributedDataLoaderCreator(BaseDataLoaderCreator[T]):
     r"""Defines a simple distributed PyTorch data loader creator.
 
     This data loader creator uses the ``gravitorch.distributed`` package
     to distribute the example per process. Note that this data loader
     creator uses the default samplers. If you need a different sampler,
     you will need to implement your own data loader creator.
+
+    Args:
+    ----
+        shuffle (bool, optional): Specifies of the examples are
+            shuffled or not. You should set to ``True`` to have the
+            data reshuffled at every epoch. Default: ``False``
+        drop_last (bool, optional): set to ``True`` to drop the last
+            incomplete batch, if the dataset size is not divisible by
+            the batch size. If ``False`` and the size of dataset is
+            not divisible by the batch size, then the last batch will
+            be smaller. Default: ``False``
+        seed (int, optional): Specifies the random seed used to
+            shuffle the samples if ``shuffle=True``. Default: ``0``
+        **kwargs: See ``torch.utils.data.DataLoader`` documentation.
     """
 
+    def __init__(
+        self, shuffle: bool = True, drop_last: bool = False, seed: int = 0, **kwargs
+    ) -> None:
+        self._shuffle = bool(shuffle)
+        self._drop_last = bool(drop_last)
+        self._seed = int(seed)
+        self._kwargs = kwargs
+
+    def __repr__(self) -> str:
+        config = {
+            "shuffle": self._shuffle,
+            "drop_last": self._drop_last,
+            "seed": self._seed,
+        } | self._kwargs
+        return (
+            f"{self.__class__.__qualname__}(\n"
+            f"  {str_indent(to_pretty_dict_str(config, sorted_keys=True))}\n)"
+        )
+
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
-        sampler = torch.utils.data.distributed.DistributedSampler(
+        sampler = DistributedSampler(
             dataset,
             shuffle=self._shuffle,
             drop_last=self._drop_last,
@@ -212,12 +246,5 @@ class DistributedDataLoaderCreator(VanillaDataLoaderCreator[T]):
             # make shuffling work properly across multiple epochs.
             # Otherwise, the same ordering will always be used.
             sampler.set_epoch(engine.epoch)
-        # Sampler option is mutually exclusive with shuffle.
-        return DataLoader(
-            dataset=dataset,
-            sampler=sampler,
-            batch_size=self._batch_size,
-            num_workers=self._num_workers,
-            pin_memory=self._pin_memory,
-            collate_fn=self._collate_fn,
-        )
+        # Sampler option is mutually exclusive with shuffle or drop last.
+        return create_dataloader(dataset, sampler=sampler, **self._kwargs)

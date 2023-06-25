@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 import torch
+from coola import objects_are_equal
 from objectory import OBJECT_TARGET
 from pytest import fixture, mark
 from torch import Tensor
@@ -26,7 +27,7 @@ class FakeDataset(Dataset):
         return 20
 
     def __getitem__(self, item: int) -> Tensor:
-        return item * torch.ones(5)
+        return torch.ones(5).mul(item)
 
 
 @fixture
@@ -40,28 +41,28 @@ def dataset() -> Dataset:
 
 
 @mark.parametrize("batch_size", (None, 0, 1))
-def test_auto_data_loader_creator_str(batch_size: int) -> None:
+def test_auto_dataloader_creator_str(batch_size: int) -> None:
     assert str(AutoDataLoaderCreator(batch_size)).startswith("AutoDataLoaderCreator(")
 
 
 @mark.parametrize("batch_size", (1, 2, 4))
 @patch("gravitorch.creators.dataloader.pytorch.dist.is_distributed", lambda *args: False)
-def test_auto_data_loader_creator_non_distributed(dataset: Dataset, batch_size: int) -> None:
+def test_auto_dataloader_creator_non_distributed(dataset: Dataset, batch_size: int) -> None:
     creator = AutoDataLoaderCreator(batch_size=batch_size)
     assert isinstance(creator._data_loader_creator, VanillaDataLoaderCreator)
-    data_loader = creator.create(dataset)
-    assert isinstance(data_loader, DataLoader)
-    assert data_loader.batch_size == batch_size
+    dataloader = creator.create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.batch_size == batch_size
 
 
 @mark.parametrize("batch_size", (1, 2, 4))
 @patch("gravitorch.creators.dataloader.pytorch.dist.is_distributed", lambda *args: True)
-def test_auto_data_loader_creator_distributed(dataset: Dataset, batch_size: int) -> None:
+def test_auto_dataloader_creator_distributed(dataset: Dataset, batch_size: int) -> None:
     creator = AutoDataLoaderCreator(batch_size=batch_size)
     assert isinstance(creator._data_loader_creator, DistributedDataLoaderCreator)
-    data_loader = creator.create(dataset)
-    assert isinstance(data_loader, DataLoader)
-    assert data_loader.batch_size == batch_size
+    dataloader = creator.create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.batch_size == batch_size
 
 
 ##############################################
@@ -69,26 +70,26 @@ def test_auto_data_loader_creator_distributed(dataset: Dataset, batch_size: int)
 ##############################################
 
 
-def test_vanilla_data_loader_creator_str() -> None:
+def test_vanilla_dataloader_creator_str() -> None:
     assert str(VanillaDataLoaderCreator()).startswith("VanillaDataLoaderCreator(")
 
 
 @mark.parametrize("batch_size", (1, 2, 4))
-def test_vanilla_data_loader_creator_batch_size(dataset: Dataset, batch_size: int) -> None:
+def test_vanilla_dataloader_creator_batch_size(dataset: Dataset, batch_size: int) -> None:
     creator = VanillaDataLoaderCreator(batch_size=batch_size)
     assert creator._batch_size == batch_size
-    data_loader = creator.create(dataset)
-    assert data_loader.batch_size == batch_size
-    batch = next(iter(data_loader))
+    dataloader = creator.create(dataset)
+    assert dataloader.batch_size == batch_size
+    batch = next(iter(dataloader))
     assert batch.shape == (batch_size, 5)
 
 
-def test_vanilla_data_loader_creator_shuffle_false(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_shuffle_false(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(batch_size=8, shuffle=False)
     assert not creator._shuffle
-    data_loader = creator.create(dataset)
-    assert isinstance(data_loader.sampler, SequentialSampler)
-    batch = next(iter(data_loader))
+    dataloader = creator.create(dataset)
+    assert isinstance(dataloader.sampler, SequentialSampler)
+    batch = next(iter(dataloader))
     assert batch.equal(
         torch.tensor(
             [
@@ -106,12 +107,12 @@ def test_vanilla_data_loader_creator_shuffle_false(dataset: Dataset) -> None:
     )
 
 
-def test_vanilla_data_loader_creator_shuffle_true(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_shuffle_true(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(batch_size=8, shuffle=True)
     assert creator._shuffle
-    data_loader = creator.create(dataset)
-    assert isinstance(data_loader.sampler, RandomSampler)
-    batch = next(iter(data_loader))
+    dataloader = creator.create(dataset)
+    assert isinstance(dataloader.sampler, RandomSampler)
+    batch = next(iter(dataloader))
     assert not batch.equal(
         torch.tensor(
             [
@@ -130,100 +131,100 @@ def test_vanilla_data_loader_creator_shuffle_true(dataset: Dataset) -> None:
 
 
 @mark.parametrize("num_workers", (0, 1, 2))
-def test_vanilla_data_loader_creator_num_workers(num_workers: int) -> None:
+def test_vanilla_dataloader_creator_num_workers(num_workers: int) -> None:
     creator = VanillaDataLoaderCreator(num_workers=num_workers)
     assert creator._num_workers == num_workers
 
 
-def test_vanilla_data_loader_creator_pin_memory_false(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_pin_memory_false(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(pin_memory=False)
     assert not creator._pin_memory
-    data_loader = creator.create(dataset)
-    assert not data_loader.pin_memory
+    dataloader = creator.create(dataset)
+    assert not dataloader.pin_memory
 
 
-def test_vanilla_data_loader_creator_pin_memory_true(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_pin_memory_true(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(pin_memory=True)
     assert creator._pin_memory
-    data_loader = creator.create(dataset)
-    assert data_loader.pin_memory
+    dataloader = creator.create(dataset)
+    assert dataloader.pin_memory
 
 
-def test_vanilla_data_loader_creator_drop_last_false(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_drop_last_false(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(drop_last=False)
     assert not creator._drop_last
-    data_loader = creator.create(dataset)
-    assert not data_loader.drop_last
+    dataloader = creator.create(dataset)
+    assert not dataloader.drop_last
 
 
-def test_vanilla_data_loader_creator_drop_last_true(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_drop_last_true(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(drop_last=True)
     assert creator._drop_last
-    data_loader = creator.create(dataset)
-    assert data_loader.drop_last
+    dataloader = creator.create(dataset)
+    assert dataloader.drop_last
 
 
-def test_vanilla_data_loader_creator_same_random_seed(dataset: Dataset) -> None:
-    data_loader1 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
-    batch1 = next(iter(data_loader1))
-    data_loader2 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
-    batch2 = next(iter(data_loader2))
+def test_vanilla_dataloader_creator_same_random_seed(dataset: Dataset) -> None:
+    dataloader1 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
+    batch1 = next(iter(dataloader1))
+    dataloader2 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
+    batch2 = next(iter(dataloader2))
     assert batch1.equal(batch2)
 
 
-def test_vanilla_data_loader_creator_different_random_seeds(dataset: Dataset) -> None:
-    data_loader1 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(dataset)
-    batch1 = next(iter(data_loader1))
-    data_loader2 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
-    batch2 = next(iter(data_loader2))
+def test_vanilla_dataloader_creator_different_random_seeds(dataset: Dataset) -> None:
+    dataloader1 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(dataset)
+    batch1 = next(iter(dataloader1))
+    dataloader2 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
+    batch2 = next(iter(dataloader2))
     assert not batch1.equal(batch2)
 
 
-def test_vanilla_data_loader_creator_same_random_seeds_different_epochs(dataset: Dataset) -> None:
-    data_loader1 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
+def test_vanilla_dataloader_creator_same_random_seeds_different_epochs(dataset: Dataset) -> None:
+    dataloader1 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
         dataset, engine=Mock(spec=BaseEngine, epoch=0)
     )
-    batch1 = next(iter(data_loader1))
-    data_loader2 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
+    batch1 = next(iter(dataloader1))
+    dataloader2 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
         dataset, engine=Mock(spec=BaseEngine, epoch=1)
     )
-    batch2 = next(iter(data_loader2))
+    batch2 = next(iter(dataloader2))
     assert not batch1.equal(batch2)
 
 
-def test_vanilla_data_loader_creator_epoch_none(dataset: Dataset) -> None:
-    data_loader1 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
+def test_vanilla_dataloader_creator_epoch_none(dataset: Dataset) -> None:
+    dataloader1 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
         dataset, engine=None
     )
-    batch1 = next(iter(data_loader1))
-    data_loader2 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
+    batch1 = next(iter(dataloader1))
+    dataloader2 = VanillaDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
         dataset, engine=None
     )
-    batch2 = next(iter(data_loader2))
+    batch2 = next(iter(dataloader2))
     assert batch1.equal(batch2)
 
 
-def test_vanilla_data_loader_creator_collate_fn(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_collate_fn(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(collate_fn=default_collate)
     assert creator._collate_fn == default_collate
-    data_loader = creator.create(dataset)
-    assert data_loader.collate_fn == default_collate
+    dataloader = creator.create(dataset)
+    assert dataloader.collate_fn == default_collate
 
 
-def test_vanilla_data_loader_creator_collate_fn_none(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_collate_fn_none(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(collate_fn=None)
     assert creator._collate_fn == default_collate
-    data_loader = creator.create(dataset)
-    assert data_loader.collate_fn == default_collate
+    dataloader = creator.create(dataset)
+    assert dataloader.collate_fn == default_collate
 
 
-def test_vanilla_data_loader_creator_collate_fn_from_config(dataset: Dataset) -> None:
+def test_vanilla_dataloader_creator_collate_fn_from_config(dataset: Dataset) -> None:
     creator = VanillaDataLoaderCreator(
         collate_fn={OBJECT_TARGET: "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"}
     )
     assert isinstance(creator._collate_fn, PaddedSequenceCollator)
-    data_loader = creator.create(dataset)
-    assert isinstance(data_loader.collate_fn, PaddedSequenceCollator)
+    dataloader = creator.create(dataset)
+    assert isinstance(dataloader.collate_fn, PaddedSequenceCollator)
 
 
 ##################################################
@@ -231,27 +232,26 @@ def test_vanilla_data_loader_creator_collate_fn_from_config(dataset: Dataset) ->
 ##################################################
 
 
-def test_distributed_data_loader_creator_str() -> None:
+def test_distributed_dataloader_creator_str() -> None:
     assert str(DistributedDataLoaderCreator()).startswith("DistributedDataLoaderCreator(")
 
 
 @mark.parametrize("batch_size", (1, 2, 4))
-def test_distributed_data_loader_creator_batch_size(dataset: Dataset, batch_size: int) -> None:
-    creator = DistributedDataLoaderCreator(batch_size=batch_size)
-    assert creator._batch_size == batch_size
-    data_loader = creator.create(dataset)
-    assert data_loader.batch_size == batch_size
-    batch = next(iter(data_loader))
+def test_distributed_dataloader_creator_batch_size(dataset: Dataset, batch_size: int) -> None:
+    dataloader = DistributedDataLoaderCreator(batch_size=batch_size).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.batch_size == batch_size
+    batch = next(iter(dataloader))
+    assert torch.is_tensor(batch)
     assert batch.shape == (batch_size, 5)
 
 
-def test_distributed_data_loader_creator_shuffle_false(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(batch_size=8, shuffle=False)
-    assert not creator._shuffle
-    data_loader = creator.create(dataset)
-    assert isinstance(data_loader.sampler, DistributedSampler)
-    assert not data_loader.sampler.shuffle
-    batch = next(iter(data_loader))
+def test_distributed_dataloader_creator_shuffle_false(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(batch_size=8, shuffle=False).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert isinstance(dataloader.sampler, DistributedSampler)
+    assert not dataloader.sampler.shuffle
+    batch = next(iter(dataloader))
     assert batch.equal(
         torch.tensor(
             [
@@ -269,13 +269,12 @@ def test_distributed_data_loader_creator_shuffle_false(dataset: Dataset) -> None
     )
 
 
-def test_distributed_data_loader_creator_shuffle_true(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(batch_size=8, shuffle=True)
-    assert creator._shuffle
-    data_loader = creator.create(dataset)
-    assert isinstance(data_loader.sampler, DistributedSampler)
-    assert data_loader.sampler.shuffle
-    batch = next(iter(data_loader))
+def test_distributed_dataloader_creator_shuffle_true(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(batch_size=8, shuffle=True).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert isinstance(dataloader.sampler, DistributedSampler)
+    assert dataloader.sampler.shuffle
+    batch = next(iter(dataloader))
     assert not batch.equal(
         torch.tensor(
             [
@@ -294,127 +293,132 @@ def test_distributed_data_loader_creator_shuffle_true(dataset: Dataset) -> None:
 
 
 @mark.parametrize("num_workers", (0, 1, 2))
-def test_distributed_data_loader_creator_num_workers(num_workers: int) -> None:
-    creator = DistributedDataLoaderCreator(num_workers=num_workers)
-    assert creator._num_workers == num_workers
+def test_distributed_dataloader_creator_num_workers(dataset: Dataset, num_workers: int) -> None:
+    dataloader = DistributedDataLoaderCreator(num_workers=num_workers).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.num_workers == num_workers
 
 
-def test_distributed_data_loader_creator_pin_memory_false(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(pin_memory=False)
-    assert not creator._pin_memory
-    data_loader = creator.create(dataset)
-    assert not data_loader.pin_memory
+def test_distributed_dataloader_creator_pin_memory_false(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(pin_memory=False).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert not dataloader.pin_memory
 
 
-def test_distributed_data_loader_creator_pin_memory_true(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(pin_memory=True)
-    assert creator._pin_memory
-    data_loader = creator.create(dataset)
-    assert data_loader.pin_memory
+def test_distributed_dataloader_creator_pin_memory_true(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(pin_memory=True).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.pin_memory
 
 
-def test_distributed_data_loader_creator_drop_last_false(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(drop_last=False)
-    assert not creator._drop_last
-    data_loader = creator.create(dataset)
-    assert not data_loader.sampler.drop_last
+def test_distributed_dataloader_creator_drop_last_false(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(drop_last=False).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert not dataloader.sampler.drop_last
 
 
-def test_distributed_data_loader_creator_drop_last_true(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(drop_last=True)
-    assert creator._drop_last
-    data_loader = creator.create(dataset)
-    assert data_loader.sampler.drop_last
+def test_distributed_dataloader_creator_drop_last_true(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(drop_last=True).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.sampler.drop_last
 
 
-def test_distributed_data_loader_creator_same_random_seed(dataset: Dataset) -> None:
-    data_loader1 = DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
-    batch1 = next(iter(data_loader1))
-    data_loader2 = DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
-    batch2 = next(iter(data_loader2))
-    assert batch1.equal(batch2)
+def test_distributed_dataloader_creator_reproduce(dataset: Dataset) -> None:
+    creator = DistributedDataLoaderCreator(batch_size=8, shuffle=True)
+    assert objects_are_equal(tuple(creator.create(dataset)), tuple(creator.create(dataset)))
 
 
-def test_distributed_data_loader_creator_different_random_seeds(dataset: Dataset) -> None:
-    data_loader1 = DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(dataset)
-    batch1 = next(iter(data_loader1))
-    data_loader2 = DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(dataset)
-    batch2 = next(iter(data_loader2))
-    assert not batch1.equal(batch2)
+def test_distributed_dataloader_creator_same_random_seed(dataset: Dataset) -> None:
+    assert objects_are_equal(
+        tuple(DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(dataset)),
+        tuple(DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(dataset)),
+    )
 
 
-def test_distributed_data_loader_creator_same_random_seed_different_epochs(
+def test_distributed_dataloader_creator_different_random_seeds(dataset: Dataset) -> None:
+    assert not objects_are_equal(
+        tuple(DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(dataset)),
+        tuple(DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=2).create(dataset)),
+    )
+
+
+def test_distributed_dataloader_creator_same_random_seed_same_epoch(
     dataset: Dataset,
 ) -> None:
-    data_loader1 = DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
-        dataset, engine=Mock(spec=BaseEngine, epoch=0)
+    assert objects_are_equal(
+        tuple(
+            DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(
+                dataset, engine=Mock(spec=BaseEngine, epoch=0)
+            )
+        ),
+        tuple(
+            DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(
+                dataset, engine=Mock(spec=BaseEngine, epoch=0)
+            )
+        ),
     )
-    batch1 = next(iter(data_loader1))
-    data_loader2 = DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
-        dataset, engine=Mock(spec=BaseEngine, epoch=1)
+
+
+def test_distributed_dataloader_creator_same_random_seed_different_epochs(
+    dataset: Dataset,
+) -> None:
+    assert not objects_are_equal(
+        tuple(
+            DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(
+                dataset, engine=Mock(spec=BaseEngine, epoch=0)
+            )
+        ),
+        tuple(
+            DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=1).create(
+                dataset, engine=Mock(spec=BaseEngine, epoch=1)
+            )
+        ),
     )
-    batch2 = next(iter(data_loader2))
-    assert not batch1.equal(batch2)
 
 
-def test_distributed_data_loader_creator_same_random_seed_engine_none(dataset: Dataset) -> None:
-    data_loader1 = DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
-        dataset, engine=None
-    )
-    batch1 = next(iter(data_loader1))
-    data_loader2 = DistributedDataLoaderCreator(batch_size=8, shuffle=True, seed=42).create(
-        dataset, engine=None
-    )
-    batch2 = next(iter(data_loader2))
-    assert batch1.equal(batch2)
+def test_distributed_dataloader_creator_collate_fn(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(collate_fn=default_collate).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.collate_fn == default_collate
 
 
-def test_distributed_data_loader_creator_collate_fn(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(collate_fn=default_collate)
-    assert creator._collate_fn == default_collate
-    data_loader = creator.create(dataset)
-    assert data_loader.collate_fn == default_collate
+def test_distributed_dataloader_creator_collate_fn_none(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(collate_fn=None).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert dataloader.collate_fn == default_collate
 
 
-def test_distributed_data_loader_creator_collate_fn_none(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(collate_fn=None)
-    assert creator._collate_fn == default_collate
-    data_loader = creator.create(dataset)
-    assert data_loader.collate_fn == default_collate
-
-
-def test_distributed_data_loader_creator_collate_fn_from_config(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(
+def test_distributed_dataloader_creator_collate_fn_from_config(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(
         collate_fn={OBJECT_TARGET: "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"}
-    )
-    assert isinstance(creator._collate_fn, PaddedSequenceCollator)
-    data_loader = creator.create(dataset)
-    assert isinstance(data_loader.collate_fn, PaddedSequenceCollator)
+    ).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert isinstance(dataloader.collate_fn, PaddedSequenceCollator)
 
 
 @patch("gravitorch.creators.dataloader.pytorch.dist.get_world_size", lambda *args: 1)
-def test_distributed_data_loader_creator_num_replicas_1(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(batch_size=1)
-    data_loader = creator.create(dataset)
-    assert len(data_loader) == 20
+def test_distributed_dataloader_creator_num_replicas_1(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(batch_size=1).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert len(dataloader) == 20
 
 
 @patch("gravitorch.creators.dataloader.pytorch.dist.get_world_size", lambda *args: 2)
-def test_distributed_data_loader_creator_num_replicas_2(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(batch_size=1)
-    data_loader = creator.create(dataset)
-    assert len(data_loader) == 10
+def test_distributed_dataloader_creator_num_replicas_2(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(batch_size=1).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert len(dataloader) == 10
 
 
 @patch("gravitorch.creators.dataloader.pytorch.dist.get_world_size", lambda *args: 4)
-def test_distributed_data_loader_creator_num_replicas_4(dataset: Dataset) -> None:
-    creator = DistributedDataLoaderCreator(batch_size=1)
-    data_loader = creator.create(dataset)
-    assert len(data_loader) == 5
+def test_distributed_dataloader_creator_num_replicas_4(dataset: Dataset) -> None:
+    dataloader = DistributedDataLoaderCreator(batch_size=1).create(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert len(dataloader) == 5
 
 
 @patch("gravitorch.creators.dataloader.pytorch.dist.get_world_size", lambda *args: 2)
-def test_distributed_data_loader_creator_num_replicas_2_ranks(dataset: Dataset) -> None:
+def test_distributed_dataloader_creator_num_replicas_2_ranks(dataset: Dataset) -> None:
     indices = set()
     with patch("gravitorch.creators.dataloader.pytorch.dist.get_rank", lambda *args: 0):
         for batch in DistributedDataLoaderCreator(batch_size=1).create(dataset):
