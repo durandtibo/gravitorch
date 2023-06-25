@@ -1,6 +1,6 @@
-r"""This module defines some demo datasets."""
+r"""This module defines some dummy datasets."""
 
-__all__ = ["DemoMultiClassClsDataset"]
+__all__ = ["DummyMultiClassDataset"]
 
 import logging
 
@@ -13,7 +13,7 @@ from gravitorch.utils.summary import concise_summary
 logger = logging.getLogger(__name__)
 
 
-class DemoMultiClassClsDataset(Dataset):
+class DummyMultiClassDataset(Dataset):
     r"""Implements a toy multi-class classification dataset in a map-
     style format.
 

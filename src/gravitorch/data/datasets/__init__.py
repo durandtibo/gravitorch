@@ -1,7 +1,7 @@
 r"""This package contains the implementation of some datasets."""
 
 __all__ = [
-    "DemoMultiClassClsDataset",
+    "DummyMultiClassDataset",
     "FileToInMemoryDataset",
     "ImageFolderDataset",
     "InMemoryDataset",
@@ -10,7 +10,7 @@ __all__ = [
     "setup_dataset",
 ]
 
-from gravitorch.data.datasets.demo_map_style import DemoMultiClassClsDataset
+from gravitorch.data.datasets.dummy import DummyMultiClassDataset
 from gravitorch.data.datasets.factory import setup_dataset
 from gravitorch.data.datasets.image_folder import ImageFolderDataset
 from gravitorch.data.datasets.in_memory import FileToInMemoryDataset, InMemoryDataset
