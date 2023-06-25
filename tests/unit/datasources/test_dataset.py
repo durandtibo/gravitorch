@@ -46,21 +46,15 @@ def test_dataset_data_source_data_loader_creators() -> None:
     data_source = DatasetDataSource(
         datasets={},
         data_loader_creators={
-            "train": AutoDataLoaderCreator(batch_size=4),
-            "val": {
-                OBJECT_TARGET: "gravitorch.creators.dataloader.AutoDataLoaderCreator",
-                "batch_size": 2,
-            },
+            "train": AutoDataLoaderCreator(),
+            "val": {OBJECT_TARGET: "gravitorch.creators.dataloader.AutoDataLoaderCreator"},
             "test": None,
         },
     )
     assert len(data_source._data_loader_creators) == 3
     assert isinstance(data_source._data_loader_creators["train"], AutoDataLoaderCreator)
-    assert data_source._data_loader_creators["train"]._data_loader_creator._batch_size == 4
     assert isinstance(data_source._data_loader_creators["val"], AutoDataLoaderCreator)
-    assert data_source._data_loader_creators["val"]._data_loader_creator._batch_size == 2
     assert isinstance(data_source._data_loader_creators["test"], AutoDataLoaderCreator)
-    assert data_source._data_loader_creators["test"]._data_loader_creator._batch_size == 1
 
 
 def test_dataset_data_source_attach(caplog: LogCaptureFixture) -> None:
