@@ -1,6 +1,6 @@
 from objectory import OBJECT_TARGET
 
-from gravitorch.data.datasets import DemoMultiClassClsDataset, setup_dataset
+from gravitorch.data.datasets import DummyMultiClassDataset, setup_dataset
 
 ###################################
 #     Tests for setup_dataset     #
@@ -8,7 +8,7 @@ from gravitorch.data.datasets import DemoMultiClassClsDataset, setup_dataset
 
 
 def test_setup_dataset_object() -> None:
-    dataset = DemoMultiClassClsDataset(num_examples=10, num_classes=5)
+    dataset = DummyMultiClassDataset(num_examples=10, num_classes=5)
     assert setup_dataset(dataset) is dataset
 
 
@@ -16,12 +16,12 @@ def test_setup_dataset_dict() -> None:
     assert isinstance(
         setup_dataset(
             {
-                OBJECT_TARGET: "gravitorch.data.datasets.DemoMultiClassClsDataset",
+                OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
                 "num_examples": 10,
                 "num_classes": 5,
             }
         ),
-        DemoMultiClassClsDataset,
+        DummyMultiClassDataset,
     )
 
 
