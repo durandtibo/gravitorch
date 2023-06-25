@@ -6,7 +6,6 @@ __all__ = [
     "DistributedDataLoaderCreator",
 ]
 
-from collections.abc import Callable
 from typing import TypeVar
 
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
@@ -62,46 +61,19 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
             PyTorch collate function. Default: ``None``
     """
 
-    def __init__(
-        self,
-        batch_size: int | None = 1,
-        shuffle: bool = True,
-        num_workers: int = 0,
-        pin_memory: bool = False,
-        drop_last: bool = False,
-        seed: int = 0,
-        collate_fn: Callable | dict | None = None,
-    ) -> None:
+    def __init__(self, **kwargs) -> None:
         if dist.is_distributed():
-            self._data_loader_creator = DistributedDataLoaderCreator(
-                batch_size=batch_size,
-                shuffle=shuffle,
-                num_workers=num_workers,
-                pin_memory=pin_memory,
-                drop_last=drop_last,
-                seed=seed,
-                collate_fn=collate_fn,
-            )
+            self._creator = DistributedDataLoaderCreator(**kwargs)
         else:
-            self._data_loader_creator = DataLoaderCreator(
-                batch_size=batch_size,
-                shuffle=shuffle,
-                num_workers=num_workers,
-                pin_memory=pin_memory,
-                drop_last=drop_last,
-                seed=seed,
-                collate_fn=collate_fn,
-            )
+            self._creator = DataLoaderCreator(**kwargs)
 
     def __repr__(self) -> str:
         return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  data_loader_creator={str_indent(str(self._data_loader_creator))},\n"
-            ")"
+            f"{self.__class__.__qualname__}(\n" f"  creator={str_indent(str(self._creator))},\n" ")"
         )
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
-        return self._data_loader_creator.create(dataset=dataset, engine=engine)
+        return self._creator.create(dataset=dataset, engine=engine)
 
 
 class DataLoaderCreator(BaseDataLoaderCreator[T]):
