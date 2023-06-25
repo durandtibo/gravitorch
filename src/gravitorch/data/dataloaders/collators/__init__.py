@@ -12,7 +12,7 @@ __all__ = [
     "setup_collator",
 ]
 
-from gravitorch.data.dataloaders.collators.base import BaseCollator
+from gravitorch.data.dataloaders.collators.base import BaseCollator, setup_collator
 from gravitorch.data.dataloaders.collators.pack import (
     DictPackedSequenceCollator,
     PackedSequenceCollator,
@@ -21,4 +21,3 @@ from gravitorch.data.dataloaders.collators.pad import (
     DictPaddedSequenceCollator,
     PaddedSequenceCollator,
 )
-from gravitorch.data.dataloaders.collators.utils import setup_collator

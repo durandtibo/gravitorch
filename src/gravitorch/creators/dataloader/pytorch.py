@@ -13,7 +13,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
-from gravitorch.data.dataloaders.collators.utils import setup_collator
+from gravitorch.data.dataloaders.collators.base import setup_collator
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.format import str_indent
