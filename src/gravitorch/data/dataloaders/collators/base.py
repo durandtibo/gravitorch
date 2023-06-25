@@ -32,7 +32,7 @@ class BaseCollator(Generic[T, R], Callable[[list[T]], R], ABC, metaclass=Abstrac
         """
 
 
-def setup_collator(collator: Callable | dict | None) -> Callable:
+def setup_collator(collator: Callable[[list[T]], R] | dict | None) -> Callable[[list[T]], R]:
     r"""Sets up a data loader collator.
 
     Args:

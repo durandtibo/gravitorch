@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "BaseDataCreator",
     "HypercubeVertexDataCreator",
@@ -7,4 +9,4 @@ __all__ = [
 
 from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
 from gravitorch.data.datacreators.caching import OneCacheDataCreator
-from gravitorch.data.datacreators.hypercube_vertex import HypercubeVertexDataCreator
+from gravitorch.data.datacreators.hypercube import HypercubeVertexDataCreator
