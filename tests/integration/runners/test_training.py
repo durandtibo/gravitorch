@@ -34,7 +34,7 @@ def create_engine_config(random_seed: int) -> dict:
                     },
                     "data_loader_creators": {
                         "train": {
-                            OBJECT_TARGET: "gravitorch.creators.dataloader.VanillaDataLoaderCreator",
+                            OBJECT_TARGET: "gravitorch.creators.dataloader.DataLoaderCreator",
                             "batch_size": 4,
                             "shuffle": True,
                             "num_workers": 0,
@@ -42,7 +42,7 @@ def create_engine_config(random_seed: int) -> dict:
                             "drop_last": False,
                         },
                         "eval": {
-                            OBJECT_TARGET: "gravitorch.creators.dataloader.VanillaDataLoaderCreator",
+                            OBJECT_TARGET: "gravitorch.creators.dataloader.DataLoaderCreator",
                             "batch_size": 4,
                             "shuffle": False,
                             "num_workers": 0,

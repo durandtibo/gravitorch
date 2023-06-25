@@ -6,7 +6,7 @@ from pytest import TempPathFactory, fixture, raises
 from torch.utils.data import DataLoader
 
 from gravitorch import constants as ct
-from gravitorch.creators.dataloader import VanillaDataLoaderCreator
+from gravitorch.creators.dataloader import DataLoaderCreator
 from gravitorch.datasources.mnist import MnistDataSource
 from gravitorch.testing import torchvision_available
 from gravitorch.utils.asset import AssetNotFoundError
@@ -65,7 +65,7 @@ def test_mnist_data_source_get_data_loader_eval(mnist_path: Path) -> None:
 def test_mnist_data_source_get_data_loader_batch_size_16(mnist_path: Path) -> None:
     data_source = MnistDataSource(
         path=mnist_path,
-        data_loader_creators={ct.TRAIN: VanillaDataLoaderCreator(batch_size=16), ct.EVAL: None},
+        data_loader_creators={ct.TRAIN: DataLoaderCreator(batch_size=16), ct.EVAL: None},
     )
     loader = data_source.get_data_loader(ct.TRAIN)
     assert isinstance(loader, DataLoader)

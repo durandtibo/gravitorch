@@ -11,7 +11,7 @@ data_loader_creators:
     drop_last: false
 
   eval:
-    _target_: gravitorch.creators.dataloader.VanillaDataLoaderCreator
+    _target_: gravitorch.creators.dataloader.DataLoaderCreator
     batch_size: ${..train.batch_size}
     shuffle: false
     num_workers: ${..train.num_workers}
