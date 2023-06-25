@@ -1,14 +1,15 @@
+from __future__ import annotations
+
 __all__ = ["setup_collator"]
 
 from collections.abc import Callable
-from typing import Union
 
 from torch.utils.data.dataloader import default_collate
 
 from gravitorch.data.dataloaders.collators.base import BaseCollator
 
 
-def setup_collator(collator: Union[Callable, dict, None]) -> Callable:
+def setup_collator(collator: Callable | dict | None) -> Callable:
     r"""Sets up a data loader collator.
 
     Args:

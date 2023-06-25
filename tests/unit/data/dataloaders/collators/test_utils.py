@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from objectory import OBJECT_TARGET
 from torch.utils.data.dataloader import default_collate
 

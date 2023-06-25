@@ -1,6 +1,8 @@
 r"""This package contains the implementation of some data loader
 collators."""
 
+from __future__ import annotations
+
 __all__ = [
     "BaseCollator",
     "DictPackedSequenceCollator",
@@ -11,11 +13,11 @@ __all__ = [
 ]
 
 from gravitorch.data.dataloaders.collators.base import BaseCollator
-from gravitorch.data.dataloaders.collators.packed_sequence import (
+from gravitorch.data.dataloaders.collators.pack import (
     DictPackedSequenceCollator,
     PackedSequenceCollator,
 )
-from gravitorch.data.dataloaders.collators.padded_sequence import (
+from gravitorch.data.dataloaders.collators.pad import (
     DictPaddedSequenceCollator,
     PaddedSequenceCollator,
 )
