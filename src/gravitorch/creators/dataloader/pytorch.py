@@ -2,7 +2,7 @@ from __future__ import annotations
 
 __all__ = [
     "AutoDataLoaderCreator",
-    "VanillaDataLoaderCreator",
+    "DataLoaderCreator",
     "DistributedDataLoaderCreator",
 ]
 
@@ -27,7 +27,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
 
     If the distributed package is activated, it uses the
     ``DistributedDataLoaderCreator``, otherwise it uses
-    ``VanillaDataLoaderCreator``.
+    ``DataLoaderCreator``.
 
 
     Note the behavior of this class may change based on the new data
@@ -83,7 +83,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
                 collate_fn=collate_fn,
             )
         else:
-            self._data_loader_creator = VanillaDataLoaderCreator(
+            self._data_loader_creator = DataLoaderCreator(
                 batch_size=batch_size,
                 shuffle=shuffle,
                 num_workers=num_workers,
@@ -104,7 +104,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
         return self._data_loader_creator.create(dataset=dataset, engine=engine)
 
 
-class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
+class DataLoaderCreator(BaseDataLoaderCreator[T]):
     r"""Defines a simple PyTorch data loader creator.
 
     Note that this data loader creator uses the default samplers.
@@ -187,11 +187,19 @@ class DistributedDataLoaderCreator(BaseDataLoaderCreator[T]):
             rank=dist.get_rank(),
             num_replicas=dist.get_world_size(),
         )
+        epoch = 0
         if engine is not None:
+            epoch = engine.epoch
             # In distributed mode, calling the set_epoch() method at the beginning
             # of each epoch before creating the DataLoader iterator is necessary to
             # make shuffling work properly across multiple epochs.
             # Otherwise, the same ordering will always be used.
-            sampler.set_epoch(engine.epoch)
+            sampler.set_epoch(epoch)
+
         # Sampler option is mutually exclusive with shuffle or drop last.
-        return create_dataloader(dataset, sampler=sampler, **self._kwargs)
+        return create_dataloader(
+            dataset,
+            sampler=sampler,
+            generator=get_torch_generator(self._seed + epoch),
+            **self._kwargs,
+        )

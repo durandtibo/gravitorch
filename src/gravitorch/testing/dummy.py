@@ -124,13 +124,13 @@ class DummyDataSource(DatasetDataSource):
         if eval_dataset is None:
             eval_dataset = DummyDataset()
 
-        from gravitorch.creators.dataloader import VanillaDataLoaderCreator
+        from gravitorch.creators.dataloader import DataLoaderCreator
 
         super().__init__(
             datasets={ct.TRAIN: train_dataset, ct.EVAL: eval_dataset},
             data_loader_creators={
-                ct.TRAIN: VanillaDataLoaderCreator(batch_size=batch_size, shuffle=False),
-                ct.EVAL: VanillaDataLoaderCreator(batch_size=batch_size, shuffle=False),
+                ct.TRAIN: DataLoaderCreator(batch_size=batch_size, shuffle=False),
+                ct.EVAL: DataLoaderCreator(batch_size=batch_size, shuffle=False),
             },
         )
 
