@@ -12,7 +12,6 @@ from typing import TypeVar
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
-from gravitorch.data.dataloaders.collators.base import setup_collator
 from gravitorch.data.dataloaders.factory import create_dataloader
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
@@ -114,78 +113,26 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
 
     Args:
     ----
-        batch_size (int, optional): Specifies the number of examples
-            per batch to load. Default: ``1``
-        shuffle (bool, optional): Specifies of the examples are
-            shuffled or not. You should set to ``True`` to have the
-            data reshuffled at every epoch. Default: ``False``
-        num_workers (int, optional): Specifies the number of
-            subprocesses to use for data loading. ``0`` means that
-            the data will be loaded in the main process.
-            Default: ``0``
-        pin_memory (bool, optional): If ``True``, the data loader will
-            copy Tensors into CUDA pinned memory before returning them.
-            If your data elements are a custom type, or your
-            :attr:`collate_fn` returns a batch that is a custom type,
-            see the example below. Default: ``False``
-        drop_last (bool, optional): set to ``True`` to drop the last
-            incomplete batch, if the dataset size is not divisible by
-            the batch size. If ``False`` and the size of dataset is
-            not divisible by the batch size, then the last batch will
-            be smaller. Default: ``False``
         seed (int, optional): Specifies the random seed used to
-            shuffle the samples if ``shuffle=True``. Default: ``0``
-        collate_fn (callable or dict or None, optional): Specifies the
-            function used to merge a list of samples to form a
-            mini-batch of Tensor(s). If ``None``, it uses the default
-            PyTorch collate function. Default: ``None``
+            reproduce the shuffling of the samples. Default: ``0``
+        **kwargs: See ``torch.utils.data.DataLoader`` documentation.
     """
 
-    def __init__(
-        self,
-        batch_size: int | None = 1,
-        shuffle: bool = True,
-        num_workers: int = 0,
-        pin_memory: bool = False,
-        drop_last: bool = False,
-        seed: int = 0,
-        collate_fn: Callable | dict | None = None,
-        **kwargs,
-    ) -> None:
-        self._batch_size = batch_size
-        self._shuffle = shuffle
-        self._num_workers = num_workers
-        self._pin_memory = pin_memory
-        self._drop_last = drop_last
-        self._seed = seed
-
-        self._collate_fn = setup_collator(collate_fn)
+    def __init__(self, seed: int = 0, **kwargs) -> None:
+        self._seed = int(seed)
         self._kwargs = kwargs
 
     def __repr__(self) -> str:
+        config = {"seed": self._seed} | self._kwargs
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  batch_size={self._batch_size},\n"
-            f"  shuffle={self._shuffle},\n"
-            f"  num_workers={self._num_workers:,},\n"
-            f"  pin_memory={self._pin_memory},\n"
-            f"  drop_last={self._drop_last},\n"
-            f"  seed={self._seed},\n"
-            f"  collate_fn={str_indent(str(self._collate_fn))},\n"
-            ")"
+            f"  {str_indent(to_pretty_dict_str(config, sorted_keys=True))}\n)"
         )
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         epoch = 0 if engine is None else engine.epoch
-        return DataLoader(
-            dataset=dataset,
-            batch_size=self._batch_size,
-            shuffle=self._shuffle,
-            num_workers=self._num_workers,
-            pin_memory=self._pin_memory,
-            drop_last=self._drop_last,
-            collate_fn=self._collate_fn,
-            generator=get_torch_generator(self._seed + epoch),
+        return create_dataloader(
+            dataset, generator=get_torch_generator(self._seed + epoch), **self._kwargs
         )
 
 
