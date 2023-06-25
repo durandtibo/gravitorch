@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["OneCacheDataCreator"]
 
 import copy
 import logging
-from typing import Any, Optional, TypeVar, Union
+from typing import Any, TypeVar
 
 from gravitorch.data.datacreators import BaseDataCreator, setup_data_creator
 from gravitorch.engines.base import BaseEngine
@@ -29,9 +31,7 @@ class OneCacheDataCreator(BaseDataCreator[T]):
             ``create`` method is called multiple times.
     """
 
-    def __init__(
-        self, data_creator: Union[BaseDataCreator[T], dict], deepcopy: bool = False
-    ) -> None:
+    def __init__(self, data_creator: BaseDataCreator[T] | dict, deepcopy: bool = False) -> None:
         self._data_creator = setup_data_creator(data_creator)
         self._deepcopy = bool(deepcopy)
         self._is_cache_created = False
@@ -59,7 +59,7 @@ class OneCacheDataCreator(BaseDataCreator[T]):
         return the data."""
         return self._deepcopy
 
-    def create(self, engine: Optional[BaseEngine] = None) -> T:
+    def create(self, engine: BaseEngine | None = None) -> T:
         r"""Creates data.
 
         Args:

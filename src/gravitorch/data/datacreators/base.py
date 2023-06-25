@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["BaseDataCreator", "setup_data_creator"]
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar, Union
+from typing import Generic, TypeVar
 
 from objectory import AbstractFactory
 
@@ -18,7 +20,7 @@ class BaseDataCreator(ABC, Generic[T], metaclass=AbstractFactory):
     r"""Defines the base class to implement a data creator."""
 
     @abstractmethod
-    def create(self, engine: Optional[BaseEngine] = None) -> T:
+    def create(self, engine: BaseEngine | None = None) -> T:
         r"""Creates data.
 
         Args:
@@ -32,7 +34,7 @@ class BaseDataCreator(ABC, Generic[T], metaclass=AbstractFactory):
         """
 
 
-def setup_data_creator(data_creator: Union[BaseDataCreator, dict]) -> BaseDataCreator:
+def setup_data_creator(data_creator: BaseDataCreator | dict) -> BaseDataCreator:
     r"""Sets up a data creator.
 
     The data creator is instantiated from its configuration by using

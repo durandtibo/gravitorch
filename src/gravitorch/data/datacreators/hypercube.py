@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 __all__ = ["HypercubeVertexDataCreator"]
 
-from typing import Optional
 
 import torch
 
@@ -101,7 +102,7 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict]):
         r"""int: The random seed used to initialize a ``torch.Generator`` object."""
         return self._torch_rng.initial_seed()
 
-    def create(self, engine: Optional[BaseEngine] = None) -> dict:
+    def create(self, engine: BaseEngine | None = None) -> dict:
         r"""Creates data.
 
         Args:
