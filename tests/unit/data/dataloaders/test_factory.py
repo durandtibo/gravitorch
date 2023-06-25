@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from objectory import OBJECT_TARGET
 from pytest import mark, raises
@@ -19,6 +19,8 @@ if is_torchdata_available():
         ReadingServiceInterface,
     )
     from torchdata.dataloader2.adapter import Adapter, Shuffle
+else:  # pragma: no cover
+    MultiProcessingReadingService, Shuffle = Mock(), Mock()
 
 
 ########################################
