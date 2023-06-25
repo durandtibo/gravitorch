@@ -16,7 +16,7 @@ def create_engine_config(random_seed: int) -> dict:
                     OBJECT_TARGET: "gravitorch.datasources.DatasetDataSource",
                     "datasets": {
                         "train": {
-                            OBJECT_TARGET: "gravitorch.data.datasets.DemoMultiClassClsDataset",
+                            OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
                             "num_examples": 20,
                             "num_classes": 6,
                             "feature_size": 12,
@@ -24,7 +24,7 @@ def create_engine_config(random_seed: int) -> dict:
                             "random_seed": 9555372204145584096,
                         },
                         "eval": {
-                            OBJECT_TARGET: "gravitorch.data.datasets.DemoMultiClassClsDataset",
+                            OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
                             "num_examples": 20,
                             "num_classes": 6,
                             "feature_size": 12,

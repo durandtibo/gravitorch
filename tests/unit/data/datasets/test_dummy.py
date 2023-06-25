@@ -5,7 +5,7 @@ from gravitorch import constants as ct
 from gravitorch.data.datasets import DummyMultiClassDataset
 
 #############################################
-#     Tests of DemoMultiClassClsDataset     #
+#     Tests of DummyMultiClassDataset     #
 #############################################
 
 
