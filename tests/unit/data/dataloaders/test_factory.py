@@ -3,12 +3,14 @@ from __future__ import annotations
 from unittest.mock import Mock, patch
 
 from objectory import OBJECT_TARGET
-from pytest import mark, raises
+from pytest import fixture, mark, raises
+from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
 from torch.utils.data.datapipes.iter import IterableWrapper
 from torch.utils.data.datapipes.iter.combinatorics import ShufflerIterDataPipe
 from torch.utils.data.graph import DataPipe
 
-from gravitorch.data.dataloaders import create_dataloader2
+from gravitorch.data.dataloaders import create_dataloader, create_dataloader2
+from gravitorch.data.datasets import DummyMultiClassDataset
 from gravitorch.testing import torchdata_available
 from gravitorch.utils.imports import is_torchdata_available
 
@@ -21,6 +23,63 @@ if is_torchdata_available():
     from torchdata.dataloader2.adapter import Adapter, Shuffle
 else:  # pragma: no cover
     MultiProcessingReadingService, Shuffle = Mock(), Mock()
+
+
+#######################################
+#     Tests for create_dataloader     #
+#######################################
+
+
+@fixture(scope="module")
+def dataset() -> Dataset:
+    return DummyMultiClassDataset(num_examples=10, num_classes=2, feature_size=4)
+
+
+@mark.parametrize(
+    "dataset",
+    (
+        DummyMultiClassDataset(num_examples=10, num_classes=2, feature_size=4),
+        {
+            OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+            "num_examples": 10,
+            "num_classes": 2,
+            "feature_size": 4,
+        },
+    ),
+)
+def test_create_dataloader_dataset(dataset: Dataset | dict) -> None:
+    dataloader = create_dataloader(dataset)
+    assert isinstance(dataloader, DataLoader)
+    assert isinstance(dataloader.dataset, DummyMultiClassDataset)
+    assert dataloader.batch_size == 1
+    assert isinstance(dataloader.sampler, SequentialSampler)
+
+
+@mark.parametrize("batch_size", (1, 2))
+def test_create_dataloader_batch_size(dataset: Dataset, batch_size: int) -> None:
+    dataloader = create_dataloader(dataset, batch_size=batch_size)
+    assert isinstance(dataloader, DataLoader)
+    assert isinstance(dataloader.dataset, DummyMultiClassDataset)
+    assert dataloader.batch_size == batch_size
+
+
+def test_create_dataloader_sampler(dataset: Dataset) -> None:
+    dataloader = create_dataloader(dataset, sampler=RandomSampler(dataset))
+    assert isinstance(dataloader, DataLoader)
+    assert isinstance(dataloader.dataset, DummyMultiClassDataset)
+    assert dataloader.batch_size == 1
+    assert isinstance(dataloader.sampler, RandomSampler)
+
+
+def test_create_dataloader_config(dataset: Dataset) -> None:
+    dataloader = create_dataloader(
+        dataset,
+        sampler={OBJECT_TARGET: "torch.utils.data.RandomSampler", "data_source": dataset},
+    )
+    assert isinstance(dataloader, DataLoader)
+    assert isinstance(dataloader.dataset, DummyMultiClassDataset)
+    assert dataloader.batch_size == 1
+    assert isinstance(dataloader.sampler, RandomSampler)
 
 
 ########################################

@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-__all__ = ["create_dataloader2"]
+__all__ = ["create_dataloader", "create_dataloader2"]
 
 from collections.abc import Iterable
 
+from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.graph import DataPipe
 
-from gravitorch.utils import setup_object
+from gravitorch.data.datasets.factory import setup_dataset
+from gravitorch.utils.factory import setup_object
 from gravitorch.utils.imports import check_torchdata, is_torchdata_available
 
 if is_torchdata_available():
@@ -18,12 +20,45 @@ else:  # pragma: no cover
     ReadingServiceInterface = "ReadingServiceInterface"
 
 
+def create_dataloader(dataset: Dataset | dict, **kwargs) -> DataLoader:
+    r"""Instantiates a ``torch.utils.data.DataLoader`` from a
+    ``torch.utils.data.Dataset`` or its configuration.
+
+    Args:
+        dataset (``torch.utils.data.Dataset`` or ``dict``): Specifies
+            a dataset or its configuration.
+        **kwargs: See ``torch.utils.data.DataLoader`` documentation.
+
+    Returns:
+        ``torch.utils.data.DataLoader``: The instantiated dataloader.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.dataloaders import create_dataloader
+        >>> create_dataloader(
+        ...     {
+        ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...         "num_examples": 10,
+        ...         "num_classes": 2,
+        ...         "feature_size": 4,
+        ...     }
+        ... )
+        <torch.utils.data.dataloader.DataLoader at 0x0123456789>
+    """
+    return DataLoader(
+        setup_dataset(dataset), **{key: setup_object(value) for key, value in kwargs.items()}
+    )
+
+
 def create_dataloader2(
     datapipe: DataPipe | dict,
     datapipe_adapter_fn: Iterable[Adapter | dict] | Adapter | dict | None = None,
     reading_service: ReadingServiceInterface | dict | None = None,
 ) -> DataLoader2:
-    r"""Creates a ``torchdata.dataloader2.DataLoader2`` object from a DataPipe or its configuration.
+    r"""Instantiates a ``torchdata.dataloader2.DataLoader2`` object
+    from a ``DataPipe`` or its configuration.
 
     Args:
         datapipe: Specifies the DataPipe or its configuration.
