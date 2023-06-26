@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["DirFilterIterDataPipe", "FileFilterIterDataPipe", "PathListerIterDataPipe"]
 
 from collections.abc import Iterator

@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["DDPPartitioner", "SyncParallelPartitioner"]
 
 from collections.abc import Sequence
-from typing import Optional, TypeVar, Union
+from typing import TypeVar
 
 from gravitorch.data.partitioners.base import BasePartitioner, setup_partitioner
 from gravitorch.distributed.ddp import broadcast_object_list
@@ -36,9 +38,7 @@ class DDPPartitioner(BasePartitioner[T]):
         r"""``int``: The partition size."""
         return self._partition_size
 
-    def partition(
-        self, items: Sequence[T], engine: Optional[BaseEngine] = None
-    ) -> list[Sequence[T]]:
+    def partition(self, items: Sequence[T], engine: BaseEngine | None = None) -> list[Sequence[T]]:
         return ddp_partitions(items=items, partition_size=self._partition_size)
 
 
@@ -56,7 +56,7 @@ class SyncParallelPartitioner(BasePartitioner[T]):
             partitioner or its configuration.
     """
 
-    def __init__(self, partitioner: Union[BasePartitioner, dict]) -> None:
+    def __init__(self, partitioner: BasePartitioner | dict) -> None:
         self._partitioner = setup_partitioner(partitioner)
 
     def __repr__(self) -> str:
@@ -71,9 +71,7 @@ class SyncParallelPartitioner(BasePartitioner[T]):
         r"""``BasePartitioner``: The partitioner."""
         return self._partitioner
 
-    def partition(
-        self, items: Sequence[T], engine: Optional[BaseEngine] = None
-    ) -> list[Sequence[T]]:
+    def partition(self, items: Sequence[T], engine: BaseEngine | None = None) -> list[Sequence[T]]:
         partitions = self._partitioner.partition(items, engine)
         # Synchronize the partitions between process so all the distributed processes
         # have the same partitions.

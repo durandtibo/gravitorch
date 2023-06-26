@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["IterDataPipeCreatorDataSource", "DataCreatorIterDataPipeCreatorDataSource"]
 
 import logging
 from collections.abc import Iterable
-from typing import Any, Optional, TypeVar, Union
+from typing import Any, TypeVar
 
 from torch.utils.data import IterDataPipe
 
@@ -91,7 +93,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         # Note that both examples lead to the same result.
     """
 
-    def __init__(self, datapipe_creators: dict[str, Union[BaseIterDataPipeCreator, dict]]) -> None:
+    def __init__(self, datapipe_creators: dict[str, BaseIterDataPipeCreator | dict]) -> None:
         self._asset_manager = AssetManager()
         logger.info("Initializing the IterDataPipe creators...")
         self._datapipe_creators = {
@@ -178,7 +180,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         """
         return self._asset_manager.has_asset(asset_id)
 
-    def get_data_loader(self, loader_id: str, engine: Optional[BaseEngine] = None) -> Iterable[T]:
+    def get_data_loader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
         r"""Gets a data loader.
 
         Args:
@@ -243,9 +245,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         """
         return loader_id in self._datapipe_creators
 
-    def _create_datapipe(
-        self, loader_id: str, engine: Optional[BaseEngine] = None
-    ) -> IterDataPipe[T]:
+    def _create_datapipe(self, loader_id: str, engine: BaseEngine | None = None) -> IterDataPipe[T]:
         r"""Creates an ``IterDataPipe`` object.
 
         Args:
@@ -295,8 +295,8 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
 
     def __init__(
         self,
-        datapipe_creators: dict[str, Union[BaseIterDataPipeCreator, dict]],
-        data_creators: dict[str, Union[BaseDataCreator, dict]],
+        datapipe_creators: dict[str, BaseIterDataPipeCreator | dict],
+        data_creators: dict[str, BaseDataCreator | dict],
     ) -> None:
         super().__init__(datapipe_creators)
         logger.info("Initializing the data creators...")
@@ -318,7 +318,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
             "\n)"
         )
 
-    def _create_datapipe(self, loader_id: str, engine: Optional[BaseEngine] = None) -> IterDataPipe:
+    def _create_datapipe(self, loader_id: str, engine: BaseEngine | None = None) -> IterDataPipe:
         r"""Creates an ``IterDataPipe`` object.
 
         Args:

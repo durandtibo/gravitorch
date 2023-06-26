@@ -1,5 +1,7 @@
 r"""This package contains the implementation of some datasets."""
 
+from __future__ import annotations
+
 __all__ = [
     "DummyMultiClassDataset",
     "FileToInMemoryDataset",

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["DictOfListConverterIterDataPipe", "ListOfDictConverterIterDataPipe"]
 
 from collections.abc import Hashable, Iterator, Mapping, Sequence

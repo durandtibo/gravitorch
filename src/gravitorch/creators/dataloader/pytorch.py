@@ -34,31 +34,8 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
 
     Args:
     ----
-        batch_size (int, optional): Specifies the number of examples
-            per batch to load. Default: ``1``
-        shuffle (bool, optional): Specifies of the examples are
-            shuffled or not. You should set to ``True`` to have the
-            data reshuffled at every epoch. Default: ``False``
-        num_workers (int, optional): Specifies the number of
-            subprocesses to use for data loading. ``0`` means that
-            the data will be loaded in the main process.
-            Default: ``0``
-        pin_memory (bool, optional): If ``True``, the data loader will
-            copy Tensors into CUDA pinned memory before returning them.
-            If your data elements are a custom type, or your
-            :attr:`collate_fn` returns a batch that is a custom type,
-            see the example below. Default: ``False``
-        drop_last (bool, optional): set to ``True`` to drop the last
-            incomplete batch, if the dataset size is not divisible by
-            the batch size. If ``False`` and the size of dataset is
-            not divisible by the batch size, then the last batch will
-            be smaller. Default: ``False``
-        seed (int, optional): Specifies the random seed used to
-            shuffle the samples if ``shuffle=True``. Default: ``0``
-        collate_fn (callable or dict or None, optional): Specifies the
-            function used to merge a list of samples to form a
-            mini-batch of Tensor(s). If ``None``, it uses the default
-            PyTorch collate function. Default: ``None``
+        **kwargs: See ``DataLoaderCreator`` or
+            ``DistributedDataLoaderCreator`` documentation.
     """
 
     def __init__(self, **kwargs) -> None:

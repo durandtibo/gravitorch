@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "TensorDictShufflerIterDataPipe",
     "shuffle_tensors",
@@ -7,7 +9,6 @@ __all__ = [
 
 import logging
 from collections.abc import Iterator, Mapping, Sequence
-from typing import Optional, Union
 
 import numpy as np
 import torch
@@ -77,7 +78,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
     def __init__(
         self,
         datapipe: IterDataPipe[Mapping],
-        dim: Union[int, dict] = 0,
+        dim: int | dict = 0,
         random_seed: int = 3510637111256283951,
     ) -> None:
         self._datapipe = datapipe
@@ -109,7 +110,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
 def shuffle_tensors(
     tensors: Sequence[Tensor],
     dim: int = 0,
-    generator: Optional[torch.Generator] = None,
+    generator: torch.Generator | None = None,
 ) -> list[Tensor]:
     r"""Shuffles tensors with the same permutation on a given dimension.
 
@@ -169,7 +170,7 @@ def shuffle_tensors(
 
 
 def shuffle_tensor_mapping(
-    mapping: Mapping, dim: Union[int, dict] = 0, generator: Optional[torch.Generator] = None
+    mapping: Mapping, dim: int | dict = 0, generator: torch.Generator | None = None
 ) -> dict:
     r"""Shuffles the tensors that are in a mapping with the same
     permutation.
@@ -282,7 +283,7 @@ def shuffle_tensor_mapping(
     return output
 
 
-def get_first_dimension(data: Union[Tensor, np.ndarray, list, tuple]) -> int:
+def get_first_dimension(data: Tensor | np.ndarray | list | tuple) -> int:
     r"""Finds the first dimension value.
 
     This function finds the first dimension value by using the

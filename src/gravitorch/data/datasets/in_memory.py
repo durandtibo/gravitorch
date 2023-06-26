@@ -1,12 +1,13 @@
 r"""This module implements datasets that stores all the examples in
 memory."""
+from __future__ import annotations
 
 __all__ = ["InMemoryDataset", "FileToInMemoryDataset"]
 
 import logging
 from collections.abc import Sequence
 from pathlib import Path
-from typing import TypeVar, Union
+from typing import TypeVar
 
 import torch
 from torch.utils.data import Dataset
@@ -69,7 +70,7 @@ class FileToInMemoryDataset(Dataset[T]):
             to load.
     """
 
-    def __init__(self, path: Union[Path, str]) -> None:
+    def __init__(self, path: Path | str) -> None:
         log_box_dataset_class(self)
         self._path = sanitize_path(path)
         logger.info(f"Loading data from: {self._path}")

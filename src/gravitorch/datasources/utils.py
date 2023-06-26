@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["setup_data_source", "setup_and_attach_data_source"]
 
 import logging
-from typing import Union
 
 from gravitorch.datasources.base import BaseDataSource
 from gravitorch.engines.base import BaseEngine
@@ -10,7 +11,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_data_source(data_source: Union[BaseDataSource, dict]) -> BaseDataSource:
+def setup_data_source(data_source: BaseDataSource | dict) -> BaseDataSource:
     r"""Sets up a data source.
 
     The data source is instantiated from its configuration by using
@@ -35,7 +36,7 @@ def setup_data_source(data_source: Union[BaseDataSource, dict]) -> BaseDataSourc
 
 
 def setup_and_attach_data_source(
-    data_source: Union[BaseDataSource, dict], engine: BaseEngine
+    data_source: BaseDataSource | dict, engine: BaseEngine
 ) -> BaseDataSource:
     r"""Sets up a data source and attach it to an engine.
 

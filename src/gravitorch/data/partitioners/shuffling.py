@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["EpochShufflePartitioner"]
 
 from collections.abc import Sequence
-from typing import Optional, TypeVar, Union
+from typing import TypeVar
 
 import torch
 
@@ -32,7 +34,7 @@ class EpochShufflePartitioner(BasePartitioner[T]):
     """
 
     def __init__(
-        self, partitioner: Union[BasePartitioner, dict], random_seed: int = 7553907118525846636
+        self, partitioner: BasePartitioner | dict, random_seed: int = 7553907118525846636
     ) -> None:
         self._partitioner = setup_partitioner(partitioner)
         self._random_seed = random_seed
@@ -55,9 +57,7 @@ class EpochShufflePartitioner(BasePartitioner[T]):
         r"""``int``: The base random seed."""
         return self._random_seed
 
-    def partition(
-        self, items: Sequence[T], engine: Optional[BaseEngine] = None
-    ) -> list[Sequence[T]]:
+    def partition(self, items: Sequence[T], engine: BaseEngine | None = None) -> list[Sequence[T]]:
         epoch = engine.epoch if engine is not None else 0
         permutation = torch.randperm(
             len(items), generator=get_torch_generator(self._random_seed + epoch)

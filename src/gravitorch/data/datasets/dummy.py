@@ -1,4 +1,5 @@
 r"""This module defines some dummy datasets."""
+from __future__ import annotations
 
 __all__ = ["DummyMultiClassDataset"]
 
