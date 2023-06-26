@@ -16,7 +16,7 @@ from gravitorch.creators.datapipe.base import (
     setup_iter_datapipe_creator,
 )
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_indent, to_torch_sequence_str
+from gravitorch.utils.format import str_indent, str_torch_sequence
 
 
 class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
@@ -44,7 +44,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(to_torch_sequence_str(self._config))},\n)"
+            f"  {str_indent(str_torch_sequence(self._config))},\n)"
         )
 
     def create(
@@ -330,7 +330,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(to_torch_sequence_str(self._creators))},\n)"
+            f"  {str_indent(str_torch_sequence(self._creators))},\n)"
         )
 
     def create(

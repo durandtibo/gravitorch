@@ -16,7 +16,7 @@ from gravitorch.data.datacreators import BaseDataCreator, setup_data_creator
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset import AssetManager
-from gravitorch.utils.format import str_indent, to_torch_mapping_str
+from gravitorch.utils.format import str_indent, str_torch_mapping
 from gravitorch.utils.summary import concise_summary
 
 logger = logging.getLogger(__name__)
@@ -99,12 +99,12 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         self._datapipe_creators = {
             key: setup_iter_datapipe_creator(creator) for key, creator in datapipe_creators.items()
         }
-        logger.info(f"IterDataPipe creators:\n{to_torch_mapping_str(self._datapipe_creators)}")
+        logger.info(f"IterDataPipe creators:\n{str_torch_mapping(self._datapipe_creators)}")
 
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(to_torch_mapping_str(self._datapipe_creators))}\n)"
+            f"  {str_indent(str_torch_mapping(self._datapipe_creators))}\n)"
         )
 
     def attach(self, engine: BaseEngine) -> None:
@@ -303,7 +303,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         self._data_creators = {
             key: setup_data_creator(creator) for key, creator in data_creators.items()
         }
-        logger.info(f"Data creators:\n{to_torch_mapping_str(self._data_creators)}")
+        logger.info(f"Data creators:\n{str_torch_mapping(self._data_creators)}")
         logger.info("Creating data...")
         self._data = {key: creator.create() for key, creator in self._data_creators.items()}
         logger.info(f"Data:\n{concise_summary(self._data)}")
@@ -312,9 +312,9 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         return (
             f"{self.__class__.__qualname__}(\n"
             "  data_creators\n"
-            f"    {str_indent(to_torch_mapping_str(self._data_creators), num_spaces=4)}\n"
+            f"    {str_indent(str_torch_mapping(self._data_creators), num_spaces=4)}\n"
             "  datapipe_creators\n"
-            f"    {str_indent(to_torch_mapping_str(self._datapipe_creators), num_spaces=4)}"
+            f"    {str_indent(str_torch_mapping(self._datapipe_creators), num_spaces=4)}"
             "\n)"
         )
 

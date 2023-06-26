@@ -10,11 +10,7 @@ import numpy as np
 import torch
 from torch import Tensor
 
-from gravitorch.utils.format import (
-    str_indent,
-    to_torch_mapping_str,
-    to_torch_sequence_str,
-)
+from gravitorch.utils.format import str_indent, str_torch_mapping, str_torch_sequence
 
 
 def concise_summary(value: Any, num_spaces: int = 2, max_length: int = 5) -> str:
@@ -123,7 +119,7 @@ def _concise_summary_sequence(sequence: Sequence, num_spaces: int = 2, max_lengt
     -------
         str: The concise summary of the sequence.
     """
-    summary = to_torch_sequence_str(
+    summary = str_torch_sequence(
         [
             concise_summary(val, num_spaces=num_spaces, max_length=max_length)
             for val in sequence[:max_length]
@@ -155,7 +151,7 @@ def _concise_summary_mapping(mapping: Mapping, num_spaces: int = 2, max_length: 
     -------
         str: The concise summary of the mapping.
     """
-    summary = to_torch_mapping_str(
+    summary = str_torch_mapping(
         {
             key: concise_summary(value, num_spaces=num_spaces, max_length=max_length)
             for key, value in islice(mapping.items(), max_length)

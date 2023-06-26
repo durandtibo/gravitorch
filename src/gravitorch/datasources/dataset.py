@@ -14,7 +14,7 @@ from gravitorch.data.datasets import setup_dataset
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset import AssetManager
-from gravitorch.utils.format import str_indent, to_torch_mapping_str
+from gravitorch.utils.format import str_indent, str_torch_mapping
 
 logger = logging.getLogger(__name__)
 
@@ -56,22 +56,22 @@ class DatasetDataSource(BaseDataSource):
 
         logger.info("Initializing the datasets...")
         self._datasets = {key: setup_dataset(dataset) for key, dataset in datasets.items()}
-        logger.info(f"datasets:\n{to_torch_mapping_str(self._datasets)}")
+        logger.info(f"datasets:\n{str_torch_mapping(self._datasets)}")
 
         logger.info("Initializing the data loader creators...")
         self._data_loader_creators = {
             key: setup_data_loader_creator(creator) for key, creator in data_loader_creators.items()
         }
-        logger.info(f"data loader creators:\n{to_torch_mapping_str(self._data_loader_creators)}")
+        logger.info(f"data loader creators:\n{str_torch_mapping(self._data_loader_creators)}")
         self._check()
 
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
             "  datasets:\n"
-            f"    {str_indent(to_torch_mapping_str(self._datasets), num_spaces=4)}\n"
+            f"    {str_indent(str_torch_mapping(self._datasets), num_spaces=4)}\n"
             "  data_loader_creators:\n"
-            f"    {str_indent(to_torch_mapping_str(self._data_loader_creators), num_spaces=4)}"
+            f"    {str_indent(str_torch_mapping(self._data_loader_creators), num_spaces=4)}"
             "\n)"
         )
 

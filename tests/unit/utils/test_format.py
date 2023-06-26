@@ -11,14 +11,14 @@ from gravitorch.utils.format import (
     human_count,
     human_time,
     str_indent,
+    str_pretty_dict,
+    str_pretty_json,
+    str_pretty_yaml,
     str_scalar,
     str_target_object,
+    str_torch_mapping,
+    str_torch_sequence,
     to_flat_dict,
-    to_pretty_dict_str,
-    to_pretty_json_str,
-    to_pretty_yaml_str,
-    to_torch_mapping_str,
-    to_torch_sequence_str,
 )
 
 #####################################
@@ -204,6 +204,169 @@ def test_str_target_object_with_target() -> None:
 
 def test_str_target_object_without_target() -> None:
     assert str_target_object({}) == "[_target_: N/A]"
+
+
+#####################################
+#     Tests for str_pretty_json     #
+#####################################
+
+
+def test_str_pretty_json_small_dict() -> None:
+    assert str_pretty_json(data={"my_key": "my_value"}) == "{'my_key': 'my_value'}"
+
+
+def test_str_pretty_json_small_list() -> None:
+    assert str_pretty_json(data=["my_key", "my_value"]) == "['my_key', 'my_value']"
+
+
+def test_str_pretty_json_small_dict_max_len_0() -> None:
+    assert str_pretty_json(data={"my_key": "my_value"}, max_len=0) == '{\n  "my_key": "my_value"\n}'
+
+
+def test_str_pretty_json_small_list_max_len_0() -> None:
+    assert (
+        str_pretty_json(data=["my_key", "my_value"], max_len=0) == '[\n  "my_key",\n  "my_value"\n]'
+    )
+
+
+def test_str_pretty_json_from_str() -> None:
+    assert str_pretty_json(data="abc") == "abc"
+
+
+def test_str_pretty_json_from_tensor() -> None:
+    assert (
+        str_pretty_json(data=torch.zeros(2, 3)) == "tensor([[0., 0., 0.],\n        [0., 0., 0.]])"
+    )
+
+
+#####################################
+#     Tests for str_pretty_yaml     #
+#####################################
+
+
+def test_str_pretty_yaml_small_dict() -> None:
+    assert str_pretty_yaml(data={"my_key": "my_value"}) == "{'my_key': 'my_value'}"
+
+
+def test_str_pretty_yaml_small_list() -> None:
+    assert str_pretty_yaml(data=["my_key", "my_value"]) == "['my_key', 'my_value']"
+
+
+def test_str_pretty_yaml_small_dict_max_len_0() -> None:
+    assert (
+        str_pretty_yaml(data={"my_key1": "my_value1", "my_key2": "my_value2"}, max_len=0)
+        == "my_key1: my_value1\nmy_key2: my_value2\n"
+    )
+
+
+def test_str_pretty_yaml_small_list_max_len_0() -> None:
+    assert str_pretty_yaml(data=["my_key", "my_value"], max_len=0) == "- my_key\n- my_value\n"
+
+
+def test_str_pretty_yaml_from_str() -> None:
+    assert str_pretty_yaml(data="abc") == "abc"
+
+
+def test_str_pretty_yaml_from_tensor() -> None:
+    assert (
+        str_pretty_yaml(data=torch.zeros(2, 3)) == "tensor([[0., 0., 0.],\n        [0., 0., 0.]])"
+    )
+
+
+#####################################
+#     Tests for str_pretty_dict     #
+#####################################
+
+
+def test_str_pretty_dict_empty() -> None:
+    assert str_pretty_dict(data={}) == ""
+
+
+def test_str_pretty_dict_1_value() -> None:
+    assert str_pretty_dict(data={"my_key": "my_value"}) == "my_key : my_value"
+
+
+def test_str_pretty_dict_sorted_key() -> None:
+    assert (
+        str_pretty_dict(data={"short": 123, "long_key": 2}, sorted_keys=True)
+        == "long_key : 2\nshort    : 123"
+    )
+
+
+def test_str_pretty_dict_unsorted_key() -> None:
+    assert (
+        str_pretty_dict(data={"short": 123, "long_key": 2}, sorted_keys=False)
+        == "short    : 123\nlong_key : 2"
+    )
+
+
+def test_str_pretty_dict_nested_dict() -> None:
+    assert str_pretty_dict(data={"my_key": {"my_key2": 123}}) == "my_key : {'my_key2': 123}"
+
+
+def test_str_pretty_dict_incorrect_indent() -> None:
+    with raises(ValueError, match="The indent has to be greater or equal to 0"):
+        str_pretty_dict(data={"my_key": "my_value"}, indent=-1)
+
+
+def test_str_pretty_dict_indent_2() -> None:
+    assert str_pretty_dict(data={"my_key": "my_value"}, indent=2) == "  my_key : my_value"
+
+
+#######################################
+#     Tests for str_torch_mapping     #
+#######################################
+
+
+def test_str_torch_mapping_empty() -> None:
+    assert str_torch_mapping({}) == ""
+
+
+def test_str_torch_mapping_1_item() -> None:
+    assert str_torch_mapping({"key": "value"}) == "(key) value"
+
+
+def test_str_torch_mapping_2_items() -> None:
+    assert str_torch_mapping({"key1": "value1", "key2": "value2"}) == "(key1) value1\n(key2) value2"
+
+
+def test_str_torch_mapping_sorted_values_true() -> None:
+    assert (
+        str_torch_mapping({"key2": "value2", "key1": "value1"}, sorted_keys=True)
+        == "(key1) value1\n(key2) value2"
+    )
+
+
+def test_str_torch_mapping_sorted_values_false() -> None:
+    assert str_torch_mapping({"key2": "value2", "key1": "value1"}) == "(key2) value2\n(key1) value1"
+
+
+def test_str_torch_mapping_2_items_multiple_line() -> None:
+    assert (
+        str_torch_mapping({"key1": "abc", "key2": "something\nelse"})
+        == "(key1) abc\n(key2) something\n  else"
+    )
+
+
+########################################
+#     Tests for str_torch_sequence     #
+########################################
+
+
+def test_str_torch_sequence_empty() -> None:
+    assert str_torch_sequence([]) == ""
+
+
+def test_str_torch_sequence_1_item() -> None:
+    assert str_torch_sequence(["abc"]) == "(0) abc"
+
+
+def test_str_torch_sequence_2_items() -> None:
+    assert str_torch_sequence(["abc", 123]) == "(0) abc\n(1) 123"
+
+
+def test_str_torch_sequence_2_items_multiple_line() -> None:
+    assert str_torch_sequence(["abc", "something\nelse"]) == "(0) abc\n(1) something\n  else"
 
 
 ##################################
@@ -439,175 +602,3 @@ def test_to_flat_dict_tensor() -> None:
 
 def test_to_flat_dict_numpy_ndarray() -> None:
     assert objects_are_equal(to_flat_dict(np.zeros((2, 3))), {None: np.zeros((2, 3))})
-
-
-########################################
-#     Tests for to_pretty_json_str     #
-########################################
-
-
-def test_to_pretty_json_str_small_dict() -> None:
-    assert to_pretty_json_str(data={"my_key": "my_value"}) == "{'my_key': 'my_value'}"
-
-
-def test_to_pretty_json_str_small_list() -> None:
-    assert to_pretty_json_str(data=["my_key", "my_value"]) == "['my_key', 'my_value']"
-
-
-def test_to_pretty_json_str_small_dict_max_len_0() -> None:
-    assert (
-        to_pretty_json_str(data={"my_key": "my_value"}, max_len=0) == '{\n  "my_key": "my_value"\n}'
-    )
-
-
-def test_to_pretty_json_str_small_list_max_len_0() -> None:
-    assert (
-        to_pretty_json_str(data=["my_key", "my_value"], max_len=0)
-        == '[\n  "my_key",\n  "my_value"\n]'
-    )
-
-
-def test_to_pretty_json_str_from_str() -> None:
-    assert to_pretty_json_str(data="abc") == "abc"
-
-
-def test_to_pretty_json_str_from_tensor() -> None:
-    assert (
-        to_pretty_json_str(data=torch.zeros(2, 3))
-        == "tensor([[0., 0., 0.],\n        [0., 0., 0.]])"
-    )
-
-
-########################################
-#     Tests for to_pretty_yaml_str     #
-########################################
-
-
-def test_to_pretty_yaml_str_small_dict() -> None:
-    assert to_pretty_yaml_str(data={"my_key": "my_value"}) == "{'my_key': 'my_value'}"
-
-
-def test_to_pretty_yaml_str_small_list() -> None:
-    assert to_pretty_yaml_str(data=["my_key", "my_value"]) == "['my_key', 'my_value']"
-
-
-def test_to_pretty_yaml_str_small_dict_max_len_0() -> None:
-    assert (
-        to_pretty_yaml_str(data={"my_key1": "my_value1", "my_key2": "my_value2"}, max_len=0)
-        == "my_key1: my_value1\nmy_key2: my_value2\n"
-    )
-
-
-def test_to_pretty_yaml_str_small_list_max_len_0() -> None:
-    assert to_pretty_yaml_str(data=["my_key", "my_value"], max_len=0) == "- my_key\n- my_value\n"
-
-
-def test_to_pretty_yaml_str_from_str() -> None:
-    assert to_pretty_yaml_str(data="abc") == "abc"
-
-
-def test_to_pretty_yaml_str_from_tensor() -> None:
-    assert (
-        to_pretty_yaml_str(data=torch.zeros(2, 3))
-        == "tensor([[0., 0., 0.],\n        [0., 0., 0.]])"
-    )
-
-
-########################################
-#     Tests for to_pretty_dict_str     #
-########################################
-
-
-def test_to_pretty_dict_str_empty() -> None:
-    assert to_pretty_dict_str(data={}) == ""
-
-
-def test_to_pretty_dict_str_1_value() -> None:
-    assert to_pretty_dict_str(data={"my_key": "my_value"}) == "my_key : my_value"
-
-
-def test_to_pretty_dict_str_sorted_key() -> None:
-    assert (
-        to_pretty_dict_str(data={"short": 123, "long_key": 2}, sorted_keys=True)
-        == "long_key : 2\nshort    : 123"
-    )
-
-
-def test_to_pretty_dict_str_unsorted_key() -> None:
-    assert (
-        to_pretty_dict_str(data={"short": 123, "long_key": 2}, sorted_keys=False)
-        == "short    : 123\nlong_key : 2"
-    )
-
-
-def test_to_pretty_dict_str_nested_dict() -> None:
-    assert to_pretty_dict_str(data={"my_key": {"my_key2": 123}}) == "my_key : {'my_key2': 123}"
-
-
-def test_to_pretty_dict_str_incorrect_indent() -> None:
-    with raises(ValueError, match="The indent has to be greater or equal to 0"):
-        to_pretty_dict_str(data={"my_key": "my_value"}, indent=-1)
-
-
-def test_to_pretty_dict_str_indent_2() -> None:
-    assert to_pretty_dict_str(data={"my_key": "my_value"}, indent=2) == "  my_key : my_value"
-
-
-##########################################
-#     Tests for to_torch_mapping_str     #
-##########################################
-
-
-def test_to_torch_mapping_str_empty() -> None:
-    assert to_torch_mapping_str({}) == ""
-
-
-def test_to_torch_mapping_str_1_item() -> None:
-    assert to_torch_mapping_str({"key": "value"}) == "(key) value"
-
-
-def test_to_torch_mapping_str_2_items() -> None:
-    assert (
-        to_torch_mapping_str({"key1": "value1", "key2": "value2"}) == "(key1) value1\n(key2) value2"
-    )
-
-
-def test_to_torch_mapping_str_sorted_values_true() -> None:
-    assert (
-        to_torch_mapping_str({"key2": "value2", "key1": "value1"}, sorted_keys=True)
-        == "(key1) value1\n(key2) value2"
-    )
-
-
-def test_to_torch_mapping_str_sorted_values_false() -> None:
-    assert (
-        to_torch_mapping_str({"key2": "value2", "key1": "value1"}) == "(key2) value2\n(key1) value1"
-    )
-
-
-def test_to_torch_mapping_str_2_items_multiple_line() -> None:
-    assert (
-        to_torch_mapping_str({"key1": "abc", "key2": "something\nelse"})
-        == "(key1) abc\n(key2) something\n  else"
-    )
-
-
-###########################################
-#     Tests for to_torch_sequence_str     #
-###########################################
-
-
-def test_to_torch_sequence_str_empty() -> None:
-    assert to_torch_sequence_str([]) == ""
-
-
-def test_to_torch_sequence_str_1_item() -> None:
-    assert to_torch_sequence_str(["abc"]) == "(0) abc"
-
-
-def test_to_torch_sequence_str_2_items() -> None:
-    assert to_torch_sequence_str(["abc", 123]) == "(0) abc\n(1) 123"
-
-
-def test_to_torch_sequence_str_2_items_multiple_line() -> None:
-    assert to_torch_sequence_str(["abc", "something\nelse"]) == "(0) abc\n(1) something\n  else"

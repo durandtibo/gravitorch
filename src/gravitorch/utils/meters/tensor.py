@@ -10,7 +10,7 @@ from coola import objects_are_equal
 from torch import Tensor
 
 from gravitorch.distributed.ddp import MAX, MIN, SUM, sync_reduce
-from gravitorch.utils.format import to_pretty_dict_str
+from gravitorch.utils.format import str_pretty_dict
 from gravitorch.utils.meters.exceptions import EmptyMeterError
 from gravitorch.utils.tensor import scalable_quantile
 from gravitorch.utils.tensor.flat import LazyFlattedTensor
@@ -504,7 +504,7 @@ class TensorMeter:
 
     def __str__(self) -> str:
         count = self.count
-        stats = to_pretty_dict_str(
+        stats = str_pretty_dict(
             {
                 "count": f"{count:,}",
                 "sum": self.sum() if count else "N/A (empty)",

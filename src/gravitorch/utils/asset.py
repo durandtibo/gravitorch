@@ -12,7 +12,7 @@ import numpy as np
 import torch
 from coola import objects_are_equal
 
-from gravitorch.utils.format import str_indent, to_torch_mapping_str
+from gravitorch.utils.format import str_indent, str_torch_mapping
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ class AssetManager:
         summaries = {name: self._get_asset_summary(asset) for name, asset in self._assets.items()}
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(to_torch_mapping_str(summaries))}\n"
+            f"  {str_indent(str_torch_mapping(summaries))}\n"
             ")"
         )
 

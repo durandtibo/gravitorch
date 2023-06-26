@@ -24,7 +24,7 @@ from gravitorch.distributed._constants import (
     SLURM_NTASKS,
     TORCH_DISTRIBUTED_ENV_VARS,
 )
-from gravitorch.utils.format import to_pretty_dict_str
+from gravitorch.utils.format import str_pretty_dict
 
 logger = logging.getLogger(__name__)
 
@@ -123,7 +123,7 @@ def show_torch_distributed_env_vars() -> None:
     env_vars = {env_var: os.environ.get(env_var, "<NOT SET>") for env_var in names}
     logger.info(
         "PyTorch environment variables for distributed training:\n"
-        f"{to_pretty_dict_str(env_vars, sorted_keys=True, indent=2)}\n"
+        f"{str_pretty_dict(env_vars, sorted_keys=True, indent=2)}\n"
     )
 
 
@@ -132,7 +132,7 @@ def show_all_slurm_env_vars() -> None:
     env_vars = {key: value for key, value in os.environ.items() if key.startswith("SLURM_")}
     logger.info(
         "All SLURM environment variables:\n"
-        f"{to_pretty_dict_str(env_vars, sorted_keys=True, indent=2)}\n"
+        f"{str_pretty_dict(env_vars, sorted_keys=True, indent=2)}\n"
     )
 
 
@@ -143,7 +143,7 @@ def show_slurm_env_vars() -> None:
     }
     logger.info(
         "SLURM environment variables:\n"
-        f"{to_pretty_dict_str(env_vars, sorted_keys=True, indent=2)}\n"
+        f"{str_pretty_dict(env_vars, sorted_keys=True, indent=2)}\n"
     )
 
 

@@ -9,7 +9,7 @@ from torch.nn import Module
 
 from gravitorch.creators.model.base import BaseModelCreator, setup_model_creator
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_indent, to_pretty_json_str
+from gravitorch.utils.format import str_indent, str_pretty_json
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ class CompiledModelCreator(BaseModelCreator):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  model_creator={self._model_creator},\n"
-            f"  compile_kwargs={str_indent(to_pretty_json_str(self._compile_kwargs))},\n"
+            f"  compile_kwargs={str_indent(str_pretty_json(self._compile_kwargs))},\n"
             ")"
         )
 

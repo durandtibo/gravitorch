@@ -12,11 +12,7 @@ from gravitorch.handlers.base import BaseHandler
 from gravitorch.rsrc.base import BaseResource
 from gravitorch.runners.resource import BaseResourceRunner
 from gravitorch.utils.exp_trackers import BaseExpTracker, setup_exp_tracker
-from gravitorch.utils.format import (
-    str_indent,
-    to_pretty_json_str,
-    to_torch_sequence_str,
-)
+from gravitorch.utils.format import str_indent, str_pretty_json, str_torch_sequence
 from gravitorch.utils.seed import manual_seed
 
 logger = logging.getLogger(__name__)
@@ -69,10 +65,10 @@ class EvaluationRunner(BaseResourceRunner):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  random_seed={self._random_seed},\n"
-            f"  engine={str_indent(to_pretty_json_str(self._engine))},\n"
-            f"  exp_tracker={str_indent(to_pretty_json_str(self._exp_tracker))},\n"
-            f"  handlers:\n  {str_indent(to_torch_sequence_str(self._handlers))},\n"
-            f"  resources:\n  {str_indent(to_torch_sequence_str(self._resources))},\n"
+            f"  engine={str_indent(str_pretty_json(self._engine))},\n"
+            f"  exp_tracker={str_indent(str_pretty_json(self._exp_tracker))},\n"
+            f"  handlers:\n  {str_indent(str_torch_sequence(self._handlers))},\n"
+            f"  resources:\n  {str_indent(str_torch_sequence(self._resources))},\n"
             ")"
         )
 
