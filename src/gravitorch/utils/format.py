@@ -8,14 +8,14 @@ __all__ = [
     "human_count",
     "human_time",
     "str_indent",
+    "str_pretty_dict",
+    "str_pretty_json",
+    "str_pretty_yaml",
     "str_scalar",
     "str_target_object",
+    "str_torch_mapping",
+    "str_torch_sequence",
     "to_flat_dict",
-    "to_pretty_dict_str",
-    "to_pretty_json_str",
-    "to_pretty_yaml_str",
-    "to_torch_mapping_str",
-    "to_torch_sequence_str",
 ]
 
 import datetime
@@ -262,6 +262,184 @@ def str_target_object(config: dict) -> str:
     return f"[{OBJECT_TARGET}: {config.get(OBJECT_TARGET, 'N/A')}]"
 
 
+def str_pretty_json(data: Any, sort_keys: bool = True, indent: int = 2, max_len: int = 80) -> str:
+    r"""Converts a data structure to a pretty JSON string.
+
+    Args:
+    ----
+        data: Specifies the input to convert to a pretty JSON string.
+        sort_keys (bool, optional): Specifies if the keys are sorted
+            or not. Default: ``True``
+        indent (int, optional): Specifies the indent. It is a
+            non-negative integer. Default: ``2``
+        max_len (int, optional): Specifies the maximum length of the
+            string representation. If the string representation is
+            longer than this length, it is converted to the json
+            representation. Default: ``80``
+
+    Returns:
+    -------
+        str: The string representation.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.format import str_pretty_json
+        >>> str_pretty_json({"my_key": "my_value"})
+        "{'my_key': 'my_value'}"
+        >>> str_pretty_json(["value1", "value2"])
+        "['value1', 'value2']"
+        >>> str_pretty_json(["value1", "value2"], max_len=5)
+        '[\n  "value1",\n  "value2"\n]'
+    """
+    str_data = str(data)
+    if len(str_data) < max_len:
+        return str_data
+    return json.dumps(data, sort_keys=sort_keys, indent=indent, default=str)
+
+
+def str_pretty_yaml(data: Any, sort_keys: bool = True, indent: int = 2, max_len: int = 80) -> str:
+    r"""Converts a data structure to a pretty YAML string.
+
+    Args:
+    ----
+        data: Specifies the input to convert to a pretty YAML string.
+        sort_keys (bool, optional): Specifies if the keys are sorted
+            or not. Default: ``True``
+        indent (int, optional): Specifies the indent. It is a
+            non-negative integer. Default: ``2``
+        max_len (int, optional): Specifies the maximum length of the
+            string representation. If the string representation is
+            longer than this length, it is converted to the json
+            representation. Default: ``max_len``
+
+    Returns:
+    -------
+        str: The string representation.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.format import str_pretty_yaml
+        >>> str_pretty_yaml({"my_key": "my_value"})
+        "{'my_key': 'my_value'}"
+        >>> str_pretty_yaml(["value1", "value2"])
+        "['value1', 'value2']"
+        >>> str_pretty_yaml(["value1", "value2"], max_len=5)
+        '- value1\n- value2\n'
+    """
+    str_data = str(data)
+    if len(str_data) < max_len:
+        return str_data
+    return yaml.safe_dump(data, sort_keys=sort_keys, indent=indent)
+
+
+def str_pretty_dict(data: dict[str, Any], sorted_keys: bool = False, indent: int = 0) -> str:
+    r"""Converts a dict to a pretty string representation.
+
+    This function was designed for flat dictionary. If you have a
+    nested dictionary, you may consider other functions. Note that
+    this function works for nested dict but the output may not be
+    nice.
+
+    Args:
+    ----
+        data (dict): Specifies the input dictionary.
+        sorted_keys (bool, optional): Specifies if the key of the dict
+            are sorted or not. Default: ``False``
+        indent (int, optional): Specifies the indentation. The value
+            should be greater or equal to 0. Default: ``0``
+
+    Returns:
+    -------
+        str: The string representation.
+
+        Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.format import str_pretty_dict
+        >>> str_pretty_dict({"my_key": "my_value"})
+        'my_key : my_value'
+        >>> str_pretty_dict({"key1": "value1", "key2": "value2"})
+        'key1 : value1\nkey2 : value2'
+    """
+    if indent < 0:
+        raise ValueError(f"The indent has to be greater or equal to 0 (received: {indent})")
+    if not data:
+        return ""
+
+    max_length = max([len(key) for key in data])
+    output = []
+    for key in sorted(data.keys()) if sorted_keys else data.keys():
+        output.append(f"{' ' * indent + str(key) + ' ' * (max_length - len(key))} : {data[key]}")
+    return "\n".join(output)
+
+
+def str_torch_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: int = 2) -> str:
+    r"""Computes a torch-like (``torch.nn.Module``) string representation of a
+    mapping.
+
+    Args:
+    ----
+        mapping (``Mapping``): Specifies the mapping.
+        sorted_keys (bool, optional): Specifies if the key of the dict
+            are sorted or not. Default: ``False``
+        num_spaces (int, optional): Specifies the number of spaces
+            used for the indentation. Default: ``2``.
+
+    Returns:
+    -------
+        str: The string representation of the mapping.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.format import str_torch_mapping
+        >>> str_torch_mapping({"key1": "abc", "key2": "something\nelse"})
+        (key1) abc
+        (key2) something
+          else
+    """
+    lines = []
+    for key, value in sorted(mapping.items()) if sorted_keys else mapping.items():
+        lines.append(f"({key}) {str_indent(value, num_spaces=num_spaces)}")
+    return "\n".join(lines)
+
+
+def str_torch_sequence(sequence: Sequence, num_spaces: int = 2) -> str:
+    r"""Computes a torch-like (``torch.nn.Module``) string representation of a
+    sequence.
+
+    Args:
+    ----
+        sequence (``Sequence``): Specifies the sequence.
+        num_spaces (int, optional): Specifies the number of spaces
+            used for the indentation. Default: ``2``.
+
+    Returns:
+    -------
+        str: The string representation of the sequence.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.format import str_torch_sequence
+        >>> str_torch_sequence(["abc", "something\nelse"])
+        (0) abc
+        (1) something
+          else
+    """
+    lines = []
+    for i, item in enumerate(sequence):
+        lines.append(f"({i}) {str_indent(item, num_spaces=num_spaces)}")
+    return "\n".join(lines)
+
+
 def to_flat_dict(
     data: dict | list | tuple | str | bool | int | float | None,
     prefix: str | None = None,
@@ -358,185 +536,3 @@ def to_flat_dict(
     else:
         flat_dict[prefix] = data
     return flat_dict
-
-
-def to_pretty_json_str(
-    data: Any, sort_keys: bool = True, indent: int = 2, max_len: int = 80
-) -> str:
-    r"""Converts a data structure to a pretty JSON string.
-
-    Args:
-    ----
-        data: Specifies the input to convert to a pretty JSON string.
-        sort_keys (bool, optional): Specifies if the keys are sorted
-            or not. Default: ``True``
-        indent (int, optional): Specifies the indent. It is a
-            non-negative integer. Default: ``2``
-        max_len (int, optional): Specifies the maximum length of the
-            string representation. If the string representation is
-            longer than this length, it is converted to the json
-            representation. Default: ``80``
-
-    Returns:
-    -------
-        str: The string representation.
-
-    Example usage:
-
-    .. code-block:: pycon
-
-        >>> from gravitorch.utils.format import to_pretty_json_str
-        >>> to_pretty_json_str({"my_key": "my_value"})
-        "{'my_key': 'my_value'}"
-        >>> to_pretty_json_str(["value1", "value2"])
-        "['value1', 'value2']"
-        >>> to_pretty_json_str(["value1", "value2"], max_len=5)
-        '[\n  "value1",\n  "value2"\n]'
-    """
-    str_data = str(data)
-    if len(str_data) < max_len:
-        return str_data
-    return json.dumps(data, sort_keys=sort_keys, indent=indent, default=str)
-
-
-def to_pretty_yaml_str(
-    data: Any, sort_keys: bool = True, indent: int = 2, max_len: int = 80
-) -> str:
-    r"""Converts a data structure to a pretty YAML string.
-
-    Args:
-    ----
-        data: Specifies the input to convert to a pretty YAML string.
-        sort_keys (bool, optional): Specifies if the keys are sorted
-            or not. Default: ``True``
-        indent (int, optional): Specifies the indent. It is a
-            non-negative integer. Default: ``2``
-        max_len (int, optional): Specifies the maximum length of the
-            string representation. If the string representation is
-            longer than this length, it is converted to the json
-            representation. Default: ``max_len``
-
-    Returns:
-    -------
-        str: The string representation.
-
-    Example usage:
-
-    .. code-block:: pycon
-
-        >>> from gravitorch.utils.format import to_pretty_yaml_str
-        >>> to_pretty_yaml_str({"my_key": "my_value"})
-        "{'my_key': 'my_value'}"
-        >>> to_pretty_yaml_str(["value1", "value2"])
-        "['value1', 'value2']"
-        >>> to_pretty_yaml_str(["value1", "value2"], max_len=5)
-        '- value1\n- value2\n'
-    """
-    str_data = str(data)
-    if len(str_data) < max_len:
-        return str_data
-    return yaml.safe_dump(data, sort_keys=sort_keys, indent=indent)
-
-
-def to_pretty_dict_str(data: dict[str, Any], sorted_keys: bool = False, indent: int = 0) -> str:
-    r"""Converts a dict to a pretty string representation.
-
-    This function was designed for flat dictionary. If you have a
-    nested dictionary, you may consider other functions. Note that
-    this function works for nested dict but the output may not be
-    nice.
-
-    Args:
-    ----
-        data (dict): Specifies the input dictionary.
-        sorted_keys (bool, optional): Specifies if the key of the dict
-            are sorted or not. Default: ``False``
-        indent (int, optional): Specifies the indentation. The value
-            should be greater or equal to 0. Default: ``0``
-
-    Returns:
-    -------
-        str: The string representation.
-
-        Example usage:
-
-    .. code-block:: pycon
-
-        >>> from gravitorch.utils.format import to_pretty_dict_str
-        >>> to_pretty_dict_str({"my_key": "my_value"})
-        'my_key : my_value'
-        >>> to_pretty_dict_str({"key1": "value1", "key2": "value2"})
-        'key1 : value1\nkey2 : value2'
-    """
-    if indent < 0:
-        raise ValueError(f"The indent has to be greater or equal to 0 (received: {indent})")
-    if not data:
-        return ""
-
-    max_length = max([len(key) for key in data])
-    output = []
-    for key in sorted(data.keys()) if sorted_keys else data.keys():
-        output.append(f"{' ' * indent + str(key) + ' ' * (max_length - len(key))} : {data[key]}")
-    return "\n".join(output)
-
-
-def to_torch_mapping_str(mapping: Mapping, sorted_keys: bool = False, num_spaces: int = 2) -> str:
-    r"""Computes a torch-like (``torch.nn.Module``) string representation of a
-    mapping.
-
-    Args:
-    ----
-        mapping (``Mapping``): Specifies the mapping.
-        sorted_keys (bool, optional): Specifies if the key of the dict
-            are sorted or not. Default: ``False``
-        num_spaces (int, optional): Specifies the number of spaces
-            used for the indentation. Default: ``2``.
-
-    Returns:
-    -------
-        str: The string representation of the mapping.
-
-    Example usage:
-
-    .. code-block:: pycon
-
-        >>> from gravitorch.utils.format import to_torch_mapping_str
-        >>> to_torch_mapping_str({"key1": "abc", "key2": "something\nelse"})
-        (key1) abc
-        (key2) something
-          else
-    """
-    lines = []
-    for key, value in sorted(mapping.items()) if sorted_keys else mapping.items():
-        lines.append(f"({key}) {str_indent(value, num_spaces=num_spaces)}")
-    return "\n".join(lines)
-
-
-def to_torch_sequence_str(sequence: Sequence, num_spaces: int = 2) -> str:
-    r"""Computes a torch-like (``torch.nn.Module``) string representation of a
-    sequence.
-
-    Args:
-    ----
-        sequence (``Sequence``): Specifies the sequence.
-        num_spaces (int, optional): Specifies the number of spaces
-            used for the indentation. Default: ``2``.
-
-    Returns:
-    -------
-        str: The string representation of the sequence.
-
-    Example usage:
-
-    .. code-block:: pycon
-
-        >>> from gravitorch.utils.format import to_torch_sequence_str
-        >>> to_torch_sequence_str(["abc", "something\nelse"])
-        (0) abc
-        (1) something
-          else
-    """
-    lines = []
-    for i, item in enumerate(sequence):
-        lines.append(f"({i}) {str_indent(item, num_spaces=num_spaces)}")
-    return "\n".join(lines)

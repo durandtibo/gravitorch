@@ -6,7 +6,7 @@ from typing import Any, Union
 from gravitorch.engines.base import BaseEngine
 from gravitorch.loops.observers.base import BaseLoopObserver
 from gravitorch.loops.observers.factory import setup_loop_observer
-from gravitorch.utils.format import str_indent, to_torch_sequence_str
+from gravitorch.utils.format import str_indent, str_torch_sequence
 
 
 class SequentialLoopObserver(BaseLoopObserver):
@@ -29,7 +29,7 @@ class SequentialLoopObserver(BaseLoopObserver):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(to_torch_sequence_str(self._observers))}\n)"
+            f"  {str_indent(str_torch_sequence(self._observers))}\n)"
         )
 
     def start(self, engine: BaseEngine) -> None:

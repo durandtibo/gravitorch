@@ -14,7 +14,7 @@ from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.data.dataloaders.factory import create_dataloader
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_indent, to_pretty_dict_str
+from gravitorch.utils.format import str_indent, str_pretty_dict
 from gravitorch.utils.seed import get_torch_generator
 
 T = TypeVar("T")
@@ -75,7 +75,7 @@ class DataLoaderCreator(BaseDataLoaderCreator[T]):
         config = {"seed": self._seed} | self._kwargs
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(to_pretty_dict_str(config, sorted_keys=True))}\n)"
+            f"  {str_indent(str_pretty_dict(config, sorted_keys=True))}\n)"
         )
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
@@ -124,7 +124,7 @@ class DistributedDataLoaderCreator(BaseDataLoaderCreator[T]):
         } | self._kwargs
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(to_pretty_dict_str(config, sorted_keys=True))}\n)"
+            f"  {str_indent(str_pretty_dict(config, sorted_keys=True))}\n)"
         )
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:

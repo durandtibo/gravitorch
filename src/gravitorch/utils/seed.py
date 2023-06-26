@@ -23,7 +23,7 @@ from contextlib import contextmanager
 import numpy
 import torch
 
-from gravitorch.utils.format import str_indent, to_pretty_dict_str
+from gravitorch.utils.format import str_indent, str_pretty_dict
 
 
 def get_random_seed(seed: int) -> int:
@@ -169,7 +169,7 @@ class RandomSeedSetter(BaseRandomSeedSetter):
 
     def __repr__(self) -> str:
         setters = {key: value for key, value in self.registry.items()}
-        return f"{self.__class__.__qualname__}(\n" f"  {str_indent(to_pretty_dict_str(setters))}\n)"
+        return f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_pretty_dict(setters))}\n)"
 
     def manual_seed(self, seed: int) -> None:
         for value in self.registry.values():

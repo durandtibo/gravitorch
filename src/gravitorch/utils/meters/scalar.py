@@ -8,7 +8,7 @@ from typing import Any
 
 import torch
 
-from gravitorch.utils.format import to_pretty_dict_str
+from gravitorch.utils.format import str_pretty_dict
 from gravitorch.utils.meters.exceptions import EmptyMeterError
 
 
@@ -86,7 +86,7 @@ class ScalarMeter:
 
     def __str__(self) -> str:
         count = self.count
-        stats = to_pretty_dict_str(
+        stats = str_pretty_dict(
             {
                 "average": self.average() if count else "N/A (empty)",
                 "count": count,

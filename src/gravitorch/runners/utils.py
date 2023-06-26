@@ -7,7 +7,7 @@ import logging
 from torch.backends import cuda, cudnn
 
 from gravitorch.runners.base import BaseRunner
-from gravitorch.utils.format import str_target_object, to_pretty_dict_str
+from gravitorch.utils.format import str_pretty_dict, str_target_object
 
 logger = logging.getLogger(__name__)
 
@@ -64,9 +64,7 @@ def show_cuda_info() -> None:
         f"{prefix}.allow_tf32": cuda.matmul.allow_tf32,
         f"{prefix}.is_built": cuda.is_built(),
     }
-    logger.info(
-        f"CUDA backend information:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n"
-    )
+    logger.info(f"CUDA backend information:\n{str_pretty_dict(info, sorted_keys=True, indent=2)}\n")
 
 
 def show_cudnn_info() -> None:
@@ -80,5 +78,5 @@ def show_cudnn_info() -> None:
         "torch.backends.cudnn.version": cudnn.version(),
     }
     logger.info(
-        f"cuDNN backend information:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n"
+        f"cuDNN backend information:\n{str_pretty_dict(info, sorted_keys=True, indent=2)}\n"
     )

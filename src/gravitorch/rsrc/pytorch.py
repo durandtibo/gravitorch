@@ -20,7 +20,7 @@ import torch
 from torch.backends import cuda, cudnn, mps
 
 from gravitorch.rsrc.base import BaseResource
-from gravitorch.utils.format import to_pretty_dict_str
+from gravitorch.utils.format import str_pretty_dict
 
 logger = logging.getLogger(__name__)
 
@@ -124,7 +124,7 @@ class PyTorchConfig(BaseResource):
             f"{prefix}.deterministic_algorithms_mode": torch.are_deterministic_algorithms_enabled(),
             f"{prefix}.deterministic_algorithms_warn_only": torch.is_deterministic_algorithms_warn_only_enabled(),
         }
-        logger.info(f"PyTorch config:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
+        logger.info(f"PyTorch config:\n{str_pretty_dict(info, sorted_keys=True, indent=2)}\n")
 
 
 @dataclass
@@ -265,7 +265,7 @@ class PyTorchCudaBackend(BaseResource):
             f"{prefix}.preferred_linalg_library": cuda.preferred_linalg_library(),
             "torch.version.cuda": torch.version.cuda,
         }
-        logger.info(f"CUDA backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
+        logger.info(f"CUDA backend:\n{str_pretty_dict(info, sorted_keys=True, indent=2)}\n")
 
 
 @dataclass
@@ -393,7 +393,7 @@ class PyTorchCudnnBackend(BaseResource):
             f"{prefix}.is_available": cudnn.is_available(),
             f"{prefix}.version": cudnn.version(),
         }
-        logger.info(f"CUDNN backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
+        logger.info(f"CUDNN backend:\n{str_pretty_dict(info, sorted_keys=True, indent=2)}\n")
 
 
 @dataclass
@@ -455,4 +455,4 @@ class PyTorchMpsBackend(BaseResource):
             f"{prefix}.is_available": mps.is_available(),
             f"{prefix}.is_built": mps.is_built(),
         }
-        logger.info(f"MPS backend:\n{to_pretty_dict_str(info, sorted_keys=True, indent=2)}\n")
+        logger.info(f"MPS backend:\n{str_pretty_dict(info, sorted_keys=True, indent=2)}\n")

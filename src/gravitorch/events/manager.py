@@ -7,7 +7,7 @@ from collections import defaultdict
 from typing import Optional
 
 from gravitorch.events.event_handlers import BaseEventHandler
-from gravitorch.utils.format import str_indent, to_torch_sequence_str
+from gravitorch.utils.format import str_indent, str_torch_sequence
 
 logger = logging.getLogger(__name__)
 
@@ -276,7 +276,6 @@ def to_event_handlers_str(event_handlers: dict[str, list], num_spaces: int = 2) 
     spaces = " " * num_spaces
     for key, value in event_handlers.items():
         lines.append(
-            f"({key})\n{spaces}"
-            f"{str_indent(to_torch_sequence_str(value, num_spaces), num_spaces)}"
+            f"({key})\n{spaces}" f"{str_indent(str_torch_sequence(value, num_spaces), num_spaces)}"
         )
     return "\n".join(lines)

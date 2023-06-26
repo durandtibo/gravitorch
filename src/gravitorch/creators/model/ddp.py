@@ -10,7 +10,7 @@ from torch.nn.parallel import DistributedDataParallel
 from gravitorch import distributed as dist
 from gravitorch.creators.model.base import BaseModelCreator, setup_model_creator
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_indent, to_pretty_json_str
+from gravitorch.utils.format import str_indent, str_pretty_json
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  model_creator={self._model_creator},\n"
-            f"  ddp_kwargs={str_indent(to_pretty_json_str(self._ddp_kwargs))},\n"
+            f"  ddp_kwargs={str_indent(str_pretty_json(self._ddp_kwargs))},\n"
             ")"
         )
 

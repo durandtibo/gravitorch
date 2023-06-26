@@ -6,7 +6,7 @@ from collections.abc import Iterable
 from typing import Any
 
 from gravitorch.distributed.ddp import SUM, sync_reduce
-from gravitorch.utils.format import to_pretty_dict_str
+from gravitorch.utils.format import str_pretty_dict
 from gravitorch.utils.meters.exceptions import EmptyMeterError
 
 
@@ -42,7 +42,7 @@ class AverageMeter:
         return f"{self.__class__.__qualname__}(count={self._count:,}, total={self._total})"
 
     def __str__(self) -> str:
-        stats = to_pretty_dict_str(
+        stats = str_pretty_dict(
             {
                 "average": self.average() if self.count else "N/A (empty)",
                 "count": self.count,

@@ -15,7 +15,7 @@ from gravitorch.models.metrics.base_epoch import BaseEpochMetric, BaseStateEpoch
 from gravitorch.models.metrics.state import AccuracyState, BaseState, setup_state
 from gravitorch.nn import ToBinaryLabel, ToCategoricalLabel
 from gravitorch.utils.exp_trackers import EpochStep
-from gravitorch.utils.format import str_indent, to_torch_mapping_str
+from gravitorch.utils.format import str_indent, str_torch_mapping
 
 logger = logging.getLogger(__name__)
 
@@ -140,7 +140,7 @@ class TopKAccuracy(BaseEpochMetric):
     def extra_repr(self) -> str:
         return (
             f"mode={self._mode},\nname={self._name},\ntopk={self._topk},\n"
-            f"states:\n  {str_indent(to_torch_mapping_str(self._states))}"
+            f"states:\n  {str_indent(str_torch_mapping(self._states))}"
         )
 
     @property
