@@ -1,10 +1,11 @@
 r"""This module defines some functionalities to instantiate dynamically a
 ``torch.utils.data.Dataset`` object from its configuration."""
+from __future__ import annotations
 
 __all__ = ["setup_dataset"]
 
 import logging
-from typing import Optional, TypeVar, Union
+from typing import TypeVar
 
 from objectory import factory
 from torch.utils.data import Dataset
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-def setup_dataset(dataset: Union[Dataset, dict, None]) -> Optional[Dataset]:
+def setup_dataset(dataset: Dataset | dict | None) -> Dataset | None:
     r"""Sets up a dataset.
 
     Args:

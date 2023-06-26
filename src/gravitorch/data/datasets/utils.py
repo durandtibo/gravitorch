@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["log_box_dataset_class"]
 
 import logging

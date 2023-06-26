@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["EvenPartitioner"]
 
 from collections.abc import Sequence
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from gravitorch.data.partitioners.base import BasePartitioner
 from gravitorch.engines import BaseEngine
@@ -44,9 +46,7 @@ class EvenPartitioner(BasePartitioner[T]):
         r"""``int``: The number of partitions."""
         return self._num_partitions
 
-    def partition(
-        self, items: Sequence[T], engine: Optional[BaseEngine] = None
-    ) -> list[Sequence[T]]:
+    def partition(self, items: Sequence[T], engine: BaseEngine | None = None) -> list[Sequence[T]]:
         return even_partitions(
             items=items,
             num_partitions=self._num_partitions,

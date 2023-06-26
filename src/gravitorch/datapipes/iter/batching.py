@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["DictBatcherIterDataPipe", "TupleBatcherIterDataPipe"]
 
 import logging
 from collections.abc import Hashable, Iterator, Sequence
-from typing import Union
 
 import torch
 from torch import Tensor
@@ -35,7 +36,7 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
 
     def __init__(
         self,
-        datapipe_or_data: Union[IterDataPipe[dict[Hashable, Tensor]], dict[Hashable, Tensor]],
+        datapipe_or_data: IterDataPipe[dict[Hashable, Tensor]] | dict[Hashable, Tensor],
         batch_size: int,
         shuffle: bool = False,
         random_seed: int = 11918852809641073385,
@@ -105,7 +106,7 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
 
     def __init__(
         self,
-        datapipe_or_tensors: Union[IterDataPipe[Sequence[Tensor]], Sequence[Tensor]],
+        datapipe_or_tensors: IterDataPipe[Sequence[Tensor]] | Sequence[Tensor],
         batch_size: int,
         shuffle: bool = False,
         random_seed: int = 13382866045483866228,

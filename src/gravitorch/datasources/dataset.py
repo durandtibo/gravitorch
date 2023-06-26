@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["DatasetDataSource"]
 
 import logging
 from collections.abc import Iterable
-from typing import Any, Optional, TypeVar, Union
+from typing import Any, TypeVar
 
 from torch.utils.data import Dataset
 
@@ -47,8 +49,8 @@ class DatasetDataSource(BaseDataSource):
 
     def __init__(
         self,
-        datasets: dict[str, Union[Dataset, dict]],
-        data_loader_creators: dict[str, Union[BaseDataLoaderCreator, dict, None]],
+        datasets: dict[str, Dataset | dict],
+        data_loader_creators: dict[str, BaseDataLoaderCreator | dict | None],
     ) -> None:
         self._asset_manager = AssetManager()
 
@@ -82,7 +84,7 @@ class DatasetDataSource(BaseDataSource):
     def has_asset(self, asset_id: str) -> bool:
         return self._asset_manager.has_asset(asset_id)
 
-    def get_data_loader(self, loader_id: str, engine: Optional[BaseEngine] = None) -> Iterable[T]:
+    def get_data_loader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
         if not self.has_data_loader(loader_id):
             raise LoaderNotFoundError(f"{loader_id} does not exist")
         return self._data_loader_creators[loader_id].create(

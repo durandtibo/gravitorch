@@ -1,9 +1,10 @@
 r"""This module implements a data source for MNIST dataset."""
 
+from __future__ import annotations
+
 __all__ = ["MnistDataSource"]
 
 from pathlib import Path
-from typing import Union
 
 from torch.utils.data import Dataset
 
@@ -34,8 +35,8 @@ class MnistDataSource(DatasetDataSource):
 
     def __init__(
         self,
-        path: Union[Path, str],
-        data_loader_creators: dict[str, Union[BaseDataLoaderCreator, dict, None]],
+        path: Path | str,
+        data_loader_creators: dict[str, BaseDataLoaderCreator | dict | None],
     ) -> None:
         train_dataset, eval_dataset = create_standard_train_eval_dataset(sanitize_path(path))
         super().__init__(

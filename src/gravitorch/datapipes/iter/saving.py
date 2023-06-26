@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["PickleSaverIterDataPipe", "PyTorchSaverIterDataPipe"]
 
 import logging
 from collections.abc import Iterator
 from pathlib import Path
-from typing import Union
 
 from torch.utils.data import IterDataPipe
 
@@ -35,7 +36,7 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
     def __init__(
         self,
         datapipe: IterDataPipe,
-        root_path: Union[Path, str],
+        root_path: Path | str,
         pattern: str = "data_{index:04d}.pkl",
     ) -> None:
         self._datapipe = datapipe
@@ -87,7 +88,7 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
     def __init__(
         self,
         datapipe: IterDataPipe,
-        root_path: Union[Path, str],
+        root_path: Path | str,
         pattern: str = "data_{index:04d}.pt",
     ) -> None:
         self._datapipe = datapipe

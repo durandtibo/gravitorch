@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["SequentialPartitioner"]
 
 from collections.abc import Sequence
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from gravitorch.data.partitioners.base import BasePartitioner
 from gravitorch.distributed import comm as dist
@@ -35,9 +37,7 @@ class SequentialPartitioner(BasePartitioner[T]):
         r"""``int``: The partition size."""
         return self._partition_size
 
-    def partition(
-        self, items: Sequence[T], engine: Optional[BaseEngine] = None
-    ) -> list[Sequence[T]]:
+    def partition(self, items: Sequence[T], engine: BaseEngine | None = None) -> list[Sequence[T]]:
         if not items:
             return [[]]
         world_size = dist.get_world_size()

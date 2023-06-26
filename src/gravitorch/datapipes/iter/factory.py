@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["create_sequential_iter_datapipe", "setup_iter_datapipe"]
 
 from collections.abc import Sequence
-from typing import Union
 
 from objectory import OBJECT_TARGET, factory
 from torch.utils.data import IterDataPipe
@@ -68,7 +69,7 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
     return datapipe
 
 
-def setup_iter_datapipe(datapipe: Union[IterDataPipe, Sequence[dict]]) -> IterDataPipe:
+def setup_iter_datapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe:
     r"""Sets up an ``IterDataPipe``.
 
     Note: it is only possible to create a sequential DataPipe from

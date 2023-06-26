@@ -1,4 +1,5 @@
 r"""This module defines a image folder dataset."""
+from __future__ import annotations
 
 __all__ = ["ImageFolderDataset"]
 

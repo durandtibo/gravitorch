@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["ImageNetDataSource", "create_train_eval_datasets_v1"]
 
 import logging
 from pathlib import Path
-from typing import Optional, Union
 
 from torch.utils.data import Dataset
 
@@ -29,11 +30,11 @@ class ImageNetDataSource(DatasetDataSource):
     @classmethod
     def create_imagenet_v1(
         cls,
-        train_path: Union[Path, str, None],
-        eval_path: Union[Path, str, None],
-        data_loader_creators: dict[str, Union[BaseDataLoaderCreator, dict, None]],
+        train_path: Path | str | None,
+        eval_path: Path | str | None,
+        data_loader_creators: dict[str, BaseDataLoaderCreator | dict | None],
         input_size: int = 224,
-    ) -> "ImageNetDataSource":
+    ) -> ImageNetDataSource:
         r"""Creates a data source for the ImageNet dataset the training
         and evaluation datasets with their original data augmentations
         (V1).
@@ -88,10 +89,10 @@ class ImageNetDataSource(DatasetDataSource):
 
 
 def create_train_eval_datasets_v1(
-    train_path: Union[Path, str, None],
-    eval_path: Union[Path, str, None],
+    train_path: Path | str | None,
+    eval_path: Path | str | None,
     input_size: int = 224,
-) -> tuple[Optional[Dataset], Optional[Dataset]]:
+) -> tuple[Dataset | None, Dataset | None]:
     r"""Creates the training and evaluation datasets with the original
     data augmentations (V1).
 
