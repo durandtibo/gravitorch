@@ -74,9 +74,9 @@ def test_auto_dataloader_creator_distributed(dataset: Dataset, batch_size: int) 
     assert dataloader.batch_size == batch_size
 
 
-##############################################
+#######################################
 #     Tests for DataLoaderCreator     #
-##############################################
+#######################################
 
 
 def test_dataloader_creator_str() -> None:
