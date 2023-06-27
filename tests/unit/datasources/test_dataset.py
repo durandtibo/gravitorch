@@ -8,7 +8,7 @@ from pytest import LogCaptureFixture, raises
 from torch.utils.data import DataLoader, Dataset
 
 from gravitorch.creators.dataloader import AutoDataLoaderCreator, BaseDataLoaderCreator
-from gravitorch.data.datasets import InMemoryDataset
+from gravitorch.data.datasets import ExampleDataset
 from gravitorch.datasources import DatasetDataSource, LoaderNotFoundError
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError
@@ -28,17 +28,17 @@ def test_dataset_data_source_datasets() -> None:
     data_source = DatasetDataSource(
         datasets={
             "train": {
-                OBJECT_TARGET: "gravitorch.data.datasets.InMemoryDataset",
+                OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
                 "examples": [1, 2, 3, 4],
             },
-            "val": InMemoryDataset(["a", "b", "c"]),
+            "val": ExampleDataset(["a", "b", "c"]),
         },
         data_loader_creators={},
     )
     assert len(data_source._datasets) == 2
-    assert isinstance(data_source._datasets["train"], InMemoryDataset)
+    assert isinstance(data_source._datasets["train"], ExampleDataset)
     assert list(data_source._datasets["train"]) == [1, 2, 3, 4]
-    assert isinstance(data_source._datasets["val"], InMemoryDataset)
+    assert isinstance(data_source._datasets["val"], ExampleDataset)
     assert list(data_source._datasets["val"]) == ["a", "b", "c"]
 
 
@@ -90,8 +90,8 @@ def test_dataset_data_source_has_asset_false() -> None:
 def test_dataset_data_source_get_data_loader_train() -> None:
     data_source = DatasetDataSource(
         datasets={
-            "train": InMemoryDataset([1, 2, 3, 4]),
-            "val": InMemoryDataset(["a", "b", "c"]),
+            "train": ExampleDataset([1, 2, 3, 4]),
+            "val": ExampleDataset(["a", "b", "c"]),
         },
         data_loader_creators={
             "train": AutoDataLoaderCreator(batch_size=4, shuffle=False),
@@ -106,8 +106,8 @@ def test_dataset_data_source_get_data_loader_train() -> None:
 def test_dataset_data_source_get_data_loader_val() -> None:
     data_source = DatasetDataSource(
         datasets={
-            "train": InMemoryDataset([1, 2, 3, 4]),
-            "val": InMemoryDataset(["a", "b", "c"]),
+            "train": ExampleDataset([1, 2, 3, 4]),
+            "val": ExampleDataset(["a", "b", "c"]),
         },
         data_loader_creators={
             "train": AutoDataLoaderCreator(batch_size=4, shuffle=False),
