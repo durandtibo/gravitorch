@@ -2,7 +2,7 @@ r"""This module implements datasets that stores all the examples in
 memory."""
 from __future__ import annotations
 
-__all__ = ["InMemoryDataset"]
+__all__ = ["ExampleDataset"]
 
 import logging
 from collections.abc import Sequence
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-class InMemoryDataset(Dataset[T]):
+class ExampleDataset(Dataset[T]):
     r"""Implements a dataset that stores all the examples in-memory.
 
     You can use this dataset only if all the examples can fit
@@ -62,10 +62,10 @@ class InMemoryDataset(Dataset[T]):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.data.datasets import InMemoryDataset
-            >>> InMemoryDataset([1, 2]).equal(InMemoryDataset([1, 2]))
+            >>> from gravitorch.data.datasets import ExampleDataset
+            >>> ExampleDataset([1, 2]).equal(ExampleDataset([1, 2]))
             True
-            >>> InMemoryDataset([1, 2]).equal(InMemoryDataset([2, 1]))
+            >>> ExampleDataset([1, 2]).equal(ExampleDataset([2, 1]))
             False
         """
         if not isinstance(other, self.__class__):
@@ -75,7 +75,7 @@ class InMemoryDataset(Dataset[T]):
         return objects_are_equal(self._examples, other._examples)
 
     @classmethod
-    def from_json_file(cls, path: Path | str) -> InMemoryDataset:
+    def from_json_file(cls, path: Path | str) -> ExampleDataset:
         r"""Instantiates a dataset with the examples from a JSON file.
 
         Args:
@@ -85,19 +85,19 @@ class InMemoryDataset(Dataset[T]):
 
         Returns:
         -------
-            ``InMemoryDataset``: An instantiated dataset.
+            ``ExampleDataset``: An instantiated dataset.
 
         Example usage:
 
         .. code-block:: pycon
 
-            >>> from gravitorch.data.datasets import InMemoryDataset
-            >>> dataset = InMemoryDataset.from_json_file("/path/to/file.pt")
+            >>> from gravitorch.data.datasets import ExampleDataset
+            >>> dataset = ExampleDataset.from_json_file("/path/to/file.pt")
         """
         return cls(load_json(sanitize_path(path)))
 
     @classmethod
-    def from_pickle_file(cls, path: Path | str) -> InMemoryDataset:
+    def from_pickle_file(cls, path: Path | str) -> ExampleDataset:
         r"""Instantiates a dataset with the examples from a pickle file.
 
         Args:
@@ -107,19 +107,19 @@ class InMemoryDataset(Dataset[T]):
 
         Returns:
         -------
-            ``InMemoryDataset``: An instantiated dataset.
+            ``ExampleDataset``: An instantiated dataset.
 
         Example usage:
 
         .. code-block:: pycon
 
-            >>> from gravitorch.data.datasets import InMemoryDataset
-            >>> dataset = InMemoryDataset.from_pickle_file("/path/to/file.pkl")
+            >>> from gravitorch.data.datasets import ExampleDataset
+            >>> dataset = ExampleDataset.from_pickle_file("/path/to/file.pkl")
         """
         return cls(load_pickle(sanitize_path(path)))
 
     @classmethod
-    def from_pytorch_file(cls, path: Path | str, **kwargs) -> InMemoryDataset:
+    def from_pytorch_file(cls, path: Path | str, **kwargs) -> ExampleDataset:
         r"""Instantiates a dataset with the examples from a PyTorch file.
 
         Args:
@@ -130,13 +130,13 @@ class InMemoryDataset(Dataset[T]):
 
         Returns:
         -------
-            ``InMemoryDataset``: An instantiated dataset.
+            ``ExampleDataset``: An instantiated dataset.
 
         Example usage:
 
         .. code-block:: pycon
 
-            >>> from gravitorch.data.datasets import InMemoryDataset
-            >>> dataset = InMemoryDataset.from_pytorch_file("/path/to/file.pt")
+            >>> from gravitorch.data.datasets import ExampleDataset
+            >>> dataset = ExampleDataset.from_pytorch_file("/path/to/file.pt")
         """
         return cls(torch.load(sanitize_path(path), **kwargs))
