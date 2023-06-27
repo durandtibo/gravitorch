@@ -31,6 +31,41 @@ def test_in_memory_dataset_getitem() -> None:
     assert dataset[1] == 2
 
 
+def test_in_memory_dataset_equal_true() -> None:
+    assert InMemoryDataset([1, 2]).equal(InMemoryDataset([1, 2]))
+
+
+def test_in_memory_dataset_equal_true_same() -> None:
+    dataset = InMemoryDataset([1, 2])
+    assert dataset.equal(dataset)
+
+
+def test_in_memory_dataset_equal_false_different_examples() -> None:
+    assert not InMemoryDataset([1, 2]).equal(InMemoryDataset([2, 1]))
+
+
+def test_in_memory_dataset_equal_false_different_type() -> None:
+    assert not InMemoryDataset([1, 2]).equal([1, 2])
+
+
+def test_in_memory_dataset_from_json_file(tmp_path: Path) -> None:
+    path = tmp_path.joinpath("data.pkl")
+    save_json((1, 2), path)
+    assert InMemoryDataset.from_json_file(path).equal(InMemoryDataset((1, 2)))
+
+
+def test_in_memory_dataset_from_pickle_file(tmp_path: Path) -> None:
+    path = tmp_path.joinpath("data.pkl")
+    save_pickle((1, 2), path)
+    assert InMemoryDataset.from_pickle_file(path).equal(InMemoryDataset((1, 2)))
+
+
+def test_in_memory_dataset_from_pytorch_file(tmp_path: Path) -> None:
+    path = tmp_path.joinpath("data.pt")
+    save_pytorch((1, 2), path)
+    assert InMemoryDataset.from_pytorch_file(path).equal(InMemoryDataset((1, 2)))
+
+
 ###########################################
 #     Tests for FileToInMemoryDataset     #
 ###########################################

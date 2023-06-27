@@ -7,9 +7,10 @@ __all__ = ["InMemoryDataset", "FileToInMemoryDataset"]
 import logging
 from collections.abc import Sequence
 from pathlib import Path
-from typing import TypeVar
+from typing import Any, TypeVar
 
 import torch
+from coola import objects_are_equal
 from torch.utils.data import Dataset
 
 from gravitorch.data.datasets.utils import log_box_dataset_class
@@ -44,6 +45,101 @@ class InMemoryDataset(Dataset[T]):
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(num_examples={len(self):,})"
+
+    def equal(self, other: Any) -> bool:
+        r"""Indicates if two datasets are equal or not.
+
+        Args:
+        ----
+            other: Specifies the other dataset to compare.
+
+        Returns:
+        -------
+            bool: ``True`` if the datasets are equal,
+                otherwise ``False``
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.data.datasets import InMemoryDataset
+            >>> InMemoryDataset([1, 2]).equal(InMemoryDataset([1, 2]))
+            True
+            >>> InMemoryDataset([1, 2]).equal(InMemoryDataset([2, 1]))
+            False
+        """
+        if not isinstance(other, self.__class__):
+            return False
+        if self is other:
+            return True
+        return objects_are_equal(self._examples, other._examples)
+
+    @classmethod
+    def from_json_file(cls, path: Path | str) -> InMemoryDataset:
+        r"""Instantiates a dataset with the examples from a JSON file.
+
+        Args:
+        ----
+            path (``pathlib.Path`` or str): Specifies the path to the
+                JSON file.
+
+        Returns:
+        -------
+            ``InMemoryDataset``: An instantiated dataset.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.data.datasets import InMemoryDataset
+            >>> dataset = InMemoryDataset.from_json_file("/path/to/file.pt")
+        """
+        return cls(load_json(sanitize_path(path)))
+
+    @classmethod
+    def from_pickle_file(cls, path: Path | str) -> InMemoryDataset:
+        r"""Instantiates a dataset with the examples from a pickle file.
+
+        Args:
+        ----
+            path (``pathlib.Path`` or str): Specifies the path to the
+                pickle file.
+
+        Returns:
+        -------
+            ``InMemoryDataset``: An instantiated dataset.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.data.datasets import InMemoryDataset
+            >>> dataset = InMemoryDataset.from_pickle_file("/path/to/file.pkl")
+        """
+        return cls(load_pickle(sanitize_path(path)))
+
+    @classmethod
+    def from_pytorch_file(cls, path: Path | str, **kwargs) -> InMemoryDataset:
+        r"""Instantiates a dataset with the examples from a PyTorch file.
+
+        Args:
+        ----
+            path (``pathlib.Path`` or str): Specifies the path to the
+                PyTorch file.
+            **kwargs: See ``torch.load`` documentation.
+
+        Returns:
+        -------
+            ``InMemoryDataset``: An instantiated dataset.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.data.datasets import InMemoryDataset
+            >>> dataset = InMemoryDataset.from_pytorch_file("/path/to/file.pt")
+        """
+        return cls(torch.load(sanitize_path(path), **kwargs))
 
 
 class FileToInMemoryDataset(Dataset[T]):
