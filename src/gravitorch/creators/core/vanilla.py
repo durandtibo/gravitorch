@@ -8,8 +8,8 @@ from torch.optim import Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.creators.core.base import BaseCoreCreator
+from gravitorch.datasources import setup_data_source
 from gravitorch.datasources.base import BaseDataSource
-from gravitorch.datasources.utils import setup_data_source
 from gravitorch.engines.base import BaseEngine
 from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
 from gravitorch.models.utils import setup_model

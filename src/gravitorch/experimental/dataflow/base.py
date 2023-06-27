@@ -5,9 +5,12 @@ __all__ = ["BaseDataFlow"]
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
 from types import TracebackType
+from typing import Generic, TypeVar
+
+T = TypeVar("T")
 
 
-class BaseDataFlow(ABC):
+class BaseDataFlow(Generic[T], ABC):
     r"""Base class to implement a dataflow.
 
     Example usage:
@@ -34,7 +37,7 @@ class BaseDataFlow(ABC):
         self.shutdown()
 
     @abstractmethod
-    def __iter__(self) -> Iterator:
+    def __iter__(self) -> Iterator[T]:
         r"""Returns an iterator on the data."""
 
     @abstractmethod

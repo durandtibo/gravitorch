@@ -22,7 +22,7 @@ def test_setup_data_source_object() -> None:
 
 def test_setup_data_source_dict_mock() -> None:
     source_mock = Mock(factory=Mock(return_value="abc"))
-    with patch("gravitorch.datasources.utils.BaseDataSource", source_mock):
+    with patch("gravitorch.datasources.base.BaseDataSource", source_mock):
         assert setup_data_source({"_target_": "name"}) == "abc"
         source_mock.factory.assert_called_once_with(_target_="name")
 
