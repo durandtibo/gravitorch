@@ -58,7 +58,7 @@ class VanillaCoreCreator(BaseCoreCreator):
             f"{self.__class__.__qualname__}(\n"
             f"  data_source={str_indent(self._data_source)},\n"
             f"  model={str_indent(self._model)},\n"
-            f"  optimizer={str_indent(self._optimizer)},\n"
+            f"  optimizer={str_indent(self._optimizer, num_spaces=4)},\n"
             f"  lr_scheduler={str_indent(self._lr_scheduler)},\n"
             ")"
         )
