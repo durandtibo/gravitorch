@@ -26,6 +26,7 @@ defaults:
       - cuda_memory_monitor_epoch
       - epoch_lr_scheduler_updater
       - epoch_optimizer_monitor
+      - epoch_cuda_empty_cache
       - save_best_engine_history
       - save_last_engine_history
       # Usually, state dict should be saved after the other handlers to capture the correct state
