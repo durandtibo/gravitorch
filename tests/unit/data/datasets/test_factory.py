@@ -1,6 +1,35 @@
+from coola import objects_are_equal
 from objectory import OBJECT_TARGET
 
-from gravitorch.data.datasets import DummyMultiClassDataset, setup_dataset
+from gravitorch.data.datasets import (
+    DummyMultiClassDataset,
+    ExampleDataset,
+    create_datasets,
+    setup_dataset,
+)
+
+#####################################
+#     Tests for create_datasets     #
+#####################################
+
+
+def test_create_datasets_empty() -> None:
+    assert create_datasets({}) == {}
+
+
+def test_create_datasets_one() -> None:
+    assert objects_are_equal(
+        create_datasets(
+            {
+                "train": {
+                    "_target_": "gravitorch.data.datasets.ExampleDataset",
+                    "examples": (1, 2, 3),
+                }
+            }
+        ),
+        {"train": ExampleDataset((1, 2, 3))},
+    )
+
 
 ###################################
 #     Tests for setup_dataset     #
