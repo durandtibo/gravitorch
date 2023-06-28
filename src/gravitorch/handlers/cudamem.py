@@ -1,4 +1,9 @@
-__all__ = ["EpochCudaMemoryMonitor", "IterationCudaMemoryMonitor", "EpochCudaEmptyCache"]
+__all__ = [
+    "EpochCudaEmptyCache",
+    "EpochCudaMemoryMonitor",
+    "IterationCudaEmptyCache",
+    "IterationCudaMemoryMonitor",
+]
 
 import logging
 
@@ -157,6 +162,50 @@ class EpochCudaEmptyCache(BaseHandler):
             event_handler=ConditionalEventHandler(
                 self.empty_cache,
                 condition=EpochPeriodicCondition(engine=engine, freq=self._freq),
+                handler_kwargs={"engine": engine},
+            ),
+        )
+
+    def empty_cache(self, engine: BaseEngine) -> None:
+        r"""Empty the CUDA cache.
+
+        Args:
+        ----
+            engine (``BaseEngine``): Specifies the engine.
+        """
+        if torch.cuda.is_available():
+            logger.info("Emptying CUDA cache...")
+            torch.cuda.empty_cache()
+
+
+class IterationCudaEmptyCache(BaseHandler):
+    r"""Implements a handler to empty the CUDA cache every ``freq`` iterations.
+
+    Args:
+    ----
+        event (str, optional): Specifies the iteration-based event when
+            the learning rate should be capture.
+            Default: ``'train_iteration_completed'``
+        freq (int, optional): Specifies the iteration frequency used to
+            monitor the learning rate. Default: ``1``
+    """
+
+    def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1) -> None:
+        self._event = str(event)
+        if freq < 1:
+            raise ValueError(f"freq has to be greater than 0 (received: {freq:,})")
+        self._freq = int(freq)
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__qualname__}(freq={self._freq}, event={self._event})"
+
+    def attach(self, engine: BaseEngine) -> None:
+        add_unique_event_handler(
+            engine=engine,
+            event=self._event,
+            event_handler=ConditionalEventHandler(
+                self.empty_cache,
+                condition=IterationPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},
             ),
         )

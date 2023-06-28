@@ -16,6 +16,7 @@ __all__ = [
     "EpochLRSchedulerUpdater",
     "EpochOptimizerMonitor",
     "EpochSysInfoMonitor",
+    "IterationCudaEmptyCache",
     "IterationCudaMemoryMonitor",
     "IterationLRMonitor",
     "IterationLRScheduler",
@@ -44,6 +45,7 @@ from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.cudamem import (
     EpochCudaEmptyCache,
     EpochCudaMemoryMonitor,
+    IterationCudaEmptyCache,
     IterationCudaMemoryMonitor,
 )
 from gravitorch.handlers.early_stopping import EarlyStopping
