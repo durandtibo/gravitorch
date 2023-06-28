@@ -6,16 +6,18 @@ __all__ = [
     "DistributedDataLoaderCreator",
 ]
 
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.data.dataloaders.factory import create_dataloader
 from gravitorch.distributed import comm as dist
-from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.format import str_indent, str_pretty_dict
 from gravitorch.utils.seed import get_torch_generator
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 T = TypeVar("T")
 
