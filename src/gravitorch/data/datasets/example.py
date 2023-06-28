@@ -2,7 +2,7 @@ r"""This module implements datasets that stores all the examples in
 memory."""
 from __future__ import annotations
 
-__all__ = ["ExampleDataset"]
+__all__ = ["ExampleDataset", "ExampleDatasetEqualityOperator"]
 
 import logging
 from collections.abc import Sequence
@@ -10,7 +10,12 @@ from pathlib import Path
 from typing import Any, TypeVar
 
 import torch
-from coola import objects_are_equal
+from coola import (
+    BaseEqualityOperator,
+    BaseEqualityTester,
+    EqualityTester,
+    objects_are_equal,
+)
 from torch.utils.data import Dataset
 
 from gravitorch.data.datasets.utils import log_box_dataset_class
@@ -140,3 +145,39 @@ class ExampleDataset(Dataset[T]):
             >>> dataset = ExampleDataset.from_pytorch_file("/path/to/file.pt")
         """
         return cls(torch.load(sanitize_path(path), **kwargs))
+
+
+class ExampleDatasetEqualityOperator(BaseEqualityOperator[ExampleDataset]):
+    r"""Implements an equality operator for ``ExampleDataset`` objects."""
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, self.__class__)
+
+    def clone(self) -> ExampleDatasetEqualityOperator:
+        return self.__class__()
+
+    def equal(
+        self,
+        tester: BaseEqualityTester,
+        object1: ExampleDataset,
+        object2: Any,
+        show_difference: bool = False,
+    ) -> bool:
+        if object1 is object2:
+            return True
+        if not isinstance(object2, ExampleDataset):
+            if show_difference:
+                logger.info(f"object2 is not a `ExampleDataset` object: {type(object2)}")
+            return False
+        object_equal = object1.equal(object2)
+        if show_difference and not object_equal:
+            logger.info(
+                f"`ExampleDataset` objects are different\nobject1=\n{object1}\nobject2=\n{object2}"
+            )
+        return object_equal
+
+
+if not EqualityTester.has_operator(ExampleDataset):
+    EqualityTester.add_operator(
+        ExampleDataset, ExampleDatasetEqualityOperator()
+    )  # pragma: no cover

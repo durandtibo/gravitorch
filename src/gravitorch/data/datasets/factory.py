@@ -1,10 +1,12 @@
 r"""This module defines some functionalities to instantiate dynamically a
 ``torch.utils.data.Dataset`` object from its configuration."""
+
 from __future__ import annotations
 
-__all__ = ["setup_dataset"]
+__all__ = ["create_datasets", "setup_dataset"]
 
 import logging
+from collections.abc import Hashable, Mapping
 from typing import TypeVar
 
 from objectory import factory
@@ -15,6 +17,38 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
+
+
+def create_datasets(datasets: Mapping[Hashable, Dataset | dict]) -> dict[Hashable, Dataset]:
+    r"""Create datasets indexed by dataset split.
+
+    Args:
+    ----
+        datasets (``Mapping``): Specifies the datasets or their
+            configuration. The key is the dataset split name and the
+            value is the dataset or its configuration.
+
+    Returns:
+    -------
+        dict: The instantiated datasets.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datasets import ExampleDataset, create_datasets
+        >>> create_datasets(
+        ...     {
+        ...         "train": ExampleDataset((1, 2, 3)),
+        ...         "val": {
+        ...             "_target_": "gravitorch.data.datasets.ExampleDataset",
+        ...             "examples": (4, 5),
+        ...         },
+        ...     }
+        ... )
+        {'train': ExampleDataset(num_examples=3), 'val': ExampleDataset(num_examples=2)}
+    """
+    return {split: setup_dataset(dataset) for split, dataset in datasets.items()}
 
 
 def setup_dataset(dataset: Dataset | dict | None) -> Dataset | None:

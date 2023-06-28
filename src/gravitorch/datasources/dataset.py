@@ -3,7 +3,7 @@ from __future__ import annotations
 __all__ = ["DatasetDataSource"]
 
 import logging
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from typing import Any, TypeVar
 
 from torch.utils.data import Dataset
@@ -49,7 +49,7 @@ class DatasetDataSource(BaseDataSource):
 
     def __init__(
         self,
-        datasets: dict[str, Dataset | dict],
+        datasets: Mapping[str, Dataset | dict],
         data_loader_creators: dict[str, BaseDataLoaderCreator | dict | None],
     ) -> None:
         self._asset_manager = AssetManager()
