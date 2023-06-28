@@ -8,6 +8,7 @@ __all__ = [
     "EngineStateLoader",
     "EngineStateLoaderWithExcludeKeys",
     "EngineStateLoaderWithIncludeKeys",
+    "EpochCudaEmptyCache",
     "EpochCudaMemoryMonitor",
     "EpochEngineStateSaver",
     "EpochLRMonitor",
@@ -27,9 +28,9 @@ __all__ = [
     "ModelArchitectureAnalyzer",
     "ModelFreezer",
     "ModelInitializer",
-    "NetworkArchitectureAnalyzer",
     "ModelParameterAnalyzer",
     "ModelStateDictLoader",
+    "NetworkArchitectureAnalyzer",
     "PartialModelStateDictLoader",
     "TagEngineStateSaver",
     "VanillaLRScheduler",
@@ -41,6 +42,7 @@ __all__ = [
 
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.cudamem import (
+    EpochCudaEmptyCache,
     EpochCudaMemoryMonitor,
     IterationCudaMemoryMonitor,
 )

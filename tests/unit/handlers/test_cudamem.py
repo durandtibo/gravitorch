@@ -8,7 +8,11 @@ from gravitorch.events import (
     EpochPeriodicCondition,
     IterationPeriodicCondition,
 )
-from gravitorch.handlers import EpochCudaMemoryMonitor, IterationCudaMemoryMonitor
+from gravitorch.handlers import (
+    EpochCudaEmptyCache,
+    EpochCudaMemoryMonitor,
+    IterationCudaMemoryMonitor,
+)
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 EVENTS = ("my_event", "my_other_event")
@@ -164,3 +168,72 @@ def test_iteration_cuda_memory_monitor_monitor_no_cuda() -> None:
     engine = Mock(spec=BaseEngine)
     IterationCudaMemoryMonitor().monitor(engine)
     engine.log_metric.assert_not_called()
+
+
+#########################################
+#     Tests for EpochCudaEmptyCache     #
+#########################################
+
+
+def test_epoch_cuda_empty_cache_str() -> None:
+    assert str(EpochCudaEmptyCache()).startswith("EpochCudaEmptyCache(")
+
+
+@mark.parametrize("event", EVENTS)
+def test_epoch_cuda_empty_cache_event(event: str) -> None:
+    assert EpochCudaEmptyCache(event)._event == event
+
+
+def test_epoch_cuda_empty_cache_event_default() -> None:
+    assert EpochCudaEmptyCache()._event == EngineEvents.EPOCH_COMPLETED
+
+
+@mark.parametrize("freq", (1, 2))
+def test_epoch_cuda_empty_cache_freq(freq: int) -> None:
+    assert EpochCudaEmptyCache(freq=freq)._freq == freq
+
+
+@mark.parametrize("freq", (0, -1))
+def test_epoch_cuda_empty_cache_incorrect_freq(freq: int) -> None:
+    with raises(ValueError, match="freq has to be greater than 0"):
+        EpochCudaEmptyCache(freq=freq)
+
+
+def test_epoch_cuda_empty_cache_freq_default() -> None:
+    assert EpochCudaEmptyCache()._freq == 1
+
+
+@mark.parametrize("event", EVENTS)
+@mark.parametrize("freq", (1, 2))
+def test_epoch_cuda_empty_cache_attach(event: str, freq: int) -> None:
+    handler = EpochCudaEmptyCache(event=event, freq=freq)
+    engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=False))
+    handler.attach(engine)
+    engine.add_event_handler.assert_called_once_with(
+        event,
+        ConditionalEventHandler(
+            handler.empty_cache,
+            condition=EpochPeriodicCondition(engine=engine, freq=freq),
+            handler_kwargs={"engine": engine},
+        ),
+    )
+
+
+def test_epoch_cuda_empty_cache_attach_duplicate() -> None:
+    engine = Mock(spec=BaseEngine, epoch=-1, has_event_handler=Mock(return_value=True))
+    EpochCudaEmptyCache().attach(engine)
+    engine.add_event_handler.assert_not_called()
+
+
+@patch("torch.cuda.is_available", lambda *args: True)
+def test_epoch_cuda_empty_cache_monitor_cuda() -> None:
+    with patch("gravitorch.handlers.cudamem.torch.cuda.empty_cache") as empty_mock:
+        EpochCudaEmptyCache().empty_cache(engine=Mock(spec=BaseEngine))
+        empty_mock.assert_called_once_with()
+
+
+@patch("torch.cuda.is_available", lambda *args: False)
+def test_epoch_cuda_empty_cache_monitor_no_cuda() -> None:
+    with patch("gravitorch.handlers.cudamem.torch.cuda.empty_cache") as empty_mock:
+        EpochCudaEmptyCache().empty_cache(engine=Mock(spec=BaseEngine))
+        empty_mock.assert_not_called()
