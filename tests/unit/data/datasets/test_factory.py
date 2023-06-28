@@ -31,6 +31,44 @@ def test_create_datasets_one() -> None:
     )
 
 
+def test_create_datasets_two() -> None:
+    assert objects_are_equal(
+        create_datasets(
+            {
+                "train": {
+                    "_target_": "gravitorch.data.datasets.ExampleDataset",
+                    "examples": (1, 2, 3),
+                },
+                "val": ExampleDataset((4, 5)),
+            }
+        ),
+        {"train": ExampleDataset((1, 2, 3)), "val": ExampleDataset((4, 5))},
+    )
+
+
+def test_create_datasets_three() -> None:
+    assert objects_are_equal(
+        create_datasets(
+            {
+                "train": {
+                    "_target_": "gravitorch.data.datasets.ExampleDataset",
+                    "examples": (1, 2, 3),
+                },
+                "val": ExampleDataset((4, 5)),
+                "test": {
+                    "_target_": "gravitorch.data.datasets.ExampleDataset",
+                    "examples": ("A", "B"),
+                },
+            }
+        ),
+        {
+            "train": ExampleDataset((1, 2, 3)),
+            "val": ExampleDataset((4, 5)),
+            "test": ExampleDataset(("A", "B")),
+        },
+    )
+
+
 ###################################
 #     Tests for setup_dataset     #
 ###################################
