@@ -90,7 +90,6 @@ def test_send_to_device_set(device: str) -> None:
     ),
 )
 def test_send_to_device_dict(device: str, obj: Mapping, obj_cls: type[object]) -> None:
-    print(obj, obj_cls)
     device = torch.device(device)
     obj = move_to_device(obj, device)
     assert isinstance(obj, obj_cls)

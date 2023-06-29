@@ -405,7 +405,6 @@ def test_extended_error_state_value_prefix_suffix(prefix: str, suffix: str) -> N
             f"{prefix}quantile_0.9{suffix}": 9.0,
             f"{prefix}num_predictions{suffix}": 11,
         },
-        show_difference=True,
     )
 
 
