@@ -229,12 +229,6 @@ def test_to_event_handlers_str() -> None:
 
 
 def test_to_event_handlers_str_num_spaces_4() -> None:
-    print(
-        to_event_handlers_str(
-            {"event1": ["handler1"], "event2": ["handler21", "handler22\nblabla"]},
-            num_spaces=4,
-        )
-    )
     assert (
         to_event_handlers_str(
             {"event1": ["handler1"], "event2": ["handler21", "handler22\nblabla"]},

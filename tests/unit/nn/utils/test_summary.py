@@ -65,7 +65,6 @@ def test_module_summary_bilinear(device: str) -> None:
     device = torch.device(device)
     module = nn.Bilinear(in1_features=3, in2_features=4, out_features=7).to(device=device)
     summary = ModuleSummary(module)
-    print(summary.num_parameters)
     assert summary.num_parameters == 91
     assert summary.num_learnable_parameters == 91
     assert summary.layer_type == "Bilinear"
