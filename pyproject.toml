@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.16"
+version = "0.0.17a0"
 description = "A library to train ML models with PyTorch"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]

@@ -16,10 +16,14 @@ if is_torchdata_available():
 ########################################
 
 
-def test_dataloader_dataflow_str() -> None:
-    assert str(DataLoaderDataFlow(DataLoader(TensorDataset(torch.arange(10))))).startswith(
-        "DataLoaderDataFlow("
+def test_dataloader_dataflow_str_with_length() -> None:
+    assert str(DataLoaderDataFlow(DataLoader(TensorDataset(torch.arange(10))))) == (
+        "DataLoaderDataFlow(length=10)"
     )
+
+
+def test_dataloader_dataflow_str_without_length() -> None:
+    assert str(DataLoaderDataFlow(DataLoader(i for i in range(5)))) == ("DataLoaderDataFlow()")
 
 
 def test_dataloader_dataflow_incorrect_type() -> None:
