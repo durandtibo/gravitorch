@@ -55,8 +55,12 @@ class IterableDataFlow(BaseDataFlow[T]):
                 )
         yield from iterable
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}()"
+    def __repr__(self) -> str:
+        try:
+            extra = f"length={len(self.iterable):,}"
+        except TypeError:
+            extra = ""
+        return f"{self.__class__.__qualname__}({extra})"
 
     def launch(self) -> None:
         r"""Nothing to do for this dataflow."""

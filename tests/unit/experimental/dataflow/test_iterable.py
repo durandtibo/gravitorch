@@ -7,8 +7,12 @@ from gravitorch.experimental.dataflow import IterableDataFlow
 ######################################
 
 
-def test_iterable_dataflow_str() -> None:
-    assert str(IterableDataFlow([1, 2, 3, 4, 5])).startswith("IterableDataFlow(")
+def test_iterable_dataflow_str_with_length() -> None:
+    assert str(IterableDataFlow([1, 2, 3, 4, 5])) == "IterableDataFlow(length=5)"
+
+
+def test_iterable_dataflow_str_without_length() -> None:
+    assert str(IterableDataFlow(i for i in range(5))) == "IterableDataFlow()"
 
 
 def test_iterable_dataflow_incorrect_type() -> None:
