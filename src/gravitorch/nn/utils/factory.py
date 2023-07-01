@@ -5,11 +5,39 @@ __all__ = ["setup_module"]
 import logging
 
 from objectory import factory
+from objectory.utils import is_object_config
 from torch.nn import Module
 
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
+
+
+def is_module_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``torch.nn.Module``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``torch.nn.Module`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn import is_module_config
+        >>> is_module_config({"_target_": "torch.nn.Identity"})
+        True
+    """
+    return is_object_config(config, Module)
 
 
 def setup_module(module: Module | dict) -> Module:

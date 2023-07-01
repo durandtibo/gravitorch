@@ -5,7 +5,20 @@ from pytest import mark
 from torch import nn
 from torch.nn import ReLU
 
-from gravitorch.nn import setup_module
+from gravitorch.nn import is_module_config, setup_module
+
+######################################
+#     Tests for is_module_config     #
+######################################
+
+
+def test_is_module_config_true() -> None:
+    assert is_module_config({"_target_": "torch.nn.Identity"})
+
+
+def test_is_module_config_false() -> None:
+    assert not is_module_config({"_target_": "gravitorch.loops.training.VanillaTrainingLoop"})
+
 
 ##################################
 #     Tests for setup_module     #

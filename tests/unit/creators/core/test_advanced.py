@@ -15,6 +15,7 @@ from gravitorch.creators.datasource import (
 from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
 from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
 from gravitorch.creators.optimizer import VanillaOptimizerCreator
+from gravitorch.engines import BaseEngine
 from gravitorch.testing import DummyDataSource
 
 #########################################
@@ -46,7 +47,7 @@ def test_advanced_core_creator_create_no_optimizer_creator(
     datasource_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
 ) -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = AdvancedCoreCreator(
         datasource_creator=datasource_creator, model_creator=model_creator
     )
@@ -64,7 +65,7 @@ def test_advanced_core_creator_create_optimizer_creator(
     datasource_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
 ) -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = AdvancedCoreCreator(
         datasource_creator=datasource_creator,
         model_creator=model_creator,
@@ -87,7 +88,7 @@ def test_advanced_core_creator_create_lr_scheduler_creator(
     datasource_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
 ) -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = AdvancedCoreCreator(
         datasource_creator=datasource_creator,
         model_creator=model_creator,

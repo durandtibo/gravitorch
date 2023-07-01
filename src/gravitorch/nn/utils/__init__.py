@@ -16,6 +16,7 @@ __all__ = [
     "is_loss_decreasing",
     "is_loss_decreasing_with_adam",
     "is_loss_decreasing_with_sgd",
+    "is_module_config",
     "is_module_on_device",
     "load_checkpoint_to_module",
     "load_state_dict_to_module",
@@ -30,7 +31,7 @@ __all__ = [
     "unfreeze_module",
 ]
 
-from gravitorch.nn.utils.factory import setup_module
+from gravitorch.nn.utils.factory import is_module_config, setup_module
 from gravitorch.nn.utils.module_helpers import (
     freeze_module,
     get_module_device,

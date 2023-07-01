@@ -9,6 +9,7 @@ from torch.nn.parallel import DistributedDataParallel
 from gravitorch import distributed as dist
 from gravitorch.creators.optimizer import ZeroRedundancyOptimizerCreator
 from gravitorch.distributed import gloocontext
+from gravitorch.engines import BaseEngine
 from gravitorch.testing import gloo_available
 
 ####################################################
@@ -34,6 +35,8 @@ def test_zero_redundancy_optimizer_creator_create() -> None:
     )
     with gloocontext():
         assert isinstance(
-            creator.create(engine=Mock(), model=DistributedDataParallel(nn.Linear(4, 6))),
+            creator.create(
+                engine=Mock(spec=BaseEngine), model=DistributedDataParallel(nn.Linear(4, 6))
+            ),
             ZeroRedundancyOptimizer,
         )

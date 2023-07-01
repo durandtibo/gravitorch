@@ -9,6 +9,7 @@ from torch import nn
 from torch.nn.utils.rnn import pack_sequence
 
 from gravitorch import constants as ct
+from gravitorch.engines import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.events import VanillaEventHandler
 from gravitorch.models.criteria import VanillaLoss
@@ -272,7 +273,7 @@ def test_attach_without_metric() -> None:
         network=BetaMLP(input_size=16, hidden_sizes=(32, 8)),
         criterion=VanillaLoss(criterion=nn.CrossEntropyLoss()),
     )
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     model.attach(engine)
     engine.add_event_handler.assert_not_called()
 

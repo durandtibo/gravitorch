@@ -3,6 +3,7 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 from pytest import mark
 
+from gravitorch.engines import BaseEngine
 from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     EpochLRMonitor,
@@ -22,7 +23,7 @@ EVENTS = ("my_event", "my_other_event")
 
 @mark.parametrize("event", EVENTS)
 def test_add_unique_event_handler_has_event_handler_false(event: str) -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     engine.has_event_handler.return_value = False
     event_handler = VanillaEventHandler(Mock())
     add_unique_event_handler(engine, event, event_handler)
@@ -31,7 +32,7 @@ def test_add_unique_event_handler_has_event_handler_false(event: str) -> None:
 
 @mark.parametrize("event", EVENTS)
 def test_add_unique_event_handler_has_event_handler_true(event: str) -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     engine.has_event_handler.return_value = True
     event_handler = VanillaEventHandler(Mock())
     add_unique_event_handler(engine, event, event_handler)
@@ -59,7 +60,7 @@ def test_setup_handler_from_config() -> None:
 
 
 def test_setup_and_attach_handlers_from_config() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     engine.epoch = -1
     engine.has_event_handler.return_value = False
     handlers = setup_and_attach_handlers(
@@ -70,7 +71,7 @@ def test_setup_and_attach_handlers_from_config() -> None:
 
 
 def test_setup_and_attach_handlers_2_handlers() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     handler1 = Mock()
     handler2 = Mock()
     handlers = setup_and_attach_handlers(engine=engine, handlers=(handler1, handler2))

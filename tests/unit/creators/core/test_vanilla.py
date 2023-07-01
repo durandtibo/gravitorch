@@ -8,6 +8,7 @@ from torch.optim.lr_scheduler import StepLR
 from gravitorch import constants as ct
 from gravitorch.creators.core import VanillaCoreCreator
 from gravitorch.datasources import BaseDataSource
+from gravitorch.engines import BaseEngine
 from gravitorch.testing import DummyDataSource
 
 ########################################
@@ -22,7 +23,7 @@ def test_vanilla_core_creator_str() -> None:
 
 
 def test_vanilla_core_creator_create() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = VanillaCoreCreator(
         datasource=DummyDataSource(),
         model=nn.Linear(4, 6),
@@ -38,7 +39,7 @@ def test_vanilla_core_creator_create() -> None:
 
 
 def test_vanilla_core_creator_create_optimizer() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = VanillaCoreCreator(
         datasource=DummyDataSource(),
         model=nn.Linear(4, 6),
@@ -56,7 +57,7 @@ def test_vanilla_core_creator_create_optimizer() -> None:
 
 
 def test_vanilla_core_creator_create_lr_scheduler() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = VanillaCoreCreator(
         datasource=DummyDataSource(),
         model=nn.Linear(4, 6),
