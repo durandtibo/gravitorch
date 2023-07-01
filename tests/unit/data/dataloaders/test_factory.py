@@ -22,6 +22,7 @@ if is_torchdata_available():
     )
     from torchdata.dataloader2.adapter import Adapter, Shuffle
 else:  # pragma: no cover
+    Adapter = "Adapter"
     MultiProcessingReadingService, Shuffle = Mock(), Mock()
 
 
