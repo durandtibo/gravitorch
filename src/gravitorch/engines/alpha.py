@@ -83,7 +83,7 @@ class AlphaEngine(BaseEngine):
         core_creator = setup_core_creator(core_creator)
         logger.info(f"core_creator:\n{core_creator}")
         (
-            self._data_source,
+            self._datasource,
             self._model,
             self._optimizer,
             self._lr_scheduler,
@@ -95,7 +95,7 @@ class AlphaEngine(BaseEngine):
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data_source={str_indent(self._data_source)},\n"
+            f"  datasource={str_indent(self._datasource)},\n"
             f"  model={str_indent(self._model)},\n"
             f"  optimizer={str_indent(self._optimizer)},\n"
             f"  lr_scheduler={str_indent(self._lr_scheduler)},\n"
@@ -108,8 +108,8 @@ class AlphaEngine(BaseEngine):
         )
 
     @property
-    def data_source(self) -> BaseDataSource:
-        return self._data_source
+    def datasource(self) -> BaseDataSource:
+        return self._datasource
 
     @property
     def epoch(self) -> int:

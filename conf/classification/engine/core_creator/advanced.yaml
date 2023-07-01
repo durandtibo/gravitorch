@@ -1,5 +1,5 @@
 defaults:
-  - data_source_creator: vanilla
+  - datasource_creator: vanilla
   - model_creator: vanilla
   - optimizer_creator: vanilla
   - lr_scheduler_creator: vanilla

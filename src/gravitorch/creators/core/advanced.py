@@ -9,7 +9,7 @@ from torch.optim import Optimizer
 from gravitorch.creators.core.base import BaseCoreCreator
 from gravitorch.creators.datasource.base import (
     BaseDataSourceCreator,
-    setup_data_source_creator,
+    setup_datasource_creator,
 )
 from gravitorch.creators.lr_scheduler import (
     BaseLRSchedulerCreator,
@@ -29,7 +29,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
 
     Args:
     ----
-        data_source_creator (``BaseDataSourceCreator`` or dict):
+        datasource_creator (``BaseDataSourceCreator`` or dict):
             Specifies the data source creator or its configuration.
         model_creator (``BaseModelCreator`` or dict): Specifies the
             model creator or its configuration.
@@ -43,12 +43,12 @@ class AdvancedCoreCreator(BaseCoreCreator):
 
     def __init__(
         self,
-        data_source_creator: BaseDataSourceCreator | dict,
+        datasource_creator: BaseDataSourceCreator | dict,
         model_creator: BaseModelCreator | dict,
         optimizer_creator: BaseOptimizerCreator | dict | None = None,
         lr_scheduler_creator: BaseLRSchedulerCreator | dict | None = None,
     ) -> None:
-        self._data_source_creator = setup_data_source_creator(data_source_creator)
+        self._datasource_creator = setup_datasource_creator(datasource_creator)
         self._model_creator = setup_model_creator(model_creator)
         self._optimizer_creator = setup_optimizer_creator(optimizer_creator)
         self._lr_scheduler_creator = setup_lr_scheduler_creator(lr_scheduler_creator)
@@ -56,7 +56,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data_source_creator={str_indent(self._data_source_creator)},\n"
+            f"  datasource_creator={str_indent(self._datasource_creator)},\n"
             f"  model_creator={str_indent(self._model_creator)},\n"
             f"  optimizer_creator={str_indent(self._optimizer_creator)},\n"
             f"  lr_scheduler_creator={str_indent(self._lr_scheduler_creator)},\n"
@@ -66,8 +66,8 @@ class AdvancedCoreCreator(BaseCoreCreator):
     def create(
         self, engine: BaseEngine
     ) -> tuple[BaseDataSource, Module, Optimizer | None, LRSchedulerType | None]:
-        data_source = self._data_source_creator.create(engine=engine)
+        datasource = self._datasource_creator.create(engine=engine)
         model = self._model_creator.create(engine=engine)
         optimizer = self._optimizer_creator.create(engine=engine, model=model)
         lr_scheduler = self._lr_scheduler_creator.create(engine=engine, optimizer=optimizer)
-        return data_source, model, optimizer, lr_scheduler
+        return datasource, model, optimizer, lr_scheduler

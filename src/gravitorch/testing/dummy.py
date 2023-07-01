@@ -161,7 +161,7 @@ class DummyClassificationModel(BaseModel):
 
 
 def create_dummy_engine(
-    data_source: BaseDataSource | dict | None = None,
+    datasource: BaseDataSource | dict | None = None,
     model: Module | dict | None = None,
     optimizer: Optimizer | dict | None = None,
     device: torch.device | None = None,
@@ -171,7 +171,7 @@ def create_dummy_engine(
 
     Args:
     ----
-        data_source (``BaseDataSource`` or dict or ``None``): Specifies
+        datasource (``BaseDataSource`` or dict or ``None``): Specifies
             the data source or its configuration. If ``None``, a dummy
             data source is automatically created. Default: ``None``
         model (``Module`` or dict or ``None``): Specifies the model or
@@ -184,7 +184,7 @@ def create_dummy_engine(
             device. Default: ``None``
         **kwargs: Arbitrary keyword arguments.
     """
-    data_source = data_source or DummyDataSource(batch_size=2)
+    datasource = datasource or DummyDataSource(batch_size=2)
     model = model or DummyClassificationModel()
     optimizer = optimizer or {OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
 
@@ -193,7 +193,7 @@ def create_dummy_engine(
 
     return AlphaEngine(
         core_creator=VanillaCoreCreator(
-            data_source=data_source,
+            datasource=datasource,
             model=model.to(device=device),
             optimizer=optimizer,
         ),

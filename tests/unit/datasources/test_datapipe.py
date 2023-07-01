@@ -24,7 +24,7 @@ from gravitorch.utils.asset import AssetNotFoundError
 
 
 @fixture
-def data_source() -> IterDataPipeCreatorDataSource:
+def datasource() -> IterDataPipeCreatorDataSource:
     return IterDataPipeCreatorDataSource(
         {
             "train": {
@@ -49,107 +49,107 @@ def data_source() -> IterDataPipeCreatorDataSource:
     )
 
 
-def test_iter_data_pipe_creator_data_source_str() -> None:
+def test_iter_data_pipe_creator_datasource_str() -> None:
     assert str(
         IterDataPipeCreatorDataSource({"train": Mock(spec=BaseIterDataPipeCreator)})
     ).startswith("IterDataPipeCreatorDataSource(")
 
 
-def test_iter_data_pipe_creator_data_source_attach(
-    caplog: LogCaptureFixture, data_source: IterDataPipeCreatorDataSource
+def test_iter_data_pipe_creator_datasource_attach(
+    caplog: LogCaptureFixture, datasource: IterDataPipeCreatorDataSource
 ) -> None:
     with caplog.at_level(logging.INFO):
-        data_source.attach(engine=Mock(spec=BaseEngine))
+        datasource.attach(engine=Mock(spec=BaseEngine))
         assert len(caplog.messages) >= 1
 
 
-def test_iter_data_pipe_creator_data_source_get_asset_exists(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_get_asset_exists(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    data_source._asset_manager.add_asset("something", 2)
-    assert data_source.get_asset("something") == 2
+    datasource._asset_manager.add_asset("something", 2)
+    assert datasource.get_asset("something") == 2
 
 
-def test_iter_data_pipe_creator_data_source_get_asset_does_not_exist(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_get_asset_does_not_exist(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
     with raises(AssetNotFoundError, match="The asset 'something' does not exist"):
-        data_source.get_asset("something")
+        datasource.get_asset("something")
 
 
-def test_iter_data_pipe_creator_data_source_has_asset_true(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_has_asset_true(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    data_source._asset_manager.add_asset("something", 1)
-    assert data_source.has_asset("something")
+    datasource._asset_manager.add_asset("something", 1)
+    assert datasource.has_asset("something")
 
 
-def test_iter_data_pipe_creator_data_source_has_asset_false(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_has_asset_false(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    assert not data_source.has_asset("something")
+    assert not datasource.has_asset("something")
 
 
-def test_iter_data_pipe_creator_data_source_get_data_loader_train(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_get_data_loader_train(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    loader = data_source.get_data_loader("train")
+    loader = datasource.get_data_loader("train")
     assert isinstance(loader, SourceWrapper)
     assert tuple(loader) == (1, 2, 3, 4)
 
 
-def test_iter_data_pipe_creator_data_source_get_data_loader_val(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_get_data_loader_val(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    loader = data_source.get_data_loader("val")
+    loader = datasource.get_data_loader("val")
     assert isinstance(loader, SourceWrapper)
     assert tuple(loader) == ("a", "b", "c")
 
 
-def test_iter_data_pipe_creator_data_source_get_data_loader_missing(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_get_data_loader_missing(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
     with raises(LoaderNotFoundError):
-        data_source.get_data_loader("missing")
+        datasource.get_data_loader("missing")
 
 
-def test_iter_data_pipe_creator_data_source_get_data_loader_with_engine() -> None:
+def test_iter_data_pipe_creator_datasource_get_data_loader_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
-    data_source = IterDataPipeCreatorDataSource({"train": datapipe_creator})
-    data_source.get_data_loader("train", engine=engine)
+    datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
+    datasource.get_data_loader("train", engine=engine)
     datapipe_creator.create.assert_called_once_with(engine=engine)
 
 
-def test_iter_data_pipe_creator_data_source_get_data_loader_without_engine() -> None:
+def test_iter_data_pipe_creator_datasource_get_data_loader_without_engine() -> None:
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
-    data_source = IterDataPipeCreatorDataSource({"train": datapipe_creator})
-    data_source.get_data_loader("train")
+    datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
+    datasource.get_data_loader("train")
     datapipe_creator.create.assert_called_once_with(engine=None)
 
 
-def test_iter_data_pipe_creator_data_source_has_data_loader_true(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_has_data_loader_true(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    assert data_source.has_data_loader("train")
+    assert datasource.has_data_loader("train")
 
 
-def test_iter_data_pipe_creator_data_source_has_data_loader_false(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_has_data_loader_false(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    assert not data_source.has_data_loader("missing")
+    assert not datasource.has_data_loader("missing")
 
 
-def test_iter_data_pipe_creator_data_source_load_state_dict(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_load_state_dict(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    data_source.load_state_dict({})
+    datasource.load_state_dict({})
 
 
-def test_iter_data_pipe_creator_data_source_state_dict(
-    data_source: IterDataPipeCreatorDataSource,
+def test_iter_data_pipe_creator_datasource_state_dict(
+    datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    assert data_source.state_dict() == {}
+    assert datasource.state_dict() == {}
 
 
 ##############################################################
@@ -157,7 +157,7 @@ def test_iter_data_pipe_creator_data_source_state_dict(
 ##############################################################
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_str() -> None:
+def test_data_creator_iter_data_pipe_creator_datasource_str() -> None:
     assert str(
         DataCreatorIterDataPipeCreatorDataSource(
             datapipe_creators={"train": Mock(spec=BaseIterDataPipeCreator)},
@@ -166,7 +166,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_str() -> None:
     ).startswith("DataCreatorIterDataPipeCreatorDataSource(")
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_data_creators() -> None:
+def test_data_creator_iter_data_pipe_creator_datasource_data_creators() -> None:
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={"train": Mock(spec=BaseIterDataPipeCreator)},
         data_creators={
@@ -183,7 +183,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_data_creators() -> None
     isinstance(creator._data_creators["val"], HypercubeVertexDataCreator)
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe() -> None:
+def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe() -> None:
     data_creator = Mock(spec=BaseDataCreator, create=Mock(return_value=[1, 2, 3]))
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
@@ -196,7 +196,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe() -> No
     datapipe_creator.create.assert_called_once_with(engine=None, source_inputs=([1, 2, 3],))
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data_creator() -> None:
+def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_creator() -> None:
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={"train": datapipe_creator},
@@ -207,7 +207,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data_creator_with_engine() -> (
+def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_creator_with_engine() -> (
     None
 ):
     engine = Mock(spec=BaseEngine)
@@ -221,7 +221,7 @@ def test_data_creator_iter_data_pipe_creator_data_source_create_datapipe_no_data
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_iter_data_pipe_creator_data_source_get_data_loader() -> None:
+def test_data_creator_iter_data_pipe_creator_datasource_get_data_loader() -> None:
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={
             "train": SequentialIterDataPipeCreator(

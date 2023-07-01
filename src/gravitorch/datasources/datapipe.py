@@ -46,7 +46,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         # Create by using a ``BaseIterDataPipeCreator`` object.
         >>> from gravitorch.creators.datapipe import SequentialIterDataPipeCreator
         >>> from gravitorch.datapipes.iter import SourceWrapper
-        >>> data_source = IterDataPipeCreatorDataSource(
+        >>> datasource = IterDataPipeCreatorDataSource(
         ...     datapipe_creators={
         ...         "train": SequentialIterDataPipeCreator(
         ...             config=[
@@ -68,7 +68,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ... )
         # Create by using the configs
         >>> from objectory import OBJECT_TARGET
-        >>> data_source = IterDataPipeCreatorDataSource(
+        >>> datasource = IterDataPipeCreatorDataSource(
         ...     datapipe_creators={
         ...         "train": {
         ...             "_target_": "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
@@ -122,10 +122,10 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
-            >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
+            >>> datasource = IterDataPipeCreatorDataSource(datapipe_creators={...})
             >>> from gravitorch.engines import AlphaEngine
             >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> data_source.attach(my_engine)
+            >>> datasource.attach(my_engine)
         """
         logger.info("Attach the data source to an engine")
 
@@ -153,8 +153,8 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
-            >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
-            >>> my_asset = data_source.get_asset("my_asset_id")
+            >>> datasource = IterDataPipeCreatorDataSource(datapipe_creators={...})
+            >>> my_asset = datasource.get_asset("my_asset_id")
         """
         return self._asset_manager.get_asset(asset_id)
 
@@ -174,8 +174,8 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
-            >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
-            >>> data_source.has_asset("my_asset_id")
+            >>> datasource = IterDataPipeCreatorDataSource(datapipe_creators={...})
+            >>> datasource.has_asset("my_asset_id")
             False
         """
         return self._asset_manager.has_asset(asset_id)
@@ -205,13 +205,13 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
-            >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
+            >>> datasource = IterDataPipeCreatorDataSource(datapipe_creators={...})
             # Get the data loader associated to the ID 'train'
-            >>> data_loader = data_source.get_data_loader("train")
+            >>> data_loader = datasource.get_data_loader("train")
             # Get a data loader that can use information from an engine
             >>> from gravitorch.engines import AlphaEngine
             >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> data_loader = data_source.get_data_loader("train", my_engine)
+            >>> data_loader = datasource.get_data_loader("train", my_engine)
         """
         if not self.has_data_loader(loader_id):
             raise LoaderNotFoundError(f"{loader_id} does not exist")
@@ -235,12 +235,12 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
-            >>> data_source = IterDataPipeCreatorDataSource(datapipe_creators={...})
+            >>> datasource = IterDataPipeCreatorDataSource(datapipe_creators={...})
             # Check if the data source has a data loader for ID 'train'
-            >>> data_source.has_data_loader("train")
+            >>> datasource.has_data_loader("train")
             True or False
             # Check if the data source has a data loader for ID 'eval'
-            >>> data_source.has_data_loader("eval")
+            >>> datasource.has_data_loader("eval")
             True or False
         """
         return loader_id in self._datapipe_creators

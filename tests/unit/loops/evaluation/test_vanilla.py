@@ -143,7 +143,7 @@ def test_vanilla_evaluation_loop_eval_with_loss_history(device: str) -> None:
 
 
 def test_vanilla_evaluation_loop_eval_no_dataset() -> None:
-    engine = create_dummy_engine(data_source=Mock(has_data_loader=Mock(return_value=False)))
+    engine = create_dummy_engine(datasource=Mock(has_data_loader=Mock(return_value=False)))
     VanillaEvaluationLoop().eval(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1
@@ -157,7 +157,7 @@ def test_vanilla_evaluation_loop_eval_no_dataset() -> None:
 def test_vanilla_evaluation_loop_eval_empty_map_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
-        data_source=DummyDataSource(eval_dataset=DummyDataset(num_examples=0)), device=device
+        datasource=DummyDataSource(eval_dataset=DummyDataset(num_examples=0)), device=device
     )
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
     assert engine.epoch == -1
@@ -171,7 +171,7 @@ def test_vanilla_evaluation_loop_eval_empty_map_dataset(device: str) -> None:
 def test_vanilla_evaluation_loop_eval_iterable_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
-        data_source=DummyDataSource(eval_dataset=DummyIterableDataset(), batch_size=2),
+        datasource=DummyDataSource(eval_dataset=DummyIterableDataset(), batch_size=2),
         device=device,
     )
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
@@ -184,7 +184,7 @@ def test_vanilla_evaluation_loop_eval_iterable_dataset(device: str) -> None:
 def test_vanilla_evaluation_loop_eval_empty_iterable_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
-        data_source=DummyDataSource(
+        datasource=DummyDataSource(
             eval_dataset=DummyIterableDataset(num_examples=0), batch_size=None
         ),
         device=device,

@@ -8,8 +8,8 @@ from gravitorch import constants as ct
 from gravitorch.creators.datasource.base import BaseDataSourceCreator
 from gravitorch.datasources.base import (
     BaseDataSource,
-    setup_and_attach_data_source,
-    setup_data_source,
+    setup_and_attach_datasource,
+    setup_datasource,
 )
 from gravitorch.engines.base import BaseEngine
 
@@ -49,10 +49,10 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
     def create(self, engine: BaseEngine) -> BaseDataSource:
         logger.info("Creating a data source...")
         if self._attach_to_engine:
-            data_source = setup_and_attach_data_source(data_source=self._config, engine=engine)
+            datasource = setup_and_attach_datasource(datasource=self._config, engine=engine)
         else:
-            data_source = setup_data_source(data_source=self._config)
+            datasource = setup_datasource(datasource=self._config)
         if self._add_module_to_engine:
             logger.info(f"Adding a data source to the engine (key: {ct.DATA_SOURCE})...")
-            engine.add_module(ct.DATA_SOURCE, data_source)
-        return data_source
+            engine.add_module(ct.DATA_SOURCE, datasource)
+        return datasource

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["BaseDataSourceCreator", "setup_data_source_creator"]
+__all__ = ["BaseDataSourceCreator", "setup_datasource_creator"]
 
 import logging
 from abc import ABC, abstractmethod
@@ -44,7 +44,7 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
         """
 
 
-def setup_data_source_creator(creator: BaseDataSourceCreator | dict) -> BaseDataSourceCreator:
+def setup_datasource_creator(creator: BaseDataSourceCreator | dict) -> BaseDataSourceCreator:
     r"""Sets up the data source creator.
 
     The data source creator is instantiated from its configuration by

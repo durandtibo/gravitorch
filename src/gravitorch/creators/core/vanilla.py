@@ -8,7 +8,7 @@ from torch.optim import Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.creators.core.base import BaseCoreCreator
-from gravitorch.datasources import setup_data_source
+from gravitorch.datasources import setup_datasource
 from gravitorch.datasources.base import BaseDataSource
 from gravitorch.engines.base import BaseEngine
 from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
@@ -27,7 +27,7 @@ class VanillaCoreCreator(BaseCoreCreator):
 
     Args:
     ----
-        data_source (``BaseDataSource`` or dict): Specifies the data
+        datasource (``BaseDataSource`` or dict): Specifies the data
             source or its configuration.
         model (``BaseModelCreator`` or dict): Specifies the model
             or its configuration.
@@ -41,12 +41,12 @@ class VanillaCoreCreator(BaseCoreCreator):
 
     def __init__(
         self,
-        data_source: BaseDataSource | dict,
+        datasource: BaseDataSource | dict,
         model: nn.Module | dict,
         optimizer: Optimizer | dict | None = None,
         lr_scheduler: LRSchedulerType | dict | None = None,
     ) -> None:
-        self._data_source = setup_data_source(data_source)
+        self._datasource = setup_datasource(datasource)
         self._model = setup_model(model)
         self._optimizer = setup_optimizer(model=self._model, optimizer=optimizer)
         self._lr_scheduler = setup_lr_scheduler(
@@ -56,7 +56,7 @@ class VanillaCoreCreator(BaseCoreCreator):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data_source={str_indent(self._data_source)},\n"
+            f"  datasource={str_indent(self._datasource)},\n"
             f"  model={str_indent(self._model)},\n"
             f"  optimizer={str_indent(self._optimizer, num_spaces=4)},\n"
             f"  lr_scheduler={str_indent(self._lr_scheduler)},\n"
@@ -66,10 +66,10 @@ class VanillaCoreCreator(BaseCoreCreator):
     def create(
         self, engine: BaseEngine
     ) -> tuple[BaseDataSource, nn.Module, Optimizer | None, LRSchedulerType | None]:
-        engine.add_module(ct.DATA_SOURCE, self._data_source)
+        engine.add_module(ct.DATA_SOURCE, self._datasource)
         engine.add_module(ct.MODEL, self._model)
         if self._optimizer:
             engine.add_module(ct.OPTIMIZER, self._optimizer)
         if self._lr_scheduler:
             engine.add_module(ct.LR_SCHEDULER, self._lr_scheduler)
-        return self._data_source, self._model, self._optimizer, self._lr_scheduler
+        return self._datasource, self._model, self._optimizer, self._lr_scheduler
