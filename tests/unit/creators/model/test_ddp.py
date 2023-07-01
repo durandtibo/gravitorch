@@ -13,6 +13,7 @@ from gravitorch.creators.model import (
     VanillaModelCreator,
 )
 from gravitorch.creators.model.ddp import to_ddp
+from gravitorch.engines import BaseEngine
 
 #########################################################
 #     Tests for DataDistributedParallelModelCreator     #
@@ -74,7 +75,7 @@ def test_data_distributed_parallel_model_creator_create() -> None:
     creator = DataDistributedParallelModelCreator(model_creator=model_creator)
     ddp_mock = Mock()
     with patch("gravitorch.creators.model.ddp.to_ddp", ddp_mock):
-        creator.create(engine=Mock())
+        creator.create(engine=Mock(spec=BaseEngine))
         ddp_mock.assert_called_once_with(module=model, ddp_kwargs={})
 
 
@@ -88,7 +89,7 @@ def test_data_distributed_parallel_model_creator_create_ddp_kwargs() -> None:
     )
     ddp_mock = Mock()
     with patch("gravitorch.creators.model.ddp.to_ddp", ddp_mock):
-        creator.create(engine=Mock())
+        creator.create(engine=Mock(spec=BaseEngine))
         ddp_mock.assert_called_once_with(module=model, ddp_kwargs={"find_unused_parameters": True})
 
 

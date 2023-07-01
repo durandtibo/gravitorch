@@ -4,11 +4,12 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 from pytest import LogCaptureFixture, mark
 from torch import nn
-from torch.optim import SGD
+from torch.optim import SGD, Optimizer
 from torch.optim.lr_scheduler import StepLR
 
 from gravitorch import constants as ct
 from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
+from gravitorch.engines import BaseEngine
 
 ###############################################
 #     Tests for VanillaLRSchedulerCreator     #
@@ -29,7 +30,7 @@ def test_vanilla_lr_scheduler_creator_add_module_to_engine(add_module_to_engine:
 
 def test_vanilla_lr_scheduler_creator_create_lr_scheduler_config_none() -> None:
     creator = VanillaLRSchedulerCreator()
-    assert creator.create(engine=Mock(), optimizer=Mock()) is None
+    assert creator.create(engine=Mock(spec=BaseEngine), optimizer=Mock(spec=Optimizer)) is None
 
 
 @mark.parametrize("step_size", (1, 5))
@@ -41,13 +42,13 @@ def test_vanilla_lr_scheduler_creator_create_lr_scheduler_config_dict(step_size:
         },
     )
     optimizer = SGD(nn.Linear(4, 6).parameters(), lr=0.01)
-    lr_scheduler = creator.create(engine=Mock(), optimizer=optimizer)
+    lr_scheduler = creator.create(engine=Mock(spec=BaseEngine), optimizer=optimizer)
     assert isinstance(lr_scheduler, StepLR)
     assert lr_scheduler.step_size == step_size
 
 
 def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_true() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = VanillaLRSchedulerCreator(
         lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
     )
@@ -58,7 +59,7 @@ def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_true() -> None
 
 
 def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_false() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = VanillaLRSchedulerCreator(
         lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         add_module_to_engine=False,
@@ -70,7 +71,7 @@ def test_vanilla_lr_scheduler_creator_create_add_module_to_engine_false() -> Non
 
 
 def test_vanilla_lr_scheduler_creator_create_lr_scheduler_handler() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     lr_scheduler_handler = Mock()
     creator = VanillaLRSchedulerCreator(
         lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
@@ -86,7 +87,7 @@ def test_vanilla_lr_scheduler_creator_create_no_lr_scheduler_handler(
     caplog: LogCaptureFixture,
 ) -> None:
     with caplog.at_level(logging.WARN):
-        engine = Mock()
+        engine = Mock(spec=BaseEngine)
         creator = VanillaLRSchedulerCreator(
             lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         )
@@ -100,4 +101,4 @@ def test_vanilla_lr_scheduler_creator_create_optimizer_none() -> None:
     creator = VanillaLRSchedulerCreator(
         lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
     )
-    assert creator.create(engine=Mock(), optimizer=None) is None
+    assert creator.create(engine=Mock(spec=BaseEngine), optimizer=None) is None

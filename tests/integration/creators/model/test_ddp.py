@@ -9,6 +9,7 @@ from torch.nn.parallel import DistributedDataParallel
 from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
 from gravitorch.creators.model.ddp import DataDistributedParallelModelCreator, to_ddp
 from gravitorch.distributed import gloocontext, ncclcontext
+from gravitorch.engines import BaseEngine
 from gravitorch.nn import get_module_device
 from gravitorch.testing import cuda_available, gloo_available, nccl_available
 
@@ -30,7 +31,7 @@ def test_data_distributed_parallel_model_creator_create_gloo(
 ) -> None:
     with gloocontext():
         creator = DataDistributedParallelModelCreator(model_creator=model_creator)
-        model = creator.create(engine=Mock())
+        model = creator.create(engine=Mock(spec=BaseEngine))
         assert isinstance(model, DistributedDataParallel)
         assert isinstance(model.module, nn.Linear)
 
@@ -43,7 +44,7 @@ def test_data_distributed_parallel_model_creator_create_nccl(
 ) -> None:
     with ncclcontext():
         creator = DataDistributedParallelModelCreator(model_creator=model_creator)
-        model = creator.create(engine=Mock())
+        model = creator.create(engine=Mock(spec=BaseEngine))
         assert isinstance(model, DistributedDataParallel)
         assert isinstance(model.module, nn.Linear)
 

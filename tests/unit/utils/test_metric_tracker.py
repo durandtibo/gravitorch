@@ -5,6 +5,7 @@ import numpy as np
 import torch
 from pytest import LogCaptureFixture
 
+from gravitorch.engines import BaseEngine
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.metric_tracker import ScalarMetricTracker
 
@@ -60,7 +61,7 @@ def test_scalar_metric_tracker_log_average_value_with_engine() -> None:
     tracker = ScalarMetricTracker()
     tracker.update({"metric0": 3, "metric1": 12})
     tracker.update({"metric0": 1, "metric1": 10})
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     engine.epoch = 0
     tracker.log_average_value(engine=engine)
     engine.log_metrics.assert_called_once_with({"metric0": 2, "metric1": 11}, step=EpochStep(0))
@@ -70,7 +71,7 @@ def test_scalar_metric_tracker_log_average_value_with_engine_and_prefix() -> Non
     tracker = ScalarMetricTracker()
     tracker.update({"metric0": 3, "metric1": 12})
     tracker.update({"metric0": 1, "metric1": 10})
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     engine.epoch = 0
     tracker.log_average_value(engine=engine, prefix="train/")
     engine.log_metrics.assert_called_once_with(

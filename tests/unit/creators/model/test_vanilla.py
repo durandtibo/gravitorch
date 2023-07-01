@@ -7,6 +7,7 @@ from torch import nn
 
 from gravitorch import constants as ct
 from gravitorch.creators.model import VanillaModelCreator
+from gravitorch.engines import BaseEngine
 from gravitorch.nn import get_module_device
 from gravitorch.testing import cuda_available
 from gravitorch.utils.device_placement import (
@@ -61,7 +62,7 @@ def test_vanilla_model_creator_create_attach_model_to_engine_true() -> None:
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2}
     )
-    model = creator.create(engine=Mock())
+    model = creator.create(engine=Mock(spec=BaseEngine))
     assert isinstance(model, nn.Linear)
 
 
@@ -70,12 +71,12 @@ def test_vanilla_model_creator_create_attach_model_to_engine_false() -> None:
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
         attach_model_to_engine=False,
     )
-    model = creator.create(engine=Mock())
+    model = creator.create(engine=Mock(spec=BaseEngine))
     assert isinstance(model, nn.Linear)
 
 
 def test_vanilla_model_creator_create_add_module_to_engine_true() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2}
     )
@@ -85,7 +86,7 @@ def test_vanilla_model_creator_create_add_module_to_engine_true() -> None:
 
 
 def test_vanilla_model_creator_create_add_module_to_engine_false() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     creator = VanillaModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
         add_module_to_engine=False,
@@ -100,7 +101,7 @@ def test_vanilla_model_creator_create_device_placement_cpu() -> None:
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
         device_placement=CpuDevicePlacement(),
     )
-    model = creator.create(engine=Mock())
+    model = creator.create(engine=Mock(spec=BaseEngine))
     assert isinstance(model, nn.Linear)
     assert get_module_device(model) == torch.device("cpu")
 
@@ -111,6 +112,6 @@ def test_vanilla_model_creator_create_device_placement_cuda() -> None:
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
         device_placement=CudaDevicePlacement(),
     )
-    model = creator.create(engine=Mock())
+    model = creator.create(engine=Mock(spec=BaseEngine))
     assert isinstance(model, nn.Linear)
     assert get_module_device(model) == torch.device("cuda:0")

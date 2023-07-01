@@ -3,6 +3,7 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 from torch import nn
 
+from gravitorch.engines import BaseEngine
 from gravitorch.nn.init import BaseInitializer, NoOpInitializer, SequentialInitializer
 
 ###########################################
@@ -26,7 +27,7 @@ def test_sequential_initializer_init() -> None:
 
 
 def test_sequential_initializer_initialize() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     engine.model = nn.Linear(4, 5)
     initializer1 = Mock(spec=BaseInitializer)
     initializer2 = Mock(spec=BaseInitializer)

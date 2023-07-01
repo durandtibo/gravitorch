@@ -67,7 +67,7 @@ def test_evaluation_runner_run_no_exp_tracker() -> None:
 
 
 def test_evaluation_runner_engine() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     EvaluationRunner(engine).run()
     engine.eval.assert_called_once()
 
@@ -91,7 +91,7 @@ def test_run_evaluation_pipeline_engine_config() -> None:
 
 
 def test_run_evaluation_pipeline_setup_and_attach_handlers() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     handlers = Mock()
     with patch("gravitorch.runners.evaluation.setup_and_attach_handlers") as setup_mock:
         _run_evaluation_pipeline(engine, handlers, exp_tracker=None)
@@ -99,13 +99,13 @@ def test_run_evaluation_pipeline_setup_and_attach_handlers() -> None:
 
 
 def test_run_evaluation_pipeline_exp_tracker_none() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     _run_evaluation_pipeline(engine, handlers=(), exp_tracker=None)
     engine.eval.assert_called_once()
 
 
 def test_run_evaluation_pipeline_exp_tracker_config() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     _run_evaluation_pipeline(
         engine,
         handlers=(),
@@ -116,6 +116,6 @@ def test_run_evaluation_pipeline_exp_tracker_config() -> None:
 
 @patch("gravitorch.runners.evaluation.dist.is_distributed", lambda *args, **kwargs: True)
 def test_run_evaluation_pipeline_distributed() -> None:
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     _run_evaluation_pipeline(engine, handlers=(), exp_tracker=None)
     engine.eval.assert_called_once()

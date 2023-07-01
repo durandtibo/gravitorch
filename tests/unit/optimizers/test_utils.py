@@ -5,6 +5,7 @@ from pytest import LogCaptureFixture, mark
 from torch import nn
 from torch.optim import SGD, Adagrad, Adam, Rprop
 
+from gravitorch.engines import BaseEngine
 from gravitorch.optimizers.utils import (
     get_learning_rate_per_group,
     get_weight_decay_per_group,
@@ -146,7 +147,7 @@ def test_show_optimizer_parameters_per_group_adagrad_1_group(caplog: LogCaptureF
 def test_log_optimizer_parameters_per_group_sgd_1_group() -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=0.01)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     log_optimizer_parameters_per_group(optimizer, engine)
     engine.log_metrics.assert_called_once_with(
         {
@@ -165,7 +166,7 @@ def test_log_optimizer_parameters_per_group_sgd_1_group() -> None:
 def test_log_optimizer_parameters_per_group_sgd_1_group_with_step() -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=0.01)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     log_optimizer_parameters_per_group(optimizer, engine, step=EpochStep(2))
     engine.log_metrics.assert_called_once_with(
         {
@@ -184,7 +185,7 @@ def test_log_optimizer_parameters_per_group_sgd_1_group_with_step() -> None:
 def test_log_optimizer_parameters_per_group_sgd_1_group_with_prefix() -> None:
     model = nn.Linear(4, 6)
     optimizer = SGD(model.parameters(), lr=0.01)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     log_optimizer_parameters_per_group(optimizer, engine, prefix="train/")
     engine.log_metrics.assert_called_once_with(
         {
@@ -210,7 +211,7 @@ def test_log_optimizer_parameters_per_group_sgd_2_groups() -> None:
         lr=0.01,
         weight_decay=0.0001,
     )
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     log_optimizer_parameters_per_group(optimizer, engine)
     engine.log_metrics.assert_called_once_with(
         {
@@ -236,7 +237,7 @@ def test_log_optimizer_parameters_per_group_sgd_2_groups() -> None:
 def test_log_optimizer_parameters_per_group_adam_1_group() -> None:
     model = nn.Linear(4, 6)
     optimizer = Adam(model.parameters(), lr=0.01)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     log_optimizer_parameters_per_group(optimizer, engine)
     engine.log_metrics.assert_called_once_with(
         {
@@ -257,7 +258,7 @@ def test_log_optimizer_parameters_per_group_adam_1_group() -> None:
 def test_log_optimizer_parameters_per_group_adagrad_1_group() -> None:
     model = nn.Linear(4, 6)
     optimizer = Adagrad(model.parameters(), lr=0.01)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     log_optimizer_parameters_per_group(optimizer, engine)
     engine.log_metrics.assert_called_once_with(
         {

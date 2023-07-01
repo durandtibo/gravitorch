@@ -40,7 +40,7 @@ def engine() -> BaseEngine:
 def test_sequential_metric_attach() -> None:
     metrics = [Mock(spec=nn.Module, attach=Mock()), Mock(spec=nn.Module, attach=Mock())]
     metric = SequentialMetric(metrics)
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     metric.attach(engine)
     metrics[0].attach.assert_called_once_with(engine)
     metrics[1].attach.assert_called_once_with(engine)
@@ -208,7 +208,7 @@ def test_sequential_metric_value_with_engine() -> None:
         Mock(spec=nn.Module, value=Mock(return_value={"out1": 1})),
         Mock(spec=nn.Module, value=Mock(return_value={"out2": 2})),
     ]
-    engine = Mock()
+    engine = Mock(spec=BaseEngine)
     assert SequentialMetric(metrics).value(engine) == {"out1": 1, "out2": 2}
     metrics[0].value.assert_called_once_with(engine)
     metrics[1].value.assert_called_once_with(engine)

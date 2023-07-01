@@ -94,7 +94,7 @@ def test_engine_state_loader_load_engine_state_dict_file_does_not_exist_missing_
 ) -> None:
     loader = EngineStateLoader(tmp_path, event="my_event")
     with raises(FileNotFoundError):
-        loader.load_engine_state_dict(engine=Mock())
+        loader.load_engine_state_dict(engine=Mock(spec=BaseEngine))
 
 
 ######################################################
