@@ -1,6 +1,23 @@
 from objectory import OBJECT_TARGET
 
-from gravitorch.loops.training import VanillaTrainingLoop, setup_training_loop
+from gravitorch.loops.training import (
+    VanillaTrainingLoop,
+    is_training_loop_config,
+    setup_training_loop,
+)
+
+#############################################
+#     Tests for is_training_loop_config     #
+#############################################
+
+
+def test_is_training_loop_config_true() -> None:
+    assert is_training_loop_config({"_target_": "gravitorch.loops.training.VanillaTrainingLoop"})
+
+
+def test_is_training_loop_config_false() -> None:
+    assert not is_training_loop_config({"_target_": "torch.nn.Identity"})
+
 
 #########################################
 #     Tests for setup_training_loop     #

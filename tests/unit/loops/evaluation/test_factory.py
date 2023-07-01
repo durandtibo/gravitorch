@@ -1,6 +1,25 @@
 from objectory import OBJECT_TARGET
 
-from gravitorch.loops.evaluation import VanillaEvaluationLoop, setup_evaluation_loop
+from gravitorch.loops.evaluation import (
+    VanillaEvaluationLoop,
+    is_evaluation_loop_config,
+    setup_evaluation_loop,
+)
+
+###############################################
+#     Tests for is_evaluation_loop_config     #
+###############################################
+
+
+def test_is_evaluation_loop_config_true() -> None:
+    assert is_evaluation_loop_config(
+        {"_target_": "gravitorch.loops.evaluation.VanillaEvaluationLoop"}
+    )
+
+
+def test_is_evaluation_loop_config_false() -> None:
+    assert not is_evaluation_loop_config({"_target_": "torch.nn.Identity"})
+
 
 ###########################################
 #     Tests for setup_evaluation_loop     #

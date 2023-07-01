@@ -738,7 +738,7 @@ def is_engine_config(config: dict) -> bool:
     .. code-block:: pycon
 
         >>> from gravitorch.engines import is_engine_config
-        >>> is_engine_config({"_target_": "gravitorch.engines.IterDataPipeCreatorDataSource"})
+        >>> is_engine_config({"_target_": "gravitorch.engines.AlphaEngine"})
         True
     """
     return is_object_config(config, BaseEngine)
