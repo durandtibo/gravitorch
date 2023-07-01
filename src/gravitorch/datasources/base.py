@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = [
     "BaseDataSource",
     "LoaderNotFoundError",
+    "is_datasource_config",
     "setup_data_source",
     "setup_and_attach_data_source",
 ]
@@ -13,6 +14,7 @@ from collections.abc import Iterable
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from objectory import AbstractFactory
+from objectory.utils import is_object_config
 
 from gravitorch.utils.format import str_target_object
 
@@ -208,6 +210,35 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
 class LoaderNotFoundError(Exception):
     r"""Raised when a loader is requested but does not exist."""
+
+
+def is_datasource_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseDataSource``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseDataSource`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.datasources import is_datasource_config
+        >>> is_datasource_config(
+        ...     {"_target_": "gravitorch.datasources.IterDataPipeCreatorDataSource"}
+        ... )
+        True
+    """
+    return is_object_config(config, BaseDataSource)
 
 
 def setup_data_source(data_source: BaseDataSource | dict) -> BaseDataSource:

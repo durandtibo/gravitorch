@@ -5,10 +5,26 @@ from objectory import OBJECT_TARGET
 from gravitorch.datasources import (
     BaseDataSource,
     IterDataPipeCreatorDataSource,
+    is_datasource_config,
     setup_and_attach_data_source,
     setup_data_source,
 )
 from gravitorch.engines import BaseEngine
+
+##########################################
+#     Tests for is_datasource_config     #
+##########################################
+
+
+def test_is_datasource_config_true() -> None:
+    assert is_datasource_config(
+        {"_target_": "gravitorch.datasources.IterDataPipeCreatorDataSource"}
+    )
+
+
+def test_is_datasource_config_false() -> None:
+    assert not is_datasource_config({"_target_": "torch.nn.Identity"})
+
 
 #######################################
 #     Tests for setup_data_source     #
