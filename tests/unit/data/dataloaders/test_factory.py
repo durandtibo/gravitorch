@@ -162,6 +162,11 @@ def test_is_dataloader_config_true() -> None:
 
 
 def test_is_dataloader_config_false() -> None:
+    assert not is_dataloader_config({"_target_": "torch.nn.Identity"})
+
+
+@torchdata_available
+def test_is_dataloader_config_false_dataloader2() -> None:
     assert not is_dataloader_config({"_target_": "torchdata.dataloader2.DataLoader2"})
 
 
@@ -175,5 +180,11 @@ def test_is_dataloader2_config_true() -> None:
     assert is_dataloader2_config({"_target_": "torchdata.dataloader2.DataLoader2"})
 
 
+@torchdata_available
 def test_is_dataloader2_config_false() -> None:
+    assert not is_dataloader2_config({"_target_": "torch.nn.Identity"})
+
+
+@torchdata_available
+def test_is_dataloader2_config_false_dataloader() -> None:
     assert not is_dataloader2_config({"_target_": "torch.utils.data.DataLoader"})
