@@ -23,7 +23,7 @@ from gravitorch.testing import DummyDataSource
 
 
 @fixture
-def data_source_creator() -> BaseDataSourceCreator:
+def datasource_creator() -> BaseDataSourceCreator:
     return VanillaDataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
 
 
@@ -35,61 +35,61 @@ def model_creator() -> BaseModelCreator:
 
 
 def test_advanced_core_creator_str(
-    data_source_creator: BaseDataSourceCreator, model_creator: BaseModelCreator
+    datasource_creator: BaseDataSourceCreator, model_creator: BaseModelCreator
 ) -> None:
     assert str(
-        AdvancedCoreCreator(data_source_creator=data_source_creator, model_creator=model_creator)
+        AdvancedCoreCreator(datasource_creator=datasource_creator, model_creator=model_creator)
     ).startswith("AdvancedCoreCreator(")
 
 
 def test_advanced_core_creator_create_no_optimizer_creator(
-    data_source_creator: BaseDataSourceCreator,
+    datasource_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
 ) -> None:
     engine = Mock()
     creator = AdvancedCoreCreator(
-        data_source_creator=data_source_creator, model_creator=model_creator
+        datasource_creator=datasource_creator, model_creator=model_creator
     )
-    data_source, model, optimizer, lr_scheduler = creator.create(engine=engine)
-    assert isinstance(data_source, DummyDataSource)
+    datasource, model, optimizer, lr_scheduler = creator.create(engine=engine)
+    assert isinstance(datasource, DummyDataSource)
     assert isinstance(model, nn.Module)
     assert optimizer is None
     assert lr_scheduler is None
     assert len(engine.add_module.call_args_list) == 2
-    assert engine.add_module.call_args_list[0].args == (ct.DATA_SOURCE, data_source)
+    assert engine.add_module.call_args_list[0].args == (ct.DATA_SOURCE, datasource)
     assert engine.add_module.call_args_list[1].args == (ct.MODEL, model)
 
 
 def test_advanced_core_creator_create_optimizer_creator(
-    data_source_creator: BaseDataSourceCreator,
+    datasource_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
 ) -> None:
     engine = Mock()
     creator = AdvancedCoreCreator(
-        data_source_creator=data_source_creator,
+        datasource_creator=datasource_creator,
         model_creator=model_creator,
         optimizer_creator=VanillaOptimizerCreator(
             optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
         ),
     )
-    data_source, model, optimizer, lr_scheduler = creator.create(engine=engine)
-    assert isinstance(data_source, DummyDataSource)
+    datasource, model, optimizer, lr_scheduler = creator.create(engine=engine)
+    assert isinstance(datasource, DummyDataSource)
     assert isinstance(model, nn.Module)
     assert isinstance(optimizer, SGD)
     assert lr_scheduler is None
     assert len(engine.add_module.call_args_list) == 3
-    assert engine.add_module.call_args_list[0].args == (ct.DATA_SOURCE, data_source)
+    assert engine.add_module.call_args_list[0].args == (ct.DATA_SOURCE, datasource)
     assert engine.add_module.call_args_list[1].args == (ct.MODEL, model)
     assert engine.add_module.call_args_list[2].args == (ct.OPTIMIZER, optimizer)
 
 
 def test_advanced_core_creator_create_lr_scheduler_creator(
-    data_source_creator: BaseDataSourceCreator,
+    datasource_creator: BaseDataSourceCreator,
     model_creator: BaseModelCreator,
 ) -> None:
     engine = Mock()
     creator = AdvancedCoreCreator(
-        data_source_creator=data_source_creator,
+        datasource_creator=datasource_creator,
         model_creator=model_creator,
         optimizer_creator=VanillaOptimizerCreator(
             optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
@@ -98,13 +98,13 @@ def test_advanced_core_creator_create_lr_scheduler_creator(
             lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         ),
     )
-    data_source, model, optimizer, lr_scheduler = creator.create(engine=engine)
-    assert isinstance(data_source, DummyDataSource)
+    datasource, model, optimizer, lr_scheduler = creator.create(engine=engine)
+    assert isinstance(datasource, DummyDataSource)
     assert isinstance(model, nn.Module)
     assert isinstance(optimizer, SGD)
     assert isinstance(lr_scheduler, StepLR)
     assert len(engine.add_module.call_args_list) == 4
-    assert engine.add_module.call_args_list[0].args == (ct.DATA_SOURCE, data_source)
+    assert engine.add_module.call_args_list[0].args == (ct.DATA_SOURCE, datasource)
     assert engine.add_module.call_args_list[1].args == (ct.MODEL, model)
     assert engine.add_module.call_args_list[2].args == (ct.OPTIMIZER, optimizer)
     assert engine.add_module.call_args_list[3].args == (ct.LR_SCHEDULER, lr_scheduler)

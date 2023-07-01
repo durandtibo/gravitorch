@@ -48,7 +48,7 @@ def test_alpha_engine_core_creator_dict() -> None:
     engine = AlphaEngine(
         core_creator={
             OBJECT_TARGET: "gravitorch.creators.core.AdvancedCoreCreator",
-            "data_source_creator": {
+            "datasource_creator": {
                 OBJECT_TARGET: "gravitorch.creators.datasource.VanillaDataSourceCreator",
                 "config": {OBJECT_TARGET: "gravitorch.testing.DummyDataSource"},
             },
@@ -62,12 +62,12 @@ def test_alpha_engine_core_creator_dict() -> None:
             },
         }
     )
-    assert isinstance(engine.data_source, DummyDataSource)
+    assert isinstance(engine.datasource, DummyDataSource)
     assert isinstance(engine.model, nn.Linear)
 
 
-def test_alpha_engine_data_source(core_creator: BaseCoreCreator) -> None:
-    assert isinstance(AlphaEngine(core_creator).data_source, DummyDataSource)
+def test_alpha_engine_datasource(core_creator: BaseCoreCreator) -> None:
+    assert isinstance(AlphaEngine(core_creator).datasource, DummyDataSource)
 
 
 def test_alpha_engine_epoch(core_creator: BaseCoreCreator) -> None:

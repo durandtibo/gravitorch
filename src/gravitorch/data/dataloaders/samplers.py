@@ -70,7 +70,7 @@ class PartialSequentialSampler(Sampler):
 
     Args:
     ----
-        data_source (``Sized``): Specifies the dataset to sample
+        datasource (``Sized``): Specifies the dataset to sample
             from.
         num_samples (int): Specifies the number of samples to draw.
             If the number of samples is bigger than the number of
@@ -78,9 +78,9 @@ class PartialSequentialSampler(Sampler):
             is the dataset size.
     """
 
-    def __init__(self, data_source: Sized, num_samples: int) -> None:
-        super().__init__(data_source)
-        self.data_source = data_source
+    def __init__(self, datasource: Sized, num_samples: int) -> None:
+        super().__init__(datasource)
+        self.datasource = datasource
         if not isinstance(num_samples, int) or num_samples <= 0:
             raise ValueError(
                 f"num_samples should be a positive integer value, but got {num_samples}"
@@ -91,7 +91,7 @@ class PartialSequentialSampler(Sampler):
         return iter(range(len(self)))
 
     def __len__(self) -> int:
-        return min(len(self.data_source), self.num_samples)
+        return min(len(self.datasource), self.num_samples)
 
 
 class PartialRandomSampler(PartialSequentialSampler):
@@ -99,4 +99,4 @@ class PartialRandomSampler(PartialSequentialSampler):
     items of the dataset."""
 
     def __iter__(self) -> Iterator:
-        return iter(torch.randperm(len(self.data_source))[: self.num_samples].tolist())
+        return iter(torch.randperm(len(self.datasource))[: self.num_samples].tolist())

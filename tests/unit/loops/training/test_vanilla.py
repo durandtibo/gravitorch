@@ -226,7 +226,7 @@ def test_vanilla_training_loop_train_with_clip_grad_norm(device: str) -> None:
 def test_vanilla_training_loop_train_empty_map_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
-        data_source=DummyDataSource(train_dataset=DummyDataset(num_examples=0)),
+        datasource=DummyDataSource(train_dataset=DummyDataset(num_examples=0)),
         device=device,
     )
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
@@ -242,7 +242,7 @@ def test_vanilla_training_loop_train_empty_map_dataset(device: str) -> None:
 def test_vanilla_training_loop_train_iterable_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
-        data_source=DummyDataSource(train_dataset=DummyIterableDataset(), batch_size=2),
+        datasource=DummyDataSource(train_dataset=DummyIterableDataset(), batch_size=2),
         device=device,
     )
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
@@ -255,7 +255,7 @@ def test_vanilla_training_loop_train_iterable_dataset(device: str) -> None:
 def test_vanilla_training_loop_train_empty_iterable_dataset(device: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(
-        data_source=DummyDataSource(
+        datasource=DummyDataSource(
             train_dataset=DummyIterableDataset(num_examples=0), batch_size=None
         ),
         device=device,

@@ -8,7 +8,7 @@ defaults:
   - engine/state: vanilla
   - engine/training_loop: vanilla_clip_grad_norm_1
   - engine/evaluation_loop: vanilla
-  - data_source: mnist
+  - datasource: mnist
   - model: vanilla
   - model/network: pytorch_mnist
   - model/criterion: cross_entropy

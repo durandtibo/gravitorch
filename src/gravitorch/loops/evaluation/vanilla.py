@@ -94,7 +94,7 @@ class VanillaEvaluationLoop(BaseBasicEvaluationLoop):
 
     def _prepare_model_data_loader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         logger.info("Preparing the model and data loader...")
-        data_loader = engine.data_source.get_data_loader(loader_id=self._tag, engine=engine)
+        data_loader = engine.datasource.get_data_loader(loader_id=self._tag, engine=engine)
         prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
         data_loader = tqdm(
             data_loader,

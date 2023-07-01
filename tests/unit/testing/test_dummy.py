@@ -76,24 +76,24 @@ def test_dummy_iterable_dataset_len_has_length_true(num_examples: int) -> None:
 #####################################
 
 
-def test_dummy_data_source_str() -> None:
+def test_dummy_datasource_str() -> None:
     assert str(DummyDataSource()).startswith("DummyDataSource(")
 
 
-def test_dummy_data_source_default_datasets() -> None:
-    data_source = DummyDataSource()
-    assert len(data_source._datasets) == 2
-    assert isinstance(data_source._datasets[ct.TRAIN], DummyDataset)
-    assert isinstance(data_source._datasets[ct.EVAL], DummyDataset)
+def test_dummy_datasource_default_datasets() -> None:
+    datasource = DummyDataSource()
+    assert len(datasource._datasets) == 2
+    assert isinstance(datasource._datasets[ct.TRAIN], DummyDataset)
+    assert isinstance(datasource._datasets[ct.EVAL], DummyDataset)
 
 
-def test_dummy_data_source_datasets() -> None:
+def test_dummy_datasource_datasets() -> None:
     train_dataset = Mock(spec=Dataset)
     eval_dataset = Mock(spec=Dataset)
-    data_source = DummyDataSource(train_dataset=train_dataset, eval_dataset=eval_dataset)
-    assert len(data_source._datasets) == 2
-    assert data_source._datasets[ct.TRAIN] is train_dataset
-    assert data_source._datasets[ct.EVAL] is eval_dataset
+    datasource = DummyDataSource(train_dataset=train_dataset, eval_dataset=eval_dataset)
+    assert len(datasource._datasets) == 2
+    assert datasource._datasets[ct.TRAIN] is train_dataset
+    assert datasource._datasets[ct.EVAL] is eval_dataset
 
 
 ##############################################
@@ -138,18 +138,18 @@ def test_dummy_classification_model_nan() -> None:
 
 def test_create_dummy_engine_default() -> None:
     engine = create_dummy_engine()
-    assert isinstance(engine.data_source, DummyDataSource)
+    assert isinstance(engine.datasource, DummyDataSource)
     assert isinstance(engine.model, DummyClassificationModel)
     assert isinstance(engine.optimizer, SGD)
 
 
 def test_create_dummy_engine() -> None:
-    data_source = Mock(spec=BaseDataSource)
+    datasource = Mock(spec=BaseDataSource)
     engine = create_dummy_engine(
-        data_source=data_source,
+        datasource=datasource,
         model=Linear(4, 6),
         optimizer={OBJECT_TARGET: "torch.optim.Adam", "lr": 0.0003},
     )
-    assert engine.data_source is data_source
+    assert engine.datasource is datasource
     assert isinstance(engine.model, Linear)
     assert isinstance(engine.optimizer, Adam)

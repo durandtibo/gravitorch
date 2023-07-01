@@ -245,7 +245,7 @@ def test_accelerate_training_loop_train_with_clip_grad_norm() -> None:
 #  empty data loader
 # @accelerate_available
 # def test_accelerate_training_loop_train_empty_map_dataset() -> None:
-#     engine = create_dummy_engine(data_source=FakeDataSource(train_dataset=EmptyFakeMapDataset()))
+#     engine = create_dummy_engine(datasource=FakeDataSource(train_dataset=EmptyFakeMapDataset()))
 #     AccelerateTrainingLoop().train(engine)
 #     assert engine.epoch == -1
 #     assert engine.iteration == -1
@@ -257,7 +257,7 @@ def test_accelerate_training_loop_train_with_clip_grad_norm() -> None:
 @accelerate_available
 def test_accelerate_training_loop_train_iterable_dataset() -> None:
     engine = create_dummy_engine(
-        data_source=DummyDataSource(train_dataset=DummyIterableDataset(), batch_size=1)
+        datasource=DummyDataSource(train_dataset=DummyIterableDataset(), batch_size=1)
     )
     AccelerateTrainingLoop().train(engine)
     assert engine.epoch == -1
@@ -270,7 +270,7 @@ def test_accelerate_training_loop_train_iterable_dataset() -> None:
 # @accelerate_available
 # def test_accelerate_training_loop_train_empty_iterable_dataset() -> None:
 #     engine = create_dummy_engine(
-#         data_source=FakeDataSource(train_dataset=EmptyFakeIterableDataset(), batch_size=None)
+#         datasource=FakeDataSource(train_dataset=EmptyFakeIterableDataset(), batch_size=None)
 #     )
 #     AccelerateTrainingLoop().train(engine)
 #     assert engine.epoch == -1

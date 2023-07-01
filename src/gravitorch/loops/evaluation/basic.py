@@ -73,7 +73,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
             engine (``BaseEngine``): Specifies the engine.
         """
         dist.barrier()
-        if not engine.data_source.has_data_loader(self._tag) or not self._condition(engine):
+        if not engine.datasource.has_data_loader(self._tag) or not self._condition(engine):
             return
         logger.info(f"Evaluating model for epoch {engine.epoch}")
 

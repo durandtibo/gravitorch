@@ -10,7 +10,7 @@ defaults:
   - engine/state: vanilla
   - engine/training_loop: vanilla_clip_grad_norm_1
   - engine/evaluation_loop: vanilla
-  - data_source: demo_multiclass
+  - datasource: demo_multiclass
   - model: vanilla
   - model/network: mlp3_relu
   - model/criterion: cross_entropy

@@ -172,7 +172,7 @@ def test_accelerate_evaluation_loop_eval_with_loss_history() -> None:
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_no_dataset() -> None:
-    engine = create_dummy_engine(data_source=Mock(has_data_loader=Mock(return_value=False)))
+    engine = create_dummy_engine(datasource=Mock(has_data_loader=Mock(return_value=False)))
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)
     assert engine.epoch == -1
@@ -187,7 +187,7 @@ def test_accelerate_evaluation_loop_eval_no_dataset() -> None:
 #  empty data loader
 # @accelerate_available
 # def test_accelerate_evaluation_loop_eval_empty_map_dataset()-> None:
-#     engine = create_dummy_engine(data_source=FakeDataSource(eval_dataset=EmptyFakeMapDataset()))
+#     engine = create_dummy_engine(datasource=FakeDataSource(eval_dataset=EmptyFakeMapDataset()))
 #     evaluation_loop = AccelerateEvaluationLoop(accelerator={'dispatch_batches': False})
 #     evaluation_loop.eval(engine)
 #     assert engine.epoch == -1
@@ -200,7 +200,7 @@ def test_accelerate_evaluation_loop_eval_no_dataset() -> None:
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_iterable_dataset() -> None:
     engine = create_dummy_engine(
-        data_source=DummyDataSource(eval_dataset=DummyIterableDataset(), batch_size=1)
+        datasource=DummyDataSource(eval_dataset=DummyIterableDataset(), batch_size=1)
     )
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)
@@ -214,7 +214,7 @@ def test_accelerate_evaluation_loop_eval_iterable_dataset() -> None:
 # @accelerate_available
 # def test_accelerate_evaluation_loop_eval_empty_iterable_dataset()-> None:
 #     engine = create_dummy_engine(
-#         data_source=FakeDataSource(eval_dataset=EmptyFakeIterableDataset(), batch_size=None)
+#         datasource=FakeDataSource(eval_dataset=EmptyFakeIterableDataset(), batch_size=None)
 #     )
 #     evaluation_loop = AccelerateEvaluationLoop(accelerator={"dispatch_batches": False})
 #     evaluation_loop.eval(engine)

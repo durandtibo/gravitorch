@@ -111,7 +111,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         model, optimizer, data_loader = self._accelerator.prepare(
             engine.model,
             engine.optimizer,
-            engine.data_source.get_data_loader(loader_id=self._tag, engine=engine),
+            engine.datasource.get_data_loader(loader_id=self._tag, engine=engine),
         )
         prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
         data_loader = tqdm(

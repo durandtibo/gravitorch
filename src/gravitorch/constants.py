@@ -29,7 +29,7 @@ OUTPUT = "output"
 # Engine keys
 CHECKPOINT = "checkpoint"
 DATA = "data"
-DATA_SOURCE = "data_source"
+DATA_SOURCE = "datasource"
 ENGINE = "engine"
 EVALUATION_LOOP = "evaluation_loop"
 EXP_TRACKER = "exp_tracker"
