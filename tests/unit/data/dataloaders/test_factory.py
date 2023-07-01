@@ -9,7 +9,12 @@ from torch.utils.data.datapipes.iter import IterableWrapper
 from torch.utils.data.datapipes.iter.combinatorics import ShufflerIterDataPipe
 from torch.utils.data.graph import DataPipe
 
-from gravitorch.data.dataloaders import create_dataloader, create_dataloader2
+from gravitorch.data.dataloaders import (
+    create_dataloader,
+    create_dataloader2,
+    is_dataloader2_config,
+    is_dataloader_config,
+)
 from gravitorch.data.datasets import DummyMultiClassDataset
 from gravitorch.testing import torchdata_available
 from gravitorch.utils.imports import is_torchdata_available
@@ -145,3 +150,41 @@ def test_create_dataloader2_without_torchdata() -> None:
     with patch("gravitorch.utils.imports.is_torchdata_available", lambda *args: False):
         with raises(RuntimeError, match="`torchdata` package is required but not installed."):
             create_dataloader2(IterableWrapper(range(10)))
+
+
+##########################################
+#     Tests for is_dataloader_config     #
+##########################################
+
+
+def test_is_dataloader_config_true() -> None:
+    assert is_dataloader_config({"_target_": "torch.utils.data.DataLoader"})
+
+
+def test_is_dataloader_config_false() -> None:
+    assert not is_dataloader_config({"_target_": "torch.nn.Identity"})
+
+
+@torchdata_available
+def test_is_dataloader_config_false_dataloader2() -> None:
+    assert not is_dataloader_config({"_target_": "torchdata.dataloader2.DataLoader2"})
+
+
+###########################################
+#     Tests for is_dataloader2_config     #
+###########################################
+
+
+@torchdata_available
+def test_is_dataloader2_config_true() -> None:
+    assert is_dataloader2_config({"_target_": "torchdata.dataloader2.DataLoader2"})
+
+
+@torchdata_available
+def test_is_dataloader2_config_false() -> None:
+    assert not is_dataloader2_config({"_target_": "torch.nn.Identity"})
+
+
+@torchdata_available
+def test_is_dataloader2_config_false_dataloader() -> None:
+    assert not is_dataloader2_config({"_target_": "torch.utils.data.DataLoader"})

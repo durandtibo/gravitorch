@@ -1,9 +1,15 @@
 from __future__ import annotations
 
-__all__ = ["create_dataloader", "create_dataloader2"]
+__all__ = [
+    "create_dataloader",
+    "create_dataloader2",
+    "is_dataloader_config",
+    "is_dataloader2_config",
+]
 
 from collections.abc import Iterable
 
+from objectory.utils import is_object_config
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.graph import DataPipe
 
@@ -91,3 +97,58 @@ def create_dataloader2(
         datapipe_adapter_fn=setup_object(datapipe_adapter_fn),
         reading_service=setup_object(reading_service),
     )
+
+
+def is_dataloader_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``torch.utils.data.DataLoader``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``torch.utils.data.DataLoader`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.dataloaders import is_dataloader_config
+        >>> is_dataloader_config({"_target_": "torch.utils.data.DataLoader"})
+        True
+    """
+    return is_object_config(config, DataLoader)
+
+
+def is_dataloader2_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``torchdata.dataloader2.DataLoader2``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``torchdata.dataloader2.DataLoader2`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.dataloaders import is_dataloader2_config
+        >>> is_dataloader2_config({"_target_": "torchdata.dataloader2.DataLoader2"})
+        True
+    """
+    check_torchdata()
+    return is_object_config(config, DataLoader2)
