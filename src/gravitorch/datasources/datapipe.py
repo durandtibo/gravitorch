@@ -25,7 +25,7 @@ T = TypeVar("T")
 
 
 class IterDataPipeCreatorDataSource(BaseDataSource):
-    r"""Implements a data source that creates data loaders using
+    r"""Implements a datasource that creates data loaders using
     ``IterDataPipe`` creators.
 
     Args:
@@ -108,7 +108,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         )
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches the current data source to the provided engine.
+        r"""Attaches the current datasource to the provided engine.
 
         This method can be used to set up events or logs some stats
         to the engine.
@@ -127,10 +127,10 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
             >>> my_engine = AlphaEngine()  # Work with any engine
             >>> datasource.attach(my_engine)
         """
-        logger.info("Attach the data source to an engine")
+        logger.info("Attach the datasource to an engine")
 
     def get_asset(self, asset_id: str) -> Any:
-        r"""Gets a data asset from this data source.
+        r"""Gets a data asset from this datasource.
 
         This method is useful to access some data variables/parameters
         that are not available before to load/preprocess the data.
@@ -218,7 +218,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         return self._create_datapipe(loader_id=loader_id, engine=engine)
 
     def has_data_loader(self, loader_id: str) -> bool:
-        r"""Indicates if the data source has a data loader with the given
+        r"""Indicates if the datasource has a data loader with the given
         ID.
 
         Args:
@@ -236,10 +236,10 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
             >>> datasource = IterDataPipeCreatorDataSource(datapipe_creators={...})
-            # Check if the data source has a data loader for ID 'train'
+            # Check if the datasource has a data loader for ID 'train'
             >>> datasource.has_data_loader("train")
             True or False
-            # Check if the data source has a data loader for ID 'eval'
+            # Check if the datasource has a data loader for ID 'eval'
             >>> datasource.has_data_loader("eval")
             True or False
         """
@@ -268,7 +268,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
 
 class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
-    r"""Implements a data source that creates data loaders using
+    r"""Implements a datasource that creates data loaders using
     ``IterDataPipe`` creators.
 
     Unlike ``IterDataPipeCreatorDataSource``, each ``IterDataPipe``

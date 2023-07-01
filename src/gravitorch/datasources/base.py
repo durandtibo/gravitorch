@@ -27,16 +27,16 @@ T = TypeVar("T")
 
 
 class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
-    r"""Defines the base class to implement a data source.
+    r"""Defines the base class to implement a datasource.
 
-    A data source object is responsible to create the data loaders.
+    A datasource object is responsible to create the data loaders.
 
     Note: it is an experimental class and the API may change.
     """
 
     @abstractmethod
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches the current data source to the provided engine.
+        r"""Attaches the current datasource to the provided engine.
 
         This method can be used to set up events or logs some stats to
         the engine.
@@ -52,13 +52,13 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> from gravitorch.datasources import BaseDataSource
             >>> from gravitorch.engines import AlphaEngine
             >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> datasource: BaseDataSource = ...  # Instantiate a data source
+            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
             >>> datasource.attach(my_engine)
         """
 
     @abstractmethod
     def get_asset(self, asset_id: str) -> Any:
-        r"""Gets a data asset from this data source.
+        r"""Gets a data asset from this datasource.
 
         This method is useful to access some data variables/parameters
         that are not available before to load/preprocess the data.
@@ -81,7 +81,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a data source
+            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
             >>> my_asset = datasource.get_asset("my_asset_id")
         """
 
@@ -102,7 +102,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a data source
+            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
             >>> datasource.has_asset("my_asset_id")
             False
         """
@@ -133,7 +133,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a data source
+            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
             # Get the data loader associated to the ID 'train'
             >>> data_loader = datasource.get_data_loader("train")
             # Get a data loader that can use information from an engine
@@ -144,7 +144,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
     @abstractmethod
     def has_data_loader(self, loader_id: str) -> bool:
-        r"""Indicates if the data source has a data loader with the given
+        r"""Indicates if the datasource has a data loader with the given
         ID.
 
         Args:
@@ -161,11 +161,11 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a data source
-            # Check if the data source has a data loader for ID 'train'
+            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
+            # Check if the datasource has a data loader for ID 'train'
             >>> datasource.has_data_loader("train")
             True or False
-            # Check if the data source has a data loader for ID 'eval'
+            # Check if the datasource has a data loader for ID 'eval'
             >>> datasource.has_data_loader("eval")
             True or False
         """
@@ -182,7 +182,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a data source
+            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
             # Please take a look to the implementation of the state_dict
             # function to know the expected structure
             >>> state_dict = {...}
@@ -201,7 +201,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a data source
+            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
             >>> state_dict = datasource.state_dict()
             {...}
         """
@@ -242,9 +242,9 @@ def is_datasource_config(config: dict) -> bool:
 
 
 def setup_datasource(datasource: BaseDataSource | dict) -> BaseDataSource:
-    r"""Sets up a data source.
+    r"""Sets up a datasource.
 
-    The data source is instantiated from its configuration by using
+    The datasource is instantiated from its configuration by using
     the ``BaseDataSource`` factory function.
 
     Args:
@@ -254,11 +254,11 @@ def setup_datasource(datasource: BaseDataSource | dict) -> BaseDataSource:
 
     Returns:
     -------
-        ``BaseDataSource``: The instantiated data source.
+        ``BaseDataSource``: The instantiated datasource.
     """
     if isinstance(datasource, dict):
         logger.info(
-            "Initializing a data source from its configuration... "
+            "Initializing a datasource from its configuration... "
             f"{str_target_object(datasource)}"
         )
         datasource = BaseDataSource.factory(**datasource)
@@ -268,10 +268,10 @@ def setup_datasource(datasource: BaseDataSource | dict) -> BaseDataSource:
 def setup_and_attach_datasource(
     datasource: BaseDataSource | dict, engine: BaseEngine
 ) -> BaseDataSource:
-    r"""Sets up a data source and attach it to an engine.
+    r"""Sets up a datasource and attach it to an engine.
 
     Note that if you call this function ``N`` times with the same data
-    source object, the data source will be attached ``N`` times to the
+    source object, the datasource will be attached ``N`` times to the
     engine.
 
     Args:
@@ -282,9 +282,9 @@ def setup_and_attach_datasource(
 
     Returns:
     -------
-        ``BaseDataSource``: The instantiated data source.
+        ``BaseDataSource``: The instantiated datasource.
     """
     datasource = setup_datasource(datasource)
-    logger.info("Adding a data source object to an engine...")
+    logger.info("Adding a datasource object to an engine...")
     datasource.attach(engine)
     return datasource

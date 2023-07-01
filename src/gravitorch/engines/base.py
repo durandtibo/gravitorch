@@ -29,7 +29,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def datasource(self) -> BaseDataSource:
-        r"""``BaseDataSource``: The data source object associated to
+        r"""``BaseDataSource``: The datasource object associated to
         the engine.
         """
 

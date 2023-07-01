@@ -17,15 +17,15 @@ logger = logging.getLogger(__name__)
 
 
 class VanillaDataSourceCreator(BaseDataSourceCreator):
-    r"""Implements a simple data source creator.
+    r"""Implements a simple datasource creator.
 
     Args:
     ----
-        config (dict): Specifies the data source configuration.
+        config (dict): Specifies the datasource configuration.
         attach_to_engine (bool, optional): If ``True``, the data
             source is attached to the engine. Default: ``True``
         add_module_to_engine (bool, optional): If ``True``, the data
-            source is added to the engine state, so the data source
+            source is added to the engine state, so the datasource
             state is stored when the engine creates a checkpoint.
             Default: ``True``
     """
@@ -47,12 +47,12 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
         )
 
     def create(self, engine: BaseEngine) -> BaseDataSource:
-        logger.info("Creating a data source...")
+        logger.info("Creating a datasource...")
         if self._attach_to_engine:
             datasource = setup_and_attach_datasource(datasource=self._config, engine=engine)
         else:
             datasource = setup_datasource(datasource=self._config)
         if self._add_module_to_engine:
-            logger.info(f"Adding a data source to the engine (key: {ct.DATA_SOURCE})...")
+            logger.info(f"Adding a datasource to the engine (key: {ct.DATA_SOURCE})...")
             engine.add_module(ct.DATA_SOURCE, datasource)
         return datasource
