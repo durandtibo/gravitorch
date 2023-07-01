@@ -38,8 +38,8 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
             Each ``BaseIterDataPipeCreator`` object contains the
             recipe to create an ``IterDataPipe`` object.
 
-    Example:
-    -------
+    Example usage:
+
     .. code-block:: pycon
 
         >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
