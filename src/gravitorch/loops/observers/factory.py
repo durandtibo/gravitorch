@@ -1,13 +1,42 @@
-__all__ = ["setup_loop_observer"]
+__all__ = ["is_loop_observer_config", "setup_loop_observer"]
 
 import logging
 from typing import Union
+
+from objectory.utils import is_object_config
 
 from gravitorch.loops.observers.base import BaseLoopObserver
 from gravitorch.loops.observers.noop import NoOpLoopObserver
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
+
+
+def is_loop_observer_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseLoopObserver``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseLoopObserver`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.observers import is_loop_observer_config
+        >>> is_loop_observer_config({"_target_": "gravitorch.loops.observers.NoOpLoopObserver"})
+        True
+    """
+    return is_object_config(config, BaseLoopObserver)
 
 
 def setup_loop_observer(loop_observer: Union[BaseLoopObserver, dict, None]) -> BaseLoopObserver:

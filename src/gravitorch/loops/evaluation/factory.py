@@ -1,16 +1,47 @@
 r"""This module implements some utility functions for the evaluation
 loops."""
 
-__all__ = ["setup_evaluation_loop"]
+__all__ = ["is_evaluation_loop_config", "setup_evaluation_loop"]
 
 import logging
 from typing import Union
+
+from objectory.utils import is_object_config
 
 from gravitorch.loops.evaluation.base import BaseEvaluationLoop
 from gravitorch.loops.evaluation.vanilla import VanillaEvaluationLoop
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
+
+
+def is_evaluation_loop_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseEvaluationLoop``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseEvaluationLoop`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation import is_evaluation_loop_config
+        >>> is_evaluation_loop_config(
+        ...     {"_target_": "gravitorch.loops.evaluation.VanillaEvaluationLoop"}
+        ... )
+        True
+    """
+    return is_object_config(config, BaseEvaluationLoop)
 
 
 def setup_evaluation_loop(

@@ -5,8 +5,22 @@ from objectory import OBJECT_TARGET
 from gravitorch.loops.observers import (
     NoOpLoopObserver,
     PyTorchBatchSaver,
+    is_loop_observer_config,
     setup_loop_observer,
 )
+
+#############################################
+#     Tests for is_loop_observer_config     #
+#############################################
+
+
+def test_is_loop_observer_config_true() -> None:
+    assert is_loop_observer_config({"_target_": "gravitorch.loops.observers.NoOpLoopObserver"})
+
+
+def test_is_loop_observer_config_false() -> None:
+    assert not is_loop_observer_config({"_target_": "torch.nn.Identity"})
+
 
 #########################################
 #     Tests for setup_loop_observer     #
