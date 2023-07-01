@@ -99,7 +99,7 @@ class DummyIterableDataset(IterableDataset):
 
 
 class DummyDataSource(DatasetDataSource):
-    r"""Implements a dummy data source for testing purpose.
+    r"""Implements a dummy datasource for testing purpose.
 
     Args:
     ----
@@ -172,8 +172,8 @@ def create_dummy_engine(
     Args:
     ----
         datasource (``BaseDataSource`` or dict or ``None``): Specifies
-            the data source or its configuration. If ``None``, a dummy
-            data source is automatically created. Default: ``None``
+            the datasource or its configuration. If ``None``, a dummy
+            datasource is automatically created. Default: ``None``
         model (``Module`` or dict or ``None``): Specifies the model or
             its configuration. If ``None``, a dummy classification model
             is automatically created. Default: ``None``

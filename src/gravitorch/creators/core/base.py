@@ -25,7 +25,7 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
 
     In MLTorch, the core engine modules are:
 
-        - data source
+        - datasource
         - model
         - optimizer
         - LR scheduler
@@ -51,7 +51,7 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
         -------
             tuple with 4 values with the following structure:
                 - ``gravitorch.datasources.BaseDataSource``: The
-                    initialized data source.
+                    initialized datasource.
                 - ``torch.nn.Module``: The instantiated model.
                 - ``torch.optim.Optimizer`` or ``None``: The
                     instantiated optimizer or ``None`` if there

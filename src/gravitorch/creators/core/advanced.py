@@ -30,7 +30,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
     Args:
     ----
         datasource_creator (``BaseDataSourceCreator`` or dict):
-            Specifies the data source creator or its configuration.
+            Specifies the datasource creator or its configuration.
         model_creator (``BaseModelCreator`` or dict): Specifies the
             model creator or its configuration.
         optimizer_creator (``BaseOptimizerCreator`` or dict or

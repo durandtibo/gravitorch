@@ -22,7 +22,7 @@ T = TypeVar("T")
 
 
 class DatasetDataSource(BaseDataSource):
-    r"""Implements a data source that uses regular PyTorch datasets and
+    r"""Implements a datasource that uses regular PyTorch datasets and
     data loaders.
 
     To create a data loader, the user should indicate the dataset and
@@ -76,7 +76,7 @@ class DatasetDataSource(BaseDataSource):
         )
 
     def attach(self, engine: BaseEngine) -> None:
-        logger.info("Attach the data source to an engine")
+        logger.info("Attach the datasource to an engine")
 
     def get_asset(self, asset_id: str) -> Any:
         return self._asset_manager.get_asset(asset_id)

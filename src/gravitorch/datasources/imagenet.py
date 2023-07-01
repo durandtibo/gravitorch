@@ -25,7 +25,7 @@ IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
 
 
 class ImageNetDataSource(DatasetDataSource):
-    r"""Implements a data source for the ImageNet dataset."""
+    r"""Implements a datasource for the ImageNet dataset."""
 
     @classmethod
     def create_imagenet_v1(
@@ -35,7 +35,7 @@ class ImageNetDataSource(DatasetDataSource):
         data_loader_creators: dict[str, BaseDataLoaderCreator | dict | None],
         input_size: int = 224,
     ) -> ImageNetDataSource:
-        r"""Creates a data source for the ImageNet dataset the training
+        r"""Creates a datasource for the ImageNet dataset the training
         and evaluation datasets with their original data augmentations
         (V1).
 
@@ -73,7 +73,7 @@ class ImageNetDataSource(DatasetDataSource):
 
         Returns:
         -------
-            ``ImageNetDataSource``: A data source for the ImageNet datasets.
+            ``ImageNetDataSource``: A datasource for the ImageNet datasets.
         """
         train_dataset, eval_dataset = create_train_eval_datasets_v1(
             train_path=train_path,
