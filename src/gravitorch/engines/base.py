@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-__all__ = ["BaseEngine"]
+__all__ = ["BaseEngine", "is_engine_config", "setup_engine"]
 
+import logging
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any
 
 from objectory import AbstractFactory
+from objectory.utils import is_object_config
 from torch.nn import Module
 from torch.optim import Optimizer
 
@@ -13,10 +15,13 @@ from gravitorch.events import BaseEventHandler
 from gravitorch.lr_schedulers import LRSchedulerType
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.exp_trackers.steps import Step
+from gravitorch.utils.format import str_target_object
 from gravitorch.utils.history import BaseHistory
 
 if TYPE_CHECKING:
     from gravitorch.datasources import BaseDataSource
+
+logger = logging.getLogger(__name__)
 
 
 class BaseEngine(ABC, metaclass=AbstractFactory):
@@ -710,3 +715,53 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.train()
         """
+
+
+def is_engine_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseEngine``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseEngine`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.engines import is_engine_config
+        >>> is_engine_config({"_target_": "gravitorch.engines.IterDataPipeCreatorDataSource"})
+        True
+    """
+    return is_object_config(config, BaseEngine)
+
+
+def setup_engine(engine: BaseEngine | dict) -> BaseEngine:
+    r"""Sets up a engine.
+
+    The engine is instantiated from its configuration by using
+    the ``BaseEngine`` factory function.
+
+    Args:
+    ----
+        engine (``BaseEngine`` or dict): Specifies the data
+            source or its configuration.
+
+    Returns:
+    -------
+        ``BaseEngine``: The instantiated engine.
+    """
+    if isinstance(engine, dict):
+        logger.info(
+            "Initializing a engine from its configuration... " f"{str_target_object(engine)}"
+        )
+        engine = BaseEngine.factory(**engine)
+    return engine
