@@ -5,6 +5,7 @@ from gravitorch.data.datasets import (
     DummyMultiClassDataset,
     ExampleDataset,
     create_datasets,
+    is_dataset_config,
     setup_dataset,
 )
 
@@ -67,6 +68,21 @@ def test_create_datasets_three() -> None:
             "test": ExampleDataset(("A", "B")),
         },
     )
+
+
+#######################################
+#     Tests for is_dataset_config     #
+#######################################
+
+
+def test_is_dataset_config_true() -> None:
+    assert is_dataset_config(
+        {"_target_": "gravitorch.data.datasets.ExampleDataset", "examples": ("A", "B")}
+    )
+
+
+def test_is_dataset_config_false() -> None:
+    assert not is_dataset_config({"_target_": "torch.nn.Identity"})
 
 
 ###################################

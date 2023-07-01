@@ -3,13 +3,14 @@ r"""This module defines some functionalities to instantiate dynamically a
 
 from __future__ import annotations
 
-__all__ = ["create_datasets", "setup_dataset"]
+__all__ = ["create_datasets", "is_dataset_config", "setup_dataset"]
 
 import logging
 from collections.abc import Hashable, Mapping
 from typing import TypeVar
 
 from objectory import factory
+from objectory.utils import is_object_config
 from torch.utils.data import Dataset
 
 from gravitorch.utils.format import str_target_object
@@ -49,6 +50,35 @@ def create_datasets(datasets: Mapping[Hashable, Dataset | dict]) -> dict[Hashabl
         {'train': ExampleDataset(num_examples=3), 'val': ExampleDataset(num_examples=2)}
     """
     return {split: setup_dataset(dataset) for split, dataset in datasets.items()}
+
+
+def is_dataset_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``torch.utils.data.Dataset``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``torch.utils.data.Dataset`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datasets import is_dataset_config
+        >>> is_dataset_config(
+        ...     {"_target_": "gravitorch.data.datasets.ExampleDataset", "examples": [1, 2, 1, 3]}
+        ... )
+        True
+    """
+    return is_object_config(config, Dataset)
 
 
 def setup_dataset(dataset: Dataset | dict | None) -> Dataset | None:
