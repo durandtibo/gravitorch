@@ -1,6 +1,8 @@
 r"""This module contains some tools to analyze the parameters of a
 ``torch.nn.Module``."""
 
+from __future__ import annotations
+
 __all__ = [
     "analyze_module_architecture",
     "analyze_model_architecture",
@@ -8,7 +10,6 @@ __all__ = [
 ]
 
 import logging
-from typing import Optional
 
 from torch.nn import Module
 
@@ -25,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 def analyze_module_architecture(
-    module: Module, engine: Optional[BaseEngine] = None, prefix: str = ""
+    module: Module, engine: BaseEngine | None = None, prefix: str = ""
 ) -> None:
     r"""Analyzes the architecture of a ``torch.nn.Module`` object.
 
@@ -56,7 +57,7 @@ def analyze_module_architecture(
         )
 
 
-def analyze_model_architecture(model: Module, engine: Optional[BaseEngine] = None) -> None:
+def analyze_model_architecture(model: Module, engine: BaseEngine | None = None) -> None:
     r"""Analyzes the architecture of a model.
 
     Args:
@@ -69,7 +70,7 @@ def analyze_model_architecture(model: Module, engine: Optional[BaseEngine] = Non
     analyze_module_architecture(module=model, engine=engine, prefix="model.")
 
 
-def analyze_network_architecture(model: Module, engine: Optional[BaseEngine] = None) -> None:
+def analyze_network_architecture(model: Module, engine: BaseEngine | None = None) -> None:
     r"""Analyzes the network architecture of a model.
 
     This function assumes the model has a  ``network`` attribute.

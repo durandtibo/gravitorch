@@ -4,6 +4,8 @@ Inspired from https://github.com/PyTorchLightning/pytorch-
 lightning/blob/master/pytorch_lightning/core/memory.py
 """
 
+from __future__ import annotations
+
 __all__ = ["ModelSummary"]
 
 from collections import OrderedDict
