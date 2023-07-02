@@ -73,7 +73,7 @@ jobs:
 
       - name: Run short experiment
         run: |
-          python -m gravitorch.cli.run -cd=conf/classification -cn=mlp_classification_sgd engine.state.max_epochs=2
+          python -m gravitorch.cli.run -cd=conf/demo -cn=mlp_classification_sgd engine.state.max_epochs=2
 
   latest-package:
     runs-on: ${{ matrix.os }}
@@ -143,4 +143,4 @@ jobs:
 
       - name: Run short experiment
         run: |
-          python -m gravitorch.cli.run -cd=conf/classification -cn=mlp_classification_sgd engine.state.max_epochs=2
+          python -m gravitorch.cli.run -cd=conf/demo -cn=mlp_classification_sgd engine.state.max_epochs=2

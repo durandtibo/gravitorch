@@ -4,7 +4,7 @@ Example usage:
 
 .. code-block:: shell
 
-    python -m gravitorch.cli.run -cd=examples/classification -cn=mlp_classification_sgd engine.state.max_epochs=2  # noqa: E501,B950
+    python -m gravitorch.cli.run -cd=examples/demo -cn=mlp_classification_sgd engine.state.max_epochs=2  # noqa: E501,B950
 """
 
 from __future__ import annotations
