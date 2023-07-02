@@ -217,7 +217,9 @@ def is_datasource_config(config: dict) -> bool:
     ``BaseDataSource``.
 
     This function only checks if the value of the key  ``_target_``
-    is valid. It does not check the other values.
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
 
     Args:
     ----
