@@ -1,6 +1,19 @@
 from objectory import OBJECT_TARGET
 
-from gravitorch.utils.profilers import NoOpProfiler, setup_profiler
+from gravitorch.utils.profilers import NoOpProfiler, is_profiler_config, setup_profiler
+
+########################################
+#     Tests for is_profiler_config     #
+########################################
+
+
+def test_is_profiler_config_true() -> None:
+    assert is_profiler_config({"_target_": "gravitorch.utils.profilers.NoOpProfiler"})
+
+
+def test_is_profiler_config_false() -> None:
+    assert not is_profiler_config({"_target_": "torch.nn.Identity"})
+
 
 ####################################
 #     Tests for setup_profiler     #

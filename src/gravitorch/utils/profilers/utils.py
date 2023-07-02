@@ -2,14 +2,43 @@ r"""This module implements some utility functions for the profilers."""
 
 from __future__ import annotations
 
-__all__ = ["setup_profiler"]
+__all__ = ["is_profiler_config", "setup_profiler"]
 
 import logging
+
+from objectory.utils import is_object_config
 
 from gravitorch.utils.format import str_target_object
 from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler
 
 logger = logging.getLogger(__name__)
+
+
+def is_profiler_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseProfiler``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseProfiler`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.profilers import is_profiler_config
+        >>> is_profiler_config({"_target_": "gravitorch.utils.profilers.NoOpProfiler"})
+        True
+    """
+    return is_object_config(config, BaseProfiler)
 
 
 def setup_profiler(profiler: BaseProfiler | dict | None) -> BaseProfiler:

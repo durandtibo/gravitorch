@@ -6,10 +6,24 @@ from objectory import OBJECT_TARGET
 from gravitorch.utils.exp_trackers import (
     BaseExpTracker,
     NoOpExpTracker,
+    is_exp_tracker_config,
     main_process_only,
     sanitize_metrics,
     setup_exp_tracker,
 )
+
+###########################################
+#     Tests for is_exp_tracker_config     #
+###########################################
+
+
+def test_is_exp_tracker_config_true() -> None:
+    assert is_exp_tracker_config({"_target_": "gravitorch.utils.exp_trackers.NoOpExpTracker"})
+
+
+def test_is_exp_tracker_config_false() -> None:
+    assert not is_exp_tracker_config({"_target_": "torch.nn.Identity"})
+
 
 #######################################
 #     Tests for setup_exp_tracker     #

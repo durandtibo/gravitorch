@@ -2,9 +2,16 @@ r"""This module defines dome utility functions for the experiment
 trackers."""
 from __future__ import annotations
 
-__all__ = ["setup_exp_tracker", "main_process_only", "sanitize_metrics"]
+__all__ = [
+    "setup_exp_tracker",
+    "main_process_only",
+    "sanitize_metrics",
+    "is_exp_tracker_config",
+]
 
 import logging
+
+from objectory.utils import is_object_config
 
 from gravitorch.distributed import comm as dist
 from gravitorch.utils.exp_trackers.base import BaseExpTracker
@@ -12,6 +19,33 @@ from gravitorch.utils.exp_trackers.noop import NoOpExpTracker
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
+
+
+def is_exp_tracker_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseHandler``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseHandler`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.exp_trackers import is_exp_tracker_config
+        >>> is_exp_tracker_config({"_target_": "gravitorch.utils.exp_trackers.NoOpExpTracker"})
+        True
+    """
+    return is_object_config(config, BaseExpTracker)
 
 
 def setup_exp_tracker(exp_tracker: BaseExpTracker | dict | None) -> BaseExpTracker:
