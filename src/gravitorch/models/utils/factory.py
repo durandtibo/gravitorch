@@ -1,10 +1,12 @@
 r"""This module defines the base model."""
 
-__all__ = ["attach_module_to_engine", "setup_model", "setup_and_attach_model"]
+from __future__ import annotations
+
+__all__ = ["attach_module_to_engine", "is_model_config", "setup_model", "setup_and_attach_model"]
 
 import logging
-from typing import Union
 
+from objectory.utils import is_object_config
 from torch.nn import Module
 
 from gravitorch.engines.base import BaseEngine
@@ -30,7 +32,34 @@ def attach_module_to_engine(module: Module, engine: BaseEngine) -> None:
         module.attach(engine)
 
 
-def setup_model(model: Union[Module, dict]) -> Module:
+def is_model_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseModel``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseModel`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.models import is_model_config
+        >>> is_model_config({"_target_": "gravitorch.models.VanillaModel"})
+        True
+    """
+    return is_object_config(config, BaseModel)
+
+
+def setup_model(model: Module | dict) -> Module:
     r"""Sets up the model.
 
     The model is instantiated from its configuration by using the
@@ -51,7 +80,7 @@ def setup_model(model: Union[Module, dict]) -> Module:
     return model
 
 
-def setup_and_attach_model(engine: BaseEngine, model: Union[Module, dict]) -> Module:
+def setup_and_attach_model(engine: BaseEngine, model: Module | dict) -> Module:
     r"""Sets up and attaches the model to the engine.
 
     The model is attached to the engine by using the ``attach`` method.

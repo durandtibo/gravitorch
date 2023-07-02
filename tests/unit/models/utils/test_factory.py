@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -5,6 +7,7 @@ from objectory import OBJECT_TARGET
 from torch import nn
 
 from gravitorch.engines import BaseEngine
+from gravitorch.models import is_model_config
 from gravitorch.models.utils import (
     attach_module_to_engine,
     setup_and_attach_model,
@@ -26,9 +29,22 @@ def test_attach_module_to_engine_attach() -> None:
 def test_attach_module_to_engine_no_attach() -> None:
     engine = Mock(spec=BaseEngine)
     module = Mock()
-    with patch("gravitorch.models.utils.setup_and_attach.hasattr", lambda *args, **kwargs: False):
+    with patch("gravitorch.models.utils.factory.hasattr", lambda *args, **kwargs: False):
         attach_module_to_engine(module, engine)
         module.attach.assert_not_called()
+
+
+#####################################
+#     Tests for is_model_config     #
+#####################################
+
+
+def test_is_model_config_true() -> None:
+    assert is_model_config({"_target_": "gravitorch.models.VanillaModel"})
+
+
+def test_is_model_config_false() -> None:
+    assert not is_model_config({"_target_": "torch.nn.Identity"})
 
 
 #################################

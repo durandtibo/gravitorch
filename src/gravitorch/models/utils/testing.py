@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["is_loss_decreasing", "is_loss_decreasing_with_adam", "is_loss_decreasing_with_sgd"]
 
 import logging
