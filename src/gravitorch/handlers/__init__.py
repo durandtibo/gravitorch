@@ -36,6 +36,7 @@ __all__ = [
     "TagEngineStateSaver",
     "VanillaLRScheduler",
     "add_unique_event_handler",
+    "is_handler_config",
     "setup_and_attach_handlers",
     "setup_handler",
     "to_events",
@@ -94,6 +95,7 @@ from gravitorch.handlers.optimizer_state import ConsolidateOptimizerState
 from gravitorch.handlers.sysinfo import EpochSysInfoMonitor
 from gravitorch.handlers.utils import (
     add_unique_event_handler,
+    is_handler_config,
     setup_and_attach_handlers,
     setup_handler,
     to_events,

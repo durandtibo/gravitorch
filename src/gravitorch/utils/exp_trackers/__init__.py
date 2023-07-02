@@ -10,6 +10,7 @@ __all__ = [
     "NotActivatedExpTrackerError",
     "Step",
     "TensorBoardExpTracker",
+    "is_exp_tracker_config",
     "main_process_only",
     "sanitize_metrics",
     "setup_exp_tracker",
@@ -24,6 +25,7 @@ from gravitorch.utils.exp_trackers.noop import NoOpExpTracker
 from gravitorch.utils.exp_trackers.steps import EpochStep, IterationStep, Step
 from gravitorch.utils.exp_trackers.tensorboard import TensorBoardExpTracker
 from gravitorch.utils.exp_trackers.utils import (
+    is_exp_tracker_config,
     main_process_only,
     sanitize_metrics,
     setup_exp_tracker,

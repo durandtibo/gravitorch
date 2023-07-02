@@ -1,7 +1,15 @@
-__all__ = ["add_unique_event_handler", "setup_handler", "setup_and_attach_handlers", "to_events"]
+__all__ = [
+    "add_unique_event_handler",
+    "is_handler_config",
+    "setup_and_attach_handlers",
+    "setup_handler",
+    "to_events",
+]
 
 import logging
 from typing import Union
+
+from objectory.utils import is_object_config
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.events import BaseEventHandler
@@ -51,6 +59,33 @@ def add_unique_event_handler(
     else:
         logger.info(f"Adding {event_handler} to '{event}' event")
         engine.add_event_handler(event, event_handler)
+
+
+def is_handler_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseHandler``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseHandler`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import is_handler_config
+        >>> is_handler_config({"_target_": "gravitorch.handlers.EpochLRMonitor"})
+        True
+    """
+    return is_object_config(config, BaseHandler)
 
 
 def setup_handler(handler: Union[BaseHandler, dict]) -> BaseHandler:

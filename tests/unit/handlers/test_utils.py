@@ -8,6 +8,7 @@ from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     EpochLRMonitor,
     add_unique_event_handler,
+    is_handler_config,
     setup_and_attach_handlers,
     setup_handler,
     to_events,
@@ -37,6 +38,19 @@ def test_add_unique_event_handler_has_event_handler_true(event: str) -> None:
     event_handler = VanillaEventHandler(Mock())
     add_unique_event_handler(engine, event, event_handler)
     engine.add_event_handler.assert_not_called()
+
+
+#######################################
+#     Tests for is_handler_config     #
+#######################################
+
+
+def test_is_handler_config_true() -> None:
+    assert is_handler_config({"_target_": "gravitorch.handlers.EpochLRMonitor"})
+
+
+def test_is_handler_config_false() -> None:
+    assert not is_handler_config({"_target_": "torch.nn.Identity"})
 
 
 ###################################
