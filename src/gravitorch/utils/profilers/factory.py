@@ -9,7 +9,8 @@ import logging
 from objectory.utils import is_object_config
 
 from gravitorch.utils.format import str_target_object
-from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler
+from gravitorch.utils.profilers.base import BaseProfiler
+from gravitorch.utils.profilers.noop import NoOpProfiler
 
 logger = logging.getLogger(__name__)
 
