@@ -14,8 +14,9 @@ from gravitorch.data.dataloaders import (
     create_dataloader2,
     is_dataloader2_config,
     is_dataloader_config,
+    setup_dataloader,
 )
-from gravitorch.data.datasets import DummyMultiClassDataset
+from gravitorch.data.datasets import DummyMultiClassDataset, ExampleDataset
 from gravitorch.testing import torchdata_available
 from gravitorch.utils.imports import is_torchdata_available
 
@@ -188,3 +189,28 @@ def test_is_dataloader2_config_false() -> None:
 @torchdata_available
 def test_is_dataloader2_config_false_dataloader() -> None:
     assert not is_dataloader2_config({"_target_": "torch.utils.data.DataLoader"})
+
+
+######################################
+#     Tests for setup_dataloader     #
+######################################
+
+
+def test_setup_dataloader_object() -> None:
+    creator = DataLoader(ExampleDataset((1, 2, 3, 4, 5)))
+    assert setup_dataloader(creator) is creator
+
+
+def test_setup_dataloader_dict() -> None:
+    assert isinstance(
+        setup_dataloader(
+            {
+                OBJECT_TARGET: "torch.utils.data.DataLoader",
+                "dataset": {
+                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
+                    "examples": (1, 2, 3, 4, 5),
+                },
+            },
+        ),
+        DataLoader,
+    )
