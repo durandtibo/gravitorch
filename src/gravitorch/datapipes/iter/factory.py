@@ -129,7 +129,7 @@ def setup_iter_datapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe
 
     .. code-block:: pycon
 
-        >>> from gravitorch.datapipes.iter import setup_iter_datapipe
+        >>> from gravitorch.datapipes import setup_iter_datapipe
         >>> datapipe = setup_iter_datapipe(
         ...     {
         ...         "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
