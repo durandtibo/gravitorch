@@ -36,7 +36,7 @@ def test_clone_datapipe_map() -> None:
     dp = clone_datapipe(datapipe)
     assert isinstance(dp, SequenceWrapper)
     assert dp is not datapipe
-    assert objects_are_equal(tuple(dp.to_iterdatapipe()), tuple(datapipe.to_iterdatapipe()))
+    assert objects_are_equal(tuple(dp.to_iter_datapipe()), tuple(datapipe.to_iter_datapipe()))
 
 
 def test_clone_datapipe_cannot_be_copied() -> None:

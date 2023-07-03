@@ -10,7 +10,7 @@ from torch.utils.data import IterDataPipe
 
 from gravitorch.creators.datapipe import (
     BaseIterDataPipeCreator,
-    setup_iterdatapipe_creator,
+    setup_iter_datapipe_creator,
 )
 from gravitorch.data.datacreators import BaseDataCreator, setup_data_creator
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
@@ -97,7 +97,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         self._asset_manager = AssetManager()
         logger.info("Initializing the IterDataPipe creators...")
         self._datapipe_creators = {
-            key: setup_iterdatapipe_creator(creator) for key, creator in datapipe_creators.items()
+            key: setup_iter_datapipe_creator(creator) for key, creator in datapipe_creators.items()
         }
         logger.info(f"IterDataPipe creators:\n{str_torch_mapping(self._datapipe_creators)}")
 

@@ -8,7 +8,7 @@ from gravitorch.creators.datapipe import (
     BaseIterDataPipeCreator,
     SequentialCreatorIterDataPipeCreator,
     SequentialIterDataPipeCreator,
-    create_sequential_iterdatapipe,
+    create_sequential_iter_datapipe,
 )
 from gravitorch.datapipes.iter import SourceWrapper
 from gravitorch.engines import BaseEngine
@@ -18,7 +18,7 @@ from gravitorch.engines import BaseEngine
 ###################################################
 
 
-def test_sequential_iterdatapipe_creator_str() -> None:
+def test_sequential_iter_datapipe_creator_str() -> None:
     creator = SequentialIterDataPipeCreator(
         [
             {
@@ -30,14 +30,14 @@ def test_sequential_iterdatapipe_creator_str() -> None:
     assert str(creator).startswith("SequentialIterDataPipeCreator(")
 
 
-def test_sequential_iterdatapipe_creator_empty() -> None:
+def test_sequential_iter_datapipe_creator_empty() -> None:
     with raises(
         ValueError, match="It is not possible to create a DataPipe because config is empty"
     ):
         SequentialIterDataPipeCreator([])
 
 
-def test_sequential_iterdatapipe_creator_dict() -> None:
+def test_sequential_iter_datapipe_creator_dict() -> None:
     creator = SequentialIterDataPipeCreator(
         {
             OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -49,7 +49,7 @@ def test_sequential_iterdatapipe_creator_dict() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_sequential_iterdatapipe_creator_dict_source_inputs() -> None:
+def test_sequential_iter_datapipe_creator_dict_source_inputs() -> None:
     creator = SequentialIterDataPipeCreator(
         config={OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
     )
@@ -58,7 +58,7 @@ def test_sequential_iterdatapipe_creator_dict_source_inputs() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_sequential_iterdatapipe_creator_dict_one_input_datapipe() -> None:
+def test_sequential_iter_datapipe_creator_dict_one_input_datapipe() -> None:
     creator = SequentialIterDataPipeCreator(
         config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
     )
@@ -67,7 +67,7 @@ def test_sequential_iterdatapipe_creator_dict_one_input_datapipe() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_sequential_iterdatapipe_creator_dict_two_input_datapipes() -> None:
+def test_sequential_iter_datapipe_creator_dict_two_input_datapipes() -> None:
     creator = SequentialIterDataPipeCreator(
         config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
     )
@@ -81,7 +81,7 @@ def test_sequential_iterdatapipe_creator_dict_two_input_datapipes() -> None:
     assert tuple(datapipe) == (1, 11, 2, 12, 3, 13, 4, 14)
 
 
-def test_sequential_iterdatapipe_creator_sequence_1() -> None:
+def test_sequential_iter_datapipe_creator_sequence_1() -> None:
     creator = SequentialIterDataPipeCreator(
         [
             {
@@ -95,7 +95,7 @@ def test_sequential_iterdatapipe_creator_sequence_1() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_sequential_iterdatapipe_creator_sequence_2() -> None:
+def test_sequential_iter_datapipe_creator_sequence_2() -> None:
     creator = SequentialIterDataPipeCreator(
         [
             {
@@ -110,7 +110,7 @@ def test_sequential_iterdatapipe_creator_sequence_2() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_sequential_iterdatapipe_creator_sequence_source_inputs() -> None:
+def test_sequential_iter_datapipe_creator_sequence_source_inputs() -> None:
     creator = SequentialIterDataPipeCreator(
         config=[
             {OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
@@ -122,7 +122,7 @@ def test_sequential_iterdatapipe_creator_sequence_source_inputs() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_sequential_iterdatapipe_creator_sequence_source_inputs_datapipe() -> None:
+def test_sequential_iter_datapipe_creator_sequence_source_inputs_datapipe() -> None:
     creator = SequentialIterDataPipeCreator(
         config=[{OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2}],
     )
@@ -131,7 +131,7 @@ def test_sequential_iterdatapipe_creator_sequence_source_inputs_datapipe() -> No
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_sequential_iterdatapipe_creator_sequence_multiple_input_datapipes() -> None:
+def test_sequential_iter_datapipe_creator_sequence_multiple_input_datapipes() -> None:
     creator = SequentialIterDataPipeCreator(
         config=[
             {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
@@ -149,26 +149,26 @@ def test_sequential_iterdatapipe_creator_sequence_multiple_input_datapipes() -> 
 
 
 #####################################################
-#     Tests for create_sequential_iterdatapipe     #
+#     Tests for create_sequential_iter_datapipe     #
 #####################################################
 
 
-def test_create_sequential_iterdatapipe_empty_dict() -> None:
+def test_create_sequential_iter_datapipe_empty_dict() -> None:
     with raises(
         ValueError, match="It is not possible to create a DataPipe because config is empty"
     ):
-        create_sequential_iterdatapipe({})
+        create_sequential_iter_datapipe({})
 
 
-def test_create_sequential_iterdatapipe_empty_sequence() -> None:
+def test_create_sequential_iter_datapipe_empty_sequence() -> None:
     with raises(
         ValueError, match="It is not possible to create a DataPipe because config is empty"
     ):
-        create_sequential_iterdatapipe([])
+        create_sequential_iter_datapipe([])
 
 
-def test_create_sequential_iterdatapipe_dict() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_dict() -> None:
+    datapipe = create_sequential_iter_datapipe(
         {
             OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
             "source": [1, 2, 3, 4],
@@ -178,8 +178,8 @@ def test_create_sequential_iterdatapipe_dict() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_create_sequential_iterdatapipe_dict_source_inputs() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_dict_source_inputs() -> None:
+    datapipe = create_sequential_iter_datapipe(
         config={OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
         source_inputs=([1, 2, 3, 4],),
     )
@@ -187,8 +187,8 @@ def test_create_sequential_iterdatapipe_dict_source_inputs() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_create_sequential_iterdatapipe_dict_one_input_datapipe() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_dict_one_input_datapipe() -> None:
+    datapipe = create_sequential_iter_datapipe(
         config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
         source_inputs=[SourceWrapper([1, 2, 3, 4])],
     )
@@ -196,8 +196,8 @@ def test_create_sequential_iterdatapipe_dict_one_input_datapipe() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_create_sequential_iterdatapipe_dict_two_input_datapipes() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_dict_two_input_datapipes() -> None:
+    datapipe = create_sequential_iter_datapipe(
         config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
         source_inputs=[
             SourceWrapper([1, 2, 3, 4]),
@@ -208,8 +208,8 @@ def test_create_sequential_iterdatapipe_dict_two_input_datapipes() -> None:
     assert tuple(datapipe) == (1, 11, 2, 12, 3, 13, 4, 14)
 
 
-def test_create_sequential_iterdatapipe_sequence_1() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_sequence_1() -> None:
+    datapipe = create_sequential_iter_datapipe(
         [
             {
                 OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -221,8 +221,8 @@ def test_create_sequential_iterdatapipe_sequence_1() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_create_sequential_iterdatapipe_sequence_2() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_sequence_2() -> None:
+    datapipe = create_sequential_iter_datapipe(
         [
             {
                 OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -235,8 +235,8 @@ def test_create_sequential_iterdatapipe_sequence_2() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_create_sequential_iterdatapipe_sequence_source_inputs() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_sequence_source_inputs() -> None:
+    datapipe = create_sequential_iter_datapipe(
         config=[
             {OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
             {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
@@ -247,8 +247,8 @@ def test_create_sequential_iterdatapipe_sequence_source_inputs() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_create_sequential_iterdatapipe_sequence_source_inputs_datapipe() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_sequence_source_inputs_datapipe() -> None:
+    datapipe = create_sequential_iter_datapipe(
         config=[{OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2}],
         source_inputs=[SourceWrapper([1, 2, 3, 4])],
     )
@@ -256,8 +256,8 @@ def test_create_sequential_iterdatapipe_sequence_source_inputs_datapipe() -> Non
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_create_sequential_iterdatapipe_sequence_multiple_input_datapipes() -> None:
-    datapipe = create_sequential_iterdatapipe(
+def test_create_sequential_iter_datapipe_sequence_multiple_input_datapipes() -> None:
+    datapipe = create_sequential_iter_datapipe(
         config=[
             {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
             {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
@@ -276,13 +276,13 @@ def test_create_sequential_iterdatapipe_sequence_multiple_input_datapipes() -> N
 ##########################################################
 
 
-def test_sequential_creator_iterdatapipe_creator_str() -> None:
+def test_sequential_creator_iter_datapipe_creator_str() -> None:
     assert str(
         SequentialCreatorIterDataPipeCreator([Mock(spec=BaseIterDataPipeCreator)])
     ).startswith("SequentialCreatorIterDataPipeCreator(")
 
 
-def test_sequential_creator_iterdatapipe_creator_creators() -> None:
+def test_sequential_creator_iter_datapipe_creator_creators() -> None:
     creator = SequentialCreatorIterDataPipeCreator(
         [
             SequentialIterDataPipeCreator(
@@ -305,14 +305,14 @@ def test_sequential_creator_iterdatapipe_creator_creators() -> None:
     assert isinstance(creator._creators[1], SequentialIterDataPipeCreator)
 
 
-def test_sequential_creator_iterdatapipe_creator_creators_empty() -> None:
+def test_sequential_creator_iter_datapipe_creator_creators_empty() -> None:
     with raises(
         ValueError, match="It is not possible to create a DataPipe because creators is empty"
     ):
         SequentialCreatorIterDataPipeCreator([])
 
 
-def test_sequential_creator_iterdatapipe_creator_create_1() -> None:
+def test_sequential_creator_iter_datapipe_creator_create_1() -> None:
     creators = [
         Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output")),
     ]
@@ -321,7 +321,7 @@ def test_sequential_creator_iterdatapipe_creator_create_1() -> None:
     creators[0].create.assert_called_once_with(engine=None, source_inputs=None)
 
 
-def test_sequential_creator_iterdatapipe_creator_create_2() -> None:
+def test_sequential_creator_iter_datapipe_creator_create_2() -> None:
     creators = [
         Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output1")),
         Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output2")),
@@ -332,7 +332,7 @@ def test_sequential_creator_iterdatapipe_creator_create_2() -> None:
     creators[1].create.assert_called_once_with(engine=None, source_inputs=("output1",))
 
 
-def test_sequential_creator_iterdatapipe_creator_create_with_engine() -> None:
+def test_sequential_creator_iter_datapipe_creator_create_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     creators = [
         Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output1")),
@@ -344,7 +344,7 @@ def test_sequential_creator_iterdatapipe_creator_create_with_engine() -> None:
     creators[1].create.assert_called_once_with(engine=engine, source_inputs=("output1",))
 
 
-def test_sequential_creator_iterdatapipe_creator_create_with_source_inputs() -> None:
+def test_sequential_creator_iter_datapipe_creator_create_with_source_inputs() -> None:
     creators = [
         Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output1")),
         Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output2")),
@@ -355,7 +355,7 @@ def test_sequential_creator_iterdatapipe_creator_create_with_source_inputs() -> 
     creators[1].create.assert_called_once_with(engine=None, source_inputs=("output1",))
 
 
-def test_sequential_creator_iterdatapipe_creator_create_with_engine_and_source_inputs() -> None:
+def test_sequential_creator_iter_datapipe_creator_create_with_engine_and_source_inputs() -> None:
     engine = Mock(spec=BaseEngine)
     creators = [
         Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output1")),
@@ -367,7 +367,7 @@ def test_sequential_creator_iterdatapipe_creator_create_with_engine_and_source_i
     creators[1].create.assert_called_once_with(engine=engine, source_inputs=("output1",))
 
 
-def test_sequential_creator_iterdatapipe_creator_create_batcher() -> None:
+def test_sequential_creator_iter_datapipe_creator_create_batcher() -> None:
     creator = SequentialCreatorIterDataPipeCreator(
         [
             SequentialIterDataPipeCreator(

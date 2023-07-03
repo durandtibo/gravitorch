@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["create_sequential_iterdatapipe", "is_iterdatapipe_config", "setup_iterdatapipe"]
+__all__ = ["create_sequential_iter_datapipe", "is_iter_datapipe_config", "setup_iter_datapipe"]
 
 from collections.abc import Sequence
 
@@ -9,7 +9,7 @@ from objectory.utils import is_object_config
 from torch.utils.data import IterDataPipe
 
 
-def create_sequential_iterdatapipe(configs: Sequence[dict]) -> IterDataPipe:
+def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
     r"""Creates a sequence of ``IterDataPipe``s from their configuration.
 
     Args:
@@ -37,8 +37,8 @@ def create_sequential_iterdatapipe(configs: Sequence[dict]) -> IterDataPipe:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.datapipes.iter.factory import create_sequential_iterdatapipe
-        >>> datapipe = create_sequential_iterdatapipe(
+        >>> from gravitorch.datapipes.iter.factory import create_sequential_iter_datapipe
+        >>> datapipe = create_sequential_iter_datapipe(
         ...     [
         ...         {
         ...             "_target_": "gravitorch.datapipes.iter.SourceWrapper",
@@ -48,7 +48,7 @@ def create_sequential_iterdatapipe(configs: Sequence[dict]) -> IterDataPipe:
         ... )
         >>> tuple(datapipe)
         (1, 2, 3, 4)
-        >>> datapipe = create_sequential_iterdatapipe(
+        >>> datapipe = create_sequential_iter_datapipe(
         ...     [
         ...         {
         ...             "_target_": "gravitorch.datapipes.iter.SourceWrapper",
@@ -70,7 +70,7 @@ def create_sequential_iterdatapipe(configs: Sequence[dict]) -> IterDataPipe:
     return datapipe
 
 
-def is_iterdatapipe_config(config: dict) -> bool:
+def is_iter_datapipe_config(config: dict) -> bool:
     r"""Indicate if the input configuration is a configuration for a
     ``IterDataPipe``.
 
@@ -92,8 +92,8 @@ def is_iterdatapipe_config(config: dict) -> bool:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.datapipes import is_iterdatapipe_config
-        >>> is_iterdatapipe_config(
+        >>> from gravitorch.datapipes import is_iter_datapipe_config
+        >>> is_iter_datapipe_config(
         ...     {
         ...         "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
         ...         "iterable": [1, 2, 3, 4],
@@ -104,11 +104,11 @@ def is_iterdatapipe_config(config: dict) -> bool:
     return is_object_config(config, IterDataPipe)
 
 
-def setup_iterdatapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe:
+def setup_iter_datapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe:
     r"""Sets up an ``IterDataPipe``.
 
     Note: it is only possible to create a sequential DataPipe from
-    its configuration. See ``create_sequential_iterdatapipe``
+    its configuration. See ``create_sequential_iter_datapipe``
     documentation for more information.
 
     Args:
@@ -124,8 +124,8 @@ def setup_iterdatapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.datapipes.iter import setup_iterdatapipe
-        >>> datapipe = setup_iterdatapipe(
+        >>> from gravitorch.datapipes.iter import setup_iter_datapipe
+        >>> datapipe = setup_iter_datapipe(
         ...     [
         ...         {
         ...             "_target_": "gravitorch.datapipes.iter.SourceWrapper",
@@ -135,7 +135,7 @@ def setup_iterdatapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe:
         ... )
         >>> tuple(datapipe)
         (1, 2, 3, 4)
-        >>> datapipe = setup_iterdatapipe(
+        >>> datapipe = setup_iter_datapipe(
         ...     [
         ...         {
         ...             "_target_": "gravitorch.datapipes.iter.SourceWrapper",
@@ -149,4 +149,4 @@ def setup_iterdatapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe:
     """
     if isinstance(datapipe, IterDataPipe):
         return datapipe
-    return create_sequential_iterdatapipe(datapipe)
+    return create_sequential_iter_datapipe(datapipe)

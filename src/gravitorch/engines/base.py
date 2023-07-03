@@ -747,7 +747,7 @@ def is_engine_config(config: dict) -> bool:
 
 
 def setup_engine(engine: BaseEngine | dict) -> BaseEngine:
-    r"""Sets up a engine.
+    r"""Sets up an engine.
 
     The engine is instantiated from its configuration by using
     the ``BaseEngine`` factory function.
@@ -762,8 +762,6 @@ def setup_engine(engine: BaseEngine | dict) -> BaseEngine:
         ``BaseEngine``: The instantiated engine.
     """
     if isinstance(engine, dict):
-        logger.info(
-            "Initializing a engine from its configuration... " f"{str_target_object(engine)}"
-        )
+        logger.info(f"Initializing a engine from its configuration... {str_target_object(engine)}")
         engine = BaseEngine.factory(**engine)
     return engine

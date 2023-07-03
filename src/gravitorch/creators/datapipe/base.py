@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["BaseIterDataPipeCreator", "setup_iterdatapipe_creator"]
+__all__ = ["BaseIterDataPipeCreator", "setup_iter_datapipe_creator"]
 
 import logging
 from abc import ABC, abstractmethod
@@ -72,7 +72,7 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
         """
 
 
-def setup_iterdatapipe_creator(creator: BaseIterDataPipeCreator | dict) -> BaseIterDataPipeCreator:
+def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> BaseIterDataPipeCreator:
     r"""Sets up an ``IterDataPipe`` creator.
 
     The ``IterDataPipe`` creator is instantiated from its
@@ -93,10 +93,10 @@ def setup_iterdatapipe_creator(creator: BaseIterDataPipeCreator | dict) -> BaseI
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.datapipe import setup_iterdatapipe_creator
+        >>> from gravitorch.creators.datapipe import setup_iter_datapipe_creator
         # Set up an ``IterDataPipe`` creator from an ``IterDataPipe`` creator i.e. do nothing ;)
         >>> from gravitorch.creators.datapipe import SequentialIterDataPipeCreator
-        >>> creator = setup_iterdatapipe_creator(
+        >>> creator = setup_iter_datapipe_creator(
         ...     SequentialIterDataPipeCreator(
         ...         config=[
         ...             {
@@ -108,7 +108,7 @@ def setup_iterdatapipe_creator(creator: BaseIterDataPipeCreator | dict) -> BaseI
         ... )
         # Set up an ``IterDataPipe`` creator from its config
         >>> from objectory import OBJECT_TARGET
-        >>> creator = setup_iterdatapipe_creator(
+        >>> creator = setup_iter_datapipe_creator(
         ...     {
         ...         OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
         ...         "config": [

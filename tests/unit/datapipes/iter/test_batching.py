@@ -63,7 +63,7 @@ def test_dict_batcher_iter_batch_size_2() -> None:
     )
 
 
-def test_dict_batcher_iterdatapipe_batch_size_4() -> None:
+def test_dict_batcher_iter_datapipe_batch_size_4() -> None:
     assert objects_are_equal(
         tuple(
             DictBatcher(
@@ -255,7 +255,7 @@ def test_tuple_batcher_iter_batch_size_2() -> None:
     )
 
 
-def test_tuple_batcher_iterdatapipe_batch_size_4() -> None:
+def test_tuple_batcher_iter_datapipe_batch_size_4() -> None:
     assert objects_are_equal(
         tuple(
             TupleBatcher(
