@@ -63,7 +63,7 @@ def setup_map_datapipe(datapipe: MapDataPipe | dict) -> MapDataPipe:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.datapipes.map import setup_map_datapipe
+        >>> from gravitorch.datapipes import setup_map_datapipe
         >>> datapipe = setup_map_datapipe(
         ...     {
         ...         "_target_": "torch.utils.data.datapipes.map.SequenceWrapper",
