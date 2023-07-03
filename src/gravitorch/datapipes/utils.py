@@ -5,17 +5,20 @@ __all__ = ["clone_datapipe"]
 import copy
 import logging
 
-from torch.utils.data.graph import DataPipe
+from torch.utils.data import IterDataPipe, MapDataPipe
 
 logger = logging.getLogger(__name__)
 
 
-def clone_datapipe(datapipe: DataPipe, raise_error: bool = True) -> DataPipe:
+def clone_datapipe(
+    datapipe: IterDataPipe | MapDataPipe, raise_error: bool = True
+) -> IterDataPipe | MapDataPipe:
     r"""Clone (a.k.a. deepcopy) the ``DataPipe``.
 
     Args:
     ----
-        datapipe (``DataPipe``): Specifies the ``DataPipe`` to clone.
+        datapipe (``IterDataPipe`` or ``MapDataPipe``): Specifies the
+            ``DataPipe`` to clone.
         raise_error (bool, optional): If ``True``, this function will
             raise an error if the ``DataPipe`` cannot be cloned.
             If ``False``, the original ``DataPipe`` is returned if the
@@ -23,7 +26,7 @@ def clone_datapipe(datapipe: DataPipe, raise_error: bool = True) -> DataPipe:
 
     Returns:
     -------
-        ``DataPipe``: The cloned ``DataPipe``.
+        ``IterDataPipe`` or ``MapDataPipe``: The cloned ``DataPipe``.
 
     Example usage:
 

@@ -5,25 +5,25 @@ __all__ = ["setup_datapipe"]
 import logging
 
 from objectory import factory
-from torch.utils.data.graph import DataPipe
+from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
 
 
-def setup_datapipe(datapipe: DataPipe | dict) -> DataPipe:
+def setup_datapipe(datapipe: IterDataPipe | MapDataPipe | dict) -> IterDataPipe | MapDataPipe:
     r"""Sets up a ``torch.utils.data.graph.DataPipe`` object.
 
     Args:
     ----
-        datapipe (``torch.utils.data.graph.DataPipe`` or dict):
+        datapipe (``IterDataPipe`` or ``MapDataPipe`` or dict):
             Specifies the datapipe or its configuration (dictionary).
 
     Returns:
     -------
-        ``torch.utils.data.graph.DataPipe``: The instantiated
-            ``torch.utils.data.graph.DataPipe`` object.
+        ``IterDataPipe`` or ``MapDataPipe``: The instantiated
+            ``DataPipe`` object.
 
     Example usage:
 
