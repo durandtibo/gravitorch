@@ -29,10 +29,10 @@ def dataset_path(tmp_path_factory: TempPathFactory) -> Path:
 @torchvision_available
 def test_imagenet_datasource_create_imagenet_v1_no_train_and_no_eval() -> None:
     datasource = ImageNetDataSource.create_imagenet_v1(
-        train_path=None, eval_path=None, data_loader_creators={}
+        train_path=None, eval_path=None, dataloader_creators={}
     )
     assert datasource._datasets == {}
-    assert datasource._data_loader_creators == {}
+    assert datasource._dataloader_creators == {}
 
 
 @torchvision_available
@@ -40,11 +40,11 @@ def test_imagenet_datasource_create_imagenet_v1_no_train_and_eval(dataset_path: 
     datasource = ImageNetDataSource.create_imagenet_v1(
         train_path=None,
         eval_path=dataset_path,
-        data_loader_creators={},
+        dataloader_creators={},
     )
     assert len(datasource._datasets) == 1
     assert isinstance(datasource._datasets[ct.EVAL], ImageFolderDataset)
-    assert datasource._data_loader_creators == {}
+    assert datasource._dataloader_creators == {}
 
 
 @torchvision_available
@@ -52,11 +52,11 @@ def test_imagenet_datasource_create_imagenet_v1_train_and_no_eval(dataset_path: 
     datasource = ImageNetDataSource.create_imagenet_v1(
         train_path=dataset_path,
         eval_path=None,
-        data_loader_creators={},
+        dataloader_creators={},
     )
     assert len(datasource._datasets) == 1
     assert isinstance(datasource._datasets[ct.TRAIN], ImageFolderDataset)
-    assert datasource._data_loader_creators == {}
+    assert datasource._dataloader_creators == {}
 
 
 @torchvision_available
@@ -64,12 +64,12 @@ def test_imagenet_datasource_create_imagenet_v1_train_and_eval(dataset_path: Pat
     datasource = ImageNetDataSource.create_imagenet_v1(
         train_path=dataset_path,
         eval_path=dataset_path,
-        data_loader_creators={},
+        dataloader_creators={},
     )
     assert len(datasource._datasets) == 2
     assert isinstance(datasource._datasets[ct.TRAIN], ImageFolderDataset)
     assert isinstance(datasource._datasets[ct.EVAL], ImageFolderDataset)
-    assert datasource._data_loader_creators == {}
+    assert datasource._dataloader_creators == {}
 
 
 @torchvision_available
@@ -77,7 +77,7 @@ def test_imagenet_datasource_create_imagenet_v1_input_size_224(dataset_path: Pat
     datasource = ImageNetDataSource.create_imagenet_v1(
         train_path=dataset_path,
         eval_path=dataset_path,
-        data_loader_creators={},
+        dataloader_creators={},
         input_size=224,
     )
     train_dataset = datasource._datasets[ct.TRAIN]
@@ -97,7 +97,7 @@ def test_imagenet_datasource_create_imagenet_v1_input_size_320(dataset_path: Pat
     datasource = ImageNetDataSource.create_imagenet_v1(
         train_path=dataset_path,
         eval_path=dataset_path,
-        data_loader_creators={},
+        dataloader_creators={},
         input_size=320,
     )
     train_dataset = datasource._datasets[ct.TRAIN]
@@ -113,15 +113,15 @@ def test_imagenet_datasource_create_imagenet_v1_input_size_320(dataset_path: Pat
 
 
 @torchvision_available
-def test_imagenet_datasource_create_imagenet_v1_data_loader_creators() -> None:
+def test_imagenet_datasource_create_imagenet_v1_dataloader_creators() -> None:
     datasource = ImageNetDataSource.create_imagenet_v1(
         train_path=None,
         eval_path=None,
-        data_loader_creators={ct.TRAIN: None, ct.EVAL: None},
+        dataloader_creators={ct.TRAIN: None, ct.EVAL: None},
     )
-    assert len(datasource._data_loader_creators) == 2
-    assert isinstance(datasource._data_loader_creators[ct.TRAIN], AutoDataLoaderCreator)
-    assert isinstance(datasource._data_loader_creators[ct.EVAL], AutoDataLoaderCreator)
+    assert len(datasource._dataloader_creators) == 2
+    assert isinstance(datasource._dataloader_creators[ct.TRAIN], AutoDataLoaderCreator)
+    assert isinstance(datasource._dataloader_creators[ct.EVAL], AutoDataLoaderCreator)
 
 
 ###################################################

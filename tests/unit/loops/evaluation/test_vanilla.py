@@ -143,7 +143,7 @@ def test_vanilla_evaluation_loop_eval_with_loss_history(device: str) -> None:
 
 
 def test_vanilla_evaluation_loop_eval_no_dataset() -> None:
-    engine = create_dummy_engine(datasource=Mock(has_data_loader=Mock(return_value=False)))
+    engine = create_dummy_engine(datasource=Mock(has_dataloader=Mock(return_value=False)))
     VanillaEvaluationLoop().eval(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1

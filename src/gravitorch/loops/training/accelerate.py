@@ -92,7 +92,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
             ")"
         )
 
-    def _prepare_model_optimizer_data_loader(
+    def _prepare_model_optimizer_dataloader(
         self, engine: BaseEngine
     ) -> tuple[Module, Optimizer, Iterable]:
         r"""Prepares the model, optimizer and data loader.
@@ -108,20 +108,20 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
                 and the data loader.
         """
         logger.info("Preparing the model, optimizer, and data loader...")
-        model, optimizer, data_loader = self._accelerator.prepare(
+        model, optimizer, dataloader = self._accelerator.prepare(
             engine.model,
             engine.optimizer,
-            engine.datasource.get_data_loader(loader_id=self._tag, engine=engine),
+            engine.datasource.get_dataloader(loader_id=self._tag, engine=engine),
         )
         prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
-        data_loader = tqdm(
-            data_loader,
+        dataloader = tqdm(
+            dataloader,
             desc=f"{prefix}Training [{engine.epoch}/{engine.max_epochs}]",
             position=dist.get_rank(),
             file=sys.stdout,
         )
         logger.info("Training data loader has been created")
-        return model, optimizer, data_loader
+        return model, optimizer, dataloader
 
     def _train_one_batch(
         self, engine: BaseEngine, model: Module, optimizer: Optimizer, batch: Any

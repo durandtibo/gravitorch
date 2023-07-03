@@ -180,7 +180,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         """
         return self._asset_manager.has_asset(asset_id)
 
-    def get_data_loader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
+    def get_dataloader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
         r"""Gets a data loader.
 
         Args:
@@ -207,17 +207,17 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
             >>> datasource = IterDataPipeCreatorDataSource(datapipe_creators={...})
             # Get the data loader associated to the ID 'train'
-            >>> data_loader = datasource.get_data_loader("train")
+            >>> dataloader = datasource.get_dataloader("train")
             # Get a data loader that can use information from an engine
             >>> from gravitorch.engines import AlphaEngine
             >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> data_loader = datasource.get_data_loader("train", my_engine)
+            >>> dataloader = datasource.get_dataloader("train", my_engine)
         """
-        if not self.has_data_loader(loader_id):
+        if not self.has_dataloader(loader_id):
             raise LoaderNotFoundError(f"{loader_id} does not exist")
         return self._create_datapipe(loader_id=loader_id, engine=engine)
 
-    def has_data_loader(self, loader_id: str) -> bool:
+    def has_dataloader(self, loader_id: str) -> bool:
         r"""Indicates if the datasource has a data loader with the given
         ID.
 
@@ -237,10 +237,10 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
             >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
             >>> datasource = IterDataPipeCreatorDataSource(datapipe_creators={...})
             # Check if the datasource has a data loader for ID 'train'
-            >>> datasource.has_data_loader("train")
+            >>> datasource.has_dataloader("train")
             True or False
             # Check if the datasource has a data loader for ID 'eval'
-            >>> datasource.has_data_loader("eval")
+            >>> datasource.has_dataloader("eval")
             True or False
         """
         return loader_id in self._datapipe_creators

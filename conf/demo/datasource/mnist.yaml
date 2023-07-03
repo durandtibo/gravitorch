@@ -1,7 +1,7 @@
 _target_: gravitorch.datasources.MnistDataSource
 path: ${oc.env:PWD}/data
 
-data_loader_creators:
+dataloader_creators:
   train:
     _target_: gravitorch.creators.dataloader.AutoDataLoaderCreator
     batch_size: ${oc.select:batch_size,32}

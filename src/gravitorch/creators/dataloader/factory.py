@@ -3,7 +3,7 @@ creators."""
 
 from __future__ import annotations
 
-__all__ = ["setup_data_loader_creator"]
+__all__ = ["setup_dataloader_creator"]
 
 import logging
 
@@ -14,7 +14,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_data_loader_creator(
+def setup_dataloader_creator(
     creator: BaseDataLoaderCreator | dict | None,
 ) -> BaseDataLoaderCreator:
     r"""Sets up a data loader creator.

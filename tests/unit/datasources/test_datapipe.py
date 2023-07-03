@@ -90,54 +90,54 @@ def test_iter_data_pipe_creator_datasource_has_asset_false(
     assert not datasource.has_asset("something")
 
 
-def test_iter_data_pipe_creator_datasource_get_data_loader_train(
+def test_iter_data_pipe_creator_datasource_get_dataloader_train(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    loader = datasource.get_data_loader("train")
+    loader = datasource.get_dataloader("train")
     assert isinstance(loader, SourceWrapper)
     assert tuple(loader) == (1, 2, 3, 4)
 
 
-def test_iter_data_pipe_creator_datasource_get_data_loader_val(
+def test_iter_data_pipe_creator_datasource_get_dataloader_val(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    loader = datasource.get_data_loader("val")
+    loader = datasource.get_dataloader("val")
     assert isinstance(loader, SourceWrapper)
     assert tuple(loader) == ("a", "b", "c")
 
 
-def test_iter_data_pipe_creator_datasource_get_data_loader_missing(
+def test_iter_data_pipe_creator_datasource_get_dataloader_missing(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
     with raises(LoaderNotFoundError):
-        datasource.get_data_loader("missing")
+        datasource.get_dataloader("missing")
 
 
-def test_iter_data_pipe_creator_datasource_get_data_loader_with_engine() -> None:
+def test_iter_data_pipe_creator_datasource_get_dataloader_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
-    datasource.get_data_loader("train", engine=engine)
+    datasource.get_dataloader("train", engine=engine)
     datapipe_creator.create.assert_called_once_with(engine=engine)
 
 
-def test_iter_data_pipe_creator_datasource_get_data_loader_without_engine() -> None:
+def test_iter_data_pipe_creator_datasource_get_dataloader_without_engine() -> None:
     datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
-    datasource.get_data_loader("train")
+    datasource.get_dataloader("train")
     datapipe_creator.create.assert_called_once_with(engine=None)
 
 
-def test_iter_data_pipe_creator_datasource_has_data_loader_true(
+def test_iter_data_pipe_creator_datasource_has_dataloader_true(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    assert datasource.has_data_loader("train")
+    assert datasource.has_dataloader("train")
 
 
-def test_iter_data_pipe_creator_datasource_has_data_loader_false(
+def test_iter_data_pipe_creator_datasource_has_dataloader_false(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    assert not datasource.has_data_loader("missing")
+    assert not datasource.has_dataloader("missing")
 
 
 def test_iter_data_pipe_creator_datasource_load_state_dict(
@@ -221,7 +221,7 @@ def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_iter_data_pipe_creator_datasource_get_data_loader() -> None:
+def test_data_creator_iter_data_pipe_creator_datasource_get_dataloader() -> None:
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={
             "train": SequentialIterDataPipeCreator(
@@ -234,5 +234,5 @@ def test_data_creator_iter_data_pipe_creator_datasource_get_data_loader() -> Non
             "train": HypercubeVertexDataCreator(num_examples=10, num_classes=5),
         },
     )
-    datapipe = creator.get_data_loader("train")
+    datapipe = creator.get_dataloader("train")
     assert isinstance(datapipe, SourceWrapper)

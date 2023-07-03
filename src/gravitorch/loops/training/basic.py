@@ -31,7 +31,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
 
     Child classes have to implement the following methods:
 
-        - ``_prepare_model_optimizer_data_loader``
+        - ``_prepare_model_optimizer_dataloader``
         - ``_setup_clip_grad``
         - ``_train_one_batch``
 
@@ -74,16 +74,16 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         self._prepare_training(engine)
         engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
 
-        model, optimizer, data_loader = self._prepare_model_optimizer_data_loader(engine)
+        model, optimizer, dataloader = self._prepare_model_optimizer_dataloader(engine)
 
         # Train the model on each mini-batch in the dataset.
         metrics = ScalarMetricTracker()
-        data_loader = BatchLoadingTimer(data_loader, epoch=engine.epoch, prefix=f"{self._tag}/")
+        dataloader = BatchLoadingTimer(dataloader, epoch=engine.epoch, prefix=f"{self._tag}/")
         self._observer.start(engine)
         dist.barrier()
 
         with self._profiler as profiler:
-            for batch in data_loader:
+            for batch in dataloader:
                 engine.increment_iteration()
                 # Run forward/backward on the given batch.
                 output = self._train_one_batch(engine, model, optimizer, batch)
@@ -97,7 +97,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         self._observer.end(engine)
 
         # Log some training metrics to the engine.
-        data_loader.log_stats(engine=engine)
+        dataloader.log_stats(engine=engine)
         metrics.log_average_value(engine=engine, prefix=f"{self._tag}/")
         dist.barrier()
 
@@ -131,7 +131,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
             engine.add_history(MinScalarHistory(f"{self._tag}/{ct.LOSS}"))
 
     @abstractmethod
-    def _prepare_model_optimizer_data_loader(
+    def _prepare_model_optimizer_dataloader(
         self, engine: BaseEngine
     ) -> tuple[Module, Optimizer, Iterable]:
         r"""Prepares the model, optimizer and data loader.

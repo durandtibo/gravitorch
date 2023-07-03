@@ -32,7 +32,7 @@ def create_engine_config(random_seed: int) -> dict:
                             "random_seed": 10447906392539197408,
                         },
                     },
-                    "data_loader_creators": {
+                    "dataloader_creators": {
                         "train": {
                             OBJECT_TARGET: "gravitorch.creators.dataloader.DataLoaderCreator",
                             "batch_size": 4,

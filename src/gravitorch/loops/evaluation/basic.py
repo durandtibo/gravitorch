@@ -73,23 +73,23 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
             engine (``BaseEngine``): Specifies the engine.
         """
         dist.barrier()
-        if not engine.datasource.has_data_loader(self._tag) or not self._condition(engine):
+        if not engine.datasource.has_dataloader(self._tag) or not self._condition(engine):
             return
         logger.info(f"Evaluating model for epoch {engine.epoch}")
 
         self._prepare_evaluation(engine)
         engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
 
-        model, data_loader = self._prepare_model_data_loader(engine)
+        model, dataloader = self._prepare_model_dataloader(engine)
 
         # Evaluate the model on each mini-match in the dataset.
         metrics = ScalarMetricTracker()
-        data_loader = BatchLoadingTimer(data_loader, epoch=engine.epoch, prefix=f"{self._tag}/")
+        dataloader = BatchLoadingTimer(dataloader, epoch=engine.epoch, prefix=f"{self._tag}/")
         self._observer.start(engine)
         dist.barrier()
 
         with self._profiler as profiler:
-            for batch in data_loader:
+            for batch in dataloader:
                 # Run forward on the given batch.
                 output = self._eval_one_batch(engine, model, batch)
                 metrics.update(output)
@@ -102,7 +102,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         self._observer.end(engine)
 
         # Log some evaluation metrics to the engine.
-        data_loader.log_stats(engine=engine)
+        dataloader.log_stats(engine=engine)
         metrics.log_average_value(engine=engine, prefix=f"{self._tag}/")
         dist.barrier()
 
@@ -171,7 +171,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         """
 
     @abstractmethod
-    def _prepare_model_data_loader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
+    def _prepare_model_dataloader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         r"""Prepares the model, optimizer and data loader.
 
         Args:
