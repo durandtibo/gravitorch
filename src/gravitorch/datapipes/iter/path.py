@@ -28,7 +28,7 @@ class DirFilterIterDataPipe(IterDataPipe[Path]):
                 yield path
 
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n" f"  datapipe={str_indent(self._datapipe)},\n)"
+        return f"{self.__class__.__qualname__}(\n  datapipe={str_indent(self._datapipe)},\n)"
 
 
 class FileFilterIterDataPipe(IterDataPipe[Path]):
@@ -49,7 +49,7 @@ class FileFilterIterDataPipe(IterDataPipe[Path]):
                 yield path
 
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n" f"  datapipe={str_indent(self._datapipe)},\n)"
+        return f"{self.__class__.__qualname__}(\n  datapipe={str_indent(self._datapipe)},\n)"
 
 
 class PathListerIterDataPipe(IterDataPipe[Path]):

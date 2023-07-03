@@ -50,7 +50,7 @@ tensorboard_available = mark.skipif(
 torchdata_available = mark.skipif(
     not is_torchdata_available(),
     reason=(
-        "`torchdata` is not available. Please install `torchdata` if you want " "to run this test"
+        "`torchdata` is not available. Please install `torchdata` if you want to run this test"
     ),
 )
 torchvision_available = mark.skipif(

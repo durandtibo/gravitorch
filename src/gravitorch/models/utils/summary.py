@@ -213,7 +213,7 @@ class ModelSummary:
         non_learnable_parameters = total_parameters - learnable_parameters
 
         summary += f"\n - {human_count(learnable_parameters):<{10}} Learnable params\n"
-        summary += f" - {human_count(non_learnable_parameters):<{10}} " f"Non-learnable params\n"
+        summary += f" - {human_count(non_learnable_parameters):<{10}} Non-learnable params\n"
         summary += f" - {human_count(total_parameters):<{10}} Total params\n"
         return summary
 

@@ -47,9 +47,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
             self._creator = DataLoaderCreator(**kwargs)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n" f"  creator={str_indent(str(self._creator))},\n" ")"
-        )
+        return f"{self.__class__.__qualname__}(\n  creator={str_indent(str(self._creator))},\n)"
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         return self._creator.create(dataset=dataset, engine=engine)

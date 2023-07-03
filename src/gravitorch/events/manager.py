@@ -276,6 +276,6 @@ def to_event_handlers_str(event_handlers: dict[str, list], num_spaces: int = 2) 
     spaces = " " * num_spaces
     for key, value in event_handlers.items():
         lines.append(
-            f"({key})\n{spaces}" f"{str_indent(str_torch_sequence(value, num_spaces), num_spaces)}"
+            f"({key})\n{spaces}{str_indent(str_torch_sequence(value, num_spaces), num_spaces)}"
         )
     return "\n".join(lines)

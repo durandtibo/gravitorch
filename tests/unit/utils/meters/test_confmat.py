@@ -1158,9 +1158,7 @@ def test_multiclass_confusion_matrix_weighted_precision() -> None:
 def test_multiclass_confusion_matrix_weighted_precision_empty() -> None:
     with raises(
         EmptyMeterError,
-        match=(
-            "It is not possible to compute the precision because " "the confusion matrix is empty"
-        ),
+        match=("It is not possible to compute the precision because the confusion matrix is empty"),
     ):
         MulticlassConfusionMatrix.from_num_classes(3).weighted_precision()
 
