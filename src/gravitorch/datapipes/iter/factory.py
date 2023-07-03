@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-__all__ = ["create_sequential_iter_datapipe", "setup_iter_datapipe"]
+__all__ = ["create_sequential_iter_datapipe", "is_iter_datapipe_config", "setup_iter_datapipe"]
 
 from collections.abc import Sequence
 
 from objectory import OBJECT_TARGET, factory
+from objectory.utils import is_object_config
 from torch.utils.data import IterDataPipe
 
 
@@ -67,6 +68,40 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
         target = config.pop(OBJECT_TARGET)
         datapipe = factory(target, datapipe, **config)
     return datapipe
+
+
+def is_iter_datapipe_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``IterDataPipe``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``IterDataPipe`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.datapipes import is_iter_datapipe_config
+        >>> is_iter_datapipe_config(
+        ...     {
+        ...         "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+        ...         "iterable": [1, 2, 3, 4],
+        ...     }
+        ... )
+        True
+    """
+    return is_object_config(config, IterDataPipe)
 
 
 def setup_iter_datapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe:

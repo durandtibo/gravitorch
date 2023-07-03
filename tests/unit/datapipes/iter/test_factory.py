@@ -3,7 +3,10 @@ from pytest import raises
 from torch.utils.data.datapipes.iter import Batcher
 
 from gravitorch.datapipes.iter import SourceWrapper, setup_iter_datapipe
-from gravitorch.datapipes.iter.factory import create_sequential_iter_datapipe
+from gravitorch.datapipes.iter.factory import (
+    create_sequential_iter_datapipe,
+    is_iter_datapipe_config,
+)
 
 #####################################################
 #     Tests for create_sequential_iter_datapipe     #
@@ -37,6 +40,21 @@ def test_create_sequential_iter_datapipe_2() -> None:
     )
     assert isinstance(datapipe, Batcher)
     assert tuple(datapipe) == ([1, 2], [3, 4])
+
+
+#############################################
+#     Tests for is_iter_datapipe_config     #
+#############################################
+
+
+def test_is_iter_datapipe_config_true() -> None:
+    assert is_iter_datapipe_config(
+        {"_target_": "torch.utils.data.datapipes.iter.IterableWrapper", "iterable": [1, 2, 3, 4]}
+    )
+
+
+def test_is_iter_datapipe_config_false() -> None:
+    assert not is_iter_datapipe_config({"_target_": "torch.nn.Identity"})
 
 
 #########################################
