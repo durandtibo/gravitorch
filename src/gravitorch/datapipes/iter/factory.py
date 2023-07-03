@@ -2,11 +2,16 @@ from __future__ import annotations
 
 __all__ = ["create_sequential_iter_datapipe", "is_iter_datapipe_config", "setup_iter_datapipe"]
 
+import logging
 from collections.abc import Sequence
 
 from objectory import OBJECT_TARGET, factory
 from objectory.utils import is_object_config
 from torch.utils.data import IterDataPipe
+
+from gravitorch.utils.format import str_target_object
+
+logger = logging.getLogger(__name__)
 
 
 def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
@@ -126,27 +131,17 @@ def setup_iter_datapipe(datapipe: IterDataPipe | Sequence[dict]) -> IterDataPipe
 
         >>> from gravitorch.datapipes.iter import setup_iter_datapipe
         >>> datapipe = setup_iter_datapipe(
-        ...     [
-        ...         {
-        ...             "_target_": "gravitorch.datapipes.iter.SourceWrapper",
-        ...             "data": [1, 2, 3, 4],
-        ...         },
-        ...     ],
+        ...     {
+        ...         "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+        ...         "iterable": [1, 2, 3, 4],
+        ...     },
         ... )
         >>> tuple(datapipe)
         (1, 2, 3, 4)
-        >>> datapipe = setup_iter_datapipe(
-        ...     [
-        ...         {
-        ...             "_target_": "gravitorch.datapipes.iter.SourceWrapper",
-        ...             "data": [1, 2, 3, 4],
-        ...         },
-        ...         {"_target_": "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
-        ...     ]
-        ... )
-        >>> tuple(datapipe)
-        ([1, 2], [3, 4])
     """
-    if isinstance(datapipe, IterDataPipe):
-        return datapipe
-    return create_sequential_iter_datapipe(datapipe)
+    if isinstance(datapipe, dict):
+        logger.info(
+            f"Initializing a `IterDataPipe` from its configuration... {str_target_object(datapipe)}"
+        )
+        datapipe = factory(**datapipe)
+    return datapipe
