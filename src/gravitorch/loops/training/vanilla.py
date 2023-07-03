@@ -88,20 +88,20 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
             ")"
         )
 
-    def _prepare_model_optimizer_data_loader(
+    def _prepare_model_optimizer_dataloader(
         self, engine: BaseEngine
     ) -> tuple[Module, Optimizer, Iterable]:
         logger.info("Preparing the model, optimizer, and data loader...")
-        data_loader = engine.datasource.get_data_loader(loader_id=self._tag, engine=engine)
+        dataloader = engine.datasource.get_dataloader(loader_id=self._tag, engine=engine)
         prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
-        data_loader = tqdm(
-            data_loader,
+        dataloader = tqdm(
+            dataloader,
             desc=f"{prefix}Training [{engine.epoch}/{engine.max_epochs}]",
             position=dist.get_rank(),
             file=sys.stdout,
         )
         logger.info("Training data loader has been created")
-        return engine.model, engine.optimizer, data_loader
+        return engine.model, engine.optimizer, dataloader
 
     def _train_one_batch(
         self, engine: BaseEngine, model: Module, optimizer: Optimizer, batch: Any

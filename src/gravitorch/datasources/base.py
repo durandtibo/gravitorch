@@ -108,7 +108,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def get_data_loader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
+    def get_dataloader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
         r"""Gets a data loader.
 
         Args:
@@ -135,15 +135,15 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> from gravitorch.datasources import BaseDataSource
             >>> datasource: BaseDataSource = ...  # Instantiate a datasource
             # Get the data loader associated to the ID 'train'
-            >>> data_loader = datasource.get_data_loader("train")
+            >>> dataloader = datasource.get_dataloader("train")
             # Get a data loader that can use information from an engine
             >>> from gravitorch.engines import AlphaEngine
             >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> data_loader = datasource.get_data_loader("train", my_engine)
+            >>> dataloader = datasource.get_dataloader("train", my_engine)
         """
 
     @abstractmethod
-    def has_data_loader(self, loader_id: str) -> bool:
+    def has_dataloader(self, loader_id: str) -> bool:
         r"""Indicates if the datasource has a data loader with the given
         ID.
 
@@ -163,10 +163,10 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> from gravitorch.datasources import BaseDataSource
             >>> datasource: BaseDataSource = ...  # Instantiate a datasource
             # Check if the datasource has a data loader for ID 'train'
-            >>> datasource.has_data_loader("train")
+            >>> datasource.has_dataloader("train")
             True or False
             # Check if the datasource has a data loader for ID 'eval'
-            >>> datasource.has_data_loader("eval")
+            >>> datasource.has_dataloader("eval")
             True or False
         """
 

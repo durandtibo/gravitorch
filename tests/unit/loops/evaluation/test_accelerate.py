@@ -172,7 +172,7 @@ def test_accelerate_evaluation_loop_eval_with_loss_history() -> None:
 
 @accelerate_available
 def test_accelerate_evaluation_loop_eval_no_dataset() -> None:
-    engine = create_dummy_engine(datasource=Mock(has_data_loader=Mock(return_value=False)))
+    engine = create_dummy_engine(datasource=Mock(has_dataloader=Mock(return_value=False)))
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)
     assert engine.epoch == -1

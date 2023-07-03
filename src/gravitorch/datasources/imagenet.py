@@ -32,7 +32,7 @@ class ImageNetDataSource(DatasetDataSource):
         cls,
         train_path: Path | str | None,
         eval_path: Path | str | None,
-        data_loader_creators: dict[str, BaseDataLoaderCreator | dict | None],
+        dataloader_creators: dict[str, BaseDataLoaderCreator | dict | None],
         input_size: int = 224,
     ) -> ImageNetDataSource:
         r"""Creates a datasource for the ImageNet dataset the training
@@ -58,7 +58,7 @@ class ImageNetDataSource(DatasetDataSource):
             eval_path (``pathlib.Path`` or str or ``None``):
                 Specifies the path to the evaluation dataset.
                 If ``None``, the evaluation dataset is set to ``None``.
-            data_loader_creators: (dict): Specifies the data loader
+            dataloader_creators: (dict): Specifies the data loader
                 creators to initialize. Each key indicates a data
                 loader creator name. For example if you want to create
                 a data loader for ``'train'`` ID, the dictionary has to
@@ -85,7 +85,7 @@ class ImageNetDataSource(DatasetDataSource):
             datasets[ct.TRAIN] = train_dataset
         if eval_dataset:
             datasets[ct.EVAL] = eval_dataset
-        return cls(datasets=datasets, data_loader_creators=data_loader_creators)
+        return cls(datasets=datasets, dataloader_creators=dataloader_creators)
 
 
 def create_train_eval_datasets_v1(

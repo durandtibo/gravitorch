@@ -128,7 +128,7 @@ class DummyDataSource(DatasetDataSource):
 
         super().__init__(
             datasets={ct.TRAIN: train_dataset, ct.EVAL: eval_dataset},
-            data_loader_creators={
+            dataloader_creators={
                 ct.TRAIN: DataLoaderCreator(batch_size=batch_size, shuffle=False),
                 ct.EVAL: DataLoaderCreator(batch_size=batch_size, shuffle=False),
             },

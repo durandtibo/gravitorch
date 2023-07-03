@@ -26,7 +26,7 @@ engine:
             feature_size: ${..train.feature_size}
             noise_std: ${..train.noise_std}
             random_seed: 16187889889061516052
-        data_loader_creators:
+        dataloader_creators:
           train:
             _target_: gravitorch.creators.dataloader.AutoDataLoaderCreator
             batch_size: 4

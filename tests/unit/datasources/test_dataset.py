@@ -19,7 +19,7 @@ from gravitorch.utils.asset import AssetNotFoundError
 
 
 def test_dataset_datasource_str() -> None:
-    assert str(DatasetDataSource(datasets={}, data_loader_creators={})).startswith(
+    assert str(DatasetDataSource(datasets={}, dataloader_creators={})).startswith(
         "DatasetDataSource("
     )
 
@@ -33,7 +33,7 @@ def test_dataset_datasource_datasets() -> None:
             },
             "val": ExampleDataset(["a", "b", "c"]),
         },
-        data_loader_creators={},
+        dataloader_creators={},
     )
     assert len(datasource._datasets) == 2
     assert isinstance(datasource._datasets["train"], ExampleDataset)
@@ -42,144 +42,144 @@ def test_dataset_datasource_datasets() -> None:
     assert list(datasource._datasets["val"]) == ["a", "b", "c"]
 
 
-def test_dataset_datasource_data_loader_creators() -> None:
+def test_dataset_datasource_dataloader_creators() -> None:
     datasource = DatasetDataSource(
         datasets={},
-        data_loader_creators={
+        dataloader_creators={
             "train": AutoDataLoaderCreator(),
             "val": {OBJECT_TARGET: "gravitorch.creators.dataloader.AutoDataLoaderCreator"},
             "test": None,
         },
     )
-    assert len(datasource._data_loader_creators) == 3
-    assert isinstance(datasource._data_loader_creators["train"], AutoDataLoaderCreator)
-    assert isinstance(datasource._data_loader_creators["val"], AutoDataLoaderCreator)
-    assert isinstance(datasource._data_loader_creators["test"], AutoDataLoaderCreator)
+    assert len(datasource._dataloader_creators) == 3
+    assert isinstance(datasource._dataloader_creators["train"], AutoDataLoaderCreator)
+    assert isinstance(datasource._dataloader_creators["val"], AutoDataLoaderCreator)
+    assert isinstance(datasource._dataloader_creators["test"], AutoDataLoaderCreator)
 
 
 def test_dataset_datasource_attach(caplog: LogCaptureFixture) -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
     with caplog.at_level(logging.INFO):
         datasource.attach(engine=Mock(spec=BaseEngine))
         assert len(caplog.messages) >= 1
 
 
 def test_dataset_datasource_get_asset_exists() -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
     datasource._asset_manager.add_asset("something", 2)
     assert datasource.get_asset("something") == 2
 
 
 def test_dataset_datasource_get_asset_does_not_exist() -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
     with raises(AssetNotFoundError, match="The asset 'something' does not exist"):
         datasource.get_asset("something")
 
 
 def test_dataset_datasource_has_asset_true() -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
     datasource._asset_manager.add_asset("something", 1)
     assert datasource.has_asset("something")
 
 
 def test_dataset_datasource_has_asset_false() -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
     assert not datasource.has_asset("something")
 
 
-def test_dataset_datasource_get_data_loader_train() -> None:
+def test_dataset_datasource_get_dataloader_train() -> None:
     datasource = DatasetDataSource(
         datasets={
             "train": ExampleDataset([1, 2, 3, 4]),
             "val": ExampleDataset(["a", "b", "c"]),
         },
-        data_loader_creators={
+        dataloader_creators={
             "train": AutoDataLoaderCreator(batch_size=4, shuffle=False),
             "val": AutoDataLoaderCreator(batch_size=2, shuffle=False),
         },
     )
-    loader = datasource.get_data_loader("train")
+    loader = datasource.get_dataloader("train")
     assert isinstance(loader, DataLoader)
     assert objects_are_equal(tuple(loader), (torch.tensor([1, 2, 3, 4]),))
 
 
-def test_dataset_datasource_get_data_loader_val() -> None:
+def test_dataset_datasource_get_dataloader_val() -> None:
     datasource = DatasetDataSource(
         datasets={
             "train": ExampleDataset([1, 2, 3, 4]),
             "val": ExampleDataset(["a", "b", "c"]),
         },
-        data_loader_creators={
+        dataloader_creators={
             "train": AutoDataLoaderCreator(batch_size=4, shuffle=False),
             "val": AutoDataLoaderCreator(batch_size=2, shuffle=False),
         },
     )
-    loader = datasource.get_data_loader("val")
+    loader = datasource.get_dataloader("val")
     assert isinstance(loader, DataLoader)
     assert tuple(loader) == (["a", "b"], ["c"])
 
 
-def test_dataset_datasource_get_data_loader_missing() -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
+def test_dataset_datasource_get_dataloader_missing() -> None:
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
     with raises(LoaderNotFoundError):
-        datasource.get_data_loader("missing")
+        datasource.get_dataloader("missing")
 
 
-def test_dataset_datasource_get_data_loader_with_engine() -> None:
+def test_dataset_datasource_get_dataloader_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     dataset = Mock(spec=Dataset)
-    data_loader_creator = Mock(spec=BaseDataLoaderCreator)
+    dataloader_creator = Mock(spec=BaseDataLoaderCreator)
     datasource = DatasetDataSource(
         datasets={"train": dataset},
-        data_loader_creators={"train": data_loader_creator},
+        dataloader_creators={"train": dataloader_creator},
     )
-    datasource.get_data_loader("train", engine)
-    data_loader_creator.create.assert_called_once_with(dataset=dataset, engine=engine)
+    datasource.get_dataloader("train", engine)
+    dataloader_creator.create.assert_called_once_with(dataset=dataset, engine=engine)
 
 
-def test_dataset_datasource_get_data_loader_without_engine() -> None:
+def test_dataset_datasource_get_dataloader_without_engine() -> None:
     dataset = Mock(spec=Dataset)
-    data_loader_creator = Mock(spec=BaseDataLoaderCreator)
+    dataloader_creator = Mock(spec=BaseDataLoaderCreator)
     datasource = DatasetDataSource(
         datasets={"train": dataset},
-        data_loader_creators={"train": data_loader_creator},
+        dataloader_creators={"train": dataloader_creator},
     )
-    datasource.get_data_loader("train")
-    data_loader_creator.create.assert_called_once_with(dataset=dataset, engine=None)
+    datasource.get_dataloader("train")
+    dataloader_creator.create.assert_called_once_with(dataset=dataset, engine=None)
 
 
-def test_dataset_datasource_has_data_loader_true() -> None:
+def test_dataset_datasource_has_dataloader_true() -> None:
     datasource = DatasetDataSource(
         datasets={},
-        data_loader_creators={"train": AutoDataLoaderCreator(batch_size=4)},
+        dataloader_creators={"train": AutoDataLoaderCreator(batch_size=4)},
     )
-    assert datasource.has_data_loader("train")
+    assert datasource.has_dataloader("train")
 
 
-def test_dataset_datasource_has_data_loader_false() -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
-    assert not datasource.has_data_loader("missing")
+def test_dataset_datasource_has_dataloader_false() -> None:
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
+    assert not datasource.has_dataloader("missing")
 
 
 def test_dataset_datasource_load_state_dict() -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
     datasource.load_state_dict({})
 
 
 def test_dataset_datasource_state_dict() -> None:
-    datasource = DatasetDataSource(datasets={}, data_loader_creators={})
+    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
     assert datasource.state_dict() == {}
 
 
 def test_dataset_datasource_check_missing_dataset(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(level=logging.WARNING):
         DatasetDataSource(
-            datasets={}, data_loader_creators={"train": Mock(spec=BaseDataLoaderCreator)}
+            datasets={}, dataloader_creators={"train": Mock(spec=BaseDataLoaderCreator)}
         )
         assert len(caplog.messages) == 1
 
 
-def test_dataset_datasource_check_missing_data_loader_creator(caplog: LogCaptureFixture) -> None:
+def test_dataset_datasource_check_missing_dataloader_creator(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(level=logging.WARNING):
-        DatasetDataSource(datasets={"train": Mock(spec=Dataset)}, data_loader_creators={})
+        DatasetDataSource(datasets={"train": Mock(spec=Dataset)}, dataloader_creators={})
         assert len(caplog.messages) == 1

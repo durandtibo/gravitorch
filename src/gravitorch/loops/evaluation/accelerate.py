@@ -94,22 +94,22 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
         engine.fire_event(EngineEvents.EVAL_ITERATION_COMPLETED)
         return output
 
-    def _prepare_model_data_loader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
+    def _prepare_model_dataloader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         logger.info("Preparing the model and data loader...")
-        model, data_loader = self._accelerator.prepare(
+        model, dataloader = self._accelerator.prepare(
             engine.model,
-            engine.datasource.get_data_loader(loader_id=self._tag, engine=engine),
+            engine.datasource.get_dataloader(loader_id=self._tag, engine=engine),
         )
 
         prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
-        data_loader = tqdm(
-            data_loader,
+        dataloader = tqdm(
+            dataloader,
             desc=f"{prefix}Evaluation [{engine.epoch}]",
             position=dist.get_rank(),
             file=sys.stdout,
         )
         logger.info("Evaluation data loader has been created")
-        return model, data_loader
+        return model, dataloader
 
     def _setup_accelerator(self, accelerator: Union[Accelerator, dict]) -> Accelerator:
         r"""Sets up the accelerator.

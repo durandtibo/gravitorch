@@ -92,15 +92,15 @@ class VanillaEvaluationLoop(BaseBasicEvaluationLoop):
         engine.fire_event(EngineEvents.EVAL_ITERATION_COMPLETED)
         return output
 
-    def _prepare_model_data_loader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
+    def _prepare_model_dataloader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         logger.info("Preparing the model and data loader...")
-        data_loader = engine.datasource.get_data_loader(loader_id=self._tag, engine=engine)
+        dataloader = engine.datasource.get_dataloader(loader_id=self._tag, engine=engine)
         prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
-        data_loader = tqdm(
-            data_loader,
+        dataloader = tqdm(
+            dataloader,
             desc=f"{prefix}Evaluation [{engine.epoch}]",
             position=dist.get_rank(),
             file=sys.stdout,
         )
         logger.info("Evaluation data loader has been created")
-        return engine.model, data_loader
+        return engine.model, dataloader

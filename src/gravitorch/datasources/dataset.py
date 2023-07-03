@@ -9,7 +9,7 @@ from typing import Any, TypeVar
 from torch.utils.data import Dataset
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
-from gravitorch.creators.dataloader.factory import setup_data_loader_creator
+from gravitorch.creators.dataloader.factory import setup_dataloader_creator
 from gravitorch.data.datasets import setup_dataset
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
@@ -35,7 +35,7 @@ class DatasetDataSource(BaseDataSource):
             key indicates the dataset name. It is possible to give a
             ``Dataset`` object, or the configuration of a ``Dataset``
             object.
-        data_loader_creators (dict): Specifies the data loader
+        dataloader_creators (dict): Specifies the data loader
             creators to initialize. Each key indicates a data loader
             creator name. For example if you want to create a data
             loader for ``'train'`` ID, the dictionary has to have a
@@ -50,7 +50,7 @@ class DatasetDataSource(BaseDataSource):
     def __init__(
         self,
         datasets: Mapping[str, Dataset | dict],
-        data_loader_creators: dict[str, BaseDataLoaderCreator | dict | None],
+        dataloader_creators: dict[str, BaseDataLoaderCreator | dict | None],
     ) -> None:
         self._asset_manager = AssetManager()
 
@@ -59,10 +59,10 @@ class DatasetDataSource(BaseDataSource):
         logger.info(f"datasets:\n{str_torch_mapping(self._datasets)}")
 
         logger.info("Initializing the data loader creators...")
-        self._data_loader_creators = {
-            key: setup_data_loader_creator(creator) for key, creator in data_loader_creators.items()
+        self._dataloader_creators = {
+            key: setup_dataloader_creator(creator) for key, creator in dataloader_creators.items()
         }
-        logger.info(f"data loader creators:\n{str_torch_mapping(self._data_loader_creators)}")
+        logger.info(f"data loader creators:\n{str_torch_mapping(self._dataloader_creators)}")
         self._check()
 
     def __repr__(self) -> str:
@@ -70,8 +70,8 @@ class DatasetDataSource(BaseDataSource):
             f"{self.__class__.__qualname__}(\n"
             "  datasets:\n"
             f"    {str_indent(str_torch_mapping(self._datasets), num_spaces=4)}\n"
-            "  data_loader_creators:\n"
-            f"    {str_indent(str_torch_mapping(self._data_loader_creators), num_spaces=4)}"
+            "  dataloader_creators:\n"
+            f"    {str_indent(str_torch_mapping(self._dataloader_creators), num_spaces=4)}"
             "\n)"
         )
 
@@ -84,22 +84,22 @@ class DatasetDataSource(BaseDataSource):
     def has_asset(self, asset_id: str) -> bool:
         return self._asset_manager.has_asset(asset_id)
 
-    def get_data_loader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
-        if not self.has_data_loader(loader_id):
+    def get_dataloader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
+        if not self.has_dataloader(loader_id):
             raise LoaderNotFoundError(f"{loader_id} does not exist")
-        return self._data_loader_creators[loader_id].create(
+        return self._dataloader_creators[loader_id].create(
             dataset=self._datasets[loader_id], engine=engine
         )
 
-    def has_data_loader(self, loader_id: str) -> bool:
-        return loader_id in self._data_loader_creators
+    def has_dataloader(self, loader_id: str) -> bool:
+        return loader_id in self._dataloader_creators
 
     def _check(self) -> None:
         # Verify each data loader creator has a dataset
-        for key in self._data_loader_creators:
+        for key in self._dataloader_creators:
             if key not in self._datasets:
                 logger.warning(f"Missing '{key}' dataset for its associated data loader creator")
         # Verify each dataset has a data loader creator
         for key in self._datasets:
-            if key not in self._data_loader_creators:
+            if key not in self._dataloader_creators:
                 logger.warning(f"Missing '{key}' data loader creator for its associated dataset")
