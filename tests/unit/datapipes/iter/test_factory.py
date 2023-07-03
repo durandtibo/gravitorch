@@ -2,10 +2,11 @@ from objectory import OBJECT_TARGET
 from pytest import raises
 from torch.utils.data.datapipes.iter import Batcher
 
-from gravitorch.datapipes.iter import SourceWrapper, setup_iter_datapipe
-from gravitorch.datapipes.iter.factory import (
+from gravitorch.datapipes.iter import (
+    SourceWrapper,
     create_sequential_iter_datapipe,
     is_iter_datapipe_config,
+    setup_iter_datapipe,
 )
 
 #####################################################
