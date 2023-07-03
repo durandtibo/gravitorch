@@ -13,8 +13,8 @@ __all__ = [
     "SourceWrapper",
     "TensorDictShuffler",
     "TupleBatcher",
-    "is_iter_datapipe_config",
-    "setup_iter_datapipe",
+    "is_iterdatapipe_config",
+    "setup_iterdatapipe",
 ]
 
 from gravitorch.datapipes.iter.batching import DictBatcherIterDataPipe as DictBatcher
@@ -25,10 +25,7 @@ from gravitorch.datapipes.iter.dictionary import (
 from gravitorch.datapipes.iter.dictionary import (
     ListOfDictConverterIterDataPipe as ListOfDictConverter,
 )
-from gravitorch.datapipes.iter.factory import (
-    is_iter_datapipe_config,
-    setup_iter_datapipe,
-)
+from gravitorch.datapipes.iter.factory import is_iterdatapipe_config, setup_iterdatapipe
 from gravitorch.datapipes.iter.length import LooperIterDataPipe as Looper
 from gravitorch.datapipes.iter.path import DirFilterIterDataPipe as DirFilter
 from gravitorch.datapipes.iter.path import FileFilterIterDataPipe as FileFilter
