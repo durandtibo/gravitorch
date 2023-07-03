@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.18a11"
+version = "0.0.18a12"
 description = "A library to train ML models with PyTorch"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -30,7 +30,7 @@ coola = ">=0.0.12,<1.0"
 hya = ">=0.0.10,<1.0"
 hydra-core = "^1.3"
 numpy = ">=1.24,<2.0"
-objectory = ">=0.0.5,<1.0"
+objectory = ">=0.0.6,<1.0"
 psutil = "^5.9"
 python = "^3.9"
 pytorch-ignite = [
@@ -81,7 +81,7 @@ pylint = "^2.17"
 pytest = "^7.3"
 pytest-cov = "^4.1"
 pytest-timeout = "^2.1"
-ruff = ">=0.0.275,<1.0"
+ruff = ">=0.0.276,<1.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
