@@ -491,7 +491,7 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         """
         if self.num_predictions == 0:
             raise EmptyMeterError(
-                "It is not possible to compute the recall because the confusion " "matrix is empty"
+                "It is not possible to compute the recall because the confusion matrix is empty"
             )
         return float(self.true_positive) / float(self.positive)
 
