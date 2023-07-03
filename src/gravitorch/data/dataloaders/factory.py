@@ -6,6 +6,7 @@ __all__ = [
     "is_dataloader_config",
     "is_dataloader2_config",
     "setup_dataloader",
+    "setup_dataloader2",
 ]
 
 import logging
@@ -195,6 +196,47 @@ def setup_dataloader(dataloader: DataLoader | dict) -> DataLoader:
     if isinstance(dataloader, dict):
         logger.info(
             "Initializing a `torch.utils.data.DataLoader` from its configuration... "
+            f"{str_target_object(dataloader)}"
+        )
+        dataloader = factory(**dataloader)
+    return dataloader
+
+
+def setup_dataloader2(dataloader: DataLoader2 | dict) -> DataLoader2:
+    r"""Sets up a ``torchdata.dataloader2.DataLoader2`` object.
+
+    Args:
+    ----
+        dataloader (``torchdata.dataloader2.DataLoader2`` or dict):
+            Specifies the dataloader or its configuration (dictionary).
+
+    Returns:
+    -------
+        ``torchdata.dataloader2.DataLoader2``: The instantiated dataloader.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.dataloaders import setup_dataloader2
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> dataloader = setup_dataloader2(
+        ...     {
+        ...         "_target_": "torchdata.dataloader2.DataLoader2",
+        ...         "datapipe": IterableWrapper((1, 2, 3, 4)),
+        ...     }
+        ... )
+        >>> dataloader
+        <torch.utils.data.dataloader.DataLoader at 0x119bd42e0>
+        >>> setup_dataloader(
+        ...     dataloader
+        ... )  # Do nothing because the dataloader is already instantiated
+        <torch.utils.data.dataloader.DataLoader at 0x119bd42e0>
+    """
+    check_torchdata()
+    if isinstance(dataloader, dict):
+        logger.info(
+            "Initializing a `torchdata.dataloader2.DataLoader2` from its configuration... "
             f"{str_target_object(dataloader)}"
         )
         dataloader = factory(**dataloader)
