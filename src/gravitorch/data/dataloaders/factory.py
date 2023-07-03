@@ -5,16 +5,20 @@ __all__ = [
     "create_dataloader2",
     "is_dataloader_config",
     "is_dataloader2_config",
+    "setup_dataloader",
 ]
 
+import logging
 from collections.abc import Iterable
 
+from objectory import factory
 from objectory.utils import is_object_config
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.graph import DataPipe
 
 from gravitorch.data.datasets.factory import setup_dataset
 from gravitorch.utils.factory import setup_object
+from gravitorch.utils.format import str_target_object
 from gravitorch.utils.imports import check_torchdata, is_torchdata_available
 
 if is_torchdata_available():
@@ -24,6 +28,8 @@ else:  # pragma: no cover
     Adapter = "Adapter"
     DataLoader2 = "DataLoader2"
     ReadingServiceInterface = "ReadingServiceInterface"
+
+logger = logging.getLogger(__name__)
 
 
 def create_dataloader(dataset: Dataset | dict, **kwargs) -> DataLoader:
@@ -156,3 +162,40 @@ def is_dataloader2_config(config: dict) -> bool:
     """
     check_torchdata()
     return is_object_config(config, DataLoader2)
+
+
+def setup_dataloader(dataloader: DataLoader | dict) -> DataLoader:
+    r"""Sets up a ``torch.utils.data.DataLoader`` object.
+
+    Args:
+    ----
+        dataloader (``torch.utils.data.DataLoader`` or dict):
+            Specifies the dataloader or its configuration (dictionary).
+
+    Returns:
+    -------
+        ``torch.utils.data.DataLoader``: The instantiated dataloader.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.dataloaders import setup_dataloader
+        >>> from gravitorch.data.datasets import ExampleDataset
+        >>> dataloader = setup_dataloader(
+        ...     {"_target_": "torch.utils.data.DataLoader", "dataset": ExampleDataset((1, 2, 3, 4))}
+        ... )
+        >>> dataloader
+        <torch.utils.data.dataloader.DataLoader at 0x119bd42e0>
+        >>> setup_dataloader(
+        ...     dataloader
+        ... )  # Do nothing because the dataloader is already instantiated
+        <torch.utils.data.dataloader.DataLoader at 0x119bd42e0>
+    """
+    if isinstance(dataloader, dict):
+        logger.info(
+            "Initializing a `torch.utils.data.DataLoader` from its configuration... "
+            f"{str_target_object(dataloader)}"
+        )
+        dataloader = factory(**dataloader)
+    return dataloader
