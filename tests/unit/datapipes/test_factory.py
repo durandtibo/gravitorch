@@ -2,7 +2,28 @@ from objectory import OBJECT_TARGET
 from torch.utils.data.datapipes.iter import IterableWrapper
 from torch.utils.data.datapipes.map import SequenceWrapper
 
-from gravitorch.datapipes import setup_datapipe
+from gravitorch.datapipes import is_datapipe_config, setup_datapipe
+
+########################################
+#     Tests for is_datapipe_config     #
+########################################
+
+
+def test_is_datapipe_config_true_iter() -> None:
+    assert is_datapipe_config(
+        {"_target_": "torch.utils.data.datapipes.iter.IterableWrapper", "iterable": [1, 2, 3, 4]}
+    )
+
+
+def test_is_datapipe_config_true_map() -> None:
+    assert is_datapipe_config(
+        {"_target_": "torch.utils.data.datapipes.map.SequenceWrapper", "sequence": [1, 2, 3, 4]}
+    )
+
+
+def test_is_datapipe_config_false() -> None:
+    assert not is_datapipe_config({"_target_": "torch.nn.Identity"})
+
 
 ####################################
 #     Tests for setup_datapipe     #
