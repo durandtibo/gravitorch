@@ -9,9 +9,9 @@ from gravitorch.datapipes.iter import (
     setup_iter_datapipe,
 )
 
-####################################################
+#####################################################
 #     Tests for create_sequential_iter_datapipe     #
-####################################################
+#####################################################
 
 
 def test_create_sequential_iter_datapipe_empty() -> None:
@@ -43,9 +43,9 @@ def test_create_sequential_iter_datapipe_2() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-############################################
+#############################################
 #     Tests for is_iter_datapipe_config     #
-############################################
+#############################################
 
 
 def test_is_iter_datapipe_config_true() -> None:
@@ -58,9 +58,9 @@ def test_is_iter_datapipe_config_false() -> None:
     assert not is_iter_datapipe_config({"_target_": "torch.nn.Identity"})
 
 
-########################################
+#########################################
 #     Tests for setup_iter_datapipe     #
-########################################
+#########################################
 
 
 def test_setup_iter_datapipe_object() -> None:
