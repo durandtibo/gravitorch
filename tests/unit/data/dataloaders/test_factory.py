@@ -5,8 +5,7 @@ from unittest.mock import Mock, patch
 from objectory import OBJECT_TARGET
 from pytest import fixture, mark, raises
 from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
-from torch.utils.data.datapipes.iter import IterableWrapper
-from torch.utils.data.datapipes.iter.combinatorics import ShufflerIterDataPipe
+from torch.utils.data.datapipes.iter import IterableWrapper, Shuffler
 from torch.utils.data.graph import DataPipe
 
 from gravitorch.data.dataloaders import (
@@ -15,6 +14,7 @@ from gravitorch.data.dataloaders import (
     is_dataloader2_config,
     is_dataloader_config,
     setup_dataloader,
+    setup_dataloader2,
 )
 from gravitorch.data.datasets import DummyMultiClassDataset, ExampleDataset
 from gravitorch.testing import torchdata_available
@@ -123,7 +123,7 @@ def test_create_dataloader2_datapipe_adapter_fn(datapipe_adapter_fn: Adapter | d
         IterableWrapper(range(10)), datapipe_adapter_fn=datapipe_adapter_fn
     )
     assert isinstance(dataloader, DataLoader2)
-    assert isinstance(dataloader.datapipe, ShufflerIterDataPipe)
+    assert isinstance(dataloader.datapipe, Shuffler)
     assert len(dataloader.datapipe_adapter_fns) == 1
     assert isinstance(dataloader.datapipe_adapter_fns[0], Shuffle)
     assert dataloader.reading_service is None
@@ -191,6 +191,12 @@ def test_is_dataloader2_config_false_dataloader() -> None:
     assert not is_dataloader2_config({"_target_": "torch.utils.data.DataLoader"})
 
 
+def test_is_dataloader2_config_without_torchdata() -> None:
+    with patch("gravitorch.utils.imports.is_torchdata_available", lambda *args: False):
+        with raises(RuntimeError, match="`torchdata` package is required but not installed."):
+            is_dataloader2_config({"_target_": "torchdata.dataloader2.DataLoader2"})
+
+
 ######################################
 #     Tests for setup_dataloader     #
 ######################################
@@ -214,3 +220,44 @@ def test_setup_dataloader_dict() -> None:
         ),
         DataLoader,
     )
+
+
+#######################################
+#     Tests for setup_dataloader2     #
+#######################################
+
+
+@torchdata_available
+def test_setup_dataloader2_object() -> None:
+    creator = DataLoader2(IterableWrapper((1, 2, 3, 4, 5)))
+    assert setup_dataloader2(creator) is creator
+
+
+@torchdata_available
+def test_setup_dataloader2_dict() -> None:
+    assert isinstance(
+        setup_dataloader2(
+            {
+                OBJECT_TARGET: "torchdata.dataloader2.DataLoader2",
+                "datapipe": {
+                    OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+                    "examples": (1, 2, 3, 4, 5),
+                },
+            },
+        ),
+        DataLoader2,
+    )
+
+
+def test_setup_dataloader2_without_torchdata() -> None:
+    with patch("gravitorch.utils.imports.is_torchdata_available", lambda *args: False):
+        with raises(RuntimeError, match="`torchdata` package is required but not installed."):
+            setup_dataloader2(
+                {
+                    OBJECT_TARGET: "torchdata.dataloader2.DataLoader2",
+                    "datapipe": {
+                        OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+                        "examples": (1, 2, 3, 4, 5),
+                    },
+                },
+            )

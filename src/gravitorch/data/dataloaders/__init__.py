@@ -9,6 +9,7 @@ __all__ = [
     "is_dataloader_config",
     "is_dataloader2_config",
     "setup_dataloader",
+    "setup_dataloader2",
 ]
 
 from gravitorch.data.dataloaders.factory import (
@@ -17,4 +18,5 @@ from gravitorch.data.dataloaders.factory import (
     is_dataloader2_config,
     is_dataloader_config,
     setup_dataloader,
+    setup_dataloader2,
 )
