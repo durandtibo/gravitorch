@@ -1,6 +1,6 @@
 from objectory import OBJECT_TARGET
 from pytest import raises
-from torch.utils.data.datapipes.iter import Batcher
+from torch.utils.data.datapipes.iter import Batcher, IterableWrapper
 
 from gravitorch.datapipes.iter import (
     SourceWrapper,
@@ -64,13 +64,16 @@ def test_is_iter_datapipe_config_false() -> None:
 
 
 def test_setup_iter_datapipe_object() -> None:
-    datapipe = SourceWrapper([1, 2, 3, 4])
+    datapipe = IterableWrapper([1, 2, 3, 4])
     assert setup_iter_datapipe(datapipe) is datapipe
 
 
 def test_setup_iter_datapipe_sequence() -> None:
     datapipe = setup_iter_datapipe(
-        [{OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper", "source": [1, 2, 3, 4]}]
+        {
+            OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+            "iterable": [1, 2, 3, 4],
+        }
     )
-    assert isinstance(datapipe, SourceWrapper)
+    assert isinstance(datapipe, IterableWrapper)
     assert tuple(datapipe) == (1, 2, 3, 4)
