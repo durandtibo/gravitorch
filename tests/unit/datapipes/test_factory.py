@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from objectory import OBJECT_TARGET
-from pytest import raises
-from torch.utils.data.datapipes.iter import Batcher, IterableWrapper
+from pytest import mark, raises
+from torch.utils.data.datapipes.iter import Batcher, IterableWrapper, Multiplexer
 from torch.utils.data.datapipes.map import SequenceWrapper
 
 from gravitorch.datapipes import (
@@ -14,14 +16,56 @@ from gravitorch.datapipes import (
 #############################################
 
 
-def test_create_chained_datapipe_empty() -> None:
+@mark.parametrize("config", (list(), tuple(), dict()))
+def test_create_chained_datapipe_empty(config: list | tuple | dict) -> None:
     with raises(
-        RuntimeError, match="It is not possible to create a DataPipe because the configs are empty"
+        RuntimeError, match="It is not possible to create a DataPipe because the config is empty"
     ):
-        create_chained_datapipe([])
+        create_chained_datapipe(config)
 
 
-def test_create_chained_datapipe_one() -> None:
+def test_create_chained_datapipe_dict() -> None:
+    datapipe = create_chained_datapipe(
+        {
+            OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+            "iterable": [1, 2, 3, 4],
+        }
+    )
+    assert isinstance(datapipe, IterableWrapper)
+    assert tuple(datapipe) == (1, 2, 3, 4)
+
+
+def test_create_chained_datapipe_dict_source_inputs() -> None:
+    datapipe = create_chained_datapipe(
+        config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper"},
+        source_inputs=([1, 2, 3, 4],),
+    )
+    assert isinstance(datapipe, IterableWrapper)
+    assert tuple(datapipe) == (1, 2, 3, 4)
+
+
+def test_create_chained_datapipe_dict_one_input_datapipe() -> None:
+    datapipe = create_chained_datapipe(
+        config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
+        source_inputs=[IterableWrapper([1, 2, 3, 4])],
+    )
+    assert isinstance(datapipe, Batcher)
+    assert tuple(datapipe) == ([1, 2], [3, 4])
+
+
+def test_create_chained_datapipe_dict_two_input_datapipes() -> None:
+    datapipe = create_chained_datapipe(
+        config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
+        source_inputs=[
+            IterableWrapper([1, 2, 3, 4]),
+            IterableWrapper([11, 12, 13, 14]),
+        ],
+    )
+    assert isinstance(datapipe, Multiplexer)
+    assert tuple(datapipe) == (1, 11, 2, 12, 3, 13, 4, 14)
+
+
+def test_create_chained_datapipe_sequence_1() -> None:
     datapipe = create_chained_datapipe(
         [
             {
@@ -34,18 +78,54 @@ def test_create_chained_datapipe_one() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_create_chained_datapipe_two() -> None:
+def test_create_chained_datapipe_sequence_2() -> None:
     datapipe = create_chained_datapipe(
         [
             {
-                "_target_": "torch.utils.data.datapipes.map.SequenceWrapper",
-                "sequence": [1, 2, 3, 4],
+                OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+                "iterable": [1, 2, 3, 4],
             },
             {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
         ]
     )
     assert isinstance(datapipe, Batcher)
     assert tuple(datapipe) == ([1, 2], [3, 4])
+
+
+def test_create_chained_datapipe_sequence_source_inputs() -> None:
+    datapipe = create_chained_datapipe(
+        config=[
+            {OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper"},
+            {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
+        ],
+        source_inputs=([1, 2, 3, 4],),
+    )
+    assert isinstance(datapipe, Batcher)
+    assert tuple(datapipe) == ([1, 2], [3, 4])
+
+
+def test_create_chained_datapipe_sequence_source_inputs_datapipe() -> None:
+    datapipe = create_chained_datapipe(
+        config=[{OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2}],
+        source_inputs=[IterableWrapper([1, 2, 3, 4])],
+    )
+    assert isinstance(datapipe, Batcher)
+    assert tuple(datapipe) == ([1, 2], [3, 4])
+
+
+def test_create_chained_datapipe_sequence_multiple_input_datapipes() -> None:
+    datapipe = create_chained_datapipe(
+        config=[
+            {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
+            {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
+        ],
+        source_inputs=[
+            IterableWrapper([1, 2, 3, 4]),
+            IterableWrapper([11, 12, 13, 14]),
+        ],
+    )
+    assert isinstance(datapipe, Batcher)
+    assert tuple(datapipe) == ([1, 11], [2, 12], [3, 13], [4, 14])
 
 
 ########################################
