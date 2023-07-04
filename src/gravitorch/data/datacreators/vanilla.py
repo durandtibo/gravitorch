@@ -30,7 +30,7 @@ class DataCreator(BaseDataCreator[T]):
     .. code-block:: pycon
 
         >>> from gravitorch.data.datacreators import DataCreator
-        >>> creator = DataCreator([1, 2, 3, 4], deepcopy=True)
+        >>> creator = DataCreator([1, 2, 3, 4])
         >>> creator.create()
         [1, 2, 3, 4]
     """
