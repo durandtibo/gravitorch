@@ -103,10 +103,10 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
 
     Args:
     ----
-        tensors (``IterDataPipe`` or sequence of ``torch.Tensor`` of
-            shape ``(num_examples, *)`` where ``*`` means any number
-            of dimensions): Specifies source DataPipe or a sequence of
-            tensors.
+        datapipe_or_data (``IterDataPipe`` or sequence of
+            ``torch.Tensor`` of shape ``(num_examples, *)`` where ``*``
+            means any number of dimensions): Specifies source DataPipe
+            or a sequence of tensors.
         batch_size (int): Specifies the batch size.
         shuffle (bool, optional): If ``True``, the examples are
             shuffled before to create the batches. The
@@ -153,7 +153,7 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
             f"  batch_size={self._batch_size},\n"
             f"  shuffle={self._shuffle},\n"
             f"  random_seed={self.random_seed},\n"
-            f"  datapipe_or_tensors={str_indent(desc)},\n)"
+            f"  datapipe_or_data={str_indent(desc)},\n)"
         )
 
     def __getstate__(self) -> dict:
