@@ -12,11 +12,11 @@ from gravitorch.loops.training import (
 
 
 def test_is_training_loop_config_true() -> None:
-    assert is_training_loop_config({"_target_": "gravitorch.loops.training.VanillaTrainingLoop"})
+    assert is_training_loop_config({OBJECT_TARGET: "gravitorch.loops.training.VanillaTrainingLoop"})
 
 
 def test_is_training_loop_config_false() -> None:
-    assert not is_training_loop_config({"_target_": "torch.nn.Identity"})
+    assert not is_training_loop_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 #########################################

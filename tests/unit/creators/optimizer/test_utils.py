@@ -36,5 +36,5 @@ def test_setup_optimizer_creator_dict() -> None:
 def test_setup_optimizer_creator_dict_mock() -> None:
     creator_mock = Mock(factory=Mock(return_value="abc"))
     with patch("gravitorch.creators.optimizer.utils.BaseOptimizerCreator", creator_mock):
-        assert setup_optimizer_creator({"_target_": "name"}) == "abc"
+        assert setup_optimizer_creator({OBJECT_TARGET: "name"}) == "abc"
         creator_mock.factory.assert_called_once_with(_target_="name")

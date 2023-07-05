@@ -21,7 +21,7 @@ def test_setup_iter_datapipe_creator_object() -> None:
 def test_setup_iter_datapipe_creator_dict_mock() -> None:
     creator_mock = Mock(factory=Mock(return_value="abc"))
     with patch("gravitorch.creators.datapipe.base.BaseIterDataPipeCreator", creator_mock):
-        assert setup_iter_datapipe_creator({"_target_": "name"}) == "abc"
+        assert setup_iter_datapipe_creator({OBJECT_TARGET: "name"}) == "abc"
         creator_mock.factory.assert_called_once_with(_target_="name")
 
 

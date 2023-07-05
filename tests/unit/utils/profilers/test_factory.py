@@ -8,11 +8,11 @@ from gravitorch.utils.profilers import NoOpProfiler, is_profiler_config, setup_p
 
 
 def test_is_profiler_config_true() -> None:
-    assert is_profiler_config({"_target_": "gravitorch.utils.profilers.NoOpProfiler"})
+    assert is_profiler_config({OBJECT_TARGET: "gravitorch.utils.profilers.NoOpProfiler"})
 
 
 def test_is_profiler_config_false() -> None:
-    assert not is_profiler_config({"_target_": "torch.nn.Identity"})
+    assert not is_profiler_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 ####################################

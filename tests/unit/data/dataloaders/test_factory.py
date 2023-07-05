@@ -159,16 +159,16 @@ def test_create_dataloader2_without_torchdata() -> None:
 
 
 def test_is_dataloader_config_true() -> None:
-    assert is_dataloader_config({"_target_": "torch.utils.data.DataLoader"})
+    assert is_dataloader_config({OBJECT_TARGET: "torch.utils.data.DataLoader"})
 
 
 def test_is_dataloader_config_false() -> None:
-    assert not is_dataloader_config({"_target_": "torch.nn.Identity"})
+    assert not is_dataloader_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 @torchdata_available
 def test_is_dataloader_config_false_dataloader2() -> None:
-    assert not is_dataloader_config({"_target_": "torchdata.dataloader2.DataLoader2"})
+    assert not is_dataloader_config({OBJECT_TARGET: "torchdata.dataloader2.DataLoader2"})
 
 
 ###########################################
@@ -178,23 +178,23 @@ def test_is_dataloader_config_false_dataloader2() -> None:
 
 @torchdata_available
 def test_is_dataloader2_config_true() -> None:
-    assert is_dataloader2_config({"_target_": "torchdata.dataloader2.DataLoader2"})
+    assert is_dataloader2_config({OBJECT_TARGET: "torchdata.dataloader2.DataLoader2"})
 
 
 @torchdata_available
 def test_is_dataloader2_config_false() -> None:
-    assert not is_dataloader2_config({"_target_": "torch.nn.Identity"})
+    assert not is_dataloader2_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 @torchdata_available
 def test_is_dataloader2_config_false_dataloader() -> None:
-    assert not is_dataloader2_config({"_target_": "torch.utils.data.DataLoader"})
+    assert not is_dataloader2_config({OBJECT_TARGET: "torch.utils.data.DataLoader"})
 
 
 def test_is_dataloader2_config_without_torchdata() -> None:
     with patch("gravitorch.utils.imports.is_torchdata_available", lambda *args: False):
         with raises(RuntimeError, match="`torchdata` package is required but not installed."):
-            is_dataloader2_config({"_target_": "torchdata.dataloader2.DataLoader2"})
+            is_dataloader2_config({OBJECT_TARGET: "torchdata.dataloader2.DataLoader2"})
 
 
 ######################################

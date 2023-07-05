@@ -15,11 +15,11 @@ from gravitorch.loops.observers import (
 
 
 def test_is_loop_observer_config_true() -> None:
-    assert is_loop_observer_config({"_target_": "gravitorch.loops.observers.NoOpLoopObserver"})
+    assert is_loop_observer_config({OBJECT_TARGET: "gravitorch.loops.observers.NoOpLoopObserver"})
 
 
 def test_is_loop_observer_config_false() -> None:
-    assert not is_loop_observer_config({"_target_": "torch.nn.Identity"})
+    assert not is_loop_observer_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 #########################################

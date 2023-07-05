@@ -13,12 +13,12 @@ from gravitorch.loops.evaluation import (
 
 def test_is_evaluation_loop_config_true() -> None:
     assert is_evaluation_loop_config(
-        {"_target_": "gravitorch.loops.evaluation.VanillaEvaluationLoop"}
+        {OBJECT_TARGET: "gravitorch.loops.evaluation.VanillaEvaluationLoop"}
     )
 
 
 def test_is_evaluation_loop_config_false() -> None:
-    assert not is_evaluation_loop_config({"_target_": "torch.nn.Identity"})
+    assert not is_evaluation_loop_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 ###########################################

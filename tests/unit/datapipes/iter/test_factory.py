@@ -50,12 +50,12 @@ def test_create_sequential_iter_datapipe_2() -> None:
 
 def test_is_iter_datapipe_config_true() -> None:
     assert is_iter_datapipe_config(
-        {"_target_": "torch.utils.data.datapipes.iter.IterableWrapper", "iterable": [1, 2, 3, 4]}
+        {OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper", "iterable": [1, 2, 3, 4]}
     )
 
 
 def test_is_iter_datapipe_config_false() -> None:
-    assert not is_iter_datapipe_config({"_target_": "torch.nn.Identity"})
+    assert not is_iter_datapipe_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 #########################################

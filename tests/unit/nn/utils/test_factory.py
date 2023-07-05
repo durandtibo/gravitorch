@@ -13,11 +13,11 @@ from gravitorch.nn import is_module_config, setup_module
 
 
 def test_is_module_config_true() -> None:
-    assert is_module_config({"_target_": "torch.nn.Identity"})
+    assert is_module_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 def test_is_module_config_false() -> None:
-    assert not is_module_config({"_target_": "gravitorch.loops.training.VanillaTrainingLoop"})
+    assert not is_module_config({OBJECT_TARGET: "gravitorch.loops.training.VanillaTrainingLoop"})
 
 
 ##################################
