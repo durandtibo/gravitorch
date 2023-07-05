@@ -78,6 +78,18 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
             f"  datapipe_or_data={str_indent(desc)},\n)"
         )
 
+    def __getstate__(self) -> dict:
+        state = super().__getstate__().copy()
+        # torch.Generator cannot be serialized but its state can.
+        state["_generator"] = state["_generator"].get_state()
+        return state
+
+    def __setstate__(self, state: dict) -> None:
+        # Recreate the torch.Generator because only its state was serialized
+        generator = torch.Generator()
+        state["_generator"] = generator.set_state(state["_generator"])
+        self.__dict__.update(state)
+
     @property
     def random_seed(self) -> int:
         r"""``int``: The random seed used to initialize the pseudo random
@@ -106,18 +118,18 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
 
     def __init__(
         self,
-        datapipe_or_tensors: IterDataPipe[Sequence[Tensor]] | Sequence[Tensor],
+        datapipe_or_data: IterDataPipe[Sequence[Tensor]] | Sequence[Tensor],
         batch_size: int,
         shuffle: bool = False,
         random_seed: int = 13382866045483866228,
     ) -> None:
-        self._datapipe_or_tensors = datapipe_or_tensors
+        self._datapipe_or_data = datapipe_or_data
         self._batch_size = int(batch_size)
         self._shuffle = bool(shuffle)
         self._generator = get_torch_generator(random_seed)
 
     def __iter__(self) -> Iterator[tuple[Tensor, ...]]:
-        datapipe_or_tensors = self._datapipe_or_tensors
+        datapipe_or_tensors = self._datapipe_or_data
         if not isinstance(datapipe_or_tensors, IterDataPipe):
             datapipe_or_tensors = SourceWrapperIterDataPipe([datapipe_or_tensors])
         for batch in datapipe_or_tensors:
@@ -126,15 +138,15 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
             yield from zip(*[torch.split(tensor, self._batch_size) for tensor in batch])
 
     def __len__(self) -> int:
-        if isinstance(self._datapipe_or_tensors, IterDataPipe):
+        if isinstance(self._datapipe_or_data, IterDataPipe):
             raise TypeError(f"{type(self).__qualname__} instance doesn't have valid length")
-        return (self._datapipe_or_tensors[0].shape[0] + self._batch_size - 1) // self._batch_size
+        return (self._datapipe_or_data[0].shape[0] + self._batch_size - 1) // self._batch_size
 
     def __str__(self) -> str:
         desc = (
-            str(self._datapipe_or_tensors)
-            if isinstance(self._datapipe_or_tensors, IterDataPipe)
-            else concise_summary(self._datapipe_or_tensors)
+            str(self._datapipe_or_data)
+            if isinstance(self._datapipe_or_data, IterDataPipe)
+            else concise_summary(self._datapipe_or_data)
         )
         return (
             f"{self.__class__.__qualname__}(\n"
@@ -143,6 +155,18 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
             f"  random_seed={self.random_seed},\n"
             f"  datapipe_or_tensors={str_indent(desc)},\n)"
         )
+
+    def __getstate__(self) -> dict:
+        state = super().__getstate__().copy()
+        # torch.Generator cannot be serialized but its state can.
+        state["_generator"] = state["_generator"].get_state()
+        return state
+
+    def __setstate__(self, state: dict) -> None:
+        # Recreate the torch.Generator because only its state was serialized
+        generator = torch.Generator()
+        state["_generator"] = generator.set_state(state["_generator"])
+        self.__dict__.update(state)
 
     @property
     def random_seed(self) -> int:
