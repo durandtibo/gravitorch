@@ -23,7 +23,7 @@ def test_create_datasets_one() -> None:
         create_datasets(
             {
                 "train": {
-                    "_target_": "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
                     "examples": (1, 2, 3),
                 }
             }
@@ -37,7 +37,7 @@ def test_create_datasets_two() -> None:
         create_datasets(
             {
                 "train": {
-                    "_target_": "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
                     "examples": (1, 2, 3),
                 },
                 "val": ExampleDataset((4, 5)),
@@ -52,12 +52,12 @@ def test_create_datasets_three() -> None:
         create_datasets(
             {
                 "train": {
-                    "_target_": "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
                     "examples": (1, 2, 3),
                 },
                 "val": ExampleDataset((4, 5)),
                 "test": {
-                    "_target_": "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
                     "examples": ("A", "B"),
                 },
             }
@@ -77,12 +77,12 @@ def test_create_datasets_three() -> None:
 
 def test_is_dataset_config_true() -> None:
     assert is_dataset_config(
-        {"_target_": "gravitorch.data.datasets.ExampleDataset", "examples": ("A", "B")}
+        {OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset", "examples": ("A", "B")}
     )
 
 
 def test_is_dataset_config_false() -> None:
-    assert not is_dataset_config({"_target_": "torch.nn.Identity"})
+    assert not is_dataset_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 ###################################

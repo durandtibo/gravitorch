@@ -18,11 +18,11 @@ from gravitorch.utils.exp_trackers import (
 
 
 def test_is_exp_tracker_config_true() -> None:
-    assert is_exp_tracker_config({"_target_": "gravitorch.utils.exp_trackers.NoOpExpTracker"})
+    assert is_exp_tracker_config({OBJECT_TARGET: "gravitorch.utils.exp_trackers.NoOpExpTracker"})
 
 
 def test_is_exp_tracker_config_false() -> None:
-    assert not is_exp_tracker_config({"_target_": "torch.nn.Identity"})
+    assert not is_exp_tracker_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 #######################################

@@ -1,5 +1,7 @@
 from unittest.mock import Mock, patch
 
+from objectory import OBJECT_TARGET
+
 from gravitorch.creators.core import BaseCoreCreator, setup_core_creator
 
 ########################################
@@ -15,5 +17,5 @@ def test_setup_core_creator_object() -> None:
 def test_setup_core_creator_dict_mock() -> None:
     creator_mock = Mock(factory=Mock(return_value="abc"))
     with patch("gravitorch.creators.core.base.BaseCoreCreator", creator_mock):
-        assert setup_core_creator({"_target_": "name"}) == "abc"
+        assert setup_core_creator({OBJECT_TARGET: "name"}) == "abc"
         creator_mock.factory.assert_called_once_with(_target_="name")

@@ -40,11 +40,11 @@ def test_attach_module_to_engine_no_attach() -> None:
 
 
 def test_is_model_config_true() -> None:
-    assert is_model_config({"_target_": "gravitorch.models.VanillaModel"})
+    assert is_model_config({OBJECT_TARGET: "gravitorch.models.VanillaModel"})
 
 
 def test_is_model_config_false() -> None:
-    assert not is_model_config({"_target_": "torch.nn.Identity"})
+    assert not is_model_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 #################################

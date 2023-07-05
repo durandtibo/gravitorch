@@ -35,5 +35,5 @@ def test_setup_lr_scheduler_creator_dict() -> None:
 def test_setup_lr_scheduler_creator_dict_mock() -> None:
     creator_mock = Mock(factory=Mock(return_value="abc"))
     with patch("gravitorch.creators.lr_scheduler.utils.BaseLRSchedulerCreator", creator_mock):
-        assert setup_lr_scheduler_creator({"_target_": "name"}) == "abc"
+        assert setup_lr_scheduler_creator({OBJECT_TARGET: "name"}) == "abc"
         creator_mock.factory.assert_called_once_with(_target_="name")

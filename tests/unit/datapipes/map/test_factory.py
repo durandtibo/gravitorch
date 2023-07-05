@@ -1,3 +1,4 @@
+from objectory import OBJECT_TARGET
 from torch.utils.data.datapipes.map import SequenceWrapper
 
 from gravitorch.datapipes.map import is_map_datapipe_config, setup_map_datapipe
@@ -9,12 +10,12 @@ from gravitorch.datapipes.map import is_map_datapipe_config, setup_map_datapipe
 
 def test_is_map_datapipe_config_true() -> None:
     assert is_map_datapipe_config(
-        {"_target_": "torch.utils.data.datapipes.map.SequenceWrapper", "sequence": [1, 2, 3, 4]}
+        {OBJECT_TARGET: "torch.utils.data.datapipes.map.SequenceWrapper", "sequence": [1, 2, 3, 4]}
     )
 
 
 def test_is_map_datapipe_config_false() -> None:
-    assert not is_map_datapipe_config({"_target_": "torch.nn.Identity"})
+    assert not is_map_datapipe_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 ########################################
@@ -29,7 +30,7 @@ def test_setup_map_datapipe_object() -> None:
 
 def test_setup_map_datapipe_sequence() -> None:
     datapipe = setup_map_datapipe(
-        {"_target_": "torch.utils.data.datapipes.map.SequenceWrapper", "sequence": [1, 2, 3, 4]}
+        {OBJECT_TARGET: "torch.utils.data.datapipes.map.SequenceWrapper", "sequence": [1, 2, 3, 4]}
     )
     assert isinstance(datapipe, SequenceWrapper)
     assert tuple(datapipe) == (1, 2, 3, 4)

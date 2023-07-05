@@ -135,18 +135,18 @@ def test_create_chained_datapipe_sequence_multiple_input_datapipes() -> None:
 
 def test_is_datapipe_config_true_iter() -> None:
     assert is_datapipe_config(
-        {"_target_": "torch.utils.data.datapipes.iter.IterableWrapper", "iterable": [1, 2, 3, 4]}
+        {OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper", "iterable": [1, 2, 3, 4]}
     )
 
 
 def test_is_datapipe_config_true_map() -> None:
     assert is_datapipe_config(
-        {"_target_": "torch.utils.data.datapipes.map.SequenceWrapper", "sequence": [1, 2, 3, 4]}
+        {OBJECT_TARGET: "torch.utils.data.datapipes.map.SequenceWrapper", "sequence": [1, 2, 3, 4]}
     )
 
 
 def test_is_datapipe_config_false() -> None:
-    assert not is_datapipe_config({"_target_": "torch.nn.Identity"})
+    assert not is_datapipe_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 ####################################

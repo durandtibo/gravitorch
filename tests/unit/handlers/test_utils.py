@@ -46,11 +46,11 @@ def test_add_unique_event_handler_has_event_handler_true(event: str) -> None:
 
 
 def test_is_handler_config_true() -> None:
-    assert is_handler_config({"_target_": "gravitorch.handlers.EpochLRMonitor"})
+    assert is_handler_config({OBJECT_TARGET: "gravitorch.handlers.EpochLRMonitor"})
 
 
 def test_is_handler_config_false() -> None:
-    assert not is_handler_config({"_target_": "torch.nn.Identity"})
+    assert not is_handler_config({OBJECT_TARGET: "torch.nn.Identity"})
 
 
 ###################################
