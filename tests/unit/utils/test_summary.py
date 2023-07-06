@@ -38,27 +38,27 @@ def test_concise_summary_numpy_array() -> None:
 def test_concise_summary_list() -> None:
     assert concise_summary([1, 2, 3]) == (
         "<class 'list'> | length=3\n"
-        "  (0) <class 'int'> | value=1\n"
-        "  (1) <class 'int'> | value=2\n"
-        "  (2) <class 'int'> | value=3"
+        "  (0): <class 'int'> | value=1\n"
+        "  (1): <class 'int'> | value=2\n"
+        "  (2): <class 'int'> | value=3"
     )
 
 
 def test_concise_summary_list_length_3_max_length_3() -> None:
     assert concise_summary(list(range(3)), max_length=3) == (
         "<class 'list'> | length=3\n"
-        "  (0) <class 'int'> | value=0\n"
-        "  (1) <class 'int'> | value=1\n"
-        "  (2) <class 'int'> | value=2"
+        "  (0): <class 'int'> | value=0\n"
+        "  (1): <class 'int'> | value=1\n"
+        "  (2): <class 'int'> | value=2"
     )
 
 
 def test_concise_summary_list_length_10_max_length_3() -> None:
     assert concise_summary(list(range(10)), max_length=3) == (
         "<class 'list'> | length=10\n"
-        "  (0) <class 'int'> | value=0\n"
-        "  (1) <class 'int'> | value=1\n"
-        "  (2) <class 'int'> | value=2\n"
+        "  (0): <class 'int'> | value=0\n"
+        "  (1): <class 'int'> | value=1\n"
+        "  (2): <class 'int'> | value=2\n"
         "  ..."
     )
 
@@ -66,11 +66,11 @@ def test_concise_summary_list_length_10_max_length_3() -> None:
 def test_concise_summary_list_length_10_max_length_5() -> None:
     assert concise_summary(list(range(10)), max_length=5) == (
         "<class 'list'> | length=10\n"
-        "  (0) <class 'int'> | value=0\n"
-        "  (1) <class 'int'> | value=1\n"
-        "  (2) <class 'int'> | value=2\n"
-        "  (3) <class 'int'> | value=3\n"
-        "  (4) <class 'int'> | value=4\n"
+        "  (0): <class 'int'> | value=0\n"
+        "  (1): <class 'int'> | value=1\n"
+        "  (2): <class 'int'> | value=2\n"
+        "  (3): <class 'int'> | value=3\n"
+        "  (4): <class 'int'> | value=4\n"
         "  ..."
     )
 
@@ -78,36 +78,36 @@ def test_concise_summary_list_length_10_max_length_5() -> None:
 def test_concise_summary_tuple() -> None:
     assert concise_summary((1, 2, 3)) == (
         "<class 'tuple'> | length=3\n"
-        "  (0) <class 'int'> | value=1\n"
-        "  (1) <class 'int'> | value=2\n"
-        "  (2) <class 'int'> | value=3"
+        "  (0): <class 'int'> | value=1\n"
+        "  (1): <class 'int'> | value=2\n"
+        "  (2): <class 'int'> | value=3"
     )
 
 
 def test_concise_summary_mapping() -> None:
     assert concise_summary({"key1": 1, "key2": 2, "key3": 3}) == (
         "<class 'dict'> | length=3\n"
-        "  (key1) <class 'int'> | value=1\n"
-        "  (key2) <class 'int'> | value=2\n"
-        "  (key3) <class 'int'> | value=3"
+        "  (key1): <class 'int'> | value=1\n"
+        "  (key2): <class 'int'> | value=2\n"
+        "  (key3): <class 'int'> | value=3"
     )
 
 
 def test_concise_summary_mapping_length_3_max_length_3() -> None:
     assert concise_summary({f"key{i}": i for i in range(3)}, max_length=3) == (
         "<class 'dict'> | length=3\n"
-        "  (key0) <class 'int'> | value=0\n"
-        "  (key1) <class 'int'> | value=1\n"
-        "  (key2) <class 'int'> | value=2"
+        "  (key0): <class 'int'> | value=0\n"
+        "  (key1): <class 'int'> | value=1\n"
+        "  (key2): <class 'int'> | value=2"
     )
 
 
 def test_concise_summary_mapping_length_10_max_length_3() -> None:
     assert concise_summary({f"key{i}": i for i in range(10)}, max_length=3) == (
         "<class 'dict'> | length=10\n"
-        "  (key0) <class 'int'> | value=0\n"
-        "  (key1) <class 'int'> | value=1\n"
-        "  (key2) <class 'int'> | value=2\n"
+        "  (key0): <class 'int'> | value=0\n"
+        "  (key1): <class 'int'> | value=1\n"
+        "  (key2): <class 'int'> | value=2\n"
         "  ..."
     )
 
@@ -115,11 +115,11 @@ def test_concise_summary_mapping_length_10_max_length_3() -> None:
 def test_concise_summary_mapping_length_10_max_length_5() -> None:
     assert concise_summary({f"key{i}": i for i in range(10)}, max_length=5) == (
         "<class 'dict'> | length=10\n"
-        "  (key0) <class 'int'> | value=0\n"
-        "  (key1) <class 'int'> | value=1\n"
-        "  (key2) <class 'int'> | value=2\n"
-        "  (key3) <class 'int'> | value=3\n"
-        "  (key4) <class 'int'> | value=4\n"
+        "  (key0): <class 'int'> | value=0\n"
+        "  (key1): <class 'int'> | value=1\n"
+        "  (key2): <class 'int'> | value=2\n"
+        "  (key3): <class 'int'> | value=3\n"
+        "  (key4): <class 'int'> | value=4\n"
         "  ..."
     )
 

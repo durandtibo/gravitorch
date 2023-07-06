@@ -144,6 +144,10 @@ def test_str_indent_not_a_string() -> None:
 #################################
 
 
+def test_str_mapping_empty() -> None:
+    assert str_mapping({}) == ""
+
+
 def test_str_mapping_one() -> None:
     assert str_mapping({"key1": "value1"}) == "key1=value1"
 
@@ -355,28 +359,32 @@ def test_str_torch_mapping_empty() -> None:
 
 
 def test_str_torch_mapping_1_item() -> None:
-    assert str_torch_mapping({"key": "value"}) == "(key) value"
+    assert str_torch_mapping({"key": "value"}) == "(key): value"
 
 
 def test_str_torch_mapping_2_items() -> None:
-    assert str_torch_mapping({"key1": "value1", "key2": "value2"}) == "(key1) value1\n(key2) value2"
+    assert (
+        str_torch_mapping({"key1": "value1", "key2": "value2"}) == "(key1): value1\n(key2): value2"
+    )
 
 
 def test_str_torch_mapping_sorted_values_true() -> None:
     assert (
         str_torch_mapping({"key2": "value2", "key1": "value1"}, sorted_keys=True)
-        == "(key1) value1\n(key2) value2"
+        == "(key1): value1\n(key2): value2"
     )
 
 
 def test_str_torch_mapping_sorted_values_false() -> None:
-    assert str_torch_mapping({"key2": "value2", "key1": "value1"}) == "(key2) value2\n(key1) value1"
+    assert (
+        str_torch_mapping({"key2": "value2", "key1": "value1"}) == "(key2): value2\n(key1): value1"
+    )
 
 
 def test_str_torch_mapping_2_items_multiple_line() -> None:
     assert (
         str_torch_mapping({"key1": "abc", "key2": "something\nelse"})
-        == "(key1) abc\n(key2) something\n  else"
+        == "(key1): abc\n(key2): something\n  else"
     )
 
 
@@ -390,15 +398,15 @@ def test_str_torch_sequence_empty() -> None:
 
 
 def test_str_torch_sequence_1_item() -> None:
-    assert str_torch_sequence(["abc"]) == "(0) abc"
+    assert str_torch_sequence(["abc"]) == "(0): abc"
 
 
 def test_str_torch_sequence_2_items() -> None:
-    assert str_torch_sequence(["abc", 123]) == "(0) abc\n(1) 123"
+    assert str_torch_sequence(["abc", 123]) == "(0): abc\n(1): 123"
 
 
 def test_str_torch_sequence_2_items_multiple_line() -> None:
-    assert str_torch_sequence(["abc", "something\nelse"]) == "(0) abc\n(1) something\n  else"
+    assert str_torch_sequence(["abc", "something\nelse"]) == "(0): abc\n(1): something\n  else"
 
 
 ##################################
