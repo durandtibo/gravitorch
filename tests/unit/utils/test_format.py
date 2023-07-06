@@ -173,6 +173,7 @@ def test_str_mapping_sorted_keys_true() -> None:
         == "key1=value1\nkey2=value2"
     )
 
+
 def test_str_mapping_num_spaces_4() -> None:
     assert (
         str_mapping({"key1": "long\nvalue1", "key2": "value2"}, num_spaces=4)
