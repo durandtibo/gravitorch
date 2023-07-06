@@ -205,7 +205,12 @@ def str_indent(original: Any, num_spaces: int = 2) -> str:
     return first + "\n" + formatted_str
 
 
-def str_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: int = 2) -> str:
+def str_mapping(
+    mapping: Mapping,
+    sorted_keys: bool = False,
+    num_spaces: int = 2,
+    one_line: bool = False,
+) -> str:
     r"""Computes a string representation of a mapping.
 
     Args:
@@ -214,7 +219,13 @@ def str_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: int = 2
         sorted_keys (bool, optional): Specifies if the key of the dict
             are sorted or not. Default: ``False``
         num_spaces (int, optional): Specifies the number of spaces
-            used for the indentation. Default: ``2``.
+            used for the indentation. This option is used only when
+            ``one_line=False``. Default: ``2``.
+        one_line (bool, optional): If ``True``, tryes to generate a
+            single line string representation. The keys and values
+            should not contain multiple lines. If ``False``, a new
+            line is created for each key in the input mapping.
+            Default: ``False``
 
     Returns:
     -------
@@ -232,11 +243,13 @@ def str_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: int = 2
         key1=long
           value1
         key2=value2
+        >>> str_mapping({"key1": "value1", "key2": "value2"}, one_line=True)
+        key1=value1, key2=value2
     """
-    lines = []
-    for key, value in sorted(mapping.items()) if sorted_keys else mapping.items():
-        lines.append(f"{key}={str_indent(value, num_spaces=num_spaces)}")
-    return "\n".join(lines)
+    items = sorted(mapping.items()) if sorted_keys else mapping.items()
+    if one_line:
+        return ", ".join([f"{key}={value}" for key, value in items])
+    return "\n".join([f"{key}={str_indent(value, num_spaces=num_spaces)}" for key, value in items])
 
 
 def str_scalar(value: int | float) -> str:
