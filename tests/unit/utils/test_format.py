@@ -173,6 +173,27 @@ def test_str_mapping_sorted_keys_true() -> None:
         == "key1=value1\nkey2=value2"
     )
 
+def test_str_mapping_num_spaces_4() -> None:
+    assert (
+        str_mapping({"key1": "long\nvalue1", "key2": "value2"}, num_spaces=4)
+        == "key1=long\n    value1\nkey2=value2"
+    )
+
+
+def test_str_mapping_one_line_empty() -> None:
+    assert str_mapping({}, one_line=True) == ""
+
+
+def test_str_mapping_one_line_one() -> None:
+    assert str_mapping({"key1": "value1"}, one_line=True) == "key1=value1"
+
+
+def test_str_mapping_one_line_two() -> None:
+    assert (
+        str_mapping({"key1": "value1", "key2": "value2"}, one_line=True)
+        == "key1=value1, key2=value2"
+    )
+
 
 ################################
 #     Tests for str_scalar     #
