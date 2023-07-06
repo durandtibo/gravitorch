@@ -435,13 +435,13 @@ def str_torch_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: i
 
         >>> from gravitorch.utils.format import str_torch_mapping
         >>> str_torch_mapping({"key1": "abc", "key2": "something\nelse"})
-        (key1) abc
-        (key2) something
+        (key1): abc
+        (key2): something
           else
     """
     lines = []
     for key, value in sorted(mapping.items()) if sorted_keys else mapping.items():
-        lines.append(f"({key}) {str_indent(value, num_spaces=num_spaces)}")
+        lines.append(f"({key}): {str_indent(value, num_spaces=num_spaces)}")
     return "\n".join(lines)
 
 
@@ -465,13 +465,13 @@ def str_torch_sequence(sequence: Sequence, num_spaces: int = 2) -> str:
 
         >>> from gravitorch.utils.format import str_torch_sequence
         >>> str_torch_sequence(["abc", "something\nelse"])
-        (0) abc
-        (1) something
+        (0): abc
+        (1): something
           else
     """
     lines = []
     for i, item in enumerate(sequence):
-        lines.append(f"({i}) {str_indent(item, num_spaces=num_spaces)}")
+        lines.append(f"({i}): {str_indent(item, num_spaces=num_spaces)}")
     return "\n".join(lines)
 
 

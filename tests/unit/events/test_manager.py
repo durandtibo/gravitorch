@@ -225,7 +225,7 @@ def test_to_event_handlers_str_empty() -> None:
 def test_to_event_handlers_str() -> None:
     assert to_event_handlers_str(
         {"event1": ["handler1"], "event2": ["handler21", "handler22\nblabla"]}
-    ) == ("(event1)\n  (0) handler1\n(event2)\n  (0) handler21\n  (1) handler22\n    blabla")
+    ) == ("(event1)\n  (0): handler1\n(event2)\n  (0): handler21\n  (1): handler22\n    blabla")
 
 
 def test_to_event_handlers_str_num_spaces_4() -> None:
@@ -234,5 +234,5 @@ def test_to_event_handlers_str_num_spaces_4() -> None:
             {"event1": ["handler1"], "event2": ["handler21", "handler22\nblabla"]},
             num_spaces=4,
         )
-        == "(event1)\n    (0) handler1\n(event2)\n    (0) handler21\n    (1) handler22\n        blabla"
+        == "(event1)\n    (0): handler1\n(event2)\n    (0): handler21\n    (1): handler22\n        blabla"
     )
