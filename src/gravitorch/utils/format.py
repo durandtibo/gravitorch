@@ -8,6 +8,7 @@ __all__ = [
     "human_count",
     "human_time",
     "str_indent",
+    "str_mapping",
     "str_pretty_dict",
     "str_pretty_json",
     "str_pretty_yaml",
@@ -202,6 +203,40 @@ def str_indent(original: Any, num_spaces: int = 2) -> str:
     first = formatted_str.pop(0)
     formatted_str = "\n".join([(num_spaces * " ") + line for line in formatted_str])
     return first + "\n" + formatted_str
+
+
+def str_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: int = 2) -> str:
+    r"""Computes a string representation of a mapping.
+
+    Args:
+    ----
+        mapping (``Mapping``): Specifies the mapping.
+        sorted_keys (bool, optional): Specifies if the key of the dict
+            are sorted or not. Default: ``False``
+        num_spaces (int, optional): Specifies the number of spaces
+            used for the indentation. Default: ``2``.
+
+    Returns:
+    -------
+        str: The string representation of the mapping.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.format import str_mapping
+        >>> str_mapping({"key1": "value1", "key2": "value2"})
+        key1=value1
+        key2=value2
+        >>> str_mapping({"key1": "long\nvalue1", "key2": "value2"})
+        key1=long
+          value1
+        key2=value2
+    """
+    lines = []
+    for key, value in sorted(mapping.items()) if sorted_keys else mapping.items():
+        lines.append(f"{key}={str_indent(value, num_spaces=num_spaces)}")
+    return "\n".join(lines)
 
 
 def str_scalar(value: int | float) -> str:

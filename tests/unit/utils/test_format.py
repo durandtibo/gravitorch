@@ -11,6 +11,7 @@ from gravitorch.utils.format import (
     human_count,
     human_time,
     str_indent,
+    str_mapping,
     str_pretty_dict,
     str_pretty_json,
     str_pretty_yaml,
@@ -136,6 +137,37 @@ def test_str_indent_num_spaces_4() -> None:
 
 def test_str_indent_not_a_string() -> None:
     assert str_indent(123) == "123"
+
+
+#################################
+#     Tests for str_mapping     #
+#################################
+
+
+def test_str_mapping_one() -> None:
+    assert str_mapping({"key1": "value1"}) == "key1=value1"
+
+
+def test_str_mapping_two() -> None:
+    assert str_mapping({"key1": "value1", "key2": "value2"}) == "key1=value1\nkey2=value2"
+
+
+def test_str_mapping_multilines() -> None:
+    assert (
+        str_mapping({"key1": "long\nvalue1", "key2": "value2"})
+        == "key1=long\n  value1\nkey2=value2"
+    )
+
+
+def test_str_mapping_sorted_keys_false() -> None:
+    assert str_mapping({"key2": "value2", "key1": "value1"}) == "key2=value2\nkey1=value1"
+
+
+def test_str_mapping_sorted_keys_true() -> None:
+    assert (
+        str_mapping({"key2": "value2", "key1": "value1"}, sorted_keys=True)
+        == "key1=value1\nkey2=value2"
+    )
 
 
 ################################
