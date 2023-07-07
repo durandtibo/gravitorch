@@ -66,7 +66,7 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
             )
         self._noise_std = float(noise_std)
 
-        self._torch_rng = get_torch_generator(random_seed)
+        self._generator = get_torch_generator(random_seed)
 
     def __repr__(self) -> str:
         return (
@@ -77,6 +77,18 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
             f"noise_std={self._noise_std:,}, "
             f"random_seed={self.random_seed})"
         )
+
+    def __getstate__(self) -> dict:
+        state = self.__dict__.copy()
+        # torch.Generator cannot be serialized but its state can.
+        state["_generator"] = state["_generator"].get_state()
+        return state
+
+    def __setstate__(self, state: dict) -> None:
+        # Recreate the torch.Generator because only its state was serialized
+        generator = torch.Generator()
+        state["_generator"] = generator.set_state(state["_generator"])
+        self.__dict__.update(state)
 
     @property
     def num_examples(self) -> int:
@@ -101,7 +113,7 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
     @property
     def random_seed(self) -> int:
         r"""int: The random seed used to initialize a ``torch.Generator`` object."""
-        return self._torch_rng.initial_seed()
+        return self._generator.initial_seed()
 
     def create(self, engine: BaseEngine | None = None) -> dict[str, Tensor]:
         r"""Creates data.
@@ -125,11 +137,11 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
         """
         # Generate the target of each example.
         targets = torch.randint(
-            0, self._num_classes, (self._num_examples,), generator=self._torch_rng
+            0, self._num_classes, (self._num_examples,), generator=self._generator
         )
         # Generate the features. Each class should be a vertex of the hyper-cube plus some noise.
         features = torch.randn(
-            self._num_examples, self._feature_size, generator=self._torch_rng
+            self._num_examples, self._feature_size, generator=self._generator
         ).mul(self._noise_std)
         features.scatter_add_(
             1, targets.view(self._num_examples, 1), torch.ones(self._num_examples, 1)

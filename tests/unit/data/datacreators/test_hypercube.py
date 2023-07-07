@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import pickle
+
 import torch
 from coola import objects_are_equal
 from pytest import mark, raises
+from torch import Tensor
 
 from gravitorch import constants as ct
 from gravitorch.data.datacreators import HypercubeVertexDataCreator
@@ -147,3 +150,60 @@ def test_hypercube_vertex_data_creator_create_different_random_seeds() -> None:
 def test_hypercube_vertex_data_creator_create_repeat() -> None:
     creator = HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=8)
     assert not objects_are_equal(creator.create(), creator.create())
+
+
+def test_hypercube_vertex_data_creator_getstate() -> None:
+    state = HypercubeVertexDataCreator(
+        num_examples=10, num_classes=5, feature_size=8
+    ).__getstate__()
+    assert len(state) == 5
+    assert state["_num_examples"] == 10
+    assert state["_num_classes"] == 5
+    assert state["_feature_size"] == 8
+    assert state["_noise_std"] == 0.2
+    assert isinstance(state["_generator"], Tensor)
+
+
+def test_hypercube_vertex_data_creator_setstate() -> None:
+    state = torch.Generator().get_state()
+    creator = HypercubeVertexDataCreator(
+        num_examples=1000,
+        num_classes=50,
+        feature_size=64,
+        noise_std=0.2,
+    )
+    creator.__setstate__(
+        {
+            "_num_examples": 10,
+            "_num_classes": 5,
+            "_feature_size": 8,
+            "_noise_std": 0.5,
+            "_generator": state,
+        }
+    )
+    assert creator.num_classes == 5
+    assert creator.num_examples == 10
+    assert creator.noise_std == 0.5
+    assert creator.feature_size == 8
+    assert creator._generator.get_state().equal(state)
+
+
+def test_hypercube_vertex_data_creator_state_repeat() -> None:
+    creator = HypercubeVertexDataCreator(
+        num_examples=20,
+        num_classes=5,
+        feature_size=8,
+        noise_std=0.2,
+    )
+    state = creator.__getstate__()
+    data1 = creator.create()
+    data2 = creator.create()
+    creator.__setstate__(state)
+    data3 = creator.create()
+    assert not objects_are_equal(data1, data2)
+    assert objects_are_equal(data1, data3)
+
+
+def test_hypercube_vertex_data_creator_pickle_dumps() -> None:
+    # Verify that the object can be serialized
+    pickle.dumps(HypercubeVertexDataCreator())
