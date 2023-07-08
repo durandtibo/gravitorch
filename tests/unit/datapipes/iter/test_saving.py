@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -9,6 +10,12 @@ from gravitorch.utils.io import save_text
 #################################
 #     Tests for PickleSaver     #
 #################################
+
+
+def test_pickle_saver_repr(tmp_path: Path) -> None:
+    assert repr(PickleSaver(SourceWrapper([]), root_path=tmp_path)).startswith(
+        "PickleSaverIterDataPipe("
+    )
 
 
 def test_pickle_saver_str(tmp_path: Path) -> None:
@@ -57,12 +64,18 @@ def test_pickle_saver_len(tmp_path: Path) -> None:
 
 def test_pickle_saver_no_len(tmp_path: Path) -> None:
     with raises(TypeError, match="object of type 'Mock' has no len()"):
-        len(PickleSaver(SourceWrapper(Mock()), root_path=tmp_path))
+        len(PickleSaver(SourceWrapper(Mock(spec=Iterable)), root_path=tmp_path))
 
 
 ##################################
 #     Tests for PyTorchSaver     #
 ##################################
+
+
+def test_pytorch_saver_repr(tmp_path: Path) -> None:
+    assert repr(PyTorchSaver(SourceWrapper([]), root_path=tmp_path)).startswith(
+        "PyTorchSaverIterDataPipe("
+    )
 
 
 def test_pytorch_saver_str(tmp_path: Path) -> None:
@@ -111,4 +124,4 @@ def test_pytorch_saver_len(tmp_path: Path) -> None:
 
 def test_pytorch_saver_no_len(tmp_path: Path) -> None:
     with raises(TypeError, match="object of type 'Mock' has no len()"):
-        len(PyTorchSaver(SourceWrapper(Mock()), root_path=tmp_path))
+        len(PyTorchSaver(SourceWrapper(Mock(spec=Iterable)), root_path=tmp_path))

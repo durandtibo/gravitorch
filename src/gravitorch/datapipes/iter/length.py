@@ -59,6 +59,9 @@ class LooperIterDataPipe(IterDataPipe[T]):
     def __len__(self) -> int:
         return self._length
 
+    def __repr__(self) -> str:
+        return str(self)
+
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"

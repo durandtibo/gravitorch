@@ -13,6 +13,12 @@ from gravitorch.datapipes.iter import (
 #########################################
 
 
+def test_dict_of_list_converter_repr() -> None:
+    assert repr(DictOfListConverter(SourceWrapper([]))).startswith(
+        "DictOfListConverterIterDataPipe("
+    )
+
+
 def test_dict_of_list_converter_str() -> None:
     assert str(DictOfListConverter(SourceWrapper([]))).startswith(
         "DictOfListConverterIterDataPipe("
@@ -52,6 +58,12 @@ def test_dict_of_list_converter_no_len() -> None:
 #########################################
 #     Tests for ListOfDictConverter     #
 #########################################
+
+
+def test_list_of_dict_converter_repr() -> None:
+    assert repr(ListOfDictConverter(SourceWrapper([]))).startswith(
+        "ListOfDictConverterIterDataPipe("
+    )
 
 
 def test_list_of_dict_converter_str() -> None:

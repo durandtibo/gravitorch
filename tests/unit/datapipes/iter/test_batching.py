@@ -19,6 +19,12 @@ if is_torchdata_available():
 #################################
 
 
+def test_dict_batcher_repr() -> None:
+    assert repr(
+        DictBatcher({ct.INPUT: torch.zeros(10, 2), ct.TARGET: torch.zeros(10)}, batch_size=32)
+    ).startswith("DictBatcherIterDataPipe(")
+
+
 def test_dict_batcher_str() -> None:
     assert str(
         DictBatcher({ct.INPUT: torch.zeros(10, 2), ct.TARGET: torch.zeros(10)}, batch_size=32)
@@ -336,6 +342,12 @@ def test_dict_batcher_dataloader2_datapipe() -> None:
 ##################################
 #     Tests for TupleBatcher     #
 ##################################
+
+
+def test_tuple_batcher_repr() -> None:
+    assert repr(TupleBatcher((torch.zeros(10, 2), torch.zeros(10)), batch_size=32)).startswith(
+        "TupleBatcherIterDataPipe("
+    )
 
 
 def test_tuple_batcher_str() -> None:

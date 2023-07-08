@@ -20,6 +20,10 @@ from gravitorch.utils.seed import get_torch_generator
 ########################################
 
 
+def test_tensor_dict_shuffler_repr() -> None:
+    assert repr(TensorDictShuffler(SourceWrapper([]))).startswith("TensorDictShufflerIterDataPipe(")
+
+
 def test_tensor_dict_shuffler_str() -> None:
     assert str(TensorDictShuffler(SourceWrapper([]))).startswith("TensorDictShufflerIterDataPipe(")
 
