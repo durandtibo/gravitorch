@@ -4,11 +4,11 @@ __all__ = [
     "BaseDataCreator",
     "DataCreator",
     "HypercubeVertexDataCreator",
-    "OneCacheDataCreator",
+    "CacheDataCreator",
     "setup_data_creator",
 ]
 
 from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
-from gravitorch.data.datacreators.caching import OneCacheDataCreator
+from gravitorch.data.datacreators.caching import CacheDataCreator
 from gravitorch.data.datacreators.hypercube import HypercubeVertexDataCreator
 from gravitorch.data.datacreators.vanilla import DataCreator

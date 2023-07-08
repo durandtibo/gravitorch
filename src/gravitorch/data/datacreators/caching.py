@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["OneCacheDataCreator"]
+__all__ = ["CacheDataCreator"]
 
 import copy
 import logging
@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-class OneCacheDataCreator(BaseDataCreator[T]):
+class CacheDataCreator(BaseDataCreator[T]):
     r"""Implements a data creator that creates the data only once, then
     cache them and return them.
 
     Args:
     ----
-        data_creator (``BaseDataCreator`` or dict): Specifies a data
+        creator (``BaseDataCreator`` or dict): Specifies a data
             creator or its configuration.
         deepcopy (bool, optional): If ``True``, a deepcopy of the data
             is done before to return the data. If ``deepcopy`` is
@@ -31,8 +31,8 @@ class OneCacheDataCreator(BaseDataCreator[T]):
             ``create`` method is called multiple times.
     """
 
-    def __init__(self, data_creator: BaseDataCreator[T] | dict, deepcopy: bool = False) -> None:
-        self._data_creator = setup_data_creator(data_creator)
+    def __init__(self, creator: BaseDataCreator[T] | dict, deepcopy: bool = False) -> None:
+        self._creator = setup_data_creator(creator)
         self._deepcopy = bool(deepcopy)
         self._is_cache_created = False
         # This variable is used to cache the data. The type depends on the value returned by
@@ -42,16 +42,16 @@ class OneCacheDataCreator(BaseDataCreator[T]):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  data_creator={str_indent(self._data_creator)},\n"
+            f"  creator={str_indent(self._creator)},\n"
             f"  is_cache_created={self._is_cache_created},\n"
             f"  deepcopy={self._deepcopy},\n"
             ")"
         )
 
     @property
-    def data_creator(self) -> BaseDataCreator[T]:
+    def creator(self) -> BaseDataCreator[T]:
         r"""``BaseDataCreator``: The data creator."""
-        return self._data_creator
+        return self._creator
 
     @property
     def deepcopy(self) -> bool:
@@ -65,7 +65,7 @@ class OneCacheDataCreator(BaseDataCreator[T]):
         Args:
         ----
             engine (``BaseEngine`` or ``None``): Specifies an engine.
-            Default: ``None``
+                Default: ``None``
 
         Return:
         ------
@@ -74,7 +74,7 @@ class OneCacheDataCreator(BaseDataCreator[T]):
         """
         if not self._is_cache_created:
             logger.info("Creating data and caching them...")
-            self._cached_data = self._data_creator.create(engine)
+            self._cached_data = self._creator.create(engine)
             self._is_cache_created = True
         data = self._cached_data
         if self._deepcopy:
