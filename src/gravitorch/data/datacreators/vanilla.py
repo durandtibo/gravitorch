@@ -6,7 +6,7 @@ import copy
 import logging
 from typing import TypeVar
 
-from gravitorch.data.datacreators import BaseDataCreator
+from gravitorch.data.datacreators.base import BaseDataCreator
 from gravitorch.engines.base import BaseEngine
 
 logger = logging.getLogger(__name__)

@@ -8,11 +8,11 @@ from typing import Any, TypeVar
 
 from torch.utils.data import IterDataPipe
 
-from gravitorch.creators.datapipe import (
+from gravitorch.creators.datapipe.base import (
     BaseIterDataPipeCreator,
     setup_iter_datapipe_creator,
 )
-from gravitorch.data.datacreators import BaseDataCreator, setup_data_creator
+from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset import AssetManager

@@ -6,7 +6,7 @@ import copy
 import logging
 from typing import Any, TypeVar
 
-from gravitorch.data.datacreators import BaseDataCreator, setup_data_creator
+from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.format import str_indent
 
