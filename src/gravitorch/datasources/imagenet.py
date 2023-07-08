@@ -9,7 +9,7 @@ from torch.utils.data import Dataset
 
 from gravitorch import constants as ct
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
-from gravitorch.data.datasets import ImageFolderDataset
+from gravitorch.data.datasets.image_folder import ImageFolderDataset
 from gravitorch.datasources.dataset import DatasetDataSource
 from gravitorch.utils.imports import check_torchvision, is_torchvision_available
 

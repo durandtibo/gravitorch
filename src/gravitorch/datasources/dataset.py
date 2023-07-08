@@ -10,7 +10,7 @@ from torch.utils.data import Dataset
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.creators.dataloader.factory import setup_dataloader_creator
-from gravitorch.data.datasets import setup_dataset
+from gravitorch.data.datasets.factory import setup_dataset
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset import AssetManager
