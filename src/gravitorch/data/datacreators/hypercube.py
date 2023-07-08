@@ -2,6 +2,7 @@ from __future__ import annotations
 
 __all__ = ["HypercubeVertexDataCreator"]
 
+import logging
 
 import torch
 from torch import Tensor
@@ -10,6 +11,9 @@ from gravitorch import constants as ct
 from gravitorch.data.datacreators.base import BaseDataCreator
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.seed import get_torch_generator
+from gravitorch.utils.summary import concise_summary
+
+logger = logging.getLogger(__name__)
 
 
 class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
@@ -34,6 +38,8 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
         random_seed (int, optional): Specifies the random seed used to
             initialize a ``torch.Generator`` object.
             Default: ``15782179921860610490``
+        log_info (bool, optional): If ``True``, log information when
+            the data are generated. Default: ``True``
     """
 
     def __init__(
@@ -43,6 +49,7 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
         feature_size: int = 64,
         noise_std: float = 0.2,
         random_seed: int = 15782179921860610490,
+        log_info: bool = True,
     ) -> None:
         if num_examples < 1:
             raise ValueError(f"The number of examples ({num_examples}) has to be greater than 0")
@@ -65,6 +72,7 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
                 "greater or equal than 0"
             )
         self._noise_std = float(noise_std)
+        self._log_info = bool(log_info)
 
         self._generator = get_torch_generator(random_seed)
 
@@ -135,15 +143,23 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
                     shape ``(num_examples,)``. This tensor represents
                     the targets.
         """
+        if self._log_info:
+            logger.info(f"Creating {self.num_examples:,} examples (seed={self.random_seed})...")
+
         # Generate the target of each example.
         targets = torch.randint(
             0, self._num_classes, (self._num_examples,), generator=self._generator
         )
-        # Generate the features. Each class should be a vertex of the hyper-cube plus some noise.
+        # Generate the features. Each class should be a vertex of the hyper-cube
+        # plus Gaussian noise.
         features = torch.randn(
             self._num_examples, self._feature_size, generator=self._generator
         ).mul(self._noise_std)
         features.scatter_add_(
             1, targets.view(self._num_examples, 1), torch.ones(self._num_examples, 1)
         )
-        return {ct.TARGET: targets, ct.INPUT: features}
+
+        data = {ct.TARGET: targets, ct.INPUT: features}
+        if self._log_info:
+            logger.info(f"Created data\n{concise_summary(data)}")
+        return data
