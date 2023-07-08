@@ -147,6 +147,17 @@ def test_hypercube_vertex_data_creator_create_different_random_seeds() -> None:
     )
 
 
+def test_hypercube_vertex_data_creator_create_log_info_false() -> None:
+    data = HypercubeVertexDataCreator(
+        num_examples=10, num_classes=5, feature_size=8, log_info=False
+    ).create()
+    assert len(data) == 2
+    assert data[ct.TARGET].shape == (10,)
+    assert data[ct.TARGET].dtype == torch.long
+    assert data[ct.INPUT].shape == (10, 8)
+    assert data[ct.INPUT].dtype == torch.float
+
+
 def test_hypercube_vertex_data_creator_create_repeat() -> None:
     creator = HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=8)
     assert not objects_are_equal(creator.create(), creator.create())
@@ -156,11 +167,12 @@ def test_hypercube_vertex_data_creator_getstate() -> None:
     state = HypercubeVertexDataCreator(
         num_examples=10, num_classes=5, feature_size=8
     ).__getstate__()
-    assert len(state) == 5
+    assert len(state) == 6
     assert state["_num_examples"] == 10
     assert state["_num_classes"] == 5
     assert state["_feature_size"] == 8
     assert state["_noise_std"] == 0.2
+    assert state["_log_info"]
     assert isinstance(state["_generator"], Tensor)
 
 
@@ -178,6 +190,7 @@ def test_hypercube_vertex_data_creator_setstate() -> None:
             "_num_classes": 5,
             "_feature_size": 8,
             "_noise_std": 0.5,
+            "_log_info": False,
             "_generator": state,
         }
     )
@@ -185,6 +198,7 @@ def test_hypercube_vertex_data_creator_setstate() -> None:
     assert creator.num_examples == 10
     assert creator.noise_std == 0.5
     assert creator.feature_size == 8
+    assert not creator._log_info
     assert creator._generator.get_state().equal(state)
 
 
