@@ -7,6 +7,10 @@ from gravitorch.datapipes.iter import Looper, SourceWrapper
 ############################
 
 
+def test_looper_repr() -> None:
+    assert repr(Looper(SourceWrapper([]), length=42)).startswith("LooperIterDataPipe(")
+
+
 def test_looper_str() -> None:
     assert str(Looper(SourceWrapper([]), length=42)).startswith("LooperIterDataPipe(")
 

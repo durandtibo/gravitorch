@@ -10,6 +10,10 @@ from gravitorch.datapipes.iter import SourceWrapper
 ###################################
 
 
+def test_source_wrapper_repr() -> None:
+    assert repr(SourceWrapper([])).startswith("SourceWrapperIterDataPipe(")
+
+
 def test_source_wrapper_str() -> None:
     assert str(SourceWrapper([])).startswith("SourceWrapperIterDataPipe(")
 

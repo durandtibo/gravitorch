@@ -64,6 +64,9 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
             get_first_value(self._datapipe_or_data).shape[0] + self._batch_size - 1
         ) // self._batch_size
 
+    def __repr__(self) -> str:
+        return str(self)
+
     def __str__(self) -> str:
         desc = (
             str(self._datapipe_or_data)
@@ -141,6 +144,9 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
         if isinstance(self._datapipe_or_data, IterDataPipe):
             raise TypeError(f"{type(self).__qualname__} instance doesn't have valid length")
         return (self._datapipe_or_data[0].shape[0] + self._batch_size - 1) // self._batch_size
+
+    def __repr__(self) -> str:
+        return str(self)
 
     def __str__(self) -> str:
         desc = (

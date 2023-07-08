@@ -30,6 +30,9 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
     def __len__(self) -> int:
         return len(self._source_datapipe)
 
+    def __repr__(self) -> str:
+        return str(self)
+
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
@@ -56,6 +59,9 @@ class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
 
     def __len__(self) -> int:
         return len(self._source_datapipe)
+
+    def __repr__(self) -> str:
+        return str(self)
 
     def __str__(self) -> str:
         return (

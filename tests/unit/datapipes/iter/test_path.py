@@ -18,6 +18,10 @@ def create_files(path: Path) -> None:
 ###############################
 
 
+def test_dir_filter_repr() -> None:
+    assert repr(DirFilter(Mock(spec=IterDataPipe))).startswith("DirFilterIterDataPipe(")
+
+
 def test_dir_filter_str() -> None:
     assert str(DirFilter(Mock(spec=IterDataPipe))).startswith("DirFilterIterDataPipe(")
 
@@ -45,6 +49,10 @@ def test_dir_filter_len(tmp_path: Path) -> None:
 ################################
 #     Tests for FileFilter     #
 ################################
+
+
+def test_file_filter_repr() -> None:
+    assert repr(FileFilter(Mock(spec=IterDataPipe))).startswith("FileFilterIterDataPipe(")
 
 
 def test_file_filter_str() -> None:
@@ -77,6 +85,10 @@ def test_file_filter_len(tmp_path: Path) -> None:
 ################################
 #     Tests for PathLister     #
 ################################
+
+
+def test_path_lister_repr() -> None:
+    assert repr(PathLister(Mock(spec=IterDataPipe))).startswith("PathListerIterDataPipe(")
 
 
 def test_path_lister_str() -> None:
