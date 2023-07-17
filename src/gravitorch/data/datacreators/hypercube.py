@@ -5,13 +5,13 @@ __all__ = ["HypercubeVertexDataCreator"]
 import logging
 
 import torch
+from arctix import summary
 from torch import Tensor
 
 from gravitorch import constants as ct
 from gravitorch.data.datacreators.base import BaseDataCreator
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.seed import get_torch_generator
-from gravitorch.utils.summary import concise_summary
 
 logger = logging.getLogger(__name__)
 
@@ -147,6 +147,7 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
         if self._log_info:
             logger.info(f"Creating {self.num_examples:,} examples (seed={self.random_seed})...")
 
+        # TODO: move in separate function
         # Generate the target of each example.
         targets = torch.randint(
             0, self._num_classes, (self._num_examples,), generator=self._generator
@@ -162,5 +163,5 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
 
         data = {ct.TARGET: targets, ct.INPUT: features}
         if self._log_info:
-            logger.info(f"Created data\n{concise_summary(data)}")
+            logger.info(f"Created data\n{summary(data)}")
         return data

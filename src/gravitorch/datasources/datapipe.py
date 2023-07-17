@@ -6,6 +6,7 @@ import logging
 from collections.abc import Iterable
 from typing import Any, TypeVar
 
+from arctix import summary
 from torch.utils.data import IterDataPipe
 
 from gravitorch.creators.datapipe.base import (
@@ -17,7 +18,6 @@ from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset import AssetManager
 from gravitorch.utils.format import str_indent, str_torch_mapping
-from gravitorch.utils.summary import concise_summary
 
 logger = logging.getLogger(__name__)
 
@@ -306,7 +306,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         logger.info(f"Data creators:\n{str_torch_mapping(self._data_creators)}")
         logger.info("Creating data...")
         self._data = {key: creator.create() for key, creator in self._data_creators.items()}
-        logger.info(f"Data:\n{concise_summary(self._data)}")
+        logger.info(f"Data:\n{summary(self._data)}")
 
     def __repr__(self) -> str:
         return (

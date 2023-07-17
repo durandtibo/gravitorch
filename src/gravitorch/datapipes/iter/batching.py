@@ -6,6 +6,7 @@ import logging
 from collections.abc import Hashable, Iterator, Sequence
 
 import torch
+from arctix import summary
 from torch import Tensor
 from torch.utils.data import IterDataPipe
 
@@ -14,7 +15,6 @@ from gravitorch.datapipes.iter.source import SourceWrapperIterDataPipe
 from gravitorch.utils.format import str_indent
 from gravitorch.utils.mapping import get_first_value
 from gravitorch.utils.seed import get_torch_generator
-from gravitorch.utils.summary import concise_summary
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
         desc = (
             str(self._datapipe_or_data)
             if isinstance(self._datapipe_or_data, IterDataPipe)
-            else concise_summary(self._datapipe_or_data)
+            else summary(self._datapipe_or_data)
         )
         return (
             f"{self.__class__.__qualname__}(\n"
@@ -152,7 +152,7 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
         desc = (
             str(self._datapipe_or_data)
             if isinstance(self._datapipe_or_data, IterDataPipe)
-            else concise_summary(self._datapipe_or_data)
+            else summary(self._datapipe_or_data)
         )
         return (
             f"{self.__class__.__qualname__}(\n"

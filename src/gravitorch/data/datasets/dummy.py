@@ -9,7 +9,6 @@ from torch.utils.data import Dataset
 
 from gravitorch import constants as ct
 from gravitorch.data.datasets.utils import log_box_dataset_class
-from gravitorch.utils.summary import concise_summary
 
 logger = logging.getLogger(__name__)
 
@@ -55,9 +54,7 @@ class DummyMultiClassDataset(Dataset):
             noise_std=noise_std,
             random_seed=random_seed,
         )
-        logger.info("Creating synthetic data...")
         data = self._data_creator.create()
-        logger.info(f"Created data:\n{concise_summary(data)}")
 
         self._targets = data[ct.TARGET]
         self._features = data[ct.INPUT]
