@@ -307,8 +307,9 @@ def create_sequential_iter_datapipe(
 
 
 class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
-    r"""Implements an ``IterDataPipe`` creator to create an ``IterDataPipe``
-    object by using a sequence ``IterDataPipe`` creators.
+    r"""Implements an ``IterDataPipe`` creator to create an
+    ``IterDataPipe`` object by using a sequence ``IterDataPipe``
+    creators.
 
     Args:
     ----

@@ -95,14 +95,14 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
 
     @property
     def random_seed(self) -> int:
-        r"""``int``: The random seed used to initialize the pseudo random
-        generator."""
+        r"""``int``: The random seed used to initialize the pseudo
+        random generator."""
         return self._generator.initial_seed()
 
 
 class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
-    r"""Implements a source DataPipe to generate batch of examples from a tuple
-    of ``torch.Tensor``s.
+    r"""Implements a source DataPipe to generate batch of examples from a
+    tuple of ``torch.Tensor``s.
 
     Args:
     ----
@@ -176,6 +176,6 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
 
     @property
     def random_seed(self) -> int:
-        r"""``int``: The random seed used to initialize the pseudo random
-        generator."""
+        r"""``int``: The random seed used to initialize the pseudo
+        random generator."""
         return self._generator.initial_seed()

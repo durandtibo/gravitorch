@@ -1,4 +1,5 @@
-r"""This module implements some utility functions to use ``torch.Tensor``s."""
+r"""This module implements some utility functions to use
+``torch.Tensor``s."""
 
 from __future__ import annotations
 
@@ -283,7 +284,8 @@ def recursive_transpose(data: T, dim0: int, dim1: int) -> T:
 
 
 def recursive_from_numpy(data: Any) -> Any:
-    r"""Comverts recursively all the ``numpy.ndarray``s to ``torch.Tensor``s.
+    r"""Comverts recursively all the ``numpy.ndarray``s to
+    ``torch.Tensor``s.
 
     The current implementation supports the following types:
 

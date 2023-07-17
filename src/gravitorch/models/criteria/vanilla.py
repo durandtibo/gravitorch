@@ -1,5 +1,5 @@
-r"""This module defines a criterion wrapper to make PyTorch criteria compatible
-with ``gravitorch.models.VanillaModel``."""
+r"""This module defines a criterion wrapper to make PyTorch criteria
+compatible with ``gravitorch.models.VanillaModel``."""
 
 __all__ = ["VanillaLoss"]
 
@@ -14,7 +14,8 @@ from gravitorch.nn import setup_module
 
 class VanillaLoss(Module):
     r"""Implements a wrapper to make compatible most of the PyTorch loss
-    functions (a.k.a. criterion) with ``gravitorch.models.VanillaModel``.
+    functions (a.k.a. criterion) with
+    ``gravitorch.models.VanillaModel``.
 
     This wrapper assumes the loss function has two inputs:
 

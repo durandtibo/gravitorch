@@ -140,7 +140,8 @@ class ModuleSummary:
 
     @property
     def num_learnable_parameters(self) -> int:
-        r"""``int``: The number of learnable parameters in this module."""
+        r"""``int``: The number of learnable parameters in this
+        module."""
         return num_learnable_parameters(self._module)
 
 

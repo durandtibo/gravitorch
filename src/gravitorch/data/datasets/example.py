@@ -148,7 +148,8 @@ class ExampleDataset(Dataset[T]):
 
 
 class ExampleDatasetEqualityOperator(BaseEqualityOperator[ExampleDataset]):
-    r"""Implements an equality operator for ``ExampleDataset`` objects."""
+    r"""Implements an equality operator for ``ExampleDataset``
+    objects."""
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, self.__class__)

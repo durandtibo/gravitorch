@@ -34,9 +34,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def datasource(self) -> BaseDataSource:
-        r"""``BaseDataSource``: The datasource object associated to
-        the engine.
-        """
+        r"""``BaseDataSource``: The datasource object associated to the
+        engine."""
 
     @property
     @abstractmethod
@@ -61,8 +60,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def lr_scheduler(self) -> LRSchedulerType | None:
-        r"""``LRSchedulerType`` or ``None``: The learning rate (LR) scheduler
-        if it is defined, otherwise ``None``."""
+        r"""``LRSchedulerType`` or ``None``: The learning rate (LR)
+        scheduler if it is defined, otherwise ``None``."""
 
     @property
     @abstractmethod
@@ -77,8 +76,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @property
     @abstractmethod
     def optimizer(self) -> Optimizer | None:
-        r"""``torch.nn.Optimizer`` or ``None``: The optimizer to train the
-        model.
+        r"""``torch.nn.Optimizer`` or ``None``: The optimizer to train
+        the model.
 
         It can be ``None`` if the model is not trained.
         """

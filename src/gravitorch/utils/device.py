@@ -1,4 +1,5 @@
-r"""This module contains some utility functions around ``torch.device``."""
+r"""This module contains some utility functions around
+``torch.device``."""
 
 from __future__ import annotations
 

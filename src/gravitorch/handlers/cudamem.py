@@ -25,8 +25,8 @@ logger = logging.getLogger(__name__)
 
 
 class EpochCudaMemoryMonitor(BaseHandler):
-    r"""Implements a handler to monitor the CUDA memory usage every ``freq``
-    epochs.
+    r"""Implements a handler to monitor the CUDA memory usage every
+    ``freq`` epochs.
 
     Args:
     ----
@@ -79,8 +79,8 @@ class EpochCudaMemoryMonitor(BaseHandler):
 
 
 class IterationCudaMemoryMonitor(BaseHandler):
-    r"""Implements a handler to monitor the CUDA memory usage every ``freq``
-    iterations.
+    r"""Implements a handler to monitor the CUDA memory usage every
+    ``freq`` iterations.
 
     Args:
     ----
@@ -135,7 +135,8 @@ class IterationCudaMemoryMonitor(BaseHandler):
 
 
 class EpochCudaEmptyCache(BaseHandler):
-    r"""Implements a handler to empty the CUDA cache every ``freq`` epochs.
+    r"""Implements a handler to empty the CUDA cache every ``freq``
+    epochs.
 
     Args:
     ----
@@ -179,7 +180,8 @@ class EpochCudaEmptyCache(BaseHandler):
 
 
 class IterationCudaEmptyCache(BaseHandler):
-    r"""Implements a handler to empty the CUDA cache every ``freq`` iterations.
+    r"""Implements a handler to empty the CUDA cache every ``freq``
+    iterations.
 
     Args:
     ----

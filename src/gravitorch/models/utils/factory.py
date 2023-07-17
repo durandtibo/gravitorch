@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 
 
 def attach_module_to_engine(module: Module, engine: BaseEngine) -> None:
-    r"""Attaches a module to the engine if the module has the ``attach`` method.
+    r"""Attaches a module to the engine if the module has the ``attach``
+    method.
 
     This function does nothing if the module does not have a
     ``attach`` method.

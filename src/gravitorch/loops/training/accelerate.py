@@ -31,8 +31,8 @@ logger = logging.getLogger(__name__)
 
 
 class AccelerateTrainingLoop(BaseBasicTrainingLoop):
-    r"""Implements a training loop that uses ``accelerate.Accelerator`` to train
-    a model.
+    r"""Implements a training loop that uses ``accelerate.Accelerator``
+    to train a model.
 
     Args:
     ----

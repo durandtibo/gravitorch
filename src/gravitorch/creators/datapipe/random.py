@@ -16,8 +16,9 @@ logger = logging.getLogger(__name__)
 
 
 class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
-    r"""Implements an ``IterDataPipe`` creator to create an ``IterDataPipe``
-    object where its random seed is controlled by an engine.
+    r"""Implements an ``IterDataPipe`` creator to create an
+    ``IterDataPipe`` object where its random seed is controlled by an
+    engine.
 
     Given an engine, the random seed is set based on the engine random
     seed, the current epoch value, the maximum number of epochs and

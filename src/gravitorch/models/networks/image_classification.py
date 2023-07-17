@@ -1,5 +1,6 @@
-r"""This module implements a wrapper network to make image classification
-network from ``torchvision`` compatible with ``VanillaModel``."""
+r"""This module implements a wrapper network to make image
+classification network from ``torchvision`` compatible with
+``VanillaModel``."""
 
 __all__ = ["ImageClassificationNetwork"]
 
@@ -15,8 +16,8 @@ from gravitorch.nn.utils.module_helpers import get_module_device
 
 
 class ImageClassificationNetwork(Module):
-    r"""Implements a wrapper network for image classification network from
-    ``torchvision``.
+    r"""Implements a wrapper network for image classification network
+    from ``torchvision``.
 
     This network assumes that the input shape is ``224*224``.
 

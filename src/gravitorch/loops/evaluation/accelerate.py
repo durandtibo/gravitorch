@@ -30,8 +30,8 @@ logger = logging.getLogger(__name__)
 
 
 class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
-    r"""Implements an evaluation loop that uses ``accelerate.Accelerator`` to
-    evaluate a model.
+    r"""Implements an evaluation loop that uses
+    ``accelerate.Accelerator`` to evaluate a model.
 
     Args:
     ----

@@ -427,8 +427,13 @@ def str_pretty_dict(data: dict[str, Any], sorted_keys: bool = False, indent: int
 
 
 def str_torch_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: int = 2) -> str:
-    r"""Computes a torch-like (``torch.nn.Module``) string representation of a
-    mapping.
+    r"""Computes a torch-like (``torch.nn.Module``) string representation
+    of a mapping.
+
+    This function was designed for flat dictionary. If you have a
+    nested dictionary, you may consider other functions. Note that
+    this function works for nested dict but the output may not be
+    nice.
 
     Args:
     ----
@@ -459,8 +464,8 @@ def str_torch_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: i
 
 
 def str_torch_sequence(sequence: Sequence, num_spaces: int = 2) -> str:
-    r"""Computes a torch-like (``torch.nn.Module``) string representation of a
-    sequence.
+    r"""Computes a torch-like (``torch.nn.Module``) string representation
+    of a sequence.
 
     Args:
     ----

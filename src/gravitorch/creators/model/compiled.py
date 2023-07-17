@@ -15,7 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class CompiledModelCreator(BaseModelCreator):
-    r"""Implements a model creator that compiles a model with ``torch.compile``.
+    r"""Implements a model creator that compiles a model with
+    ``torch.compile``.
 
     Args:
     ----

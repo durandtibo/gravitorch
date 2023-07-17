@@ -128,7 +128,8 @@ def sync_reduce(variable: Union[Tensor, int, float], op: str) -> Union[Tensor, i
 
 
 def sync_reduce_(tensor: Tensor, op: str) -> Tensor:
-    r"""In-place version of ``sync_reduce`` but it works only for a tensor.
+    r"""In-place version of ``sync_reduce`` but it works only for a
+    tensor.
 
     Args:
     ----

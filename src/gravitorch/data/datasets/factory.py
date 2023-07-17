@@ -1,5 +1,5 @@
-r"""This module defines some functionalities to instantiate dynamically a
-``torch.utils.data.Dataset`` object from its configuration."""
+r"""This module defines some functionalities to instantiate dynamically
+a ``torch.utils.data.Dataset`` object from its configuration."""
 
 from __future__ import annotations
 

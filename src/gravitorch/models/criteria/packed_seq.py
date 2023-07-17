@@ -1,5 +1,6 @@
-r"""This module defines a criterion wrapper to make PyTorch criteria compatible
-with ``gravitorch.models.VanillaModel`` and packed sequences."""
+r"""This module defines a criterion wrapper to make PyTorch criteria
+compatible with ``gravitorch.models.VanillaModel`` and packed
+sequences."""
 
 __all__ = ["PackedSequenceLoss"]
 
