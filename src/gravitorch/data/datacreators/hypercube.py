@@ -211,12 +211,10 @@ def create_hypercube_vertex(
             f"The standard deviation of the Gaussian noise ({noise_std}) has to be "
             "greater or equal than 0"
         )
-
     # Generate the target of each example.
     targets = torch.randint(0, num_classes, (num_examples,), generator=generator)
     # Generate the features. Each class should be a vertex of the hyper-cube
     # plus Gaussian noise.
     features = torch.randn(num_examples, feature_size, generator=generator).mul(noise_std)
     features.scatter_add_(1, targets.view(num_examples, 1), torch.ones(num_examples, 1))
-
     return {ct.TARGET: targets, ct.INPUT: features}
