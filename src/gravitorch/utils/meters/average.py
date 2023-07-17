@@ -60,8 +60,8 @@ class AverageMeter:
 
     @property
     def total(self) -> float:
-        r"""``float``: The total of the values added to the meter since the
-        last reset."""
+        r"""``float``: The total of the values added to the meter since
+        the last reset."""
         return self._total
 
     def all_reduce(self) -> AverageMeter:

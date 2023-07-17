@@ -365,8 +365,8 @@ def get_module_name(layer: nn.Module) -> str:
 
 
 def is_batch_first(module: nn.Module) -> bool:
-    r"""Indicates if the input and output tensors are provided as ``(batch_size,
-    seq_len, *)`` instead of ``(seq_len, batch_size,.
+    r"""Indicates if the input and output tensors are provided as
+    ``(batch_size, seq_len, *)`` instead of ``(seq_len, batch_size,.
 
     *)``.
 

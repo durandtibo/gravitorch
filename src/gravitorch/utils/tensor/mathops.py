@@ -1,4 +1,5 @@
-r"""This module implements some utility functions to use ``torch.Tensor``s."""
+r"""This module implements some utility functions to use
+``torch.Tensor``s."""
 
 from __future__ import annotations
 

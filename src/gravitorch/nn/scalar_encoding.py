@@ -69,8 +69,8 @@ class AsinhScalarEncoder(Module):
         max_scale: float,
         learnable: bool = False,
     ) -> AsinhScalarEncoder:
-        r"""Creates a `AsinhScalarEncoder`` where the scales are uniformly
-        initialized in the specified scale range.
+        r"""Creates a `AsinhScalarEncoder`` where the scales are
+        uniformly initialized in the specified scale range.
 
         Args:
         ----
@@ -110,7 +110,8 @@ class AsinhScalarEncoder(Module):
         max_scale: float,
         learnable: bool = False,
     ) -> AsinhScalarEncoder:
-        r"""Creates a `AsinhScalarEncoder`` where the scales are evenly spaced.
+        r"""Creates a `AsinhScalarEncoder`` where the scales are evenly
+        spaced.
 
         Args:
         ----
@@ -150,8 +151,8 @@ class AsinhScalarEncoder(Module):
         max_scale: float,
         learnable: bool = False,
     ) -> AsinhScalarEncoder:
-        r"""Creates a `AsinhScalarEncoder`` where the scales are evenly spaced
-        in the log space.
+        r"""Creates a `AsinhScalarEncoder`` where the scales are evenly
+        spaced in the log space.
 
         Args:
         ----
@@ -257,8 +258,8 @@ class CosSinScalarEncoder(Module):
         max_frequency: float,
         learnable: bool = True,
     ) -> CosSinScalarEncoder:
-        r"""Creates a `CosSinScalarEncoder`` where the frequencies are uniformly
-        initialized in a frequency range.
+        r"""Creates a `CosSinScalarEncoder`` where the frequencies are
+        uniformly initialized in a frequency range.
 
         Args:
         ----
@@ -304,8 +305,8 @@ class CosSinScalarEncoder(Module):
         max_abs_value: float,
         learnable: bool = True,
     ) -> CosSinScalarEncoder:
-        r"""Creates a `CosSinScalarEncoder`` where the frequencies are uniformly
-        initialized for a given value range.
+        r"""Creates a `CosSinScalarEncoder`` where the frequencies are
+        uniformly initialized for a given value range.
 
         Args:
         ----
@@ -340,8 +341,8 @@ class CosSinScalarEncoder(Module):
         max_frequency: float,
         learnable: bool = True,
     ) -> CosSinScalarEncoder:
-        r"""Creates a `CosSinScalarEncoder`` where the frequencies are evenly
-        spaced in a frequency range.
+        r"""Creates a `CosSinScalarEncoder`` where the frequencies are
+        evenly spaced in a frequency range.
 
         Args:
         ----
@@ -386,8 +387,8 @@ class CosSinScalarEncoder(Module):
         max_abs_value: float,
         learnable: bool = True,
     ) -> CosSinScalarEncoder:
-        r"""Creates a `CosSinScalarEncoder`` where the frequencies are evenly
-        spaced given a value range.
+        r"""Creates a `CosSinScalarEncoder`` where the frequencies are
+        evenly spaced given a value range.
 
         Args:
         ----
@@ -422,8 +423,8 @@ class CosSinScalarEncoder(Module):
         max_frequency: float,
         learnable: bool = True,
     ) -> CosSinScalarEncoder:
-        r"""Creates a `CosSinScalarEncoder`` where the frequencies are evenly
-        spaced in the log space in a frequency range.
+        r"""Creates a `CosSinScalarEncoder`` where the frequencies are
+        evenly spaced in the log space in a frequency range.
 
         Args:
         ----
@@ -470,8 +471,8 @@ class CosSinScalarEncoder(Module):
         max_abs_value: float,
         learnable: bool = True,
     ) -> CosSinScalarEncoder:
-        r"""Creates a `CosSinScalarEncoder`` where the frequencies are evenly
-        spaced in the log space given a value range.
+        r"""Creates a `CosSinScalarEncoder`` where the frequencies are
+        evenly spaced in the log space given a value range.
 
         Args:
         ----

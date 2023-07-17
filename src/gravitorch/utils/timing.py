@@ -46,8 +46,8 @@ NUM_BATCHES = "num_batches"
 
 
 def sync_perf_counter() -> float:
-    r"""Extension of ``time.perf_counter`` that waits for all kernels in all
-    streams on a CUDA device to complete.
+    r"""Extension of ``time.perf_counter`` that waits for all kernels in
+    all streams on a CUDA device to complete.
 
     Returns
     -------

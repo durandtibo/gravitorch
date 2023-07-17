@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 
 
 class EpochOptimizerMonitor(BaseHandler):
-    r"""Implements a handler to monitor the optimizer every ``freq`` epochs.
+    r"""Implements a handler to monitor the optimizer every ``freq``
+    epochs.
 
     Args:
     ----
@@ -92,7 +93,8 @@ class EpochOptimizerMonitor(BaseHandler):
 
 
 class IterationOptimizerMonitor(BaseHandler):
-    r"""Implements a handler to monitor the optimizer every ``freq`` iterations.
+    r"""Implements a handler to monitor the optimizer every ``freq``
+    iterations.
 
     Args:
     ----

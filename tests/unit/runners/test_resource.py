@@ -9,8 +9,8 @@ from gravitorch.runners import BaseResourceRunner
 
 
 class FakeResourceRunner(BaseResourceRunner):
-    r"""Defines a fake runner to test ``BaseResourceRunner`` because it has an
-    abstract method."""
+    r"""Defines a fake runner to test ``BaseResourceRunner`` because it
+    has an abstract method."""
 
     def _run(self) -> int:
         return 42

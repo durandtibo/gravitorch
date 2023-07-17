@@ -1,5 +1,5 @@
-"""This module defines some classes to make PyTorch metric compatible with
-``VanillaModel``."""
+"""This module defines some classes to make PyTorch metric compatible
+with ``VanillaModel``."""
 
 __all__ = ["PaddedSequenceMetric", "VanillaMetric"]
 

@@ -170,7 +170,8 @@ def constant(
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
-    r"""Initializes the parameters of the module with a constant ``value``.
+    r"""Initializes the parameters of the module with a constant
+    ``value``.
 
     Args:
     ----

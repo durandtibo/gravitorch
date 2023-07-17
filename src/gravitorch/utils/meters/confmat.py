@@ -47,8 +47,7 @@ class BaseConfusionMatrix:
     @property
     def matrix(self) -> Tensor:
         r"""``torch.Tensor`` of type long and shape ``(num_classes,
-        num_classes)``: The confusion matrix values.
-        """
+        num_classes)``: The confusion matrix values."""
         return self._matrix
 
     @property

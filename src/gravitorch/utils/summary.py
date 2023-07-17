@@ -66,7 +66,8 @@ def concise_summary(value: Any, num_spaces: int = 2, max_length: int = 5) -> str
 
 
 def _concise_summary_tensor(tensor: Tensor | np.ndarray) -> str:
-    r"""Creates a concise summary of a ``torch.Tensor`` or ``numpy.ndarray``.
+    r"""Creates a concise summary of a ``torch.Tensor`` or
+    ``numpy.ndarray``.
 
     Args:
     ----

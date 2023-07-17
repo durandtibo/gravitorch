@@ -16,8 +16,8 @@ from torch.nn import Module, Parameter
 
 
 class BaseAlphaActivation(Module):
-    r"""Defines a base class to implement an activation layer with a learnable
-    parameter ``alpha``.
+    r"""Defines a base class to implement an activation layer with a
+    learnable parameter ``alpha``.
 
     When called without arguments, the activation layer uses a single
     parameter ``alpha`` across all input channels. If called with a

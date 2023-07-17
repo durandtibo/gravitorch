@@ -37,7 +37,8 @@ def is_parameter(value: Any) -> bool:
 
 
 def is_uninitialized_parameter(value: Any) -> bool:
-    r"""Indicates if the input value is a ``torch.nn.UninitializedParameter``.
+    r"""Indicates if the input value is a
+    ``torch.nn.UninitializedParameter``.
 
     Args:
     ----

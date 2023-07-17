@@ -55,8 +55,8 @@ class CacheDataCreator(BaseDataCreator[T]):
 
     @property
     def deepcopy(self) -> bool:
-        r"""``bool``: Indicates if a deepcopy of the data is done before to
-        return the data."""
+        r"""``bool``: Indicates if a deepcopy of the data is done before
+        to return the data."""
         return self._deepcopy
 
     def create(self, engine: BaseEngine | None = None) -> T:

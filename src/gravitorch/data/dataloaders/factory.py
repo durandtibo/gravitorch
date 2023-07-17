@@ -70,8 +70,8 @@ def create_dataloader2(
     datapipe_adapter_fn: Iterable[Adapter | dict] | Adapter | dict | None = None,
     reading_service: ReadingServiceInterface | dict | None = None,
 ) -> DataLoader2:
-    r"""Instantiates a ``torchdata.dataloader2.DataLoader2`` object
-    from a ``DataPipe`` or its configuration.
+    r"""Instantiates a ``torchdata.dataloader2.DataLoader2`` object from
+    a ``DataPipe`` or its configuration.
 
     Args:
         datapipe: Specifies the DataPipe or its configuration.

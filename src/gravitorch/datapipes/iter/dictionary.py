@@ -11,8 +11,8 @@ from gravitorch.utils.mapping import convert_to_dict_of_lists, convert_to_list_o
 
 
 class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
-    r"""Implements an ``IterDataPipe`` to convert a sequence of mappings to a
-    dictionary of lists.
+    r"""Implements an ``IterDataPipe`` to convert a sequence of mappings
+    to a dictionary of lists.
 
     Args:
     ----
@@ -41,8 +41,8 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
 
 
 class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
-    r"""Implements an ``IterDataPipe`` to convert a mapping of sequences to a
-    list of dictionaries.
+    r"""Implements an ``IterDataPipe`` to convert a mapping of sequences
+    to a list of dictionaries.
 
     Args:
     ----

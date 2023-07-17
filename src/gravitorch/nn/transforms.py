@@ -27,32 +27,32 @@ from gravitorch.utils.tensor.mathops import isymlog, safeexp, safelog, symlog
 
 
 class Asinh(Module):
-    r"""Implements a ``torch.nn.Module`` to compute the inverse hyperbolic sine
-    (arcsinh) of the elements."""
+    r"""Implements a ``torch.nn.Module`` to compute the inverse
+    hyperbolic sine (arcsinh) of the elements."""
 
     def forward(self, tensor: Tensor) -> Tensor:
         return tensor.asinh()
 
 
 class Sinh(Module):
-    r"""Implements a ``torch.nn.Module`` to compute the hyperbolic sine (sinh)
-    of the elements."""
+    r"""Implements a ``torch.nn.Module`` to compute the hyperbolic sine
+    (sinh) of the elements."""
 
     def forward(self, tensor: Tensor) -> Tensor:
         return tensor.sinh()
 
 
 class Log1p(Module):
-    r"""Implements a ``torch.nn.Module`` to compute the natural logarithm of
-    ``(1 + input)``."""
+    r"""Implements a ``torch.nn.Module`` to compute the natural
+    logarithm of ``(1 + input)``."""
 
     def forward(self, tensor: Tensor) -> Tensor:
         return tensor.log1p()
 
 
 class Mul(Module):
-    r"""Implements a ``torch.nn.Module`` to multiply the input tensor with a
-    float scalar value.
+    r"""Implements a ``torch.nn.Module`` to multiply the input tensor
+    with a float scalar value.
 
     Args:
         value (float): Specifies the value.
@@ -85,8 +85,8 @@ class Mul(Module):
 
 
 class OnePolynomial(Module):
-    r"""Implements a ``torch.nn.Module`` to compute a polynomial transformation
-    with a single term.
+    r"""Implements a ``torch.nn.Module`` to compute a polynomial
+    transformation with a single term.
 
     The equation is ``alpha * x^gamma + beta`` where ``x`` is the
     module input tensor.
@@ -167,8 +167,8 @@ class OnePolynomial(Module):
 
 
 class Safeexp(Module):
-    r"""Implements a ``torch.nn.Module`` to compute the exponential of the
-    elements.
+    r"""Implements a ``torch.nn.Module`` to compute the exponential of
+    the elements.
 
     The values that are higher than the specified minimum value are
     set to this maximum value. Using a not too large positive value
@@ -198,8 +198,8 @@ class Safeexp(Module):
 
 
 class Safelog(Module):
-    r"""Implements a ``torch.nn.Module`` to compute the logarithm natural of the
-    elements.
+    r"""Implements a ``torch.nn.Module`` to compute the logarithm natural
+    of the elements.
 
     The values that are lower than the specified minimum value are set
     to this minimum value. Using a small positive value leads to an
@@ -253,24 +253,24 @@ class Squeeze(Module):
 
 
 class Symlog(Module):
-    r"""Implements a ``torch.nn.Module`` to compute the symmetric logarithm
-    natural of the elements."""
+    r"""Implements a ``torch.nn.Module`` to compute the symmetric
+    logarithm natural of the elements."""
 
     def forward(self, tensor: Tensor) -> Tensor:
         return symlog(tensor)
 
 
 class Isymlog(Module):
-    r"""Implements a ``torch.nn.Module`` to compute the inverse symmetric
-    logarithm natural of the elements."""
+    r"""Implements a ``torch.nn.Module`` to compute the inverse
+    symmetric logarithm natural of the elements."""
 
     def forward(self, tensor: Tensor) -> Tensor:
         return isymlog(tensor)
 
 
 class ToBinaryLabel(Module):
-    r"""Implements a ``torch.nn.Module`` to compute binary labels from scores by
-    thresholding.
+    r"""Implements a ``torch.nn.Module`` to compute binary labels from
+    scores by thresholding.
 
     Args:
     ----
@@ -284,7 +284,8 @@ class ToBinaryLabel(Module):
 
     @property
     def threshold(self) -> float:
-        r"""``float``: The threshold used to compute the binary label."""
+        r"""``float``: The threshold used to compute the binary
+        label."""
         return self._threshold
 
     def extra_repr(self) -> str:
@@ -349,8 +350,8 @@ class ToLong(Module):
 
 
 class ToCategoricalLabel(Module):
-    r"""Implements a ``torch.nn.Module`` to compute categorical labels from
-    scores."""
+    r"""Implements a ``torch.nn.Module`` to compute categorical labels
+    from scores."""
 
     def forward(self, scores: Tensor) -> Tensor:
         r"""Computes categorical labels from scores.
@@ -372,8 +373,8 @@ class ToCategoricalLabel(Module):
 
 
 class SequenceToBatch(Module):
-    r"""Implements a ``torch.nn.Module`` to convert a batch of sequences to a
-    batch i.e. remove the sequence dimension.
+    r"""Implements a ``torch.nn.Module`` to convert a batch of sequences
+    to a batch i.e. remove the sequence dimension.
 
     This module supports batch first and sequence first format.
     """

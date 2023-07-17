@@ -104,7 +104,8 @@ class MinScalarComparator(BaseComparator[Union[float, int]]):
 
 
 class ComparatorAllCloseOperator(BaseAllCloseOperator[BaseComparator]):
-    r"""Implements an allclose operator for ``BaseComparator`` objects."""
+    r"""Implements an allclose operator for ``BaseComparator``
+    objects."""
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, self.__class__)
@@ -135,7 +136,8 @@ class ComparatorAllCloseOperator(BaseAllCloseOperator[BaseComparator]):
 
 
 class ComparatorEqualityOperator(BaseEqualityOperator[BaseComparator]):
-    r"""Implements an equality operator for ``BaseComparator`` objects."""
+    r"""Implements an equality operator for ``BaseComparator``
+    objects."""
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, self.__class__)

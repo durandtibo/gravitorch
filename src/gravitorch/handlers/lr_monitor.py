@@ -18,8 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 class EpochLRMonitor(BaseHandler):
-    r"""Implements a handler to monitor the learning rate (LR) of an optimizer
-    every ``freq`` epochs.
+    r"""Implements a handler to monitor the learning rate (LR) of an
+    optimizer every ``freq`` epochs.
 
     You should use the ``EpochOptimizerMonitor`` handler if you want
     to monitor more information about the optimizer.
@@ -74,8 +74,8 @@ class EpochLRMonitor(BaseHandler):
 
 
 class IterationLRMonitor(BaseHandler):
-    r"""Implements a handler to monitor the learning rate (LR) of an optimizer
-    every ``freq`` iterations.
+    r"""Implements a handler to monitor the learning rate (LR) of an
+    optimizer every ``freq`` iterations.
 
     You should use the ``IterationOptimizerMonitor`` handler if you
     want to monitor more information about the optimizer.

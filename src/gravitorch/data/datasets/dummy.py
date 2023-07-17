@@ -84,7 +84,8 @@ class DummyMultiClassDataset(Dataset):
 
     @property
     def num_examples(self) -> int:
-        r"""``int``: The number of examples when the data are created."""
+        r"""``int``: The number of examples when the data are
+        created."""
         return self._data_creator.num_examples
 
     @property

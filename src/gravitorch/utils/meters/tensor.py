@@ -17,7 +17,8 @@ from gravitorch.utils.tensor.flat import LazyFlattedTensor
 
 
 class MeanTensorMeter:
-    r"""Implements a meter to compute the mean value of ``torch.Tensor``s.
+    r"""Implements a meter to compute the mean value of
+    ``torch.Tensor``s.
 
     The mean value is updated by keeping local variables ``total``
     and ``count``. ``count`` tracks the number of values, and
@@ -447,8 +448,8 @@ class ExtremaTensorMeter:
 
 
 class TensorMeter:
-    r"""Defines a class to compute and store the sum, average, maximum and
-    minimum values of ``torch.Tensor``s.
+    r"""Defines a class to compute and store the sum, average, maximum
+    and minimum values of ``torch.Tensor``s.
 
     This meter has a constant space complexity.
 

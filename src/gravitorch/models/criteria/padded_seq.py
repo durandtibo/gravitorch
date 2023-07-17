@@ -1,5 +1,6 @@
-r"""This module defines a criterion wrapper to make PyTorch criteria compatible
-with ``gravitorch.models.VanillaModel`` and padded sequences."""
+r"""This module defines a criterion wrapper to make PyTorch criteria
+compatible with ``gravitorch.models.VanillaModel`` and padded
+sequences."""
 
 __all__ = ["PaddedSequenceLoss"]
 
