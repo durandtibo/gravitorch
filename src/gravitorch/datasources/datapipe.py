@@ -6,7 +6,7 @@ import logging
 from collections.abc import Iterable
 from typing import Any, TypeVar
 
-from arctix import summary
+from coola import summary
 from torch.utils.data import IterDataPipe
 
 from gravitorch.creators.datapipe.base import (

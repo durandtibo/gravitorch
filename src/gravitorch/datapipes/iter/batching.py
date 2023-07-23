@@ -6,7 +6,7 @@ import logging
 from collections.abc import Hashable, Iterator, Sequence
 
 import torch
-from arctix import summary
+from coola import summary
 from torch import Tensor
 from torch.utils.data import IterDataPipe
 
