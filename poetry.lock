@@ -82,20 +82,6 @@ files = [
 ]
 
 [[package]]
-name = "arctix"
-version = "0.0.1"
-description = "A library to get a text summary of nested objects"
-optional = false
-python-versions = ">=3.9,<4.0"
-files = [
-    {file = "arctix-0.0.1-py3-none-any.whl", hash = "sha256:9436f54fa1a4dae752351f23ec0b166bc4c079ab950ea4e8d84de36fd78471f2"},
-    {file = "arctix-0.0.1.tar.gz", hash = "sha256:21a82f152b87ad3880ff5249854bdeb3085d29980236d086d46ecce72416d37d"},
-]
-
-[package.extras]
-all = ["numpy (>=1.20,<2.0)", "torch (>=1.10,<3.0)"]
-
-[[package]]
 name = "argon2-cffi"
 version = "21.3.0"
 description = "The secure Argon2 password hashing algorithm."
@@ -651,13 +637,13 @@ test-no-images = ["pytest", "pytest-cov", "wurlitzer"]
 
 [[package]]
 name = "coola"
-version = "0.0.14"
+version = "0.0.15"
 description = "A library to check if two complex/nested objects are equal or not"
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "coola-0.0.14-py3-none-any.whl", hash = "sha256:4e68b7051f3307a79e80922be5e9d8cfaabf992b76486fecafe3b43b56a1e85e"},
-    {file = "coola-0.0.14.tar.gz", hash = "sha256:b452e1be5d8e2d895f0f1b0debfa07f5db3517785799dd86b96b1ac809c7e9de"},
+    {file = "coola-0.0.15-py3-none-any.whl", hash = "sha256:313530101d31313d981bf3282e1d998b0d902fa566fdd369ed7d8050eeeeb93d"},
+    {file = "coola-0.0.15.tar.gz", hash = "sha256:b0345af37fe9ebac459b5874d43c578c7d2c6c7389470a4a68f61b8e35165406"},
 ]
 
 [package.extras]
@@ -800,13 +786,13 @@ files = [
 
 [[package]]
 name = "dill"
-version = "0.3.6"
-description = "serialize all of python"
+version = "0.3.7"
+description = "serialize all of Python"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "dill-0.3.6-py3-none-any.whl", hash = "sha256:a07ffd2351b8c678dfc4a856a3005f8067aea51d6ba6c700796a4d9e280f39f0"},
-    {file = "dill-0.3.6.tar.gz", hash = "sha256:e5db55f3687856d8fbdab002ed78544e1c4559a130302693d839dfe8f93f2373"},
+    {file = "dill-0.3.7-py3-none-any.whl", hash = "sha256:76b122c08ef4ce2eedcd4d1abd8e641114bfc6c2867f49f3c41facf65bf19f5e"},
+    {file = "dill-0.3.7.tar.gz", hash = "sha256:cc1c8b182eb3013e24bd475ff2e9295af86c1a38eb1aff128dac8962a9ce3c03"},
 ]
 
 [package.extras]
@@ -3757,4 +3743,4 @@ vision = ["pillow", "torchvision"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "9648a0fb92f08bd42726268d4a498d5f3620ef59e9591f50511b3579e0a3fa12"
+content-hash = "398e61043f8cd9ac15ed5e522dea030cad08fedd80a10d4f9a4a93e00d66788a"

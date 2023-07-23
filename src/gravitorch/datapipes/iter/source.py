@@ -6,7 +6,7 @@ import copy
 import logging
 from collections.abc import Iterable, Iterator
 
-from arctix import summary
+from coola import summary
 from torch.utils.data import IterDataPipe
 
 from gravitorch.utils.format import str_indent

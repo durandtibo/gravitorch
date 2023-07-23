@@ -5,7 +5,7 @@ __all__ = ["HypercubeVertexDataCreator", "create_hypercube_vertex"]
 import logging
 
 import torch
-from arctix import summary
+from coola import summary
 from torch import Tensor
 
 from gravitorch import constants as ct
