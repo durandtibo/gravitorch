@@ -37,8 +37,7 @@ class SequentialRunner(BaseRunner):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(str_torch_sequence(self._runners))}\n"
-            ")"
+            f"  {str_indent(str_torch_sequence(self._runners))}\n)"
         )
 
     def run(self) -> Any:
