@@ -19,7 +19,6 @@ from gravitorch.utils.exp_trackers.base import (
     NotActivatedExpTrackerError,
 )
 from gravitorch.utils.exp_trackers.steps import Step
-from gravitorch.utils.format import to_flat_dict
 from gravitorch.utils.imports import (
     check_tensorboard,
     is_matplotlib_available,
@@ -27,6 +26,7 @@ from gravitorch.utils.imports import (
     is_tensorboard_available,
 )
 from gravitorch.utils.io import load_json, save_json
+from gravitorch.utils.mapping import to_flat_dict
 from gravitorch.utils.path import sanitize_path
 
 if is_matplotlib_available():
