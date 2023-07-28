@@ -3,7 +3,12 @@ mappings/dicts."""
 
 from __future__ import annotations
 
-__all__ = ["convert_to_dict_of_lists", "convert_to_list_of_dicts", "get_first_value"]
+__all__ = [
+    "convert_to_dict_of_lists",
+    "convert_to_list_of_dicts",
+    "get_first_value",
+    "to_flat_dict",
+]
 
 from collections.abc import Hashable, Mapping, Sequence
 from typing import Any
@@ -116,3 +121,101 @@ def get_first_value(data: Mapping) -> Any:
     if not data:
         raise ValueError("First value cannot be returned because the mapping is empty")
     return data[next(iter(data))]
+
+
+def to_flat_dict(
+    data: Any,
+    prefix: str | None = None,
+    separator: str = ".",
+    to_str: type[object] | tuple[type[object], ...] | None = None,
+) -> dict[str, str | bool | int | float | None]:
+    r"""Computes a flat representation of a nested dict with the dot
+    format.
+
+    Args:
+    ----
+        data: Specifies the nested dict to flat.
+        prefix (str, optional): Specifies the prefix to use to
+            generate the name of the key. ``None`` means no prefix.
+            Default: ``None``
+        separator (str, optional): Specifies the separator to
+            concatenate keys of nested collections. Default: ``'.'``
+        to_str (tuple or ``None``, optional): Specifies the data types
+            which will not be flattened out, instead converted to
+            string. Default: ``None``
+
+    Returns:
+    -------
+        dict: The flatted data.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.mapping import to_flat_dict
+        >>> data = {
+        ...     "str": "def",
+        ...     "module": {
+        ...         "component": {
+        ...             "float": 3.5,
+        ...             "int": 2,
+        ...         },
+        ...     },
+        ... }
+        >>> to_flat_dict(data)
+        {
+            'module.component.float': 3.5,
+            'module.component.int': 2,
+            'str': 'def',
+        }
+        # Example with lists (also works with tuple)
+        >>> data = {
+        ...     "module": [[1, 2, 3], {"bool": True}],
+        ...     "str": "abc",
+        ... }
+        >>> to_flat_dict(data)
+        {
+            'module.0.0': 1,
+            'module.0.1': 2,
+            'module.0.2': 3,
+            'module.1.bool': True,
+            'str': 'abc',
+        }
+        # Example with lists with to_str=(list) (also works with tuple)
+        >>> data = {
+        ...     "module": [[1, 2, 3], {"bool": True}],
+        ...     "str": "abc",
+        ... }
+        >>> to_flat_dict(data)
+        {
+            'module': "[[1, 2, 3], {'bool': True}]",
+            'str': 'abc',
+        }
+    """
+    flat_dict = {}
+    to_str = to_str or ()
+    if isinstance(data, to_str):
+        flat_dict[prefix] = str(data)
+    elif isinstance(data, dict):
+        for key, value in data.items():
+            flat_dict.update(
+                to_flat_dict(
+                    value,
+                    prefix=f"{prefix}{separator}{key}" if prefix else key,
+                    separator=separator,
+                    to_str=to_str,
+                )
+            )
+    elif isinstance(data, (list, tuple)):
+        for i, value in enumerate(data):
+            flat_dict.update(
+                to_flat_dict(
+                    value,
+                    prefix=f"{prefix}{separator}{i}" if prefix else str(i),
+                    separator=separator,
+                    to_str=to_str,
+                )
+            )
+    else:
+        flat_dict[prefix] = data
+    return flat_dict

@@ -16,7 +16,7 @@ from tabulate import tabulate
 from torch.optim import Optimizer
 
 from gravitorch.utils.exp_trackers import Step, sanitize_metrics
-from gravitorch.utils.format import to_flat_dict
+from gravitorch.utils.mapping import to_flat_dict
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
