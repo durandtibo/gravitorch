@@ -74,4 +74,6 @@ def setup_module(module: Module | dict) -> Module:
             f"{str_target_object(module)}"
         )
         module = factory(**module)
+    if not isinstance(module, Module):
+        logger.warning(f"module is not a `torch.nn.Module` (received: {type(module)})")
     return module

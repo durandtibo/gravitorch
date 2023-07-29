@@ -65,4 +65,8 @@ def setup_loop_observer(loop_observer: Union[BaseLoopObserver, dict, None]) -> B
             f"{str_target_object(loop_observer)}"
         )
         loop_observer = BaseLoopObserver.factory(**loop_observer)
+    if not isinstance(loop_observer, BaseLoopObserver):
+        logger.warning(
+            f"loop_observer is not a `BaseLoopObserver` (received: {type(loop_observer)})"
+        )
     return loop_observer

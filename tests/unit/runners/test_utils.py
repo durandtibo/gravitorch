@@ -3,6 +3,7 @@ import logging
 from objectory import OBJECT_TARGET
 from pytest import LogCaptureFixture, mark
 from torch.backends import cudnn
+from torch.nn import Identity
 
 from gravitorch.runners import TrainingRunner
 from gravitorch.runners.utils import (
@@ -27,6 +28,12 @@ def test_setup_runner_dict() -> None:
         setup_runner({OBJECT_TARGET: "gravitorch.runners.TrainingRunner", "engine": {}}),
         TrainingRunner,
     )
+
+
+def test_setup_runner_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_runner({OBJECT_TARGET: "torch.nn.Identity"}), Identity)
+        assert caplog.messages
 
 
 #######################################

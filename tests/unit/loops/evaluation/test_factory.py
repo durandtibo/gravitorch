@@ -1,4 +1,8 @@
+import logging
+
 from objectory import OBJECT_TARGET
+from pytest import LogCaptureFixture
+from torch.nn import Identity
 
 from gravitorch.loops.evaluation import (
     VanillaEvaluationLoop,
@@ -40,3 +44,9 @@ def test_setup_evaluation_loop_dict() -> None:
         setup_evaluation_loop({OBJECT_TARGET: "gravitorch.loops.evaluation.VanillaEvaluationLoop"}),
         VanillaEvaluationLoop,
     )
+
+
+def test_setup_evaluation_loop_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_evaluation_loop({OBJECT_TARGET: "torch.nn.Identity"}), Identity)
+        assert caplog.messages

@@ -1,7 +1,11 @@
+from __future__ import annotations
+
+import logging
 from unittest.mock import Mock
 
 from objectory import OBJECT_TARGET
-from pytest import mark
+from pytest import LogCaptureFixture, mark
+from torch.nn import Identity
 
 from gravitorch.engines import BaseEngine
 from gravitorch.events import VanillaEventHandler
@@ -64,8 +68,15 @@ def test_setup_handler_from_object() -> None:
 
 
 def test_setup_handler_from_config() -> None:
-    handler = setup_handler(handler={OBJECT_TARGET: "gravitorch.handlers.EpochLRMonitor"})
-    assert isinstance(handler, EpochLRMonitor)
+    assert isinstance(
+        setup_handler(handler={OBJECT_TARGET: "gravitorch.handlers.EpochLRMonitor"}), EpochLRMonitor
+    )
+
+
+def test_setup_handler_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_handler({OBJECT_TARGET: "torch.nn.Identity"}), Identity)
+        assert caplog.messages
 
 
 ###############################################

@@ -94,7 +94,7 @@ def test_vanilla_lr_scheduler_creator_create_no_lr_scheduler_handler(
         optimizer = SGD(nn.Linear(4, 6).parameters(), lr=0.01)
         lr_scheduler = creator.create(engine=engine, optimizer=optimizer)
         assert isinstance(lr_scheduler, StepLR)
-        assert len(caplog.messages) == 1  # The user should see a warning
+        assert caplog.messages  # The user should see a warning
 
 
 def test_vanilla_lr_scheduler_creator_create_optimizer_none() -> None:

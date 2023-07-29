@@ -68,4 +68,8 @@ def setup_training_loop(training_loop: Union[BaseTrainingLoop, dict, None]) -> B
             f"{str_target_object(training_loop)}"
         )
         training_loop = BaseTrainingLoop.factory(**training_loop)
+    if not isinstance(training_loop, BaseTrainingLoop):
+        logger.warning(
+            f"training_loop is not a `BaseTrainingLoop` (received: {type(training_loop)})"
+        )
     return training_loop

@@ -1,6 +1,9 @@
+import logging
 from unittest.mock import Mock, patch
 
 from objectory import OBJECT_TARGET
+from pytest import LogCaptureFixture
+from torch.nn import Identity
 
 from gravitorch.engines import AlphaEngine, BaseEngine, is_engine_config, setup_engine
 
@@ -28,10 +31,11 @@ def test_setup_engine_object() -> None:
 
 
 def test_setup_engine_dict_mock() -> None:
-    source_mock = Mock(factory=Mock(return_value="abc"))
-    with patch("gravitorch.engines.base.BaseEngine", source_mock):
-        assert setup_engine({OBJECT_TARGET: "name"}) == "abc"
-        source_mock.factory.assert_called_once_with(_target_="name")
+    engine = Mock(spec=BaseEngine)
+    factory_mock = Mock(return_value=engine)
+    with patch("gravitorch.engines.base.BaseEngine.factory", factory_mock):
+        assert setup_engine({OBJECT_TARGET: "name"}) == engine
+        factory_mock.assert_called_once_with(_target_="name")
 
 
 def test_setup_engine_dict() -> None:
@@ -58,3 +62,9 @@ def test_setup_engine_dict() -> None:
         ),
         AlphaEngine,
     )
+
+
+def test_setup_engine_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_engine({OBJECT_TARGET: "torch.nn.Identity"}), Identity)
+        assert caplog.messages

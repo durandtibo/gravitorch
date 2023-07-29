@@ -72,4 +72,8 @@ def setup_evaluation_loop(
             f"{str_target_object(evaluation_loop)}"
         )
         evaluation_loop = BaseEvaluationLoop.factory(**evaluation_loop)
+    if not isinstance(evaluation_loop, BaseEvaluationLoop):
+        logger.warning(
+            f"evaluation_loop is not a `BaseEvaluationLoop` (received: {type(evaluation_loop)})"
+        )
     return evaluation_loop

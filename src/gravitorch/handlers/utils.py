@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "add_unique_event_handler",
     "is_handler_config",
@@ -7,7 +9,6 @@ __all__ = [
 ]
 
 import logging
-from typing import Union
 
 from objectory.utils import is_object_config
 
@@ -90,7 +91,7 @@ def is_handler_config(config: dict) -> bool:
     return is_object_config(config, BaseHandler)
 
 
-def setup_handler(handler: Union[BaseHandler, dict]) -> BaseHandler:
+def setup_handler(handler: BaseHandler | dict) -> BaseHandler:
     r"""Sets up a handler.
 
     Args:
@@ -101,18 +102,29 @@ def setup_handler(handler: Union[BaseHandler, dict]) -> BaseHandler:
     Returns:
     -------
         ``BaseHandler``: The handler.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import setup_handler
+        >>> handler = setup_handler({"_target_": "gravitorch.handlers.EpochLRMonitor"})
+        >>> handler
+        EpochLRMonitor(freq=1, event=train_epoch_started)
     """
     if isinstance(handler, dict):
         logger.info(
             f"Initializing a handler from its configuration... {str_target_object(handler)}"
         )
         handler = BaseHandler.factory(**handler)
+    if not isinstance(handler, BaseHandler):
+        logger.warning(f"handler is not a BaseHandler (received: {type(handler)})")
     return handler
 
 
 def setup_and_attach_handlers(
     engine: BaseEngine,
-    handlers: Union[tuple[Union[BaseHandler, dict], ...], list[Union[BaseHandler, dict]]],
+    handlers: tuple[BaseHandler | dict, ...] | list[BaseHandler | dict],
 ) -> list[BaseHandler]:
     r"""Sets up and attaches some handlers to the engine.
 
@@ -137,7 +149,7 @@ def setup_and_attach_handlers(
     return list_handlers
 
 
-def to_events(events: Union[str, tuple[str, ...], list[str]]) -> tuple[str, ...]:
+def to_events(events: str | tuple[str, ...] | list[str]) -> tuple[str, ...]:
     r"""Converts the input events to a tuple of events.
 
     If the input is a string (i.e. single event), it is converted to a
