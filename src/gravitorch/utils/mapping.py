@@ -128,7 +128,7 @@ def to_flat_dict(
     prefix: str | None = None,
     separator: str = ".",
     to_str: type[object] | tuple[type[object], ...] | None = None,
-) -> dict[str, str | bool | int | float | None]:
+) -> dict[str, Any]:
     r"""Computes a flat representation of a nested dict with the dot
     format.
 

@@ -1,6 +1,11 @@
+from __future__ import annotations
+
+import logging
 from unittest.mock import Mock, patch
 
 from objectory import OBJECT_TARGET
+from pytest import LogCaptureFixture
+from torch.nn import Identity
 
 from gravitorch.datasources import (
     BaseDataSource,
@@ -37,10 +42,10 @@ def test_setup_datasource_object() -> None:
 
 
 def test_setup_datasource_dict_mock() -> None:
-    source_mock = Mock(factory=Mock(return_value="abc"))
-    with patch("gravitorch.datasources.base.BaseDataSource", source_mock):
+    factory_mock = Mock(return_value="abc")
+    with patch("gravitorch.datasources.base.BaseDataSource.factory", factory_mock):
         assert setup_datasource({OBJECT_TARGET: "name"}) == "abc"
-        source_mock.factory.assert_called_once_with(_target_="name")
+        factory_mock.assert_called_once_with(_target_="name")
 
 
 def test_setup_datasource_dict() -> None:
@@ -63,6 +68,12 @@ def test_setup_datasource_dict() -> None:
         ),
         IterDataPipeCreatorDataSource,
     )
+
+
+def test_setup_datasource_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_datasource({OBJECT_TARGET: "torch.nn.Identity"}), Identity)
+        assert caplog.messages
 
 
 ##################################################

@@ -264,6 +264,8 @@ def setup_datasource(datasource: BaseDataSource | dict) -> BaseDataSource:
             f"{str_target_object(datasource)}"
         )
         datasource = BaseDataSource.factory(**datasource)
+    if not isinstance(datasource, BaseDataSource):
+        logger.warning(f"datasource is not a `BaseDataSource` (received: {type(datasource)})")
     return datasource
 
 

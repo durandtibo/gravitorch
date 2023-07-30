@@ -36,4 +36,6 @@ def setup_resource(resource: BaseResource | dict) -> BaseResource:
             f"Initializing a resource from its configuration... {str_target_object(resource)}"
         )
         resource = BaseResource.factory(**resource)
+    if not isinstance(resource, BaseResource):
+        logger.warning(f"resource is not a BaseResource (received: {type(resource)})")
     return resource

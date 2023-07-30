@@ -759,8 +759,17 @@ def setup_engine(engine: BaseEngine | dict) -> BaseEngine:
     Returns:
     -------
         ``BaseEngine``: The instantiated engine.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.engines import setup_engine
+        >>> engine = setup_engine({"_target_": "gravitorch.engines.AlphaEngine"})
     """
     if isinstance(engine, dict):
         logger.info(f"Initializing a engine from its configuration... {str_target_object(engine)}")
         engine = BaseEngine.factory(**engine)
+    if not isinstance(engine, BaseEngine):
+        logger.warning(f"engine is not a BaseEngine (received: {type(engine)})")
     return engine

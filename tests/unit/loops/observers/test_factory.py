@@ -1,6 +1,9 @@
+import logging
 from pathlib import Path
 
 from objectory import OBJECT_TARGET
+from pytest import LogCaptureFixture
+from torch.nn import Identity
 
 from gravitorch.loops.observers import (
     NoOpLoopObserver,
@@ -46,3 +49,9 @@ def test_setup_loop_observer_dict(tmp_path: Path) -> None:
         ),
         PyTorchBatchSaver,
     )
+
+
+def test_setup_loop_observer_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_loop_observer({OBJECT_TARGET: "torch.nn.Identity"}), Identity)
+        assert caplog.messages

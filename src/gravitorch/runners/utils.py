@@ -30,6 +30,8 @@ def setup_runner(runner: BaseRunner | dict) -> BaseRunner:
     if isinstance(runner, dict):
         logger.debug(f"Initializing a runner from its configuration... {str_target_object(runner)}")
         runner = BaseRunner.factory(**runner)
+    if not isinstance(runner, BaseRunner):
+        logger.warning(f"runner is not a BaseRunner (received: {type(runner)})")
     return runner
 
 
