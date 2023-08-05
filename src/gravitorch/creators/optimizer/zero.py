@@ -12,7 +12,7 @@ from tornado.util import import_object
 from gravitorch import constants as ct
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
 from gravitorch.engines.base import BaseEngine
-from gravitorch.handlers import ConsolidateOptimizerState
+from gravitorch.handlers.optimizer_state import ConsolidateOptimizerState
 from gravitorch.utils.format import str_indent, str_pretty_json
 
 logger = logging.getLogger(__name__)
