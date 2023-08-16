@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["CategoricalCrossEntropy"]
 
 import logging
-from typing import Union
 
 from torch import Tensor
 from torch.nn.functional import cross_entropy
@@ -29,7 +30,7 @@ class CategoricalCrossEntropy(BaseStateEpochMetric):
         self,
         mode: str,
         name: str = "cat_ce",
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or MeanErrorState())
 

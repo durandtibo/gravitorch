@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["BaseMLP", "AlphaMLP", "BetaMLP", "create_alpha_mlp", "create_beta_mlp"]
 
 from collections import OrderedDict
 from collections.abc import Sequence
-from typing import Optional
 
 import torch
 from objectory import OBJECT_TARGET
@@ -143,7 +144,7 @@ class AlphaMLP(BaseMLP):
         self,
         input_size: int,
         hidden_sizes: Sequence[int],
-        activation: Optional[dict] = None,
+        activation: dict | None = None,
         dropout: float = 0.0,
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
@@ -184,7 +185,7 @@ class BetaMLP(BaseMLP):
         self,
         input_size: int,
         hidden_sizes: Sequence[int],
-        activation: Optional[dict] = None,
+        activation: dict | None = None,
         dropout: float = 0.0,
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
@@ -201,7 +202,7 @@ class BetaMLP(BaseMLP):
 def create_alpha_mlp(
     input_size: int,
     hidden_sizes: Sequence[int],
-    activation: Optional[dict] = None,
+    activation: dict | None = None,
     dropout: float = 0.0,
 ) -> nn.Sequential:
     r"""Creates a MLP network where the last layer is an activation
@@ -237,7 +238,7 @@ def create_alpha_mlp(
 def create_beta_mlp(
     input_size: int,
     hidden_sizes: Sequence[int],
-    activation: Optional[dict] = None,
+    activation: dict | None = None,
     dropout: float = 0.0,
 ) -> nn.Sequential:
     r"""Creates a MLP network where the last layer is a linear layer

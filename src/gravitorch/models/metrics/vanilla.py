@@ -1,9 +1,10 @@
 """This module defines some classes to make PyTorch metric compatible
 with ``VanillaModel``."""
 
+from __future__ import annotations
+
 __all__ = ["PaddedSequenceMetric", "VanillaMetric"]
 
-from typing import Optional, Union
 
 import torch
 from torch import Tensor
@@ -52,8 +53,8 @@ class VanillaMetric(BaseMetric):
 
     def __init__(
         self,
-        metric: Union[BaseMetric, dict],
-        mode: Optional[str] = None,
+        metric: BaseMetric | dict,
+        mode: str | None = None,
         prediction_key: str = ct.PREDICTION,
         target_key: str = ct.TARGET,
     ) -> None:
@@ -76,7 +77,7 @@ class VanillaMetric(BaseMetric):
         """
         self.metric.attach(engine)
 
-    def forward(self, cri_out: dict, net_out: dict, batch: dict) -> Optional[dict]:
+    def forward(self, cri_out: dict, net_out: dict, batch: dict) -> dict | None:
         r"""Updates the metric given a mini-batch of examples.
 
         Args:
@@ -102,7 +103,7 @@ class VanillaMetric(BaseMetric):
         r"""Resets the metric."""
         self.metric.reset()
 
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates the metric and log the results given all the
         examples previously seen.
 
@@ -144,7 +145,7 @@ class VanillaMetric(BaseMetric):
         """
         return batch[self._target_key].detach()
 
-    def _setup_metric(self, metric: Union[BaseMetric, dict], mode: Optional[str]) -> BaseMetric:
+    def _setup_metric(self, metric: BaseMetric | dict, mode: str | None) -> BaseMetric:
         r"""Sets up the metric.
 
         If the input is a dict containing the configuration of the
@@ -252,8 +253,8 @@ class PaddedSequenceMetric(VanillaMetric):
 
     def __init__(
         self,
-        metric: Union[BaseMetric, dict],
-        mode: Optional[str] = None,
+        metric: BaseMetric | dict,
+        mode: str | None = None,
         prediction_key: str = ct.PREDICTION,
         target_key: str = ct.TARGET,
         mask_key: str = ct.MASK,
@@ -270,7 +271,7 @@ class PaddedSequenceMetric(VanillaMetric):
         self._valid_value = bool(valid_value)
         self._mask_in_batch = bool(mask_in_batch)
 
-    def forward(self, cri_out: dict, net_out: dict, batch: dict) -> Optional[dict]:
+    def forward(self, cri_out: dict, net_out: dict, batch: dict) -> dict | None:
         r"""Updates the metric given a mini-batch of examples.
 
         Args:

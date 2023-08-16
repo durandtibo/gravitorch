@@ -1,6 +1,8 @@
 r"""This package contains the network base class and some implemented
 networks."""
 
+from __future__ import annotations
+
 __all__ = [
     "AlphaMLP",
     "BaseMLP",

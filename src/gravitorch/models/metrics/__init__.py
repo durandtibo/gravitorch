@@ -1,5 +1,4 @@
-r"""This package contains the metric base class and some implemented
-metrics."""
+from __future__ import annotations
 
 __all__ = [
     "AbsoluteError",

@@ -1,9 +1,10 @@
 r"""This module defines the absolute error metric."""
 
+from __future__ import annotations
+
 __all__ = ["AbsoluteError"]
 
 import logging
-from typing import Union
 
 from torch import Tensor
 
@@ -64,7 +65,7 @@ class AbsoluteError(BaseStateEpochMetric):
         self,
         mode: str,
         name: str = "abs_err",
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 

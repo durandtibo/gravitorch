@@ -1,5 +1,7 @@
 r"""This package contains some utility functions for the models."""
 
+from __future__ import annotations
+
 __all__ = [
     "ModelSummary",
     "analyze_model_architecture",

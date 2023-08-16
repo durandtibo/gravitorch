@@ -2,9 +2,10 @@ r"""This module defines a criterion wrapper to make PyTorch criteria
 compatible with ``gravitorch.models.VanillaModel`` and packed
 sequences."""
 
+from __future__ import annotations
+
 __all__ = ["PackedSequenceLoss"]
 
-from typing import Union
 
 from torch import Tensor
 from torch.nn import Module
@@ -56,7 +57,7 @@ class PackedSequenceLoss(Module):
 
     def __init__(
         self,
-        criterion: Union[Module, dict],
+        criterion: Module | dict,
         prediction_key: str = ct.PREDICTION,
         target_key: str = ct.TARGET,
         mask_key: str = ct.MASK,

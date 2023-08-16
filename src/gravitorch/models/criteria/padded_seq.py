@@ -2,9 +2,10 @@ r"""This module defines a criterion wrapper to make PyTorch criteria
 compatible with ``gravitorch.models.VanillaModel`` and padded
 sequences."""
 
+from __future__ import annotations
+
 __all__ = ["PaddedSequenceLoss"]
 
-from typing import Union
 
 import torch
 from torch import Tensor
@@ -98,7 +99,7 @@ class PaddedSequenceLoss(Module):
 
     def __init__(
         self,
-        criterion: Union[Module, dict],
+        criterion: Module | dict,
         prediction_key: str = ct.PREDICTION,
         target_key: str = ct.TARGET,
         mask_key: str = ct.MASK,

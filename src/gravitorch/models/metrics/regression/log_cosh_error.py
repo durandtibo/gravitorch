@@ -1,10 +1,11 @@
 r"""This module defines a metric to compute the logarithm of the
 hyperbolic cosine of the prediction error."""
 
+from __future__ import annotations
+
 __all__ = ["LogCoshError"]
 
 import logging
-from typing import Union
 
 from torch import Tensor
 
@@ -67,7 +68,7 @@ class LogCoshError(BaseStateEpochMetric):
         mode: str,
         name: str = "log_cosh_err",
         scale: float = 1.0,
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
         if scale <= 0.0:

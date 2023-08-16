@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 __all__ = ["TransformedPredictionTarget"]
 
-from typing import Optional, Union
 
 from torch import Tensor
 from torch.nn import Flatten, Identity, Module
@@ -32,9 +33,9 @@ class TransformedPredictionTarget(BaseMetric):
 
     def __init__(
         self,
-        metric: Union[BaseMetric, dict],
-        prediction_transform: Union[Module, dict, None] = None,
-        target_transform: Union[Module, dict, None] = None,
+        metric: BaseMetric | dict,
+        prediction_transform: Module | dict | None = None,
+        target_transform: Module | dict | None = None,
     ) -> None:
         super().__init__()
         self.metric = setup_metric(metric)
@@ -50,7 +51,7 @@ class TransformedPredictionTarget(BaseMetric):
         """
         self.metric.attach(engine)
 
-    def forward(self, prediction: Tensor, target: Tensor) -> Optional[dict]:
+    def forward(self, prediction: Tensor, target: Tensor) -> dict | None:
         r"""Updates the metric given a mini-batch of examples.
 
         Args:
@@ -70,7 +71,7 @@ class TransformedPredictionTarget(BaseMetric):
         r"""Resets all the metrics."""
         self.metric.reset()
 
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates the metric and logs the results given all the
         examples previously seen.
 
@@ -87,7 +88,7 @@ class TransformedPredictionTarget(BaseMetric):
         return self.metric.value(engine)
 
     @classmethod
-    def create_asinh(cls, metric: Union[BaseMetric, dict]) -> "TransformedPredictionTarget":
+    def create_asinh(cls, metric: BaseMetric | dict) -> TransformedPredictionTarget:
         r"""Creates a ``TransformedMetric`` with inverse hyperbolic sine
         (arcsinh) transformations.
 
@@ -106,7 +107,7 @@ class TransformedPredictionTarget(BaseMetric):
         return cls(metric=metric, prediction_transform=Asinh(), target_transform=Asinh())
 
     @classmethod
-    def create_flatten(cls, metric: Union[BaseMetric, dict]) -> "TransformedPredictionTarget":
+    def create_flatten(cls, metric: BaseMetric | dict) -> TransformedPredictionTarget:
         r"""Creates a ``TransformedMetric`` with flatten transformations.
 
         Args:
@@ -124,7 +125,7 @@ class TransformedPredictionTarget(BaseMetric):
         return cls(metric=metric, prediction_transform=Flatten(), target_transform=Flatten())
 
     @classmethod
-    def create_log1p(cls, metric: Union[BaseMetric, dict]) -> "TransformedPredictionTarget":
+    def create_log1p(cls, metric: BaseMetric | dict) -> TransformedPredictionTarget:
         r"""Creates a ``TransformedMetric`` with log1p transformations.
 
         Args:
@@ -142,7 +143,7 @@ class TransformedPredictionTarget(BaseMetric):
         return cls(metric=metric, prediction_transform=Log1p(), target_transform=Log1p())
 
     @classmethod
-    def create_symlog(cls, metric: Union[BaseMetric, dict]) -> "TransformedPredictionTarget":
+    def create_symlog(cls, metric: BaseMetric | dict) -> TransformedPredictionTarget:
         r"""Creates a ``TransformedMetric`` with symlog transformations.
 
         Args:

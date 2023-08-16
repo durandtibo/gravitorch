@@ -1,9 +1,10 @@
 r"""This module defines the squared logarithmic error (SLE) metric."""
 
+from __future__ import annotations
+
 __all__ = ["SquaredAsinhError", "SquaredLogError", "SquaredSymlogError"]
 
 import logging
-from typing import Union
 
 from torch import Tensor
 
@@ -69,7 +70,7 @@ class SquaredLogError(BaseStateEpochMetric):
         self,
         mode: str,
         name: str = "sq_log_err",
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
@@ -142,7 +143,7 @@ class SquaredSymlogError(BaseStateEpochMetric):
         self,
         mode: str,
         name: str = "sq_symlog_err",
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
@@ -211,7 +212,7 @@ class SquaredAsinhError(BaseStateEpochMetric):
         self,
         mode: str,
         name: str = "sq_asinh_err",
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 

@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 __all__ = ["WeightedSumLoss"]
 
-from typing import Optional, Union
 
 from torch.nn import Module, ModuleDict
 
@@ -78,8 +79,8 @@ class WeightedSumLoss(Module):
 
     def __init__(
         self,
-        criteria: Union[ModuleDict, dict[str, Union[Module, dict]]],
-        weights: Optional[dict[str, Union[int, float]]] = None,
+        criteria: ModuleDict | dict[str, Module | dict],
+        weights: dict[str, int | float] | None = None,
     ) -> None:
         super().__init__()
         if not isinstance(criteria, ModuleDict):

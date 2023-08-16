@@ -1,11 +1,12 @@
 r"""This module defines the confusion matrix metric for binary
 labels."""
 
+from __future__ import annotations
+
 __all__ = ["BinaryConfusionMatrix", "CategoricalConfusionMatrix"]
 
 import logging
 from collections.abc import Sequence
-from typing import Optional, Union
 
 from torch import Tensor
 
@@ -43,7 +44,7 @@ class BinaryConfusionMatrix(BaseEpochMetric):
         self,
         mode: str,
         name: str = "bin_conf_mat",
-        betas: Sequence[Union[int, float]] = (1,),
+        betas: Sequence[int | float] = (1,),
     ) -> None:
         super().__init__(mode=mode, name=name)
         self._confusion_matrix = BinaryConfusionMatrixMeter()
@@ -101,7 +102,7 @@ class BinaryConfusionMatrix(BaseEpochMetric):
         r"""Resets the metric."""
         self._confusion_matrix.reset()
 
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates the metric and log the results given all the
         examples previously seen.
 
@@ -158,7 +159,7 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
         mode: str,
         num_classes: int,
         name: str = "cat_conf_mat",
-        betas: Sequence[Union[int, float]] = (1,),
+        betas: Sequence[int | float] = (1,),
     ) -> None:
         super().__init__(mode=mode, name=name)
         self.prediction_transform = ToCategoricalLabel()
@@ -225,7 +226,7 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
         r"""Resets the metric."""
         self._confusion_matrix.reset()
 
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates the metric and log the results given all the
         examples previously seen.
 
