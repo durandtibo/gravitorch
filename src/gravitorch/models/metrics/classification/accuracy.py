@@ -1,10 +1,11 @@
 r"""This module defines some accuracy metrics."""
 
+from __future__ import annotations
+
 __all__ = ["BinaryAccuracy", "CategoricalAccuracy", "TopKAccuracy"]
 
 import logging
 from collections.abc import Sequence
-from typing import Optional, Union
 
 from objectory import OBJECT_TARGET
 from torch import Tensor
@@ -40,9 +41,9 @@ class BinaryAccuracy(BaseStateEpochMetric):
     def __init__(
         self,
         mode: str,
-        threshold: Optional[float] = None,
+        threshold: float | None = None,
         name: str = "bin_acc",
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or AccuracyState())
         self.prediction_transform = Identity() if threshold is None else ToBinaryLabel(threshold)
@@ -84,7 +85,7 @@ class CategoricalAccuracy(BaseStateEpochMetric):
         self,
         mode: str,
         name: str = "cat_acc",
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or AccuracyState())
         self.prediction_transform = ToCategoricalLabel()
@@ -124,7 +125,7 @@ class TopKAccuracy(BaseEpochMetric):
         mode: str,
         topk: Sequence[int] = (1, 5),
         name: str = "acc_top",
-        state_config: Optional[dict] = None,
+        state_config: dict | None = None,
     ) -> None:
         super().__init__(mode, name)
         self._topk = topk if isinstance(topk, tuple) else tuple(topk)
@@ -188,7 +189,7 @@ class TopKAccuracy(BaseEpochMetric):
         for state in self._states.values():
             state.reset()
 
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates the metric and log the results given all the
         examples previously seen.
 

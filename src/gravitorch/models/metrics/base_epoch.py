@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["BaseEpochMetric", "BaseStateEpochMetric"]
 
 import logging
-from typing import Optional, Union
 
 from gravitorch import constants as ct
 from gravitorch.engines.base import BaseEngine
@@ -75,7 +76,7 @@ class BaseStateEpochMetric(BaseEpochMetric):
             its configuration.
     """
 
-    def __init__(self, mode: str, name: str, state: Union[BaseState, dict]) -> None:
+    def __init__(self, mode: str, name: str, state: BaseState | dict) -> None:
         super().__init__(mode=mode, name=name)
         self._state = setup_state(state)
 
@@ -102,7 +103,7 @@ class BaseStateEpochMetric(BaseEpochMetric):
         r"""Resets the metric."""
         self._state.reset()
 
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates the metric and log the results given all the
         predictions previously seen.
 

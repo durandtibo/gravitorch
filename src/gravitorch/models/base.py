@@ -1,4 +1,5 @@
 r"""This module defines the base model."""
+
 from __future__ import annotations
 
 __all__ = ["BaseModel"]

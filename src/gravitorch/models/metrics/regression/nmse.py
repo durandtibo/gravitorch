@@ -1,9 +1,10 @@
 r"""This module defines the normalized mean squared error metric."""
 
+from __future__ import annotations
+
 __all__ = ["NormalizedMeanSquaredError"]
 
 import logging
-from typing import Optional
 
 from torch import Tensor
 from torch.nn.functional import mse_loss
@@ -82,7 +83,7 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         self._sum_squared_targets = 0.0
         self._num_predictions = 0
 
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates the metric and log the results given all the
         examples previously seen.
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "AccuracyState",
     "BaseState",
@@ -12,7 +14,6 @@ __all__ = [
 import logging
 import math
 from abc import ABC, abstractmethod
-from typing import Union
 
 from objectory import AbstractFactory
 from torch import Tensor
@@ -87,7 +88,7 @@ class BaseState(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def value(self, prefix: str = "", suffix: str = "") -> dict[str, Union[int, float]]:
+    def value(self, prefix: str = "", suffix: str = "") -> dict[str, int | float]:
         r"""Computes the metric values given the current state.
 
         Args:
@@ -154,7 +155,7 @@ class MeanErrorState(BaseState):
         """
         self._meter.update(error.detach())
 
-    def value(self, prefix: str = "", suffix: str = "") -> dict[str, Union[int, float]]:
+    def value(self, prefix: str = "", suffix: str = "") -> dict[str, int | float]:
         meter = self._meter.all_reduce()
         if not meter.count:
             raise EmptyMetricError(f"{self.__class__.__qualname__} is empty")
@@ -219,7 +220,7 @@ class RootMeanErrorState(BaseState):
         """
         self._meter.update(error.detach())
 
-    def value(self, prefix: str = "", suffix: str = "") -> dict[str, Union[int, float]]:
+    def value(self, prefix: str = "", suffix: str = "") -> dict[str, int | float]:
         meter = self._meter.all_reduce()
         if not meter.count:
             raise EmptyMetricError(f"{self.__class__.__qualname__} is empty")
@@ -290,7 +291,7 @@ class ErrorState(BaseState):
         """
         self._meter.update(error.detach())
 
-    def value(self, prefix: str = "", suffix: str = "") -> dict[str, Union[int, float]]:
+    def value(self, prefix: str = "", suffix: str = "") -> dict[str, int | float]:
         meter = self._meter.all_reduce()
         if not meter.count:
             raise EmptyMetricError(f"{self.__class__.__qualname__} is empty")
@@ -348,7 +349,7 @@ class ExtendedErrorState(BaseState):
          'error_num_predictions': 11}
     """
 
-    def __init__(self, quantiles: Union[Tensor, tuple[float, ...], list[float]] = ()) -> None:
+    def __init__(self, quantiles: Tensor | tuple[float, ...] | list[float] = ()) -> None:
         self._meter = TensorMeter2()
         self._quantiles = to_tensor(quantiles)
 
@@ -389,7 +390,7 @@ class ExtendedErrorState(BaseState):
         """
         self._meter.update(error.detach().cpu())
 
-    def value(self, prefix: str = "", suffix: str = "") -> dict[str, Union[int, float]]:
+    def value(self, prefix: str = "", suffix: str = "") -> dict[str, int | float]:
         meter = self._meter.all_reduce()
         if not meter.count:
             raise EmptyMetricError(f"{self.__class__.__qualname__} is empty")
@@ -465,7 +466,7 @@ class AccuracyState(BaseState):
         """
         self._meter.update(correct.detach())
 
-    def value(self, prefix: str = "", suffix: str = "") -> dict[str, Union[int, float]]:
+    def value(self, prefix: str = "", suffix: str = "") -> dict[str, int | float]:
         meter = self._meter.all_reduce()
         if not meter.count:
             raise EmptyMetricError(f"{self.__class__.__qualname__} is empty")
@@ -538,7 +539,7 @@ class ExtendedAccuracyState(BaseState):
         """
         self._meter.update(correct.detach())
 
-    def value(self, prefix: str = "", suffix: str = "") -> dict[str, Union[int, float]]:
+    def value(self, prefix: str = "", suffix: str = "") -> dict[str, int | float]:
         meter = self._meter.all_reduce()
         if not meter.count:
             raise EmptyMetricError(f"{self.__class__.__qualname__} is empty")
@@ -558,7 +559,7 @@ class ExtendedAccuracyState(BaseState):
         return results
 
 
-def setup_state(state: Union[BaseState, dict]) -> BaseState:
+def setup_state(state: BaseState | dict) -> BaseState:
     r"""Sets up the metric state.
 
     Args:

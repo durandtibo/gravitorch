@@ -2,9 +2,10 @@ r"""This module implements a wrapper network to make image
 classification network from ``torchvision`` compatible with
 ``VanillaModel``."""
 
+from __future__ import annotations
+
 __all__ = ["ImageClassificationNetwork"]
 
-from typing import Union
 
 import torch
 from torch import Tensor
@@ -33,7 +34,7 @@ class ImageClassificationNetwork(Module):
 
     def __init__(
         self,
-        network: Union[Module, dict],
+        network: Module | dict,
         input_name: str = ct.INPUT,
         output_name: str = ct.PREDICTION,
     ) -> None:

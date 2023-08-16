@@ -1,9 +1,10 @@
 r"""This module defines some absolute relative error metrics."""
 
+from __future__ import annotations
+
 __all__ = ["AbsoluteRelativeError", "SymmetricAbsoluteRelativeError"]
 
 import logging
-from typing import Union
 
 from torch import Tensor
 
@@ -68,7 +69,7 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
         mode: str,
         name: str = "abs_rel_err",
         eps: float = 1e-8,
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
         if eps <= 0:
@@ -147,7 +148,7 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
         mode: str,
         name: str = "sym_abs_rel_err",
         eps: float = 1e-8,
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
         if eps <= 0:

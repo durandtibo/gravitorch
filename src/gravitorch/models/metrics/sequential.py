@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["SequentialMetric"]
 
 from collections.abc import Sequence
-from typing import Optional, Union
 
 from torch import nn
 
@@ -19,11 +20,11 @@ class SequentialMetric(BaseMetric):
 
     Args:
     ----
-        metrics (sequence): Specifies the list of metrics to use or
-            their configurations.
+        metrics (``Sequence``): Specifies the list of metrics to use
+            or their configurations.
     """
 
-    def __init__(self, metrics: Sequence[Union[BaseMetric, dict]]) -> None:
+    def __init__(self, metrics: Sequence[BaseMetric | dict]) -> None:
         super().__init__()
         self.metrics = nn.ModuleList([setup_metric(metric) for metric in metrics])
 
@@ -73,7 +74,7 @@ class SequentialMetric(BaseMetric):
         for metric in self.metrics:
             metric.reset()
 
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates all the metrics and log the results given all the
         examples previously seen.
 

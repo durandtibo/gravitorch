@@ -1,10 +1,9 @@
-r"""Base module for metrics."""
+from __future__ import annotations
 
 __all__ = ["BaseMetric", "EmptyMetricError", "setup_metric"]
 
 import logging
 from abc import abstractmethod
-from typing import Optional, Union
 
 from objectory import AbstractFactory
 from torch.nn import Module
@@ -41,7 +40,7 @@ class BaseMetric(Module, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def forward(self, *args, **kwargs) -> Optional[dict]:
+    def forward(self, *args, **kwargs) -> dict | None:
         r"""Updates the metric given a mini-batch of examples.
 
         Args:
@@ -55,7 +54,7 @@ class BaseMetric(Module, metaclass=AbstractFactory):
         r"""Resets the metric."""
 
     @abstractmethod
-    def value(self, engine: Optional[BaseEngine] = None) -> dict:
+    def value(self, engine: BaseEngine | None = None) -> dict:
         r"""Evaluates the metric and log the results given all the
         examples previously seen.
 
@@ -74,7 +73,7 @@ class EmptyMetricError(Exception):
     metric."""
 
 
-def setup_metric(metric: Union[BaseMetric, dict]) -> BaseMetric:
+def setup_metric(metric: BaseMetric | dict) -> BaseMetric:
     r"""Sets up the metric.
 
     Args:

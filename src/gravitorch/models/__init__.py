@@ -1,6 +1,8 @@
 r"""This package contains the model base class and some implemented
 models."""
 
+from __future__ import annotations
+
 __all__ = [
     "BaseModel",
     "VanillaModel",

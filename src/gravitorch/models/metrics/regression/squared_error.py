@@ -1,9 +1,10 @@
 r"""This module defines the squared logarithmic error (SLE) metric."""
 
+from __future__ import annotations
+
 __all__ = ["RootMeanSquaredError", "SquaredError"]
 
 import logging
-from typing import Union
 
 from torch import Tensor
 from torch.nn.functional import mse_loss
@@ -62,7 +63,7 @@ class SquaredError(BaseStateEpochMetric):
         self,
         mode: str,
         name: str = "sq_err",
-        state: Union[BaseState, dict, None] = None,
+        state: BaseState | dict | None = None,
     ) -> None:
         super().__init__(mode=mode, name=name, state=state or ErrorState())
 
