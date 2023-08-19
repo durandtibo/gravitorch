@@ -563,12 +563,17 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
             f"{prefix}accuracy{suffix}": self.accuracy(),
             f"{prefix}balanced_accuracy{suffix}": self.balanced_accuracy(),
             f"{prefix}false_negative_rate{suffix}": self.false_negative_rate(),
+            f"{prefix}false_negative{suffix}": self.false_negative,
             f"{prefix}false_positive_rate{suffix}": self.false_positive_rate(),
+            f"{prefix}false_positive{suffix}": self.false_positive,
             f"{prefix}jaccard_index{suffix}": self.jaccard_index(),
+            f"{prefix}num_predictions{suffix}": self.num_predictions,
             f"{prefix}precision{suffix}": self.precision(),
             f"{prefix}recall{suffix}": self.recall(),
             f"{prefix}true_negative_rate{suffix}": self.true_negative_rate(),
+            f"{prefix}true_negative{suffix}": self.true_negative,
             f"{prefix}true_positive_rate{suffix}": self.true_positive_rate(),
+            f"{prefix}true_positive{suffix}": self.true_positive,
         }
         for beta in betas:
             metrics[f"{prefix}f{beta}_score{suffix}"] = self.f_beta_score(beta)

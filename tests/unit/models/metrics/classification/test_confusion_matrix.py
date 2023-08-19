@@ -92,12 +92,16 @@ def test_binary_confusion_matrix_forward_correct(device: str, mode: str) -> None
         f"{mode}/bin_conf_mat_accuracy": 1.0,
         f"{mode}/bin_conf_mat_balanced_accuracy": 1.0,
         f"{mode}/bin_conf_mat_false_negative_rate": 0.0,
+        f"{mode}/bin_conf_mat_false_negative": 0,
         f"{mode}/bin_conf_mat_false_positive_rate": 0.0,
+        f"{mode}/bin_conf_mat_false_positive": 0,
         f"{mode}/bin_conf_mat_jaccard_index": 1.0,
         f"{mode}/bin_conf_mat_precision": 1.0,
         f"{mode}/bin_conf_mat_recall": 1.0,
         f"{mode}/bin_conf_mat_true_negative_rate": 1.0,
+        f"{mode}/bin_conf_mat_true_negative": 2,
         f"{mode}/bin_conf_mat_true_positive_rate": 1.0,
+        f"{mode}/bin_conf_mat_true_positive": 2,
         f"{mode}/bin_conf_mat_f1_score": 1.0,
         f"{mode}/bin_conf_mat_num_predictions": 4,
     }
@@ -112,12 +116,16 @@ def test_binary_confusion_matrix_forward_incorrect(device: str, mode: str) -> No
     assert metric.value() == {
         f"{mode}/bin_conf_mat_accuracy": 0.0,
         f"{mode}/bin_conf_mat_balanced_accuracy": 0.0,
+        f"{mode}/bin_conf_mat_false_negative": 2,
         f"{mode}/bin_conf_mat_false_negative_rate": 1.0,
+        f"{mode}/bin_conf_mat_false_positive": 2,
         f"{mode}/bin_conf_mat_false_positive_rate": 1.0,
         f"{mode}/bin_conf_mat_jaccard_index": 0.0,
         f"{mode}/bin_conf_mat_precision": 0.0,
         f"{mode}/bin_conf_mat_recall": 0.0,
+        f"{mode}/bin_conf_mat_true_negative": 0,
         f"{mode}/bin_conf_mat_true_negative_rate": 0.0,
+        f"{mode}/bin_conf_mat_true_positive": 0,
         f"{mode}/bin_conf_mat_true_positive_rate": 0.0,
         f"{mode}/bin_conf_mat_f1_score": 0.0,
         f"{mode}/bin_conf_mat_num_predictions": 4,
@@ -133,12 +141,16 @@ def test_binary_confusion_matrix_forward_betas(device: str, mode: str) -> None:
     assert metric.value() == {
         f"{mode}/bin_conf_mat_accuracy": 1.0,
         f"{mode}/bin_conf_mat_balanced_accuracy": 1.0,
+        f"{mode}/bin_conf_mat_false_negative": 0,
         f"{mode}/bin_conf_mat_false_negative_rate": 0.0,
+        f"{mode}/bin_conf_mat_false_positive": 0,
         f"{mode}/bin_conf_mat_false_positive_rate": 0.0,
         f"{mode}/bin_conf_mat_jaccard_index": 1.0,
         f"{mode}/bin_conf_mat_precision": 1.0,
         f"{mode}/bin_conf_mat_recall": 1.0,
+        f"{mode}/bin_conf_mat_true_negative": 2,
         f"{mode}/bin_conf_mat_true_negative_rate": 1.0,
+        f"{mode}/bin_conf_mat_true_positive": 2,
         f"{mode}/bin_conf_mat_true_positive_rate": 1.0,
         f"{mode}/bin_conf_mat_f0.5_score": 1.0,
         f"{mode}/bin_conf_mat_f1_score": 1.0,
@@ -159,12 +171,16 @@ def test_binary_confusion_matrix_forward_2d(device: str, mode: str) -> None:
     assert metric.value() == {
         f"{mode}/bin_conf_mat_accuracy": 1.0,
         f"{mode}/bin_conf_mat_balanced_accuracy": 1.0,
+        f"{mode}/bin_conf_mat_false_negative": 0,
         f"{mode}/bin_conf_mat_false_negative_rate": 0.0,
+        f"{mode}/bin_conf_mat_false_positive": 0,
         f"{mode}/bin_conf_mat_false_positive_rate": 0.0,
         f"{mode}/bin_conf_mat_jaccard_index": 1.0,
         f"{mode}/bin_conf_mat_precision": 1.0,
         f"{mode}/bin_conf_mat_recall": 1.0,
+        f"{mode}/bin_conf_mat_true_negative": 3,
         f"{mode}/bin_conf_mat_true_negative_rate": 1.0,
+        f"{mode}/bin_conf_mat_true_positive": 3,
         f"{mode}/bin_conf_mat_true_positive_rate": 1.0,
         f"{mode}/bin_conf_mat_f1_score": 1.0,
         f"{mode}/bin_conf_mat_num_predictions": 6,
@@ -190,12 +206,16 @@ def test_binary_confusion_matrix_forward_dtypes(
     assert metric.value() == {
         f"{mode}/bin_conf_mat_accuracy": 1.0,
         f"{mode}/bin_conf_mat_balanced_accuracy": 1.0,
+        f"{mode}/bin_conf_mat_false_negative": 0,
         f"{mode}/bin_conf_mat_false_negative_rate": 0.0,
+        f"{mode}/bin_conf_mat_false_positive": 0,
         f"{mode}/bin_conf_mat_false_positive_rate": 0.0,
         f"{mode}/bin_conf_mat_jaccard_index": 1.0,
         f"{mode}/bin_conf_mat_precision": 1.0,
         f"{mode}/bin_conf_mat_recall": 1.0,
+        f"{mode}/bin_conf_mat_true_negative": 3,
         f"{mode}/bin_conf_mat_true_negative_rate": 1.0,
+        f"{mode}/bin_conf_mat_true_positive": 3,
         f"{mode}/bin_conf_mat_true_positive_rate": 1.0,
         f"{mode}/bin_conf_mat_f1_score": 1.0,
         f"{mode}/bin_conf_mat_num_predictions": 6,
@@ -212,12 +232,16 @@ def test_binary_confusion_matrix_forward_multiple_batches(device: str, mode: str
     assert metric.value() == {
         f"{mode}/bin_conf_mat_accuracy": 1.0,
         f"{mode}/bin_conf_mat_balanced_accuracy": 1.0,
+        f"{mode}/bin_conf_mat_false_negative": 0,
         f"{mode}/bin_conf_mat_false_negative_rate": 0.0,
+        f"{mode}/bin_conf_mat_false_positive": 0,
         f"{mode}/bin_conf_mat_false_positive_rate": 0.0,
         f"{mode}/bin_conf_mat_jaccard_index": 1.0,
         f"{mode}/bin_conf_mat_precision": 1.0,
         f"{mode}/bin_conf_mat_recall": 1.0,
+        f"{mode}/bin_conf_mat_true_negative": 3,
         f"{mode}/bin_conf_mat_true_negative_rate": 1.0,
+        f"{mode}/bin_conf_mat_true_positive": 3,
         f"{mode}/bin_conf_mat_true_positive_rate": 1.0,
         f"{mode}/bin_conf_mat_f1_score": 1.0,
         f"{mode}/bin_conf_mat_num_predictions": 6,
@@ -237,12 +261,16 @@ def test_binary_confusion_matrix_forward_multiple_batches_with_reset(
     assert metric.value() == {
         f"{mode}/bin_conf_mat_accuracy": 1.0,
         f"{mode}/bin_conf_mat_balanced_accuracy": 1.0,
+        f"{mode}/bin_conf_mat_false_negative": 0,
         f"{mode}/bin_conf_mat_false_negative_rate": 0.0,
+        f"{mode}/bin_conf_mat_false_positive": 0,
         f"{mode}/bin_conf_mat_false_positive_rate": 0.0,
         f"{mode}/bin_conf_mat_jaccard_index": 1.0,
         f"{mode}/bin_conf_mat_precision": 1.0,
         f"{mode}/bin_conf_mat_recall": 1.0,
+        f"{mode}/bin_conf_mat_true_negative": 1,
         f"{mode}/bin_conf_mat_true_negative_rate": 1.0,
+        f"{mode}/bin_conf_mat_true_positive": 1,
         f"{mode}/bin_conf_mat_true_positive_rate": 1.0,
         f"{mode}/bin_conf_mat_f1_score": 1.0,
         f"{mode}/bin_conf_mat_num_predictions": 2,
@@ -266,12 +294,16 @@ def test_binary_confusion_matrix_value_log_engine(
     metric.value(engine)
     assert engine.get_history(f"{mode}/bin_conf_mat_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{mode}/bin_conf_mat_balanced_accuracy").get_last_value() == 1.0
+    assert engine.get_history(f"{mode}/bin_conf_mat_false_negative").get_last_value() == 0
     assert engine.get_history(f"{mode}/bin_conf_mat_false_negative_rate").get_last_value() == 0.0
+    assert engine.get_history(f"{mode}/bin_conf_mat_false_positive").get_last_value() == 0
     assert engine.get_history(f"{mode}/bin_conf_mat_false_positive_rate").get_last_value() == 0.0
     assert engine.get_history(f"{mode}/bin_conf_mat_jaccard_index").get_last_value() == 1.0
     assert engine.get_history(f"{mode}/bin_conf_mat_precision").get_last_value() == 1.0
     assert engine.get_history(f"{mode}/bin_conf_mat_recall").get_last_value() == 1.0
+    assert engine.get_history(f"{mode}/bin_conf_mat_true_negative").get_last_value() == 2
     assert engine.get_history(f"{mode}/bin_conf_mat_true_negative_rate").get_last_value() == 1.0
+    assert engine.get_history(f"{mode}/bin_conf_mat_true_positive").get_last_value() == 2
     assert engine.get_history(f"{mode}/bin_conf_mat_true_positive_rate").get_last_value() == 1.0
     assert engine.get_history(f"{mode}/bin_conf_mat_f1_score").get_last_value() == 1.0
     assert engine.get_history(f"{mode}/bin_conf_mat_num_predictions").get_last_value() == 4
@@ -288,16 +320,20 @@ def test_binary_confusion_matrix_events_train(device: str, engine: BaseEngine) -
     engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_balanced_accuracy").get_last_value() == 1.0
+    assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_false_negative").get_last_value() == 0
     assert (
         engine.get_history(f"{ct.TRAIN}/bin_conf_mat_false_negative_rate").get_last_value() == 0.0
     )
+    assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_false_positive").get_last_value() == 0
     assert (
         engine.get_history(f"{ct.TRAIN}/bin_conf_mat_false_positive_rate").get_last_value() == 0.0
     )
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_jaccard_index").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_precision").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_recall").get_last_value() == 1.0
+    assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_true_negative").get_last_value() == 2
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_true_negative_rate").get_last_value() == 1.0
+    assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_true_positive").get_last_value() == 2
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_true_positive_rate").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_f1_score").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_num_predictions").get_last_value() == 4
@@ -314,12 +350,16 @@ def test_binary_confusion_matrix_events_eval(device: str, engine: BaseEngine) ->
     engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_balanced_accuracy").get_last_value() == 1.0
+    assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_false_negative").get_last_value() == 0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_false_negative_rate").get_last_value() == 0.0
+    assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_false_positive").get_last_value() == 0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_false_positive_rate").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_jaccard_index").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_precision").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_recall").get_last_value() == 1.0
+    assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_true_negative").get_last_value() == 2
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_true_negative_rate").get_last_value() == 1.0
+    assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_true_positive").get_last_value() == 2
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_true_positive_rate").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_f1_score").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_num_predictions").get_last_value() == 4
