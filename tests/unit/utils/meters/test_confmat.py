@@ -197,10 +197,15 @@ def test_binary_confusion_matrix_update_2() -> None:
 
 
 def test_binary_confusion_matrix_from_predictions() -> None:
-    assert BinaryConfusionMatrix.from_predictions(
+    meter = BinaryConfusionMatrix.from_predictions(
         prediction=torch.tensor([0, 1, 1, 0, 0, 1], dtype=torch.long),
         target=torch.tensor([1, 1, 1, 0, 0, 1], dtype=torch.long),
-    ).matrix.equal(torch.tensor([[2, 0], [1, 3]], dtype=torch.long))
+    )
+    assert meter.matrix.equal(torch.tensor([[2, 0], [1, 3]], dtype=torch.long))
+    assert meter.true_positive == 3
+    assert meter.true_negative == 2
+    assert meter.false_negative == 1
+    assert meter.false_positive == 0
 
 
 # **************************
@@ -283,35 +288,35 @@ def test_binary_confusion_matrix_sub() -> None:
 
 
 def test_binary_confusion_matrix_false_negative() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_negative == 2
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_negative == 1
 
 
 def test_binary_confusion_matrix_false_positive() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_positive == 1
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_positive == 2
 
 
 def test_binary_confusion_matrix_negative() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 5], [1, 4]])).negative == 5
+    assert BinaryConfusionMatrix(torch.tensor([[3, 5], [1, 4]])).negative == 8
 
 
 def test_binary_confusion_matrix_positive() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 5], [1, 4]])).positive == 8
+    assert BinaryConfusionMatrix(torch.tensor([[3, 5], [1, 4]])).positive == 5
 
 
 def test_binary_confusion_matrix_predictive_negative() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).predictive_negative == 6
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).predictive_negative == 4
 
 
 def test_binary_confusion_matrix_predictive_positive() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).predictive_positive == 4
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).predictive_positive == 6
 
 
 def test_binary_confusion_matrix_true_negative() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_negative == 4
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_negative == 3
 
 
 def test_binary_confusion_matrix_true_positive() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_positive == 3
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_positive == 4
 
 
 def test_binary_confusion_matrix_accuracy() -> None:
@@ -353,18 +358,21 @@ def test_binary_confusion_matrix_balanced_accuracy_empty() -> None:
 
 def test_binary_confusion_matrix_f_beta_score_1() -> None:
     assert math.isclose(
-        BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).f_beta_score(), 0.6666666666666666
+        BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).f_beta_score(), 0.7272727272727273
     )
 
 
 def test_binary_confusion_matrix_f_beta_score_2() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).f_beta_score(beta=2) == 0.625
+    assert (
+        BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).f_beta_score(beta=2)
+        == 0.7692307692307693
+    )
 
 
 def test_binary_confusion_matrix_f_beta_score_0_5() -> None:
     assert math.isclose(
         BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).f_beta_score(beta=0.5),
-        0.7142857142857143,
+        0.6896551724137931,
     )
 
 
@@ -380,7 +388,7 @@ def test_binary_confusion_matrix_f_beta_score_empty() -> None:
 
 
 def test_binary_confusion_matrix_false_negative_rate() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_negative_rate() == 0.4
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_negative_rate() == 0.2
 
 
 def test_binary_confusion_matrix_false_negative_rate_empty() -> None:
@@ -395,7 +403,7 @@ def test_binary_confusion_matrix_false_negative_rate_empty() -> None:
 
 
 def test_binary_confusion_matrix_false_positive_rate() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_positive_rate() == 0.2
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).false_positive_rate() == 0.4
 
 
 def test_binary_confusion_matrix_false_positive_rate_empty() -> None:
@@ -410,7 +418,7 @@ def test_binary_confusion_matrix_false_positive_rate_empty() -> None:
 
 
 def test_binary_confusion_matrix_jaccard_index() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).jaccard_index() == 0.5
+    assert BinaryConfusionMatrix(torch.tensor([[3, 3], [1, 4]])).jaccard_index() == 0.5
 
 
 def test_binary_confusion_matrix_jaccard_index_empty() -> None:
@@ -425,7 +433,7 @@ def test_binary_confusion_matrix_jaccard_index_empty() -> None:
 
 
 def test_binary_confusion_matrix_precision() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).precision() == 0.75
+    assert BinaryConfusionMatrix(torch.tensor([[3, 4], [1, 4]])).precision() == 0.5
 
 
 def test_binary_confusion_matrix_precision_empty() -> None:
@@ -437,7 +445,7 @@ def test_binary_confusion_matrix_precision_empty() -> None:
 
 
 def test_binary_confusion_matrix_recall() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).recall() == 0.6
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).recall() == 0.8
 
 
 def test_binary_confusion_matrix_recall_empty() -> None:
@@ -449,7 +457,7 @@ def test_binary_confusion_matrix_recall_empty() -> None:
 
 
 def test_binary_confusion_matrix_true_negative_rate() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_negative_rate() == 0.8
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_negative_rate() == 0.6
 
 
 def test_binary_confusion_matrix_true_negative_rate_empty() -> None:
@@ -464,7 +472,7 @@ def test_binary_confusion_matrix_true_negative_rate_empty() -> None:
 
 
 def test_binary_confusion_matrix_true_positive_rate() -> None:
-    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_positive_rate() == 0.6
+    assert BinaryConfusionMatrix(torch.tensor([[3, 2], [1, 4]])).true_positive_rate() == 0.8
 
 
 def test_binary_confusion_matrix_true_positive_rate_empty() -> None:
@@ -484,19 +492,19 @@ def test_binary_confusion_matrix_compute_all_metrics() -> None:
         {
             "accuracy": 0.7,
             "balanced_accuracy": 0.7,
-            "false_negative": 2,
-            "false_negative_rate": 0.4,
-            "false_positive": 1,
-            "false_positive_rate": 0.2,
-            "jaccard_index": 0.5,
+            "false_negative": 1,
+            "false_negative_rate": 0.2,
+            "false_positive": 2,
+            "false_positive_rate": 0.4,
+            "jaccard_index": 0.5714285714285714,
             "num_predictions": 10,
-            "precision": 0.75,
-            "recall": 0.6,
-            "true_negative": 4,
-            "true_negative_rate": 0.8,
-            "true_positive": 3,
-            "true_positive_rate": 0.6,
-            "f1_score": 0.6666666666666666,
+            "precision": 0.6666666666666666,
+            "recall": 0.8,
+            "true_negative": 3,
+            "true_negative_rate": 0.6,
+            "true_positive": 4,
+            "true_positive_rate": 0.8,
+            "f1_score": 0.7272727272727273,
         },
     )
 
@@ -507,20 +515,20 @@ def test_binary_confusion_matrix_compute_all_metrics_betas() -> None:
         {
             "accuracy": 0.7,
             "balanced_accuracy": 0.7,
-            "false_negative": 2,
-            "false_negative_rate": 0.4,
-            "false_positive": 1,
-            "false_positive_rate": 0.2,
-            "jaccard_index": 0.5,
+            "false_negative": 1,
+            "false_negative_rate": 0.2,
+            "false_positive": 2,
+            "false_positive_rate": 0.4,
+            "jaccard_index": 0.5714285714285714,
             "num_predictions": 10,
-            "precision": 0.75,
-            "recall": 0.6,
-            "true_negative": 4,
-            "true_negative_rate": 0.8,
-            "true_positive": 3,
-            "true_positive_rate": 0.6,
-            "f1_score": 0.6666666666666666,
-            "f2_score": 0.625,
+            "precision": 0.6666666666666666,
+            "recall": 0.8,
+            "true_negative": 3,
+            "true_negative_rate": 0.6,
+            "true_positive": 4,
+            "true_positive_rate": 0.8,
+            "f1_score": 0.7272727272727273,
+            "f2_score": 0.7692307692307693,
         },
     )
 
@@ -533,19 +541,19 @@ def test_binary_confusion_matrix_compute_all_metrics_prefix_suffix() -> None:
         {
             "prefix_accuracy_suffix": 0.7,
             "prefix_balanced_accuracy_suffix": 0.7,
-            "prefix_false_negative_suffix": 2,
-            "prefix_false_negative_rate_suffix": 0.4,
-            "prefix_false_positive_suffix": 1,
-            "prefix_false_positive_rate_suffix": 0.2,
-            "prefix_jaccard_index_suffix": 0.5,
+            "prefix_false_negative_suffix": 1,
+            "prefix_false_negative_rate_suffix": 0.2,
+            "prefix_false_positive_suffix": 2,
+            "prefix_false_positive_rate_suffix": 0.4,
+            "prefix_jaccard_index_suffix": 0.5714285714285714,
             "prefix_num_predictions_suffix": 10,
-            "prefix_precision_suffix": 0.75,
-            "prefix_recall_suffix": 0.6,
-            "prefix_true_negative_suffix": 4,
-            "prefix_true_negative_rate_suffix": 0.8,
-            "prefix_true_positive_suffix": 3,
-            "prefix_true_positive_rate_suffix": 0.6,
-            "prefix_f1_score_suffix": 0.6666666666666666,
+            "prefix_precision_suffix": 0.6666666666666666,
+            "prefix_recall_suffix": 0.8,
+            "prefix_true_negative_suffix": 3,
+            "prefix_true_negative_rate_suffix": 0.6,
+            "prefix_true_positive_suffix": 4,
+            "prefix_true_positive_rate_suffix": 0.8,
+            "prefix_f1_score_suffix": 0.7272727272727273,
         },
         show_difference=True,
     )

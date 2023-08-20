@@ -146,6 +146,11 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     ----
         matrix (``torch.Tensor`` of type long and shape ``(2, 2)``):
             Specifies the initial confusion matrix values.
+            The structure of the matrix is:
+                    predicted label
+                        TN | FP
+            true label  -------
+                        FN | TP
     """
 
     def __init__(self, matrix: Tensor | None = None) -> None:
@@ -300,13 +305,13 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def false_negative(self) -> int:
         r"""``int``: The false negative i.e. the number of incorrectly
         classified negative examples."""
-        return self._matrix[0, 1].item()
+        return self._matrix[1, 0].item()
 
     @property
     def false_positive(self) -> int:
         r"""``int``: The false positive i.e. the number of incorrectly
         classified positive examples."""
-        return self._matrix[1, 0].item()
+        return self._matrix[0, 1].item()
 
     @property
     def negative(self) -> int:
@@ -332,13 +337,13 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
     def true_negative(self) -> int:
         r"""``int``: The true negative i.e. the number of correctly
         classified negative examples."""
-        return self._matrix[1, 1].item()
+        return self._matrix[0, 0].item()
 
     @property
     def true_positive(self) -> int:
         r"""``int``: The true positive i.e. the number of correctly
         classified positive examples."""
-        return self._matrix[0, 0].item()
+        return self._matrix[1, 1].item()
 
     def accuracy(self) -> float:
         r"""Computes the accuracy.
