@@ -266,7 +266,7 @@ class MLTorchSummaryWriter(SummaryWriter):
                                   {'hparam/accuracy': 10*i, 'hparam/loss': 10*i})
         """
         torch._C._log_api_usage_once("tensorboard.logging.add_hparams")
-        if type(hparam_dict) is not dict or type(metric_dict) is not dict:
+        if type(hparam_dict) is not dict or type(metric_dict) is not dict:  # noqa: E721
             raise TypeError("hparam_dict and metric_dict should be dictionary.")
         exp, ssi, sei = hparams(hparam_dict, metric_dict)
 
