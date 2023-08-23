@@ -147,6 +147,7 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
         matrix (``torch.Tensor`` of type long and shape ``(2, 2)``):
             Specifies the initial confusion matrix values.
             The structure of the matrix is:
+
                     predicted label
                         TN | FP
             true label  -------
@@ -402,6 +403,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
                 "is empty"
             )
         beta2 = beta**2
+        if self.true_positive == 0:
+            return 0.0
         return ((1.0 + beta2) * self.true_positive) / (
             (1.0 + beta2) * self.true_positive + beta2 * self.false_negative + self.false_positive
         )
@@ -422,6 +425,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
                 "It is not possible to compute the false negative rate because the confusion "
                 "matrix is empty"
             )
+        if self.positive == 0:
+            return 0.0
         return float(self.false_negative) / float(self.positive)
 
     def false_positive_rate(self) -> float:
@@ -441,6 +446,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
                 "It is not possible to compute the false positive rate because the confusion "
                 "matrix is empty"
             )
+        if self.negative == 0:
+            return 0.0
         return float(self.false_positive) / float(self.negative)
 
     def jaccard_index(self) -> float:
@@ -459,6 +466,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
                 "It is not possible to compute the Jaccard index because the confusion "
                 "matrix is empty"
             )
+        if self.true_positive == 0:
+            return 0.0
         return float(self.true_positive) / float(
             self.true_positive + self.false_negative + self.false_positive
         )
@@ -479,6 +488,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
                 "It is not possible to compute the precision because the confusion "
                 "matrix is empty"
             )
+        if self.predictive_positive == 0:
+            return 0.0
         return float(self.true_positive) / float(self.predictive_positive)
 
     def recall(self) -> float:
@@ -497,6 +508,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
             raise EmptyMeterError(
                 "It is not possible to compute the recall because the confusion matrix is empty"
             )
+        if self.positive == 0:
+            return 0.0
         return float(self.true_positive) / float(self.positive)
 
     def true_negative_rate(self) -> float:
@@ -515,6 +528,8 @@ class BinaryConfusionMatrix(BaseConfusionMatrix):
                 "It is not possible to compute the true negative rate because the confusion "
                 "matrix is empty"
             )
+        if self.negative == 0:
+            return 0.0
         return float(self.true_negative) / float(self.negative)
 
     def true_positive_rate(self) -> float:
