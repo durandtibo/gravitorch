@@ -134,7 +134,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         loss = output[ct.LOSS]
         if torch.isnan(loss):
             logger.warning(
-                "NaN detected. The gradient is not computed for this batch "
+                "NaN detected in loss so backpropagation is skipped "
                 f"(iteration: {engine.iteration})"
             )
             engine.fire_event(EngineEvents.TRAIN_ITERATION_COMPLETED)
