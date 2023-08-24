@@ -6,10 +6,11 @@ __all__ = [
     "manual_seed",
     "move_to_device",
     "setup_object",
+    "to_list",
     "to_tuple",
 ]
 
+from gravitorch.utils.collection import to_list, to_tuple
 from gravitorch.utils.device import get_available_devices, move_to_device
 from gravitorch.utils.factory import setup_object
 from gravitorch.utils.seed import manual_seed
-from gravitorch.utils.seq import to_tuple
