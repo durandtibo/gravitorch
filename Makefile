@@ -47,29 +47,33 @@ format :
 docformat :
 	docformatter --config ./pyproject.toml --in-place $(SOURCE)
 
+.PHONY : doctest-src
+doctest-src :
+	python -m pytest --xdoctest $(SOURCE)
+
 .PHONY : unit-test
 unit-test :
-	python -m pytest --timeout 10 $(UNIT_TESTS)
+	python -m pytest --xdoctest --timeout 10 $(UNIT_TESTS)
 
 .PHONY : unit-test-cov
 unit-test-cov :
-	python -m pytest --timeout 10 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) $(UNIT_TESTS)
+	python -m pytest --xdoctest --timeout 10 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) $(UNIT_TESTS)
 
 .PHONY : integration-test
 integration-test :
-	python -m pytest --timeout 60 $(INTEGRATION_TESTS)
+	python -m pytest --xdoctest --timeout 60 $(INTEGRATION_TESTS)
 
 .PHONY : integration-test-cov
 integration-test-cov :
-	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) --cov-append $(INTEGRATION_TESTS)
+	python -m pytest --xdoctest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) --cov-append $(INTEGRATION_TESTS)
 
 .PHONY : functional-test
 functional-test :
-	python -m pytest --timeout 60 tests/functional
+	python -m pytest --xdoctest --timeout 60 tests/functional
 
 .PHONY : functional-test-cov
 functional-test-cov :
-	python -m pytest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) --cov-append tests/functional
+	python -m pytest --xdoctest --timeout 60 --cov-report html --cov-report xml --cov-report term --cov=$(NAME) --cov-append tests/functional
 
 .PHONY : test
 make test : unit-test integration-test functional-test
