@@ -15,8 +15,21 @@ class BaseProfiler(ABC, metaclass=AbstractFactory):
 
     .. note::
 
-    The profiler is an experimental feature and may change in the
-    future without warnings.
+        The profiler is an experimental feature and may change in the
+        future without warnings.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.profilers import PyTorchProfiler
+        >>> with PyTorchProfiler(torch.profiler.profile()) as profiler:
+        ...     x = torch.ones(2, 3)
+        ...     for _ in range(20):
+        ...         x += x
+        ...         profiler.step()
+        ...
     """
 
     def __enter__(self) -> BaseProfiler:

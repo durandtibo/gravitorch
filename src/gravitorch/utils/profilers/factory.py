@@ -59,6 +59,14 @@ def setup_profiler(profiler: BaseProfiler | dict | None) -> BaseProfiler:
     Returns:
     -------
         ``BaseProfiler``: A profiler.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.profilers import setup_profiler
+        >>> setup_profiler({"_target_": "gravitorch.utils.profilers.NoOpProfiler"})
+        NoOpProfiler()
     """
     if profiler is None:
         profiler = NoOpProfiler()

@@ -1,13 +1,16 @@
 r"""This module implements a PyTorch profiler."""
+
 from __future__ import annotations
 
 __all__ = ["PyTorchProfiler"]
 
 import logging
+from pathlib import Path
 from types import TracebackType
 
 import torch
 
+from gravitorch.utils.path import sanitize_path
 from gravitorch.utils.profilers.base import BaseProfiler
 
 logger = logging.getLogger(__name__)
@@ -23,6 +26,19 @@ class PyTorchProfiler(BaseProfiler):
     ----
         profiler (``torch.profiler.profile``): Specifies the profiler
             to use.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.profilers import PyTorchProfiler
+        >>> with PyTorchProfiler(torch.profiler.profile()) as profiler:
+        ...     x = torch.ones(2, 3)
+        ...     for _ in range(20):
+        ...         x += x
+        ...         profiler.step()
+        ...
     """
 
     def __init__(self, profiler: torch.profiler.profile) -> None:
@@ -42,7 +58,7 @@ class PyTorchProfiler(BaseProfiler):
         logger.info("Ending PyTorch profiler")
         self._profiler.__exit__(exc_type, exc_val, exc_tb)
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
     def step(self) -> None:
@@ -53,7 +69,7 @@ class PyTorchProfiler(BaseProfiler):
     @classmethod
     def scheduled_profiler_with_tensorboard_trace(
         cls,
-        trace_path: str,
+        trace_path: Path | str,
         wait: int,
         warmup: int,
         active: int,
@@ -107,6 +123,16 @@ class PyTorchProfiler(BaseProfiler):
         Returns:
         -------
             ``PyTorchProfiler``: A scheduled profiler with a TensorBoard trace.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.profilers import PyTorchProfiler
+            >>> profiler = PyTorchProfiler.scheduled_profiler_with_tensorboard_trace(
+            ...     "/path/to/profiling/", wait=5, warmup=5, active=5
+            ... )
         """
         return cls(
             torch.profiler.profile(
@@ -117,7 +143,9 @@ class PyTorchProfiler(BaseProfiler):
                     repeat=repeat,
                     skip_first=skip_first,
                 ),
-                on_trace_ready=torch.profiler.tensorboard_trace_handler(trace_path),
+                on_trace_ready=torch.profiler.tensorboard_trace_handler(
+                    sanitize_path(trace_path).as_posix()
+                ),
                 record_shapes=record_shapes,
                 profile_memory=profile_memory,
                 with_stack=with_stack,

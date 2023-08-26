@@ -1,5 +1,7 @@
 r"""This package contains the implementation of some profilers."""
 
+from __future__ import annotations
+
 __all__ = [
     "BaseProfiler",
     "NoOpProfiler",
