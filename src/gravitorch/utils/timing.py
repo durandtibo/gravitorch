@@ -64,7 +64,6 @@ def sync_perf_counter() -> float:
         >>> x = [1, 2, 3]
         >>> toc = sync_perf_counter()
         >>> toc - tic
-        7.040074708999999
     """
     if torch.cuda.is_available():
         torch.cuda.synchronize()
@@ -89,11 +88,9 @@ def timeblock(message: str = "Total time: {time}") -> Generator[None, None, None
         >>> with timeblock():
         ...     x = [1, 2, 3]
         ...
-        INFO:gravitorch.utils.time_tracking:Total time: 0:00:00.000039
         >>> with timeblock("Training: {time}"):
-        ...     x = [1, 2, 3]
+        ...     y = [1, 2, 3]
         ...
-        INFO:gravitorch.utils.time_tracking:Training: 0:00:00.000035
     """
     if "{time}" not in message:
         raise ValueError(f"{{time}} is missing in the message (received: {message})")
@@ -115,30 +112,26 @@ class BatchLoadingTimer(Iterable[T]):
         epoch (int): Specifies the epoch.
         prefix (str): Specifies the prefix used to log the values.
 
-
     Example usage:
 
     .. code-block:: pycon
 
         >>> from gravitorch.utils.timing import BatchLoadingTimer
-        >>> my_batch_loader = [1, 2, 3, 4, 5]
-        >>> batch_loader = BatchLoadingTimer(my_batch_loader, epoch=0, prefix="train")
+        >>> batch_loader = BatchLoadingTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
         >>> for batch in batch_loader:
-        ...     pass  # do something
+        ...     x = batch + 1
         ...
-        >>> batch_loader.get_stats()
-        {'batch_load_time_avg_ms': 0.003508200001078876,
-         'batch_load_time_max_ms': 0.010916999997334642,
-         'batch_load_time_median_ms': 0.0016660000028423383,
-         'batch_load_time_min_ms': 0.0015419999996879596,
-         'batch_load_time_pct': 36.012564686438395,
-         'batch_load_time_stddev_ms': 0.004143146270507714,
-         'iter_time_avg_ms': 0.00974159999884705,
-         'epoch_time_sec': 4.870799999423525e-05,
+        >>> batch_loader.get_stats()  # doctest: +ELLIPSIS
+        {'batch_load_time_avg_ms': ...,
+         'batch_load_time_max_ms': ...,
+         'batch_load_time_median_ms': ...,
+         'batch_load_time_min_ms': ...,
+         'batch_load_time_pct': ...,
+         'batch_load_time_stddev_ms': ...,
+         'iter_time_avg_ms': ...,
+         'epoch_time_sec': ...,
          'num_batches': 5}
         >>> batch_loader.log_stats()
-        INFO:gravitorch.utils.timing:Epoch: 0 | batch: 5 | total time: 0.000 s | avg iter time: 0.010 ms | avg batch load time: 0.004 ms | avg batch load pct: 36.01 %  # noqa: E501,B950
-        INFO:gravitorch.utils.timing:Batch loading time min/avg/median/max/stddev = 0.002/0.004/0.002/0.011/0.004 ms  # noqa: E501,B950
     """
 
     def __init__(self, batch_loader: Iterable[T], epoch: int, prefix: str) -> None:
@@ -193,6 +186,26 @@ class BatchLoadingTimer(Iterable[T]):
         -------
             dict: The dictionary with the batch loading stats. The
                 dictionary is empty if there is no batches.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.timing import BatchLoadingTimer
+            >>> batch_loader = BatchLoadingTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
+            >>> for batch in batch_loader:
+            ...     x = batch + 1
+            ...
+            >>> batch_loader.get_stats()  # doctest: +ELLIPSIS
+            {'batch_load_time_avg_ms': ...,
+             'batch_load_time_max_ms': ...,
+             'batch_load_time_median_ms': ...,
+             'batch_load_time_min_ms': ...,
+             'batch_load_time_pct': ...,
+             'batch_load_time_stddev_ms': ...,
+             'iter_time_avg_ms': ...,
+             'epoch_time_sec': ...,
+             'num_batches': 5}
         """
         if self._meter.count == 0:
             return {}
@@ -224,6 +237,17 @@ class BatchLoadingTimer(Iterable[T]):
                 ``None``, the time metrics are not logged in an
                 engine. In each case, the time metrics are logged in
                 the python logger. Default: ``None``
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.timing import BatchLoadingTimer
+            >>> batch_loader = BatchLoadingTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
+            >>> for batch in batch_loader:
+            ...     x = batch + 1
+            ...
+            >>> batch_loader.log_stats()
         """
         if self._meter.count == 0:
             return  # Do nothing if there is no mini-batch.

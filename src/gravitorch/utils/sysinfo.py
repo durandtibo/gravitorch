@@ -29,7 +29,6 @@ def cpu_human_summary() -> str:
 
         >>> from gravitorch.utils.sysinfo import cpu_human_summary
         >>> cpu_human_summary()
-        CPU - logical/physical count: 4/2 | percent: 42.0 | load 1/5/15min: 42.42/36.48/32.68 %
     """
     loadavg = tuple(100.0 * x / psutil.cpu_count() for x in psutil.getloadavg())
     return (
@@ -67,7 +66,6 @@ def swap_memory_human_summary() -> str:
 
         >>> from gravitorch.utils.sysinfo import swap_memory_human_summary
         >>> swap_memory_human_summary()
-        swap memory - total: 17.00 GB | used: 15.66 GB | free: 1.34 GB | percent: 92.1% | sin: 835.39 GB | sout: 45.64 GB  # noqa: E501,B950
     """
     swap = psutil.swap_memory()
     return (
@@ -93,7 +91,6 @@ def virtual_memory_human_summary() -> str:
 
         >>> from gravitorch.utils.sysinfo import virtual_memory_human_summary
         >>> virtual_memory_human_summary()
-        virtual memory - total: 16.00 GB | available: 2.89 GB | percent: 81.9% | used: 5.43 GB | free: 28.14 MB  # noqa: E501,B950
     """
     vm = psutil.virtual_memory()
     return (
