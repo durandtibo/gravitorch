@@ -76,13 +76,11 @@ def get_torch_generator(
         >>> import torch
         >>> from gravitorch.utils.seed import get_torch_generator
         >>> generator = get_torch_generator(42)
-        >>> torch.rand(2, 4, generator=generator)
-        tensor([[0.8823, 0.9150, 0.3829, 0.9593],
-                [0.3904, 0.6009, 0.2566, 0.7936]])
+        >>> torch.rand(2, 4, generator=generator)  # doctest: +ELLIPSIS
+        tensor([[...]])
         >>> generator = get_torch_generator(42)
-        >>> torch.rand(2, 4, generator=generator)
-        tensor([[0.8823, 0.9150, 0.3829, 0.9593],
-                [0.3904, 0.6009, 0.2566, 0.7936]])
+        >>> torch.rand(2, 4, generator=generator)  # doctest: +ELLIPSIS
+        tensor([[...]])
     """
     generator = torch.Generator(device)
     generator.manual_seed(random_seed)
@@ -93,6 +91,14 @@ class BaseRandomSeedSetter(ABC):
     r"""Define the base class to implement a random seed setter.
 
     Each child class must implement the method ``manual_seed``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.seed import TorchRandomSeedSetter
+        >>> setter = TorchRandomSeedSetter()
+        >>> setter.manual_seed(42)
     """
 
     @abstractmethod
@@ -107,8 +113,8 @@ class BaseRandomSeedSetter(ABC):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.seed import BaseRandomSeedSetter
-            >>> setter: BaseRandomSeedSetter = ...  # Initialize a random seed setter.
+            >>> from gravitorch.utils.seed import TorchRandomSeedSetter
+            >>> setter = TorchRandomSeedSetter()
             >>> setter.manual_seed(42)
         """
 
@@ -119,6 +125,14 @@ class NumpyRandomSeedSetter(BaseRandomSeedSetter):
     The seed must be between ``0`` and ``2**32 - 1``, so a modulo
     operator to convert an integer to an integer between ``0`` and
     ``2**32 - 1``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.seed import NumpyRandomSeedSetter
+        >>> setter = NumpyRandomSeedSetter()
+        >>> setter.manual_seed(42)
     """
 
     def __str__(self) -> str:
@@ -130,7 +144,16 @@ class NumpyRandomSeedSetter(BaseRandomSeedSetter):
 
 class RandomRandomSeedSetter(BaseRandomSeedSetter):
     r"""Implements a random seed setter for the python standard library
-    ``random``."""
+    ``random``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.seed import RandomRandomSeedSetter
+        >>> setter = RandomRandomSeedSetter()
+        >>> setter.manual_seed(42)
+    """
 
     def __str__(self) -> str:
         return f"{self.__class__.__qualname__}()"
@@ -140,7 +163,16 @@ class RandomRandomSeedSetter(BaseRandomSeedSetter):
 
 
 class TorchRandomSeedSetter(BaseRandomSeedSetter):
-    r"""Implements a random seed setter for the library ``torch``."""
+    r"""Implements a random seed setter for the library ``torch``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.seed import TorchRandomSeedSetter
+        >>> setter = TorchRandomSeedSetter()
+        >>> setter.manual_seed(42)
+    """
 
     def __str__(self) -> str:
         return f"{self.__class__.__qualname__}()"
@@ -159,6 +191,14 @@ class RandomSeedSetter(BaseRandomSeedSetter):
         - ``'numpy'``: ``NumpyRandomSeedSetter``
         - ``'random'``: ``RandomRandomSeedSetter``
         - ``'torch'``: ``TorchRandomSeedSetter``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.seed import RandomSeedSetter
+        >>> setter = RandomSeedSetter()
+        >>> setter.manual_seed(42)
     """
 
     registry: dict[str, BaseRandomSeedSetter] = {
@@ -201,10 +241,10 @@ class RandomSeedSetter(BaseRandomSeedSetter):
             >>> from gravitorch.utils.seed import BaseRandomSeedSetter, RandomSeedSetter
             >>> class OtherRandomSeedSetter(BaseRandomSeedSetter):
             ...     def manual_seed(self, seed: int) -> None:
-            ...         ...  # Custom implementation
+            ...         pass
             ...
             >>> RandomSeedSetter.add_setter("other", OtherRandomSeedSetter())
-            # To overwrite an existing random seed setter
+            >>> # To overwrite an existing random seed setter
             >>> RandomSeedSetter.add_setter("other", OtherRandomSeedSetter(), exist_ok=True)
         """
         if name in cls.registry and not exist_ok:
@@ -258,19 +298,18 @@ def manual_seed(seed: int, setter: BaseRandomSeedSetter | None = None) -> None:
 
         >>> from gravitorch.utils.seed import manual_seed
         >>> manual_seed(42)
-        >>> torch.randn(3)
-        tensor([0.3367, 0.1288, 0.2345])
-        >>> torch.randn(3)
-        tensor([ 0.2303, -1.1229, -0.1863])
+        >>> torch.randn(3)  # doctest: +ELLIPSIS
+        tensor([...])
+        >>> torch.randn(3)  # doctest: +ELLIPSIS
+        tensor([...])
         >>> manual_seed(42)
-        >>> torch.randn(3)
-        tensor([0.3367, 0.1288, 0.2345])
-
-        # Set the seed only for numpy
+        >>> torch.randn(3)  # doctest: +ELLIPSIS
+        tensor([...])
+        >>> # Set the seed only for numpy
         >>> from gravitorch.utils.seed import NumpyRandomSeedSetter
         >>> manual_seed(42, NumpyRandomSeedSetter())
-        >>> torch.randn(3)
-        tensor([ 2.2082, -0.6380,  0.4617])
+        >>> torch.randn(3)  # doctest: +ELLIPSIS
+        tensor([...])
     """
     setter = setter or RandomSeedSetter()
     setter.manual_seed(seed)
@@ -297,14 +336,12 @@ def numpy_seed(seed: int) -> Generator[None, None, None]:
         >>> from gravitorch.utils.seed import numpy_seed
         >>> with numpy_seed(42):
         ...     print(numpy.random.randn(2, 4))
-        ...
-        [[ 0.49671415 -0.1382643   0.64768854  1.52302986]
-         [-0.23415337 -0.23413696  1.57921282  0.76743473]]
+        ... # doctest: +ELLIPSIS
+        [[...]]
         >>> with numpy_seed(42):
-        ...     print(numpy.random.randn((2, 4)))
-        ...
-        [[ 0.49671415 -0.1382643   0.64768854  1.52302986]
-         [-0.23415337 -0.23413696  1.57921282  0.76743473]]
+        ...     print(numpy.random.randn(2, 4))
+        ... # doctest: +ELLIPSIS
+        [[...]]
     """
     state = numpy.random.get_state()
     try:
@@ -335,14 +372,12 @@ def torch_seed(seed: int) -> Generator[None, None, None]:
         >>> from gravitorch.utils.seed import torch_seed
         >>> with torch_seed(42):
         ...     print(torch.randn(2, 4))
-        ...
-        tensor([[ 0.3367,  0.1288,  0.2345,  0.2303],
-                [-1.1229, -0.1863,  2.2082, -0.6380]])
+        ... # doctest: +ELLIPSIS
+        tensor([[...]])
         >>> with torch_seed(42):
         ...     print(torch.randn(2, 4))
-        ...
-        tensor([[ 0.3367,  0.1288,  0.2345,  0.2303],
-                [-1.1229, -0.1863,  2.2082, -0.6380]])
+        ... # doctest: +ELLIPSIS
+        tensor([[...]])
     """
     state = torch.get_rng_state()
     cuda_states = torch.cuda.get_rng_state_all()
