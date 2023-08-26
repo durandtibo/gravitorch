@@ -62,6 +62,17 @@ def setup_exp_tracker(exp_tracker: BaseExpTracker | dict | None) -> BaseExpTrack
     Returns:
     -------
         ``BaseExpTracker``: The experiment tracker
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.exp_trackers import setup_exp_tracker
+        >>> exp_tracker = setup_exp_tracker(
+        ...     {"_target_": "gravitorch.utils.exp_trackers.NoOpExpTracker"}
+        ... )
+        >>> exp_tracker
+        NoOpExpTracker(experiment_path=None, is_activated=False)
     """
     if exp_tracker is None:
         exp_tracker = NoOpExpTracker()
@@ -87,7 +98,18 @@ def main_process_only(exp_tracker: BaseExpTracker | dict | None) -> BaseExpTrack
 
     Returns:
     -------
-        ``BaseExpTracker``: The instantiated experiment tracker
+        ``BaseExpTracker``: The instantiated experiment tracker.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.exp_trackers import main_process_only
+        >>> exp_tracker = main_process_only(
+        ...     {"_target_": "gravitorch.utils.exp_trackers.NoOpExpTracker"}
+        ... )
+        >>> exp_tracker
+        NoOpExpTracker(experiment_path=None, is_activated=False)
     """
     if dist.is_main_process():
         return setup_exp_tracker(exp_tracker)
@@ -107,5 +129,13 @@ def sanitize_metrics(metrics: dict) -> dict[str, int | float]:
     Returns:
     -------
         dict: The sanitized metrics.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.exp_trackers import sanitize_metrics
+        >>> sanitize_metrics({"int": 42, "float": 4.2, "list": [1, 2, 3]})
+        {'int': 42, 'float': 4.2}
     """
     return {str(key): value for key, value in metrics.items() if isinstance(value, (int, float))}

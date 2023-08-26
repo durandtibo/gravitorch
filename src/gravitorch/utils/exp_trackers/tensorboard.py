@@ -68,6 +68,16 @@ class TensorBoardExpTracker(BaseBasicExpTracker):
             directory is deleted at the end of the run, otherwise the
             experiment directory is kept. This option is ignored if a
             temporary directory is used. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.exp_trackers import EpochStep, TensorBoardExpTracker
+        >>> with TensorBoardExpTracker() as exp_tracker:
+        ...     exp_tracker.log_metric("my_metric", 1.2)  # without step
+        ...     exp_tracker.log_metric("my_metric", 1.2, EpochStep(2))  # with step
+        ...
     """
 
     def __init__(
