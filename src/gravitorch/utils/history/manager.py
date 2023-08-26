@@ -8,7 +8,9 @@ import copy
 import logging
 from typing import Any
 
-from gravitorch.utils.format import str_indent, str_torch_mapping
+from coola.utils import str_mapping
+
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.history.base import BaseHistory
 from gravitorch.utils.history.generic import GenericHistory
 from gravitorch.utils.history.utils import get_best_values
@@ -25,7 +27,7 @@ class HistoryManager:
     """
 
     def __init__(self) -> None:
-        self._histories = {}
+        self._histories = dict()
 
     def __len__(self) -> int:
         r"""``int``: The number of histories in the manager."""
@@ -35,7 +37,7 @@ class HistoryManager:
         if self._histories:
             return (
                 f"{self.__class__.__qualname__}(\n"
-                f"  {str_indent(str_torch_mapping(self._histories))}\n)"
+                f"  {str_indent(str_mapping(self._histories))}\n)"
             )
         return f"{self.__class__.__qualname__}()"
 
@@ -50,8 +52,7 @@ class HistoryManager:
                 store the history. If ``None``, the name of the
                 history is used. Default: ``None``
 
-        Example:
-        -------
+        Example usage:
 
         .. code-block:: pycon
 
@@ -60,12 +61,13 @@ class HistoryManager:
             >>> manager.add_history(MinScalarHistory("loss"))
             >>> manager
             HistoryManager(
-              (loss) MinScalarHistory(name=loss, max_size=10, history=())
+              (loss): MinScalarHistory(name=loss, max_size=10, history=())
             )
             >>> manager.add_history(MinScalarHistory("loss"), "my key")
+            >>> manager
             HistoryManager(
-              (loss) MinScalarHistory(name=loss, max_size=10, history=())
-              (my key) MinScalarHistory(name=loss, max_size=10, history=())
+              (loss): MinScalarHistory(name=loss, max_size=10, history=())
+              (my key): MinScalarHistory(name=loss, max_size=10, history=())
             )
         """
         if key is None:
@@ -99,19 +101,20 @@ class HistoryManager:
         -------
             dict: The dict with the best value of each metric.
 
-        Example:
-        -------
+        Example usage:
 
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.history import HistoryManager
+            >>> from gravitorch.utils.history import HistoryManager, MaxScalarHistory
             >>> manager = HistoryManager()
+            >>> manager.add_history(MaxScalarHistory("accuracy"))
+            >>> manager.get_history("accuracy").add_value(42.0)
             >>> manager.get_best_values()
-            {'accuracy': 42}
+            {'accuracy': 42.0}
             >>> manager.get_best_values(prefix="best/")
-            {'best/accuracy': 42}
+            {'best/accuracy': 42.0}
             >>> manager.get_best_values(suffix="/best")
-            {'accuracy/best': 42}
+            {'accuracy/best': 42.0}
         """
         return get_best_values(self._histories, prefix=prefix, suffix=suffix)
 
@@ -128,8 +131,7 @@ class HistoryManager:
                 otherwise it returns an empty history. The created
                 empty history is a ``GenericHistory``.
 
-        Example:
-        -------
+        Example usage:
 
         .. code-block:: pycon
 
@@ -137,9 +139,9 @@ class HistoryManager:
             >>> manager = HistoryManager()
             >>> manager.add_history(MinScalarHistory("loss"))
             >>> manager.get_history("loss")
-            MinScalarHistory(name='loss', ...)
+            MinScalarHistory(name=loss, max_size=10, history=())
             >>> manager.get_history("new_history")
-            GenericHistory(name='new_history', ...)
+            GenericHistory(name=new_history, max_size=10, history=())
         """
         if not self.has_history(key):
             self._histories[key] = GenericHistory(name=key)
@@ -152,15 +154,15 @@ class HistoryManager:
         -------
             ``dict``: The histories with their keys.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
             >>> from gravitorch.utils.history import HistoryManager, MinScalarHistory
             >>> manager = HistoryManager()
             >>> manager.add_history(MinScalarHistory("loss"))
             >>> manager.get_histories()
-            {'loss': MinScalarHistory(name='loss', ...)}
+            {'loss': MinScalarHistory(name=loss, max_size=10, history=())}
         """
         return copy.copy(self._histories)
 
@@ -175,8 +177,8 @@ class HistoryManager:
         -------
             bool: ``True`` if the history exists, ``False`` otherwise
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
             >>> from gravitorch.utils.history import HistoryManager, MinScalarHistory
@@ -196,14 +198,18 @@ class HistoryManager:
         ----
             state_dict (dict): a dict with parameters
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.history import HistoryManager
+            >>> from gravitorch.utils.history import HistoryManager, GenericHistory
             >>> manager = HistoryManager()
-            >>> my_state_dict = {...}  # the state dict depends on the histories
-            >>> manager.load_state_dict(my_state_dict)
+            >>> manager.add_history(GenericHistory("value"))
+            >>> manager.load_state_dict(
+            ...     {"value": {"state": {"history": ((0, 1), (1, 0.5), (2, 0.25))}}}
+            ... )
+            >>> manager.get_history("value").get_last_value()
+            0.25
         """
         for key, state in state_dict.items():
             if self.has_history(key):
@@ -219,8 +225,8 @@ class HistoryManager:
         -------
             dict: the state values in a dict.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
             >>> from gravitorch.utils.history import HistoryManager

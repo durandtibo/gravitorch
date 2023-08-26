@@ -1,4 +1,5 @@
 r"""This module implements some comparable histories."""
+
 from __future__ import annotations
 
 __all__ = ["ComparableHistory", "MaxScalarHistory", "MinScalarHistory"]
@@ -36,6 +37,22 @@ class ComparableHistory(GenericHistory[T]):
             the ``comparator`` is used. Default: ``None``
         improved (bool, optional): Indicates if the last value is the
             best value or not. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.history import ComparableHistory
+        >>> from gravitorch.utils.history.comparator import MaxScalarComparator
+        >>> history = ComparableHistory("value", MaxScalarComparator())
+        >>> history.add_value(64.0)
+        >>> history.add_value(42.0)
+        >>> history.get_last_value()
+        42.0
+        >>> history.get_recent_history()
+        ((None, 64.0), (None, 42.0))
+        >>> history.get_best_value()
+        64.0
     """
 
     def __init__(
@@ -79,7 +96,7 @@ class ComparableHistory(GenericHistory[T]):
 
             >>> from gravitorch.utils.history import ComparableHistory
             >>> from gravitorch.utils.history.comparator import MaxScalarComparator
-            >>> history = ComparableHistory("accuracy", comparator=MaxScalarComparator())
+            >>> history = ComparableHistory("accuracy", MaxScalarComparator())
             >>> history.is_better(new_value=1, old_value=0)
             True
             >>> history.is_better(new_value=0, old_value=1)
@@ -139,6 +156,21 @@ class MaxScalarHistory(ComparableHistory[Number]):
             the ``comparator`` is used. Default: ``None``
         improved (bool, optional): Indicates if the last value is the
             best value or not. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.history import MaxScalarHistory
+        >>> history = MaxScalarHistory("value")
+        >>> history.add_value(64.0)
+        >>> history.add_value(42.0)
+        >>> history.get_recent_history()
+        ((None, 64.0), (None, 42.0))
+        >>> history.get_last_value()
+        42.0
+        >>> history.get_best_value()
+        64.0
     """
 
     def __init__(
@@ -184,6 +216,21 @@ class MinScalarHistory(ComparableHistory[Number]):
             the ``comparator`` is used. Default: ``None``
         improved (bool, optional): Indicates if the last value is the
             best value or not. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.history import MinScalarHistory
+        >>> history = MinScalarHistory("value")
+        >>> history.add_value(64.0)
+        >>> history.add_value(42.0)
+        >>> history.get_recent_history()
+        ((None, 64.0), (None, 42.0))
+        >>> history.get_last_value()
+        42.0
+        >>> history.get_best_value()
+        42.0
     """
 
     def __init__(

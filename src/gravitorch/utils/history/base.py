@@ -1,4 +1,5 @@
 r"""This module defines the base class of the history tracker."""
+
 from __future__ import annotations
 
 __all__ = [
@@ -62,6 +63,17 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
     Args:
     ----
         name (str): Specifies the name of the history.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.history import GenericHistory
+        >>> history = GenericHistory("loss")
+        >>> history.add_value(value=2, step=0)
+        >>> history.add_value(value=1.2, step=1)
+        >>> history.get_last_value()
+        1.2
     """
 
     def __init__(self, name: str) -> None:
@@ -342,6 +354,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             >>> from gravitorch.utils.history import BaseHistory, GenericHistory
             >>> config = GenericHistory("loss").config_dict()
             >>> history = BaseHistory.factory(**config)  # Note that the state is not copied.
+            >>> history
+            GenericHistory(name=loss, max_size=10, history=())
         """
         return {
             OBJECT_TARGET: full_object_name(self.__class__),
@@ -364,7 +378,9 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
             >>> from gravitorch.utils.history import GenericHistory
             >>> history = GenericHistory("loss")
-            >>> history.load_state_dict({...})
+            >>> history.load_state_dict({"history": ((0, 42.0),)})
+            >>> history.get_last_value()
+            42.0
         """
 
     @abstractmethod
@@ -380,7 +396,11 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.utils.history import GenericHistory
-            >>> state = GenericHistory("loss").state_dict()
+            >>> history = GenericHistory("loss")
+            >>> history.add_value(42.0, step=0)
+            >>> state = history.state_dict()
+            >>> state
+            {'history': ((0, 42.0),)}
         """
 
     @classmethod
@@ -415,6 +435,8 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
             ...         "state": {"history": ((0, 1), (1, 5))},
             ...     }
             ... )
+            >>> history
+            GenericHistory(name=loss, max_size=7, history=((0, 1), (1, 5)))
         """
         obj = cls.factory(**data["config"])
         obj.load_state_dict(data["state"])
@@ -439,7 +461,9 @@ class BaseHistory(Generic[T], ABC, metaclass=AbstractFactory):
 
             >>> from gravitorch.utils.history import BaseHistory, GenericHistory
             >>> history_dict = GenericHistory("loss").to_dict()
-            >>> history = BaseHistory.from_dict(**history_dict)
+            >>> history = BaseHistory.from_dict(history_dict)
+            >>> history
+            GenericHistory(name=loss, max_size=10, history=())
         """
         return {"config": self.config_dict(), "state": self.state_dict()}
 
