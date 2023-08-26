@@ -1,6 +1,8 @@
 r"""This package contains the implementation of a lot of utilities used
 in the other packages."""
 
+from __future__ import annotations
+
 __all__ = [
     "get_available_devices",
     "manual_seed",

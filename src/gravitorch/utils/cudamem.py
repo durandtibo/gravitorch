@@ -21,14 +21,14 @@ def log_cuda_memory_summary() -> None:
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.utils.cuda_memory import log_cuda_memory_summary
-        >>> torch.randn(4, 6, device="cuda:0")
+        >>> from gravitorch.utils.cudamem import log_cuda_memory_summary
+        >>> torch.randn(4, 6, device="cuda:0")  # xdoctest: +SKIP()
         tensor([[ 0.9865, -0.5485, -0.9522,  0.0158,  1.1500, -1.9437],
                 [ 0.4883,  0.8954, -1.1421,  0.4309, -0.7286,  0.5707],
                 [ 0.2984, -1.7045, -0.1694,  0.7324,  0.2014,  0.6356],
                 [-0.7928, -1.6999,  0.4724, -0.7914, -0.1426, -0.7764]],
                device='cuda:0')
-        >>> log_cuda_memory_summary()
+        >>> log_cuda_memory_summary()  # xdoctest: +SKIP()
         INFO:gravitorch.utils.cuda_memory:Max CUDA memory allocated: 3.50 KB / 10.92 GB (0.00%)
         INFO:gravitorch.utils.cuda_memory:
         |===========================================================================|
@@ -90,14 +90,14 @@ def log_max_cuda_memory_allocated() -> None:
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.utils.cuda_memory import log_max_cuda_memory_allocated
-        >>> torch.randn(4, 6, device="cuda:0")
+        >>> from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
+        >>> torch.randn(4, 6, device="cuda:0")  # xdoctest: +SKIP()
         tensor([[ 0.9865, -0.5485, -0.9522,  0.0158,  1.1500, -1.9437],
                 [ 0.4883,  0.8954, -1.1421,  0.4309, -0.7286,  0.5707],
                 [ 0.2984, -1.7045, -0.1694,  0.7324,  0.2014,  0.6356],
                 [-0.7928, -1.6999,  0.4724, -0.7914, -0.1426, -0.7764]],
                device='cuda:0')
-        >>> log_max_cuda_memory_allocated()
+        >>> log_max_cuda_memory_allocated()  # xdoctest: +SKIP()
         INFO:gravitorch.utils.cuda_memory:Max CUDA memory allocated: 3.50 KB / 10.92 GB (0.00%)
     """
     if torch.cuda.is_available():

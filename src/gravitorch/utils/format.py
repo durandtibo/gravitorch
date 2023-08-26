@@ -61,13 +61,13 @@ def human_byte_size(size: int, unit: str | None = None) -> str:
 
         >>> from gravitorch.utils.format import human_byte_size
         >>> human_byte_size(2)
-        2.00 B
+        '2.00 B'
         >>> human_byte_size(2048)
-        2.00 KB
+        '2.00 KB'
         >>> human_byte_size(2097152)
-        2.00 MB
+        '2.00 MB'
         >>> human_byte_size(2048, unit="B")
-        2,048.00 B
+        '2,048.00 B'
     """
     if unit is None:  # Find the best unit.
         best_unit = "B"
@@ -104,7 +104,7 @@ def human_count(number: int | float) -> str:
 
         >>> from gravitorch.utils.format import human_count
         >>> human_count(123)
-        '123  '
+        '123'
         >>> human_count(1234)  # (one thousand)
         '1.2 K'
         >>> human_count(2e6)  # (two million)
@@ -187,10 +187,10 @@ def str_indent(original: Any, num_spaces: int = 2) -> str:
         string1
         string2
         >>> print(f"\t{string_to_print}")
-            string1
+          string1
         string2
-        # The problem is that 'string1' and 'string2' are not aligned.
-        # The indentation is only applied to the first line
+        >>> # The problem is that 'string1' and 'string2' are not aligned.
+        >>> # The indentation is only applied to the first line
         >>> from gravitorch.utils.format import str_indent
         >>> print(f"\t{str_indent(string_to_print, 4)}")
             string1
@@ -235,14 +235,14 @@ def str_mapping(
     .. code-block:: pycon
 
         >>> from gravitorch.utils.format import str_mapping
-        >>> str_mapping({"key1": "value1", "key2": "value2"})
+        >>> print(str_mapping({"key1": "value1", "key2": "value2"}))
         key1=value1
         key2=value2
-        >>> str_mapping({"key1": "long\nvalue1", "key2": "value2"})
+        >>> print(str_mapping({"key1": "long\nvalue1", "key2": "value2"}))
         key1=long
           value1
         key2=value2
-        >>> str_mapping({"key1": "value1", "key2": "value2"}, one_line=True)
+        >>> print(str_mapping({"key1": "value1", "key2": "value2"}, one_line=True))
         key1=value1, key2=value2
     """
     items = sorted(mapping.items()) if sorted_keys else mapping.items()
@@ -451,7 +451,7 @@ def str_torch_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: i
     .. code-block:: pycon
 
         >>> from gravitorch.utils.format import str_torch_mapping
-        >>> str_torch_mapping({"key1": "abc", "key2": "something\nelse"})
+        >>> print(str_torch_mapping({"key1": "abc", "key2": "something\nelse"}))
         (key1): abc
         (key2): something
           else
@@ -481,7 +481,7 @@ def str_torch_sequence(sequence: Sequence, num_spaces: int = 2) -> str:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.format import str_torch_sequence
-        >>> str_torch_sequence(["abc", "something\nelse"])
+        >>> print(str_torch_sequence(["abc", "something\nelse"]))
         (0): abc
         (1): something
           else

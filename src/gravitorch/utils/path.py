@@ -37,6 +37,13 @@ def get_original_cwd() -> Path:
         ``pathlib.Path``: If Hydra is initialized, it returns the
             original working directory otherwise it returns the
             current working directory.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.path import get_original_cwd
+        >>> get_original_cwd()
     """
     if HydraConfig.initialized():
         return sanitize_path(hydra.utils.get_original_cwd())
@@ -51,6 +58,13 @@ def get_pythonpath() -> Path:
     -------
         ``pathlib.Path``: The value of the PYTHONPATH or the original
             working directory if it is not defined.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.path import get_pythonpath
+        >>> get_pythonpath()
     """
     return sanitize_path(os.environ.get("PYTHONPATH", get_original_cwd()))
 
@@ -71,11 +85,10 @@ def working_directory(path: Path) -> Generator[None, None, None]:
 
     .. code-block:: pycon
 
-        # Do something in original directory
-        >>> with working_directory(Path("/my/new/path")):
-        ...     x = 1  # Do something in new directory
+        >>> from gravitorch.utils.path import working_directory
+        >>> with working_directory(Path("src")):
+        ...     x = 1
         ...
-        # Back to old directory
     """
     path = sanitize_path(path)
     prev_cwd = Path.cwd()
@@ -96,6 +109,15 @@ def get_number_of_files(path: str) -> int:
     Returns:
     -------
         int: The number of files.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> from gravitorch.utils.path import find_tar_files
+        >>> get_number_of_files("/my/path/data")
+        0
     """
     return sum([len(files) for _, _, files in os.walk(path)])
 
@@ -116,6 +138,15 @@ def find_tar_files(path: Path, recursive: bool = True) -> tuple[Path, ...]:
     Returns:
     -------
         tuple: The tuple of path of tar files.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> from gravitorch.utils.path import find_tar_files
+        >>> find_tar_files(Path("something"))  # doctest: +ELLIPSIS
+        (...)
     """
     path = sanitize_path(path)
     if path.is_dir():
@@ -127,7 +158,7 @@ def find_tar_files(path: Path, recursive: bool = True) -> tuple[Path, ...]:
             elif not is_dir and tarfile.is_tarfile(sub_path):
                 list_files.append(sub_path)
         return tuple(list_files)
-    if tarfile.is_tarfile(path):
+    if path.is_file() and tarfile.is_tarfile(path):
         return (path,)
     return ()
 
@@ -148,20 +179,16 @@ def sanitize_path(path: Path | str) -> Path:
 
     .. code-block:: pycon
 
-        # Let's assume the current path is /my/path
         >>> from pathlib import Path
         >>> from gravitorch.utils.path import sanitize_path
-        >>> sanitize_path("something")
-        PosixPath('/my/path/something')
-        >>> sanitize_path("")
-        PosixPath('/my/path')
-        >>> sanitize_path(Path("something"))
-        PosixPath('/my/path/something')
-        >>> sanitize_path(Path("something/./../"))
-        PosixPath('/my/path')
-        # Support URI syntax
-        >>> sanitize_path("file:///my/path/something/./../")
-        PosixPath('/my/path')
+        >>> sanitize_path("something")  # doctest: +ELLIPSIS
+        PosixPath('.../something')
+        >>> sanitize_path("")  # doctest: +ELLIPSIS
+        PosixPath('...')
+        >>> sanitize_path(Path("something"))  # doctest: +ELLIPSIS
+        PosixPath('.../something')
+        >>> sanitize_path(Path("something/./../"))  # doctest: +ELLIPSIS
+        PosixPath('...')
     """
     if isinstance(path, str):
         # Use urlparse to parse file URI: https://stackoverflow.com/a/15048213
@@ -189,7 +216,7 @@ def get_human_readable_file_size(path: Path | str, unit: str | None = None) -> s
     .. code-block:: pycon
 
         >>> from gravitorch.utils.path import get_human_readable_file_size
-        >>> get_human_readable_file_size("/my/path/data.txt")
-        2.00 KB
+        >>> get_human_readable_file_size("README.md")  # doctest: +ELLIPSIS
+        '...B'
     """
     return human_byte_size(size=sanitize_path(path).stat().st_size, unit=unit)

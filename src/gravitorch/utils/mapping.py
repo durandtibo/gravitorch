@@ -163,34 +163,21 @@ def to_flat_dict(
         ...     },
         ... }
         >>> to_flat_dict(data)
-        {
-            'module.component.float': 3.5,
-            'module.component.int': 2,
-            'str': 'def',
-        }
-        # Example with lists (also works with tuple)
+        {'str': 'def', 'module.component.float': 3.5, 'module.component.int': 2}
+        >>> # Example with lists (also works with tuple)
         >>> data = {
         ...     "module": [[1, 2, 3], {"bool": True}],
         ...     "str": "abc",
         ... }
         >>> to_flat_dict(data)
-        {
-            'module.0.0': 1,
-            'module.0.1': 2,
-            'module.0.2': 3,
-            'module.1.bool': True,
-            'str': 'abc',
-        }
-        # Example with lists with to_str=(list) (also works with tuple)
+        {'module.0.0': 1, 'module.0.1': 2, 'module.0.2': 3, 'module.1.bool': True, 'str': 'abc'}
+        >>> # Example with lists with to_str=(list) (also works with tuple)
         >>> data = {
         ...     "module": [[1, 2, 3], {"bool": True}],
         ...     "str": "abc",
         ... }
         >>> to_flat_dict(data)
-        {
-            'module': "[[1, 2, 3], {'bool': True}]",
-            'str': 'abc',
-        }
+        {'module.0.0': 1, 'module.0.1': 2, 'module.0.2': 3, 'module.1.bool': True, 'str': 'abc'}
     """
     flat_dict = {}
     to_str = to_str or ()
