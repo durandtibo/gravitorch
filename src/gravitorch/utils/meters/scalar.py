@@ -48,14 +48,14 @@ class ScalarMeter:
         >>> meter = ScalarMeter()
         >>> meter.update(6)
         >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
-        >>> print(meter)
+        >>> print(meter)  # xdoctest: +ELLIPSIS
         ScalarMeter
           average : 3.0
           count   : 7
-          max     : 6
-          median  : 3
-          min     : 0
-          std     : 2.1602468490600586
+          max     : 6.0
+          median  : 3.0
+          min     : 0.0
+          std     : 2.16024684906...
           sum     : 21.0
         >>> meter.average()
         3.0
@@ -116,6 +116,16 @@ class ScalarMeter:
 
         If there are more values that the maximum size, only the last
         values are returned.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.values
+            (1.0, 2.0, 3.0, 4.0, 5.0, 0.0)
         """
         return tuple(self._values)
 
@@ -129,6 +139,16 @@ class ScalarMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.average()
+            2.5
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -145,6 +165,19 @@ class ScalarMeter:
         -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter1 = ScalarMeter()
+            >>> meter1.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter2 = ScalarMeter()
+            >>> meter2.update_sequence([1, 1, 1])
+            >>> meter1.equal(meter2)
+            False
         """
         if not isinstance(other, ScalarMeter):
             return False
@@ -157,6 +190,31 @@ class ScalarMeter:
         ----
             state_dict (dict): Dictionary containing state keys with
                 values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.load_state_dict(
+            ...     {
+            ...         "count": 6,
+            ...         "total": 15.0,
+            ...         "values": (1.0, 2.0, 3.0, 4.0, 5.0, 0.0),
+            ...         "max_value": 5.0,
+            ...         "min_value": 0.0,
+            ...     }
+            ... )
+            >>> meter.count
+            6
+            >>> meter.min()
+            0.0
+            >>> meter.max()
+            5.0
+            >>> meter.sum()
+            15.0
         """
         self._total = state_dict["total"]
         self._count = state_dict["count"]
@@ -175,6 +233,16 @@ class ScalarMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.max()
+            5.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -197,6 +265,16 @@ class ScalarMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5])
+            >>> meter.average()
+            3.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -216,7 +294,27 @@ class ScalarMeter:
 
         Returns:
         -------
-            ``AverageMeter``: The merged meter.
+            ``ScalarMeter``: The merged meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter1 = ScalarMeter()
+            >>> meter1.update_sequence((4, 5, 6, 7, 8, 3))
+            >>> meter2 = ScalarMeter()
+            >>> meter2.update_sequence([1, 1, 1])
+            >>> meter3 = meter1.merge([meter2])
+            >>> meter3.count
+            9
+            >>> meter3.max()
+            8.0
+            >>> meter3.min()
+            1.0
+            >>> meter3.sum()
+            36.0
         """
         count, total = self._count, self._total
         min_value, max_value = self._min_value, self._max_value
@@ -249,7 +347,27 @@ class ScalarMeter:
 
         Returns:
         -------
-            ``AverageMeter``: The merged meter.
+            ``ScalarMeter``: The merged meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter1 = ScalarMeter()
+            >>> meter1.update_sequence((4, 5, 6, 7, 8, 3))
+            >>> meter2 = ScalarMeter()
+            >>> meter2.update_sequence([1, 1, 1])
+            >>> meter1.merge_([meter2])
+            >>> meter1.count
+            9
+            >>> meter1.max()
+            8.0
+            >>> meter1.min()
+            1.0
+            >>> meter1.sum()
+            36.0
         """
         for meter in meters:
             self._count += meter.count
@@ -267,13 +385,38 @@ class ScalarMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.min()
+            0.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
         return self._min_value
 
     def reset(self) -> None:
-        r"""Reset the meter."""
+        r"""Reset the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.reset()
+            >>> meter.count
+            0
+            >>> meter.total
+            0.0
+        """
         self._total = 0.0
         self._count = 0
         self._min_value = float("inf")
@@ -286,6 +429,17 @@ class ScalarMeter:
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.state_dict()
+            {'count': 6, 'total': 15.0, 'values': (1.0, 2.0, 3.0, 4.0, 5.0, 0.0), 'max_value': 5.0, 'min_value': 0.0}
         """
         return {
             "count": self._count,
@@ -310,6 +464,16 @@ class ScalarMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.std()  # xdoctest: +ELLIPSIS
+            1.8708287477...
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -325,6 +489,16 @@ class ScalarMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.sum()
+            15.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -336,6 +510,18 @@ class ScalarMeter:
         Args:
         ----
             value (float): Specifies the value to add to the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update(6)
+            >>> meter.count
+            1
+            >>> meter.sum()
+            6.0
         """
         value = float(value)
         self._total += value
@@ -351,6 +537,16 @@ class ScalarMeter:
         ----
             values (list or tuple): Specifies the list/tuple of
                 values to add to the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ScalarMeter
+            >>> meter = ScalarMeter()
+            >>> meter.update_sequence([1, 2, 3, 4, 5, 0])
+            >>> meter.count
+            6
         """
         self._total += float(sum(values))
         self._count += len(values)

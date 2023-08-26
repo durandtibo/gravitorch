@@ -1,4 +1,5 @@
 r"""This module defines the base comparator and some implementations."""
+
 from __future__ import annotations
 
 __all__ = [
@@ -28,7 +29,19 @@ logger = logging.getLogger(__name__)
 
 
 class BaseComparator(Generic[T], ABC):
-    r"""Definition of the base comparator class."""
+    r"""Definition of the base comparator class.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.history.comparator import MinScalarComparator
+        >>> comparator = MinScalarComparator()
+        >>> comparator.is_better(old_value=0.4, new_value=0.6)
+        False
+        >>> comparator.get_initial_best_value()
+        inf
+    """
 
     @abstractmethod
     def equal(self, other: Any) -> bool:
@@ -42,6 +55,17 @@ class BaseComparator(Generic[T], ABC):
         -------
             bool: ``True`` if the comparators are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.history.comparator import MinScalarComparator, MaxScalarComparator
+            >>> comparator = MinScalarComparator()
+            >>> comparator.equal(MinScalarComparator())
+            True
+            >>> comparator.equal(MaxScalarComparator())
+            False
         """
 
     @abstractmethod
@@ -51,6 +75,15 @@ class BaseComparator(Generic[T], ABC):
         Returns
         -------
             The initial best value.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.history.comparator import MinScalarComparator
+            >>> comparator = MinScalarComparator()
+            >>> comparator.get_initial_best_value()
+            inf
         """
 
     @abstractmethod
@@ -66,6 +99,15 @@ class BaseComparator(Generic[T], ABC):
         -------
             bool: ``True`` if the new value is better than the old
                 value, otherwise ``False``.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.history.comparator import MinScalarComparator
+            >>> comparator = MinScalarComparator()
+            >>> comparator.is_better(old_value=0.4, new_value=0.6)
+            False
         """
 
 
@@ -74,6 +116,17 @@ class MaxScalarComparator(BaseComparator[Union[float, int]]):
 
     This comparator can be used to find the maximum value between two
     scalar values.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.history.comparator import MaxScalarComparator
+        >>> comparator = MaxScalarComparator()
+        >>> comparator.is_better(old_value=0.4, new_value=0.6)
+        True
+        >>> comparator.get_initial_best_value()
+        -inf
     """
 
     def equal(self, other: Any) -> bool:
@@ -91,6 +144,17 @@ class MinScalarComparator(BaseComparator[Union[float, int]]):
 
     This comparator can be used to find the minimum value between two
     scalar values.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.history.comparator import MinScalarComparator
+        >>> comparator = MinScalarComparator()
+        >>> comparator.is_better(old_value=0.4, new_value=0.6)
+        False
+        >>> comparator.get_initial_best_value()
+        inf
     """
 
     def equal(self, other: Any) -> bool:

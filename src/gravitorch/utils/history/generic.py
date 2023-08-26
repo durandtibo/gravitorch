@@ -33,6 +33,19 @@ class GenericHistory(BaseHistory[T]):
             value. Default: ``tuple()``
         max_size (int, optional): Specifies the maximum size
             of the history. Default: ``10``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.history import GenericHistory
+        >>> history = GenericHistory("value")
+        >>> history.add_value(64.0)
+        >>> history.add_value(42.0)
+        >>> history.get_last_value()
+        42.0
+        >>> history.get_recent_history()
+        ((None, 64.0), (None, 42.0))
     """
 
     def __init__(
