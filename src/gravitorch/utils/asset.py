@@ -26,7 +26,18 @@ class AssetNotFoundError(Exception):
 
 
 class AssetManager:
-    r"""Implements an asset manager."""
+    r"""Implements an asset manager.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.asset import AssetManager
+        >>> manager = AssetManager()
+        >>> manager.add_asset("mean", 5)
+        >>> manager.get_asset("mean")
+        5
+    """
 
     def __init__(self, assets: dict[str, Any] | None = None) -> None:
         self._assets = assets or {}
@@ -85,14 +96,14 @@ class AssetManager:
             >>> from gravitorch.utils.asset import AssetManager
             >>> manager = AssetManager({"name": 5})
             >>> clone = manager.clone()
-            >>> manager.add_asset("name", 7)
+            >>> manager.add_asset("name", 7, replace_ok=True)
             >>> manager
             AssetManager(
-              (name) <class 'int'>  7
+              (name): <class 'int'>  7
             )
             >>> clone
             AssetManager(
-              (name) <class 'int'>  5
+              (name): <class 'int'>  5
             )
         """
         return AssetManager(copy.deepcopy(self._assets))
@@ -219,7 +230,6 @@ class AssetManager:
             >>> manager = AssetManager()
             >>> manager.add_asset("mean", 5)
             >>> manager.remove_asset("mean")
-            5
             >>> manager.has_asset("mean")
             False
         """

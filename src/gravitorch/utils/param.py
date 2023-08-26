@@ -25,7 +25,7 @@ def is_parameter(value: Any) -> bool:
 
         >>> import torch
         >>> from torch.nn import Parameter, UninitializedParameter
-        >>> from gravitorch.utils.parameter import is_parameter
+        >>> from gravitorch.utils.param import is_parameter
         >>> is_parameter(Parameter(torch.ones(2, 3)))
         True
         >>> is_parameter(UninitializedParameter())
@@ -55,12 +55,12 @@ def is_uninitialized_parameter(value: Any) -> bool:
 
         >>> import torch
         >>> from torch.nn import Parameter, UninitializedParameter
-        >>> from gravitorch.utils.parameter import is_uninitialized_parameter
-        >>> is_parameter(UninitializedParameter())
+        >>> from gravitorch.utils.param import is_uninitialized_parameter
+        >>> is_uninitialized_parameter(UninitializedParameter())
         True
-        >>> is_parameter(Parameter(torch.ones(2, 3)))
+        >>> is_uninitialized_parameter(Parameter(torch.ones(2, 3)))
         False
-        >>> is_parameter(torch.ones(2, 3))
+        >>> is_uninitialized_parameter(torch.ones(2, 3))
         False
     """
     return isinstance(value, UninitializedParameter)

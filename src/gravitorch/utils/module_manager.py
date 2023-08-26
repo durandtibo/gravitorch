@@ -17,6 +17,17 @@ class ModuleManager:
 
     This module manager assumes that the modules have a ``state_dict``
     and ``load_state_dict`` methods.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.module_manager import ModuleManager
+        >>> manager = ModuleManager()
+        >>> from torch import nn
+        >>> manager.add_module("my_module", nn.Linear(4, 6))
+        >>> manager.get_module("my_module")
+        Linear(in_features=4, out_features=6, bias=True)
     """
 
     def __init__(self) -> None:
@@ -81,7 +92,7 @@ class ModuleManager:
             >>> from torch import nn
             >>> manager.add_module("my_module", nn.Linear(4, 6))
             >>> manager.get_module("my_module")
-            nn.Linear(4, 6)
+            Linear(in_features=4, out_features=6, bias=True)
         """
         if not self.has_module(name):
             raise ValueError(f"The module '{name}' does not exist")
@@ -156,6 +167,19 @@ class ModuleManager:
             keys (list or tuple or ``None``): Specifies the keys to
                 load. If ``None``, it loads all the keys associated
                 to the registered modules.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.module_manager import ModuleManager
+            >>> manager = ModuleManager()
+            >>> import torch
+            >>> from torch import nn
+            >>> manager.add_module("my_module", nn.Linear(4, 6))
+            >>> manager.load_state_dict(
+            ...     {"my_module": {"weight": torch.ones(6, 4), "bias": torch.zeros(6)}}
+            ... )
         """
         keys = keys or tuple(self._modules.keys())
         for key in keys:
@@ -190,23 +214,13 @@ class ModuleManager:
             >>> manager = ModuleManager()
             >>> from torch import nn
             >>> manager.add_module("my_module", nn.Linear(4, 6))
-            >>> manager.state_dict()
-            {'my_module': OrderedDict([('weight', tensor([[-0.3810, -0.3761,  0.3272,  0.2582],
-                    [ 0.4013,  0.0173,  0.3931, -0.1642],
-                    [-0.4772,  0.1962, -0.0101,  0.0654],
-                    [-0.1067,  0.3788, -0.0949, -0.3952],
-                    [ 0.0111, -0.2536, -0.3626, -0.0810],
-                    [-0.1757, -0.4256, -0.1076, -0.2050]])),
-                ('bias', tensor([ 0.2897, -0.4282, -0.2547, -0.2704, -0.1545,  0.2825]))])}
+            >>> manager.state_dict()  # doctest: +ELLIPSIS
+            {'my_module': OrderedDict([('weight', tensor([[...)),
+                ('bias', tensor([...))])}
             >>> manager.add_module("int", 123)
-            >>> manager.state_dict()
-            {'my_module': OrderedDict([('weight', tensor([[-0.3810, -0.3761,  0.3272,  0.2582],
-                    [ 0.4013,  0.0173,  0.3931, -0.1642],
-                    [-0.4772,  0.1962, -0.0101,  0.0654],
-                    [-0.1067,  0.3788, -0.0949, -0.3952],
-                    [ 0.0111, -0.2536, -0.3626, -0.0810],
-                    [-0.1757, -0.4256, -0.1076, -0.2050]])),
-                ('bias', tensor([ 0.2897, -0.4282, -0.2547, -0.2704, -0.1545,  0.2825]))])}
+            >>> manager.state_dict()  # doctest: +ELLIPSIS
+            {'my_module': OrderedDict([('weight', tensor([[...]])),
+                ('bias', tensor([...]))])}
         """
         state = {}
         for name, module in self._modules.items():

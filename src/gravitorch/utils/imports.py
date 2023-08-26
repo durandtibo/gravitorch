@@ -34,6 +34,13 @@ def check_accelerate() -> None:
     Raises
     ------
         RuntimeError if the ``accelerate`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_accelerate
+        >>> check_accelerate()
     """
     if not is_accelerate_available():
         raise RuntimeError(
@@ -47,6 +54,13 @@ def is_accelerate_available() -> bool:
     r"""Indicates if the ``accelerate`` package is installed or not.
 
     https://huggingface.co/docs/accelerate/index.html
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_accelerate_available
+        >>> is_accelerate_available()
     """
     return find_spec("accelerate") is not None
 
@@ -62,6 +76,13 @@ def check_fairscale() -> None:
     Raises
     ------
         RuntimeError if the ``fairscale`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_fairscale
+        >>> check_fairscale()  # xdoctest: +SKIP()
     """
     if not is_fairscale_available():
         raise RuntimeError(
@@ -72,7 +93,15 @@ def check_fairscale() -> None:
 
 
 def is_fairscale_available() -> bool:
-    r"""Indicates if the ``fairscale`` package is installed or not."""
+    r"""Indicates if the ``fairscale`` package is installed or not.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_fairscale_available
+        >>> is_fairscale_available()
+    """
     return find_spec("fairscale") is not None
 
 
@@ -87,6 +116,13 @@ def check_matplotlib() -> None:
     Raises
     ------
         RuntimeError if the ``matplotlib`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_matplotlib
+        >>> check_matplotlib()
     """
     if not is_matplotlib_available():
         raise RuntimeError(
@@ -97,7 +133,15 @@ def check_matplotlib() -> None:
 
 
 def is_matplotlib_available() -> bool:
-    r"""Indicates if the ``matplotlib`` package is installed or not."""
+    r"""Indicates if the ``matplotlib`` package is installed or not.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_matplotlib_available
+        >>> is_matplotlib_available()
+    """
     return find_spec("matplotlib") is not None
 
 
@@ -112,6 +156,13 @@ def check_pillow() -> None:
     Raises
     ------
         RuntimeError if the ``pillow`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_pillow
+        >>> check_pillow()
     """
     if not is_pillow_available():
         raise RuntimeError(
@@ -122,7 +173,15 @@ def check_pillow() -> None:
 
 
 def is_pillow_available() -> bool:
-    r"""Indicates if the ``pillow`` package is installed or not."""
+    r"""Indicates if the ``pillow`` package is installed or not.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_pillow_available
+        >>> is_pillow_available()
+    """
     return find_spec("PIL") is not None
 
 
@@ -132,7 +191,15 @@ def is_pillow_available() -> bool:
 
 
 def is_psutil_available() -> bool:
-    r"""Indicates if the ``psutil`` package is installed or not."""
+    r"""Indicates if the ``psutil`` package is installed or not.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_psutil_available
+        >>> is_psutil_available()
+    """
     return find_spec("psutil") is not None
 
 
@@ -147,6 +214,13 @@ def check_tensorboard() -> None:
     Raises
     ------
         RuntimeError if the ``tensorboard`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_tensorboard
+        >>> check_tensorboard()
     """
     if not is_tensorboard_available():
         raise RuntimeError(
@@ -157,7 +231,15 @@ def check_tensorboard() -> None:
 
 
 def is_tensorboard_available() -> bool:
-    r"""Indicates if the ``tensorboard`` package is installed or not."""
+    r"""Indicates if the ``tensorboard`` package is installed or not.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_tensorboard_available
+        >>> is_tensorboard_available()
+    """
     return find_spec("tensorboard") is not None
 
 
@@ -172,6 +254,13 @@ def check_torchdata() -> None:
     Raises
     ------
         RuntimeError if the ``torchdata`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_torchdata
+        >>> check_torchdata()
     """
     if not is_torchdata_available():
         raise RuntimeError(
@@ -185,6 +274,13 @@ def is_torchdata_available() -> bool:
     r"""Indicates if the ``torchdata`` package is installed or not.
 
     https://pytorch.org/vision/stable/index.html
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_torchdata_available
+        >>> is_torchdata_available()
     """
     return find_spec("torchdata") is not None
 
@@ -200,6 +296,13 @@ def check_torchvision() -> None:
     Raises
     ------
         RuntimeError if the ``torchvision`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_torchvision
+        >>> check_torchvision()
     """
     if not is_torchvision_available():
         raise RuntimeError(
@@ -213,5 +316,12 @@ def is_torchvision_available() -> bool:
     r"""Indicates if the ``torchvision`` package is installed or not.
 
     https://pytorch.org/vision/stable/index.html
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_torchvision_available
+        >>> is_torchvision_available()
     """
     return find_spec("torchvision") is not None

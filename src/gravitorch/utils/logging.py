@@ -1,5 +1,8 @@
 r"""This module implements some utilities for the loggers."""
+
 from __future__ import annotations
+
+__all__ = ["disable_logging"]
 
 import logging
 from collections.abc import Generator
@@ -27,7 +30,7 @@ def disable_logging(level: int | str = logging.CRITICAL) -> Generator[None, None
         ...     logging.critical("CRITICAL")
         ...     logging.info("INFO")
         ...     logging.debug("DEBUG")
-        ...
+        ... # xdoctest: +SKIP()
         CRITICAL:root:CRITICAL
     """
     prev_level = logging.getLogger(__name__).level

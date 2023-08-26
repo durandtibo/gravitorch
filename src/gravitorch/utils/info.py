@@ -34,6 +34,14 @@ def log_run_info(config: DictConfig) -> None:
     ----
         config (``omegaconf.DictConfig``): Specifies the config of
             the run.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from omegaconf import OmegaConf
+        >>> from gravitorch.utils.info import log_run_info
+        >>> log_run_info(OmegaConf.create())
     """
     logger.info(GRAVITORCH_LOGO)
     logger.info("Original working directory: %s", get_original_cwd())

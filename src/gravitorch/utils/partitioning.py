@@ -49,15 +49,15 @@ def ddp_partitions(items: Sequence[T], partition_size: int) -> list[Sequence[T]]
     .. code-block:: pycon
 
         >>> from gravitorch.utils.partitioning import ddp_partitions
-        # World size 1
+        >>> # World size 1
         >>> ddp_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=2)
         [[1, 2]]
         >>> ddp_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=3)
         [[1, 2, 3]]
-        # World size 2
-        >>> ddp_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=2)
+        >>> # World size 2
+        >>> ddp_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=2)  # xdoctest: +SKIP()
         [[1, 2], [3, 4]]
-        >>> ddp_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=3)
+        >>> ddp_partitions([1, 2, 3, 4, 5, 6, 7, 8], partition_size=3)  # xdoctest: +SKIP()
         [[1, 2, 3], [4, 5, 6]]
     """
     world_size = dist.get_world_size()
@@ -155,11 +155,11 @@ def select_partition_by_rank(partitions: Sequence[T]) -> T:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.partitioning import select_partition_by_rank
-        # Rank 0
+        >>> # Rank 0
         >>> select_partition_by_rank([1, 2, 3, 4])
         1
-        # Rank 1
-        >>> select_partition_by_rank([1, 2, 3, 4])
+        >>> # Rank 1
+        >>> select_partition_by_rank([1, 2, 3, 4])  # xdoctest: +SKIP()
         2
     """
     world_size = dist.get_world_size()
