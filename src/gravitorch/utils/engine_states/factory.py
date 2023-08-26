@@ -1,5 +1,6 @@
 r"""This module implements some utility functions for the engine
 states."""
+
 from __future__ import annotations
 
 __all__ = ["setup_engine_state"]
@@ -28,6 +29,24 @@ def setup_engine_state(state: BaseEngineState | dict | None) -> BaseEngineState:
     Returns:
     -------
         ``BaseEngineState``: The engine state.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.engine_states import setup_engine_state
+        >>> state = setup_engine_state(
+        ...     {"_target_": "gravitorch.utils.engine_states.VanillaEngineState"}
+        ... )
+        >>> state
+        VanillaEngineState(
+          modules=ModuleManager(),
+          histories=HistoryManager(),
+          random_seed=9984043075503325450,
+          max_epochs=1,
+          epoch=-1,
+          iteration=-1,
+        )
     """
     if state is None:
         state = VanillaEngineState()
