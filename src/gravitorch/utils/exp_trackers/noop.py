@@ -48,6 +48,16 @@ class NoOpExpTracker(BaseBasicExpTracker):
             experiment logs. If ``None``, a temporary directory is
             used. The temporary directory will be removed at the end
             of the experiment. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.exp_trackers import EpochStep, NoOpExpTracker
+        >>> with NoOpExpTracker() as exp_tracker:
+        ...     exp_tracker.log_metric("my_metric", 1.2)  # without step
+        ...     exp_tracker.log_metric("my_metric", 1.2, EpochStep(2))  # with step
+        ...
     """
 
     def __init__(self, experiment_path: Path | str | None = None) -> None:
