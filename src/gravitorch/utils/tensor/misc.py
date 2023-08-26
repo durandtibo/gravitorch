@@ -34,6 +34,23 @@ def str_full_tensor(tensor: Tensor) -> str:
     -------
          str: The string representation of the tensor with all the
             values.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.tensor import str_full_tensor
+        >>> print(str_full_tensor(torch.ones(10, 10)))
+        tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+                [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]])
     """
     torch.set_printoptions(profile="full")
     output = str(tensor)
@@ -90,13 +107,16 @@ def permute_along_dim(tensor: Tensor, permutation: Tensor, dim: int = 0) -> Tens
     .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import permute_along_dim
-        >>> permute_along_dim(tensor=torch.arange(4), permutation=torch.tensor([0, 2, 1, 3]))
+        >>> permute_along_dim(torch.arange(4), permutation=torch.tensor([0, 2, 1, 3]))
         tensor([0, 2, 1, 3])
         >>> permute_along_dim(
         ...     tensor=torch.arange(20).view(4, 5),
         ...     permutation=torch.tensor([0, 2, 1, 3]),
         ... )
-        tensor([[0, 1, 2, 3, 4], [10, 11, 12, 13, 14], [5, 6, 7, 8, 9], [15, 16, 17, 18, 19]])
+        tensor([[ 0,  1,  2,  3,  4],
+                [10, 11, 12, 13, 14],
+                [ 5,  6,  7,  8,  9],
+                [15, 16, 17, 18, 19]])
         >>> permute_along_dim(
         ...     tensor=torch.arange(20).view(4, 5),
         ...     permutation=torch.tensor([0, 4, 2, 1, 3]),
@@ -147,19 +167,19 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
         >>> x
         tensor([[0, 1, 2, 3, 4],
                 [5, 6, 7, 8, 9]])
-        # No transposition
+        >>> # No transposition
         >>> from gravitorch.utils.tensor import partial_transpose_dict
         >>> partial_transpose_dict({"my_key": x}, {})
         {'my_key': tensor([[0, 1, 2, 3, 4],
                  [5, 6, 7, 8, 9]])}
-        # Transpose the first two dimensions
+        >>> # Transpose the first two dimensions
         >>> partial_transpose_dict({"my_key": x}, {"my_key": [0, 1]})
         {'my_key': tensor([[0, 5],
                  [1, 6],
                  [2, 7],
                  [3, 8],
                  [4, 9]])}
-        # The order of the dimensions is not important  [0, 1] <> [1, 0]
+        >>> # The order of the dimensions is not important  [0, 1] <> [1, 0]
         >>> partial_transpose_dict({"my_key": x}, {"my_key": [1, 0]})
         {'my_key': tensor([[0, 5],
                  [1, 6],
@@ -167,45 +187,26 @@ def partial_transpose_dict(data: dict, config: dict) -> dict:
                  [3, 8],
                  [4, 9]])}
         >>> x = torch.arange(24).view(2, 3, 4)
-        >>> x
-        tensor([[[ 0,  1,  2,  3],
-                 [ 4,  5,  6,  7],
-                 [ 8,  9, 10, 11]],
-
-                [[12, 13, 14, 15],
-                 [16, 17, 18, 19],
-                 [20, 21, 22, 23]]])
-        >>> partial_transpose_dict({"my_key": x}, {"my_key": [0, 1]})
+        >>> partial_transpose_dict({"my_key": x}, {"my_key": [0, 1]})  # xdoctest: +ELLIPSIS
         {'my_key': tensor([[[ 0,  1,  2,  3],
                   [12, 13, 14, 15]],
-
-                 [[ 4,  5,  6,  7],
-                  [16, 17, 18, 19]],
-
+                 ...
                  [[ 8,  9, 10, 11],
                   [20, 21, 22, 23]]])}
-        >>> partial_transpose_dict({"my_key": x}, {"my_key": [0, 2]})
+        >>> partial_transpose_dict({"my_key": x}, {"my_key": [0, 2]})  # xdoctest: +ELLIPSIS
         {'my_key': tensor([[[ 0, 12],
                   [ 4, 16],
                   [ 8, 20]],
-
-                 [[ 1, 13],
-                  [ 5, 17],
-                  [ 9, 21]],
-
-                 [[ 2, 14],
-                  [ 6, 18],
-                  [10, 22]],
-
+                 ...
                  [[ 3, 15],
                   [ 7, 19],
                   [11, 23]]])}
-        >>> partial_transpose_dict({"my_key": x}, {"my_key": [1, 2]})
+        >>> partial_transpose_dict({"my_key": x}, {"my_key": [1, 2]})  # xdoctest: +ELLIPSIS
         {'my_key': tensor([[[ 0,  4,  8],
                   [ 1,  5,  9],
                   [ 2,  6, 10],
                   [ 3,  7, 11]],
-
+                 ...
                  [[12, 16, 20],
                   [13, 17, 21],
                   [14, 18, 22],

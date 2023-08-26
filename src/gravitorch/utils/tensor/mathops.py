@@ -33,10 +33,19 @@ def scalable_quantile(tensor: Tensor, q: Tensor, method: str = "linear") -> Tens
     -------
         ``torch.Tensor`` of shape  ``(num_q_values,)`` and type float:
             The ``q``-th quantiles.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.tensor import scalable_quantile
+        >>> scalable_quantile(torch.arange(1001), q=torch.tensor([0.1, 0.9]))
+        tensor([100., 900.])
     """
     return torch.from_numpy(
         np.quantile(tensor.detach().cpu().numpy(), q=q.numpy(), method=method)
-    ).float()
+    ).to(dtype=torch.float, device=tensor.device)
 
 
 def safeexp(tensor: Tensor, max_value: float = 20.0) -> Tensor:
@@ -56,6 +65,15 @@ def safeexp(tensor: Tensor, max_value: float = 20.0) -> Tensor:
     -------
         ``torch.Tensor``: A new tensor with the exponential of the
             elements.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.tensor import safeexp
+        >>> safeexp(torch.tensor([1.0, 10.0, 100.0, 1000.0]))
+        tensor([2.7183e+00, 2.2026e+04, 4.8517e+08, 4.8517e+08])
     """
     return tensor.clamp(max=max_value).exp()
 
@@ -77,6 +95,15 @@ def safelog(tensor: Tensor, min_value: float = 1e-8) -> Tensor:
     -------
         ``torch.Tensor``: A new tensor with the natural logarithm
             of the elements.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.tensor import safelog
+        >>> safelog(torch.tensor([1e-4, 1e-5, 1e-6, 1e-8, 1e-9, 1e-10]))
+        tensor([ -9.2103, -11.5129, -13.8155, -18.4207, -18.4207, -18.4207])
     """
     return tensor.clamp(min=min_value).log()
 
@@ -95,6 +122,15 @@ def symlog(tensor: Tensor) -> Tensor:
     -------
         ``torch.Tensor``: A new tensor with the symmetric natural
             logarithm of the elements.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.tensor import symlog
+        >>> symlog(torch.tensor([-10.0, -1, 0.0, 1.0, 10.0]))
+        tensor([-2.3979, -0.6931,  0.0000,  0.6931,  2.3979])
     """
     return tensor.sign().mul(tensor.abs().log1p())
 
@@ -109,6 +145,17 @@ def symlog_(tensor: Tensor) -> None:
     Args:
     ----
         tensor (``torch.Tensor``): Specifies the input tensor.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.tensor import symlog_
+        >>> x = torch.tensor([-10.0, -1, 0.0, 1.0, 10.0])
+        >>> symlog_(x)
+        >>> x
+        tensor([-2.3979, -0.6931,  0.0000,  0.6931,  2.3979])
     """
     sign = tensor.sign()
     tensor.abs_()
@@ -116,24 +163,35 @@ def symlog_(tensor: Tensor) -> None:
     tensor.mul_(sign)
 
 
-def isymlog(tensor: Tensor, max_value: float = 10) -> Tensor:
+def isymlog(tensor: Tensor, max_value: float = 10.0) -> Tensor:
     r"""Computes the inverse of the symmetric logarithm natural of the
     elements.
 
     Args:
     ----
         tensor (``torch.Tensor``): Specifies the input tensor.
+        max_value (float, optional): Specifies the maximum value.
+            Default: ``10.0``
 
     Returns:
     -------
         ``torch.Tensor``: A new tensor with the inverse of the
             symmetric natural logarithm of the elements.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.tensor import isymlog
+        >>> isymlog(torch.tensor([-2.0, -1, 0.0, 1.0, 2.0]))
+        tensor([-6.3891, -1.7183,  0.0000,  1.7183,  6.3891])
     """
     sign = tensor.sign()
     return sign.mul(tensor.mul(sign).clamp(max=max_value).exp().sub(1))
 
 
-def isymlog_(tensor: Tensor, max_value: float = 10) -> None:
+def isymlog_(tensor: Tensor, max_value: float = 10.0) -> None:
     r"""Computes the inverse of the symmetric logarithm natural of the
     elements.
 
@@ -142,6 +200,19 @@ def isymlog_(tensor: Tensor, max_value: float = 10) -> None:
     Args:
     ----
         tensor (``torch.Tensor``): Specifies the input tensor.
+        max_value (float, optional): Specifies the maximum value.
+            Default: ``10.0``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.tensor import isymlog_
+        >>> x = torch.tensor([-2.0, -1, 0.0, 1.0, 2.0])
+        >>> isymlog_(x)
+        >>> x
+        tensor([-6.3891, -1.7183,  0.0000,  1.7183,  6.3891])
     """
     sign = tensor.sign()
     tensor.mul_(sign)
