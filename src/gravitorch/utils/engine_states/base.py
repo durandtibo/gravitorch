@@ -1,4 +1,5 @@
 r"""This module defines the base engine state."""
+
 from __future__ import annotations
 
 __all__ = ["BaseEngineState"]
@@ -16,10 +17,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
     A state should implement the following attributes:
 
+    Example usage:
+
     .. code-block:: pycon
 
-        >>> from gravitorch.utils.engine_states import BaseEngineState
-        >>> state: BaseEngineState = ...  # Create an engine state
+        >>> from gravitorch.utils.engine_states import VanillaEngineState
+        >>> state = VanillaEngineState()
         >>> state.epoch  # 0-based, the first epoch is 0. -1 means the training has not started
         >>> state.iteration  # 0-based, the first iteration is 0. -1 means the training has not started
         >>> state.max_epochs  # maximum number of epochs to run
@@ -39,12 +42,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             int: The epoch value.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> state.epoch
             -1
         """
@@ -62,12 +65,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             int: The iteration value.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> state.iteration
             -1
         """
@@ -81,12 +84,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             int: The maximum number of training epochs.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> state.max_epochs
             1
         """
@@ -100,12 +103,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             int: The random seed.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState(random_seed=42)
             >>> state.random_seed
             42
         """
@@ -114,23 +117,23 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
     def add_history(self, history: BaseHistory, key: str | None = None) -> None:
         r"""Adds a history to the state.
 
-        Args:
-        ----
-            history (``BaseHistory``): Specifies the history
-                to add to the state.
-            key (str or ``None``, optional): Specifies the key to store
-                the history. If ``None``, the name of the history is
-                used. Default: ``None``
+         Args:
+         ----
+             history (``BaseHistory``): Specifies the history
+                 to add to the state.
+             key (str or ``None``, optional): Specifies the key to store
+                 the history. If ``None``, the name of the history is
+                 used. Default: ``None``
 
-        Example:
-        -------
-        .. code-block:: pycon
+        Example usage:
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> from gravitorch.utils.history import MinScalarHistory
-            >>> state: BaseEngineState = ...  # Create an engine state
-            >>> state.add_history(MinScalarHistory("loss"))
-            >>> state.add_history(MinScalarHistory("loss"), "my key")
+         .. code-block:: pycon
+
+             >>> from gravitorch.utils.history import MinScalarHistory
+             >>> from gravitorch.utils.engine_states import VanillaEngineState
+             >>> state = VanillaEngineState()
+             >>> state.add_history(MinScalarHistory("loss"))
+             >>> state.add_history(MinScalarHistory("loss"), "my key")
         """
 
     @abstractmethod
@@ -151,8 +154,8 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from torch import nn
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> state.add_module("model", nn.Linear(4, 6))
         """
 
@@ -180,19 +183,23 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             dict: The dict with the best value of each metric.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            # Create an engine state where the best value of 'accuracy' is 42.
-            >>> state: BaseEngineState = ...
-            >>> best_values = state.get_best_values()
-            {'accuracy': 42}
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
+            >>> from gravitorch.utils.history import MaxScalarHistory
+            >>> history = MaxScalarHistory("accuracy")
+            >>> history.add_value(23.0)
+            >>> history.add_value(42.0)
+            >>> state.add_history(history)
+            >>> state.get_best_values()
+            {'accuracy': 42.0}
             >>> state.get_best_values(prefix="best/")
-            {'best/accuracy': 42}
+            {'best/accuracy': 42.0}
             >>> state.get_best_values(suffix="/best")
-            {'accuracy/best': 42}
+            {'accuracy/best': 42.0}
         """
 
     @abstractmethod
@@ -209,18 +216,18 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
                 otherwise it returns an empty history. The created
                 empty history is a ``GenericHistory``.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> from gravitorch.utils.history import MinScalarHistory
-            >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_history(MinScalarHistory("loss"))
             >>> state.get_history("loss")
-            MinScalarHistory(name='loss', ...)
+            MinScalarHistory(name=loss, max_size=10, history=())
             >>> state.get_history("new_history")
-            GenericHistory(name='new_history', ...)
+            GenericHistory(name=new_history, max_size=10, history=())
         """
 
     @abstractmethod
@@ -231,16 +238,16 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             ``dict``: The histories with their keys.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> from gravitorch.utils.history import MinScalarHistory
-            >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_history(MinScalarHistory("loss"))
             >>> state.get_histories()
-            {'loss': MinScalarHistory(name='loss', ...)}
+            {'loss': MinScalarHistory(name=loss, max_size=10, history=())}
         """
 
     @abstractmethod
@@ -259,18 +266,16 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         ------
             ValueError if the module does not exist.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> from torch import nn
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_module("model", nn.Linear(4, 6))
             >>> state.get_module("model")
             Linear(in_features=4, out_features=6, bias=True)
-            >>> state.get_module("missing_module")
-            ValueError
         """
 
     @abstractmethod
@@ -285,13 +290,13 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             bool: ``True`` if the history exists, ``False`` otherwise.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> from gravitorch.utils.history import MinScalarHistory
-            >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_history(MinScalarHistory("loss"))
             >>> state.has_history("loss")
             True
@@ -311,13 +316,13 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             bool: ``True`` if the module exists, otherwise ``False``.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> from torch import nn
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
             >>> state.add_module("model", nn.Linear(4, 6))
             >>> state.has_module("model")
             True
@@ -334,49 +339,49 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
             increment (int, optional): Specifies the increment for the
                 epoch value. Default: ``1``
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> state.epoch
-            0
-            # Increment the epoch number by 1.
+            -1
+            >>> # Increment the epoch number by 1.
             >>> state.increment_epoch()
             >>> state.epoch
-            1
-            # Increment the epoch number by 10.
+            0
+            >>> # Increment the epoch number by 10.
             >>> state.increment_epoch(10)
             >>> state.epoch
-            11
+            10
         """
 
     @abstractmethod
     def increment_iteration(self, increment: int = 1) -> None:
         r"""Increments the iteration value by the given value.
 
-        Args:
-        ----
-            increment (int, optional): Specifies the increment for the
-                iteration value. Default: ``1``
+         Args:
+         ----
+             increment (int, optional): Specifies the increment for the
+                 iteration value. Default: ``1``
 
-        Example:
-        -------
-        .. code-block:: pycon
+        Example usage:
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
-            >>> state.iteration
-            0
-            # Increment the iteration number by 1.
-            >>> state.increment_iteration()
-            >>> state.iteration
-            1
-            # Increment the iteration number by 10.
-            >>> state.increment_iteration(10)
-            >>> state.iteration
-            11
+         .. code-block:: pycon
+
+             >>> from gravitorch.utils.engine_states import VanillaEngineState
+             >>> state = VanillaEngineState()
+             >>> state.iteration
+             -1
+             >>> # Increment the iteration number by 1.
+             >>> state.increment_iteration()
+             >>> state.iteration
+             0
+             >>> # Increment the iteration number by 10.
+             >>> state.increment_iteration(10)
+             >>> state.iteration
+             10
         """
 
     @abstractmethod
@@ -387,16 +392,17 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         ----
             state_dict (dict): A dict with parameters.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
-            # Create a state dict. Please look at the implementation of the state_dict method
-            # to know the expected structure
-            >>> my_state_dict = {...}
-            >>> state.load_state_dict(my_state_dict)
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
+            >>> state.load_state_dict({"epoch": 4, "iteration": 42, "histories": {}, "modules": {}})
+            >>> state.epoch
+            4
+            >>> state.iteration
+            42
         """
 
     @abstractmethod
@@ -411,21 +417,19 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         ------
             ValueError if the module name is not found.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
             >>> from torch import nn
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> state.add_module("model", nn.Linear(4, 6))
             >>> state.has_module("model")
             True
             >>> state.remove_module("model")
             >>> state.has_module("model")
             False
-            >>> state.remove_module("model")
-            ValueError
         """
 
     @abstractmethod
@@ -436,12 +440,12 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         -------
             dict: the state values in a dict.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.engine_states import BaseEngineState
-            >>> state: BaseEngineState = ...  # Create an engine state
+            >>> from gravitorch.utils.engine_states import VanillaEngineState
+            >>> state = VanillaEngineState()
             >>> state.state_dict()
-            {...}
+            {'epoch': -1, 'iteration': -1, 'histories': {}, 'modules': {}}
         """

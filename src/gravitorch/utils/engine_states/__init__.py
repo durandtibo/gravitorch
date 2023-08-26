@@ -1,5 +1,7 @@
 r"""This package contains the implementation of some engine states."""
 
+from __future__ import annotations
+
 __all__ = ["BaseEngineState", "VanillaEngineState", "setup_engine_state"]
 
 from gravitorch.utils.engine_states.base import BaseEngineState

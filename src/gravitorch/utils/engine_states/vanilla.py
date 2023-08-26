@@ -23,6 +23,22 @@ class VanillaEngineState(BaseEngineState):
             epochs. Default: ``1``.
         random_seed (int, optional): Specifies the random seed.
             Default: ``9984043075503325450``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.engine_states import VanillaEngineState
+        >>> state = VanillaEngineState()
+        >>> state
+        VanillaEngineState(
+          modules=ModuleManager(),
+          histories=HistoryManager(),
+          random_seed=9984043075503325450,
+          max_epochs=1,
+          epoch=-1,
+          iteration=-1,
+        )
     """
 
     def __init__(
