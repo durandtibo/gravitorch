@@ -37,11 +37,11 @@ class MeanTensorMeter:
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.utils.meters import TensorMeter
+        >>> from gravitorch.utils.meters import MeanTensorMeter
         >>> meter = MeanTensorMeter()
         >>> meter.update(torch.arange(6))
         >>> meter.update(torch.tensor([4.0, 1.0]))
-        >>> meter.mean()  # or meter.average()
+        >>> meter.mean()
         2.5
         >>> meter.sum()
         20.0
@@ -67,7 +67,21 @@ class MeanTensorMeter:
         return self._total
 
     def reset(self) -> None:
-        r"""Reset the meter."""
+        r"""Reset the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter = MeanTensorMeter(count=6, total=42.0)
+            >>> meter.reset()
+            >>> meter.count
+            0
+            >>> meter.total
+            0
+        """
         self._count = 0
         self._total = 0
 
@@ -78,6 +92,17 @@ class MeanTensorMeter:
         ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter = MeanTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.count
+            6
         """
         self._total += tensor.sum().item()
         self._count += tensor.numel()
@@ -92,6 +117,17 @@ class MeanTensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter = MeanTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.average()
+            2.5
         """
         return self.mean()
 
@@ -105,6 +141,17 @@ class MeanTensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter = MeanTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.mean()
+            2.5
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -120,6 +167,17 @@ class MeanTensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter = MeanTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.sum()
+            15
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -161,6 +219,21 @@ class MeanTensorMeter:
         Returns
         -------
             ``MeanTensorMeter``: A copy of the current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter = MeanTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter_cloned = meter.clone()
+            >>> meter.update(torch.ones(3))
+            >>> meter.sum()
+            18.0
+            >>> meter_cloned.sum()
+            15
         """
         return MeanTensorMeter(count=self._count, total=self._total)
 
@@ -175,6 +248,19 @@ class MeanTensorMeter:
         -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter1 = MeanTensorMeter()
+            >>> meter1.update(torch.arange(6))
+            >>> meter2 = MeanTensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter1.equal(meter2)
+            False
         """
         if not isinstance(other, MeanTensorMeter):
             return False
@@ -192,6 +278,20 @@ class MeanTensorMeter:
         Returns:
         -------
             ``MeanTensorMeter``: The merged meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter1 = MeanTensorMeter()
+            >>> meter1.update(torch.arange(6))
+            >>> meter2 = MeanTensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter3 = meter1.merge([meter2])
+            >>> meter3.sum()
+            18.0
         """
         count, total = self.count, self.total
         for meter in meters:
@@ -208,6 +308,20 @@ class MeanTensorMeter:
         ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter1 = MeanTensorMeter()
+            >>> meter1.update(torch.arange(6))
+            >>> meter2 = MeanTensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter1.merge_([meter2])
+            >>> meter1.sum()
+            18.0
         """
         for meter in meters:
             self._count += meter.count
@@ -220,6 +334,19 @@ class MeanTensorMeter:
         ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter = MeanTensorMeter()
+            >>> meter.load_state_dict({"count": 6, "total": 42.0})
+            >>> meter.count
+            6
+            >>> meter.sum()
+            42.0
         """
         self._count = state_dict["count"]
         self._total = state_dict["total"]
@@ -230,6 +357,16 @@ class MeanTensorMeter:
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MeanTensorMeter
+            >>> meter = MeanTensorMeter(count=6, total=42.0)
+            >>> meter.state_dict()
+            {'count': 6, 'total': 42.0}
         """
         return {"count": self._count, "total": self._total}
 
@@ -262,9 +399,9 @@ class ExtremaTensorMeter:
         >>> meter.update(torch.arange(6))
         >>> meter.update(torch.tensor([4.0, 1.0]))
         >>> meter.max()
-        5
+        5.0
         >>> meter.min()
-        0
+        0.0
     """
 
     def __init__(
@@ -286,7 +423,19 @@ class ExtremaTensorMeter:
         return self._count
 
     def reset(self) -> None:
-        r"""Reset the meter."""
+        r"""Reset the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter = ExtremaTensorMeter(count=6, min_value=-2.0, max_value=6.0)
+            >>> meter.reset()
+            >>> meter.count
+            0
+        """
         self._count = 0
         self._max_value = float("-inf")
         self._min_value = float("inf")
@@ -298,6 +447,19 @@ class ExtremaTensorMeter:
         ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter = ExtremaTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.max()
+            5.0
+            >>> meter.min()
+            0.0
         """
         min_value, max_value = torch.aminmax(tensor)
         self._max_value = max(self._max_value, max_value.item())
@@ -314,6 +476,17 @@ class ExtremaTensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter = ExtremaTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.max()
+            5.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -329,6 +502,17 @@ class ExtremaTensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter = ExtremaTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.min()
+            0.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -368,7 +552,22 @@ class ExtremaTensorMeter:
 
         Returns
         -------
-            ``TensorMeter``: A copy of the current meter.
+            ``ExtremaTensorMeter``: A copy of the current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter = ExtremaTensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter_cloned = meter.clone()
+            >>> meter.update(torch.ones(3))
+            >>> meter.count
+            9
+            >>> meter_cloned.count
+            6
         """
         return ExtremaTensorMeter(
             count=self._count, min_value=self._min_value, max_value=self._max_value
@@ -385,6 +584,19 @@ class ExtremaTensorMeter:
         -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter1 = ExtremaTensorMeter()
+            >>> meter1.update(torch.arange(6))
+            >>> meter2 = ExtremaTensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter1.equal(meter2)
+            False
         """
         if not isinstance(other, ExtremaTensorMeter):
             return False
@@ -402,6 +614,24 @@ class ExtremaTensorMeter:
         Returns:
         -------
             ``ExtremaTensorMeter``: The merged meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter1 = ExtremaTensorMeter()
+            >>> meter1.update(torch.arange(6) + 3)
+            >>> meter2 = ExtremaTensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter3 = meter1.merge([meter2])
+            >>> meter3.count
+            9
+            >>> meter3.max()
+            8.0
+            >>> meter3.min()
+            1.0
         """
         count, min_value, max_value = self._count, self._min_value, self._max_value
         for meter in meters:
@@ -419,6 +649,24 @@ class ExtremaTensorMeter:
         ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter1 = ExtremaTensorMeter()
+            >>> meter1.update(torch.arange(6) + 3)
+            >>> meter2 = ExtremaTensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter1.merge_([meter2])
+            >>> meter1.count
+            9
+            >>> meter1.max()
+            8.0
+            >>> meter1.min()
+            1.0
         """
         for meter in meters:
             self._count += meter.count
@@ -432,6 +680,21 @@ class ExtremaTensorMeter:
         ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter = ExtremaTensorMeter()
+            >>> meter.load_state_dict({"count": 6, "max_value": 42.0, "min_value": -2.0})
+            >>> meter.count
+            6
+            >>> meter.min()
+            -2.0
+            >>> meter.max()
+            42.0
         """
         self._count = state_dict["count"]
         self._min_value = state_dict["min_value"]
@@ -443,6 +706,16 @@ class ExtremaTensorMeter:
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExtremaTensorMeter
+            >>> meter = ExtremaTensorMeter(count=6, max_value=42.0, min_value=-2.0)
+            >>> meter.state_dict()
+            {'count': 6, 'max_value': 42.0, 'min_value': -2.0}
         """
         return {"count": self._count, "max_value": self._max_value, "min_value": self._min_value}
 
@@ -473,12 +746,12 @@ class TensorMeter:
         >>> meter = TensorMeter()
         >>> meter.update(torch.arange(6))
         >>> meter.update(torch.tensor([4.0, 1.0]))
-        >>> meter.average()  # or meter.mean()
+        >>> meter.mean()
         2.5
         >>> meter.max()
-        5
+        5.0
         >>> meter.min()
-        0
+        0.0
         >>> meter.sum()
         20.0
         >>> meter.count
@@ -567,6 +840,21 @@ class TensorMeter:
         Returns
         -------
             ``TensorMeter``: A copy of the current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter_cloned = meter.clone()
+            >>> meter.update(torch.ones(3))
+            >>> meter.sum()
+            18.0
+            >>> meter_cloned.sum()
+            15.0
         """
         return TensorMeter(
             count=self._count,
@@ -586,6 +874,19 @@ class TensorMeter:
         -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter1 = TensorMeter()
+            >>> meter1.update(torch.arange(6))
+            >>> meter2 = TensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter1.equal(meter2)
+            False
         """
         if not isinstance(other, TensorMeter):
             return False
@@ -603,6 +904,26 @@ class TensorMeter:
         Returns:
         -------
             ``TensorMeter``: The merged meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter1 = TensorMeter()
+            >>> meter1.update(torch.arange(6) + 3)
+            >>> meter2 = TensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter3 = meter1.merge([meter2])
+            >>> meter3.count
+            9
+            >>> meter3.max()
+            8.0
+            >>> meter3.min()
+            1.0
+            >>> meter3.sum()
+            36.0
         """
         count, total = self._count, self._total
         min_value, max_value = self._min_value, self._max_value
@@ -622,6 +943,26 @@ class TensorMeter:
         ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter1 = TensorMeter()
+            >>> meter1.update(torch.arange(6) + 3)
+            >>> meter2 = TensorMeter()
+            >>> meter2.update(torch.ones(3))
+            >>> meter1.merge_([meter2])
+            >>> meter1.count
+            9
+            >>> meter1.max()
+            8.0
+            >>> meter1.min()
+            1.0
+            >>> meter1.sum()
+            36.0
         """
         for meter in meters:
             self._count += meter.count
@@ -636,6 +977,23 @@ class TensorMeter:
         ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter()
+            >>> meter.load_state_dict({"count": 6, "max_value": 42.0, "min_value": -2.0, "total": 62.0})
+            >>> meter.count
+            6
+            >>> meter.min()
+            -2.0
+            >>> meter.max()
+            42.0
+            >>> meter.sum()
+            62.0
         """
         self._count = state_dict["count"]
         self._max_value = state_dict["max_value"]
@@ -648,6 +1006,16 @@ class TensorMeter:
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter(count=6, max_value=42.0, min_value=-2.0, total=62.0)
+            >>> meter.state_dict()
+            {'count': 6, 'max_value': 42.0, 'min_value': -2.0, 'total': 62.0}
         """
         return {
             "count": self._count,
@@ -657,7 +1025,19 @@ class TensorMeter:
         }
 
     def reset(self) -> None:
-        r"""Reset the meter."""
+        r"""Reset the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter(count=6, min_value=-2.0, max_value=6.0, total=3.0)
+            >>> meter.reset()
+            >>> meter.count
+            0
+        """
         self._count = 0
         self._max_value = float("-inf")
         self._min_value = float("inf")
@@ -670,6 +1050,25 @@ class TensorMeter:
         ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.average()
+            2.5
+            >>> meter.max()
+            5.0
+            >>> meter.min()
+            0.0
+            >>> meter.sum()
+            15.0
+            >>> meter.count
+            6
         """
         min_value, max_value = torch.aminmax(tensor)
         self._max_value = max(self._max_value, max_value.item())
@@ -687,6 +1086,17 @@ class TensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.average()
+            2.5
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -702,6 +1112,17 @@ class TensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.max()
+            5.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -717,6 +1138,17 @@ class TensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.mean()
+            2.5
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -732,6 +1164,17 @@ class TensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.min()
+            0.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -747,6 +1190,17 @@ class TensorMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter
+            >>> meter = TensorMeter()
+            >>> meter.update(torch.arange(6))
+            >>> meter.sum()
+            15.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -775,7 +1229,7 @@ class TensorMeter2:
         >>> meter.update(torch.tensor([4.0, 1.0]))
         >>> meter.count
         8
-        >>> meter.average()  # or meter.mean()
+        >>> meter.mean()
         2.5
         >>> meter.max()
         5.0
@@ -804,7 +1258,19 @@ class TensorMeter2:
         return self._count
 
     def reset(self) -> None:
-        r"""Reset the meter."""
+        r"""Reset the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2(torch.arange(6))
+            >>> meter.reset()
+            >>> meter.count
+            0
+        """
         self._count = 0
         self._values.clear()
 
@@ -815,6 +1281,19 @@ class TensorMeter2:
         ----
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(6))
+            >>> meter.count
+            6
+            >>> meter.sum()
+            15
         """
         self._values.update(tensor.detach())
         self._count += tensor.numel()
@@ -829,6 +1308,17 @@ class TensorMeter2:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(6))
+            >>> meter.average()
+            2.5
         """
         return self.mean()
 
@@ -842,6 +1332,17 @@ class TensorMeter2:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(6))
+            >>> meter.max()
+            5
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -857,6 +1358,17 @@ class TensorMeter2:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(6))
+            >>> meter.average()
+            2.5
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -872,6 +1384,17 @@ class TensorMeter2:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(5))
+            >>> meter.median()
+            2
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -887,6 +1410,17 @@ class TensorMeter2:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(6))
+            >>> meter.min()
+            0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -914,6 +1448,17 @@ class TensorMeter2:
         Raises:
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(1001))
+            >>> meter.quantile(q=torch.tensor([0.1, 0.9]))
+            tensor([100., 900.])
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -928,7 +1473,18 @@ class TensorMeter2:
 
         Raises
         ------
-            ``EmptyMeterError`` if the meter is empty .
+            ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(6))
+            >>> meter.std()  # xdoctest: +ELLIPSIS
+            1.8708287477...
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -944,6 +1500,17 @@ class TensorMeter2:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.update(torch.arange(6))
+            >>> meter.sum()
+            15
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -975,6 +1542,20 @@ class TensorMeter2:
         Returns
         -------
             ``TensorMeter2``: A copy of the current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2(torch.arange(6))
+            >>> meter_cloned = meter.clone()
+            >>> meter.update(torch.ones(3))
+            >>> meter.sum()
+            18.0
+            >>> meter_cloned.sum()
+            15
         """
         return TensorMeter2(self._values.clone().values())
 
@@ -989,6 +1570,17 @@ class TensorMeter2:
         -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter1 = TensorMeter2(torch.arange(6))
+            >>> meter2 = TensorMeter2(torch.ones(3))
+            >>> meter1.equal(meter2)
+            False
         """
         if not isinstance(other, TensorMeter2):
             return False
@@ -1006,6 +1598,24 @@ class TensorMeter2:
         Returns:
         -------
             ``TensorMeter2``: The merged meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter1 = TensorMeter2(torch.arange(6) + 3)
+            >>> meter2 = TensorMeter2(torch.ones(3))
+            >>> meter3 = meter1.merge([meter2])
+            >>> meter3.count
+            9
+            >>> meter3.max()
+            8.0
+            >>> meter3.min()
+            1.0
+            >>> meter3.sum()
+            36.0
         """
         values = self._values.clone()
         for meter in meters:
@@ -1021,9 +1631,27 @@ class TensorMeter2:
         ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter1 = TensorMeter2(torch.arange(6) + 3)
+            >>> meter2 = TensorMeter2(torch.ones(3))
+            >>> meter1.merge_([meter2])
+            >>> meter1.count
+            9
+            >>> meter1.max()
+            8.0
+            >>> meter1.min()
+            1.0
+            >>> meter1.sum()
+            36.0
         """
         for meter in meters:
-            self._values.update(meter._values.values())
+            self.update(meter._values.values())
 
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
         r"""Loads a state to the history tracker.
@@ -1032,8 +1660,20 @@ class TensorMeter2:
         ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2()
+            >>> meter.load_state_dict({"values": torch.arange(6)})
+            >>> meter.count
+            6
         """
-        self._values = LazyFlattedTensor(state_dict["values"])
+        self.reset()
+        self.update(state_dict["values"])
 
     def state_dict(self) -> dict[str, Tensor]:
         r"""Returns a dictionary containing state values.
@@ -1041,5 +1681,15 @@ class TensorMeter2:
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import TensorMeter2
+            >>> meter = TensorMeter2(torch.arange(6))
+            >>> meter.state_dict()
+            {'values': tensor([0, 1, 2, 3, 4, 5])}
         """
         return {"values": self._values.values()}

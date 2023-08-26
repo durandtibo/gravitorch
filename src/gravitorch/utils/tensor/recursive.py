@@ -50,11 +50,11 @@ def get_dtype(data: Any) -> Any:
 
         >>> from gravitorch.utils.tensor import get_dtype
         >>> get_dtype(torch.ones(1, 2, 3))
-        torch.Size([1, 2, 3])
+        torch.float32
         >>> get_dtype({"key1": torch.ones(1, 2, 3), "key2": "abc"})
-        {'key1': torch.Size([1, 2, 3]), 'key2': 'unknown'}
+        {'key1': torch.float32, 'key2': 'unknown'}
         >>> get_dtype([torch.ones(1, 2, 3), "abc"])
-        [torch.Size([1, 2, 3]), 'unknown']
+        [torch.float32, 'unknown']
     """
     if torch.is_tensor(data):
         return data.dtype
@@ -121,9 +121,9 @@ def recursive_apply(data: Any, tensor_fn: Callable, other_fn: Callable | None = 
     Args:
     ----
         data: Specifies the data.
-        tensor_fn (callable): Specifies the function to apply on
+        tensor_fn (``Callable``): Specifies the function to apply on
             ``torch.Tensor``s.
-        other_fn (callable or ``None``, optional): Specifies the
+        other_fn (``Callable`` or ``None``, optional): Specifies the
             function to apply on non ``torch.Tensor`` values.
             ``None`` means the original value is returned.
             Default: ``None``
@@ -274,11 +274,13 @@ def recursive_transpose(data: T, dim0: int, dim1: int) -> T:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.tensor import recursive_transpose
-        >>> recursive_transpose(torch.ones(3, 2), 0, 1).shape
-        torch.Size([2, 3])
-        >>> out = recursive_transpose({"key": torch.ones(3, 2)})
-        >>> out["key"].shape
-        torch.Size([2, 3])
+        >>> recursive_transpose(torch.ones(3, 2), 0, 1)
+        tensor([[1., 1., 1.],
+                [1., 1., 1.]])
+        >>> out = recursive_transpose({"key": torch.ones(3, 2)}, 0, 1)
+        >>> out
+        {'key': tensor([[1., 1., 1.],
+                [1., 1., 1.]])}
     """
     return recursive_apply(data, lambda tensor: tensor.transpose(dim0, dim1))
 

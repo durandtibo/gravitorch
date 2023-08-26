@@ -232,6 +232,7 @@ def test_mean_tensor_meter_load_state_dict() -> None:
     meter = MeanTensorMeter()
     meter.load_state_dict({"count": 10, "total": 122.0})
     assert meter.equal(MeanTensorMeter(count=10, total=122.0))
+    assert meter.count == 10
 
 
 def test_mean_tensor_meter_state_dict() -> None:
@@ -674,6 +675,7 @@ def test_tensor_meter_load_state_dict() -> None:
     meter = TensorMeter()
     meter.load_state_dict({"count": 10, "max_value": 5.0, "min_value": -2.0, "total": 122.0})
     assert meter.equal(TensorMeter(count=10, total=122.0, min_value=-2.0, max_value=5.0))
+    assert meter.count == 10
 
 
 def test_tensor_meter_state_dict() -> None:
@@ -1013,6 +1015,7 @@ def test_tensor_meter2_merge() -> None:
     assert meter_merged.equal(
         TensorMeter2(torch.tensor([-3.0, 1.0, 7.0, 2.0, 5.0, -1.0], dtype=torch.float))
     )
+    assert meter_merged.count == 6
 
 
 def test_tensor_meter2_merge_() -> None:
@@ -1027,12 +1030,14 @@ def test_tensor_meter2_merge_() -> None:
     assert meter.equal(
         TensorMeter2(torch.tensor([-3.0, 1.0, 7.0, 2.0, 5.0, -1.0], dtype=torch.float))
     )
+    assert meter.count == 6
 
 
 def test_tensor_meter2_load_state_dict() -> None:
     meter = TensorMeter2()
     meter.load_state_dict({"values": torch.tensor([-3.0, 1.0, 7.0], dtype=torch.float)})
     assert meter.equal(TensorMeter2(torch.tensor([-3.0, 1.0, 7.0], dtype=torch.float)))
+    assert meter.count == 3
 
 
 def test_tensor_meter2_state_dict() -> None:

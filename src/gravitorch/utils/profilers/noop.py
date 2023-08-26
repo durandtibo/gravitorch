@@ -15,6 +15,19 @@ class NoOpProfiler(BaseProfiler):
 
     This class allows to use a profiler without changing the
     implementation.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.profilers import NoOpProfiler
+        >>> with NoOpProfiler() as profiler:
+        ...     x = torch.ones(2, 3)
+        ...     for _ in range(20):
+        ...         x += x
+        ...         profiler.step()
+        ...
     """
 
     def __enter__(self) -> NoOpProfiler:
@@ -28,7 +41,7 @@ class NoOpProfiler(BaseProfiler):
     ) -> None:
         pass
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
     def step(self) -> None:

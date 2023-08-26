@@ -48,12 +48,12 @@ class LazyFlattedTensor:
         >>> lazy_tensor.update(torch.arange(6))
         >>> lazy_tensor.update(torch.tensor([-3, 1, 7]))
         >>> lazy_tensor.values()
-        tensor([ 0.,  1.,  2.,  3.,  4.,  5., -3.,  1.,  7.])
+        tensor([ 0,  1,  2,  3,  4,  5, -3,  1,  7])
         >>> lazy_tensor.update(torch.arange(3))
         >>> lazy_tensor.values()
-        tensor([ 0.,  1.,  2.,  3.,  4.,  5., -3.,  1.,  7.,  0.,  1.,  2.])
-        # By default, the tensor type is torch.float32. To use another type like long,
-        # you need to specify the target type when creating the LazyFlattedTensor object.
+        tensor([ 0,  1,  2,  3,  4,  5, -3,  1,  7,  0,  1,  2])
+        >>> # By default, the tensor type is torch.float32. To use another type like long,
+        >>> # you need to specify the target type when creating the LazyFlattedTensor object.
         >>> lazy_tensor = LazyFlattedTensor(torch.tensor([], dtype=torch.long))
         >>> lazy_tensor.update(torch.arange(6))
     """
@@ -92,7 +92,20 @@ class LazyFlattedTensor:
         return LazyFlattedTensor(torch.cat(all_gather_tensor_varshape(self.values()), dim=0))
 
     def clear(self) -> None:
-        r"""Clears the values and the internal buffer."""
+        r"""Clears the values and the internal buffer.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.tensor import LazyFlattedTensor
+            >>> lazy_tensor = LazyFlattedTensor()
+            >>> lazy_tensor.update(torch.arange(6))
+            >>> lazy_tensor.clear()
+            >>> lazy_tensor.values()
+            tensor([])
+        """
         self._values = torch.tensor([])
         self._buffer.clear()
 
@@ -103,6 +116,20 @@ class LazyFlattedTensor:
         -------
             ``LazyFlattedTensor``: A copy of the current lazy flatted
                 tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.tensor import LazyFlattedTensor
+            >>> lazy_tensor = LazyFlattedTensor(torch.arange(6))
+            >>> lazy_tensor_cloned = lazy_tensor.clone()
+            >>> lazy_tensor.update(torch.ones(3))
+            >>> lazy_tensor.values()
+            tensor([0., 1., 2., 3., 4., 5., 1., 1., 1.])
+            >>> lazy_tensor_cloned.values()
+            tensor([0, 1, 2, 3, 4, 5])
         """
         return LazyFlattedTensor(self.values().clone())
 
@@ -135,6 +162,17 @@ class LazyFlattedTensor:
         -------
             bool: ``True`` if the two lazy flatted tensors are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.tensor import LazyFlattedTensor
+            >>> lazy_tensor1 = LazyFlattedTensor(torch.arange(6))
+            >>> lazy_tensor2 = LazyFlattedTensor(torch.ones(3))
+            >>> lazy_tensor1.equal(lazy_tensor2)
+            False
         """
         if not isinstance(other, LazyFlattedTensor):
             return False
@@ -148,6 +186,16 @@ class LazyFlattedTensor:
         Returns
         -------
             int: The total number of elements.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.tensor import LazyFlattedTensor
+            >>> lazy_tensor = LazyFlattedTensor(torch.arange(6))
+            >>> lazy_tensor.numel()
+            6
         """
         return self._values.numel() + sum([tensor.numel() for tensor in self._buffer])
 
@@ -159,6 +207,17 @@ class LazyFlattedTensor:
             tensor (``torch.Tensor``): Specifies the new tensor to add
                 to the internal buffer. The tensor is flatted if
                 necessary.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.tensor import LazyFlattedTensor
+            >>> lazy_tensor = LazyFlattedTensor()
+            >>> lazy_tensor.update(torch.arange(6))
+            >>> lazy_tensor.values()
+            tensor([0, 1, 2, 3, 4, 5])
         """
         self._buffer.append(tensor)
 
@@ -168,6 +227,16 @@ class LazyFlattedTensor:
         Returns
         -------
             ``torch.Tensor``: The flatted tensor with all the values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.tensor import LazyFlattedTensor
+            >>> lazy_tensor = LazyFlattedTensor(torch.arange(6))
+            >>> lazy_tensor.values()
+            tensor([0, 1, 2, 3, 4, 5])
         """
         self.consolidate()
         return self._values
