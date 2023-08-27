@@ -22,8 +22,9 @@ from contextlib import contextmanager
 
 import numpy
 import torch
+from coola.utils import str_indent
 
-from gravitorch.utils.format import str_indent, str_pretty_dict
+from gravitorch.utils.format import str_pretty_dict
 
 
 def get_random_seed(seed: int) -> int:

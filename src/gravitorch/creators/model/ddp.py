@@ -4,13 +4,14 @@ __all__ = ["DataDistributedParallelModelCreator", "to_ddp"]
 
 import logging
 
+from coola.utils import str_indent
 from torch import nn
 from torch.nn.parallel import DistributedDataParallel
 
 from gravitorch import distributed as dist
 from gravitorch.creators.model.base import BaseModelCreator, setup_model_creator
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_indent, str_pretty_json
+from gravitorch.utils.format import str_pretty_json
 
 logger = logging.getLogger(__name__)
 

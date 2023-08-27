@@ -2,6 +2,8 @@ __all__ = ["VanillaLRScheduler", "EpochLRScheduler", "IterationLRScheduler"]
 
 from typing import Union
 
+from coola.utils import str_indent
+
 from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.lr_monitor import EpochLRMonitor, IterationLRMonitor
@@ -10,7 +12,6 @@ from gravitorch.handlers.lr_scheduler_updater import (
     IterationLRSchedulerUpdater,
 )
 from gravitorch.handlers.utils import setup_handler
-from gravitorch.utils.format import str_indent
 
 
 class VanillaLRScheduler(BaseHandler):

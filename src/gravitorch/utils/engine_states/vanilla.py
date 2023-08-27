@@ -4,8 +4,9 @@ __all__ = ["VanillaEngineState"]
 
 from typing import Any
 
+from coola.utils import str_indent
+
 from gravitorch.utils.engine_states.base import BaseEngineState
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.history import BaseHistory, HistoryManager
 from gravitorch.utils.module_manager import ModuleManager
 

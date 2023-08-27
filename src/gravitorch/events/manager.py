@@ -6,8 +6,9 @@ import logging
 from collections import defaultdict
 from typing import Optional
 
+from coola.utils import str_indent, str_sequence
+
 from gravitorch.events.event_handlers import BaseEventHandler
-from gravitorch.utils.format import str_indent, str_torch_sequence
 
 logger = logging.getLogger(__name__)
 
@@ -275,7 +276,5 @@ def to_event_handlers_str(event_handlers: dict[str, list], num_spaces: int = 2) 
     lines = []
     spaces = " " * num_spaces
     for key, value in event_handlers.items():
-        lines.append(
-            f"({key})\n{spaces}{str_indent(str_torch_sequence(value, num_spaces), num_spaces)}"
-        )
+        lines.append(f"({key})\n{spaces}{str_indent(str_sequence(value, num_spaces), num_spaces)}")
     return "\n".join(lines)

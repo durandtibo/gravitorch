@@ -5,9 +5,8 @@ __all__ = ["LooperIterDataPipe"]
 from collections.abc import Iterator
 from typing import TypeVar
 
+from coola.utils import str_indent
 from torch.utils.data import IterDataPipe
-
-from gravitorch.utils.format import str_indent
 
 T = TypeVar("T")
 

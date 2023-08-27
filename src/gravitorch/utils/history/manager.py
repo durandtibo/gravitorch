@@ -8,9 +8,8 @@ import copy
 import logging
 from typing import Any
 
-from coola.utils import str_mapping
+from coola.utils import str_indent, str_mapping
 
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.history.base import BaseHistory
 from gravitorch.utils.history.generic import GenericHistory
 from gravitorch.utils.history.utils import get_best_values

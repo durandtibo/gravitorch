@@ -7,24 +7,22 @@ __all__ = [
     "human_byte_size",
     "human_count",
     "human_time",
-    "str_indent",
     "str_mapping",
     "str_pretty_dict",
     "str_pretty_json",
     "str_pretty_yaml",
     "str_scalar",
     "str_target_object",
-    "str_torch_mapping",
-    "str_torch_sequence",
 ]
 
 import datetime
 import json
 import math
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping
 from typing import Any, TypeVar
 
 import yaml
+from coola.utils import str_indent
 from objectory import OBJECT_TARGET
 
 PARAMETER_NUM_UNITS = (" ", "K", "M", "B", "T")
@@ -161,47 +159,6 @@ def human_time(seconds: int | float) -> str:
         '1:01:01.200000'
     """
     return str(datetime.timedelta(seconds=seconds))
-
-
-def str_indent(original: Any, num_spaces: int = 2) -> str:
-    r"""Adds indentations if the original string is a multi-lines string.
-
-    Args:
-    ----
-        original: Specifies the original string. If the inputis not a
-            string, it will be converted to a string with the function
-            ``str``.
-        num_spaces (int, optional): Specifies the number of spaces
-            used for the indentation. Default: ``2``.
-
-    Returns:
-    -------
-        str: The indented string.
-
-    Example usage:
-
-    .. code-block:: pycon
-
-        >>> string_to_print = "string1\nstring2"
-        >>> print(f"{string_to_print}")
-        string1
-        string2
-        >>> print(f"\t{string_to_print}")
-          string1
-        string2
-        >>> # The problem is that 'string1' and 'string2' are not aligned.
-        >>> # The indentation is only applied to the first line
-        >>> from gravitorch.utils.format import str_indent
-        >>> print(f"\t{str_indent(string_to_print, 4)}")
-            string1
-            string2
-    """
-    formatted_str = str(original).split("\n")
-    if len(formatted_str) == 1:  # single line
-        return formatted_str[0]
-    first = formatted_str.pop(0)
-    formatted_str = "\n".join([(num_spaces * " ") + line for line in formatted_str])
-    return first + "\n" + formatted_str
 
 
 def str_mapping(
@@ -423,70 +380,3 @@ def str_pretty_dict(data: dict[str, Any], sorted_keys: bool = False, indent: int
     for key in sorted(data.keys()) if sorted_keys else data.keys():
         output.append(f"{' ' * indent + str(key) + ' ' * (max_length - len(key))} : {data[key]}")
     return "\n".join(output)
-
-
-def str_torch_mapping(mapping: Mapping, sorted_keys: bool = False, num_spaces: int = 2) -> str:
-    r"""Computes a torch-like (``torch.nn.Module``) string representation
-    of a mapping.
-
-    This function was designed for flat dictionary. If you have a
-    nested dictionary, you may consider other functions. Note that
-    this function works for nested dict but the output may not be
-    nice.
-
-    Args:
-    ----
-        mapping (``Mapping``): Specifies the mapping.
-        sorted_keys (bool, optional): Specifies if the key of the dict
-            are sorted or not. Default: ``False``
-        num_spaces (int, optional): Specifies the number of spaces
-            used for the indentation. Default: ``2``.
-
-    Returns:
-    -------
-        str: The string representation of the mapping.
-
-    Example usage:
-
-    .. code-block:: pycon
-
-        >>> from gravitorch.utils.format import str_torch_mapping
-        >>> print(str_torch_mapping({"key1": "abc", "key2": "something\nelse"}))
-        (key1): abc
-        (key2): something
-          else
-    """
-    lines = []
-    for key, value in sorted(mapping.items()) if sorted_keys else mapping.items():
-        lines.append(f"({key}): {str_indent(value, num_spaces=num_spaces)}")
-    return "\n".join(lines)
-
-
-def str_torch_sequence(sequence: Sequence, num_spaces: int = 2) -> str:
-    r"""Computes a torch-like (``torch.nn.Module``) string representation
-    of a sequence.
-
-    Args:
-    ----
-        sequence (``Sequence``): Specifies the sequence.
-        num_spaces (int, optional): Specifies the number of spaces
-            used for the indentation. Default: ``2``.
-
-    Returns:
-    -------
-        str: The string representation of the sequence.
-
-    Example usage:
-
-    .. code-block:: pycon
-
-        >>> from gravitorch.utils.format import str_torch_sequence
-        >>> print(str_torch_sequence(["abc", "something\nelse"]))
-        (0): abc
-        (1): something
-          else
-    """
-    lines = []
-    for i, item in enumerate(sequence):
-        lines.append(f"({i}): {str_indent(item, num_spaces=num_spaces)}")
-    return "\n".join(lines)

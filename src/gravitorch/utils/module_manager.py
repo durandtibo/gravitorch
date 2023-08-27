@@ -7,7 +7,7 @@ __all__ = ["ModuleManager"]
 import logging
 from typing import Any
 
-from gravitorch.utils.format import str_indent, str_torch_mapping
+from coola.utils import str_indent, str_mapping
 
 logger = logging.getLogger(__name__)
 
@@ -39,8 +39,7 @@ class ModuleManager:
     def __repr__(self) -> str:
         if self._modules:
             return (
-                f"{self.__class__.__qualname__}(\n"
-                f"  {str_indent(str_torch_mapping(self._modules))}\n)"
+                f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_mapping(self._modules))}\n)"
             )
         return f"{self.__class__.__qualname__}()"
 

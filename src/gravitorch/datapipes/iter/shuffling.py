@@ -12,10 +12,10 @@ from collections.abc import Iterator, Mapping, Sequence
 
 import numpy as np
 import torch
+from coola.utils import str_indent
 from torch import Tensor
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.seed import get_torch_generator
 from gravitorch.utils.tensor import permute_along_dim
 

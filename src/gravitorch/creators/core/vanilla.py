@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["VanillaCoreCreator"]
 
 
+from coola.utils import str_indent
 from torch import nn
 from torch.optim import Optimizer
 
@@ -14,7 +15,6 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
 from gravitorch.models.utils import setup_model
 from gravitorch.optimizers.factory import setup_optimizer
-from gravitorch.utils.format import str_indent
 
 
 class VanillaCoreCreator(BaseCoreCreator):

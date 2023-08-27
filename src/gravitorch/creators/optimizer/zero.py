@@ -4,6 +4,7 @@ __all__ = ["ZeroRedundancyOptimizerCreator"]
 
 import logging
 
+from coola.utils import str_indent
 from objectory import OBJECT_TARGET
 from torch.distributed.optim import ZeroRedundancyOptimizer
 from torch.nn import Module
@@ -13,7 +14,7 @@ from gravitorch import constants as ct
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
 from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.optimizer_state import ConsolidateOptimizerState
-from gravitorch.utils.format import str_indent, str_pretty_json
+from gravitorch.utils.format import str_pretty_json
 
 logger = logging.getLogger(__name__)
 
