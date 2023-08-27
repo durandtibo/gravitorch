@@ -6,9 +6,9 @@ import logging
 from collections.abc import Iterator
 from pathlib import Path
 
+from coola.utils import str_indent
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.io import save_pickle, save_pytorch
 from gravitorch.utils.path import sanitize_path
 

@@ -4,6 +4,7 @@ __all__ = ["VanillaModelCreator"]
 
 import logging
 
+from coola.utils import str_indent
 from torch import nn
 
 from gravitorch import constants as ct
@@ -15,7 +16,6 @@ from gravitorch.utils.device_placement import (
     BaseDevicePlacement,
     setup_device_placement,
 )
-from gravitorch.utils.format import str_indent
 
 logger = logging.getLogger(__name__)
 

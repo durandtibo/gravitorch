@@ -7,12 +7,12 @@ from collections.abc import Hashable, Iterator, Sequence
 
 import torch
 from coola import summary
+from coola.utils import str_indent
 from torch import Tensor
 from torch.utils.data import IterDataPipe
 
 from gravitorch.datapipes.iter.shuffling import shuffle_tensor_mapping, shuffle_tensors
 from gravitorch.datapipes.iter.source import SourceWrapperIterDataPipe
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.mapping import get_first_value
 from gravitorch.utils.seed import get_torch_generator
 

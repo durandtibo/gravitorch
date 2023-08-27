@@ -5,7 +5,7 @@ __all__ = ["EvaluationRunner"]
 import logging
 from collections.abc import Sequence
 
-from coola.utils import str_mapping
+from coola.utils import str_indent, str_mapping
 
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
@@ -14,7 +14,6 @@ from gravitorch.handlers.base import BaseHandler
 from gravitorch.rsrc.base import BaseResource
 from gravitorch.runners.resource import BaseResourceRunner
 from gravitorch.utils.exp_trackers import BaseExpTracker, setup_exp_tracker
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.seed import manual_seed
 
 logger = logging.getLogger(__name__)

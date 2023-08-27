@@ -5,10 +5,11 @@ __all__ = ["DDPPartitioner", "SyncParallelPartitioner"]
 from collections.abc import Sequence
 from typing import TypeVar
 
+from coola.utils import str_indent
+
 from gravitorch.data.partitioners.base import BasePartitioner, setup_partitioner
 from gravitorch.distributed.ddp import broadcast_object_list
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.partitioning import ddp_partitions
 
 T = TypeVar("T")

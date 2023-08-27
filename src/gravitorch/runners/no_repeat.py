@@ -5,11 +5,10 @@ __all__ = ["NoRepeatRunner"]
 from datetime import datetime
 from pathlib import Path
 
-from coola.utils import str_mapping
+from coola.utils import str_indent, str_mapping
 
 from gravitorch.runners.base import BaseRunner
 from gravitorch.runners.utils import setup_runner
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.io import save_text
 from gravitorch.utils.path import sanitize_path
 

@@ -8,10 +8,10 @@ __all__ = ["LazyFlattedTensor"]
 from typing import Any
 
 import torch
+from coola.utils import str_indent
 from torch import Tensor
 
 from gravitorch.distributed.ddp import all_gather_tensor_varshape
-from gravitorch.utils.format import str_indent
 
 
 class LazyFlattedTensor:

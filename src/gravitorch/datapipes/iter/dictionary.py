@@ -4,9 +4,9 @@ __all__ = ["DictOfListConverterIterDataPipe", "ListOfDictConverterIterDataPipe"]
 
 from collections.abc import Hashable, Iterator, Mapping, Sequence
 
+from coola.utils import str_indent
 from torch.utils.data import IterDataPipe
 
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.mapping import convert_to_dict_of_lists, convert_to_list_of_dicts
 
 

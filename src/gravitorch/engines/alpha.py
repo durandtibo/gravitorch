@@ -5,6 +5,7 @@ __all__ = ["AlphaEngine"]
 import logging
 from typing import TYPE_CHECKING, Any
 
+from coola.utils import str_indent
 from torch.nn import Module
 from torch.optim import Optimizer
 
@@ -22,7 +23,6 @@ from gravitorch.lr_schedulers import LRSchedulerType
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import BaseEngineState, setup_engine_state
 from gravitorch.utils.exp_trackers import BaseExpTracker, Step, setup_exp_tracker
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.history import BaseHistory
 from gravitorch.utils.timing import timeblock
 

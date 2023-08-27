@@ -8,12 +8,13 @@ __all__ = [
 
 from typing import TYPE_CHECKING, TypeVar
 
+from coola.utils import str_indent
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.data.dataloaders.factory import create_dataloader
 from gravitorch.distributed import comm as dist
-from gravitorch.utils.format import str_indent, str_pretty_dict
+from gravitorch.utils.format import str_pretty_dict
 from gravitorch.utils.seed import get_torch_generator
 
 if TYPE_CHECKING:

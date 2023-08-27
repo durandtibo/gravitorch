@@ -5,9 +5,8 @@ __all__ = ["DirFilterIterDataPipe", "FileFilterIterDataPipe", "PathListerIterDat
 from collections.abc import Iterator
 from pathlib import Path
 
+from coola.utils import str_indent
 from torch.utils.data import IterDataPipe
-
-from gravitorch.utils.format import str_indent
 
 
 class DirFilterIterDataPipe(IterDataPipe[Path]):

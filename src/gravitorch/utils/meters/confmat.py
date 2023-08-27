@@ -6,10 +6,10 @@ from collections.abc import Iterable, Sequence
 from typing import Any
 
 import torch
+from coola.utils import str_indent
 from torch import Tensor
 
 from gravitorch.distributed.ddp import SUM, sync_reduce_
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.meters.exceptions import EmptyMeterError
 
 

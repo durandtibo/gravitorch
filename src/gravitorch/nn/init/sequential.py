@@ -4,11 +4,11 @@ import logging
 from collections.abc import Sequence
 from typing import Union
 
+from coola.utils import str_indent, str_sequence
 from torch.nn import Module
 
 from gravitorch.nn.init.base import BaseInitializer
 from gravitorch.nn.init.factory import setup_initializer
-from gravitorch.utils.format import str_indent, str_torch_sequence
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class SequentialInitializer(BaseInitializer):
     def __str__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(str_torch_sequence(self._initializers))}\n)"
+            f"  {str_indent(str_sequence(self._initializers))}\n)"
         )
 
     def initialize(self, module: Module) -> None:

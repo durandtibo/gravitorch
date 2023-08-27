@@ -4,6 +4,7 @@ __all__ = ["VanillaLRSchedulerCreator"]
 
 import logging
 
+from coola.utils import str_indent
 from torch.optim import Optimizer
 
 from gravitorch import constants as ct
@@ -12,7 +13,6 @@ from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import setup_handler
 from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
-from gravitorch.utils.format import str_indent
 
 logger = logging.getLogger(__name__)
 

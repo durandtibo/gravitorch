@@ -8,15 +8,12 @@ from gravitorch.utils.format import (
     human_byte_size,
     human_count,
     human_time,
-    str_indent,
     str_mapping,
     str_pretty_dict,
     str_pretty_json,
     str_pretty_yaml,
     str_scalar,
     str_target_object,
-    str_torch_mapping,
-    str_torch_sequence,
 )
 
 #####################################
@@ -109,31 +106,6 @@ def test_human_count_incorrect_value() -> None:
 )
 def test_human_time(seconds: Union[int, float], human: str) -> None:
     assert human_time(seconds) == human
-
-
-################################
-#     Tests for str_indent     #
-################################
-
-
-def test_str_indent_1_line() -> None:
-    assert str_indent("abc") == "abc"
-
-
-def test_str_indent_2_lines() -> None:
-    assert str_indent("abc\n  def") == "abc\n    def"
-
-
-def test_str_indent_num_spaces_2() -> None:
-    assert str_indent("abc\ndef", num_spaces=2) == "abc\n  def"
-
-
-def test_str_indent_num_spaces_4() -> None:
-    assert str_indent("abc\ndef", num_spaces=4) == "abc\n    def"
-
-
-def test_str_indent_not_a_string() -> None:
-    assert str_indent(123) == "123"
 
 
 #################################
@@ -366,63 +338,3 @@ def test_str_pretty_dict_incorrect_indent() -> None:
 
 def test_str_pretty_dict_indent_2() -> None:
     assert str_pretty_dict(data={"my_key": "my_value"}, indent=2) == "  my_key : my_value"
-
-
-#######################################
-#     Tests for str_torch_mapping     #
-#######################################
-
-
-def test_str_torch_mapping_empty() -> None:
-    assert str_torch_mapping({}) == ""
-
-
-def test_str_torch_mapping_1_item() -> None:
-    assert str_torch_mapping({"key": "value"}) == "(key): value"
-
-
-def test_str_torch_mapping_2_items() -> None:
-    assert (
-        str_torch_mapping({"key1": "value1", "key2": "value2"}) == "(key1): value1\n(key2): value2"
-    )
-
-
-def test_str_torch_mapping_sorted_values_true() -> None:
-    assert (
-        str_torch_mapping({"key2": "value2", "key1": "value1"}, sorted_keys=True)
-        == "(key1): value1\n(key2): value2"
-    )
-
-
-def test_str_torch_mapping_sorted_values_false() -> None:
-    assert (
-        str_torch_mapping({"key2": "value2", "key1": "value1"}) == "(key2): value2\n(key1): value1"
-    )
-
-
-def test_str_torch_mapping_2_items_multiple_line() -> None:
-    assert (
-        str_torch_mapping({"key1": "abc", "key2": "something\nelse"})
-        == "(key1): abc\n(key2): something\n  else"
-    )
-
-
-########################################
-#     Tests for str_torch_sequence     #
-########################################
-
-
-def test_str_torch_sequence_empty() -> None:
-    assert str_torch_sequence([]) == ""
-
-
-def test_str_torch_sequence_1_item() -> None:
-    assert str_torch_sequence(["abc"]) == "(0): abc"
-
-
-def test_str_torch_sequence_2_items() -> None:
-    assert str_torch_sequence(["abc", 123]) == "(0): abc\n(1): 123"
-
-
-def test_str_torch_sequence_2_items_multiple_line() -> None:
-    assert str_torch_sequence(["abc", "something\nelse"]) == "(0): abc\n(1): something\n  else"

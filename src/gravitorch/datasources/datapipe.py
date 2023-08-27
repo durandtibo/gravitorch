@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import Any, TypeVar
 
 from coola import summary
+from coola.utils import str_indent, str_mapping
 from torch.utils.data import IterDataPipe
 
 from gravitorch.creators.datapipe.base import (
@@ -17,7 +18,6 @@ from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creato
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset import AssetManager
-from gravitorch.utils.format import str_indent, str_torch_mapping
 
 logger = logging.getLogger(__name__)
 
@@ -99,12 +99,12 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         self._datapipe_creators = {
             key: setup_iter_datapipe_creator(creator) for key, creator in datapipe_creators.items()
         }
-        logger.info(f"IterDataPipe creators:\n{str_torch_mapping(self._datapipe_creators)}")
+        logger.info(f"IterDataPipe creators:\n{str_mapping(self._datapipe_creators)}")
 
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(str_torch_mapping(self._datapipe_creators))}\n)"
+            f"  {str_indent(str_mapping(self._datapipe_creators))}\n)"
         )
 
     def attach(self, engine: BaseEngine) -> None:
@@ -303,7 +303,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         self._data_creators = {
             key: setup_data_creator(creator) for key, creator in data_creators.items()
         }
-        logger.info(f"Data creators:\n{str_torch_mapping(self._data_creators)}")
+        logger.info(f"Data creators:\n{str_mapping(self._data_creators)}")
         logger.info("Creating data...")
         self._data = {key: creator.create() for key, creator in self._data_creators.items()}
         logger.info(f"Data:\n{summary(self._data)}")
@@ -312,9 +312,9 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         return (
             f"{self.__class__.__qualname__}(\n"
             "  data_creators\n"
-            f"    {str_indent(str_torch_mapping(self._data_creators), num_spaces=4)}\n"
+            f"    {str_indent(str_mapping(self._data_creators), num_spaces=4)}\n"
             "  datapipe_creators\n"
-            f"    {str_indent(str_torch_mapping(self._datapipe_creators), num_spaces=4)}"
+            f"    {str_indent(str_mapping(self._datapipe_creators), num_spaces=4)}"
             "\n)"
         )
 

@@ -6,9 +6,10 @@ import copy
 import logging
 from typing import Any, TypeVar
 
+from coola.utils import str_indent
+
 from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
 from gravitorch.engines.base import BaseEngine
-from gravitorch.utils.format import str_indent
 
 logger = logging.getLogger(__name__)
 

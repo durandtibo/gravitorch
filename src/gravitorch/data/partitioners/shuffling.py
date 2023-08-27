@@ -6,10 +6,10 @@ from collections.abc import Sequence
 from typing import TypeVar
 
 import torch
+from coola.utils import str_indent
 
 from gravitorch.data.partitioners.base import BasePartitioner, setup_partitioner
 from gravitorch.engines import BaseEngine
-from gravitorch.utils.format import str_indent
 from gravitorch.utils.seed import get_torch_generator
 
 T = TypeVar("T")

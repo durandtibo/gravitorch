@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["AdvancedCoreCreator"]
 
 
+from coola.utils import str_indent
 from torch.nn import Module
 from torch.optim import Optimizer
 
@@ -19,7 +20,6 @@ from gravitorch.creators.optimizer.utils import setup_optimizer_creator
 from gravitorch.datasources.base import BaseDataSource
 from gravitorch.engines.base import BaseEngine
 from gravitorch.lr_schedulers.base import LRSchedulerType
-from gravitorch.utils.format import str_indent
 
 
 class AdvancedCoreCreator(BaseCoreCreator):

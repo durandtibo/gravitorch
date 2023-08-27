@@ -7,9 +7,8 @@ import logging
 from collections.abc import Iterable, Iterator
 
 from coola import summary
+from coola.utils import str_indent
 from torch.utils.data import IterDataPipe
-
-from gravitorch.utils.format import str_indent
 
 logger = logging.getLogger(__name__)
 
