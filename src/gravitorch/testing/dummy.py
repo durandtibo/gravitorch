@@ -34,6 +34,15 @@ class DummyDataset(Dataset):
             Default: ``4``
         num_examples (dim, optional): Specifies the number of
             examples. Default: ``8``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import DummyDataset
+        >>> dataset = DummyDataset(num_examples=10, feature_size=7)
+        >>> dataset[0]
+        {'input': tensor([1., 1., 1., 1., 1., 1., 1.]), 'target': 1}
     """
 
     def __init__(self, feature_size: int = 4, num_examples: int = 8) -> None:
@@ -65,6 +74,15 @@ class DummyIterableDataset(IterableDataset):
         has_length (bool, optional): If ``True``, the length of the
             dataset is defined, otherwise it returns ``TypeError``.
             Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import DummyIterableDataset
+        >>> dataset = DummyIterableDataset(num_examples=10, feature_size=7)
+        >>> next(iter(dataset))
+        {'input': tensor([2., 2., 2., 2., 2., 2., 2.]), 'target': 1}
     """
 
     def __init__(
@@ -111,6 +129,20 @@ class DummyDataSource(DatasetDataSource):
             dataset is automatically created. Default: ``None``
         batch_size (int, optional): Specifies the batch size.
             Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import DummyDataset, DummyDataSource
+        >>> datasource = DummyDataSource(
+        ...     train_dataset=DummyDataset(num_examples=10, feature_size=3),
+        ...     eval_dataset=DummyDataset(num_examples=6, feature_size=3),
+        ... )
+        >>> next(iter(datasource.get_dataloader("train")))
+        {'input': tensor([[1., 1., 1.]]), 'target': tensor([1])}
+        >>> next(iter(datasource.get_dataloader("eval")))
+        {'input': tensor([[1., 1., 1.]]), 'target': tensor([1])}
     """
 
     def __init__(
@@ -124,6 +156,7 @@ class DummyDataSource(DatasetDataSource):
         if eval_dataset is None:
             eval_dataset = DummyDataset()
 
+        # Local import to avoid cyclic dependency
         from gravitorch.creators.dataloader import DataLoaderCreator
 
         super().__init__(
@@ -146,6 +179,22 @@ class DummyClassificationModel(BaseModel):
             Default: ``3``
         loss_nan (bool, optional): If ``True``, the forward function
             returns a loss filled with a NaN value.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import DummyClassificationModel
+        >>> model = DummyClassificationModel()
+        >>> model
+        DummyClassificationModel(
+          (linear): Linear(in_features=4, out_features=3, bias=True)
+          (criterion): CrossEntropyLoss()
+        )
+        >>> model(
+        ...     {"input": torch.ones(2, 4), "target": torch.ones(2, dtype=torch.long)}
+        ... )  # doctest: +ELLIPSIS
+        {'loss': tensor(..., grad_fn=<NllLossBackward0>)}
     """
 
     def __init__(self, feature_size: int = 4, num_classes: int = 3, loss_nan: bool = False) -> None:
@@ -183,6 +232,17 @@ def create_dummy_engine(
         device (``torch.device`` or ``None``): Specifies the target
             device. Default: ``None``
         **kwargs: Arbitrary keyword arguments.
+
+    Returns:
+    -------
+        ``BaseEngine``: The initialized engine.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
     """
     datasource = datasource or DummyDataSource(batch_size=2)
     model = model or DummyClassificationModel()

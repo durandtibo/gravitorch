@@ -5,6 +5,8 @@ __all__ = ["NoRepeatRunner"]
 from datetime import datetime
 from pathlib import Path
 
+from coola.utils import str_mapping
+
 from gravitorch.runners.base import BaseRunner
 from gravitorch.runners.utils import setup_runner
 from gravitorch.utils.format import str_indent
@@ -24,6 +26,16 @@ class NoRepeatRunner(BaseRunner):
             configuration.
         path (``Path`` or str): Specifies the path where to log a
             successful run.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.runners import NoRepeatRunner, TrainingRunner
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> runner = NoRepeatRunner(TrainingRunner(engine), path="tmp/")
+        >>> runner.run()
     """
 
     def __init__(self, runner: BaseRunner | dict, path: Path | str) -> None:
@@ -32,16 +44,10 @@ class NoRepeatRunner(BaseRunner):
         self._runner = setup_runner(runner)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  runner={str_indent(str(self._runner))},\n"
-            f"  path={self._path},\n"
-            ")"
-        )
+        args = str_indent(str_mapping({"runner": self._runner, "path": self._path}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def run(self) -> None:
-        r"""Executes the logic of the runner if it was not successful
-        before."""
         if not self._success_path.is_file():
             self._runner.run()
             save_text(str(datetime.now()), self._success_path)

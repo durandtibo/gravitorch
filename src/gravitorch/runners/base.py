@@ -9,7 +9,18 @@ from objectory import AbstractFactory
 
 
 class BaseRunner(ABC, metaclass=AbstractFactory):
-    r"""Defines the base class of the runners."""
+    r"""Defines the base class of the runners.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.runners import TrainingRunner
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> runner = TrainingRunner(engine)
+        >>> runner.run()
+    """
 
     @abstractmethod
     def run(self) -> Any:
@@ -18,4 +29,13 @@ class BaseRunner(ABC, metaclass=AbstractFactory):
         Returns
         -------
             Any artifact of the runner
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.runners import TrainingRunner
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> runner = TrainingRunner(create_dummy_engine())
+            >>> engine = runner.run()
         """

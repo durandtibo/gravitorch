@@ -18,6 +18,8 @@ class BaseResourceRunner(BaseRunner):
     r"""Implements a base class to easily implement a runner using
     resource managers.
 
+    Child classes need to implement the ``_run()`` method.
+
     Args:
     ----
         resources (sequence or ``None``, optional): Specifies a

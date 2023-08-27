@@ -5,6 +5,8 @@ __all__ = ["TrainingRunner"]
 import logging
 from collections.abc import Sequence
 
+from coola.utils import str_mapping
+
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers import setup_and_attach_handlers
@@ -13,7 +15,7 @@ from gravitorch.rsrc.base import BaseResource
 from gravitorch.runners.resource import BaseResourceRunner
 from gravitorch.utils.exp_trackers import setup_exp_tracker
 from gravitorch.utils.exp_trackers.base import BaseExpTracker
-from gravitorch.utils.format import str_indent, str_pretty_json, str_torch_sequence
+from gravitorch.utils.format import str_indent
 from gravitorch.utils.seed import manual_seed
 
 logger = logging.getLogger(__name__)
@@ -46,6 +48,16 @@ class TrainingRunner(BaseResourceRunner):
         resources (sequence or ``None``, optional): Specifies a
             sequence of resources or their configurations.
             Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.runners import TrainingRunner
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> runner = TrainingRunner(engine)
+        >>> runner.run()
     """
 
     def __init__(
@@ -63,15 +75,18 @@ class TrainingRunner(BaseResourceRunner):
         self._random_seed = random_seed
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  random_seed={self._random_seed},\n"
-            f"  engine={str_indent(str_pretty_json(self._engine))},\n"
-            f"  exp_tracker={str_indent(str_pretty_json(self._exp_tracker))},\n"
-            f"  handlers:\n  {str_indent(str_torch_sequence(self._handlers))},\n"
-            f"  resources:\n  {str_indent(str_torch_sequence(self._resources))},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "engine": self._engine,
+                    "exp_tracker": self._exp_tracker,
+                    "handlers": self._handlers,
+                    "resources": self._resources,
+                    "random_seed": self._random_seed,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def _run(self) -> BaseEngine:
         return _run_training_pipeline(

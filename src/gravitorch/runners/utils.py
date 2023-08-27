@@ -26,6 +26,21 @@ def setup_runner(runner: BaseRunner | dict) -> BaseRunner:
     Returns:
     -------
         ``BaseRunner``: The instantiated runner.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.runners import setup_runner
+        >>> runner = setup_runner({"_target_": "gravitorch.runners.TrainingRunner", "engine": {}})
+        >>> runner
+        TrainingRunner(
+          (engine): {}
+          (exp_tracker): None
+          (handlers): ()
+          (resources): ()
+          (random_seed): 10139531598155730726
+        )
     """
     if isinstance(runner, dict):
         logger.debug(f"Initializing a runner from its configuration... {str_target_object(runner)}")
@@ -49,6 +64,13 @@ def configure_pytorch(cudnn_benchmark: bool = False, cudnn_deterministic: bool =
         cudnn_deterministic (bool, optional): If True, causes cuDNN
             to only use deterministic convolution algorithms.
             Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.runners import configure_pytorch
+        >>> configure_pytorch(cudnn_deterministic=True)
     """
     cudnn.benchmark = cudnn_benchmark
     cudnn.deterministic = cudnn_deterministic
@@ -57,7 +79,15 @@ def configure_pytorch(cudnn_benchmark: bool = False, cudnn_deterministic: bool =
 
 
 def show_cuda_info() -> None:
-    r"""Shows information about the CUDA backend."""
+    r"""Shows information about the CUDA backend.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.runners.utils import show_cuda_info
+        >>> show_cuda_info()
+    """
     prefix = "torch.backends.cuda.matmul"
     info = {
         f"{prefix}.allow_fp16_reduced_precision_reduction": (
@@ -70,7 +100,15 @@ def show_cuda_info() -> None:
 
 
 def show_cudnn_info() -> None:
-    r"""Shows information about the cuDNN backend."""
+    r"""Shows information about the cuDNN backend.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.runners.utils import show_cudnn_info
+        >>> show_cudnn_info()
+    """
     info = {
         "torch.backends.cudnn.allow_tf32": cudnn.allow_tf32,
         "torch.backends.cudnn.benchmark": cudnn.benchmark,
