@@ -47,13 +47,15 @@ class ModelSummary:
     will be skipped and show as `?` in the summary table. The summary
     will also display `?` for layers not used in the forward pass.
 
-    Example::
+    Example usage:
+
+    .. code-block:: pycon
 
         >>> import torch
         >>> from torch import nn
         >>> from gravitorch.models.utils import ModelSummary
         >>> model = torch.nn.Linear(4, 5)
-        >>> print(ModelSummary(model, mode='top'))  # doctest: +NORMALIZE_WHITESPACE
+        >>> print(ModelSummary(model, mode="top"))  # doctest: +NORMALIZE_WHITESPACE
         ╒════╤═══════════════╤════════╤══════════╤════════════════╕
         │    │ Name          │ Type   │   Params │   Learn Params │
         ╞════╪═══════════════╪════════╪══════════╪════════════════╡
@@ -70,11 +72,13 @@ class ModelSummary:
         ...         super().__init__()
         ...         self.fusion = ConcatFusion()
         ...         self.decoder = BetaMLP(input_size=20, hidden_sizes=(16, 7))
-        ...
-        ...     def forward(self, x1: torch.Tensor, x2: torch.Tensor, x3: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        ...     def forward(
+        ...         self, x1: torch.Tensor, x2: torch.Tensor, x3: torch.Tensor
+        ...     ) -> tuple[torch.Tensor, torch.Tensor]:
         ...         return self.decoder(self.fusion(x1, x2, x3)), x3
-        ...
-        ...     def get_dummy_input(self, batch_size: int = 1) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        ...     def get_dummy_input(
+        ...         self, batch_size: int = 1
+        ...     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         ...         return (
         ...             torch.randn(batch_size, 10),
         ...             torch.randn(batch_size, 2),
@@ -82,46 +86,45 @@ class ModelSummary:
         ...         )
         ...
         >>> model = MyNetwork()
-        >>> ModelSummary(model, mode='top')  # doctest: +NORMALIZE_WHITESPACE
-        ╒════╤═══════════════╤══════════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕  # noqa: E501,B950
-        │    │ Name          │ Type         │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │  # noqa: E501,B950
-        ╞════╪═══════════════╪══════════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡  # noqa: E501,B950
-        │  0 │ [root module] │ MyNetwork    │    455   │          455   │ (1, 10)    │ torch.float32 │ (1, 7)      │ torch.float32 │  # noqa: E501,B950
-        │    │               │              │          │                │ (1, 2)     │ torch.float32 │ (1, 8)      │ torch.float32 │  # noqa: E501,B950
-        │    │               │              │          │                │ (1, 8)     │ torch.float32 │             │               │  # noqa: E501,B950
-        ├────┼───────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤  # noqa: E501,B950
-        │  1 │ fusion        │ ConcatFusion │      0   │            0   │ (1, 10)    │ torch.float32 │ (1, 20)     │ torch.float32 │  # noqa: E501,B950
-        │    │               │              │          │                │ (1, 2)     │ torch.float32 │             │               │  # noqa: E501,B950
-        │    │               │              │          │                │ (1, 8)     │ torch.float32 │             │               │  # noqa: E501,B950
-        ├────┼───────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤  # noqa: E501,B950
-        │  2 │ decoder       │ BetaMLP      │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │  # noqa: E501,B950
-        ╘════╧═══════════════╧══════════════╧══════════╧════════════════╧════════════╧═══════════════╧═════════════╧═══════════════╛  # noqa: E501,B950
+        >>> print(ModelSummary(model, mode="top"))  # doctest: +NORMALIZE_WHITESPACE
+        ╒════╤═══════════════╤══════════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕
+        │    │ Name          │ Type         │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │
+        ╞════╪═══════════════╪══════════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡
+        │  0 │ [root module] │ MyNetwork    │    455   │          455   │ (1, 10)    │ torch.float32 │ (1, 7)      │ torch.float32 │
+        │    │               │              │          │                │ (1, 2)     │ torch.float32 │ (1, 8)      │ torch.float32 │
+        │    │               │              │          │                │ (1, 8)     │ torch.float32 │             │               │
+        ├────┼───────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤
+        │  1 │ fusion        │ ConcatFusion │      0   │            0   │ (1, 10)    │ torch.float32 │ (1, 20)     │ torch.float32 │
+        │    │               │              │          │                │ (1, 2)     │ torch.float32 │             │               │
+        │    │               │              │          │                │ (1, 8)     │ torch.float32 │             │               │
+        ├────┼───────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤
+        │  2 │ decoder       │ BetaMLP      │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │
+        ╘════╧═══════════════╧══════════════╧══════════╧════════════════╧════════════╧═══════════════╧═════════════╧═══════════════╛
          - 455        Learnable params
          - 0          Non-learnable params
          - 455        Total params
-
-        >>> ModelSummary(model, mode='full')  # doctest: +NORMALIZE_WHITESPACE
-        ╒════╤════════════════════════╤══════════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕  # noqa: E501,B950
-        │    │ Name                   │ Type         │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │  # noqa: E501,B950
-        ╞════╪════════════════════════╪══════════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡  # noqa: E501,B950
-        │  0 │ [root module]          │ MyNetwork    │    455   │          455   │ (1, 10)    │ torch.float32 │ (1, 7)      │ torch.float32 │  # noqa: E501,B950
-        │    │                        │              │          │                │ (1, 2)     │ torch.float32 │ (1, 8)      │ torch.float32 │  # noqa: E501,B950
-        │    │                        │              │          │                │ (1, 8)     │ torch.float32 │             │               │  # noqa: E501,B950
-        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤  # noqa: E501,B950
-        │  1 │ fusion                 │ ConcatFusion │      0   │            0   │ (1, 10)    │ torch.float32 │ (1, 20)     │ torch.float32 │  # noqa: E501,B950
-        │    │                        │              │          │                │ (1, 2)     │ torch.float32 │             │               │  # noqa: E501,B950
-        │    │                        │              │          │                │ (1, 8)     │ torch.float32 │             │               │  # noqa: E501,B950
-        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤  # noqa: E501,B950
-        │  2 │ decoder                │ BetaMLP      │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │  # noqa: E501,B950
-        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤  # noqa: E501,B950
-        │  3 │ decoder.layers         │ Sequential   │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │  # noqa: E501,B950
-        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤  # noqa: E501,B950
-        │  4 │ decoder.layers.linear1 │ Linear       │    336   │          336   │ (1, 20)    │ torch.float32 │ (1, 16)     │ torch.float32 │  # noqa: E501,B950
-        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤  # noqa: E501,B950
-        │  5 │ decoder.layers.relu1   │ ReLU         │      0   │            0   │ (1, 16)    │ torch.float32 │ (1, 16)     │ torch.float32 │  # noqa: E501,B950
-        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤  # noqa: E501,B950
-        │  6 │ decoder.layers.linear2 │ Linear       │    119   │          119   │ (1, 16)    │ torch.float32 │ (1, 7)      │ torch.float32 │  # noqa: E501,B950
-        ╘════╧════════════════════════╧══════════════╧══════════╧════════════════╧════════════╧═══════════════╧═════════════╧═══════════════╛  # noqa: E501,B950
+        >>> print(ModelSummary(model, mode="full"))  # doctest: +NORMALIZE_WHITESPACE
+        ╒════╤════════════════════════╤══════════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕
+        │    │ Name                   │ Type         │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │
+        ╞════╪════════════════════════╪══════════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡
+        │  0 │ [root module]          │ MyNetwork    │    455   │          455   │ (1, 10)    │ torch.float32 │ (1, 7)      │ torch.float32 │
+        │    │                        │              │          │                │ (1, 2)     │ torch.float32 │ (1, 8)      │ torch.float32 │
+        │    │                        │              │          │                │ (1, 8)     │ torch.float32 │             │               │
+        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤
+        │  1 │ fusion                 │ ConcatFusion │      0   │            0   │ (1, 10)    │ torch.float32 │ (1, 20)     │ torch.float32 │
+        │    │                        │              │          │                │ (1, 2)     │ torch.float32 │             │               │
+        │    │                        │              │          │                │ (1, 8)     │ torch.float32 │             │               │
+        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤
+        │  2 │ decoder                │ BetaMLP      │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │
+        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤
+        │  3 │ decoder.layers         │ Sequential   │    455   │          455   │ (1, 20)    │ torch.float32 │ (1, 7)      │ torch.float32 │
+        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤
+        │  4 │ decoder.layers.linear1 │ Linear       │    336   │          336   │ (1, 20)    │ torch.float32 │ (1, 16)     │ torch.float32 │
+        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤
+        │  5 │ decoder.layers.relu1   │ ReLU         │      0   │            0   │ (1, 16)    │ torch.float32 │ (1, 16)     │ torch.float32 │
+        ├────┼────────────────────────┼──────────────┼──────────┼────────────────┼────────────┼───────────────┼─────────────┼───────────────┤
+        │  6 │ decoder.layers.linear2 │ Linear       │    119   │          119   │ (1, 16)    │ torch.float32 │ (1, 7)      │ torch.float32 │
+        ╘════╧════════════════════════╧══════════════╧══════════╧════════════════╧════════════╧═══════════════╧═════════════╧═══════════════╛
          - 455        Learnable params
          - 0          Non-learnable params
          - 455        Total params
@@ -228,6 +231,15 @@ def model_forward_dummy_input(model: Module) -> None:
             should have the ``get_dummy_input`` method. This function
             is a noop if the model does not have the
             ``get_dummy_input`` method.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.models.utils.summary import model_forward_dummy_input
+        >>> from gravitorch.testing import DummyClassificationModel
+        >>> model = DummyClassificationModel()
+        >>> model_forward_dummy_input(model)
     """
     if not hasattr(model, "get_dummy_input"):
         return
@@ -240,4 +252,4 @@ def model_forward_dummy_input(model: Module) -> None:
             model(dummy_input)
         else:
             model(*dummy_input)
-    model.train(mode)  # restore mode of module
+    model.train(mode)

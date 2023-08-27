@@ -36,7 +36,13 @@ class AbsoluteError(BaseStateEpochMetric):
         >>> from gravitorch.models.metrics import AbsoluteError
         >>> metric = AbsoluteError("eval")
         >>> metric
-        AbsoluteErrorMetric(mode=eval, name=abs_err)
+        AbsoluteError(
+          mode=eval,
+          name=abs_err,
+          state=ErrorState(
+            (meter) TensorMeter(count=0, total=0.0, min_value=inf, max_value=-inf)
+          )
+        )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
         {'eval/abs_err_mean': 0.0,

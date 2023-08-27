@@ -38,23 +38,23 @@ class SquaredError(BaseStateEpochMetric):
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
         {'eval/sq_err_mean': 0.0,
-         'eval/sq_err_max': 0.0,
          'eval/sq_err_min': 0.0,
+         'eval/sq_err_max': 0.0,
          'eval/sq_err_sum': 0.0,
          'eval/sq_err_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()
-        {'eval/sq_err_mean': 0.16666666666666666,
-         'eval/sq_err_max': 1.0,
+        >>> metric.value()  # doctest: +ELLIPSIS
+        {'eval/sq_err_mean': 0.166666...,
          'eval/sq_err_min': 0.0,
+         'eval/sq_err_max': 1.0,
          'eval/sq_err_sum': 2.0,
          'eval/sq_err_num_predictions': 12}
         >>> metric.reset()
         >>> metric(torch.eye(2), torch.ones(2, 2))
         >>> metric.value()
         {'eval/sq_err_mean': 0.5,
-         'eval/sq_err_max': 1.0,
          'eval/sq_err_min': 0.0,
+         'eval/sq_err_max': 1.0,
          'eval/sq_err_sum': 2.0,
          'eval/sq_err_num_predictions': 4}
     """
@@ -107,12 +107,12 @@ class RootMeanSquaredError(SquaredError):
         >>> metric.value()
         {'eval/rmse_root_mean': 0.0, 'eval/rmse_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()
-        {'eval/rmse_root_mean': 0.408248290463863, 'eval/rmse_num_predictions': 12}
+        >>> metric.value()  # doctest: +ELLIPSIS
+        {'eval/rmse_root_mean': 0.408248..., 'eval/rmse_num_predictions': 12}
         >>> metric.reset()
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()
-        {'eval/rmse_root_mean': 0.7071067811865476, 'eval/rmse_num_predictions': 4}
+        >>> metric.value()  # doctest: +ELLIPSIS
+        {'eval/rmse_root_mean': 0.707106..., 'eval/rmse_num_predictions': 4}
     """
 
     def __init__(

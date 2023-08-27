@@ -53,6 +53,68 @@ class VanillaModel(BaseModel):
             means there is no checkpoint to load. Default: ``None``.
         random_seed (int, optional): Specifies the random seed.
             Default: ``6671429959452193306``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models import VanillaModel
+        >>> from gravitorch.models.networks import AlphaMLP
+        >>> from gravitorch.models.criteria import VanillaLoss
+        >>> from gravitorch.models.metrics import CategoricalAccuracy, VanillaMetric
+        >>> model = VanillaModel(
+        ...     network=AlphaMLP(input_size=4, hidden_sizes=[8, 4]),
+        ...     criterion=VanillaLoss(torch.nn.CrossEntropyLoss()),
+        ...     metrics={
+        ...         "train_metric": VanillaMetric(
+        ...             mode="train", metric=CategoricalAccuracy(mode="train")
+        ...         ),
+        ...         "eval_metric": VanillaMetric(
+        ...             mode="eval", metric=CategoricalAccuracy(mode="eval")
+        ...         ),
+        ...     },
+        ... )
+        >>> model
+        VanillaModel(
+          (network): AlphaMLP(
+            (layers): Sequential(
+              (linear1): Linear(in_features=4, out_features=8, bias=True)
+              (relu1): ReLU()
+              (linear2): Linear(in_features=8, out_features=4, bias=True)
+              (relu2): ReLU()
+            )
+          )
+          (criterion): VanillaLoss(
+            (criterion): CrossEntropyLoss()
+          )
+          (metrics): ModuleDict(
+            (train_metric): VanillaMetric(
+              (metric): CategoricalAccuracy(
+                mode=train,
+                name=cat_acc,
+                state=AccuracyState(
+                  (meter) MeanTensorMeter(count=0, total=0)
+                )
+                (prediction_transform): ToCategoricalLabel()
+              )
+            )
+            (eval_metric): VanillaMetric(
+              (metric): CategoricalAccuracy(
+                mode=eval,
+                name=cat_acc,
+                state=AccuracyState(
+                  (meter) MeanTensorMeter(count=0, total=0)
+                )
+                (prediction_transform): ToCategoricalLabel()
+              )
+            )
+          )
+        )
+        >>> model(
+        ...     {"target": torch.ones(2, dtype=torch.long), "input": torch.randn(2, 4)}
+        ... )  # doctest: +ELLIPSIS
+        {'prediction': tensor([[...]], grad_fn=<ReluBackward0>), 'loss': tensor(..., grad_fn=<NllLossBackward0>)}
     """
 
     def __init__(

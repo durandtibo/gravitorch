@@ -38,10 +38,10 @@ class BaseState(ABC, metaclass=AbstractFactory):
         >>> from gravitorch.models.metrics.state import ErrorState
         >>> state = ErrorState()
         >>> state.get_histories("error_")
-        (MinScalarHistory(name=error_mean, max_history_size=10, history=()),
-         MinScalarHistory(name=error_min, max_history_size=10, history=()),
-         MinScalarHistory(name=error_max, max_history_size=10, history=()),
-         MinScalarHistory(name=error_sum, max_history_size=10, history=()))
+        (MinScalarHistory(name=error_mean, max_size=10, history=()),
+         MinScalarHistory(name=error_min, max_size=10, history=()),
+         MinScalarHistory(name=error_max, max_size=10, history=()),
+         MinScalarHistory(name=error_sum, max_size=10, history=()))
         >>> state.update(torch.arange(6))
         >>> state.value("error_")
         {'error_mean': 2.5,
@@ -123,7 +123,7 @@ class MeanErrorState(BaseState):
         >>> from gravitorch.models.metrics.state import MeanErrorState
         >>> state = MeanErrorState()
         >>> state.get_histories("error_")
-        (MinScalarHistory(name=error_mean, max_history_size=10, history=()),)
+        (MinScalarHistory(name=error_mean, max_size=10, history=()),)
         >>> state.update(torch.arange(6))
         >>> state.value("error_")
         {'error_mean': 2.5, 'error_num_predictions': 6}
@@ -188,7 +188,7 @@ class RootMeanErrorState(BaseState):
         >>> from gravitorch.models.metrics.state import RootMeanErrorState
         >>> state = RootMeanErrorState()
         >>> state.get_histories("error_")
-        (MinScalarHistory(name=error_root_mean, max_history_size=10, history=()),)
+        (MinScalarHistory(name=error_root_mean, max_size=10, history=()),)
         >>> state.update(torch.arange(6))
         >>> state.value("error_")
         {'error_root_mean': 1.5811388300841898, 'error_num_predictions': 6}
@@ -248,10 +248,10 @@ class ErrorState(BaseState):
         >>> from gravitorch.models.metrics.state import ErrorState
         >>> state = ErrorState()
         >>> state.get_histories("error_")
-        (MinScalarHistory(name=error_mean, max_history_size=10, history=()),
-         MinScalarHistory(name=error_min, max_history_size=10, history=()),
-         MinScalarHistory(name=error_max, max_history_size=10, history=()),
-         MinScalarHistory(name=error_sum, max_history_size=10, history=()))
+        (MinScalarHistory(name=error_mean, max_size=10, history=()),
+         MinScalarHistory(name=error_min, max_size=10, history=()),
+         MinScalarHistory(name=error_max, max_size=10, history=()),
+         MinScalarHistory(name=error_sum, max_size=10, history=()))
         >>> state.update(torch.arange(6))
         >>> state.value("error_")
         {'error_mean': 2.5,
@@ -329,13 +329,13 @@ class ExtendedErrorState(BaseState):
         >>> from gravitorch.models.metrics.state import ExtendedErrorState
         >>> state = ExtendedErrorState(quantiles=[0.5, 0.9])
         >>> state.get_histories("error_")
-        (MinScalarHistory(name=error_mean, max_history_size=10, history=()),
-         MinScalarHistory(name=error_median, max_history_size=10, history=()),
-         MinScalarHistory(name=error_min, max_history_size=10, history=()),
-         MinScalarHistory(name=error_max, max_history_size=10, history=()),
-         MinScalarHistory(name=error_sum, max_history_size=10, history=()),
-         MinScalarHistory(name=error_quantile_0.5, max_history_size=10, history=()),
-         MinScalarHistory(name=error_quantile_0.9, max_history_size=10, history=()))
+        (MinScalarHistory(name=error_mean, max_size=10, history=()),
+         MinScalarHistory(name=error_median, max_size=10, history=()),
+         MinScalarHistory(name=error_min, max_size=10, history=()),
+         MinScalarHistory(name=error_max, max_size=10, history=()),
+         MinScalarHistory(name=error_sum, max_size=10, history=()),
+         MinScalarHistory(name=error_quantile_0.5, max_size=10, history=()),
+         MinScalarHistory(name=error_quantile_0.9, max_size=10, history=()))
         >>> state.update(torch.arange(11))
         >>> state.value("error_")
         {'error_mean': 5.0,
@@ -432,7 +432,7 @@ class AccuracyState(BaseState):
         >>> from gravitorch.models.metrics.state import AccuracyState
         >>> state = AccuracyState()
         >>> state.get_histories()
-        (MaxScalarHistory(name=accuracy, max_history_size=10, history=()),)
+        (MaxScalarHistory(name=accuracy, max_size=10, history=()),)
         >>> state.update(torch.eye(4))
         >>> state.value()
         {'accuracy': 0.25, 'num_predictions': 16}
@@ -494,10 +494,10 @@ class ExtendedAccuracyState(BaseState):
         >>> from gravitorch.models.metrics.state import ExtendedAccuracyState
         >>> state = ExtendedAccuracyState()
         >>> state.get_histories()
-        (MaxScalarHistory(name=accuracy, max_history_size=10, history=()),
-         MinScalarHistory(name=error, max_history_size=10, history=()),
-         MaxScalarHistory(name=num_correct_predictions, max_history_size=10, history=()),
-         MinScalarHistory(name=num_incorrect_predictions, max_history_size=10, history=()))
+        (MaxScalarHistory(name=accuracy, max_size=10, history=()),
+         MinScalarHistory(name=error, max_size=10, history=()),
+         MaxScalarHistory(name=num_correct_predictions, max_size=10, history=()),
+         MinScalarHistory(name=num_incorrect_predictions, max_size=10, history=()))
         >>> state.update(torch.eye(4))
         >>> state.value()
         {'accuracy': 0.25,

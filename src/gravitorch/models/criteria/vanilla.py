@@ -38,22 +38,35 @@ class VanillaLoss(Module):
 
     .. code-block:: pycon
 
-        >>> from torch import nn
+        >>> import torch
         >>> from gravitorch.models.criteria import VanillaLoss
-        # Initialization with a nn.Module
-        >>> criterion = VanillaLoss(criterion=nn.MSELoss())
-        # Initialization with a config
+        >>> # Initialization with a nn.Module
+        >>> criterion = VanillaLoss(criterion=torch.nn.MSELoss())
+        >>> criterion
+        VanillaLoss(
+          (criterion): MSELoss()
+        )
+        >>> # Initialization with a config
         >>> criterion = VanillaLoss(criterion={"_target_": "torch.nn.MSELoss"})
-        # Customize keys.
+        >>> criterion
+        VanillaLoss(
+          (criterion): MSELoss()
+        )
+        >>> # Customize keys.
         >>> criterion = VanillaLoss(
-        ...     criterion=nn.MSELoss(),
+        ...     criterion=torch.nn.MSELoss(),
         ...     prediction_key="my_prediction",
         ...     target_key="my_target",
         ... )
-        >>> net_out = {"my_prediction": ...}
-        >>> batch = {"my_target": ...}
-        >>> loss = criterion(net_out, batch)
-        {'loss': torch.tensor(...)}
+        >>> criterion
+        VanillaLoss(
+          (criterion): MSELoss()
+        )
+        >>> loss = criterion(
+        ...     net_out={"my_prediction": torch.rand(2, 4)}, batch={"my_target": torch.rand(2, 4)}
+        ... )
+        >>> loss  # doctest: +ELLIPSIS
+        {'loss': tensor(...)}
     """
 
     def __init__(

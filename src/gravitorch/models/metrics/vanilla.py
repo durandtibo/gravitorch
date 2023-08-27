@@ -37,11 +37,11 @@ class VanillaMetric(BaseMetric):
     .. code-block:: pycon
 
         >>> from gravitorch.models.metrics import TopKAccuracy
-        # Initialization with a metric object.
+        >>> # Initialization with a metric object.
         >>> metric = VanillaMetric(TopKAccuracy(mode="train", topk=[1]))
-        # Initialization with the config of a metric.
+        >>> # Initialization with the config of a metric.
         >>> metric = VanillaMetric(mode="eval", metric={"_target_": "TopKAccuracy", "topk": [1]})
-        # Customize keys.
+        >>> # Customize keys.
         >>> net_out = {"next_sentence_prediction": ...}
         >>> batch = {"next_sentence_target": ...}
         >>> metric = VanillaMetric(
@@ -100,21 +100,9 @@ class VanillaMetric(BaseMetric):
         )
 
     def reset(self) -> None:
-        r"""Resets the metric."""
         self.metric.reset()
 
     def value(self, engine: BaseEngine | None = None) -> dict:
-        r"""Evaluates the metric and log the results given all the
-        examples previously seen.
-
-        Args:
-        ----
-            engine (``BaseEngine`` or None): Specifies the engine.
-
-        Returns:
-        -------
-             dict: The results of the metric.
-        """
         return self.metric.value(engine)
 
     def _get_prediction_from_net_out(self, net_out: dict) -> Tensor:
@@ -238,7 +226,7 @@ class PaddedSequenceMetric(VanillaMetric):
         ...     batch={"target": torch.zeros(2, 6, 1)},
         ... )
         >>> metric.value()
-        {'train/mae': 1.0, 'train/mae_num_examples': 12}
+        {'train/abs_err_mean': 1.0, 'train/abs_err_min': 1.0, 'train/abs_err_max': 1.0, 'train/abs_err_sum': 12.0, 'train/abs_err_num_predictions': 12}
         >>> metric(
         ...     cri_out={},
         ...     net_out={"prediction": torch.ones(2, 4, 1)},
@@ -248,7 +236,7 @@ class PaddedSequenceMetric(VanillaMetric):
         ...     },
         ... )
         >>> metric.value()
-        {'train/mae': 1.0, 'train/mae_num_examples': 18}
+        {'train/abs_err_mean': 1.0, 'train/abs_err_min': 1.0, 'train/abs_err_max': 1.0, 'train/abs_err_sum': 18.0, 'train/abs_err_num_predictions': 18}
     """
 
     def __init__(

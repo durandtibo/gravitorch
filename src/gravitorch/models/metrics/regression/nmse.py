@@ -31,6 +31,24 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         name (str, optional): Specifies the name of the metric.
             The name is used to log the metric results.
             Default: ``'nmse'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.metrics import NormalizedMeanSquaredError
+        >>> metric = NormalizedMeanSquaredError("eval")
+        >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+        >>> metric.value()
+        {'eval/nmse': 0.0, 'eval/nmse_num_predictions': 8}
+        >>> metric(torch.eye(2), torch.ones(2, 2))
+        >>> metric.value()  # doctest: +ELLIPSIS
+        {'eval/nmse': 0.166666..., 'eval/nmse_num_predictions': 12}
+        >>> metric.reset()
+        >>> metric(torch.eye(2), torch.ones(2, 2))
+        >>> metric.value()
+        {'eval/nmse': 0.5, 'eval/nmse_num_predictions': 4}
     """
 
     def __init__(self, mode: str, name: str = "nmse") -> None:

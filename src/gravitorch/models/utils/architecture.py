@@ -41,6 +41,14 @@ def analyze_module_architecture(
             be logged about the model. Default: ``None``
         prefix (str, optional): Specifies the prefix used to log the
             number of parameters. Default: ``''``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.utils import analyze_module_architecture
+        >>> analyze_module_architecture(torch.nn.Linear(4, 6))
     """
     if not isinstance(module, Module):
         return
@@ -66,6 +74,16 @@ def analyze_model_architecture(model: Module, engine: BaseEngine | None = None) 
         engine (``BaseEngine`` or ``None``, optional): Specifies the
             engine to use to log the info. If ``None``, no metric
             will be logged about the module. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.utils import analyze_model_architecture
+        >>> from gravitorch.testing import DummyClassificationModel
+        >>> model = DummyClassificationModel()
+        >>> analyze_model_architecture(model)
     """
     analyze_module_architecture(module=model, engine=engine, prefix="model.")
 
@@ -84,6 +102,16 @@ def analyze_network_architecture(model: Module, engine: BaseEngine | None = None
         engine (``BaseEngine`` or ``None``, optional): Specifies the
             engine to use to log the info. If ``None``, no metric
             will be logged about the module. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.utils import analyze_network_architecture
+        >>> from gravitorch.testing import DummyClassificationModel
+        >>> model = DummyClassificationModel()
+        >>> analyze_network_architecture(model)
     """
     if hasattr(model, "network"):
         analyze_module_architecture(module=model.network, engine=engine, prefix="model.network.")

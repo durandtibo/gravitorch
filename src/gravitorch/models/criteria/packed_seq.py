@@ -36,23 +36,45 @@ class PackedSequenceLoss(Module):
 
     .. code-block:: pycon
 
-        >>> from torch import nn
+        >>> import torch
         >>> from gravitorch.models.criteria import PackedSequenceLoss
-        # Init with a nn.Module
-        >>> criterion = PackedSequenceLoss(criterion=nn.MSELoss())
-        # Init with a config
+        >>> # Init with a nn.Module
+        >>> criterion = PackedSequenceLoss(criterion=torch.nn.MSELoss())
+        >>> criterion
+        PackedSequenceLoss(
+          (criterion): MSELoss()
+        )
+        >>> # Init with a config
         >>> criterion = PackedSequenceLoss(criterion={"_target_": "torch.nn.MSELoss"})
-        # Customize keys.
+        >>> criterion
+        PackedSequenceLoss(
+          (criterion): MSELoss()
+        )
+        >>> # Customize keys.
         >>> criterion = PackedSequenceLoss(
-        ...     criterion=nn.MSELoss(),
+        ...     criterion=torch.nn.MSELoss(),
         ...     prediction_key="my_prediction",
         ...     target_key="my_target",
         ...     mask_key="my_mask",
         ... )
-        >>> net_out = {"my_prediction": ...}
-        >>> batch = {"my_target": ..., "my_mask": ...}
+        >>> criterion
+        PackedSequenceLoss(
+          (criterion): MSELoss()
+        )
+        >>> net_out = {
+        ...     "my_prediction": torch.nn.utils.rnn.PackedSequence(
+        ...         data=torch.randn(2, 4), batch_sizes=torch.tensor([4, 4])
+        ...     )
+        ... }
+        >>> batch = {
+        ...     "my_target": torch.nn.utils.rnn.PackedSequence(
+        ...         data=torch.randn(2, 4), batch_sizes=torch.tensor([4, 4])
+        ...     ),
+        ...     "my_mask": torch.ones(2, 4),
+        ... }
         >>> loss = criterion(net_out, batch)
-        {'loss': torch.tensor(...)}
+        >>> loss  # doctest: +ELLIPSIS
+        {'loss': tensor(...)}
     """
 
     def __init__(
