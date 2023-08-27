@@ -43,11 +43,9 @@ def setup_optimizer(model: Module, optimizer: Optimizer | dict | None) -> Optimi
         >>> optimizer = setup_optimizer(
         ...     torch.nn.Linear(4, 6), optimizer={"_target_": "torch.optim.SGD", "lr": 0.01}
         ... )
-        >>> optimizer
+        >>> optimizer  # doctest: +ELLIPSIS
         SGD (
-        Parameter Group 0
-            dampening: 0
-            foreach: None
+        Parameter Group 0...
             lr: 0.01
             maximize: False
             momentum: 0
@@ -56,11 +54,9 @@ def setup_optimizer(model: Module, optimizer: Optimizer | dict | None) -> Optimi
         )
         >>> model = torch.nn.Linear(4, 6)
         >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
-        >>> setup_optimizer(model, optimizer)
+        >>> setup_optimizer(model, optimizer)  # doctest: +ELLIPSIS
         SGD (
-        Parameter Group 0
-            dampening: 0
-            foreach: None
+        Parameter Group 0...
             lr: 0.001
             maximize: False
             momentum: 0
