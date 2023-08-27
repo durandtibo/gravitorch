@@ -6,9 +6,10 @@ import logging
 from collections.abc import Sequence
 from typing import Any
 
+from coola.utils import str_indent, str_sequence
+
 from gravitorch.runners.base import BaseRunner
 from gravitorch.runners.utils import setup_runner
-from gravitorch.utils.format import str_indent, str_torch_sequence
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +27,8 @@ class SequentialRunner(BaseRunner):
     .. code-block:: pycon
 
         >>> from gravitorch.runners import TrainingRunner, SequentialRunner, EvaluationRunner
-        >>> engine = ...
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
         >>> runner = SequentialRunner([TrainingRunner(engine), EvaluationRunner(engine)])
         >>> runner.run()
     """
@@ -35,10 +37,7 @@ class SequentialRunner(BaseRunner):
         self._runners = tuple(setup_runner(runner) for runner in runners)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(str_torch_sequence(self._runners))}\n)"
-        )
+        return f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_sequence(self._runners))}\n)"
 
     def run(self) -> Any:
         for runner in self._runners:
