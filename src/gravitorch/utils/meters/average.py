@@ -32,6 +32,10 @@ class AverageMeter:
         ...
         >>> meter.average()
         5.0
+        >>> meter.sum()
+        55.0
+        >>> meter.count
+        11
     """
 
     def __init__(self, total: float = 0.0, count: int = 0) -> None:
@@ -101,6 +105,18 @@ class AverageMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter = AverageMeter()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.average()
+            5.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -112,6 +128,24 @@ class AverageMeter:
         Returns
         -------
             ``AverageMeter``: A copy of the current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter = AverageMeter(total=55.0, count=11)
+            >>> meter_cloned = meter.clone()
+            >>> meter.update(1)
+            >>> meter.sum()
+            56.0
+            >>> meter.count
+            12
+            >>> meter_cloned.sum()
+            55.0
+            >>> meter_cloned.count
+            11
         """
         return AverageMeter(total=self.total, count=self.count)
 
@@ -126,6 +160,17 @@ class AverageMeter:
         -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter1 = AverageMeter(total=55.0, count=11)
+            >>> meter2 = AverageMeter(total=3.0, count=3)
+            >>> meter1.equal(meter2)
+            False
         """
         if not isinstance(other, AverageMeter):
             return False
@@ -143,6 +188,20 @@ class AverageMeter:
         Returns:
         -------
             ``AverageMeter``: The merged meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter1 = AverageMeter(total=55.0, count=10)
+            >>> meter2 = AverageMeter(total=3.0, count=3)
+            >>> meter3 = meter1.merge([meter2])
+            >>> meter3.count
+            13
+            >>> meter3.sum()
+            58.0
         """
         count, total = self.count, self.total
         for meter in meters:
@@ -159,6 +218,20 @@ class AverageMeter:
         ----
             meters (iterable): Specifies the meters to merge to the
                 current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter1 = AverageMeter(total=55.0, count=10)
+            >>> meter2 = AverageMeter(total=3.0, count=3)
+            >>> meter1.merge_([meter2])
+            >>> meter1.count
+            13
+            >>> meter1.sum()
+            58.0
         """
         for meter in meters:
             self._count += meter.count
@@ -171,12 +244,38 @@ class AverageMeter:
         ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter = AverageMeter()
+            >>> meter.load_state_dict({"count": 11, "total": 55.0})
+            >>> meter.count
+            11
+            >>> meter.sum()
+            55.0
         """
         self._total = state_dict["total"]
         self._count = state_dict["count"]
 
     def reset(self) -> None:
-        r"""Reset the meter."""
+        r"""Resets the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter = AverageMeter()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.reset()
+            >>> meter.count
+            0
+        """
         self._total = 0.0
         self._count = 0
 
@@ -186,6 +285,18 @@ class AverageMeter:
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter = AverageMeter()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.state_dict()
+            {'count': 11, 'total': 55.0}
         """
         return {"count": self._count, "total": self._total}
 
@@ -199,6 +310,18 @@ class AverageMeter:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter = AverageMeter()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.sum()
+            55.0
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -214,6 +337,18 @@ class AverageMeter:
             num_examples (int, optional): Specifies the number of
                 examples. This argument is mainly used to deal with
                 mini-batches of different sizes. Default: ``1``
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import AverageMeter
+            >>> meter = AverageMeter()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.sum()
+            55.0
         """
         self._total += float(value) * num_examples
         self._count += num_examples

@@ -67,7 +67,7 @@ class MeanTensorMeter:
         return self._total
 
     def reset(self) -> None:
-        r"""Reset the meter.
+        r"""Resets the meter.
 
         Example usage:
 
@@ -423,7 +423,7 @@ class ExtremaTensorMeter:
         return self._count
 
     def reset(self) -> None:
-        r"""Reset the meter.
+        r"""Resets the meter.
 
         Example usage:
 
@@ -1025,7 +1025,7 @@ class TensorMeter:
         }
 
     def reset(self) -> None:
-        r"""Reset the meter.
+        r"""Resets the meter.
 
         Example usage:
 
@@ -1258,7 +1258,7 @@ class TensorMeter2:
         return self._count
 
     def reset(self) -> None:
-        r"""Reset the meter.
+        r"""Resets the meter.
 
         Example usage:
 
