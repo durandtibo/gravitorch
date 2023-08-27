@@ -35,8 +35,18 @@ def get_learning_rate_per_group(optimizer: Optimizer) -> dict[int, float]:
     Returns:
     -------
         set: The set of learning rates.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.optimizers.utils import get_learning_rate_per_group
+        >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
+        >>> get_learning_rate_per_group(optimizer)
+        {0: 0.01}
     """
-    return _get_parameter_per_group(optimizer, "lr")
+    return get_parameter_per_group(optimizer, "lr")
 
 
 def get_weight_decay_per_group(optimizer: Optimizer) -> dict[int, float]:
@@ -50,11 +60,44 @@ def get_weight_decay_per_group(optimizer: Optimizer) -> dict[int, float]:
     Returns:
     -------
         set: The set of weight decays.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.optimizers.utils import get_weight_decay_per_group
+        >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
+        >>> get_weight_decay_per_group(optimizer)
+        {0: 0}
     """
-    return _get_parameter_per_group(optimizer, "weight_decay")
+    return get_parameter_per_group(optimizer, "weight_decay")
 
 
-def _get_parameter_per_group(optimizer: Optimizer, key: str) -> dict:
+def get_parameter_per_group(optimizer: Optimizer, key: str) -> dict:
+    r"""Gets a specific parameter for each group of an optimizer.
+
+    Args:
+    ----
+        optimizer (``torch.optim.Optimizer``): Specifies the
+            optimizer.
+        key (``str``): Specifies the key associated to the
+            parameter.
+
+    Returns:
+    -------
+        set: The set of parameters.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.optimizers.utils import get_parameter_per_group
+        >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
+        >>> get_parameter_per_group(optimizer, "lr")
+        {0: 0.01}
+    """
     parameters = {}
     for i, params in enumerate(optimizer.param_groups):
         if key in params:
@@ -80,6 +123,16 @@ def log_optimizer_parameters_per_group(
             optimizer parameters.
         prefix (``Step``, optional): Specifies the prefix used to log
             the optimizer parameters.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.optimizers.utils import log_optimizer_parameters_per_group
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> log_optimizer_parameters_per_group(engine.optimizer, engine)
     """
     parameters = {}
     for i, group in enumerate(optimizer.param_groups):
@@ -103,6 +156,15 @@ def show_optimizer_parameters_per_group(optimizer: Optimizer, tablefmt: str = "f
             the optimizer information. You can find the valid formats
             at https://pypi.org/project/tabulate/.
             Default: ``'fancy_grid'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.optimizers.utils import show_optimizer_parameters_per_group
+        >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
+        >>> show_optimizer_parameters_per_group(optimizer)
     """
     lines = []
     for i, group in enumerate(optimizer.param_groups):

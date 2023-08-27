@@ -25,6 +25,16 @@ class DistributedContext(BaseResource):
         log_info (bool, optional): If ``True``, information about the
             resource is logged after the resource is initialized.
             Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.distributed import backend
+        >>> from gravitorch.rsrc import DistributedContext
+        >>> with DistributedContext(backend=None):
+        ...     backend()
+        ...
     """
 
     def __init__(self, backend: str | None = "auto", log_info: bool = False) -> None:

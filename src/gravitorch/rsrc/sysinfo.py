@@ -13,7 +13,17 @@ logger = logging.getLogger(__name__)
 
 
 class LogCudaMemory(BaseResource):
-    r"""Implements a context manager to log the CUDA memory."""
+    r"""Implements a context manager to log the CUDA memory.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.rsrc import LogCudaMemory
+        >>> with LogCudaMemory():
+        ...     pass
+        ...
+    """
 
     def __enter__(self) -> LogCudaMemory:
         log_max_cuda_memory_allocated()
@@ -32,7 +42,17 @@ class LogCudaMemory(BaseResource):
 
 
 class LogSysInfo(BaseResource):
-    r"""Implements a context manager to log system information."""
+    r"""Implements a context manager to log system information.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.rsrc import LogSysInfo
+        >>> with LogSysInfo():
+        ...     pass
+        ...
+    """
 
     def __enter__(self) -> LogSysInfo:
         log_system_info()

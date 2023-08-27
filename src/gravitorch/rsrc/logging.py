@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class LoggingState:
+    r"""Implements a class to store the logging state."""
     disabled_level: int
 
     def restore(self) -> None:
@@ -47,6 +48,16 @@ class Logging(BaseResource):
             disabled. Default: ``39``
         log_info (bool, optional): If ``True``, the state is shown
             after the context manager is created. Default: ``False``
+
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.rsrc import Logging
+        >>> with Logging(only_main_process=True):
+        ...     pass
+        ...
     """
 
     def __init__(

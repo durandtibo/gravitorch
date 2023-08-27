@@ -19,10 +19,23 @@ class NoOpOptimizer(Optimizer):
     ----
         params: This input is not used. It is here to make it
             compatible with the other optimizers.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.optimizers import NoOpOptimizer
+        >>> import torch
+        >>> optimizer = NoOpOptimizer(torch.nn.Linear(4, 6).parameters())
+        >>> optimizer
+        NoOpOptimizer()
     """
 
     def __init__(self, params: Iterable[Tensor] | Iterable[dict]) -> None:
         r"""Do nothing."""
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__qualname__}()"
 
     def load_state_dict(self, state_dict: dict) -> None:
         r"""Do nothing."""

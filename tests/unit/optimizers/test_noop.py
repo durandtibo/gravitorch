@@ -7,6 +7,10 @@ from gravitorch.optimizers.noop import NoOpOptimizer
 ###################################
 
 
+def test_noop_optimizer_str() -> None:
+    assert str(NoOpOptimizer(nn.Linear(4, 6).parameters())).startswith("NoOpOptimizer(")
+
+
 def test_noop_optimizer_load_state_dict() -> None:
     optim = NoOpOptimizer(nn.Linear(4, 6).parameters())
     optim.load_state_dict({})

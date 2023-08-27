@@ -56,8 +56,34 @@ class PyTorchConfigState:
 
 
 class PyTorchConfig(BaseResource):
-    r"""Implements a context manager to show the PyTorch
-    configuration."""
+    r"""Implements a context manager to show the PyTorch configuration.
+
+    Args:
+        float32_matmul_precision (``str`` or ``None``, optional):
+            Specifies the internal precision of float32 matrix
+            multiplications. Default: ``None``
+        deterministic_algorithms_mode (``bool`` or ``None``,
+            optional): If True, makes potentially nondeterministic
+            operations switch to a deterministic algorithm or throw
+            a runtime error. If False, allows nondeterministic
+            operations. Default: ``None``
+        deterministic_algorithms_warn_only (``bool``, optional):
+            If True, operations that do not have a deterministic
+            implementation will throw a warning instead of an error.
+            Default: ``False``
+        log_info (``bool``, optional): If ``True``, information about
+            the resource is logged after the resource is initialized.
+            Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.rsrc import PyTorchConfig
+        >>> with PyTorchConfig(float32_matmul_precision="highest"):
+        ...     pass
+        ...
+    """
 
     def __init__(
         self,
@@ -190,6 +216,15 @@ class PyTorchCudaBackend(BaseResource):
             If ``None``, the default value is used. Default: ``None``
         log_info (bool, optional): If ``True``, the state is shown
             after the context manager is created. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.rsrc import PyTorchCudaBackend
+        >>> with PyTorchCudaBackend(allow_tf32=True):
+        ...     pass
+        ...
     """
 
     def __init__(
@@ -325,6 +360,15 @@ class PyTorchCudnnBackend(BaseResource):
             the default value is used. Default: ``None``
         log_info (bool, optional): If ``True``, the state is shown
             after the context manager is created. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.rsrc import PyTorchCudnnBackend
+        >>> with PyTorchCudnnBackend(allow_tf32=True):
+        ...     pass
+        ...
     """
 
     def __init__(
@@ -424,6 +468,15 @@ class PyTorchMpsBackend(BaseResource):
     ----
         log_info (bool, optional): If ``True``, the state is shown
             after the context manager is created. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.rsrc import PyTorchMpsBackend
+        >>> with PyTorchMpsBackend():
+        ...     pass
+        ...
     """
 
     def __init__(self, log_info: bool = False) -> None:

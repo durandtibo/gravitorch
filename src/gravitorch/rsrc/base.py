@@ -30,6 +30,15 @@ def setup_resource(resource: BaseResource | dict) -> BaseResource:
     Returns:
     -------
         ``BaseResource``: The instantiated resource.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.rsrc import setup_resource
+        >>> resource = setup_resource({"_target_": "gravitorch.rsrc.PyTorchCudaBackend"})
+        >>> resource
+        PyTorchCudaBackend(allow_tf32=None, allow_fp16_reduced_precision_reduction=None, flash_sdp_enabled=None, math_sdp_enabled=None, preferred_linalg_backend=None, log_info=False)
     """
     if isinstance(resource, dict):
         logger.debug(
