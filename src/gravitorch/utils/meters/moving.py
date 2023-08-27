@@ -12,8 +12,8 @@ from gravitorch.utils.meters.exceptions import EmptyMeterError
 
 
 class MovingAverage:
-    r"""Defines a class to compute and store the exponential moving
-    average value of float number.
+    r"""Defines a class to compute and store the moving average value of
+    float number.
 
     Args:
     ----
@@ -21,6 +21,18 @@ class MovingAverage:
             Default: ``tuple()``
         window_size (int, optional): Specifies the maximum window
             size. Default: ``20``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.meters import MovingAverage
+        >>> meter = MovingAverage()
+        >>> for i in range(11):
+        ...     meter.update(i)
+        ...
+        >>> meter.smoothed_average()
+        5.0
     """
 
     def __init__(self, values: Iterable[int | float] = (), window_size: int = 20) -> None:
@@ -31,10 +43,12 @@ class MovingAverage:
 
     @property
     def values(self) -> tuple[int | float]:
+        r"""The values in the moving average window."""
         return tuple(self._deque)
 
     @property
     def window_size(self) -> int:
+        r"""The moving average window size."""
         return self._deque.maxlen
 
     def clone(self) -> MovingAverage:
@@ -43,6 +57,21 @@ class MovingAverage:
         Returns
         -------
             ``MovingAverage``: A copy of the current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MovingAverage
+            >>> meter = MovingAverage(values=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+            >>> meter_cloned = meter.clone()
+            >>> meter.update(11)
+            >>> meter.update(12)
+            >>> meter.smoothed_average()
+            6.0
+            >>> meter_cloned.smoothed_average()
+            5.0
         """
         return MovingAverage(values=tuple(self._deque), window_size=self.window_size)
 
@@ -57,6 +86,17 @@ class MovingAverage:
         -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import MovingAverage
+            >>> meter1 = MovingAverage(values=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+            >>> meter2 = MovingAverage(values=(1.0, 1.0, 1.0))
+            >>> meter1.equal(meter2)
+            False
         """
         if not isinstance(other, MovingAverage):
             return False
@@ -69,11 +109,35 @@ class MovingAverage:
         ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import MovingAverage
+            >>> meter = MovingAverage()
+            >>> meter.load_state_dict({"values": (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), "window_size": 20})
+            >>> meter.smoothed_average()
+            5.0
         """
         self._deque = deque(state_dict["values"], maxlen=state_dict["window_size"])
 
     def reset(self) -> None:
-        r"""Reset the meter."""
+        r"""Resets the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import MovingAverage
+            >>> meter = MovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.reset()
+            >>> meter.values
+            ()
+        """
         self._deque.clear()
 
     def smoothed_average(self) -> float:
@@ -86,6 +150,18 @@ class MovingAverage:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import MovingAverage
+            >>> meter = MovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.smoothed_average()
+            5.0
         """
         if not self._deque:
             raise EmptyMeterError("The meter is empty")
@@ -97,6 +173,18 @@ class MovingAverage:
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import MovingAverage
+            >>> meter = MovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.state_dict()
+            {'values': (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 'window_size': 20}
         """
         return {"values": self.values, "window_size": self.window_size}
 
@@ -107,6 +195,18 @@ class MovingAverage:
         ----
             value (int or float): Specifies the value to add to the
                 meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import MovingAverage
+            >>> meter = MovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.smoothed_average()
+            5.0
         """
         self._deque.append(value)
 
@@ -123,6 +223,20 @@ class ExponentialMovingAverage:
             Default: ``0``
         smoothed_average (float, optional): Specifies the initial
             value of the smoothed average. Default: ``0.0``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.meters import ExponentialMovingAverage
+        >>> meter = ExponentialMovingAverage()
+        >>> for i in range(11):
+        ...     meter.update(i)
+        ...
+        >>> meter.count
+        11
+        >>> meter.smoothed_average()  # doctest: +ELLIPSIS
+        1.036567...
     """
 
     def __init__(
@@ -153,6 +267,24 @@ class ExponentialMovingAverage:
         Returns
         -------
             ``ExponentialMovingAverage``: A copy of the current meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExponentialMovingAverage
+            >>> meter = ExponentialMovingAverage(smoothed_average=42.0, count=11)
+            >>> meter_cloned = meter.clone()
+            >>> meter.update(1)
+            >>> meter.smoothed_average()
+            41.18
+            >>> meter.count
+            12
+            >>> meter_cloned.smoothed_average()
+            42.0
+            >>> meter_cloned.count
+            11
         """
         return ExponentialMovingAverage(
             alpha=self._alpha,
@@ -171,6 +303,17 @@ class ExponentialMovingAverage:
         -------
             bool: ``True`` if the meters are equal,
                 ``False`` otherwise.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.utils.meters import ExponentialMovingAverage
+            >>> meter1 = ExponentialMovingAverage(count=10, smoothed_average=42.0)
+            >>> meter2 = ExponentialMovingAverage()
+            >>> meter1.equal(meter2)
+            False
         """
         if not isinstance(other, ExponentialMovingAverage):
             return False
@@ -183,13 +326,42 @@ class ExponentialMovingAverage:
         ----
             state_dict (dict): Specifies a dictionary containing state
                 keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ExponentialMovingAverage
+            >>> meter = ExponentialMovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.load_state_dict({"alpha": 0.98, "count": 11, "smoothed_average": 42.0})
+            >>> meter.count
+            11
+            >>> meter.smoothed_average()
+            42.0
         """
         self._alpha = state_dict["alpha"]
         self._count = state_dict["count"]
         self._smoothed_average = state_dict["smoothed_average"]
 
     def reset(self) -> None:
-        r"""Reset the meter."""
+        r"""Reset the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ExponentialMovingAverage
+            >>> meter = ExponentialMovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.reset()
+            >>> meter.count
+            0
+        """
         self._count = 0
         self._smoothed_average = 0.0
 
@@ -203,6 +375,18 @@ class ExponentialMovingAverage:
         Raises
         ------
             ``EmptyMeterError`` if the meter is empty.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ExponentialMovingAverage
+            >>> meter = ExponentialMovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.smoothed_average()  # doctest: +ELLIPSIS
+            1.036567...
         """
         if not self._count:
             raise EmptyMeterError("The meter is empty")
@@ -214,6 +398,18 @@ class ExponentialMovingAverage:
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ExponentialMovingAverage
+            >>> meter = ExponentialMovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.state_dict()  # doctest: +ELLIPSIS
+            {'alpha': 0.98, 'count': 11, 'smoothed_average': 1.036567...}
         """
         return {
             "alpha": self._alpha,
@@ -227,6 +423,18 @@ class ExponentialMovingAverage:
         Args:
         ----
             value (float): Specifies the value to add to the meter.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.utils.meters import ExponentialMovingAverage
+            >>> meter = ExponentialMovingAverage()
+            >>> for i in range(11):
+            ...     meter.update(i)
+            ...
+            >>> meter.count
+            11
         """
         self._smoothed_average = self._alpha * self._smoothed_average + (1.0 - self._alpha) * value
         self._count += 1

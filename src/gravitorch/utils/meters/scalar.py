@@ -401,7 +401,7 @@ class ScalarMeter:
         return self._min_value
 
     def reset(self) -> None:
-        r"""Reset the meter.
+        r"""Resets the meter.
 
         Example usage:
 
