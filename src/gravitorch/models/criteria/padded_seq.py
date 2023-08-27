@@ -80,21 +80,34 @@ class PaddedSequenceLoss(Module):
 
         >>> from torch import nn
         >>> from gravitorch.models.criteria import PaddedSequenceLoss
-        # Init with a nn.Module
+        >>> # Init with a nn.Module
         >>> criterion = PaddedSequenceLoss(criterion=nn.MSELoss())
-        # Init with a config
+        >>> criterion
+        PaddedSequenceLoss(
+          (criterion): MSELoss()
+        )
+        >>> # Init with a config
         >>> criterion = PaddedSequenceLoss(criterion={"_target_": "torch.nn.MSELoss"})
-        # Customize keys.
+        >>> criterion
+        PaddedSequenceLoss(
+          (criterion): MSELoss()
+        )
+        >>> # Customize keys.
         >>> criterion = PaddedSequenceLoss(
         ...     criterion=nn.MSELoss(),
         ...     prediction_key="my_prediction",
         ...     target_key="my_target",
         ...     mask_key="my_mask",
         ... )
-        >>> net_out = {"my_prediction": ...}
-        >>> batch = {"my_target": ..., "my_mask": ...}
+        >>> criterion
+        PaddedSequenceLoss(
+          (criterion): MSELoss()
+        )
+        >>> net_out = {"my_prediction": torch.randn(2, 4)}
+        >>> batch = {"my_target": torch.randn(2, 4), "my_mask": torch.ones(2, 4)}
         >>> loss = criterion(net_out, batch)
-        {'loss': torch.tensor(...)}
+        >>> loss  # doctest: +ELLIPSIS
+        {'loss': tensor(...)}
     """
 
     def __init__(

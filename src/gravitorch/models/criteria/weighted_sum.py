@@ -28,7 +28,7 @@ class WeightedSumLoss(Module):
     .. code-block:: pycon
 
         >>> from gravitorch.models.criteria import WeightedSumLoss
-        # Example without specified weight. Weights are initialized to 1.0
+        >>> # Example without specified weight. Weights are initialized to 1.0
         >>> criterion = WeightedSumLoss(
         ...     criteria={
         ...         "value": {"_target_": "torch.nn.MSELoss"},
@@ -43,7 +43,7 @@ class WeightedSumLoss(Module):
             (time): L1Loss()
           )
         )
-        # Example with specified weight.
+        >>> # Example with specified weight.
         >>> criterion = WeightedSumLoss(
         ...     criteria={
         ...         "value": {"_target_": "torch.nn.MSELoss"},
@@ -59,7 +59,7 @@ class WeightedSumLoss(Module):
             (time): L1Loss()
           )
         )
-        # Example with partially specified weight.
+        >>> # Example with partially specified weight.
         >>> criterion = WeightedSumLoss(
         ...     criteria={
         ...         "value": {"_target_": "torch.nn.MSELoss"},
@@ -69,7 +69,7 @@ class WeightedSumLoss(Module):
         ... )
         >>> criterion
         WeightedSumLoss(
-          weights: {'value': 1.0, 'time': 0.5}
+          weights: {'time': 0.5, 'value': 1.0}
           (criteria): ModuleDict(
             (value): MSELoss()
             (time): L1Loss()

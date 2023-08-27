@@ -76,6 +76,24 @@ def setup_model(model: Module | dict) -> Module:
     Returns:
     -------
         ``torch.nn.Module``: The (instantiated) model.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.models import is_model_config
+        >>> model = setup_model(
+        ...     {
+        ...         "_target_": "gravitorch.models.VanillaModel",
+        ...         "network": {"_target_": "torch.nn.Linear", "in_features": 4, "out_features": 6},
+        ...         "criterion": None,
+        ...     }
+        ... )
+        >>> model
+        VanillaModel(
+          (network): Linear(in_features=4, out_features=6, bias=True)
+          (metrics): ModuleDict()
+        )
     """
     if isinstance(model, dict):
         logger.info(f"Initializing a model from its configuration... {str_target_object(model)}")
@@ -102,6 +120,27 @@ def setup_and_attach_model(engine: BaseEngine, model: Module | dict) -> Module:
     Returns:
     -------
         ``torch.nn.Module``: The (instantiated) model.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.models import is_model_config
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> model = setup_and_attach_model(
+        ...     engine=engine,
+        ...     model={
+        ...         "_target_": "gravitorch.models.VanillaModel",
+        ...         "network": {"_target_": "torch.nn.Linear", "in_features": 4, "out_features": 6},
+        ...         "criterion": None,
+        ...     },
+        ... )
+        >>> model
+        VanillaModel(
+          (network): Linear(in_features=4, out_features=6, bias=True)
+          (metrics): ModuleDict()
+        )
     """
     model = setup_model(model)
     if hasattr(model, "attach"):
