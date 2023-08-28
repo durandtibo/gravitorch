@@ -179,3 +179,120 @@ jobs:
         with:
           coverageLocations: ./coverage.xml:coverage.py
           debug: true
+
+
+  detect-cyclic-import:
+    continue-on-error: true
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ '3.10' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install packages
+        run: |
+          poetry run make config-poetry
+          poetry run make install
+
+      - name: Show installed packages
+        run: |
+          poetry run poetry show
+          poetry run poetry show --tree
+
+      - name: check gravitorch.cli
+        run: |
+          poetry run python -c "from gravitorch import cli"
+      - name: check gravitorch.creators
+        run: |
+          poetry run python -c "from gravitorch import creators"
+      - name: check gravitorch.data
+        run: |
+          poetry run python -c "from gravitorch import data"
+      - name: check gravitorch.datapipes
+        run: |
+          poetry run python -c "from gravitorch import datapipes"
+      - name: check gravitorch.datasources
+        run: |
+          poetry run python -c "from gravitorch import datasources"
+      - name: check gravitorch.distributed
+        run: |
+          poetry run python -c "from gravitorch import distributed"
+      - name: check gravitorch.engines
+        run: |
+          poetry run python -c "from gravitorch import engines"
+      - name: check gravitorch.events
+        run: |
+          poetry run python -c "from gravitorch import events"
+      - name: check gravitorch.handlers
+        run: |
+          poetry run python -c "from gravitorch import handlers"
+      - name: check gravitorch.loops
+        run: |
+          poetry run python -c "from gravitorch import loops"
+          poetry run python -c "from gravitorch.loops import evaluation"
+          poetry run python -c "from gravitorch.loops import observers"
+          poetry run python -c "from gravitorch.loops import training"
+      - name: check gravitorch.lr_schedulers
+        run: |
+          poetry run python -c "from gravitorch import lr_schedulers"
+      - name: check gravitorch.models
+        run: |
+          poetry run python -c "from gravitorch import models"
+      - name: check gravitorch.nn
+        run: |
+          poetry run python -c "from gravitorch import nn"
+      - name: check gravitorch.optimizers
+        run: |
+          poetry run python -c "from gravitorch import optimizers"
+      - name: check gravitorch.rsrc
+        run: |
+          poetry run python -c "from gravitorch import rsrc"
+      - name: check gravitorch.runners
+        run: |
+          poetry run python -c "from gravitorch import runners"
+      - name: check gravitorch.testing
+        run: |
+          poetry run python -c "from gravitorch import testing"
+
+      - name: check gravitorch.utils
+        run: |
+          poetry run python -c "from gravitorch import utils"
+      - name: check gravitorch.utils.artifacts
+        run: |
+          poetry run python -c "from gravitorch.utils import artifacts"
+      - name: check gravitorch.utils.device_placement
+        run: |
+          poetry run python -c "from gravitorch.utils import device_placement"
+      - name: check gravitorch.utils.engine_states
+        run: |
+          poetry run python -c "from gravitorch.utils import engine_states"
+      - name: check gravitorch.utils.exp_trackers
+        run: |
+          poetry run python -c "from gravitorch.utils import exp_trackers"
+      - name: check gravitorch.utils.history
+        run: |
+          poetry run python -c "from gravitorch.utils import exp_trackers"
+      - name: check gravitorch.utils.meters
+        run: |
+          poetry run python -c "from gravitorch.utils import meters"
+      - name: check gravitorch.utils.profilers
+        run: |
+          poetry run python -c "from gravitorch.utils import profilers"
+      - name: check gravitorch.utils.tensor
+        run: |
+          poetry run python -c "from gravitorch.utils import tensor"
