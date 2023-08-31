@@ -19,7 +19,8 @@ from gravitorch.loops.evaluation.conditions import (
     BaseEvalCondition,
     EveryEpochEvalCondition,
 )
-from gravitorch.loops.observers import BaseLoopObserver, setup_loop_observer
+from gravitorch.loops.observers.base import BaseLoopObserver
+from gravitorch.loops.observers.factory import setup_loop_observer
 from gravitorch.utils.history import MinScalarHistory
 from gravitorch.utils.metric_tracker import ScalarMetricTracker
 from gravitorch.utils.profilers import BaseProfiler, setup_profiler
