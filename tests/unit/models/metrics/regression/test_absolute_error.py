@@ -1,11 +1,11 @@
 from unittest.mock import Mock
 
 import torch
+from minevent import EventHandler
 from pytest import fixture, mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.models.metrics import AbsoluteError, EmptyMetricError
 from gravitorch.models.metrics.state import BaseState, ErrorState, MeanErrorState
 from gravitorch.testing import create_dummy_engine
@@ -49,11 +49,9 @@ def test_absolute_error_attach_train(name: str, engine: BaseEngine) -> None:
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_max"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_min"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_sum"), MinScalarHistory)
+    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        VanillaEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED
-    )
-    assert engine.has_event_handler(
-        VanillaEventHandler(metric.value, handler_kwargs={"engine": engine}),
+        EventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -66,11 +64,9 @@ def test_absolute_error_attach_eval(name: str, engine: BaseEngine) -> None:
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_max"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_min"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_sum"), MinScalarHistory)
+    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        VanillaEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED
-    )
-    assert engine.has_event_handler(
-        VanillaEventHandler(metric.value, handler_kwargs={"engine": engine}),
+        EventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -79,11 +75,9 @@ def test_absolute_error_attach_state_mean(engine: BaseEngine) -> None:
     metric = AbsoluteError(ct.EVAL, state=MeanErrorState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/abs_err_mean"), MinScalarHistory)
+    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        VanillaEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED
-    )
-    assert engine.has_event_handler(
-        VanillaEventHandler(metric.value, handler_kwargs={"engine": engine}),
+        EventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 

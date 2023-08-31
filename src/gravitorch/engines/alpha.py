@@ -6,6 +6,7 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 from coola.utils import str_indent
+from minevent import BaseEventHandler, EventManager
 from torch.nn import Module
 from torch.optim import Optimizer
 
@@ -14,7 +15,6 @@ from gravitorch.creators.core.base import BaseCoreCreator, setup_core_creator
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import BaseEventHandler, EventManager
 from gravitorch.loops.evaluation.base import BaseEvaluationLoop
 from gravitorch.loops.evaluation.factory import setup_evaluation_loop
 from gravitorch.loops.training.base import BaseTrainingLoop

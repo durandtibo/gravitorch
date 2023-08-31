@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 
 import torch
 from coola import objects_are_equal
+from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import mark
 from torch import nn
@@ -11,7 +12,6 @@ from torch.nn.utils.rnn import pack_sequence
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.models.criteria import VanillaLoss
 from gravitorch.models.metrics import CategoricalAccuracy, VanillaMetric
 from gravitorch.models.networks import BetaMLP
@@ -292,21 +292,21 @@ def test_attach_with_metric() -> None:
     )
     model.attach(engine)
     assert engine.has_event_handler(
-        VanillaEventHandler(model.metrics[f"{ct.TRAIN}_metric"].metric.reset),
+        EventHandler(model.metrics[f"{ct.TRAIN}_metric"].metric.reset),
         event=EngineEvents.TRAIN_EPOCH_STARTED,
     )
     assert engine.has_event_handler(
-        VanillaEventHandler(
+        EventHandler(
             model.metrics[f"{ct.TRAIN}_metric"].metric.value, handler_kwargs={"engine": engine}
         ),
         event=EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
     assert engine.has_event_handler(
-        VanillaEventHandler(model.metrics[f"{ct.EVAL}_metric"].metric.reset),
+        EventHandler(model.metrics[f"{ct.EVAL}_metric"].metric.reset),
         event=EngineEvents.EVAL_EPOCH_STARTED,
     )
     assert engine.has_event_handler(
-        VanillaEventHandler(
+        EventHandler(
             model.metrics[f"{ct.EVAL}_metric"].metric.value, handler_kwargs={"engine": engine}
         ),
         event=EngineEvents.EVAL_EPOCH_COMPLETED,
