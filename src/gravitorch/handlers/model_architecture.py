@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 __all__ = ["ModelArchitectureAnalyzer", "NetworkArchitectureAnalyzer"]
 
-from typing import Union
+from typing import TYPE_CHECKING
 
 from minevent import EventHandler
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
@@ -12,6 +13,9 @@ from gravitorch.models.utils import (
     analyze_model_architecture,
     analyze_network_architecture,
 )
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 
 class ModelArchitectureAnalyzer(BaseHandler):
@@ -27,7 +31,7 @@ class ModelArchitectureAnalyzer(BaseHandler):
 
     def __init__(
         self,
-        events: Union[str, tuple[str, ...], list[str]] = (EngineEvents.STARTED,),
+        events: str | tuple[str, ...] | list[str] = (EngineEvents.STARTED,),
     ) -> None:
         self._events = to_events(events)
 

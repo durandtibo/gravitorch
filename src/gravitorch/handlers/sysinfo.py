@@ -1,12 +1,18 @@
+from __future__ import annotations
+
 __all__ = ["EpochSysInfoMonitor"]
+
+from typing import TYPE_CHECKING
 
 from minevent import ConditionalEventHandler
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents, EpochPeriodicCondition
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.sysinfo import log_system_info
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 
 class EpochSysInfoMonitor(BaseHandler):

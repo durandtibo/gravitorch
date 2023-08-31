@@ -1,19 +1,23 @@
 r"""This module implements a handler to initialize model's
 parameters."""
 
+from __future__ import annotations
+
 __all__ = ["ModelInitializer"]
 
 import logging
-from typing import Union
+from typing import TYPE_CHECKING
 
 from coola.utils import str_indent
 from minevent import EventHandler
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn.init import BaseInitializer, setup_initializer
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +38,7 @@ class ModelInitializer(BaseHandler):
 
     def __init__(
         self,
-        initializer: Union[BaseInitializer, dict],
+        initializer: BaseInitializer | dict,
         event: str = EngineEvents.TRAIN_STARTED,
     ) -> None:
         self._initializer = setup_initializer(initializer)

@@ -8,9 +8,7 @@ from typing import Union
 
 from objectory import AbstractFactory
 from torch.optim import Optimizer
-from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torch.optim.lr_scheduler import _LRScheduler
-from torch.optim.lr_scheduler import _LRScheduler as LRScheduler
+from torch.optim.lr_scheduler import ReduceLROnPlateau, _LRScheduler
 
 from gravitorch.utils.format import str_target_object
 
@@ -27,8 +25,8 @@ LRSchedulerType = Union[BaseLRScheduler, ReduceLROnPlateau, _LRScheduler]
 
 def setup_lr_scheduler(
     optimizer: Optimizer | None,
-    lr_scheduler: LRScheduler | dict | None,
-) -> LRScheduler | None:
+    lr_scheduler: LRSchedulerType | dict | None,
+) -> LRSchedulerType | None:
     r"""Sets up a learning rate scheduler.
 
     Args:

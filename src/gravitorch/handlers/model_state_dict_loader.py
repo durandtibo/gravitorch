@@ -1,15 +1,16 @@
 r"""This module implements a handler to load state dict."""
 
+from __future__ import annotations
+
 __all__ = ["ModelStateDictLoader", "PartialModelStateDictLoader"]
 
 import logging
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Optional, Union
+from typing import TYPE_CHECKING
 
 from minevent import EventHandler
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
@@ -18,6 +19,9 @@ from gravitorch.nn.utils.state_dict import (
     load_model_state_dict,
 )
 from gravitorch.utils.path import sanitize_path
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 
@@ -46,10 +50,10 @@ class ModelStateDictLoader(BaseHandler):
 
     def __init__(
         self,
-        checkpoint_path: Union[Path, str],
+        checkpoint_path: Path | str,
         event: str = EngineEvents.STARTED,
         strict: bool = True,
-        key: Union[str, list[str], tuple[str, ...], None] = None,
+        key: str | list[str] | tuple[str, ...] | None = None,
     ) -> None:
         self._checkpoint_path = sanitize_path(checkpoint_path)
         self._event = str(event)
@@ -110,10 +114,10 @@ class PartialModelStateDictLoader(BaseHandler):
 
     def __init__(
         self,
-        checkpoint_path: Union[Path, str],
+        checkpoint_path: Path | str,
         event: str = EngineEvents.STARTED,
         strict: bool = True,
-        exclude_key_prefixes: Optional[Sequence[str]] = None,
+        exclude_key_prefixes: Sequence[str] | None = None,
     ) -> None:
         self._checkpoint_path = sanitize_path(checkpoint_path)
         self._event = str(event)
