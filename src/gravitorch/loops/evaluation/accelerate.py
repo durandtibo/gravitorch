@@ -1,12 +1,14 @@
 r"""This module implements an evaluation loop using the Accelerate
 library (https://huggingface.co/docs/accelerate)."""
 
+from __future__ import annotations
+
 __all__ = ["AccelerateEvaluationLoop"]
 
 import logging
 import sys
 from collections.abc import Iterable
-from typing import Any, Union
+from typing import Any
 
 import torch
 from torch.nn import Module
@@ -63,12 +65,12 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
 
     def __init__(
         self,
-        accelerator: Union[Accelerator, dict, None] = None,
+        accelerator: Accelerator | dict | None = None,
         tag: str = "eval",
         grad_enabled: bool = False,
-        condition: Union[BaseEvalCondition, dict, None] = None,
-        observer: Union[BaseLoopObserver, dict, None] = None,
-        profiler: Union[BaseProfiler, dict, None] = None,
+        condition: BaseEvalCondition | dict | None = None,
+        observer: BaseLoopObserver | dict | None = None,
+        profiler: BaseProfiler | dict | None = None,
     ) -> None:
         check_accelerate()
         self._accelerator = self._setup_accelerator(accelerator or {})
@@ -111,7 +113,7 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
         logger.info("Evaluation data loader has been created")
         return model, dataloader
 
-    def _setup_accelerator(self, accelerator: Union[Accelerator, dict]) -> Accelerator:
+    def _setup_accelerator(self, accelerator: Accelerator | dict) -> Accelerator:
         r"""Sets up the accelerator.
 
         Args:

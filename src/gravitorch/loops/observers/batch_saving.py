@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 __all__ = ["PyTorchBatchSaver"]
 
 import logging
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.loops.observers.base import BaseLoopObserver
@@ -24,7 +26,7 @@ class PyTorchBatchSaver(BaseLoopObserver):
             of batches to save. Default: ``1000``
     """
 
-    def __init__(self, path: Union[Path, str], max_num_batches: int = 1000) -> None:
+    def __init__(self, path: Path | str, max_num_batches: int = 1000) -> None:
         self._path = sanitize_path(path)
         self._max_num_batches = max_num_batches
         self._batches = []

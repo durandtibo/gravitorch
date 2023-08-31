@@ -1,10 +1,12 @@
 r"""This module implements a training loop using automatic mixed
 precision (AMP)."""
 
+from __future__ import annotations
+
 __all__ = ["AMPTrainingLoop"]
 
 import logging
-from typing import Any, Optional, Union
+from typing import Any
 
 import torch
 from torch.cuda.amp import GradScaler, autocast
@@ -58,13 +60,13 @@ class AMPTrainingLoop(VanillaTrainingLoop):
 
     def __init__(
         self,
-        clip_grad: Optional[dict] = None,
+        clip_grad: dict | None = None,
         set_grad_to_none: bool = True,
         amp_enabled: bool = True,
-        batch_device_placement: Union[BaseDevicePlacement, dict, None] = None,
+        batch_device_placement: BaseDevicePlacement | dict | None = None,
         tag: str = "train",
-        observer: Union[BaseLoopObserver, dict, None] = None,
-        profiler: Union[BaseProfiler, dict, None] = None,
+        observer: BaseLoopObserver | dict | None = None,
+        profiler: BaseProfiler | dict | None = None,
     ) -> None:
         super().__init__(
             clip_grad=clip_grad,

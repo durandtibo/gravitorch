@@ -1,12 +1,14 @@
 r"""This module defines the base class for the evaluation loops."""
 
+from __future__ import annotations
+
 __all__ = ["BaseBasicEvaluationLoop"]
 
 import logging
 import sys
 from abc import abstractmethod
 from collections.abc import Iterable
-from typing import Any, Union
+from typing import Any
 
 from torch.nn import Module
 
@@ -54,9 +56,9 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
     def __init__(
         self,
         tag: str = "eval",
-        condition: Union[BaseEvalCondition, dict, None] = None,
-        observer: Union[BaseLoopObserver, dict, None] = None,
-        profiler: Union[BaseProfiler, dict, None] = None,
+        condition: BaseEvalCondition | dict | None = None,
+        observer: BaseLoopObserver | dict | None = None,
+        profiler: BaseProfiler | dict | None = None,
     ) -> None:
         self._tag = str(tag)
         self._condition = self._setup_condition(condition)
@@ -129,9 +131,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         if not engine.has_history(f"{self._tag}/{ct.LOSS}"):
             engine.add_history(MinScalarHistory(f"{self._tag}/{ct.LOSS}"))
 
-    def _setup_condition(
-        self, condition: Union[BaseEvalCondition, dict, None]
-    ) -> BaseEvalCondition:
+    def _setup_condition(self, condition: BaseEvalCondition | dict | None) -> BaseEvalCondition:
         r"""Sets up the condition.
 
         The condition is instantiated from its configuration by using

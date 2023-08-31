@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["SequentialLoopObserver"]
 
 from collections.abc import Sequence
-from typing import Any, Union
+from typing import Any
 
 from coola.utils import str_indent, str_sequence
 
@@ -22,7 +24,7 @@ class SequentialLoopObserver(BaseLoopObserver):
             configurations.
     """
 
-    def __init__(self, observers: Sequence[Union[BaseLoopObserver, dict]]) -> None:
+    def __init__(self, observers: Sequence[BaseLoopObserver | dict]) -> None:
         self._observers: tuple[BaseLoopObserver, ...] = tuple(
             setup_loop_observer(observer) for observer in observers
         )

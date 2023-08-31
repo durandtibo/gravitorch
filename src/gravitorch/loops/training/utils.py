@@ -1,15 +1,16 @@
+from __future__ import annotations
+
 __all__ = ["setup_clip_grad"]
 
 import logging
 from collections.abc import Callable
-from typing import Optional
 
 import torch
 
 logger = logging.getLogger(__name__)
 
 
-def setup_clip_grad(config: Optional[dict]) -> tuple[Optional[Callable], tuple]:
+def setup_clip_grad(config: dict | None) -> tuple[Callable | None, tuple]:
     r"""Sets up the gradient clipping strategy.
 
     Args:

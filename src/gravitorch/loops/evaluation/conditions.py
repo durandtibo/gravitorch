@@ -1,6 +1,8 @@
 r"""This module implements some conditions used in the evaluation
 loops."""
 
+from __future__ import annotations
+
 __all__ = ["BaseEvalCondition", "EveryEpochEvalCondition", "LastEpochEvalCondition"]
 
 from abc import abstractmethod

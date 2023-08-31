@@ -1,10 +1,12 @@
 r"""This module implements an evaluation loop using automatic mixed
 precision (AMP)."""
 
+from __future__ import annotations
+
 __all__ = ["AMPEvaluationLoop"]
 
 import logging
-from typing import Any, Union
+from typing import Any
 
 import torch
 from torch.cuda.amp import autocast
@@ -54,10 +56,10 @@ class AMPEvaluationLoop(VanillaEvaluationLoop):
         tag: str = "eval",
         grad_enabled: bool = False,
         amp_enabled: bool = True,
-        batch_device_placement: Union[BaseDevicePlacement, dict, None] = None,
-        condition: Union[BaseEvalCondition, dict, None] = None,
-        observer: Union[BaseLoopObserver, dict, None] = None,
-        profiler: Union[BaseProfiler, dict, None] = None,
+        batch_device_placement: BaseDevicePlacement | dict | None = None,
+        condition: BaseEvalCondition | dict | None = None,
+        observer: BaseLoopObserver | dict | None = None,
+        profiler: BaseProfiler | dict | None = None,
     ) -> None:
         super().__init__(
             tag=tag,

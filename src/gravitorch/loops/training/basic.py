@@ -1,12 +1,14 @@
 r"""This module defines the base class for the training loops."""
 
+from __future__ import annotations
+
 __all__ = ["BaseBasicTrainingLoop"]
 
 import logging
 import sys
 from abc import abstractmethod
 from collections.abc import Callable, Iterable
-from typing import Any, Optional, Union
+from typing import Any
 
 from torch.nn import Module
 from torch.optim import Optimizer
@@ -59,9 +61,9 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
     def __init__(
         self,
         tag: str = ct.TRAIN,
-        clip_grad: Optional[dict] = None,
-        observer: Union[BaseLoopObserver, dict, None] = None,
-        profiler: Union[BaseProfiler, dict, None] = None,
+        clip_grad: dict | None = None,
+        observer: BaseLoopObserver | dict | None = None,
+        profiler: BaseProfiler | dict | None = None,
     ) -> None:
         self._tag = str(tag)
         self._clip_grad_fn, self._clip_grad_args = self._setup_clip_grad(clip_grad or {})
@@ -148,7 +150,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         """
 
     @abstractmethod
-    def _setup_clip_grad(self, config: dict) -> tuple[Optional[Callable], tuple]:
+    def _setup_clip_grad(self, config: dict) -> tuple[Callable | None, tuple]:
         r"""Initializes the clipping gradient strategy during training.
 
         Args:
