@@ -1,12 +1,12 @@
 import logging
 from unittest.mock import Mock
 
+from minevent import EventHandler
 from pytest import LogCaptureFixture, mark
 from torch import nn
 from torch.optim import SGD
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ConsolidateOptimizerState
 
 EVENTS = ("my_event", "my_other_event")
@@ -46,7 +46,7 @@ def test_consolidate_optimizer_state_attach(event: str) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(
+        EventHandler(
             handler.consolidate,
             handler_kwargs={"engine": engine},
         ),

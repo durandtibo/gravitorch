@@ -3,10 +3,10 @@ from pathlib import Path
 from typing import Union
 from unittest.mock import Mock, patch
 
+from minevent import EventHandler
 from pytest import LogCaptureFixture, mark
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     BestEngineStateSaver,
     BestHistorySaver,
@@ -48,7 +48,7 @@ def test_best_history_saver_attach(tmp_path: Path, event: str) -> None:
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(saver.save, handler_kwargs={"engine": engine}),
+        EventHandler(saver.save, handler_kwargs={"engine": engine}),
     )
 
 
@@ -121,7 +121,7 @@ def test_last_history_saver_attach(tmp_path: Path, event: str) -> None:
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(saver.save, handler_kwargs={"engine": engine}),
+        EventHandler(saver.save, handler_kwargs={"engine": engine}),
     )
 
 
@@ -206,7 +206,7 @@ def test_best_engine_state_saver_attach(tmp_path: Path, event: str) -> None:
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(saver.save, handler_kwargs={"engine": engine}),
+        EventHandler(saver.save, handler_kwargs={"engine": engine}),
     )
 
 
@@ -373,7 +373,7 @@ def test_epoch_engine_state_saver_attach(tmp_path: Path, event: str) -> None:
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(saver.save, handler_kwargs={"engine": engine}),
+        EventHandler(saver.save, handler_kwargs={"engine": engine}),
     )
 
 
@@ -464,7 +464,7 @@ def test_tag_engine_state_saver_attach(tmp_path: Path, event: str) -> None:
     saver.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(saver.save, handler_kwargs={"engine": engine}),
+        EventHandler(saver.save, handler_kwargs={"engine": engine}),
     )
 
 

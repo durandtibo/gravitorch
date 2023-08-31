@@ -1,9 +1,9 @@
 from unittest.mock import Mock, patch
 
+from minevent import EventHandler
 from pytest import mark
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ModelArchitectureAnalyzer
 from gravitorch.handlers.model_architecture import NetworkArchitectureAnalyzer
 
@@ -34,7 +34,7 @@ def test_model_architecture_analyzer_attach(event: str) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(handler.analyze, handler_kwargs={"engine": engine}),
+        EventHandler(handler.analyze, handler_kwargs={"engine": engine}),
     )
 
 
@@ -44,11 +44,11 @@ def test_model_architecture_analyzer_attach_2_events() -> None:
     handler.attach(engine)
     assert engine.add_event_handler.call_args_list[0].args == (
         EVENTS[0],
-        VanillaEventHandler(handler.analyze, handler_kwargs={"engine": engine}),
+        EventHandler(handler.analyze, handler_kwargs={"engine": engine}),
     )
     assert engine.add_event_handler.call_args_list[1].args == (
         EVENTS[1],
-        VanillaEventHandler(handler.analyze, handler_kwargs={"engine": engine}),
+        EventHandler(handler.analyze, handler_kwargs={"engine": engine}),
     )
 
 

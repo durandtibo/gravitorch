@@ -2,13 +2,13 @@ from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
 import torch
+from minevent import EventHandler
 from pytest import mark, raises
 from torch import nn
 from torch.optim import SGD, Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.loops.observers import (
     BaseLoopObserver,
     NoOpLoopObserver,
@@ -290,7 +290,7 @@ def test_vanilla_training_loop_fire_event_train_epoch_events(device: str, event:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_event_handler(
-        event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
+        event, EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
     assert engine.epoch == 1
@@ -311,7 +311,7 @@ def test_vanilla_training_loop_fire_event_train_iteration_events(device: str, ev
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_event_handler(
-        event, VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
+        event, EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
     VanillaTrainingLoop(batch_device_placement=ManualDevicePlacement(device)).train(engine)
     assert engine.epoch == 7

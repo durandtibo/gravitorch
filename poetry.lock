@@ -1891,13 +1891,13 @@ files = [
 
 [[package]]
 name = "minevent"
-version = "0.0.1"
+version = "0.0.2"
 description = "Minimal event system for Machine Learning"
 optional = false
 python-versions = ">=3.9,<3.12"
 files = [
-    {file = "minevent-0.0.1-py3-none-any.whl", hash = "sha256:d1ce4411ab40a394abd8e953e5f651f77bc84e978b3fe5222adc0560e7d56e51"},
-    {file = "minevent-0.0.1.tar.gz", hash = "sha256:fbfc345b1a2f0d5a792096b94cd0a71780c6aff90f6493936c42827f7d6ab425"},
+    {file = "minevent-0.0.2-py3-none-any.whl", hash = "sha256:9282ad6b4dd66372572bce581c5efe37c16e9d684fbca55cb75db5819288bd4a"},
+    {file = "minevent-0.0.2.tar.gz", hash = "sha256:2a4d35abc2dd1c1b78e2bc11ff769ca0a866afcaa90d64e7c39ab8bdcd7bcaf5"},
 ]
 
 [package.dependencies]
@@ -3828,4 +3828,4 @@ vision = ["pillow", "torchvision"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "15906ade3cd26b7182e20ab16e42ae5198a17287b9c895f305be39a137891f6d"
+content-hash = "8d40440d1106df6417f293654444268cb438b349778d6181bc49c3736f61d26d"

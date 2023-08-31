@@ -4,10 +4,11 @@ import logging
 import operator
 from collections.abc import Callable
 
+from minevent import EventHandler
+
 from gravitorch import constants as ct
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.history import BaseHistory, MaxScalarHistory, MinScalarHistory
@@ -94,12 +95,12 @@ class EarlyStopping(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=EngineEvents.TRAIN_STARTED,
-            event_handler=VanillaEventHandler(self.start, handler_kwargs={"engine": engine}),
+            event_handler=EventHandler(self.start, handler_kwargs={"engine": engine}),
         )
         add_unique_event_handler(
             engine=engine,
             event=EngineEvents.EPOCH_COMPLETED,
-            event_handler=VanillaEventHandler(self.step, handler_kwargs={"engine": engine}),
+            event_handler=EventHandler(self.step, handler_kwargs={"engine": engine}),
         )
 
         # Add the module to the engine so the state of the early stopping module is saved when

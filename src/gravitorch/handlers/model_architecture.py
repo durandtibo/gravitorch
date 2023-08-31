@@ -2,9 +2,10 @@ __all__ = ["ModelArchitectureAnalyzer", "NetworkArchitectureAnalyzer"]
 
 from typing import Union
 
+from minevent import EventHandler
+
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
 from gravitorch.models.utils import (
@@ -37,7 +38,7 @@ class ModelArchitectureAnalyzer(BaseHandler):
         for event in self._events:
             engine.add_event_handler(
                 event,
-                VanillaEventHandler(self.analyze, handler_kwargs={"engine": engine}),
+                EventHandler(self.analyze, handler_kwargs={"engine": engine}),
             )
 
     def analyze(self, engine: BaseEngine) -> None:

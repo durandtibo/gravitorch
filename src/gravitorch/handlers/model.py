@@ -2,9 +2,10 @@ __all__ = ["ModelFreezer"]
 
 import logging
 
+from minevent import EventHandler
+
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn import freeze_module
@@ -42,7 +43,7 @@ class ModelFreezer(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=VanillaEventHandler(
+            event_handler=EventHandler(
                 self.freeze,
                 handler_kwargs={"engine": engine},
             ),

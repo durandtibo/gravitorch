@@ -7,10 +7,10 @@ import logging
 from typing import Union
 
 from coola.utils import str_indent
+from minevent import EventHandler
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn.init import BaseInitializer, setup_initializer
@@ -52,7 +52,7 @@ class ModelInitializer(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=VanillaEventHandler(
+            event_handler=EventHandler(
                 self._initializer.initialize,
                 handler_kwargs={"module": engine.model},
             ),

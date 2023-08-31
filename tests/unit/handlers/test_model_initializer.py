@@ -1,11 +1,11 @@
 from unittest.mock import Mock
 
 import torch
+from minevent import EventHandler
 from pytest import mark
 from torch.nn import Linear, Module
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ModelInitializer
 from gravitorch.nn.init import Constant, constant
 from gravitorch.testing import create_dummy_engine
@@ -40,7 +40,7 @@ def test_model_initializer_attach(event: str) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(initializer.initialize, handler_kwargs={"module": model}),
+        EventHandler(initializer.initialize, handler_kwargs={"module": model}),
     )
 
 

@@ -10,9 +10,9 @@ from pathlib import Path
 from typing import Union
 
 import torch
+from minevent import EventHandler
 
 from gravitorch.engines.base import BaseEngine
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.path import sanitize_path
@@ -55,7 +55,7 @@ class EngineStateLoader(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=VanillaEventHandler(
+            event_handler=EventHandler(
                 self.load_engine_state_dict, handler_kwargs={"engine": engine}
             ),
         )

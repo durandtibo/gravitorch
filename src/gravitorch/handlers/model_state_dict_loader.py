@@ -7,9 +7,10 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Optional, Union
 
+from minevent import EventHandler
+
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn.utils.state_dict import (
@@ -65,7 +66,7 @@ class ModelStateDictLoader(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=VanillaEventHandler(
+            event_handler=EventHandler(
                 self.load,
                 handler_kwargs={"engine": engine},
             ),
@@ -129,7 +130,7 @@ class PartialModelStateDictLoader(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=VanillaEventHandler(
+            event_handler=EventHandler(
                 self.load,
                 handler_kwargs={"engine": engine},
             ),

@@ -8,14 +8,11 @@ __all__ = [
 import logging
 
 import torch
+from minevent import ConditionalEventHandler
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import (
-    ConditionalEventHandler,
-    EpochPeriodicCondition,
-    IterationPeriodicCondition,
-)
+from gravitorch.events import EpochPeriodicCondition, IterationPeriodicCondition
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.cudamem import log_max_cuda_memory_allocated

@@ -3,12 +3,12 @@ from __future__ import annotations
 import logging
 from unittest.mock import Mock
 
+from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import LogCaptureFixture, mark
 from torch.nn import Identity
 
 from gravitorch.engines import BaseEngine
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     EpochLRMonitor,
     add_unique_event_handler,
@@ -30,7 +30,7 @@ EVENTS = ("my_event", "my_other_event")
 def test_add_unique_event_handler_has_event_handler_false(event: str) -> None:
     engine = Mock(spec=BaseEngine)
     engine.has_event_handler.return_value = False
-    event_handler = VanillaEventHandler(Mock())
+    event_handler = EventHandler(Mock())
     add_unique_event_handler(engine, event, event_handler)
     engine.add_event_handler.assert_called_once_with(event, event_handler)
 
@@ -39,7 +39,7 @@ def test_add_unique_event_handler_has_event_handler_false(event: str) -> None:
 def test_add_unique_event_handler_has_event_handler_true(event: str) -> None:
     engine = Mock(spec=BaseEngine)
     engine.has_event_handler.return_value = True
-    event_handler = VanillaEventHandler(Mock())
+    event_handler = EventHandler(Mock())
     add_unique_event_handler(engine, event, event_handler)
     engine.add_event_handler.assert_not_called()
 
