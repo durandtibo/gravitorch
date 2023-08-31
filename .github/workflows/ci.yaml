@@ -220,12 +220,25 @@ jobs:
       - name: check gravitorch.creators
         run: |
           poetry run python -c "from gravitorch import creators"
+          poetry run python -c "from gravitorch.creators import core"
+          poetry run python -c "from gravitorch.creators import dataloader"
+          poetry run python -c "from gravitorch.creators import datapipe"
+          poetry run python -c "from gravitorch.creators import datasource"
+          poetry run python -c "from gravitorch.creators import lr_scheduler"
+          poetry run python -c "from gravitorch.creators import model"
+          poetry run python -c "from gravitorch.creators import optimizer"
       - name: check gravitorch.data
         run: |
           poetry run python -c "from gravitorch import data"
+          poetry run python -c "from gravitorch.data import datacreators"
+          poetry run python -c "from gravitorch.data import dataloaders"
+          poetry run python -c "from gravitorch.data import datasets"
+          poetry run python -c "from gravitorch.data import partitioners"
       - name: check gravitorch.datapipes
         run: |
           poetry run python -c "from gravitorch import datapipes"
+          poetry run python -c "from gravitorch.datapipes import iter"
+          poetry run python -c "from gravitorch.datapipes import map"
       - name: check gravitorch.datasources
         run: |
           poetry run python -c "from gravitorch import datasources"
@@ -250,9 +263,16 @@ jobs:
       - name: check gravitorch.models
         run: |
           poetry run python -c "from gravitorch import models"
+          poetry run python -c "from gravitorch.models import criteria"
+          poetry run python -c "from gravitorch.models import metrics"
+          poetry run python -c "from gravitorch.models import networks"
+          poetry run python -c "from gravitorch.models import utils"
       - name: check gravitorch.nn
         run: |
           poetry run python -c "from gravitorch import nn"
+          poetry run python -c "from gravitorch.nn import functional"
+          poetry run python -c "from gravitorch.nn import init"
+          poetry run python -c "from gravitorch.nn import utils"
       - name: check gravitorch.optimizers
         run: |
           poetry run python -c "from gravitorch import optimizers"
