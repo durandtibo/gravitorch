@@ -10,10 +10,10 @@ __all__ = [
 ]
 
 import logging
+from typing import TYPE_CHECKING
 
 from torch.nn import Module
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.models.utils.summary import ModelSummary
 from gravitorch.nn.utils.module_helpers import (
     get_module_devices,
@@ -21,6 +21,10 @@ from gravitorch.nn.utils.module_helpers import (
     num_parameters,
 )
 from gravitorch.utils.exp_trackers import EpochStep
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
+
 
 logger = logging.getLogger(__name__)
 
