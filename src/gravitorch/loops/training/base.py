@@ -1,13 +1,17 @@
 r"""This module defines the base class to implement training loops."""
+
+from __future__ import annotations
+
 __all__ = ["BaseTrainingLoop"]
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from objectory import AbstractFactory
 
-from gravitorch.engines.base import BaseEngine
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

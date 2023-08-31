@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["is_loop_observer_config", "setup_loop_observer"]
 
 import logging
-from typing import Union
 
 from objectory.utils import is_object_config
 
@@ -41,7 +42,7 @@ def is_loop_observer_config(config: dict) -> bool:
     return is_object_config(config, BaseLoopObserver)
 
 
-def setup_loop_observer(loop_observer: Union[BaseLoopObserver, dict, None]) -> BaseLoopObserver:
+def setup_loop_observer(loop_observer: BaseLoopObserver | dict | None) -> BaseLoopObserver:
     r"""Sets up a loop observer.
 
     The loop observer is instantiated from its configuration by

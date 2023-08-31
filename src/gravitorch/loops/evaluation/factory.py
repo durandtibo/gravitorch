@@ -1,10 +1,11 @@
 r"""This module implements some utility functions for the evaluation
 loops."""
 
+from __future__ import annotations
+
 __all__ = ["is_evaluation_loop_config", "setup_evaluation_loop"]
 
 import logging
-from typing import Union
 
 from objectory.utils import is_object_config
 
@@ -46,9 +47,7 @@ def is_evaluation_loop_config(config: dict) -> bool:
     return is_object_config(config, BaseEvaluationLoop)
 
 
-def setup_evaluation_loop(
-    evaluation_loop: Union[BaseEvaluationLoop, dict, None]
-) -> BaseEvaluationLoop:
+def setup_evaluation_loop(evaluation_loop: BaseEvaluationLoop | dict | None) -> BaseEvaluationLoop:
     r"""Sets up the evaluation loop.
 
     The evaluation loop is instantiated from its configuration by

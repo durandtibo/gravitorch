@@ -1,11 +1,13 @@
 r"""This module implements a simple training loop."""
 
+from __future__ import annotations
+
 __all__ = ["VanillaTrainingLoop"]
 
 import logging
 import sys
 from collections.abc import Callable, Iterable
-from typing import Any, Optional, Union
+from typing import Any
 
 import torch
 from torch.nn import Module
@@ -63,11 +65,11 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
     def __init__(
         self,
         set_grad_to_none: bool = True,
-        batch_device_placement: Union[BaseDevicePlacement, dict, None] = None,
+        batch_device_placement: BaseDevicePlacement | dict | None = None,
         tag: str = ct.TRAIN,
-        clip_grad: Optional[dict] = None,
-        observer: Union[BaseLoopObserver, dict, None] = None,
-        profiler: Union[BaseProfiler, dict, None] = None,
+        clip_grad: dict | None = None,
+        observer: BaseLoopObserver | dict | None = None,
+        profiler: BaseProfiler | dict | None = None,
     ) -> None:
         super().__init__(tag=tag, clip_grad=clip_grad, observer=observer, profiler=profiler)
         self._set_grad_to_none = bool(set_grad_to_none)
@@ -130,5 +132,5 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
 
         return output
 
-    def _setup_clip_grad(self, config: dict) -> tuple[Optional[Callable], tuple]:
+    def _setup_clip_grad(self, config: dict) -> tuple[Callable | None, tuple]:
         return setup_clip_grad(config)

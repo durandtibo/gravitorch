@@ -1,12 +1,14 @@
 r"""This module implements a training loop using the Accelerate library
 (https://huggingface.co/docs/accelerate)."""
 
+from __future__ import annotations
+
 __all__ = ["AccelerateTrainingLoop"]
 
 import logging
 import sys
 from collections.abc import Callable, Iterable
-from typing import Any, Optional, Union
+from typing import Any
 
 import torch
 from torch.nn import Module
@@ -66,12 +68,12 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
 
     def __init__(
         self,
-        accelerator: Union[Accelerator, dict, None] = None,
+        accelerator: Accelerator | dict | None = None,
         set_grad_to_none: bool = True,
         tag: str = "train",
-        clip_grad: Optional[dict] = None,
-        observer: Union[BaseLoopObserver, dict, None] = None,
-        profiler: Union[BaseProfiler, dict, None] = None,
+        clip_grad: dict | None = None,
+        observer: BaseLoopObserver | dict | None = None,
+        profiler: BaseProfiler | dict | None = None,
     ) -> None:
         check_accelerate()
         self._accelerator = self._setup_accelerator(accelerator or {})
@@ -150,7 +152,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
 
         return output
 
-    def _setup_accelerator(self, accelerator: Union[Accelerator, dict]) -> Accelerator:
+    def _setup_accelerator(self, accelerator: Accelerator | dict) -> Accelerator:
         r"""Sets up the accelerator.
 
         Args:
@@ -174,7 +176,7 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         logger.info(f"accelerator options: {accelerator}")
         return Accelerator(**accelerator)
 
-    def _setup_clip_grad(self, clip_grad: dict) -> tuple[Optional[Callable], tuple]:
+    def _setup_clip_grad(self, clip_grad: dict) -> tuple[Callable | None, tuple]:
         if not clip_grad:
             return None, ()
 

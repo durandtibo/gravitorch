@@ -1,5 +1,7 @@
 r"""This module implements a no-operation training loop."""
 
+from __future__ import annotations
+
 __all__ = ["NoOpTrainingLoop"]
 
 import logging

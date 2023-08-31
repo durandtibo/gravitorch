@@ -1,10 +1,11 @@
 r"""This module implements some utility functions for the training
 loops."""
 
+from __future__ import annotations
+
 __all__ = ["is_training_loop_config", "setup_training_loop"]
 
 import logging
-from typing import Union
 
 from objectory.utils import is_object_config
 
@@ -44,7 +45,7 @@ def is_training_loop_config(config: dict) -> bool:
     return is_object_config(config, BaseTrainingLoop)
 
 
-def setup_training_loop(training_loop: Union[BaseTrainingLoop, dict, None]) -> BaseTrainingLoop:
+def setup_training_loop(training_loop: BaseTrainingLoop | dict | None) -> BaseTrainingLoop:
     r"""Sets up the training loop.
 
     The training loop is instantiated from its configuration by using
