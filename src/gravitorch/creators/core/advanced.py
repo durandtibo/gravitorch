@@ -2,6 +2,7 @@ from __future__ import annotations
 
 __all__ = ["AdvancedCoreCreator"]
 
+from typing import TYPE_CHECKING
 
 from coola.utils import str_indent
 from torch.nn import Module
@@ -18,8 +19,10 @@ from gravitorch.creators.model.base import BaseModelCreator, setup_model_creator
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
 from gravitorch.creators.optimizer.utils import setup_optimizer_creator
 from gravitorch.datasources.base import BaseDataSource
-from gravitorch.engines.base import BaseEngine
 from gravitorch.lr_schedulers.base import LRSchedulerType
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 
 class AdvancedCoreCreator(BaseCoreCreator):
