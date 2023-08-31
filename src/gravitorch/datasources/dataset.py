@@ -4,7 +4,7 @@ __all__ = ["DatasetDataSource"]
 
 import logging
 from collections.abc import Iterable, Mapping
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from coola.utils import str_indent, str_mapping
 from torch.utils.data import Dataset
@@ -13,8 +13,10 @@ from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.creators.dataloader.factory import setup_dataloader_creator
 from gravitorch.data.datasets.factory import setup_dataset
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
-from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset import AssetManager
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

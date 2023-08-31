@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["HypercubeVertexDataCreator", "create_hypercube_vertex"]
 
 import logging
+from typing import TYPE_CHECKING
 
 import torch
 from coola import summary
@@ -10,8 +11,10 @@ from torch import Tensor
 
 from gravitorch import constants as ct
 from gravitorch.data.datacreators.base import BaseDataCreator
-from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.seed import get_torch_generator
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 
