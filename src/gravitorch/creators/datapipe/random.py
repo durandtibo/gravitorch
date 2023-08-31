@@ -4,13 +4,16 @@ __all__ = ["EpochRandomIterDataPipeCreator"]
 
 import logging
 from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 from objectory import OBJECT_TARGET, factory
 from torch.utils.data import IterDataPipe
 
-from gravitorch import distributed as dist
 from gravitorch.creators.datapipe.base import BaseIterDataPipeCreator
-from gravitorch.engines.base import BaseEngine
+from gravitorch.distributed import comm as dist
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

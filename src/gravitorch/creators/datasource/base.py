@@ -11,7 +11,9 @@ from objectory import AbstractFactory
 from gravitorch.utils.format import str_target_object
 
 if TYPE_CHECKING:
-    from gravitorch.datasources import BaseDataSource
+    from gravitorch.datasources import (
+        BaseDataSource,  # TODO: incorrect because used in setup
+    )
     from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)

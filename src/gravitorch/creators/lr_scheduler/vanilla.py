@@ -3,16 +3,19 @@ from __future__ import annotations
 __all__ = ["VanillaLRSchedulerCreator"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from coola.utils import str_indent
 from torch.optim import Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.creators.lr_scheduler.base import BaseLRSchedulerCreator
-from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import setup_handler
 from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

@@ -3,11 +3,14 @@ from __future__ import annotations
 __all__ = ["NoOptimizerCreator"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from torch.nn import Module
 
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
-from gravitorch.engines.base import BaseEngine
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

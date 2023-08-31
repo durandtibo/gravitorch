@@ -3,19 +3,22 @@ from __future__ import annotations
 __all__ = ["VanillaModelCreator"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from coola.utils import str_indent
 from torch import nn
 
 from gravitorch import constants as ct
 from gravitorch.creators.model.base import BaseModelCreator
-from gravitorch.engines.base import BaseEngine
 from gravitorch.models.utils import setup_and_attach_model, setup_model
 from gravitorch.utils.device_placement import (
     AutoDevicePlacement,
     BaseDevicePlacement,
     setup_device_placement,
 )
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 
