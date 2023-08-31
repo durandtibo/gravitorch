@@ -1,10 +1,11 @@
 import logging
 from unittest.mock import Mock
 
+from minevent import ConditionalEventHandler
 from pytest import LogCaptureFixture, mark, raises
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import ConditionalEventHandler, EpochPeriodicCondition
+from gravitorch.events import EpochPeriodicCondition
 from gravitorch.handlers import EpochSysInfoMonitor
 
 EVENTS = ("my_event", "my_other_event")

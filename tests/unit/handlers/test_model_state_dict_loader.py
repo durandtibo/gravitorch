@@ -4,12 +4,12 @@ from typing import Union
 from unittest.mock import Mock, patch
 
 import torch
+from minevent import EventHandler
 from pytest import mark
 from torch import nn
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import ModelStateDictLoader, PartialModelStateDictLoader
 
 EVENTS = ("my_event", "my_other_event")
@@ -61,7 +61,7 @@ def test_model_state_dict_loader_attach(tmp_path: Path, event: str) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(handler.load, handler_kwargs={"engine": engine}),
+        EventHandler(handler.load, handler_kwargs={"engine": engine}),
     )
 
 
@@ -140,7 +140,7 @@ def test_partial_model_state_dict_loader_attach(tmp_path: Path, event: str) -> N
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(handler.load, handler_kwargs={"engine": engine}),
+        EventHandler(handler.load, handler_kwargs={"engine": engine}),
     )
 
 

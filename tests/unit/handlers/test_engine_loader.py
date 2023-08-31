@@ -3,10 +3,10 @@ from typing import Union
 from unittest.mock import Mock
 
 import torch
+from minevent import EventHandler
 from pytest import mark, raises
 
 from gravitorch.engines import BaseEngine
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     EngineStateLoader,
     EngineStateLoaderWithExcludeKeys,
@@ -51,7 +51,7 @@ def test_engine_state_loader_attach(tmp_path: Path, event: str) -> None:
     loader.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        VanillaEventHandler(loader.load_engine_state_dict, handler_kwargs={"engine": engine}),
+        EventHandler(loader.load_engine_state_dict, handler_kwargs={"engine": engine}),
     )
 
 

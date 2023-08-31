@@ -1,9 +1,9 @@
 from unittest.mock import Mock
 
+from minevent import EventHandler
 from pytest import mark
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.handlers import (
     EpochLRSchedulerUpdater,
     IterationLRSchedulerUpdater,
@@ -36,9 +36,7 @@ def test_lr_scheduler_updater_attach(event: str) -> None:
     handler = LRSchedulerUpdater(event=event)
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
-    engine.add_event_handler.assert_called_once_with(
-        event, VanillaEventHandler(engine.lr_scheduler.step)
-    )
+    engine.add_event_handler.assert_called_once_with(event, EventHandler(engine.lr_scheduler.step))
 
 
 def test_lr_scheduler_updater_attach_duplicate() -> None:
@@ -88,7 +86,7 @@ def test_metric_lr_scheduler_updater_attach(event: str) -> None:
     engine = Mock(spec=BaseEngine, has_event_handler=Mock(return_value=False))
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
-        event, VanillaEventHandler(handler.step, handler_kwargs={"engine": engine})
+        event, EventHandler(handler.step, handler_kwargs={"engine": engine})
     )
 
 

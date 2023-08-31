@@ -10,10 +10,10 @@ __all__ = [
 
 import logging
 
+from minevent import BaseEventHandler
 from objectory.utils import is_object_config
 
 from gravitorch.engines.base import BaseEngine
-from gravitorch.events import BaseEventHandler
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.utils.format import str_target_object
 
@@ -49,8 +49,8 @@ def add_unique_event_handler(
         >>> def hello_handler():
         ...     print("Hello!")
         ...
-        >>> from gravitorch.events import VanillaEventHandler
-        >>> event_handler = VanillaEventHandler(hello_handler)
+        >>> from minevent import EventHandler
+        >>> event_handler = EventHandler(hello_handler)
         # Add an event handler to the engine
         >>> from gravitorch.handlers import add_unique_event_handler
         >>> add_unique_event_handler(engine, "my_event", event_handler)
