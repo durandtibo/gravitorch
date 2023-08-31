@@ -235,9 +235,6 @@ jobs:
       - name: check gravitorch.engines
         run: |
           poetry run python -c "from gravitorch import engines"
-      - name: check gravitorch.events
-        run: |
-          poetry run python -c "from gravitorch import events"
       - name: check gravitorch.handlers
         run: |
           poetry run python -c "from gravitorch import handlers"

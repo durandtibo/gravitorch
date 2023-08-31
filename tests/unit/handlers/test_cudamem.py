@@ -4,7 +4,7 @@ from minevent import ConditionalEventHandler
 from pytest import mark, raises
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import EpochPeriodicCondition, IterationPeriodicCondition
+from gravitorch.engines.events import EpochPeriodicCondition, IterationPeriodicCondition
 from gravitorch.handlers import (
     EpochCudaEmptyCache,
     EpochCudaMemoryMonitor,

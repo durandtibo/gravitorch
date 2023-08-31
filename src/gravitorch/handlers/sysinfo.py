@@ -3,8 +3,7 @@ __all__ = ["EpochSysInfoMonitor"]
 from minevent import ConditionalEventHandler
 
 from gravitorch.engines.base import BaseEngine
-from gravitorch.engines.events import EngineEvents
-from gravitorch.events import EpochPeriodicCondition
+from gravitorch.engines.events import EngineEvents, EpochPeriodicCondition
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.sysinfo import log_system_info

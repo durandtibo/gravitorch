@@ -6,7 +6,7 @@ from torch import nn
 from torch.optim import SGD
 
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import EpochPeriodicCondition, IterationPeriodicCondition
+from gravitorch.engines.events import EpochPeriodicCondition, IterationPeriodicCondition
 from gravitorch.handlers import EpochLRMonitor, IterationLRMonitor
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
