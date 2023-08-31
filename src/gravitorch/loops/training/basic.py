@@ -17,7 +17,8 @@ from gravitorch import constants as ct
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.loops.observers import BaseLoopObserver, setup_loop_observer
+from gravitorch.loops.observers.base import BaseLoopObserver
+from gravitorch.loops.observers.factory import setup_loop_observer
 from gravitorch.loops.training.base import BaseTrainingLoop
 from gravitorch.utils.history import MinScalarHistory
 from gravitorch.utils.metric_tracker import ScalarMetricTracker
