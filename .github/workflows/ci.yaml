@@ -220,24 +220,50 @@ jobs:
       - name: check gravitorch.creators
         run: |
           poetry run python -c "from gravitorch import creators"
+      - name: check gravitorch.creators.core
+        run: |
           poetry run python -c "from gravitorch.creators import core"
+      - name: check gravitorch.creators.dataloader
+        run: |
           poetry run python -c "from gravitorch.creators import dataloader"
+      - name: check gravitorch.creators.datapipe
+        run: |
           poetry run python -c "from gravitorch.creators import datapipe"
+      - name: check gravitorch.creators.datasource
+        run: |
           poetry run python -c "from gravitorch.creators import datasource"
+      - name: check gravitorch.creators.lr_scheduler
+        run: |
           poetry run python -c "from gravitorch.creators import lr_scheduler"
+      - name: check gravitorch.creators.model
+        run: |
           poetry run python -c "from gravitorch.creators import model"
+      - name: check gravitorch.creators.optimizer
+        run: |
           poetry run python -c "from gravitorch.creators import optimizer"
       - name: check gravitorch.data
         run: |
           poetry run python -c "from gravitorch import data"
+      - name: check gravitorch.data.datacreators
+        run: |
           poetry run python -c "from gravitorch.data import datacreators"
+      - name: check gravitorch.data.dataloaders
+        run: |
           poetry run python -c "from gravitorch.data import dataloaders"
+      - name: check gravitorch.data.datasets
+        run: |
           poetry run python -c "from gravitorch.data import datasets"
+      - name: check gravitorch.data.partitioners
+        run: |
           poetry run python -c "from gravitorch.data import partitioners"
       - name: check gravitorch.datapipes
         run: |
           poetry run python -c "from gravitorch import datapipes"
+      - name: check gravitorch.datapipes.iter
+        run: |
           poetry run python -c "from gravitorch.datapipes import iter"
+      - name: check gravitorch.datapipes.map
+        run: |
           poetry run python -c "from gravitorch.datapipes import map"
       - name: check gravitorch.datasources
         run: |
@@ -254,8 +280,14 @@ jobs:
       - name: check gravitorch.loops
         run: |
           poetry run python -c "from gravitorch import loops"
+      - name: check gravitorch.loops.evaluation
+        run: |
           poetry run python -c "from gravitorch.loops import evaluation"
+      - name: check gravitorch.loops.observers
+        run: |
           poetry run python -c "from gravitorch.loops import observers"
+      - name: check gravitorch.loops.training
+        run: |
           poetry run python -c "from gravitorch.loops import training"
       - name: check gravitorch.lr_schedulers
         run: |
@@ -263,15 +295,29 @@ jobs:
       - name: check gravitorch.models
         run: |
           poetry run python -c "from gravitorch import models"
+      - name: check gravitorch.models.criteria
+        run: |
           poetry run python -c "from gravitorch.models import criteria"
+      - name: check gravitorch.models.metrics
+        run: |
           poetry run python -c "from gravitorch.models import metrics"
+      - name: check gravitorch.models.networks
+        run: |
           poetry run python -c "from gravitorch.models import networks"
+      - name: check gravitorch.models.utils
+        run: |
           poetry run python -c "from gravitorch.models import utils"
       - name: check gravitorch.nn
         run: |
           poetry run python -c "from gravitorch import nn"
+      - name: check gravitorch.nn.functional
+        run: |
           poetry run python -c "from gravitorch.nn import functional"
+      - name: check gravitorch.nn.init
+        run: |
           poetry run python -c "from gravitorch.nn import init"
+      - name: check gravitorch.nn.utils
+        run: |
           poetry run python -c "from gravitorch.nn import utils"
       - name: check gravitorch.optimizers
         run: |
