@@ -3,13 +3,13 @@ from unittest.mock import Mock
 
 import torch
 from coola import objects_are_allclose
+from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import fixture, mark
 from torch.nn import Flatten, Identity, Module
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.models.metrics import (
     AbsoluteError,
     BaseMetric,
@@ -96,10 +96,10 @@ def test_transformed_prediction_target_attach_abs_err(engine: BaseEngine) -> Non
     assert isinstance(engine.get_history(f"{ct.TRAIN}/abs_err_min"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/abs_err_sum"), MinScalarHistory)
     assert engine.has_event_handler(
-        VanillaEventHandler(metric.metric.reset), EngineEvents.TRAIN_EPOCH_STARTED
+        EventHandler(metric.metric.reset), EngineEvents.TRAIN_EPOCH_STARTED
     )
     assert engine.has_event_handler(
-        VanillaEventHandler(metric.metric.value, handler_kwargs={"engine": engine}),
+        EventHandler(metric.metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 

@@ -4,10 +4,11 @@ __all__ = ["BaseEpochMetric", "BaseStateEpochMetric"]
 
 import logging
 
+from minevent import EventHandler
+
 from gravitorch import constants as ct
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.models.metrics.base import BaseMetric
 from gravitorch.models.metrics.state import BaseState, setup_state
 from gravitorch.utils.exp_trackers import EpochStep
@@ -54,9 +55,9 @@ class BaseEpochMetric(BaseMetric):
             reset_event = EngineEvents.EVAL_EPOCH_STARTED
             value_event = EngineEvents.EVAL_EPOCH_COMPLETED
 
-        engine.add_event_handler(reset_event, VanillaEventHandler(self.reset))
+        engine.add_event_handler(reset_event, EventHandler(self.reset))
         engine.add_event_handler(
-            value_event, VanillaEventHandler(self.value, handler_kwargs={"engine": engine})
+            value_event, EventHandler(self.value, handler_kwargs={"engine": engine})
         )
 
 

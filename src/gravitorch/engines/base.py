@@ -6,12 +6,12 @@ import logging
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any
 
+from minevent import BaseEventHandler
 from objectory import AbstractFactory
 from objectory.utils import is_object_config
 from torch.nn import Module
 from torch.optim import Optimizer
 
-from gravitorch.events import BaseEventHandler
 from gravitorch.lr_schedulers import LRSchedulerType
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.exp_trackers.steps import Step
@@ -116,12 +116,12 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
-            >>> from gravitorch.events import VanillaEventHandler
+            >>> from minevent import EventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             >>> def hello_handler():
             ...     print("Hello!")
             ...
-            >>> engine.add_event_handler("my_event", VanillaEventHandler(hello_handler))
+            >>> engine.add_event_handler("my_event", EventHandler(hello_handler))
         """
 
     @abstractmethod
@@ -227,13 +227,13 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
-            >>> from gravitorch.events import VanillaEventHandler
+            >>> from minevent import EventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             >>> engine.fire_event("my_event")  # should do nothing because there is no event handler
             >>> def hello_handler():
             ...     print("Hello!")
             ...
-            >>> engine.add_event_handler("my_event", VanillaEventHandler(hello_handler))
+            >>> engine.add_event_handler("my_event", EventHandler(hello_handler))
             >>> engine.fire_event("my_event")
             Hello!
         """
@@ -336,22 +336,22 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
-            >>> from gravitorch.events import VanillaEventHandler
+            >>> from minevent import EventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             # Define a handler
             >>> def hello_handler():
             ...     print("Hello!")
             ...
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler))
+            >>> engine.has_event_handler(EventHandler(hello_handler))
             False
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
+            >>> engine.has_event_handler(EventHandler(hello_handler), "my_event")
             False
-            >>> engine.add_event_handler("my_event", VanillaEventHandler(hello_handler))
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler))
+            >>> engine.add_event_handler("my_event", EventHandler(hello_handler))
+            >>> engine.has_event_handler(EventHandler(hello_handler))
             True
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
+            >>> engine.has_event_handler(EventHandler(hello_handler), "my_event")
             True
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "other_event")
+            >>> engine.has_event_handler(EventHandler(hello_handler), "other_event")
             False
         """
 
@@ -620,16 +620,16 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.engines import BaseEngine
-            >>> from gravitorch.events import VanillaEventHandler
+            >>> from minevent import EventHandler
             >>> engine: BaseEngine = ...  # Create an engine
             >>> def hello_handler():
             ...     print("Hello!")
             ...
-            >>> engine.add_event_handler("my_event", VanillaEventHandler(hello_handler))
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
+            >>> engine.add_event_handler("my_event", EventHandler(hello_handler))
+            >>> engine.has_event_handler(EventHandler(hello_handler), "my_event")
             True
-            >>> engine.remove_event_handler("my_event", VanillaEventHandler(hello_handler))
-            >>> engine.has_event_handler(VanillaEventHandler(hello_handler), "my_event")
+            >>> engine.remove_event_handler("my_event", EventHandler(hello_handler))
+            >>> engine.has_event_handler(EventHandler(hello_handler), "my_event")
             False
         """
 

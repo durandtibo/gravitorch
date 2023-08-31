@@ -3,13 +3,10 @@ from collections.abc import Callable
 from functools import wraps
 from typing import Any
 
+from minevent import PeriodicCondition
 from pytest import fixture, raises
 
-from gravitorch.events import (
-    ConditionalEventHandler,
-    PeriodicCondition,
-    VanillaEventHandler,
-)
+from gravitorch.events import ConditionalEventHandler, VanillaEventHandler
 
 logger = logging.getLogger(__name__)
 

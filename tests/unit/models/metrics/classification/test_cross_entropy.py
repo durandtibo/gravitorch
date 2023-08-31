@@ -3,11 +3,11 @@ from unittest.mock import Mock
 
 import torch
 from coola import objects_are_allclose
+from minevent import EventHandler
 from pytest import fixture, mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.models.metrics import CategoricalCrossEntropy, EmptyMetricError
 from gravitorch.models.metrics.state import (
     BaseState,
@@ -57,11 +57,9 @@ def test_categorical_cross_entropy_attach_train(name: str, engine: BaseEngine) -
     metric = CategoricalCrossEntropy(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_mean"), MinScalarHistory)
+    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        VanillaEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED
-    )
-    assert engine.has_event_handler(
-        VanillaEventHandler(metric.value, handler_kwargs={"engine": engine}),
+        EventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -71,11 +69,9 @@ def test_categorical_cross_entropy_attach_eval(name: str, engine: BaseEngine) ->
     metric = CategoricalCrossEntropy(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_mean"), MinScalarHistory)
+    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        VanillaEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED
-    )
-    assert engine.has_event_handler(
-        VanillaEventHandler(metric.value, handler_kwargs={"engine": engine}),
+        EventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -88,11 +84,9 @@ def test_categorical_cross_entropy_attach_state_extended(engine: BaseEngine) -> 
     assert isinstance(engine.get_history(f"{ct.EVAL}/cat_ce_min"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/cat_ce_max"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/cat_ce_sum"), MinScalarHistory)
+    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        VanillaEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED
-    )
-    assert engine.has_event_handler(
-        VanillaEventHandler(metric.value, handler_kwargs={"engine": engine}),
+        EventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 

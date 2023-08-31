@@ -7,14 +7,12 @@ __all__ = [
     "EpochPeriodicCondition",
     "EventManager",
     "IterationPeriodicCondition",
-    "PeriodicCondition",
     "VanillaEventHandler",
 ]
 
 from gravitorch.events.conditions import (
     EpochPeriodicCondition,
     IterationPeriodicCondition,
-    PeriodicCondition,
 )
 from gravitorch.events.event_handlers import (
     BaseEventHandler,

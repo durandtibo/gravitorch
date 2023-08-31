@@ -1,6 +1,7 @@
 from pathlib import Path
 from unittest.mock import Mock
 
+from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import fixture, raises
 from torch import nn
@@ -9,7 +10,6 @@ from torch.optim import SGD, Optimizer
 from gravitorch import constants as ct
 from gravitorch.creators.core import BaseCoreCreator
 from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
-from gravitorch.events import VanillaEventHandler
 from gravitorch.loops.evaluation import BaseEvaluationLoop, VanillaEvaluationLoop
 from gravitorch.loops.training import BaseTrainingLoop, VanillaTrainingLoop
 from gravitorch.testing import DummyDataSource
@@ -106,10 +106,10 @@ def test_alpha_engine_add_event_handler(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
     engine.add_event_handler(
         "my_event",
-        VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
+        EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
     )
     assert engine._event_manager.has_event_handler(
-        VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
+        EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
         "my_event",
     )
 
@@ -151,7 +151,7 @@ def test_alpha_engine_fire_event(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
     engine.add_event_handler(
         "my_event",
-        VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
+        EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
     )
     assert engine.epoch == -1
     engine.fire_event("my_event")
@@ -200,13 +200,13 @@ def test_alpha_engine_get_module_does_not_exists(core_creator: BaseCoreCreator) 
 
 def test_alpha_engine_has_event_handler_true(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
-    engine.add_event_handler("my_event", VanillaEventHandler(increment_epoch_handler))
-    assert engine.has_event_handler(VanillaEventHandler(increment_epoch_handler), "my_event")
+    engine.add_event_handler("my_event", EventHandler(increment_epoch_handler))
+    assert engine.has_event_handler(EventHandler(increment_epoch_handler), "my_event")
 
 
 def test_alpha_engine_has_event_handler_false(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
-    assert not engine.has_event_handler(VanillaEventHandler(increment_epoch_handler), "my_event")
+    assert not engine.has_event_handler(EventHandler(increment_epoch_handler), "my_event")
 
 
 def test_alpha_engine_has_history_true(core_creator: BaseCoreCreator) -> None:
@@ -339,14 +339,14 @@ def test_alpha_engine_remove_event_handler_exists(core_creator: BaseCoreCreator)
     engine = AlphaEngine(core_creator)
     engine.add_event_handler(
         "my_event",
-        VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
+        EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
     )
     engine.remove_event_handler(
         "my_event",
-        VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
+        EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
     )
     assert not engine.has_event_handler(
-        VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
+        EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
         "my_event",
     )
 
@@ -355,10 +355,10 @@ def test_alpha_engine_remove_event_handler_does_not_exist(
     core_creator: BaseCoreCreator,
 ) -> None:
     engine = AlphaEngine(core_creator)
-    with raises(ValueError, match="'my_event' event does not exist"):
+    with raises(RuntimeError, match="'my_event' event does not exist"):
         engine.remove_event_handler(
             "my_event",
-            VanillaEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
+            EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
         )
 
 
@@ -446,7 +446,7 @@ def test_alpha_engine_train_with_terminate(core_creator: BaseCoreCreator) -> Non
     )
     engine.add_event_handler(
         EngineEvents.EPOCH_COMPLETED,
-        VanillaEventHandler(terminate_handler, handler_kwargs={"engine": engine}),
+        EventHandler(terminate_handler, handler_kwargs={"engine": engine}),
     )
     engine.train()
     assert engine.epoch == 2
