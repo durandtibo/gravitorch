@@ -3,14 +3,17 @@ from __future__ import annotations
 __all__ = ["CompiledModelCreator"]
 
 import logging
+from typing import TYPE_CHECKING
 
 import torch
 from coola.utils import str_indent
 from torch.nn import Module
 
 from gravitorch.creators.model.base import BaseModelCreator, setup_model_creator
-from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.format import str_pretty_json
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

@@ -4,10 +4,12 @@ __all__ = ["DataCreator"]
 
 import copy
 import logging
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from gravitorch.data.datacreators.base import BaseDataCreator
-from gravitorch.engines.base import BaseEngine
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

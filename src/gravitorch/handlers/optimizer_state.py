@@ -3,14 +3,17 @@ from __future__ import annotations
 __all__ = ["ConsolidateOptimizerState"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from minevent import EventHandler
 
 from gravitorch import distributed as dist
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "EngineStateLoader",
     "EngineStateLoaderWithExcludeKeys",
@@ -7,15 +9,17 @@ __all__ = [
 import copy
 import logging
 from pathlib import Path
-from typing import Union
+from typing import TYPE_CHECKING
 
 import torch
 from minevent import EventHandler
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.path import sanitize_path
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +44,7 @@ class EngineStateLoader(BaseHandler):
             to load the state dict. Default: ``False``
     """
 
-    def __init__(self, path: Union[Path, str], event: str, missing_ok: bool = False) -> None:
+    def __init__(self, path: Path | str, event: str, missing_ok: bool = False) -> None:
         self._path = sanitize_path(path)
         self._event = str(event)
         self._missing_ok = bool(missing_ok)
@@ -115,9 +119,9 @@ class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
 
     def __init__(
         self,
-        path: Union[Path, str],
+        path: Path | str,
         event: str,
-        exclude_keys: Union[tuple[str, ...], list[str]],
+        exclude_keys: tuple[str, ...] | list[str],
         missing_ok: bool = False,
     ) -> None:
         super().__init__(path=path, event=event, missing_ok=missing_ok)
@@ -182,9 +186,9 @@ class EngineStateLoaderWithIncludeKeys(EngineStateLoader):
 
     def __init__(
         self,
-        path: Union[Path, str],
+        path: Path | str,
         event: str,
-        include_keys: Union[tuple[str, ...], list[str]],
+        include_keys: tuple[str, ...] | list[str],
         missing_ok: bool = False,
     ) -> None:
         super().__init__(path=path, event=event, missing_ok=missing_ok)

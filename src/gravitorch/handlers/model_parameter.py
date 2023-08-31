@@ -1,14 +1,18 @@
+from __future__ import annotations
+
 __all__ = ["ModelParameterAnalyzer"]
 
-from typing import Union
+from typing import TYPE_CHECKING
 
 from minevent import EventHandler
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
 from gravitorch.nn.utils.parameter import show_parameter_summary
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 
 class ModelParameterAnalyzer(BaseHandler):
@@ -31,7 +35,9 @@ class ModelParameterAnalyzer(BaseHandler):
 
     def __init__(
         self,
-        events: Union[str, tuple[str, ...], list[str]] = (
+        events: str
+        | tuple[str, ...]
+        | list[str] = (
             EngineEvents.STARTED,
             EngineEvents.TRAIN_COMPLETED,
         ),

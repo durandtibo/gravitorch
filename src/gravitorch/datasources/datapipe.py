@@ -4,7 +4,7 @@ __all__ = ["IterDataPipeCreatorDataSource", "DataCreatorIterDataPipeCreatorDataS
 
 import logging
 from collections.abc import Iterable
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from coola import summary
 from coola.utils import str_indent, str_mapping
@@ -16,8 +16,10 @@ from gravitorch.creators.datapipe.base import (
 )
 from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
-from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.asset import AssetManager
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

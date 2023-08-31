@@ -5,13 +5,17 @@ from __future__ import annotations
 __all__ = ["attach_module_to_engine", "is_model_config", "setup_model", "setup_and_attach_model"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from objectory.utils import is_object_config
 from torch.nn import Module
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.models.base import BaseModel
 from gravitorch.utils.format import str_target_object
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
+
 
 logger = logging.getLogger(__name__)
 

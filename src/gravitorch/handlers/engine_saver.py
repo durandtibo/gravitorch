@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "BaseEngineSaver",
     "BestEngineStateSaver",
@@ -10,18 +12,20 @@ __all__ = [
 import logging
 from abc import abstractmethod
 from pathlib import Path
-from typing import Union
+from typing import TYPE_CHECKING
 
 from minevent import EventHandler
 
 from gravitorch.distributed import comm as dist
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.history import get_best_values, get_last_values
 from gravitorch.utils.io import save_pytorch
 from gravitorch.utils.path import sanitize_path
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +52,7 @@ class BaseEngineSaver(BaseHandler):
 
     def __init__(
         self,
-        path: Union[Path, str],
+        path: Path | str,
         event: str,
         only_main_process: bool = True,
     ) -> None:
@@ -104,7 +108,7 @@ class BestHistorySaver(BaseEngineSaver):
 
     def __init__(
         self,
-        path: Union[Path, str],
+        path: Path | str,
         event: str = EngineEvents.COMPLETED,
         only_main_process: bool = True,
     ) -> None:
@@ -122,7 +126,7 @@ class LastHistorySaver(BaseEngineSaver):
 
     def __init__(
         self,
-        path: Union[Path, str],
+        path: Path | str,
         event: str = EngineEvents.EPOCH_COMPLETED,
         only_main_process: bool = True,
     ) -> None:
@@ -166,8 +170,8 @@ class BestEngineStateSaver(BaseEngineSaver):
 
     def __init__(
         self,
-        path: Union[Path, str],
-        keys: Union[tuple[str, ...], list[str]],
+        path: Path | str,
+        keys: tuple[str, ...] | list[str],
         event: str = EngineEvents.EPOCH_COMPLETED,
         only_main_process: bool = True,
     ) -> None:
@@ -232,7 +236,7 @@ class EpochEngineStateSaver(BaseEngineSaver):
 
     def __init__(
         self,
-        path: Union[Path, str],
+        path: Path | str,
         event: str = EngineEvents.EPOCH_COMPLETED,
         only_main_process: bool = True,
     ) -> None:
@@ -277,7 +281,7 @@ class TagEngineStateSaver(BaseEngineSaver):
 
     def __init__(
         self,
-        path: Union[Path, str],
+        path: Path | str,
         event: str = EngineEvents.EPOCH_COMPLETED,
         tag: str = "last",
         only_main_process: bool = True,

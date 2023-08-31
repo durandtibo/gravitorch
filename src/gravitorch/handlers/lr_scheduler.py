@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 __all__ = ["VanillaLRScheduler", "EpochLRScheduler", "IterationLRScheduler"]
 
-from typing import Union
+from typing import TYPE_CHECKING
 
 from coola.utils import str_indent
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.lr_monitor import EpochLRMonitor, IterationLRMonitor
 from gravitorch.handlers.lr_scheduler_updater import (
@@ -12,6 +13,9 @@ from gravitorch.handlers.lr_scheduler_updater import (
     IterationLRSchedulerUpdater,
 )
 from gravitorch.handlers.utils import setup_handler
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 
 class VanillaLRScheduler(BaseHandler):
@@ -30,8 +34,8 @@ class VanillaLRScheduler(BaseHandler):
 
     def __init__(
         self,
-        lr_scheduler_updater: Union[BaseHandler, dict],
-        lr_monitor: Union[BaseHandler, dict],
+        lr_scheduler_updater: BaseHandler | dict,
+        lr_monitor: BaseHandler | dict,
     ) -> None:
         self._lr_scheduler_updater = setup_handler(lr_scheduler_updater)
         self._lr_monitor = setup_handler(lr_monitor)

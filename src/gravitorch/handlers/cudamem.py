@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "EpochCudaEmptyCache",
     "EpochCudaMemoryMonitor",
@@ -6,11 +8,11 @@ __all__ = [
 ]
 
 import logging
+from typing import TYPE_CHECKING
 
 import torch
 from minevent import ConditionalEventHandler
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import (
     EngineEvents,
     EpochPeriodicCondition,
@@ -20,6 +22,9 @@ from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

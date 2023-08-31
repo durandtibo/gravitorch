@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["VanillaDataSourceCreator"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from gravitorch import constants as ct
 from gravitorch.creators.datasource.base import BaseDataSourceCreator
@@ -11,7 +12,9 @@ from gravitorch.datasources.base import (
     setup_and_attach_datasource,
     setup_datasource,
 )
-from gravitorch.engines.base import BaseEngine
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

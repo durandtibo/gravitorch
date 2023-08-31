@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 __all__ = ["EpochLRMonitor", "IterationLRMonitor"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from minevent import ConditionalEventHandler
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import (
     EngineEvents,
     EpochPeriodicCondition,
@@ -14,6 +16,9 @@ from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.optimizers.utils import get_learning_rate_per_group
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

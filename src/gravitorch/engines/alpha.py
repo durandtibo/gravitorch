@@ -19,7 +19,7 @@ from gravitorch.loops.evaluation.base import BaseEvaluationLoop
 from gravitorch.loops.evaluation.factory import setup_evaluation_loop
 from gravitorch.loops.training.base import BaseTrainingLoop
 from gravitorch.loops.training.factory import setup_training_loop
-from gravitorch.lr_schedulers import LRSchedulerType
+from gravitorch.lr_schedulers.base import LRSchedulerType
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import BaseEngineState, setup_engine_state
 from gravitorch.utils.exp_trackers import BaseExpTracker, Step, setup_exp_tracker
@@ -79,6 +79,9 @@ class AlphaEngine(BaseEngine):
         self._exp_tracker = self._setup_exp_tracker(exp_tracker)
         self._training_loop = self._setup_training_loop(training_loop)
         self._evaluation_loop = self._setup_evaluation_loop(evaluation_loop)
+
+        # # Local import to avoid cyclic import
+        # from gravitorch.creators.core.base import setup_core_creator
 
         core_creator = setup_core_creator(core_creator)
         logger.info(f"core_creator:\n{core_creator}")

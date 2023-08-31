@@ -9,13 +9,16 @@ __all__ = [
 ]
 
 import logging
+from typing import TYPE_CHECKING
 
 from minevent import BaseEventHandler
 from objectory.utils import is_object_config
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.utils.format import str_target_object
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

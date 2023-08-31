@@ -3,14 +3,17 @@ from __future__ import annotations
 __all__ = ["VanillaOptimizerCreator"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from torch.nn import Module
 from torch.optim import Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
-from gravitorch.engines.base import BaseEngine
-from gravitorch.optimizers import setup_optimizer
+from gravitorch.optimizers.factory import setup_optimizer
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = ["ZeroRedundancyOptimizerCreator"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from coola.utils import str_indent
 from objectory import OBJECT_TARGET
@@ -12,9 +13,11 @@ from tornado.util import import_object
 
 from gravitorch import constants as ct
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
-from gravitorch.engines.base import BaseEngine
 from gravitorch.handlers.optimizer_state import ConsolidateOptimizerState
 from gravitorch.utils.format import str_pretty_json
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

@@ -7,6 +7,7 @@ __all__ = [
 ]
 
 from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 from coola.utils import str_indent, str_sequence
 from objectory import OBJECT_TARGET, factory
@@ -16,7 +17,9 @@ from gravitorch.creators.datapipe.base import (
     BaseIterDataPipeCreator,
     setup_iter_datapipe_creator,
 )
-from gravitorch.engines.base import BaseEngine
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 
 class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
