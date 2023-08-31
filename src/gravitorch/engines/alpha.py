@@ -11,6 +11,7 @@ from torch.nn import Module
 from torch.optim import Optimizer
 
 from gravitorch import constants as ct
+from gravitorch.creators.core.base import BaseCoreCreator, setup_core_creator
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -26,7 +27,6 @@ from gravitorch.utils.history import BaseHistory
 from gravitorch.utils.timing import timeblock
 
 if TYPE_CHECKING:
-    from gravitorch.creators.core import BaseCoreCreator
     from gravitorch.datasources import BaseDataSource
 
 logger = logging.getLogger(__name__)
@@ -80,8 +80,8 @@ class AlphaEngine(BaseEngine):
         self._training_loop = self._setup_training_loop(training_loop)
         self._evaluation_loop = self._setup_evaluation_loop(evaluation_loop)
 
-        # Local import to avoid cyclic import
-        from gravitorch.creators.core.base import setup_core_creator
+        # # Local import to avoid cyclic import
+        # from gravitorch.creators.core.base import setup_core_creator
 
         core_creator = setup_core_creator(core_creator)
         logger.info(f"core_creator:\n{core_creator}")
