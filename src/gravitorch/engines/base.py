@@ -115,9 +115,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from minevent import EventHandler
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> def hello_handler():
             ...     print("Hello!")
             ...
@@ -140,9 +140,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.history import MinScalarHistory
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.add_history(MinScalarHistory("loss"))
             >>> engine.add_history(MinScalarHistory("loss"), "my key")
         """
@@ -170,8 +170,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from torch import nn
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.add_module("my_module", nn.Linear(4, 5))
         """
 
@@ -188,9 +188,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.artifacts import JSONArtifact
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.create_artifact(JSONArtifact(tag="metric", data={"f1_score": 42}))
         """
 
@@ -209,8 +209,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.eval()
         """
 
@@ -226,9 +226,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from minevent import EventHandler
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.fire_event("my_event")  # should do nothing because there is no event handler
             >>> def hello_handler():
             ...     print("Hello!")
@@ -256,14 +256,14 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         -------
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.history import MinScalarHistory
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.add_history(MinScalarHistory("loss"))
             >>> engine.get_history("loss")
-            MinScalarHistory(name='loss', ...)
+            MinScalarHistory(name=loss, max_size=10, history=())
             >>> engine.get_history("new_history")
-            GenericHistory(name='new_history', ...)
+            GenericHistory(name=new_history, max_size=10, history=())
         """
 
     @abstractmethod
@@ -278,12 +278,12 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         -------
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.history import MinScalarHistory
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.add_history(MinScalarHistory("loss"))
             >>> engine.get_histories()
-            {'loss': MinScalarHistory(name='loss', ...)}
+            {'loss': MinScalarHistory(name=loss, max_size=10, history=())}
         """
 
     @abstractmethod
@@ -307,13 +307,11 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from torch import nn
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.add_module("model", nn.Linear(4, 6))
             >>> engine.get_module("model")
             Linear(in_features=4, out_features=6, bias=True)
-            >>> engine.get_module("missing_module")
-            ValueError
         """
 
     @abstractmethod
@@ -335,10 +333,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from minevent import EventHandler
-            >>> engine: BaseEngine = ...  # Create an engine
-            # Define a handler
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> def hello_handler():
             ...     print("Hello!")
             ...
@@ -371,9 +368,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         -------
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.history import MinScalarHistory
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.add_history(MinScalarHistory("loss"))
             >>> engine.has_history("loss")
             True
@@ -398,8 +395,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from torch import nn
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.add_module("model", nn.Linear(4, 6))
             >>> engine.has_module("model")
             True
@@ -420,15 +417,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.epoch
-            1
-            # Increment the epoch number by 1.
+            -1
+            >>> # Increment the epoch number by 1.
             >>> engine.increment_epoch()
             >>> engine.epoch
             0
-            # Increment the epoch number by 10.
+            >>> # Increment the epoch number by 10.
             >>> engine.increment_epoch(10)
             >>> engine.epoch
             10
@@ -447,15 +444,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.iteration
             -1
-            # Increment the iteration number by 1.
+            >>> # Increment the iteration number by 1.
             >>> engine.increment_iteration()
             >>> engine.iteration
             0
-            # Increment the iteration number by 10.
+            >>> # Increment the iteration number by 10.
             >>> engine.increment_iteration(10)
             >>> engine.iteration
             10
@@ -473,10 +470,41 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
-            >>> state = {...}  # The content of the state dict depends on the engine.
-            >>> engine.load_state_dict(state)
+            >>> import torch
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.load_state_dict(
+            ...     {
+            ...         "epoch": -1,
+            ...         "iteration": -1,
+            ...         "histories": {},
+            ...         "modules": {
+            ...             "training_loop": {},
+            ...             "evaluation_loop": {},
+            ...             "datasource": {},
+            ...             "model": {
+            ...                 "linear.weight": torch.ones(3, 4),
+            ...                 "linear.bias": torch.ones(3),
+            ...             },
+            ...             "optimizer": {
+            ...                 "state": {},
+            ...                 "param_groups": [
+            ...                     {
+            ...                         "lr": 0.01,
+            ...                         "momentum": 0,
+            ...                         "dampening": 0,
+            ...                         "weight_decay": 0,
+            ...                         "nesterov": False,
+            ...                         "maximize": False,
+            ...                         "foreach": None,
+            ...                         "differentiable": False,
+            ...                         "params": [0, 1],
+            ...                     }
+            ...                 ],
+            ...             },
+            ...         },
+            ...     }
+            ... )
         """
 
     @abstractmethod
@@ -502,10 +530,10 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> import matplotlib.pyplot as plt
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.exp_trackers import EpochStep, IterationStep
-            >>> engine: BaseEngine = ...  # Create an engine
-            >>> fig, axes = plt.subplots()
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> fig, ax = plt.subplots()
             >>> engine.log_figure("my_figure", fig)
             >>> engine.log_figure("my_figure", fig, EpochStep(2))
             >>> engine.log_figure("my_figure", fig, IterationStep(10))
@@ -531,10 +559,10 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> import matplotlib.pyplot as plt
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.exp_trackers import EpochStep, IterationStep
-            >>> engine: BaseEngine = ...  # Create an engine
-            >>> fig, axes = plt.subplots()
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> fig, ax = plt.subplots()
             >>> engine.log_figures({"my_figure_1": fig, "my_figure_2": fig})
             >>> engine.log_figures({"my_figure_1": fig, "my_figure_2": fig}, EpochStep(2))
             >>> engine.log_figures({"my_figure_1": fig, "my_figure_2": fig}, IterationStep(10))
@@ -560,9 +588,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.exp_trackers import EpochStep, IterationStep
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.log_metric(key="metric name", value=1.2)
             >>> engine.log_metric(key="metric name", value=1.2, step=EpochStep(2))
             >>> engine.log_metric(key="metric name", value=1.2, step=IterationStep(10))
@@ -586,13 +614,13 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from gravitorch.utils.exp_trackers import EpochStep, IterationStep
-            >>> engine: BaseEngine = ...  # Create an engine
-            >>> my_metrics = {"metric1": 12, "metric2": 0.35}
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> metrics = {"metric1": 12, "metric2": 0.35}
             >>> engine.log_metrics(metrics)
-            >>> engine.log_metrics(my_metrics, EpochStep(2))
-            >>> engine.log_metrics(my_metrics, IterationStep(10))
+            >>> engine.log_metrics(metrics, EpochStep(2))
+            >>> engine.log_metrics(metrics, IterationStep(10))
         """
 
     @abstractmethod
@@ -619,9 +647,9 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
             >>> from minevent import EventHandler
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> def hello_handler():
             ...     print("Hello!")
             ...
@@ -650,16 +678,14 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from torch import nn
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.add_module("model", nn.Linear(4, 6))
             >>> engine.has_module("model")
             True
             >>> engine.remove_module("model")
             >>> engine.has_module("model")
             False
-            >>> engine.remove_module("missing_model")
-            ValueError
         """
 
     @abstractmethod
@@ -676,9 +702,14 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> state = engine.state_dict()
+            >>> state  # doctest: +ELLIPSIS
+            {'epoch': -1,
+             'iteration': -1,
+             'histories': {},
+             'modules': {'training_loop': {}, 'evaluation_loop': {}, 'datasource': {}, 'model': OrderedDict([...]), 'optimizer': {...}}}
         """
 
     @abstractmethod
@@ -690,8 +721,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.should_terminate
             False
             >>> engine.terminate()
@@ -710,8 +741,8 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.engines import BaseEngine
-            >>> engine: BaseEngine = ...  # Create an engine
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
             >>> engine.train()
         """
 
@@ -765,7 +796,18 @@ def setup_engine(engine: BaseEngine | dict) -> BaseEngine:
     .. code-block:: pycon
 
         >>> from gravitorch.engines import setup_engine
-        >>> engine = setup_engine({"_target_": "gravitorch.engines.AlphaEngine"})
+        >>> engine = setup_engine(
+        ...     {
+        ...         "_target_": "gravitorch.engines.AlphaEngine",
+        ...         "core_creator": {
+        ...             "_target_": "gravitorch.creators.core.VanillaCoreCreator",
+        ...             "datasource": {"_target_": "gravitorch.testing.DummyDataSource"},
+        ...             "model": {"_target_": "gravitorch.testing.DummyClassificationModel"},
+        ...         },
+        ...     }
+        ... )
+        >>> engine  # doctest: +ELLIPSIS
+        AlphaEngine(...)
     """
     if isinstance(engine, dict):
         logger.info(f"Initializing a engine from its configuration... {str_target_object(engine)}")

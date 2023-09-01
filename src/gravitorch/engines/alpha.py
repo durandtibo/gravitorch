@@ -80,9 +80,6 @@ class AlphaEngine(BaseEngine):
         self._training_loop = self._setup_training_loop(training_loop)
         self._evaluation_loop = self._setup_evaluation_loop(evaluation_loop)
 
-        # # Local import to avoid cyclic import
-        # from gravitorch.creators.core.base import setup_core_creator
-
         core_creator = setup_core_creator(core_creator)
         logger.info(f"core_creator:\n{core_creator}")
         (
@@ -95,7 +92,7 @@ class AlphaEngine(BaseEngine):
 
         self._should_terminate = False
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  datasource={str_indent(self._datasource)},\n"
