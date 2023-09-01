@@ -2,7 +2,7 @@ r"""This module defines the base model."""
 
 from __future__ import annotations
 
-__all__ = ["attach_module_to_engine", "is_model_config", "setup_model", "setup_and_attach_model"]
+__all__ = ["is_model_config", "setup_model", "setup_and_attach_model"]
 
 import logging
 from typing import TYPE_CHECKING
@@ -18,23 +18,6 @@ if TYPE_CHECKING:
 
 
 logger = logging.getLogger(__name__)
-
-
-def attach_module_to_engine(module: Module, engine: BaseEngine) -> None:
-    r"""Attaches a module to the engine if the module has the ``attach``
-    method.
-
-    This function does nothing if the module does not have a
-    ``attach`` method.
-
-    Args:
-    ----
-        module (``torch.nn.Module``): Specifies the module to attach
-            to the engine.
-        engine (``BaseEngine``): Specifies the engine.
-    """
-    if hasattr(module, "attach"):
-        module.attach(engine)
 
 
 def is_model_config(config: dict) -> bool:

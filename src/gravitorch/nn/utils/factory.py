@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-__all__ = ["setup_module"]
+__all__ = ["attach_module_to_engine", "is_module_config", "setup_module"]
 
 import logging
+from typing import TYPE_CHECKING
 
 from objectory import factory
 from objectory.utils import is_object_config
@@ -10,7 +11,27 @@ from torch.nn import Module
 
 from gravitorch.utils.format import str_target_object
 
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
+
 logger = logging.getLogger(__name__)
+
+
+def attach_module_to_engine(module: Module, engine: BaseEngine) -> None:
+    r"""Attaches a module to the engine if the module has the ``attach``
+    method.
+
+    This function does nothing if the module does not have a
+    ``attach`` method.
+
+    Args:
+    ----
+        module (``torch.nn.Module``): Specifies the module to attach
+            to the engine.
+        engine (``BaseEngine``): Specifies the engine.
+    """
+    if hasattr(module, "attach"):
+        module.attach(engine)
 
 
 def is_module_config(config: dict) -> bool:
