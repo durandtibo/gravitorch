@@ -19,8 +19,7 @@ from gravitorch import constants as ct
 from gravitorch.engines.base import BaseEngine
 from gravitorch.models.base import BaseModel
 from gravitorch.models.metrics import BaseMetric
-from gravitorch.models.utils import attach_module_to_engine
-from gravitorch.nn.utils.factory import setup_module
+from gravitorch.nn.utils.factory import attach_module_to_engine, setup_module
 from gravitorch.nn.utils.state_dict import load_checkpoint_to_module
 from gravitorch.utils.seed import manual_seed
 
