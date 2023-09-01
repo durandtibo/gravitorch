@@ -12,7 +12,20 @@ if TYPE_CHECKING:
 
 
 class BaseHandler(ABC, metaclass=AbstractFactory):
-    r"""Define the base class for the handlers."""
+    r"""Defines the base class for the handlers.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochLRMonitor
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochLRMonitor()
+        >>> handler
+        EpochLRMonitor(freq=1, event=train_epoch_started)
+        >>> handler.attach(engine)
+    """
 
     @abstractmethod
     def attach(self, engine: BaseEngine) -> None:

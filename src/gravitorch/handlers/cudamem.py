@@ -40,6 +40,18 @@ class EpochCudaMemoryMonitor(BaseHandler):
             Default: ``'epoch_completed'``
         freq (int, optional): Specifies the epoch frequency used to
             monitor the CUDA memory usage. Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochCudaMemoryMonitor
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochCudaMemoryMonitor()
+        >>> handler
+        EpochCudaMemoryMonitor(freq=1, event=epoch_completed)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
@@ -94,6 +106,18 @@ class IterationCudaMemoryMonitor(BaseHandler):
             Default: ``'epoch_completed'``
         freq (int, optional): Specifies the iteration frequency used
             to monitor the CUDA memory usage. Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import IterationCudaMemoryMonitor
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = IterationCudaMemoryMonitor()
+        >>> handler
+        IterationCudaMemoryMonitor(freq=1, event=train_iteration_completed)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1) -> None:
@@ -150,6 +174,18 @@ class EpochCudaEmptyCache(BaseHandler):
             Default: ``'epoch_completed'``
         freq (int, optional): Specifies the epoch frequency used to
             monitor the learning rate. Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochCudaEmptyCache
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochCudaEmptyCache()
+        >>> handler
+        EpochCudaEmptyCache(freq=1, event=epoch_completed)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
@@ -195,6 +231,18 @@ class IterationCudaEmptyCache(BaseHandler):
             Default: ``'train_iteration_completed'``
         freq (int, optional): Specifies the iteration frequency used to
             monitor the learning rate. Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import IterationCudaEmptyCache
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = IterationCudaEmptyCache()
+        >>> handler
+        IterationCudaEmptyCache(freq=1, event=train_iteration_completed)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1) -> None:

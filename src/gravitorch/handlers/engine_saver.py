@@ -14,6 +14,7 @@ from abc import abstractmethod
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from coola.utils import str_indent, str_mapping
 from minevent import EventHandler
 
 from gravitorch.distributed import comm as dist
@@ -61,13 +62,16 @@ class BaseEngineSaver(BaseHandler):
         self._only_main_process = only_main_process
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  event={self._event},\n"
-            f"  path={self._path},\n"
-            f"  only_main_process={self._only_main_process},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "event": self._event,
+                    "path": self._path,
+                    "only_main_process": self._only_main_process,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def attach(self, engine: BaseEngine) -> None:
         add_unique_event_handler(
@@ -103,8 +107,25 @@ class BaseEngineSaver(BaseHandler):
 
 
 class BestHistorySaver(BaseEngineSaver):
-    r"""Implements a handler to save the best history values in a
-    PyTorch file."""
+    r"""Implements a handler to save the best history values in a PyTorch
+    file.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import BestHistorySaver
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = BestHistorySaver(path="tmp/ckpt")
+        >>> handler  # doctest: +ELLIPSIS
+        BestHistorySaver(
+          (event): completed
+          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (only_main_process): True
+        )
+        >>> handler.attach(engine)
+    """
 
     def __init__(
         self,
@@ -121,8 +142,25 @@ class BestHistorySaver(BaseEngineSaver):
 
 
 class LastHistorySaver(BaseEngineSaver):
-    r"""Implements a handler to save the last history values in a
-    PyTorch file."""
+    r"""Implements a handler to save the last history values in a PyTorch
+    file.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import LastHistorySaver
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = LastHistorySaver(path="tmp/ckpt")
+        >>> handler  # doctest: +ELLIPSIS
+        LastHistorySaver(
+          (event): epoch_completed
+          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (only_main_process): True
+        )
+        >>> handler.attach(engine)
+    """
 
     def __init__(
         self,
@@ -166,6 +204,23 @@ class BestEngineStateSaver(BaseEngineSaver):
         only_main_process (bool, optional): If ``True``, only the main
             process saves the engine state dict, otherwise all the
             processes save the engine state dict. Default: ``True``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import BestEngineStateSaver
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = BestEngineStateSaver(path="tmp/ckpt", keys=["eval/loss"])
+        >>> handler  # doctest: +ELLIPSIS
+        BestEngineStateSaver(
+          (event): epoch_completed
+          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (keys): ('eval/loss',)
+          (only_main_process): True
+        )
+        >>> handler.attach(engine)
     """
 
     def __init__(
@@ -179,14 +234,17 @@ class BestEngineStateSaver(BaseEngineSaver):
         self._keys = tuple(keys)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  event={self._event},\n"
-            f"  path={self._path},\n"
-            f"  keys={self._keys},\n"
-            f"  only_main_process={self._only_main_process},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "event": self._event,
+                    "path": self._path,
+                    "keys": self._keys,
+                    "only_main_process": self._only_main_process,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def _save(self, engine: BaseEngine) -> None:
         r"""Saves the engine state dict in a PyTorch file.
@@ -232,6 +290,22 @@ class EpochEngineStateSaver(BaseEngineSaver):
 
     Note it is usually recommended to save the state dict after the
     other handlers were run to capture the correct engine state.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochEngineStateSaver
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochEngineStateSaver(path="tmp/ckpt")
+        >>> handler  # doctest: +ELLIPSIS
+        EpochEngineStateSaver(
+          (event): epoch_completed
+          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (only_main_process): True
+        )
+        >>> handler.attach(engine)
     """
 
     def __init__(
@@ -277,6 +351,23 @@ class TagEngineStateSaver(BaseEngineSaver):
         only_main_process (bool, optional): If ``True``, only the main
             process saves the engine state dict, otherwise all the
             processes save the engine state dict. Default: ``True``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import TagEngineStateSaver
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = TagEngineStateSaver(path="tmp/ckpt")
+        >>> handler  # doctest: +ELLIPSIS
+        TagEngineStateSaver(
+          (event): epoch_completed
+          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (tag): last
+          (only_main_process): True
+        )
+        >>> handler.attach(engine)
     """
 
     def __init__(
@@ -290,14 +381,17 @@ class TagEngineStateSaver(BaseEngineSaver):
         self._tag = str(tag)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  event={self._event},\n"
-            f"  path={self._path},\n"
-            f"  tag={self._tag},\n"
-            f"  only_main_process={self._only_main_process},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "event": self._event,
+                    "path": self._path,
+                    "tag": self._tag,
+                    "only_main_process": self._only_main_process,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def _save(self, engine: BaseEngine) -> None:
         logger.info(f"Saving '{self._tag}' engine state dict...")

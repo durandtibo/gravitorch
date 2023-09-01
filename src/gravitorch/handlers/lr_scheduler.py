@@ -4,7 +4,7 @@ __all__ = ["VanillaLRScheduler", "EpochLRScheduler", "IterationLRScheduler"]
 
 from typing import TYPE_CHECKING
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.lr_monitor import EpochLRMonitor, IterationLRMonitor
@@ -30,6 +30,27 @@ class VanillaLRScheduler(BaseHandler):
             scheduler.
         lr_monitor (``BaseHandler`` or dict): Specifies the learning
             rate monitor or its configuration.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import (
+        ...     VanillaLRScheduler,
+        ...     EpochLRMonitor,
+        ...     EpochLRSchedulerUpdater,
+        ... )
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = VanillaLRScheduler(
+        ...     lr_scheduler_updater=EpochLRSchedulerUpdater(), lr_monitor=EpochLRMonitor()
+        ... )
+        >>> handler
+        VanillaLRScheduler(
+          (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
+          (lr_monitor): EpochLRMonitor(freq=1, event=train_epoch_started)
+        )
+        >>> handler.attach(engine)
     """
 
     def __init__(
@@ -41,12 +62,15 @@ class VanillaLRScheduler(BaseHandler):
         self._lr_monitor = setup_handler(lr_monitor)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  lr_scheduler_updater={str_indent(str(self._lr_scheduler_updater))},\n"
-            f"  lr_monitor={str_indent(str(self._lr_monitor))},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "lr_scheduler_updater": self._lr_scheduler_updater,
+                    "lr_monitor": self._lr_monitor,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def attach(self, engine: BaseEngine) -> None:
         r"""Attaches the handler to update a LR scheduler and monitor the
@@ -70,6 +94,21 @@ class EpochLRScheduler(VanillaLRScheduler):
             each training epoch
         - a LR monitor to log the learning rate value(s) at the
             beginning of each training epoch
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochLRScheduler
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochLRScheduler()
+        >>> handler
+        EpochLRScheduler(
+          (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
+          (lr_monitor): EpochLRMonitor(freq=1, event=train_epoch_started)
+        )
+        >>> handler.attach(engine)
     """
 
     def __init__(self) -> None:
@@ -93,6 +132,21 @@ class IterationLRScheduler(VanillaLRScheduler):
     ----
         freq (int, optional): Specifies the iteration frequency used
             to monitor the learning rate. Default: ``10``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import IterationLRScheduler
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = IterationLRScheduler()
+        >>> handler
+        IterationLRScheduler(
+          (lr_scheduler_updater): IterationLRSchedulerUpdater(event=train_iteration_completed)
+          (lr_monitor): IterationLRMonitor(freq=10, event=train_iteration_started)
+        )
+        >>> handler.attach(engine)
     """
 
     def __init__(self, freq: int = 10) -> None:

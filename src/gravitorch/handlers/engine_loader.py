@@ -42,6 +42,18 @@ class EngineStateLoader(BaseHandler):
             does not exist, otherwise the ``FileNotFoundError``
             exception is not raised and this handler does not try
             to load the state dict. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EngineStateLoader
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EngineStateLoader(path="tmp/ckpt.pt", event="my_event")
+        >>> handler  # doctest: +ELLIPSIS
+        EngineStateLoader(event=my_event, path=.../tmp/ckpt.pt, missing_ok=False)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, path: Path | str, event: str, missing_ok: bool = False) -> None:
@@ -115,6 +127,20 @@ class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
             does not exist, otherwise the ``FileNotFoundError``
             exception is not raised and this handler does not try
             to load the state dict. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EngineStateLoaderWithExcludeKeys
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EngineStateLoaderWithExcludeKeys(
+        ...     path="tmp/ckpt.pt", event="my_event", exclude_keys=["optimizer"]
+        ... )
+        >>> handler  # doctest: +ELLIPSIS
+        EngineStateLoaderWithExcludeKeys(event=my_event, path=.../tmp/ckpt.pt, exclude_keys=('optimizer',), missing_ok=False)
+        >>> handler.attach(engine)
     """
 
     def __init__(
@@ -182,6 +208,20 @@ class EngineStateLoaderWithIncludeKeys(EngineStateLoader):
             does not exist, otherwise the ``FileNotFoundError``
             exception is not raised and this handler does not try to
             load the state dict. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EngineStateLoaderWithIncludeKeys
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EngineStateLoaderWithIncludeKeys(
+        ...     path="tmp/ckpt.pt", event="my_event", include_keys=["model"]
+        ... )
+        >>> handler  # doctest: +ELLIPSIS
+        EngineStateLoaderWithIncludeKeys(event=my_event, path=.../tmp/ckpt.pt, include_keys=('model',), missing_ok=False)
+        >>> handler.attach(engine)
     """
 
     def __init__(

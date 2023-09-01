@@ -51,12 +51,12 @@ class EarlyStopping(BaseHandler):
 
     .. code-block:: pycon
 
-        # Create an engine
-        >>> engine = ...
         >>> from gravitorch.handlers import EarlyStopping
-        # Add the early stopping handler to the engine with a patience of 10 epochs
-        # for the accuracy metric.
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
         >>> handler = EarlyStopping(metric_name="eval/accuracy", patience=10)
+        >>> handler
+        EarlyStopping(metric_name=eval/accuracy, patience=10, delta=0.0, cumulative_delta=False, waiting_counter=0, best_score=None, best_epoch=None)
         >>> handler.attach(engine)
     """
 
@@ -128,13 +128,15 @@ class EarlyStopping(BaseHandler):
         ----
             state_dict (dict): a dict with parameters
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> handler = EarlyStopping(...)
-            >>> state = {...}
-            >>> handler.load_state_dict(state)
+            >>> from gravitorch.handlers import EarlyStopping
+            >>> handler = EarlyStopping(metric_name="eval/accuracy", patience=10)
+            >>> handler.load_state_dict({"best_epoch": 7, "best_score": 42, "waiting_counter": 0})
+            >>> handler
+            EarlyStopping(metric_name=eval/accuracy, patience=10, delta=0.0, cumulative_delta=False, waiting_counter=0, best_score=42, best_epoch=7)
         """
         self._best_epoch = state_dict["best_epoch"]
         self._best_score = state_dict["best_score"]
@@ -147,12 +149,15 @@ class EarlyStopping(BaseHandler):
         -------
             dict: the state values in a dict.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> state = EarlyStopping(...)
-            >>> state_dict = state.state_dict()
+            >>> from gravitorch.handlers import EarlyStopping
+            >>> handler = EarlyStopping(metric_name="eval/accuracy", patience=10)
+            >>> state = handler.state_dict()
+            >>> state
+            {'best_epoch': None, 'best_score': None, 'waiting_counter': 0}
         """
         return {
             "best_epoch": self._best_epoch,

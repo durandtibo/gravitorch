@@ -35,6 +35,18 @@ class LRSchedulerUpdater(BaseHandler):
     ----
         event (str): Specifies the event when the learning rate
             scheduler is updated.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import LRSchedulerUpdater
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = LRSchedulerUpdater("my_event")
+        >>> handler
+        LRSchedulerUpdater(event=my_event)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, event: str) -> None:
@@ -56,7 +68,20 @@ class LRSchedulerUpdater(BaseHandler):
 
 class EpochLRSchedulerUpdater(LRSchedulerUpdater):
     r"""Implements a handler to update the learning rate (LR) scheduler
-    at the end of each training epoch."""
+    at the end of each training epoch.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochLRSchedulerUpdater
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochLRSchedulerUpdater()
+        >>> handler
+        EpochLRSchedulerUpdater(event=train_epoch_completed)
+        >>> handler.attach(engine)
+    """
 
     def __init__(self) -> None:
         super().__init__(event=EngineEvents.TRAIN_EPOCH_COMPLETED)
@@ -64,7 +89,20 @@ class EpochLRSchedulerUpdater(LRSchedulerUpdater):
 
 class IterationLRSchedulerUpdater(LRSchedulerUpdater):
     r"""Implements a handler to update the learning rate (LR) scheduler
-    at the end of each training iteration."""
+    at the end of each training iteration.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import IterationLRSchedulerUpdater
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = IterationLRSchedulerUpdater()
+        >>> handler
+        IterationLRSchedulerUpdater(event=train_iteration_completed)
+        >>> handler.attach(engine)
+    """
 
     def __init__(self) -> None:
         super().__init__(event=EngineEvents.TRAIN_ITERATION_COMPLETED)
@@ -87,6 +125,18 @@ class MetricLRSchedulerUpdater(BaseHandler):
             control the LR scheduler. This metric should be accessible
             with the ``get_history`` method of the engine.
             Default: ``'eval/loss'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import MetricLRSchedulerUpdater
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = MetricLRSchedulerUpdater("my_event")
+        >>> handler
+        MetricLRSchedulerUpdater(event=my_event, metric_name=eval/loss)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, event: str, metric_name: str = f"{ct.EVAL}/loss") -> None:
@@ -138,6 +188,18 @@ class MetricEpochLRSchedulerUpdater(MetricLRSchedulerUpdater):
             control the LR scheduler. This metric should be accessible
             with the ``get_history`` method of the engine.
             Default: ``'eval/loss'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import MetricEpochLRSchedulerUpdater
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = MetricEpochLRSchedulerUpdater()
+        >>> handler
+        MetricEpochLRSchedulerUpdater(event=epoch_completed, metric_name=eval/loss)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, metric_name: str = f"{ct.EVAL}/loss") -> None:
