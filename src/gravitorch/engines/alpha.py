@@ -5,7 +5,7 @@ __all__ = ["AlphaEngine"]
 import logging
 from typing import TYPE_CHECKING, Any
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from minevent import BaseEventHandler, EventManager
 from torch.nn import Module
 from torch.optim import Optimizer
@@ -93,19 +93,22 @@ class AlphaEngine(BaseEngine):
         self._should_terminate = False
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  datasource={str_indent(self._datasource)},\n"
-            f"  model={str_indent(self._model)},\n"
-            f"  optimizer={str_indent(self._optimizer)},\n"
-            f"  lr_scheduler={str_indent(self._lr_scheduler)},\n"
-            f"  training_loop={str_indent(self._training_loop)},\n"
-            f"  evaluation_loop={str_indent(self._evaluation_loop)},\n"
-            f"  state={str_indent(self._state)},\n"
-            f"  event_manager={str_indent(self._event_manager)},\n"
-            f"  exp_tracker={str_indent(self._exp_tracker)},\n"
-            ")"
-        )
+        names = [
+            "datasource",
+            "model",
+            "optimizer",
+            "lr_scheduler",
+            "training_loop",
+            "evaluation_loop",
+            "state",
+            "event_manager",
+            "exp_tracker",
+        ]
+        modules = {}
+        for name in names:
+            if hasattr(self, f"_{name}"):
+                modules[name] = getattr(self, f"_{name}")
+        return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(modules))})"
 
     @property
     def datasource(self) -> BaseDataSource:
