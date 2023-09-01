@@ -29,6 +29,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
     This is an experimental API and the engine design may change in the
     future.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> engine.train()
+        >>> engine.eval()
     """
 
     @property
