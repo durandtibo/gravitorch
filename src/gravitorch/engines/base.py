@@ -44,7 +44,32 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
     @abstractmethod
     def datasource(self) -> BaseDataSource:
         r"""``BaseDataSource``: The datasource object associated to the
-        engine."""
+        engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.datasource
+            DummyDataSource(
+              datasets:
+                (train): DummyDataset(num_examples=4, feature_size=4)
+                (eval): DummyDataset(num_examples=4, feature_size=4)
+              dataloader_creators:
+                (train): DataLoaderCreator(
+                    batch_size : 2
+                    seed       : 0
+                    shuffle    : False
+                  )
+                (eval): DataLoaderCreator(
+                    batch_size : 2
+                    seed       : 0
+                    shuffle    : False
+                  )
+            )
+        """
 
     @property
     @abstractmethod
@@ -54,6 +79,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         The epoch is 0-based, i.e. the first
         epoch is 0. The value ``-1`` is used to indicate the training
         has not started.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.epoch
+            -1
         """
 
     @property
@@ -64,23 +98,65 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         The iteration is 0-based, i.e.
         the first iteration is 0. The value ``-1`` is used to indicate
         the training has not started.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.iteration
+            -1
         """
 
     @property
     @abstractmethod
     def lr_scheduler(self) -> LRSchedulerType | None:
         r"""``LRSchedulerType`` or ``None``: The learning rate (LR)
-        scheduler if it is defined, otherwise ``None``."""
+        scheduler if it is defined, otherwise ``None``.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.lr_scheduler
+            None
+        """
 
     @property
     @abstractmethod
     def max_epochs(self) -> int:
-        r"""``int``: The maximum number of training epochs."""
+        r"""``int``: The maximum number of training epochs.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.max_epochs
+            1
+        """
 
     @property
     @abstractmethod
     def model(self) -> Module:
-        r"""``torch.nn.Module``: The model to train and/or evaluate."""
+        r"""``torch.nn.Module``: The model to train and/or evaluate.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.model
+            DummyClassificationModel(
+              (linear): Linear(in_features=4, out_features=3, bias=True)
+              (criterion): CrossEntropyLoss()
+            )
+        """
 
     @property
     @abstractmethod
@@ -89,12 +165,41 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         the model.
 
         It can be ``None`` if the model is not trained.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.optimizer
+            SGD (
+            Parameter Group 0
+                dampening: 0
+                differentiable: False
+                foreach: None
+                lr: 0.01
+                maximize: False
+                momentum: 0
+                nesterov: False
+                weight_decay: 0
+            )
         """
 
     @property
     @abstractmethod
     def random_seed(self) -> int:
-        r"""``int``: The random seed."""
+        r"""``int``: The random seed.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.random_seed
+            9984043075503325450
+        """
 
     @property
     @abstractmethod
@@ -105,6 +210,15 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         If ``True``, the engine should terminate at the end of the
         current epoch. Use the ``terminate()`` method to set this flag
         to ``True``.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.should_terminate
+            False
         """
 
     @abstractmethod
