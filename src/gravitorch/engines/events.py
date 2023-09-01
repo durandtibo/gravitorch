@@ -19,6 +19,31 @@ class EpochPeriodicCondition(BaseCondition):
     ----
         engine (``BaseEngine``): Specifies the engine.
         freq (int): Specifies the frequency.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.engines.events import EpochPeriodicCondition
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> condition = EpochPeriodicCondition(engine, freq=3)
+        >>> engine.epoch
+        -1
+        >>> condition.evaluate()
+        False
+        >>> engine.increment_epoch()
+        >>> condition.evaluate()
+        True
+        >>> engine.increment_epoch()
+        >>> condition.evaluate()
+        False
+        >>> engine.increment_epoch()
+        >>> condition.evaluate()
+        False
+        >>> engine.increment_epoch()
+        >>> condition.evaluate()
+        True
     """
 
     def __init__(self, engine: BaseEngine, freq: int) -> None:
@@ -58,6 +83,31 @@ class IterationPeriodicCondition(BaseCondition):
     ----
         engine (``BaseEngine``): Specifies the engine.
         freq (int): Specifies the frequency.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.engines.events import IterationPeriodicCondition
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> condition = IterationPeriodicCondition(engine, freq=3)
+        >>> engine.iteration
+        -1
+        >>> condition.evaluate()
+        False
+        >>> engine.increment_iteration()
+        >>> condition.evaluate()
+        True
+        >>> engine.increment_iteration()
+        >>> condition.evaluate()
+        False
+        >>> engine.increment_iteration()
+        >>> condition.evaluate()
+        False
+        >>> engine.increment_iteration()
+        >>> condition.evaluate()
+        True
     """
 
     def __init__(self, engine: BaseEngine, freq: int) -> None:
