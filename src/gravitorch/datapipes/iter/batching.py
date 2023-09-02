@@ -32,6 +32,35 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
             shuffled before to create the batches. Default: ``False``
         random_seed (int, optional): Specifies the random seed used to
             shuffle the data. Default: ``11918852809641073385``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import DictBatcher
+        >>> dp = DictBatcher(
+        ...     IterableWrapper(
+        ...         [
+        ...             {"key1": torch.randn(4), "key2": torch.randn(4, 6)},
+        ...             {"key1": torch.randn(6), "key2": torch.randn(6, 8)},
+        ...         ]
+        ...     ),
+        ...     batch_size=3,
+        ... )
+        >>> dp
+        DictBatcherIterDataPipe(
+          batch_size=3,
+          shuffle=False,
+          random_seed=11918852809641073385,
+          datapipe_or_data=IterableWrapperIterDataPipe,
+        )
+        >>> list(dp)  # doctest: +ELLIPSIS
+        [{'key1': tensor([...]), 'key2': tensor([[...]])},
+         {'key1': tensor([...]), 'key2': tensor([[...]])},
+         {'key1': tensor([...]), 'key2': tensor([[...]])},
+         {'key1': tensor([...]), 'key2': tensor([[...]])}]
     """
 
     def __init__(
@@ -117,6 +146,32 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
             Default: ``False``
         random_seed (int, optional): Specifies the random seed used to
             shuffle the data. Default: ``13382866045483866228``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import TupleBatcher
+        >>> dp = TupleBatcher(
+        ...     IterableWrapper(
+        ...         [(torch.randn(4), torch.randn(4, 6)), (torch.randn(6), torch.randn(6, 8))]
+        ...     ),
+        ...     batch_size=3,
+        ... )
+        >>> dp
+        TupleBatcherIterDataPipe(
+          batch_size=3,
+          shuffle=False,
+          random_seed=13382866045483866228,
+          datapipe_or_data=IterableWrapperIterDataPipe,
+        )
+        >>> list(dp)  # doctest: +ELLIPSIS
+        [(tensor([...]), tensor([[...]])),
+         (tensor([...]), tensor([[...]])),
+         (tensor([...]), tensor([[...]])),
+         (tensor([...]), tensor([[...]]))]
     """
 
     def __init__(

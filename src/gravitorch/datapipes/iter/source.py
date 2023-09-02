@@ -25,6 +25,26 @@ class SourceWrapperIterDataPipe(IterDataPipe):
             object is deep-copied before to iterate over the data.
             It allows a deterministic behavior when in-place
             operations are performed on the data. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.datapipes.iter import SourceWrapper
+        >>> dp = SourceWrapper([1, 2, 3, 4, 5])
+        >>> dp
+        SourceWrapperIterDataPipe(
+          deepcopy: False,
+          source:
+            <class 'list'> (length=5)
+              (0): 1
+              (1): 2
+              (2): 3
+              (3): 4
+              (4): 5
+        )
+        >>> list(dp)
+        [1, 2, 3, 4, 5]
     """
 
     def __init__(self, source: Iterable, deepcopy: bool = False) -> None:

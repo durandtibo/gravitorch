@@ -31,6 +31,20 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
             the file. The pattern should have ``'{index}'`` or similar
             syntax to indicate the index of the file.
             Default: ``'data_{index:04d}.pkl'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import PickleSaver
+        >>> dp = PickleSaver(IterableWrapper([1, 2, 3, 4, 5]), root_path="tmp/")
+        >>> dp  # doctest: +ELLIPSIS
+        PickleSaverIterDataPipe(
+          root_path=.../tmp,
+          pattern=data_{index:04d}.pkl,
+          datapipe=IterableWrapperIterDataPipe,
+        )
     """
 
     def __init__(
@@ -86,6 +100,20 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
             file. The pattern should have ``'{index}'`` or similar
             syntax to indicate the index of the file.
             Default: ``'data_{index:04d}.pt'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import PyTorchSaver
+        >>> dp = PyTorchSaver(IterableWrapper([1, 2, 3, 4, 5]), root_path="tmp/")
+        >>> dp  # doctest: +ELLIPSIS
+        PyTorchSaverIterDataPipe(
+          root_path=.../tmp,
+          pattern=data_{index:04d}.pt,
+          datapipe=IterableWrapperIterDataPipe,
+        )
     """
 
     def __init__(
@@ -96,7 +124,7 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
     ) -> None:
         self._datapipe = datapipe
         self._root_path = sanitize_path(root_path)
-        if not self._root_path.is_dir():
+        if not self._root_path.is_dir():  # TODO: create path
             raise NotADirectoryError(
                 f"root_path has to be a directory (received: {self._root_path})"
             )

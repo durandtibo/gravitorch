@@ -18,6 +18,27 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
     ----
         source_datapipe (``IterDataPipe``): Specifies an ``IterDataPipe``
             of sequences of mappings.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import DictOfListConverter
+        >>> dp = DictOfListConverter(
+        ...     IterableWrapper(
+        ...         [
+        ...             [{"key1": 1, "key2": 10}, {"key1": 2, "key2": 20}, {"key1": 3, "key2": 30}],
+        ...             [{"key": "a"}, {"key": -2}],
+        ...         ]
+        ...     ),
+        ... )
+        >>> dp
+        DictOfListConverterIterDataPipe(
+          source_datapipe=IterableWrapperIterDataPipe,
+        )
+        >>> list(dp)
+        [{'key1': [1, 2, 3], 'key2': [10, 20, 30]}, {'key': ['a', -2]}]
     """
 
     def __init__(self, source_datapipe: IterDataPipe[Sequence[Mapping]]) -> None:
@@ -48,6 +69,22 @@ class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
     ----
         source_datapipe (``IterDataPipe``): Specifies an
             ``IterDataPipe`` of mappings of sequences.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import ListOfDictConverter
+        >>> dp = ListOfDictConverter(
+        ...     IterableWrapper([{"key1": [1, 2, 3], "key2": [10, 20, 30]}, {"key": ["a", -2]}]),
+        ... )
+        >>> dp
+        ListOfDictConverterIterDataPipe(
+          source_datapipe=IterableWrapperIterDataPipe,
+        )
+        >>> list(dp)
+        [[{'key1': 1, 'key2': 10}, {'key1': 2, 'key2': 20}, {'key1': 3, 'key2': 30}], [{'key': 'a'}, {'key': -2}]]
     """
 
     def __init__(self, source_datapipe: IterDataPipe[Mapping[Hashable, Sequence]]) -> None:

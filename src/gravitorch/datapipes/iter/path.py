@@ -16,6 +16,19 @@ class DirFilterIterDataPipe(IterDataPipe[Path]):
     ----
         datapipe (``IterDataPipe``): Specifies the source
             ``IterDataPipe``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import DirFilter
+        >>> dp = DirFilter(IterableWrapper([Path("tmp/A"), Path("tmp/B"), Path("tmp/C")]))
+        >>> dp
+        DirFilterIterDataPipe(
+          datapipe=IterableWrapperIterDataPipe,
+        )
     """
 
     def __init__(self, datapipe: IterDataPipe[Path]) -> None:
@@ -40,6 +53,19 @@ class FileFilterIterDataPipe(IterDataPipe[Path]):
     ----
         datapipe (``IterDataPipe``): Specifies the source
             ``IterDataPipe``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import FileFilter
+        >>> dp = FileFilter(IterableWrapper([Path("tmp/A"), Path("tmp/B"), Path("tmp/C")]))
+        >>> dp
+        FileFilterIterDataPipe(
+          datapipe=IterableWrapperIterDataPipe,
+        )
     """
 
     def __init__(self, datapipe: IterDataPipe[Path]) -> None:
@@ -68,6 +94,21 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
             only the matching paths. Default: ``'*'``
         deterministic (bool, optional): If ``True``, the paths are
             returned in a deterministic order. Default: ``True``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import PathLister
+        >>> dp = PathLister(IterableWrapper([Path("tmp/A"), Path("tmp/B"), Path("tmp/C")]))
+        >>> dp
+        PathListerIterDataPipe(
+          pattern=*,
+          deterministic=True,
+          datapipe=IterableWrapperIterDataPipe,
+        )
     """
 
     def __init__(

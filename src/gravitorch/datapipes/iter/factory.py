@@ -46,8 +46,8 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
         >>> datapipe = create_sequential_iter_datapipe(
         ...     [
         ...         {
-        ...             "_target_": "gravitorch.datapipes.iter.SourceWrapper",
-        ...             "data": [1, 2, 3, 4],
+        ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+        ...             "iterable": [1, 2, 3, 4],
         ...         },
         ...     ],
         ... )
@@ -56,8 +56,8 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
         >>> datapipe = create_sequential_iter_datapipe(
         ...     [
         ...         {
-        ...             "_target_": "gravitorch.datapipes.iter.SourceWrapper",
-        ...             "data": [1, 2, 3, 4],
+        ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+        ...             "iterable": [1, 2, 3, 4],
         ...         },
         ...         {"_target_": "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
         ...     ]
