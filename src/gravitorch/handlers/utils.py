@@ -45,17 +45,14 @@ def add_unique_event_handler(
 
     .. code-block:: pycon
 
-        # Create an engine
-        >>> from gravitorch.engines import AlphaEngine
-        >>> engine = AlphaEngine(...)
-        # Create an event handler
+        >>> from minevent import EventHandler
+        >>> from gravitorch.handlers import add_unique_event_handler
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
         >>> def hello_handler():
         ...     print("Hello!")
         ...
-        >>> from minevent import EventHandler
         >>> event_handler = EventHandler(hello_handler)
-        # Add an event handler to the engine
-        >>> from gravitorch.handlers import add_unique_event_handler
         >>> add_unique_event_handler(engine, "my_event", event_handler)
     """
     if engine.has_event_handler(event_handler, event):
@@ -143,6 +140,19 @@ def setup_and_attach_handlers(
     Returns:
     -------
         list: The list of handlers attached to the engine.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import setup_and_attach_handlers
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handlers = setup_and_attach_handlers(
+        ...     engine, [{"_target_": "gravitorch.handlers.EpochLRMonitor"}]
+        ... )
+        >>> handlers
+        [EpochLRMonitor(freq=1, event=train_epoch_started)]
     """
     list_handlers = []
     for handler in handlers:

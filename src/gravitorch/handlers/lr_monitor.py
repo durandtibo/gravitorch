@@ -37,6 +37,18 @@ class EpochLRMonitor(BaseHandler):
             Default: ``'train_epoch_started'``
         freq (int, optional): Specifies the epoch frequency used to
             monitor the learning rate. Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochLRMonitor
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochLRMonitor()
+        >>> handler
+        EpochLRMonitor(freq=1, event=train_epoch_started)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_EPOCH_STARTED, freq: int = 1) -> None:
@@ -93,6 +105,18 @@ class IterationLRMonitor(BaseHandler):
             Default: ``'train_iteration_started'``
         freq (int, optional): Specifies the iteration frequency used
             to monitor the learning rate. Default: ``10``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import IterationLRMonitor
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = IterationLRMonitor()
+        >>> handler
+        IterationLRMonitor(freq=10, event=train_iteration_started)
+        >>> handler.attach(engine)
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_STARTED, freq: int = 10) -> None:
