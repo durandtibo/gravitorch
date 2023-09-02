@@ -31,6 +31,19 @@ class ConsolidateOptimizerState(BaseHandler):
             materialize the full state dict. ``-1`` is a special
             value, which means that all ranks should have the state.
             Default: ``0``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import ConsolidateOptimizerState
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = ConsolidateOptimizerState()
+        >>> handler
+        ConsolidateOptimizerState(event=train_epoch_completed, recipient_rank=0)
+        >>> handler.attach(engine)
+        >>> engine.fire_event("train_epoch_completed")
     """
 
     def __init__(
@@ -67,6 +80,16 @@ class ConsolidateOptimizerState(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import ConsolidateOptimizerState
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = ConsolidateOptimizerState()
+            >>> handler.consolidate(engine)
         """
         if not engine.optimizer:
             logger.info(

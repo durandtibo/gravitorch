@@ -43,6 +43,23 @@ class EpochOptimizerMonitor(BaseHandler):
             Default: ``'fancy_grid'``
         prefix (str, optional): Specifies the prefix which is used to
             log metrics. Default: ``"train/"``
+
+    Raises:
+    ------
+        ValueError if ``freq`` is lower than 1.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochOptimizerMonitor
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochOptimizerMonitor()
+        >>> handler
+        EpochOptimizerMonitor(event=train_epoch_started, freq=1, tablefmt=fancy_grid, prefix=train/)
+        >>> handler.attach(engine)
+        >>> engine.fire_event("train_epoch_started")
     """
 
     def __init__(
@@ -82,6 +99,16 @@ class EpochOptimizerMonitor(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import EpochOptimizerMonitor
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = EpochOptimizerMonitor()
+            >>> handler.monitor(engine)
         """
         if engine.optimizer:
             show_optimizer_parameters_per_group(optimizer=engine.optimizer, tablefmt=self._tablefmt)
@@ -115,6 +142,23 @@ class IterationOptimizerMonitor(BaseHandler):
             Default: ``'fancy_grid'``
         prefix (str, optional): Specifies the prefix which is used to
             log metrics. Default: ``"train/"``
+
+    Raises:
+    ------
+        ValueError if ``freq`` is lower than 1.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import IterationOptimizerMonitor
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = IterationOptimizerMonitor()
+        >>> handler
+        IterationOptimizerMonitor(event=train_iteration_started, freq=10, tablefmt=fancy_grid, prefix=train/)
+        >>> handler.attach(engine)
+        >>> engine.fire_event("train_iteration_started")
     """
 
     def __init__(
@@ -154,6 +198,16 @@ class IterationOptimizerMonitor(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import IterationOptimizerMonitor
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = IterationOptimizerMonitor()
+            >>> handler.monitor(engine)
         """
         if engine.optimizer:
             show_optimizer_parameters_per_group(optimizer=engine.optimizer, tablefmt=self._tablefmt)

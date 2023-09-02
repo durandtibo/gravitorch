@@ -27,6 +27,19 @@ class ModelArchitectureAnalyzer(BaseHandler):
             analyze the model architecture. It is usually a good idea
             to log model information at the beginning of the training.
             Default: ``('started',)``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import ModelArchitectureAnalyzer
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = ModelArchitectureAnalyzer()
+        >>> handler
+        ModelArchitectureAnalyzer(events=('started',))
+        >>> handler.attach(engine)
+        >>> engine.fire_event("started")
     """
 
     def __init__(
@@ -52,6 +65,16 @@ class ModelArchitectureAnalyzer(BaseHandler):
         ----
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import ModelArchitectureAnalyzer
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = ModelArchitectureAnalyzer()
+            >>> handler.analyze(engine)
         """
         analyze_model_architecture(model=engine.model, engine=engine)
 
@@ -61,6 +84,19 @@ class NetworkArchitectureAnalyzer(ModelArchitectureAnalyzer):
     model.
 
     This handler assumes the model has an attribute ``network``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import NetworkArchitectureAnalyzer
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = NetworkArchitectureAnalyzer()
+        >>> handler
+        NetworkArchitectureAnalyzer(events=('started',))
+        >>> handler.attach(engine)
+        >>> engine.fire_event("started")
     """
 
     def analyze(self, engine: BaseEngine) -> None:
@@ -70,5 +106,15 @@ class NetworkArchitectureAnalyzer(ModelArchitectureAnalyzer):
         ----
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import NetworkArchitectureAnalyzer
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = NetworkArchitectureAnalyzer()
+            >>> handler.analyze(engine)
         """
         analyze_network_architecture(model=engine.model, engine=engine)

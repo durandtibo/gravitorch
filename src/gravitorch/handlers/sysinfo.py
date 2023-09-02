@@ -26,6 +26,19 @@ class EpochSysInfoMonitor(BaseHandler):
             Default: ``'epoch_completed'``
         freq (int, optional): Specifies the epoch frequency used to
             monitor the system metrics. Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import EpochSysInfoMonitor
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = EpochSysInfoMonitor()
+        >>> handler
+        EpochSysInfoMonitor(freq=1, event=epoch_completed)
+        >>> handler.attach(engine)
+        >>> engine.fire_event("epoch_completed")
     """
 
     def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
@@ -54,5 +67,15 @@ class EpochSysInfoMonitor(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import EpochSysInfoMonitor
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = EpochSysInfoMonitor()
+            >>> handler.monitor(engine)
         """
         log_system_info()

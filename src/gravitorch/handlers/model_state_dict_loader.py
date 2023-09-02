@@ -46,6 +46,19 @@ class ModelStateDictLoader(BaseHandler):
             need to be excluded. For nested case, it is possible to
             specify the list of keys to get the good part of the state
             dict. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import NetworkArchitectureAnalyzer
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = ModelStateDictLoader("tmp/ckpt.pt")
+        >>> handler  # doctest: +ELLIPSIS
+        ModelStateDictLoader(checkpoint_path=.../tmp/ckpt.pt, event=started, strict=True, key=None)
+        >>> handler.attach(engine)
+        >>> engine.fire_event("started")  # doctest: +SKIP
     """
 
     def __init__(
@@ -83,6 +96,16 @@ class ModelStateDictLoader(BaseHandler):
         ----
             engine (``BaseEngine``): Specifies the engine with the
                 model.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import NetworkArchitectureAnalyzer
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = ModelStateDictLoader("tmp/ckpt.pt")
+            >>> handler.load(engine)  # doctest: +SKIP
         """
         load_checkpoint_to_module(
             path=self._checkpoint_path,
@@ -110,6 +133,19 @@ class PartialModelStateDictLoader(BaseHandler):
         exclude_key_prefixes (sequence or ``None``, optional):
             Specifies the list of key prefixes to exclude when loading
             the state dict. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import PartialModelStateDictLoader
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = PartialModelStateDictLoader("tmp/ckpt.pt")
+        >>> handler  # doctest: +ELLIPSIS
+        PartialModelStateDictLoader(checkpoint_path=.../tmp/ckpt.pt, event=started, strict=True, exclude_key_prefixes=[])
+        >>> handler.attach(engine)
+        >>> engine.fire_event("started")  # doctest: +SKIP
     """
 
     def __init__(
@@ -147,6 +183,16 @@ class PartialModelStateDictLoader(BaseHandler):
         ----
             engine (``BaseEngine``): Specifies the engine with the
                 model.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import PartialModelStateDictLoader
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = PartialModelStateDictLoader("tmp/ckpt.pt")
+            >>> handler.load(engine)  # doctest: +SKIP
         """
         load_model_state_dict(
             path=self._checkpoint_path,

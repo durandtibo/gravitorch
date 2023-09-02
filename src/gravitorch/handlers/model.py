@@ -29,6 +29,29 @@ class ModelFreezer(BaseHandler):
         module_name (str, optional): Specifies the name of the module
             to freeze if only one of the submodules should be frozen.
             Default: ``''``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import ModelFreezer
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> engine.model
+        DummyClassificationModel(
+          (linear): Linear(in_features=4, out_features=3, bias=True)
+          (criterion): CrossEntropyLoss()
+        )
+        >>> handler = ModelFreezer()
+        >>> handler
+        ModelFreezer(event=train_started, module_name=)
+        >>> handler.attach(engine)
+        >>> engine.fire_event("train_started")
+        >>> for name, param in engine.model.named_parameters():
+        ...     print(name, param.requires_grad)
+        ...
+        linear.weight False
+        linear.bias False
     """
 
     def __init__(
@@ -61,6 +84,26 @@ class ModelFreezer(BaseHandler):
         ----
             engine (``BaseEngine``): Specifies the engine with the
                 model.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import ModelFreezer
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> engine.model
+            DummyClassificationModel(
+              (linear): Linear(in_features=4, out_features=3, bias=True)
+              (criterion): CrossEntropyLoss()
+            )
+            >>> handler = ModelFreezer()
+            >>> handler.freeze(engine)
+            >>> for name, param in engine.model.named_parameters():
+            ...     print(name, param.requires_grad)
+            ...
+            linear.weight False
+            linear.bias False
         """
         if self._module_name:
             logger.info(f"Freeze submodule {self._module_name}")
