@@ -38,6 +38,7 @@ class ConcatFusion(Module):
         >>> x1 = torch.tensor([[2, 3, 4], [5, 6, 7]], dtype=torch.float, requires_grad=True)
         >>> x2 = torch.tensor([[12, 13, 14], [15, 16, 17]], dtype=torch.float, requires_grad=True)
         >>> out = module(x1, x2)
+        >>> out
         tensor([[ 2.,  3.,  4., 12., 13., 14.],
                 [ 5.,  6.,  7., 15., 16., 17.]], grad_fn=<CatBackward0>)
         >>> out.mean().backward()
@@ -94,9 +95,8 @@ class FusionFFN(Module):
         >>> x1 = torch.tensor([[2, 3, 4], [5, 6, 7]], dtype=torch.float, requires_grad=True)
         >>> x2 = torch.tensor([[12, 13, 14], [15, 16, 17]], dtype=torch.float, requires_grad=True)
         >>> out = module(x1, x2)
-        >>> out
-        tensor([[ 2.1302,  7.8643,  8.3265,  4.7277],
-                [ 1.6980, 11.7446,  9.8449,  5.8402]], grad_fn=<AddmmBackward0>)
+        >>> out  # doctest: +ELLIPSIS
+        tensor([[...]], grad_fn=<AddmmBackward0>)
         >>> out.mean().backward()
     """
 

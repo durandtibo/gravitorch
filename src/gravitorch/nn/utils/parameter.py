@@ -45,10 +45,15 @@ class ParameterSummary:
         r"""Creates the parameter summary from the parameter object.
 
         Args:
+        ----
             name (str): Specifies the name of the parameter.
             parameter (``torch.nn.Parameter`` or
                 ``torch.nn.UninitializedParameter``): Specifies the
                 parameter object.
+
+        Returns:
+        -------
+            ``ParameterSummary``: The parameter summary.
 
         Example usage:
 
@@ -57,10 +62,10 @@ class ParameterSummary:
             >>> import torch
             >>> from torch.nn import Parameter
             >>> from gravitorch.nn import ParameterSummary
-            >>> ParameterSummary.from_parameter("weight", Parameter(torch.randn(6, 4)))
-            ParameterSummary(name='weight', mean=0.10939589142799377, median=-0.018833406269550323,
-            std=0.8310111165046692, min=-1.6590238809585571, max=2.0370750427246094,
-            learnable=True, shape=(6, 4))
+            >>> ParameterSummary.from_parameter(
+            ...     "weight", Parameter(torch.randn(6, 4))
+            ... )  # doctest: +ELLIPSIS
+            ParameterSummary(name='weight', mean=..., median=..., std=..., min=..., max=..., shape=(6, 4), learnable=True, device=device(type='cpu'))
         """
         if isinstance(parameter, UninitializedParameter):
             return cls(
@@ -103,10 +108,12 @@ def get_parameter_summaries(module: Module) -> list[ParameterSummary]:
     r"""Gets the parameter summaries of a module.
 
     Args:
+    ----
         module (``torch.nn.Module``): Specifies the module with the
             parameters to summarize.
 
     Returns:
+    -------
         list: The list of parameter summaries.
 
     Example usage:
@@ -114,15 +121,10 @@ def get_parameter_summaries(module: Module) -> list[ParameterSummary]:
     .. code-block:: pycon
 
         >>> import torch
-        >>> from torch.nn import Linear
         >>> from gravitorch.nn import get_parameter_summaries
-        >>> get_parameter_summaries(Linear(4, 6))
-        [ParameterSummary(name='weight', mean=0.10450785607099533, median=0.02029263973236084,
-          std=0.26641708612442017, min=-0.4861736297607422, max=0.48399144411087036,
-          learnable=True, shape=(6, 4)),
-         ParameterSummary(name='bias', mean=0.11823087930679321, median=-0.05595135688781738,
-          std=0.36556652188301086, min=-0.4497765898704529, max=0.4593251347541809,
-          learnable=True, shape=(6,))]
+        >>> get_parameter_summaries(torch.nn.Linear(4, 6))  # doctest: +ELLIPSIS
+        [ParameterSummary(name='weight', mean=..., median=..., std=..., min=..., max=..., shape=(6, 4), learnable=True, device=device(type='cpu')),
+         ParameterSummary(name='bias', mean=..., median=..., std=..., min=..., max=..., shape=(6,), learnable=True, device=device(type='cpu'))]
     """
     return [
         ParameterSummary.from_parameter(name, parameter)
@@ -142,6 +144,14 @@ def show_parameter_summary(
             Default: ``'fancy_outline'``
         floatfmt (str, optional): Specifies the float format.
             Default: ``'.6f'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn import show_parameter_summary
+        >>> show_parameter_summary(torch.nn.Linear(4, 6))
     """
     summaries = convert_to_dict_of_lists(
         [asdict(summary) for summary in get_parameter_summaries(module)]

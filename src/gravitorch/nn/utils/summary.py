@@ -43,8 +43,12 @@ class ModuleSummary:
     The input and output shapes are only known after the example input
     array was passed through the model.
 
-    Example::
+    Example usage:
 
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn import ModuleSummary
         >>> model = torch.nn.Conv2d(3, 8, 3)
         >>> summary = ModuleSummary(model)
         >>> summary.num_parameters
@@ -55,9 +59,9 @@ class ModuleSummary:
         'Conv2d'
         >>> output = model(torch.rand(1, 3, 5, 5))
         >>> summary.in_size
-        [1, 3, 5, 5]
+        (1, 3, 5, 5)
         >>> summary.out_size
-        [1, 8, 3, 3]
+        (1, 8, 3, 3)
         >>> summary.in_dtype
         torch.float32
         >>> summary.out_dtype

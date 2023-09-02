@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "Constant",
     "ConstantBias",
@@ -6,7 +8,6 @@ __all__ = [
 ]
 
 import logging
-from typing import Union
 
 from torch import nn
 from torch.nn import Module
@@ -29,11 +30,43 @@ class Constant(BaseInitializer):
             parameters are initialized. Default: ``True``
         log_info (bool, optional): If ``True``, log some information
             about the weights that are initialized. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import Constant
+        >>> from torch import nn
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> initializer = Constant(value=2)
+        >>> initializer
+        Constant(value=2.0, learnable_only=True, log_info=False)
+        >>> initializer.initialize(module)
+        >>> for key, param in module.named_parameters():
+        ...     print(key, param)
+        ... # doctest: +ELLIPSIS
+        0.weight Parameter containing:
+        tensor([[2., 2., 2., 2.],
+                [2., 2., 2., 2.],
+                [2., 2., 2., 2.],
+                [2., 2., 2., 2.],
+                [2., 2., 2., 2.],
+                [2., 2., 2., 2.]], requires_grad=True)
+        0.bias Parameter containing:
+        tensor([2., 2., 2., 2., 2., 2.], requires_grad=True)
+        2.weight Parameter containing:
+        tensor([2., 2., 2., 2., 2., 2.], requires_grad=True)
+        2.bias Parameter containing:
+        tensor([2., 2., 2., 2., 2., 2.], requires_grad=True)
+        3.weight Parameter containing:
+        tensor([[2., 2., 2., 2., 2., 2.]], requires_grad=True)
+        3.bias Parameter containing:
+        tensor([2.], requires_grad=True)
     """
 
     def __init__(
         self,
-        value: Union[int, float] = 0.0,
+        value: int | float = 0.0,
         learnable_only: bool = True,
         log_info: bool = False,
     ) -> None:
@@ -42,7 +75,7 @@ class Constant(BaseInitializer):
         self._learnable_only = bool(learnable_only)
         self._log_info = bool(log_info)
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(value={self._value}, "
             f"learnable_only={self._learnable_only}, log_info={self._log_info})"
@@ -73,11 +106,38 @@ class ConstantBias(BaseInitializer):
             parameters are initialized. Default: ``True``
         log_info (bool, optional): If ``True``, log some information
             about the biases that are initialized. Default: ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import ConstantBias
+        >>> from torch import nn
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> initializer = ConstantBias(value=2)
+        >>> initializer
+        ConstantBias(value=2.0, learnable_only=True, log_info=False)
+        >>> initializer.initialize(module)
+        >>> for key, param in module.named_parameters():
+        ...     print(key, param)
+        ... # doctest: +ELLIPSIS
+        0.weight Parameter containing:
+        tensor([[...]], requires_grad=True)
+        0.bias Parameter containing:
+        tensor([2., 2., 2., 2., 2., 2.], requires_grad=True)
+        2.weight Parameter containing:
+        tensor([1., 1., 1., 1., 1., 1.], requires_grad=True)
+        2.bias Parameter containing:
+        tensor([2., 2., 2., 2., 2., 2.], requires_grad=True)
+        3.weight Parameter containing:
+        tensor([[...]], requires_grad=True)
+        3.bias Parameter containing:
+        tensor([2.], requires_grad=True)
     """
 
     def __init__(
         self,
-        value: Union[int, float] = 0.0,
+        value: int | float = 0.0,
         learnable_only: bool = True,
         log_info: bool = False,
     ) -> None:
@@ -86,7 +146,7 @@ class ConstantBias(BaseInitializer):
         self._learnable_only = bool(learnable_only)
         self._log_info = bool(log_info)
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(value={self._value}, "
             f"learnable_only={self._learnable_only}, log_info={self._log_info})"
@@ -106,7 +166,7 @@ class ConstantBias(BaseInitializer):
 
 def constant_bias(
     module: Module,
-    value: Union[int, float],
+    value: int | float,
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
@@ -133,18 +193,13 @@ def constant_bias(
 
         >>> from gravitorch.nn.init import constant_bias
         >>> from torch import nn
-        >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> constant_bias(net, 2)
-        >>> for key, param in net.named_parameters():
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> constant_bias(module, 2)
+        >>> for key, param in module.named_parameters():
         ...     print(key, param)
-        ...
+        ... # doctest: +ELLIPSIS
         0.weight Parameter containing:
-        tensor([[ 0.1911,  0.2128, -0.3738,  0.3777],
-                [ 0.3394,  0.1795, -0.1418,  0.1076],
-                [-0.2050, -0.0029, -0.2555,  0.2612],
-                [ 0.1260, -0.3503,  0.1254, -0.3669],
-                [ 0.1261, -0.1652,  0.1695,  0.3879],
-                [-0.0405,  0.0372,  0.0515, -0.4335]], requires_grad=True)
+        tensor([[...]], requires_grad=True)
         0.bias Parameter containing:
         tensor([2., 2., 2., 2., 2., 2.], requires_grad=True)
         2.weight Parameter containing:
@@ -152,8 +207,7 @@ def constant_bias(
         2.bias Parameter containing:
         tensor([2., 2., 2., 2., 2., 2.], requires_grad=True)
         3.weight Parameter containing:
-        tensor([[-0.2702,  0.2759, -0.2408,  0.1202, -0.1770,  0.0223]],
-               requires_grad=True)
+        tensor([[...]], requires_grad=True)
         3.bias Parameter containing:
         tensor([2.], requires_grad=True)
     """
@@ -166,7 +220,7 @@ def constant_bias(
 
 def constant(
     module: Module,
-    value: Union[int, float],
+    value: int | float,
     learnable_only: bool = True,
     log_info: bool = False,
 ) -> None:
@@ -191,9 +245,9 @@ def constant(
 
         >>> from gravitorch.nn.init import constant
         >>> from torch import nn
-        >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> constant(net, 2.0)
-        >>> for key, param in net.named_parameters():
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> constant(module, 2.0)
+        >>> for key, param in module.named_parameters():
         ...     print(key, param)
         ...
         0.weight Parameter containing:

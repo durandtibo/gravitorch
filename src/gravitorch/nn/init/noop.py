@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["NoOpInitializer"]
 
 import logging
@@ -15,9 +17,21 @@ class NoOpInitializer(BaseInitializer):
 
     You should use this class if the parameters of the module are
     initialized somewhere else.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import NoOpInitializer
+        >>> from torch import nn
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> initializer = NoOpInitializer()
+        >>> initializer
+        NoOpInitializer()
+        >>> initializer.initialize(module)
     """
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
     def initialize(self, module: Module) -> None:

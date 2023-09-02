@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "asinh_mse_loss",
     "log_cosh_loss",
@@ -43,6 +45,17 @@ def msle_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") -> Te
         ``torch.Tensor`` of type float: The mean squared logarithmic
             error. The shape of the tensor depends on the reduction
             strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.functional import msle_loss
+        >>> loss = msle_loss(torch.randn(2, 4, requires_grad=True), torch.randn(2, 4))
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MseLossBackward0>)
+        >>> loss.backward()
     """
     return mse_loss(prediction.log1p(), target.log1p(), reduction=reduction)
 
@@ -73,6 +86,17 @@ def asinh_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") 
         ``torch.Tensor`` of type float: The mean squared error (MSE)
             on the arcsinh transformed prediction and target. The
             shape of the tensor depends on the reduction strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.functional import asinh_mse_loss
+        >>> loss = asinh_mse_loss(torch.randn(2, 4, requires_grad=True), torch.randn(2, 4))
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MseLossBackward0>)
+        >>> loss.backward()
     """
     return mse_loss(prediction.asinh(), target.asinh(), reduction=reduction)
 
@@ -103,6 +127,17 @@ def symlog_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean")
         ``torch.Tensor`` of type float: The mean squared error (MSE)
             on the symlog transformed prediction and target. The shape
             of the tensor depends on the reduction strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.functional import symlog_mse_loss
+        >>> loss = symlog_mse_loss(torch.randn(2, 4, requires_grad=True), torch.randn(2, 4))
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MseLossBackward0>)
+        >>> loss.backward()
     """
     return mse_loss(symlog(prediction), symlog(target), reduction=reduction)
 
@@ -140,6 +175,8 @@ def relative_mse_loss(
         >>> import torch
         >>> from gravitorch.nn.functional import relative_mse_loss
         >>> loss = relative_mse_loss(torch.randn(3, 5, requires_grad=True), torch.randn(3, 5))
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """
     return basic_loss_reduction(
@@ -188,6 +225,8 @@ def relative_smooth_l1_loss(
         >>> import torch
         >>> from gravitorch.nn.functional import relative_smooth_l1_loss
         >>> loss = relative_smooth_l1_loss(torch.randn(3, 5, requires_grad=True), torch.randn(3, 5))
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """
     return basic_loss_reduction(
@@ -240,6 +279,8 @@ def symmetric_relative_smooth_l1_loss(
         >>> loss = symmetric_relative_smooth_l1_loss(
         ...     torch.randn(3, 5, requires_grad=True), torch.randn(3, 5)
         ... )
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """
     return basic_loss_reduction(
@@ -286,6 +327,8 @@ def log_cosh_loss(
         >>> import torch
         >>> from gravitorch.nn.functional import log_cosh_loss
         >>> loss = log_cosh_loss(torch.randn(3, 5, requires_grad=True), torch.randn(3, 5))
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """
     return basic_loss_reduction(

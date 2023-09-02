@@ -64,7 +64,11 @@ def find_module_state_dict(state_dict: dict | list | tuple, module_keys: set) ->
         ... }
         >>> module = torch.nn.Linear(4, 5)
         >>> find_module_state_dict(state, module_keys=set(module.state_dict().keys()))
-        {'weight': torch.ones(5, 4), 'bias': 2 * torch.ones(5)}
+        {'weight': tensor([[1., 1., 1., 1.],
+                [1., 1., 1., 1.],
+                [1., 1., 1., 1.],
+                [1., 1., 1., 1.],
+                [1., 1., 1., 1.]]), 'bias': tensor([2., 2., 2., 2., 2.])}
     """
     if isinstance(state_dict, dict):
         if set(state_dict.keys()) == module_keys:
@@ -124,20 +128,22 @@ def load_checkpoint_to_module(
         >>> import torch
         >>> from gravitorch.nn import load_checkpoint_to_module
         >>> net = torch.nn.Linear(4, 5)
-        >>> load_checkpoint_to_module(path="/path/to/checkpoint.pt", module=net)
-        # To load only the value defined at state_dict["model"]
-        >>> load_checkpoint_to_module(path="/path/to/checkpoint.pt", module=net, key="model")
-        # To load only the value defined at state_dict["model"]["network"]
+        >>> load_checkpoint_to_module(path="/path/to/checkpoint.pt", module=net)  # doctest: +SKIP
+        >>> # To load only the value defined at state_dict["model"]
+        >>> load_checkpoint_to_module(
+        ...     path="/path/to/checkpoint.pt", module=net, key="model"
+        ... )  # doctest: +SKIP
+        >>> # To load only the value defined at state_dict["model"]["network"]
         >>> load_checkpoint_to_module(
         ...     path="/path/to/checkpoint.pt",
         ...     module=net,
         ...     key=["model", "network"],
-        ... )
+        ... )  # doctest: +SKIP
         >>> load_checkpoint_to_module(
         ...     path="/path/to/checkpoint.pt",
         ...     module=net,
         ...     key=("model", "network"),
-        ... )
+        ... )  # doctest: +SKIP
     """
     # Get the device of the module. It assumes the module is on a single device.
     device = get_module_device(module)
@@ -178,19 +184,7 @@ def load_state_dict_to_module(state_dict: dict, module: Module, strict: bool = T
         >>> import torch
         >>> from gravitorch.nn.utils import load_state_dict_to_module
         >>> module = torch.nn.Linear(4, 5)
-        >>> state_dict = {
-        ...     "weight": torch.tensor(
-        ...         [
-        ...             [-0.0328, 0.1781, -0.1038, 0.4252],
-        ...             [0.0242, -0.2810, 0.3932, 0.2912],
-        ...             [-0.0474, -0.0365, -0.0279, -0.1859],
-        ...             [0.2816, 0.2591, -0.3863, 0.4778],
-        ...             [0.3242, 0.0191, 0.0883, 0.0032],
-        ...         ]
-        ...     ),
-        ...     "bias": torch.tensor([0.4347, -0.3001, -0.3297, 0.2118, -0.3951]),
-        ... }
-        >>> load_state_dict_to_module(path="/path/to/checkpoint.pt", module=module)
+        >>> load_state_dict_to_module(path="tmp/checkpoint.pt", module=module)  # doctest: +SKIP
     """
     try:
         module.load_state_dict(state_dict, strict)
@@ -225,6 +219,19 @@ def state_dicts_are_equal(module1: Module, module2: Module) -> bool:
     -------
         bool: ``True`` if the state dict of 2 modules are equal,
             otherwise ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import state_dicts_are_equal
+        >>> module1 = torch.nn.Linear(4, 5)
+        >>> module2 = torch.nn.Linear(4, 5)
+        >>> state_dicts_are_equal(module1, module2)
+        False
+        >>> state_dicts_are_equal(module1, module1)
+        True
     """
     return objects_are_equal(module1.state_dict(), module2.state_dict())
 
@@ -237,6 +244,15 @@ def show_state_dict_info(state_dict: dict, tablefmt: str = "simple") -> None:
         state_dict (dict): Specifies the state dict to analyze.
         tablefmt (str, optional): Specifies the table format.
             Default: ``'simple'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import show_state_dict_info
+        >>> module = torch.nn.Linear(4, 5)
+        >>> show_state_dict_info(module.state_dict())
     """
     stats = [["key", "shape", "dtype"]]
     for key, value in state_dict.items():
@@ -267,6 +283,15 @@ def load_model_state_dict(
             the keys in ``state_dict`` match the keys returned by
             this module's :meth:`~torch.nn.Module.state_dict`
             function. Default: ``True``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import load_model_state_dict
+        >>> module = torch.nn.Linear(4, 5)
+        >>> load_model_state_dict("tmp/to/checkpoint.pt", module)  # doctest: +SKIP
     """
     # Load the state dict.
     path = sanitize_path(path)
