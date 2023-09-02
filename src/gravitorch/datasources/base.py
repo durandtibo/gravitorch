@@ -45,15 +45,14 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         ----
             engine (``BaseEngine``): Specifies the engine.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.datasources import BaseDataSource
-            >>> from gravitorch.engines import AlphaEngine
-            >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
-            >>> datasource.attach(my_engine)
+            >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> datasource = DummyDataSource()
+            >>> datasource.attach(engine)
         """
 
     @abstractmethod
@@ -76,13 +75,14 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             ``AssetNotFoundError`` if you try to access an asset that
                 does not exist.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
-            >>> my_asset = datasource.get_asset("my_asset_id")
+            >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> datasource = DummyDataSource()
+            >>> my_asset = datasource.get_asset("my_asset_id")  # doctest: +SKIP
         """
 
     @abstractmethod
@@ -97,12 +97,13 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         -------
             bool: ``True`` if the asset exists, otherwise ``False``.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
+            >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> datasource = DummyDataSource()
             >>> datasource.has_asset("my_asset_id")
             False
         """
@@ -128,18 +129,20 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         ------
             ``LoaderNotFoundError`` if the loader does not exist.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
-            # Get the data loader associated to the ID 'train'
+            >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
+            >>> datasource = DummyDataSource()
             >>> dataloader = datasource.get_dataloader("train")
-            # Get a data loader that can use information from an engine
-            >>> from gravitorch.engines import AlphaEngine
-            >>> my_engine = AlphaEngine()  # Work with any engine
-            >>> dataloader = datasource.get_dataloader("train", my_engine)
+            >>> dataloader  # doctest: +ELLIPSIS
+            <torch.utils.data.dataloader.DataLoader object at 0x...>
+            >>> # Get a data loader that can use information from an engine
+            >>> engine = create_dummy_engine()
+            >>> dataloader = datasource.get_dataloader("train", engine)
+            >>> dataloader  # doctest: +ELLIPSIS
+            <torch.utils.data.dataloader.DataLoader object at 0x...>
         """
 
     @abstractmethod
@@ -156,18 +159,18 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             bool: ``True`` if the data loader exists, ``False``
                 otherwise.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
-            # Check if the datasource has a data loader for ID 'train'
+            >>> from gravitorch.testing import DummyDataSource
+            >>> datasource = DummyDataSource()
             >>> datasource.has_dataloader("train")
-            True or False
-            # Check if the datasource has a data loader for ID 'eval'
+            True
             >>> datasource.has_dataloader("eval")
-            True or False
+            True
+            >>> datasource.has_dataloader("missing")
+            False
         """
 
     def load_state_dict(self, state_dict: dict) -> None:
@@ -177,16 +180,15 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         ----
             state_dict (dict): a dict with parameters
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
-            # Please take a look to the implementation of the state_dict
-            # function to know the expected structure
-            >>> state_dict = {...}
-            >>> datasource.load_state_dict(state_dict)
+            >>> from gravitorch.testing import DummyDataSource
+            >>> datasource = DummyDataSource()
+            >>> # Please take a look to the implementation of the state_dict
+            >>> # function to know the expected structure
+            >>> datasource.load_state_dict({})
         """
 
     def state_dict(self) -> dict:
@@ -196,14 +198,15 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         -------
             dict: the state values in a dict.
 
-        Example:
-        -------
+        Example usage:
+
         .. code-block:: pycon
 
-            >>> from gravitorch.datasources import BaseDataSource
-            >>> datasource: BaseDataSource = ...  # Instantiate a datasource
-            >>> state_dict = datasource.state_dict()
-            {...}
+            >>> from gravitorch.testing import DummyDataSource
+            >>> datasource = DummyDataSource()
+            >>> state = datasource.state_dict()
+            >>> state
+            {}
         """
         return {}
 
@@ -257,6 +260,30 @@ def setup_datasource(datasource: BaseDataSource | dict) -> BaseDataSource:
     Returns:
     -------
         ``BaseDataSource``: The instantiated datasource.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.datasources import setup_datasource
+        >>> datasource = setup_datasource({"_target_": "gravitorch.testing.DummyDataSource"})
+        >>> datasource
+        DummyDataSource(
+          datasets:
+            (train): DummyDataset(num_examples=4, feature_size=4)
+            (eval): DummyDataset(num_examples=4, feature_size=4)
+          dataloader_creators:
+            (train): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+            (eval): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+        )
     """
     if isinstance(datasource, dict):
         logger.info(
@@ -287,6 +314,34 @@ def setup_and_attach_datasource(
     Returns:
     -------
         ``BaseDataSource``: The instantiated datasource.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.datasources import setup_and_attach_datasource
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> datasource = setup_and_attach_datasource(
+        ...     {"_target_": "gravitorch.testing.DummyDataSource"}, engine=engine
+        ... )
+        >>> datasource
+        DummyDataSource(
+          datasets:
+            (train): DummyDataset(num_examples=4, feature_size=4)
+            (eval): DummyDataset(num_examples=4, feature_size=4)
+          dataloader_creators:
+            (train): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+            (eval): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+        )
     """
     datasource = setup_datasource(datasource)
     logger.info("Adding a datasource object to an engine...")

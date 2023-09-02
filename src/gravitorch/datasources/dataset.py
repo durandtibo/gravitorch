@@ -47,6 +47,32 @@ class DatasetDataSource(BaseDataSource):
             created. Each data loader creator takes a ``Dataset``
             object as input, so you need to specify a dataset with the
             same name.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.datasources import DatasetDataSource
+        >>> datasource = DatasetDataSource(
+        ...     datasets={
+        ...         "train": {
+        ...             "_target_": "gravitorch.data.datasets.ExampleDataset",
+        ...             "examples": [1, 2, 3, 4],
+        ...         },
+        ...         "eval": {
+        ...             "_target_": "gravitorch.data.datasets.ExampleDataset",
+        ...             "examples": [5, 6, 7],
+        ...         },
+        ...     },
+        ...     dataloader_creators={},
+        ... )
+        >>> datasource
+        DatasetDataSource(
+          datasets:
+            (train): ExampleDataset(num_examples=4)
+            (eval): ExampleDataset(num_examples=3)
+          dataloader_creators:
+        )
     """
 
     def __init__(
