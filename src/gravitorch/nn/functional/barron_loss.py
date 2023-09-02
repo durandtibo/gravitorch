@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["asinh_barron_robust_loss", "barron_robust_loss"]
 
 import math
-from typing import Optional
 
 from torch import Tensor
 
@@ -13,7 +14,7 @@ def barron_robust_loss(
     target: Tensor,
     alpha: float = 2.0,
     scale: float = 1.0,
-    max_value: Optional[float] = None,
+    max_value: float | None = None,
     reduction: str = "mean",
 ) -> Tensor:
     r"""Computes the Barron robust loss.
@@ -49,6 +50,17 @@ def barron_robust_loss(
     -------
         ``torch.Tensor`` of type float: The computed loss. The shape
             of the tensor depends on the reduction strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.functional import barron_robust_loss
+        >>> loss = barron_robust_loss(torch.randn(2, 4, requires_grad=True), torch.randn(2, 4))
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MeanBackward0>)
+        >>> loss.backward()
     """
     squared_error = prediction.sub(target).div(scale).pow(2)
     if alpha == 2:
@@ -68,7 +80,7 @@ def asinh_barron_robust_loss(
     target: Tensor,
     alpha: float = 2.0,
     scale: float = 1.0,
-    max_value: Optional[float] = None,
+    max_value: float | None = None,
     reduction: str = "mean",
 ) -> Tensor:
     r"""Computes the Barron loss on the inverse hyperbolic sine (arcsinh)
@@ -99,6 +111,19 @@ def asinh_barron_robust_loss(
     -------
         ``torch.Tensor`` of type float: The computed loss. The shape
             of the tensor depends on the reduction strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.functional import asinh_barron_robust_loss
+        >>> loss = asinh_barron_robust_loss(
+        ...     torch.randn(2, 4, requires_grad=True), torch.randn(2, 4)
+        ... )
+        >>> loss  # doctest: +ELLIPSIS
+        tensor(..., grad_fn=<MeanBackward0>)
+        >>> loss.backward()
     """
     return barron_robust_loss(
         prediction=prediction.asinh(),

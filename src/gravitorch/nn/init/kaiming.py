@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "BaseKaiming",
     "KaimingNormal",
@@ -55,7 +57,7 @@ class BaseKaiming(BaseInitializer):
         self._learnable_only = bool(learnable_only)
         self._log_info = bool(log_info)
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(mode={self._mode}, nonlinearity={self._nonlinearity}, "
             f"neg_slope={self._neg_slope}, learnable_only={self._learnable_only}, "
@@ -64,8 +66,21 @@ class BaseKaiming(BaseInitializer):
 
 
 class KaimingNormal(BaseKaiming):
-    r"""Implements a module parameter initializer with the Kaiming
-    Normal strategy."""
+    r"""Implements a module parameter initializer with the Kaiming Normal
+    strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import KaimingNormal
+        >>> from torch import nn
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> initializer = KaimingNormal()
+        >>> initializer
+        KaimingNormal(mode=fan_in, nonlinearity=leaky_relu, neg_slope=0.0, learnable_only=True, log_info=False)
+        >>> initializer.initialize(module)
+    """
 
     def initialize(self, module: Module) -> None:
         logger.info(
@@ -85,7 +100,20 @@ class KaimingNormal(BaseKaiming):
 
 class KaimingUniform(BaseKaiming):
     r"""Implements a module parameter initializer with the Kaiming
-    uniform strategy."""
+    uniform strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import KaimingUniform
+        >>> from torch import nn
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> initializer = KaimingUniform()
+        >>> initializer
+        KaimingUniform(mode=fan_in, nonlinearity=leaky_relu, neg_slope=0.0, learnable_only=True, log_info=False)
+        >>> initializer.initialize(module)
+    """
 
     def initialize(self, module: Module) -> None:
         logger.info(
@@ -141,8 +169,8 @@ def kaiming_normal(
 
         >>> from gravitorch.nn.init import kaiming_normal
         >>> from torch import nn
-        >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> kaiming_normal(net)
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> kaiming_normal(module)
     """
     for name, params in module.named_parameters():
         if params.ndim > 1 and (not learnable_only or learnable_only and params.requires_grad):
@@ -192,8 +220,8 @@ def kaiming_uniform(
 
         >>> from gravitorch.nn.init import kaiming_uniform
         >>> from torch import nn
-        >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> kaiming_uniform(net)
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> kaiming_uniform(module)
     """
     for name, params in module.named_parameters():
         if params.ndim > 1 and (not learnable_only or learnable_only and params.requires_grad):

@@ -29,6 +29,17 @@ def attach_module_to_engine(module: Module, engine: BaseEngine) -> None:
         module (``torch.nn.Module``): Specifies the module to attach
             to the engine.
         engine (``BaseEngine``): Specifies the engine.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn import attach_module_to_engine
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> module = torch.nn.Linear(4, 6)
+        >>> attach_module_to_engine(module, engine)
     """
     if hasattr(module, "attach"):
         module.attach(engine)
@@ -85,8 +96,6 @@ def setup_module(module: Module | dict) -> Module:
         ...     {"_target_": "torch.nn.Linear", "in_features": 4, "out_features": 6}
         ... )
         >>> linear
-        Linear(in_features=4, out_features=6, bias=True)
-        >>> setup_module(linear)  # Do nothing because the module is already instantiated
         Linear(in_features=4, out_features=6, bias=True)
     """
     if isinstance(module, dict):

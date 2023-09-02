@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 __all__ = ["setup_initializer"]
 
 import logging
-from typing import Union
 
 from gravitorch.nn.init.base import BaseInitializer
 from gravitorch.nn.init.noop import NoOpInitializer
@@ -10,7 +11,7 @@ from gravitorch.utils.format import str_target_object
 logger = logging.getLogger(__name__)
 
 
-def setup_initializer(initializer: Union[BaseInitializer, dict, None]) -> BaseInitializer:
+def setup_initializer(initializer: BaseInitializer | dict | None) -> BaseInitializer:
     r"""Sets up the module parameter initializer.
 
     Args:
@@ -24,6 +25,17 @@ def setup_initializer(initializer: Union[BaseInitializer, dict, None]) -> BaseIn
     -------
         ``BaseInitializer``: The instantiated module parameter
             initializer.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import setup_initializer
+        >>> initializer = setup_initializer(
+        ...     {"_target_": "gravitorch.nn.init.Constant", "value": 2.0}
+        ... )
+        >>> initializer
+        Constant(value=2.0, learnable_only=True, log_info=False)
     """
     if initializer is None:
         initializer = NoOpInitializer()

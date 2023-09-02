@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 __all__ = ["SequentialInitializer"]
 
 import logging
 from collections.abc import Sequence
-from typing import Union
 
 from coola.utils import str_indent, str_sequence
 from torch.nn import Module
@@ -21,16 +22,31 @@ class SequentialInitializer(BaseInitializer):
     ----
         initializers: Specifies the sequence of module initializers.
             The sequence order defines the order of the call.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import ConstantBias, KaimingNormal, SequentialInitializer
+        >>> from torch import nn
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> initializer = SequentialInitializer([KaimingNormal(), ConstantBias(value=0.0)])
+        >>> initializer
+        SequentialInitializer(
+          (0): KaimingNormal(mode=fan_in, nonlinearity=leaky_relu, neg_slope=0.0, learnable_only=True, log_info=False)
+          (1): ConstantBias(value=0.0, learnable_only=True, log_info=False)
+        )
+        >>> initializer.initialize(module)
     """
 
     def __init__(
         self,
-        initializers: Sequence[Union[BaseInitializer, dict]],
+        initializers: Sequence[BaseInitializer | dict],
     ) -> None:
         super().__init__()
         self._initializers = tuple(setup_initializer(initializer) for initializer in initializers)
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(\n"
             f"  {str_indent(str_sequence(self._initializers))}\n)"

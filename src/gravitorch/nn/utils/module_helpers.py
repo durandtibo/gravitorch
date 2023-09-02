@@ -37,6 +37,17 @@ def has_parameters(module: nn.Module) -> bool:
     -------
         bool: ``True`` if the module has at least one parameter,
             ``False`` otherwise.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import has_parameters
+        >>> has_parameters(torch.nn.Linear(4, 6))
+        True
+        >>> has_parameters(torch.nn.Identity())
+        False
     """
     try:
         next(module.parameters())
@@ -56,6 +67,21 @@ def has_learnable_parameters(module: nn.Module) -> bool:
     -------
         bool: ``True`` if the module has at least one learnable
             parameter, ``False`` otherwise.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import has_learnable_parameters, freeze_module
+        >>> has_learnable_parameters(torch.nn.Linear(4, 6))
+        True
+        >>> module = torch.nn.Linear(4, 6)
+        >>> freeze_module(module)
+        >>> has_learnable_parameters(module)
+        False
+        >>> has_learnable_parameters(torch.nn.Identity())
+        False
     """
     return num_learnable_parameters(module) > 0
 
@@ -71,6 +97,17 @@ def num_parameters(module: nn.Module) -> int:
     Returns:
     -------
         int: The number of parameters.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import num_parameters
+        >>> num_parameters(torch.nn.Linear(4, 6))
+        30
+        >>> num_parameters(torch.nn.Identity())
+        0
     """
     return sum(params.numel() for params in module.parameters())
 
@@ -86,6 +123,21 @@ def num_learnable_parameters(module: nn.Module) -> int:
     Returns:
     -------
         int: The number of learnable parameters.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import num_learnable_parameters
+        >>> num_learnable_parameters(torch.nn.Linear(4, 6))
+        30
+        >>> module = torch.nn.Linear(4, 6)
+        >>> freeze_module(module)
+        >>> num_learnable_parameters(module)
+        0
+        >>> num_learnable_parameters(torch.nn.Identity())
+        0
     """
     return sum(params.numel() for params in module.parameters() if params.requires_grad)
 
@@ -96,6 +148,20 @@ def freeze_module(module: nn.Module) -> None:
     Args:
     ----
         module (``torch.nn.Module``): Specifies the module to freeze.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import freeze_module
+        >>> module = torch.nn.Linear(4, 6)
+        >>> freeze_module(module)
+        >>> for name, param in module.named_parameters():
+        ...     print(name, param.requires_grad)
+        ...
+        weight False
+        bias False
     """
     for param in module.parameters():
         param.requires_grad = False
@@ -108,6 +174,20 @@ def unfreeze_module(module: nn.Module) -> None:
     ----
         module (``torch.nn.Module``): Specifies the module to
             unfreeze.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import unfreeze_module
+        >>> module = torch.nn.Linear(4, 6)
+        >>> unfreeze_module(module)
+        >>> for name, param in module.named_parameters():
+        ...     print(name, param.requires_grad)
+        ...
+        weight True
+        bias True
     """
     for param in module.parameters():
         param.requires_grad = True
@@ -128,6 +208,15 @@ def get_module_device(module: nn.Module) -> torch.device:
     Returns:
     -------
         ``torch.device``: The device
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import get_module_device
+        >>> get_module_device(torch.nn.Linear(4, 6))
+        device(type='cpu')
     """
     if not has_parameters(module):
         return torch.device("cpu")
@@ -144,6 +233,15 @@ def get_module_devices(module: nn.Module) -> tuple[torch.device, ...]:
     Returns:
     -------
         tuple: The tuple of ``torch.device``s used in the module.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import get_module_devices
+        >>> get_module_devices(torch.nn.Linear(4, 6))
+        (device(type='cpu'),)
     """
     devices = set()
     for param in module.parameters():
@@ -164,6 +262,15 @@ def is_module_on_device(module: nn.Module, device: torch.device) -> bool:
     -------
         bool: ``True`` if all the parameters of the module are on the
             specified device, otherwise ``False``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import is_module_on_device
+        >>> is_module_on_device(torch.nn.Linear(4, 6), torch.device("cpu"))
+        True
     """
     return all([p.device == device for p in module.parameters()])
 
@@ -190,6 +297,19 @@ def get_module_input_size(module: nn.Module) -> int:
     Raises:
     ------
         TypeError: if the module is not supported.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import get_module_input_size
+        >>> get_module_input_size(torch.nn.Linear(4, 6))
+        4
+        >>> get_module_input_size(
+        ...     torch.nn.Sequential(torch.nn.Linear(4, 6), torch.nn.ReLU(), torch.nn.Linear(6, 4))
+        ... )
+        4
     """
     if hasattr(module, "input_size"):
         return module.input_size
@@ -264,6 +384,19 @@ def get_module_output_size(module: nn.Module) -> int:
     Raises:
     ------
         TypeError: if the module is not supported.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import get_module_output_size
+        >>> get_module_output_size(torch.nn.Linear(4, 6))
+        6
+        >>> get_module_output_size(
+        ...     torch.nn.Sequential(torch.nn.Linear(4, 6), torch.nn.ReLU(), torch.nn.Linear(6, 4))
+        ... )
+        4
     """
     if hasattr(module, "output_size"):
         return module.output_size
@@ -341,6 +474,24 @@ def has_batch_norm(module: nn.Module) -> bool:
     -------
         bool: ``True`` if the module has at least one batch norm layer,
             otherwise ``False``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn.utils import has_batch_norm
+        >>> has_batch_norm(
+        ...     torch.nn.Sequential(
+        ...         torch.nn.Linear(4, 6),
+        ...         torch.nn.ReLU(),
+        ...         torch.nn.BatchNorm1d(6),
+        ...         torch.nn.Linear(6, 4),
+        ...     )
+        ... )
+        True
+        >>> has_batch_norm(torch.nn.Linear(4, 6))
+        False
     """
     for layer in module.modules():
         if isinstance(layer, (nn.BatchNorm1d, nn.BatchNorm2d, nn.BatchNorm3d, nn.SyncBatchNorm)):
@@ -360,6 +511,15 @@ def get_module_name(layer: nn.Module) -> str:
     Returns:
     -------
         str: The layer name.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.nn import get_module_name
+        >>> get_module_name(torch.nn.Linear(4, 6))
+        Linear
     """
     return layer.__class__.__qualname__
 
@@ -382,11 +542,11 @@ def is_batch_first(module: nn.Module) -> bool:
 
     .. code-block:: pycon
 
-        >>> from torch import nn
+        >>> import torch
         >>> from gravitorch.nn import is_batch_first
-        >>> is_batch_first(nn.MultiheadAttention(4, 1, batch_first=False))
+        >>> is_batch_first(torch.nn.MultiheadAttention(4, 1, batch_first=False))
         False
-        >>> is_batch_first(nn.MultiheadAttention(4, 1, batch_first=True))
+        >>> is_batch_first(torch.nn.MultiheadAttention(4, 1, batch_first=True))
         True
     """
     if hasattr(module, "batch_first"):
@@ -414,15 +574,21 @@ def module_mode(module: nn.Module) -> Generator[None, None, None]:
 
     .. code-block:: pycon
 
-        >>> from torch import nn
+        >>> import torch
         >>> from gravitorch.nn import module_mode
-        >>> module = nn.ModuleDict({"module1": nn.Linear(4, 6), "module2": nn.Linear(2, 4).eval()})
+        >>> module = torch.nn.ModuleDict(
+        ...     {"module1": torch.nn.Linear(4, 6), "module2": torch.nn.Linear(2, 4).eval()}
+        ... )
         >>> print(module["module1"].training, module["module2"].training)
         True False
         >>> with module_mode(module):
         ...     module.eval()
         ...     print(module["module1"].training, module["module2"].training)
         ...
+        ModuleDict(
+          (module1): Linear(in_features=4, out_features=6, bias=True)
+          (module2): Linear(in_features=2, out_features=4, bias=True)
+        )
         False False
         >>> print(module["module1"].training, module["module2"].training)
         True False
@@ -453,15 +619,16 @@ def top_module_mode(module: nn.Module) -> Generator[None, None, None]:
 
     .. code-block:: pycon
 
-        >>> from torch import nn
-        >>> from gravitorch.nn import module_mode
-        >>> module = nn.Linear(4, 6)
+        >>> import torch
+        >>> from gravitorch.nn import top_module_mode
+        >>> module = torch.nn.Linear(4, 6)
         >>> print(module.training)
         True
         >>> with top_module_mode(module):
         ...     module.eval()
-        ...     print(module)
+        ...     print(module.training)
         ...
+        Linear(in_features=4, out_features=6, bias=True)
         False
         >>> print(module.training)
         True

@@ -49,7 +49,7 @@ def add_objects(object1: Any, object2: Any) -> Any:
         ...     (torch.tensor([1, 2]), torch.tensor([3])),
         ...     (torch.tensor([4, 5]), torch.tensor([6])),
         ... )
-        (torch.tensor([5, 7]), torch.tensor([9]))
+        (tensor([5, 7]), tensor([9]))
     """
     if isinstance(object1, dict):
         return type(object1)(
@@ -103,7 +103,7 @@ def sub_objects(object1: Any, object2: Any) -> Any:
         ...     (torch.tensor([4, 5]), torch.tensor([6])),
         ...     (torch.tensor([1, 0]), torch.tensor([3])),
         ... )
-        (torch.tensor([3, 5]), torch.tensor([3]))
+        (tensor([3, 5]), tensor([3]))
     """
     if isinstance(object1, dict):
         return type(object1)(

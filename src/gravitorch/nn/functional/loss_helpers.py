@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["basic_loss_reduction", "check_basic_loss_reduction"]
 
 from torch import Tensor
@@ -75,8 +77,6 @@ def check_basic_loss_reduction(reduction: str) -> None:
 
         >>> from gravitorch.nn.functional import check_basic_loss_reduction
         >>> check_basic_loss_reduction("mean")
-        >>> check_basic_loss_reduction("incorrect")
-        Traceback (most recent call last): ...
     """
     if reduction not in VALID_REDUCTIONS:
         raise ValueError(

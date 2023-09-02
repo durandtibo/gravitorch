@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["absolute_error", "absolute_relative_error", "symmetric_absolute_relative_error"]
 
 from torch import Tensor
@@ -88,8 +90,8 @@ def symmetric_absolute_relative_error(
         >>> import torch
         >>> from gravitorch.nn.functional import symmetric_absolute_relative_error
         >>> symmetric_absolute_relative_error(torch.eye(2), torch.ones(2, 2))
-        tensor([[0., 1.],
-                [1., 0.]])
+        tensor([[0., 2.],
+                [2., 0.]])
     """
     return (
         target.sub(prediction).div(target.abs().add(prediction.abs()).mul(0.5).clamp(min=eps)).abs()

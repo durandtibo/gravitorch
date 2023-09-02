@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "absolute_error",
     "absolute_relative_error",

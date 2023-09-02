@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = [
     "BaseXavier",
     "XavierNormal",
@@ -42,7 +44,7 @@ class BaseXavier(BaseInitializer):
         self._learnable_only = bool(learnable_only)
         self._log_info = bool(log_info)
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}(gain={self._gain}, "
             f"learnable_only={self._learnable_only}, log_info={self._log_info})"
@@ -51,7 +53,20 @@ class BaseXavier(BaseInitializer):
 
 class XavierNormal(BaseXavier):
     r"""Implements a module parameter initializer with the Xavier Normal
-    strategy."""
+    strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import XavierNormal
+        >>> from torch import nn
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> initializer = XavierNormal()
+        >>> initializer
+        XavierNormal(gain=1.0, learnable_only=True, log_info=False)
+        >>> initializer.initialize(module)
+    """
 
     def initialize(self, module: Module) -> None:
         logger.info(
@@ -67,8 +82,21 @@ class XavierNormal(BaseXavier):
 
 
 class XavierUniform(BaseXavier):
-    r"""Implements a module parameter initializer with the Xavier
-    uniform strategy."""
+    r"""Implements a module parameter initializer with the Xavier uniform
+    strategy.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.nn.init import XavierUniform
+        >>> from torch import nn
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> initializer = XavierUniform()
+        >>> initializer
+        XavierUniform(gain=1.0, learnable_only=True, log_info=False)
+        >>> initializer.initialize(module)
+    """
 
     def initialize(self, module: Module) -> None:
         logger.info(
@@ -109,8 +137,8 @@ def xavier_normal(
 
         >>> from gravitorch.nn.init import xavier_normal
         >>> from torch import nn
-        >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> xavier_normal(net)
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> xavier_normal(module)
     """
     for name, params in module.named_parameters():
         if params.ndim > 1 and (not learnable_only or learnable_only and params.requires_grad):
@@ -146,8 +174,8 @@ def xavier_uniform(
 
         >>> from gravitorch.nn.init import xavier_uniform
         >>> from torch import nn
-        >>> net = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
-        >>> xavier_uniform(net)
+        >>> module = nn.Sequential(nn.Linear(4, 6), nn.ReLU(), nn.BatchNorm1d(6), nn.Linear(6, 1))
+        >>> xavier_uniform(module)
     """
     for name, params in module.named_parameters():
         if params.ndim > 1 and (not learnable_only or learnable_only and params.requires_grad):
