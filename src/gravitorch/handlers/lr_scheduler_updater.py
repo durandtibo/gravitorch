@@ -47,6 +47,7 @@ class LRSchedulerUpdater(BaseHandler):
         >>> handler
         LRSchedulerUpdater(event=my_event)
         >>> handler.attach(engine)
+        >>> engine.fire_event("my_event")
     """
 
     def __init__(self, event: str) -> None:
@@ -81,6 +82,7 @@ class EpochLRSchedulerUpdater(LRSchedulerUpdater):
         >>> handler
         EpochLRSchedulerUpdater(event=train_epoch_completed)
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_epoch_completed")
     """
 
     def __init__(self) -> None:
@@ -102,6 +104,7 @@ class IterationLRSchedulerUpdater(LRSchedulerUpdater):
         >>> handler
         IterationLRSchedulerUpdater(event=train_iteration_completed)
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_iteration_completed")
     """
 
     def __init__(self) -> None:
@@ -130,13 +133,22 @@ class MetricLRSchedulerUpdater(BaseHandler):
 
     .. code-block:: pycon
 
+        >>> import torch
         >>> from gravitorch.handlers import MetricLRSchedulerUpdater
-        >>> from gravitorch.testing import create_dummy_engine
-        >>> engine = create_dummy_engine()
+        >>> from gravitorch.testing import DummyClassificationModel, create_dummy_engine
+        >>> from gravitorch.utils.exp_trackers import EpochStep
+        >>> model = DummyClassificationModel()
+        >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+        >>> lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
+        >>> engine = create_dummy_engine(
+        ...     model=model, optimizer=optimizer, lr_scheduler=lr_scheduler
+        ... )
         >>> handler = MetricLRSchedulerUpdater("my_event")
         >>> handler
         MetricLRSchedulerUpdater(event=my_event, metric_name=eval/loss)
         >>> handler.attach(engine)
+        >>> engine.log_metric("eval/loss", 1.2, step=EpochStep(1))
+        >>> engine.fire_event("my_event")
     """
 
     def __init__(self, event: str, metric_name: str = f"{ct.EVAL}/loss") -> None:
@@ -168,6 +180,24 @@ class MetricLRSchedulerUpdater(BaseHandler):
             engine (``BaseEngine``): Specifies the engine with the LR
                 scheduler to update and the metric used to update the
                 LR scheduler.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.handlers import MetricLRSchedulerUpdater
+            >>> from gravitorch.testing import DummyClassificationModel, create_dummy_engine
+            >>> from gravitorch.utils.exp_trackers import EpochStep
+            >>> model = DummyClassificationModel()
+            >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+            >>> lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
+            >>> engine = create_dummy_engine(
+            ...     model=model, optimizer=optimizer, lr_scheduler=lr_scheduler
+            ... )
+            >>> handler = MetricLRSchedulerUpdater("my_event")
+            >>> engine.log_metric("eval/loss", 1.2, step=EpochStep(1))
+            >>> handler.step(engine)
         """
         engine.lr_scheduler.step(engine.get_history(self._metric_name).get_last_value())
 
@@ -200,6 +230,7 @@ class MetricEpochLRSchedulerUpdater(MetricLRSchedulerUpdater):
         >>> handler
         MetricEpochLRSchedulerUpdater(event=epoch_completed, metric_name=eval/loss)
         >>> handler.attach(engine)
+        >>> engine.fire_event("epoch_completed")
     """
 
     def __init__(self, metric_name: str = f"{ct.EVAL}/loss") -> None:

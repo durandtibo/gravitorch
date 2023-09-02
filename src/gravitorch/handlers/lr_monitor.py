@@ -49,6 +49,7 @@ class EpochLRMonitor(BaseHandler):
         >>> handler
         EpochLRMonitor(freq=1, event=train_epoch_started)
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_epoch_started")
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_EPOCH_STARTED, freq: int = 1) -> None:
@@ -77,6 +78,16 @@ class EpochLRMonitor(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import EpochLRMonitor
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = EpochLRMonitor()
+            >>> handler.monitor(engine)
         """
         if engine.optimizer:
             lrs = get_learning_rate_per_group(engine.optimizer)
@@ -117,6 +128,7 @@ class IterationLRMonitor(BaseHandler):
         >>> handler
         IterationLRMonitor(freq=10, event=train_iteration_started)
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_iteration_started")
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_STARTED, freq: int = 10) -> None:
@@ -145,6 +157,16 @@ class IterationLRMonitor(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import IterationLRMonitor
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = IterationLRMonitor()
+            >>> handler.monitor(engine)
         """
         if engine.optimizer:
             lrs = get_learning_rate_per_group(engine.optimizer)

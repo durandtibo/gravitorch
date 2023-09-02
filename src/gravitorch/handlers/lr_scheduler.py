@@ -47,10 +47,12 @@ class VanillaLRScheduler(BaseHandler):
         ... )
         >>> handler
         VanillaLRScheduler(
-          (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
           (lr_monitor): EpochLRMonitor(freq=1, event=train_epoch_started)
+          (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
         )
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_epoch_started")
+        >>> engine.fire_event("train_epoch_completed")
     """
 
     def __init__(
@@ -65,8 +67,8 @@ class VanillaLRScheduler(BaseHandler):
         args = str_indent(
             str_mapping(
                 {
-                    "lr_scheduler_updater": self._lr_scheduler_updater,
                     "lr_monitor": self._lr_monitor,
+                    "lr_scheduler_updater": self._lr_scheduler_updater,
                 }
             )
         )
@@ -105,10 +107,12 @@ class EpochLRScheduler(VanillaLRScheduler):
         >>> handler = EpochLRScheduler()
         >>> handler
         EpochLRScheduler(
-          (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
           (lr_monitor): EpochLRMonitor(freq=1, event=train_epoch_started)
+          (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
         )
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_epoch_started")
+        >>> engine.fire_event("train_epoch_completed")
     """
 
     def __init__(self) -> None:
@@ -143,10 +147,12 @@ class IterationLRScheduler(VanillaLRScheduler):
         >>> handler = IterationLRScheduler()
         >>> handler
         IterationLRScheduler(
-          (lr_scheduler_updater): IterationLRSchedulerUpdater(event=train_iteration_completed)
           (lr_monitor): IterationLRMonitor(freq=10, event=train_iteration_started)
+          (lr_scheduler_updater): IterationLRSchedulerUpdater(event=train_iteration_completed)
         )
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_iteration_started")
+        >>> engine.fire_event("train_iteration_completed")
     """
 
     def __init__(self, freq: int = 10) -> None:
