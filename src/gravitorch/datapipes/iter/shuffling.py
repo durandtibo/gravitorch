@@ -65,14 +65,24 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
         ...         for i in range(3):
         ...             yield {"key": torch.arange(4) + i}
         ...
-        >>> list(TensorDictShuffler(MyIterDataPipe()))
-        [{'key': tensor([2, 3, 0, 1])},
-         {'key': tensor([3, 2, 4, 1])},
-         {'key': tensor([2, 5, 4, 3])}]
-        >>> list(TensorDictShuffler(MyIterDataPipe(), dim={"key": 0}))
-        [{'key': tensor([2, 3, 0, 1])},
-         {'key': tensor([3, 2, 4, 1])},
-         {'key': tensor([2, 5, 4, 3])}]
+        >>> dp = TensorDictShuffler(MyIterDataPipe())
+        >>> dp
+        TensorDictShufflerIterDataPipe(
+          dim=0,
+          random_seed=3510637111256283951,
+          datapipe=MyIterDataPipe,
+        )
+        >>> list(dp)  # doctest: +ELLIPSIS
+        [{'key': tensor([...])}, {'key': tensor([...])}, {'key': tensor([...])}]
+        >>> dp = TensorDictShuffler(MyIterDataPipe(), dim={"key": 0})
+        >>> dp
+        TensorDictShufflerIterDataPipe(
+          dim={'key': 0},
+          random_seed=3510637111256283951,
+          datapipe=MyIterDataPipe,
+        )
+        >>> list(dp)  # doctest: +ELLIPSIS
+        [{'key': tensor([...])}, {'key': tensor([...])}, {'key': tensor([...])}]
     """
 
     def __init__(
@@ -145,23 +155,12 @@ def shuffle_tensors(
     .. code-block:: pycon
 
         >>> from gravitorch.datapipes.iter.shuffling import shuffle_tensors
-        >>> shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)])
-        [
-            torch.tensor([0, 2, 1, 3]),
-            torch.tensor([[0, 1, 2, 3, 4],
-                          [10, 11, 12, 13, 14],
-                          [5, 6, 7, 8, 9],
-                          [15, 16, 17, 18, 19]]),
-        ]
-        >>> shuffle_tensors([torch.arange(4).view(1, 4), torch.arange(20).view(5, 4)], dim=1)
-        [
-            torch.tensor([[0, 2, 1, 3]]),
-            torch.tensor([[0, 2, 1, 3],
-                          [4, 6, 5, 7],
-                          [8, 10, 9, 11],
-                          [12, 14, 13, 15],
-                          [16, 18, 17, 19]]),
-        ]
+        >>> shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)])  # doctest: +ELLIPSIS
+        [tensor([...]), tensor([[...]])]
+        >>> shuffle_tensors(
+        ...     [torch.arange(4).view(1, 4), torch.arange(20).view(5, 4)], dim=1
+        ... )  # doctest: +ELLIPSIS
+        [tensor([[...]]), tensor([[...]])]
     """
     dims = [tensor.shape[dim] for tensor in tensors]
     if len(set(dims)) > 1:
@@ -217,59 +216,34 @@ def shuffle_tensor_mapping(
     .. code-block:: pycon
 
         >>> from gravitorch.datapipes.iter.shuffling import shuffle_tensor_mapping
-        # Shuffle all the tensors on dimension 0 (default)
-        >>> shuffle_tensor_mapping({"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)})
-        {
-            "key1": tensor([0, 2, 1, 3]),
-            "key2": tensor([[0, 1, 2, 3, 4],
-                            [10, 11, 12, 13, 14],
-                            [5, 6, 7, 8, 9],
-                            [15, 16, 17, 18, 19]]),
-        }
-        # Shuffle all the tensors on dimension 1
+        >>> # Shuffle all the tensors on dimension 0 (default)
+        >>> shuffle_tensor_mapping(
+        ...     {"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)}
+        ... )  # doctest: +ELLIPSIS
+        {'key1': tensor([...]), 'key2': tensor([[...]])}
+        >>> # Shuffle all the tensors on dimension 1
         >>> shuffle_tensor_mapping(
         ...     {"key1": torch.arange(4).view(1, 4), "key2": torch.arange(20).view(5, 4)},
         ...     dim=1,
-        ... )
-        {
-            "key1": tensor([[0, 2, 1, 3]]),
-            "key2": tensor([[0, 2, 1, 3],
-                            [4, 6, 5, 7],
-                            [8, 10, 9, 11],
-                            [12, 14, 13, 15],
-                            [16, 18, 17, 19]]),
-        }
-        # Shuffle the tensor "key1" on dimension 0 and the tensor "key2" on dimension 1
+        ... )  # doctest: +ELLIPSIS
+        {'key1': tensor([...]), 'key2': tensor([[...]])}
+        >>> # Shuffle the tensor 'key1' on dimension 0 and the tensor 'key2' on dimension 1
         >>> shuffle_tensor_mapping(
         ...     {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)},
         ...     dim={"key1": 0, "key2": 1},
-        ... )
-        {
-            'key1': tensor([1, 2, 0, 3]),
-            'key2': tensor([[1,  2,  0,  3],
-                            [5,  6,  4,  7],
-                            [9, 10,  8, 11],
-                            [13, 14, 12, 15],
-                            [17, 18, 16, 19]]),
-        }
-        # Shuffle only the tensor "key2" on dimension 1
+        ... )  # doctest: +ELLIPSIS
+        {'key1': tensor([...]), 'key2': tensor([[...]])}
+        >>> # Shuffle only the tensor 'key2' on dimension 1
         >>> shuffle_tensor_mapping(
         ...     {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)},
         ...     dim={"key2": 1},
-        ... )
-        {
-            'key1': tensor([0, 1, 2, 3]),
-            'key2': tensor([[3,  1,  0,  2],
-                            [7,  5,  4,  6],
-                            [11,  9,  8, 10],
-                            [15, 13, 12, 14],
-                            [19, 17, 16, 18]]),
-        }
+        ... )  # doctest: +ELLIPSIS
+        {'key1': tensor([...]), 'key2': tensor([[...]])}
     """
     dims = dim if isinstance(dim, dict) else {key: dim for key in mapping}
     if len(dims) == 0:  # No tensor to permute
         return {key: tensor for key, tensor in mapping.items()}
-        # Check if the common dimensions are the same
+    # Check if the common dimensions are the same
     valid_dims = [mapping[key].shape[dims[key]] for key in mapping if key in dims]
     if len(set(valid_dims)) > 1:
         raise ValueError(
@@ -313,15 +287,15 @@ def get_first_dimension(data: Tensor | np.ndarray | list | tuple) -> int:
     .. code-block:: pycon
 
         >>> from gravitorch.datapipes.iter.shuffling import get_first_dimension
-        # torch tensor
+        >>> # torch tensor
         >>> import torch
         >>> get_first_dimension(torch.ones(5, 4))
         5
-        # NumPy ndarray
+        >>> # NumPy ndarray
         >>> import numpy
         >>> get_first_dimension(numpy.ones((7, 4)))
         7
-        # List/tuple
+        >>> # List/tuple
         >>> get_first_dimension([1, 3, 4])
         3
         >>> get_first_dimension((5, 2, 1, 4))

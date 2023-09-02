@@ -82,7 +82,7 @@ def create_chained_datapipe(
     .. code-block:: pycon
 
         >>> from gravitorch.datapipes import create_chained_datapipe
-        # Create an DataPipe object using a single DataPipe object and no source input
+        >>> # Create an DataPipe object using a single DataPipe object and no source input
         >>> datapipe = create_chained_datapipe(
         ...     {
         ...         "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -91,7 +91,7 @@ def create_chained_datapipe(
         ... )
         >>> tuple(datapipe)
         (1, 2, 3, 4)
-        # Equivalent to
+        >>> # Equivalent to
         >>> datapipe = create_chained_datapipe(
         ...     [
         ...         {
@@ -102,15 +102,15 @@ def create_chained_datapipe(
         ... )
         >>> tuple(datapipe)
         (1, 2, 3, 4)
-        # It is possible to use the source_inputs to create the same DataPipe object.
-        # The data is given by the source_inputs
+        >>> # It is possible to use the source_inputs to create the same DataPipe object.
+        >>> # The data is given by the source_inputs
         >>> datapipe = create_chained_datapipe(
         ...     config={"_target_": "torch.utils.data.datapipes.iter.IterableWrapper"},
         ...     source_inputs=([1, 2, 3, 4],),
         ... )
         >>> tuple(datapipe)
         (1, 2, 3, 4)
-        # Create an DataPipe object using two DataPipe objects and no source input
+        >>> # Create an DataPipe object using two DataPipe objects and no source input
         >>> datapipe = create_chained_datapipe(
         ...     [
         ...         {
@@ -122,27 +122,27 @@ def create_chained_datapipe(
         ... )
         >>> tuple(datapipe)
         ([1, 2], [3, 4])
-        # It is possible to use the source_inputs to create the same DataPipe object.
-        # A source DataPipe object is specified by using source_inputs
+        >>> # It is possible to use the source_inputs to create the same DataPipe object.
+        >>> # A source DataPipe object is specified by using source_inputs
         >>> from torch.utils.data.datapipes.iter import IterableWrapper
         >>> datapipe = create_chained_datapipe(
         ...     config=[
         ...         {"_target_": "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
         ...     ],
-        ...     source_inputs=[IterableWrapper(data=[1, 2, 3, 4])],
+        ...     source_inputs=[IterableWrapper([1, 2, 3, 4])],
         ... )
         >>> tuple(datapipe)
         ([1, 2], [3, 4])
-        # It is possible to create a chained ``DataPipe`` object that takes several
-        # DataPipe objects as input.
+        >>> # It is possible to create a chained ``DataPipe`` object that takes several
+        >>> # DataPipe objects as input.
         >>> datapipe = create_chained_datapipe(
         ...     config=[
         ...         {"_target_": "torch.utils.data.datapipes.iter.Multiplexer"},
         ...         {"_target_": "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
         ...     ],
         ...     source_inputs=[
-        ...         IterableWrapper(data=[1, 2, 3, 4]),
-        ...         IterableWrapper(data=[11, 12, 13, 14]),
+        ...         IterableWrapper([1, 2, 3, 4]),
+        ...         IterableWrapper([11, 12, 13, 14]),
         ...     ],
         ... )
         >>> tuple(datapipe)
