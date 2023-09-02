@@ -22,6 +22,17 @@ class SequentialLoopObserver(BaseLoopObserver):
     ----
         observers (sequence): Specifies the loop observers or their
             configurations.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.observers import NoOpLoopObserver
+        >>> observer = SequentialLoopObserver([NoOpLoopObserver()])
+        >>> observer
+        SequentialLoopObserver(
+          (0): NoOpLoopObserver()
+        )
     """
 
     def __init__(self, observers: Sequence[BaseLoopObserver | dict]) -> None:

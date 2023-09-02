@@ -17,6 +17,18 @@ class NoOpTrainingLoop(BaseTrainingLoop):
     r"""Implements a no-operation training loop.
 
     This class can be used to ignore the training loop in an engine.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.training import VanillaTrainingLoop
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> loop = NoOpTrainingLoop()
+        >>> loop
+        NoOpTrainingLoop()
+        >>> loop.train(engine)
     """
 
     def __repr__(self) -> str:

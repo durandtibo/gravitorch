@@ -62,6 +62,24 @@ def setup_evaluation_loop(evaluation_loop: BaseEvaluationLoop | dict | None) -> 
     Returns:
     -------
         ``BaseEvaluationLoop``: The evaluation loop.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation import setup_evaluation_loop
+        >>> loop = setup_evaluation_loop(
+        ...     {"_target_": "gravitorch.loops.evaluation.VanillaEvaluationLoop"}
+        ... )
+        >>> loop
+        VanillaEvaluationLoop(
+          (batch_device_placement): AutoDevicePlacement(device=cpu)
+          (grad_enabled): False
+          (tag): eval
+          (condition): EveryEpochEvalCondition(every=1)
+          (observer): NoOpLoopObserver()
+          (profiler): NoOpProfiler()
+        )
     """
     if evaluation_loop is None:
         evaluation_loop = VanillaEvaluationLoop()

@@ -57,6 +57,17 @@ def setup_loop_observer(loop_observer: BaseLoopObserver | dict | None) -> BaseLo
     Returns:
     -------
         ``BaseLoopObserver``: The loop observer.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.observers import setup_loop_observer
+        >>> observer = setup_loop_observer(
+        ...     {"_target_": "gravitorch.loops.observers.NoOpLoopObserver"}
+        ... )
+        >>> observer
+        NoOpLoopObserver()
     """
     if loop_observer is None:
         loop_observer = NoOpLoopObserver()

@@ -25,6 +25,26 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
         - ``train``
         - ``load_state_dict``
         - ``state_dict``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.training import VanillaTrainingLoop
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> loop = VanillaTrainingLoop()
+        >>> loop
+        VanillaTrainingLoop(
+          (set_grad_to_none): True
+          (batch_device_placement): AutoDevicePlacement(device=cpu)
+          (tag): train
+          (clip_grad_fn): None
+          (clip_grad_args): ()
+          (observer): NoOpLoopObserver()
+          (profiler): NoOpProfiler()
+        )
+        >>> loop.train(engine)
     """
 
     @abstractmethod
@@ -37,6 +57,16 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.loops.training import VanillaTrainingLoop
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> loop = VanillaTrainingLoop()
+            >>> loop.train(engine)
         """
 
     @abstractmethod
@@ -48,6 +78,14 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
         ----
             state_dict (dict): Specifies a dictionary
                 containing state keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.loops.training import VanillaTrainingLoop
+            >>> loop = VanillaTrainingLoop()
+            >>> loop.load_state_dict({})
         """
 
     @abstractmethod
@@ -57,4 +95,14 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.loops.training import VanillaTrainingLoop
+            >>> loop = VanillaTrainingLoop()
+            >>> state = loop.state_dict()
+            >>> state
+            {}
         """

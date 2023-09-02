@@ -8,19 +8,19 @@ from typing import Union
 
 from objectory import AbstractFactory
 from torch.optim import Optimizer
-from torch.optim.lr_scheduler import ReduceLROnPlateau, _LRScheduler
+from torch.optim.lr_scheduler import LRScheduler, ReduceLROnPlateau
 
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
 
 
-class BaseLRScheduler(_LRScheduler, metaclass=AbstractFactory):
+class BaseLRScheduler(LRScheduler, metaclass=AbstractFactory):
     r"""Defines the base learning rate scheduler."""
 
 
 # Define this type because there is not a unique class to describe a LR scheduler.
-LRSchedulerType = Union[BaseLRScheduler, ReduceLROnPlateau, _LRScheduler]
+LRSchedulerType = Union[BaseLRScheduler, ReduceLROnPlateau, LRScheduler]
 
 
 def setup_lr_scheduler(
@@ -39,9 +39,23 @@ def setup_lr_scheduler(
 
     Returns:
     -------
-        ``torch.optim.lr_scheduler._LRScheduler`` or ``None``: An
+        ``torch.optim.lr_scheduler.LRScheduler`` or ``None``: An
             instantiated learning rate scheduler or ``None`` if it is
             not possible to instantiate a learning rate scheduler.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.lr_schedulers import setup_lr_scheduler
+        >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
+        >>> lr_scheduler = setup_lr_scheduler(
+        ...     optimizer=optimizer,
+        ...     lr_scheduler={"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
+        ... )
+        >>> lr_scheduler  # doctest: +ELLIPSIS
+        <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
     if lr_scheduler is None:
         logger.info("No LR scheduler")

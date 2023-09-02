@@ -9,6 +9,7 @@ import logging
 from typing import Any
 
 import torch
+from coola.utils import str_indent, str_mapping
 from torch.cuda.amp import autocast
 from torch.nn import Module
 
@@ -49,6 +50,26 @@ class AMPEvaluationLoop(VanillaEvaluationLoop):
         profiler (``BaseProfiler`` or dict or None, optional):
             Specifies the profiler or its configuration. If ``None``,
             the ``NoOpProfiler`` is instantiated. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation import AMPEvaluationLoop
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> loop = AMPEvaluationLoop()
+        >>> loop
+        AMPEvaluationLoop(
+          (batch_device_placement): AutoDevicePlacement(device=cpu)
+          (grad_enabled): False
+          (amp_enabled): True
+          (tag): eval
+          (condition): EveryEpochEvalCondition(every=1)
+          (observer): NoOpLoopObserver()
+          (profiler): NoOpProfiler()
+        )
+        >>> loop.eval(engine)
     """
 
     def __init__(
@@ -72,17 +93,20 @@ class AMPEvaluationLoop(VanillaEvaluationLoop):
         self._amp_enabled = bool(amp_enabled)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  tag={self._tag},\n"
-            f"  batch_device_placement={self._batch_device_placement},\n"
-            f"  grad_enabled={self._grad_enabled},\n"
-            f"  amp_enabled={self._amp_enabled},\n"
-            f"  condition={self._condition},\n"
-            f"  observer={self._observer},\n"
-            f"  profiler={self._profiler},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "batch_device_placement": self._batch_device_placement,
+                    "grad_enabled": self._grad_enabled,
+                    "amp_enabled": self._amp_enabled,
+                    "tag": self._tag,
+                    "condition": self._condition,
+                    "observer": self._observer,
+                    "profiler": self._profiler,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def _eval_one_batch(self, engine: BaseEngine, model: Module, batch: Any) -> dict:
         engine.fire_event(EngineEvents.EVAL_ITERATION_STARTED)

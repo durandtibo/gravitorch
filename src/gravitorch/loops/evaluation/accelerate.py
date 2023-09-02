@@ -11,6 +11,7 @@ from collections.abc import Iterable
 from typing import Any
 
 import torch
+from coola.utils import str_indent, str_mapping
 from torch.nn import Module
 from tqdm import tqdm
 
@@ -61,6 +62,25 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
         profiler (``BaseProfiler`` or dict or None, optional):
             Specifies the profiler or its configuration. If ``None``,
             the ``NoOpProfiler`` is instantiated. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation import AccelerateEvaluationLoop
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> loop = AccelerateEvaluationLoop()
+        >>> loop  # doctest:+ELLIPSIS
+        AccelerateEvaluationLoop(
+          (accelerator): <accelerate.accelerator.Accelerator object at 0x...>
+          (grad_enabled): False
+          (tag): eval
+          (condition): EveryEpochEvalCondition(every=1)
+          (observer): NoOpLoopObserver()
+          (profiler): NoOpProfiler()
+        )
+        >>> loop.eval(engine)
     """
 
     def __init__(
@@ -79,15 +99,19 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
         self._grad_enabled = grad_enabled
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  tag={self._tag},\n"
-            f"  grad_enabled={self._grad_enabled},\n"
-            f"  condition={self._condition},\n"
-            f"  observer={self._observer},\n"
-            f"  profiler={self._profiler},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "accelerator": self._accelerator,
+                    "grad_enabled": self._grad_enabled,
+                    "tag": self._tag,
+                    "condition": self._condition,
+                    "observer": self._observer,
+                    "profiler": self._profiler,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def _eval_one_batch(self, engine: BaseEngine, model: Module, batch: Any) -> dict:
         engine.fire_event(EngineEvents.EVAL_ITERATION_STARTED)

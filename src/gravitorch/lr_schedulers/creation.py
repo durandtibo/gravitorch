@@ -44,7 +44,7 @@ def create_sequential_lr(
         >>> import torch
         >>> from gravitorch.lr_schedulers import create_sequential_lr
         >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
-        >>> scheduler = create_sequential_lr(
+        >>> lr_scheduler = create_sequential_lr(
         ...     optimizer,
         ...     schedulers=[
         ...         {
@@ -62,7 +62,8 @@ def create_sequential_lr(
         ...     ],
         ...     milestones=[2],
         ... )
-        <torch.optim.lr_scheduler.SequentialLR at 0x012345678>
+        >>> lr_scheduler  # doctest: +ELLIPSIS
+        <torch.optim.lr_scheduler.SequentialLR object at 0x...>
     """
     return SequentialLR(
         optimizer,
@@ -97,6 +98,19 @@ def create_linear_warmup_cosine_decay_lr(
     -------
         ``torch.optim.lr_scheduler.SequentialLR``: The instantiated
             learning rate scheduler.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.lr_schedulers import create_linear_warmup_cosine_decay_lr
+        >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
+        >>> lr_scheduler = create_linear_warmup_cosine_decay_lr(
+        ...     optimizer=optimizer, num_warmup_steps=100, num_total_steps=1000
+        ... )
+        >>> lr_scheduler  # doctest: +ELLIPSIS
+        <torch.optim.lr_scheduler.SequentialLR object at 0x...>
     """
     warmup = LinearLR(
         optimizer, start_factor=start_factor, end_factor=1.0, total_iters=num_warmup_steps
@@ -131,6 +145,19 @@ def create_linear_warmup_linear_decay_lr(
     -------
         ``torch.optim.lr_scheduler.SequentialLR``: The instantiated
             learning rate scheduler.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.lr_schedulers import create_linear_warmup_linear_decay_lr
+        >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
+        >>> lr_scheduler = create_linear_warmup_linear_decay_lr(
+        ...     optimizer=optimizer, num_warmup_steps=100, num_total_steps=1000
+        ... )
+        >>> lr_scheduler  # doctest: +ELLIPSIS
+        <torch.optim.lr_scheduler.SequentialLR object at 0x...>
     """
     warmup = LinearLR(
         optimizer, start_factor=start_factor, end_factor=1.0, total_iters=num_warmup_steps

@@ -9,7 +9,17 @@ from gravitorch.loops.observers.base import BaseLoopObserver
 
 
 class NoOpLoopObserver(BaseLoopObserver):
-    r"""Implements a no-operation loop observer."""
+    r"""Implements a no-operation loop observer.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.observers import NoOpLoopObserver
+        >>> observer = NoOpLoopObserver()
+        >>> observer
+        NoOpLoopObserver()
+    """
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"

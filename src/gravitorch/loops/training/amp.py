@@ -9,6 +9,7 @@ import logging
 from typing import Any
 
 import torch
+from coola.utils import str_indent, str_mapping
 from torch.cuda.amp import GradScaler, autocast
 from torch.nn import Module
 from torch.optim import Optimizer
@@ -56,6 +57,27 @@ class AMPTrainingLoop(VanillaTrainingLoop):
         profiler (``BaseProfiler`` or dict or None, optional): Specifies
             the profiler or its configuration. If ``None``, the
             ``NoOpProfiler`` is instantiated. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.training import AMPTrainingLoop
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> loop = AMPTrainingLoop()
+        >>> loop
+        AMPTrainingLoop(
+          (set_grad_to_none): True
+          (batch_device_placement): AutoDevicePlacement(device=cpu)
+          (amp_enabled): True
+          (tag): train
+          (clip_grad_fn): None
+          (clip_grad_args): ()
+          (observer): NoOpLoopObserver()
+          (profiler): NoOpProfiler()
+        )
+        >>> loop.train(engine)
     """
 
     def __init__(
@@ -80,18 +102,21 @@ class AMPTrainingLoop(VanillaTrainingLoop):
         self._scaler = GradScaler(enabled=self._amp_enabled)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  set_grad_to_none={self._set_grad_to_none},\n"
-            f"  amp_enabled={self._amp_enabled},\n"
-            f"  tag={self._tag},\n"
-            f"  batch_device_placement={self._batch_device_placement},\n"
-            f"  clip_grad_fn={self._clip_grad_fn},\n"
-            f"  clip_grad_args={self._clip_grad_args},\n"
-            f"  observer={self._observer},\n"
-            f"  profiler={self._profiler},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "set_grad_to_none": self._set_grad_to_none,
+                    "batch_device_placement": self._batch_device_placement,
+                    "amp_enabled": self._amp_enabled,
+                    "tag": self._tag,
+                    "clip_grad_fn": self._clip_grad_fn,
+                    "clip_grad_args": self._clip_grad_args,
+                    "observer": self._observer,
+                    "profiler": self._profiler,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
         self._scaler.load_state_dict(state_dict[ct.SCALER])
