@@ -52,6 +52,7 @@ class EpochCudaMemoryMonitor(BaseHandler):
         >>> handler
         EpochCudaMemoryMonitor(freq=1, event=epoch_completed)
         >>> handler.attach(engine)
+        >>> engine.fire_event("epoch_completed")
     """
 
     def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
@@ -80,6 +81,16 @@ class EpochCudaMemoryMonitor(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import EpochCudaMemoryMonitor
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = EpochCudaMemoryMonitor()
+            >>> handler.monitor(engine)
         """
         if torch.cuda.is_available():
             torch.cuda.synchronize()
@@ -118,6 +129,7 @@ class IterationCudaMemoryMonitor(BaseHandler):
         >>> handler
         IterationCudaMemoryMonitor(freq=1, event=train_iteration_completed)
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_iteration_completed")
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1) -> None:
@@ -146,6 +158,16 @@ class IterationCudaMemoryMonitor(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import IterationCudaMemoryMonitor
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = IterationCudaMemoryMonitor()
+            >>> handler.monitor(engine)
         """
         if torch.cuda.is_available():
             torch.cuda.synchronize()
@@ -186,6 +208,7 @@ class EpochCudaEmptyCache(BaseHandler):
         >>> handler
         EpochCudaEmptyCache(freq=1, event=epoch_completed)
         >>> handler.attach(engine)
+        >>> engine.fire_event("epoch_completed")
     """
 
     def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
@@ -214,6 +237,16 @@ class EpochCudaEmptyCache(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import EpochCudaEmptyCache
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = EpochCudaEmptyCache()
+            >>> handler.empty_cache(engine)
         """
         if torch.cuda.is_available():
             logger.info("Emptying CUDA cache...")
@@ -243,6 +276,7 @@ class IterationCudaEmptyCache(BaseHandler):
         >>> handler
         IterationCudaEmptyCache(freq=1, event=train_iteration_completed)
         >>> handler.attach(engine)
+        >>> engine.fire_event("train_iteration_completed")
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1) -> None:
@@ -271,6 +305,16 @@ class IterationCudaEmptyCache(BaseHandler):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import IterationCudaEmptyCache
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = IterationCudaEmptyCache()
+            >>> handler.empty_cache(engine)
         """
         if torch.cuda.is_available():
             logger.info("Emptying CUDA cache...")

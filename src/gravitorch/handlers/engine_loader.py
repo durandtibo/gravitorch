@@ -54,6 +54,7 @@ class EngineStateLoader(BaseHandler):
         >>> handler  # doctest: +ELLIPSIS
         EngineStateLoader(event=my_event, path=.../tmp/ckpt.pt, missing_ok=False)
         >>> handler.attach(engine)
+        >>> engine.fire_event("my_event")  # doctest: +SKIP
     """
 
     def __init__(self, path: Path | str, event: str, missing_ok: bool = False) -> None:
@@ -141,6 +142,7 @@ class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
         >>> handler  # doctest: +ELLIPSIS
         EngineStateLoaderWithExcludeKeys(event=my_event, path=.../tmp/ckpt.pt, exclude_keys=('optimizer',), missing_ok=False)
         >>> handler.attach(engine)
+        >>> engine.fire_event("my_event")  # doctest: +SKIP
     """
 
     def __init__(
@@ -222,6 +224,7 @@ class EngineStateLoaderWithIncludeKeys(EngineStateLoader):
         >>> handler  # doctest: +ELLIPSIS
         EngineStateLoaderWithIncludeKeys(event=my_event, path=.../tmp/ckpt.pt, include_keys=('model',), missing_ok=False)
         >>> handler.attach(engine)
+        >>> engine.fire_event("my_event")  # doctest: +SKIP
     """
 
     def __init__(

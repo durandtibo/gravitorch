@@ -22,6 +22,7 @@ from torch.utils.data import Dataset, IterableDataset
 from gravitorch import constants as ct
 from gravitorch.datasources import BaseDataSource, DatasetDataSource
 from gravitorch.engines import BaseEngine
+from gravitorch.lr_schedulers.base import LRSchedulerType
 from gravitorch.models import BaseModel
 
 
@@ -213,6 +214,7 @@ def create_dummy_engine(
     datasource: BaseDataSource | dict | None = None,
     model: Module | dict | None = None,
     optimizer: Optimizer | dict | None = None,
+    lr_scheduler: LRSchedulerType | dict | None = None,
     device: torch.device | None = None,
     **kwargs,
 ) -> BaseEngine:
@@ -226,7 +228,7 @@ def create_dummy_engine(
         model (``Module`` or dict or ``None``): Specifies the model or
             its configuration. If ``None``, a dummy classification model
             is automatically created. Default: ``None``
-        model (``Optimizer`` or dict or ``None``): Specifies the
+        optimizer (``Optimizer`` or dict or ``None``): Specifies the
             optimizer or its configuration. If ``None``, a SGD
             optimizer is automatically created. Default: ``None``
         device (``torch.device`` or ``None``): Specifies the target
@@ -248,6 +250,7 @@ def create_dummy_engine(
     model = model or DummyClassificationModel()
     optimizer = optimizer or {OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
 
+    # Local imports to avoid circular imports
     from gravitorch.creators.core import VanillaCoreCreator
     from gravitorch.engines import AlphaEngine
 
@@ -256,6 +259,7 @@ def create_dummy_engine(
             datasource=datasource,
             model=model.to(device=device),
             optimizer=optimizer,
+            lr_scheduler=lr_scheduler,
         ),
         **kwargs,
     )
