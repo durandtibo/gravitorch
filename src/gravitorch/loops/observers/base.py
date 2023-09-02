@@ -16,6 +16,15 @@ class BaseLoopObserver(ABC, metaclass=AbstractFactory):
 
     The loop observer is designed to work with both training and
     evaluation loops.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.observers import NoOpLoopObserver
+        >>> observer = NoOpLoopObserver()
+        >>> observer
+        NoOpLoopObserver()
     """
 
     @abstractmethod

@@ -25,6 +25,25 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
         - ``eval``
         - ``load_state_dict``
         - ``state_dict``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> loop = VanillaEvaluationLoop()
+        >>> loop
+        VanillaEvaluationLoop(
+          (batch_device_placement): AutoDevicePlacement(device=cpu)
+          (grad_enabled): False
+          (tag): eval
+          (condition): EveryEpochEvalCondition(every=1)
+          (observer): NoOpLoopObserver()
+          (profiler): NoOpProfiler()
+        )
+        >>> loop.eval(engine)
     """
 
     @abstractmethod
@@ -34,6 +53,16 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> loop = VanillaEvaluationLoop()
+            >>> loop.eval(engine)
         """
 
     @abstractmethod
@@ -45,6 +74,14 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
         ----
             state_dict (dict): Specifies a dictionary
                 containing state keys with values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+            >>> loop = VanillaEvaluationLoop()
+            >>> loop.load_state_dict({})
         """
 
     @abstractmethod
@@ -54,4 +91,14 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
         Returns
         -------
             dict: The state values in a dict.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+            >>> loop = VanillaEvaluationLoop()
+            >>> state = loop.state_dict()
+            >>> state
+            {}
         """

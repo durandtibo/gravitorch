@@ -11,6 +11,7 @@ from collections.abc import Callable, Iterable
 from typing import Any
 
 import torch
+from coola.utils import str_indent, str_mapping
 from torch.nn import Module
 from torch.optim import Optimizer
 from tqdm import tqdm
@@ -64,6 +65,27 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         profiler (``BaseProfiler`` or dict or None, optional):
             Specifies the profiler or its configuration. If ``None``,
             the ``NoOpProfiler`` is instantiated. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.training import AccelerateTrainingLoop
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> loop = AccelerateTrainingLoop()
+        >>> loop
+        >>> loop  # doctest:+ELLIPSIS
+        AccelerateTrainingLoop(
+          (set_grad_to_none): True
+          (accelerator): <accelerate.accelerator.Accelerator object at 0x...>
+          (tag): train
+          (clip_grad_fn): None
+          (clip_grad_args): ()
+          (observer): NoOpLoopObserver()
+          (profiler): NoOpProfiler()
+        )
+        >>> loop.train(engine)
     """
 
     def __init__(
@@ -82,17 +104,20 @@ class AccelerateTrainingLoop(BaseBasicTrainingLoop):
         self._set_grad_to_none = bool(set_grad_to_none)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  accelerator={self._accelerator},\n"
-            f"  set_grad_to_none={self._set_grad_to_none},\n"
-            f"  tag={self._tag},\n"
-            f"  clip_grad_fn={self._clip_grad_fn},\n"
-            f"  clip_grad_args={self._clip_grad_args},\n"
-            f"  observer={self._observer},\n"
-            f"  profiler={self._profiler},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "set_grad_to_none": self._set_grad_to_none,
+                    "accelerator": self._accelerator,
+                    "tag": self._tag,
+                    "clip_grad_fn": self._clip_grad_fn,
+                    "clip_grad_args": self._clip_grad_args,
+                    "observer": self._observer,
+                    "profiler": self._profiler,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def _prepare_model_optimizer_dataloader(
         self, engine: BaseEngine

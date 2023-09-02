@@ -17,6 +17,19 @@ class BaseEvalCondition(metaclass=AbstractFactory):
 
     These conditions indicate if the evaluation loop should be executed
     or not.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation.conditions import EveryEpochEvalCondition
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> condition = EveryEpochEvalCondition()
+        >>> condition
+        EveryEpochEvalCondition(every=1)
+        >>> condition(engine)
+        True
     """
 
     @abstractmethod
@@ -41,6 +54,19 @@ class EveryEpochEvalCondition(BaseEvalCondition):
     ----
         every (int, optional): Specifies the frequency of the
             evaluation. Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation.conditions import EveryEpochEvalCondition
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> condition = EveryEpochEvalCondition()
+        >>> condition
+        EveryEpochEvalCondition(every=1)
+        >>> condition(engine)
+        True
     """
 
     def __init__(self, every: int = 1) -> None:
@@ -65,7 +91,21 @@ class EveryEpochEvalCondition(BaseEvalCondition):
 
 
 class LastEpochEvalCondition(BaseEvalCondition):
-    r"""Implements a condition that is true only for the last epoch."""
+    r"""Implements a condition that is true only for the last epoch.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation.conditions import LastEpochEvalCondition
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> condition = LastEpochEvalCondition()
+        >>> condition
+        LastEpochEvalCondition()
+        >>> condition(engine)
+        False
+    """
 
     def __call__(self, engine: BaseEngine) -> bool:
         r"""Indicates if it is the last epoch.

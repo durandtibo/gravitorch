@@ -31,12 +31,12 @@ def setup_clip_grad(config: dict | None) -> tuple[Callable | None, tuple]:
     .. code-block:: pycon
 
         >>> from gravitorch.loops.training.utils import setup_clip_grad
-        >>> setup_clip_grad({"name": "clip_grad_value", "clip_value": 0.5})
-        (<function torch.nn.utils.clip_grad.clip_grad_value_(parameters: Union[torch.Tensor, Iterable[torch.Tensor]], clip_value: float, foreach: Optional[bool] = None) -> None>,
-         (0.5,))
-        >>> setup_clip_grad({"name": "clip_grad_norm", "max_norm": 0.5, "norm_type": 2.0})
-        (<function torch.nn.utils.clip_grad.clip_grad_norm_(parameters: Union[torch.Tensor, Iterable[torch.Tensor]], max_norm: float, norm_type: float = 2.0, error_if_nonfinite: bool = False, foreach: Optional[bool] = None) -> torch.Tensor>,
-         (0.5, 2.0))
+        >>> setup_clip_grad({"name": "clip_grad_value", "clip_value": 0.5})  # doctest:+ELLIPSIS
+        (<function clip_grad_value_..., (0.5,))
+        >>> setup_clip_grad(
+        ...     {"name": "clip_grad_norm", "max_norm": 0.5, "norm_type": 2.0}
+        ... )  # doctest:+ELLIPSIS
+        (<function clip_grad_norm_...>, (0.5, 2.0))
         >>> setup_clip_grad({})
         (None, ())
     """

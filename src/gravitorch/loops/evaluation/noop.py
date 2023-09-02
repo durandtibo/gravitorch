@@ -17,6 +17,18 @@ class NoOpEvaluationLoop(BaseEvaluationLoop):
     r"""Implements a no-operation evaluation loop.
 
     This class can be used to ignore the evaluation loop in an engine.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> loop = NoOpEvaluationLoop()
+        >>> loop
+        NoOpEvaluationLoop()
+        >>> loop.eval(engine)
     """
 
     def __repr__(self) -> str:

@@ -24,6 +24,15 @@ class PyTorchBatchSaver(BaseLoopObserver):
             store the examples.
         max_num_batches (int, optional): Specifies the maximum number
             of batches to save. Default: ``1000``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.observers import PyTorchBatchSaver
+        >>> observer = PyTorchBatchSaver(path="tmp/batch")
+        >>> observer  # doctest: +ELLIPSIS
+        PyTorchBatchSaver(path=.../tmp/batch, max_num_batches=1,000)
     """
 
     def __init__(self, path: Path | str, max_num_batches: int = 1000) -> None:

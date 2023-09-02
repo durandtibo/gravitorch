@@ -60,6 +60,25 @@ def setup_training_loop(training_loop: BaseTrainingLoop | dict | None) -> BaseTr
     Returns:
     -------
         ``BaseTrainingLoop``: The training loop.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.loops.training import setup_training_loop
+        >>> loop = setup_training_loop(
+        ...     {"_target_": "gravitorch.loops.training.VanillaTrainingLoop"}
+        ... )
+        >>> loop
+        VanillaTrainingLoop(
+          (set_grad_to_none): True
+          (batch_device_placement): AutoDevicePlacement(device=cpu)
+          (tag): train
+          (clip_grad_fn): None
+          (clip_grad_args): ()
+          (observer): NoOpLoopObserver()
+          (profiler): NoOpProfiler()
+        )
     """
     if training_loop is None:
         training_loop = VanillaTrainingLoop()
