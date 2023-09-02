@@ -25,7 +25,17 @@ IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
 
 
 class ImageNetDataSource(DatasetDataSource):
-    r"""Implements a datasource for the ImageNet dataset."""
+    r"""Implements a datasource for the ImageNet dataset.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.datasources import ImageNetDataSource
+        >>> datasource = ImageNetDataSource.create_imagenet_v1(
+        ...     "tmp/imagenet/train", "tmp/imagenet/val", dataloader_creators={}
+        ... )  # doctest: +SKIP
+    """
 
     @classmethod
     def create_imagenet_v1(
