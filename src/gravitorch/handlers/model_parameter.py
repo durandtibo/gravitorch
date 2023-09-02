@@ -31,6 +31,19 @@ class ModelParameterAnalyzer(BaseHandler):
             Default: ``'fancy_outline'``
         floatfmt (str, optional): Specifies the float format.
             Default: ``'.6f'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import ModelParameterAnalyzer
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = ModelParameterAnalyzer()
+        >>> handler
+        ModelParameterAnalyzer(events=('started', 'train_completed'), tablefmt=fancy_outline, floatfmt=.6f)
+        >>> handler.attach(engine)
+        >>> engine.fire_event("started")
     """
 
     def __init__(
@@ -68,6 +81,16 @@ class ModelParameterAnalyzer(BaseHandler):
         ----
             engine (``BaseEngine``): Specifies the engine with the
                 model to analyze.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.handlers import ModelParameterAnalyzer
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> engine = create_dummy_engine()
+            >>> handler = ModelParameterAnalyzer()
+            >>> handler.analyze(engine)
         """
         show_parameter_summary(
             module=engine.model, tablefmt=self._tablefmt, floatfmt=self._floatfmt

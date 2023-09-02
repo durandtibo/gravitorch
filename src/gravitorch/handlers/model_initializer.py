@@ -8,7 +8,7 @@ __all__ = ["ModelInitializer"]
 import logging
 from typing import TYPE_CHECKING
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from minevent import EventHandler
 
 from gravitorch.engines.events import EngineEvents
@@ -34,6 +34,27 @@ class ModelInitializer(BaseHandler):
             model's parameters initializer or its configuration.
         event (str, optional): Specifies the event when to initialize
             the model's parameters. Default: ``'train_started'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.handlers import ModelInitializer
+        >>> from gravitorch.nn.init import Constant
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> handler = ModelInitializer(Constant())
+        >>> handler
+        ModelInitializer(
+          (initializer): Constant(value=0.0, learnable_only=True, log_info=False)
+          (event): train_started
+        )
+        >>> handler.attach(engine)
+        >>> engine.fire_event("train_started")
+        >>> engine.model.state_dict()
+        OrderedDict([('linear.weight', tensor([[0., 0., 0., 0.],
+                [0., 0., 0., 0.],
+                [0., 0., 0., 0.]])), ('linear.bias', tensor([0., 0., 0.]))])
     """
 
     def __init__(
@@ -45,12 +66,15 @@ class ModelInitializer(BaseHandler):
         self._event = event
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  initializer={str_indent(self._initializer)},"
-            f"  event={self._event},"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "initializer": self._initializer,
+                    "event": self._event,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def attach(self, engine: BaseEngine) -> None:
         add_unique_event_handler(
