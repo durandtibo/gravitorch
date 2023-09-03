@@ -49,12 +49,12 @@ def broadcast_object_list(
         >>> import torch
         >>> from gravitorch import distributed as dist
         >>> x = [10 * dist.get_local_rank(), 10 * dist.get_local_rank() + 1]
-        >>> print(x)
+        >>> x  # doctest: +SKIP
         [0, 1]    # Rank 0
         [10, 11]  # Rank 1
         >>> from gravitorch.distributed import ddp
         >>> ddp.broadcast_object_list(x)
-        >>> print(x)
+        >>> x  # doctest: +SKIP
         [0, 1]    # Rank 0
         [0, 1]    # Rank 1
     """
@@ -108,9 +108,13 @@ def sync_reduce(variable: Union[Tensor, int, float], op: str) -> Union[Tensor, i
 
         >>> import torch
         >>> from gravitorch import distributed as dist
-        >>> x = torch.ones(2, 3, device=dist.device())
         >>> from gravitorch.distributed import ddp
+        >>> x = torch.ones(2, 3, device=dist.device())
         >>> x_reduced = ddp.sync_reduce(x, op=ddp.SUM)
+        >>> # for two processes
+        >>> x_reduced  # doctest: +SKIP
+        tensor([[2., 2., 2.],
+                [2., 2., 2.]])
     """
     if is_distributed():
         divide_by_world_size = False
@@ -152,9 +156,13 @@ def sync_reduce_(tensor: Tensor, op: str) -> Tensor:
 
         >>> import torch
         >>> from gravitorch import distributed as dist
-        >>> x = torch.ones(2, 3, device=dist.device())
         >>> from gravitorch.distributed import ddp
-        >>> ddp.sync_reduce_(x, op=ddp.SUM)  # in-place reduction
+        >>> x = torch.ones(2, 3, device=dist.device())
+        >>> ddp.sync_reduce_(x, op=ddp.SUM)
+        >>> # for two processes
+        >>> x  # doctest: +SKIP
+        tensor([[2., 2., 2.],
+                [2., 2., 2.]])
     """
     if not torch.is_tensor(tensor):
         raise TypeError(
@@ -194,10 +202,10 @@ def all_gather_tensor_varshape(tensor: Tensor) -> list[Tensor]:
     .. code-block:: pycon
 
         >>> import torch
+        >>> from gravitorch.distributed import ddp
         >>> x = torch.tensor([[0, 1, 2], [3, 4, 5]])  # process 0
         >>> x = torch.tensor([[1], [0]])  # process 1
-        >>> from gravitorch.distributed import ddp
-        >>> ddp.all_gather_tensor_varshape(x)
+        >>> ddp.all_gather_tensor_varshape(x)  # doctest: +SKIP
         [tensor([[0, 1, 2], [3, 4, 5]]), tensor([[1], [0]])]
     """
     if not is_distributed():
