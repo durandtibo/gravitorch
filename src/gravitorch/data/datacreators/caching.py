@@ -32,6 +32,24 @@ class CacheDataCreator(BaseDataCreator[T]):
             the data pipeline does not contain any in-place operations
             over the data to prevent data inconsistency if the
             ``create`` method is called multiple times.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datacreators import CacheDataCreator, HypercubeVertexDataCreator
+        >>> creator = CacheDataCreator(
+        ...     HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6)
+        ... )
+        >>> creator
+        CacheDataCreator(
+          creator=HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=15782179921860610490),
+          is_cache_created=False,
+          deepcopy=False,
+        )
+        >>> data = creator.create()
+        >>> data  # doctest: +ELLIPSIS
+        {'target': tensor([...]), 'input': tensor([[...]])}
     """
 
     def __init__(self, creator: BaseDataCreator[T] | dict, deepcopy: bool = False) -> None:

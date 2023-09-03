@@ -19,7 +19,20 @@ T = TypeVar("T")
 
 
 class BaseDataCreator(ABC, Generic[T], metaclass=AbstractFactory):
-    r"""Defines the base class to implement a data creator."""
+    r"""Defines the base class to implement a data creator.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datacreators import HypercubeVertexDataCreator
+        >>> creator = HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6)
+        >>> creator
+        HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=15782179921860610490)
+        >>> data = creator.create()
+        >>> data  # doctest: +ELLIPSIS
+        {'target': tensor([...]), 'input': tensor([[...]])}
+    """
 
     @abstractmethod
     def create(self, engine: BaseEngine | None = None) -> T:
@@ -30,9 +43,19 @@ class BaseDataCreator(ABC, Generic[T], metaclass=AbstractFactory):
             engine (``BaseEngine`` or ``None``): Specifies an engine.
                 Default: ``None``
 
-        Return:
-        ------
+        Returns:
+        -------
             The created data.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.data.datacreators import HypercubeVertexDataCreator
+            >>> creator = HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6)
+            >>> data = creator.create()
+            >>> data  # doctest: +ELLIPSIS
+            {'target': tensor([...]), 'input': tensor([[...]])}
         """
 
 
@@ -50,6 +73,22 @@ def setup_data_creator(data_creator: BaseDataCreator | dict) -> BaseDataCreator:
     Returns:
     -------
         ``BaseDataCreator``: The instantiated data creator.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datacreators import setup_data_creator
+        >>> datacreator = setup_data_creator(
+        ...     {
+        ...         "_target_": "gravitorch.data.datacreators.HypercubeVertexDataCreator",
+        ...         "num_examples": 10,
+        ...         "num_classes": 5,
+        ...         "feature_size": 6,
+        ...     }
+        ... )
+        >>> datacreator
+        HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=15782179921860610490)
     """
     if isinstance(data_creator, dict):
         logger.info(

@@ -57,8 +57,8 @@ def create_dataloader(dataset: Dataset | dict, **kwargs) -> DataLoader:
         ...         "num_classes": 2,
         ...         "feature_size": 4,
         ...     }
-        ... )
-        <torch.utils.data.dataloader.DataLoader at 0x0123456789>
+        ... )  # doctest: +ELLIPSIS`
+        <torch.utils.data.dataloader.DataLoader object at 0x...>
     """
     return DataLoader(
         setup_dataset(dataset), **{key: setup_object(value) for key, value in kwargs.items()}
@@ -95,8 +95,8 @@ def create_dataloader2(
         ...         "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
         ...         "iterable": range(10),
         ...     }
-        ... )
-        <torchdata.dataloader2.dataloader2.DataLoader2 at 0x0123456789>
+        ... )  # doctest: +ELLIPSIS`
+        <torchdata.dataloader2.dataloader2.DataLoader2 object at 0x...>
     """
     check_torchdata()
     return DataLoader2(
@@ -186,12 +186,8 @@ def setup_dataloader(dataloader: DataLoader | dict) -> DataLoader:
         >>> dataloader = setup_dataloader(
         ...     {"_target_": "torch.utils.data.DataLoader", "dataset": ExampleDataset((1, 2, 3, 4))}
         ... )
-        >>> dataloader
-        <torch.utils.data.dataloader.DataLoader at 0x119bd42e0>
-        >>> setup_dataloader(
-        ...     dataloader
-        ... )  # Do nothing because the dataloader is already instantiated
-        <torch.utils.data.dataloader.DataLoader at 0x119bd42e0>
+        >>> dataloader  # doctest: +ELLIPSIS
+        <torch.utils.data.dataloader.DataLoader object at 0x...>
     """
     if isinstance(dataloader, dict):
         logger.info(
@@ -226,12 +222,8 @@ def setup_dataloader2(dataloader: DataLoader2 | dict) -> DataLoader2:
         ...         "datapipe": IterableWrapper((1, 2, 3, 4)),
         ...     }
         ... )
-        >>> dataloader
-        <torch.utils.data.dataloader.DataLoader at 0x119bd42e0>
-        >>> setup_dataloader(
-        ...     dataloader
-        ... )  # Do nothing because the dataloader is already instantiated
-        <torch.utils.data.dataloader.DataLoader at 0x119bd42e0>
+        >>> dataloader  # doctest: +ELLIPSIS
+        <torchdata.dataloader2.dataloader2.DataLoader2 object at 0x...>
     """
     check_torchdata()
     if isinstance(dataloader, dict):

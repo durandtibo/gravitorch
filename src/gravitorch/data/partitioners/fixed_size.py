@@ -22,6 +22,18 @@ class FixedSizePartitioner(BasePartitioner[T]):
         drop_last (bool, optional): If ``True``, it drops the last
             items if the number of items is not evenly divisible by
             ``partition_size``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.partitioners import FixedSizePartitioner
+        >>> partitioner = FixedSizePartitioner(partition_size=3)
+        >>> partitioner
+        FixedSizePartitioner(partition_size=3, drop_last=False)
+        >>> partitions = partitioner.partition(list(range(10)))
+        >>> partitions
+        [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
     """
 
     def __init__(self, partition_size: int, drop_last: bool = False) -> None:

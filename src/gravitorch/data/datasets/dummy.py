@@ -1,4 +1,5 @@
 r"""This module defines some dummy datasets."""
+
 from __future__ import annotations
 
 __all__ = ["DummyMultiClassDataset"]
@@ -31,6 +32,17 @@ class DummyMultiClassDataset(Dataset):
         random_seed (int, optional): Specifies the random seed used to
             initialize a ``torch.Generator`` object.
             Default: ``10169389905513828140``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datasets import DummyMultiClassDataset
+        >>> dataset = DummyMultiClassDataset(num_examples=10, num_classes=5, feature_size=6)
+        >>> dataset
+        DummyMultiClassDataset(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=10169389905513828140)
+        >>> dataset[0]  # doctest: +ELLIPSIS
+        {'input': tensor([...]), 'target': tensor(...), 'name': '0'}
     """
 
     def __init__(
