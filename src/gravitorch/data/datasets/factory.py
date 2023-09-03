@@ -103,20 +103,11 @@ def setup_dataset(dataset: Dataset | dict | None) -> Dataset | None:
     .. code-block:: pycon
 
         >>> from gravitorch.data.datasets import setup_dataset
-        >>> mnist = setup_dataset(
-        ...     {"_target_": "torchvision.datasets.MNIST", "root": "/my/path/", "download": True},
+        >>> dataset = setup_dataset(
+        ...     {"_target_": "gravitorch.data.datasets.ExampleDataset", "examples": [1, 2, 1, 3]},
         ... )
-        >>> mnist
-        Dataset MNIST
-            Number of datapoints: 60000
-            Root location: tmp
-            Split: Train
-        >>> setup_dataset(mnist)  # Do nothing because the dataset is already instantiated
-        Dataset MNIST
-            Number of datapoints: 60000
-            Root location: tmp
-            Split: Train
-        >>> setup_dataset(None)
+        >>> dataset
+        ExampleDataset(num_examples=4)
     """
     if isinstance(dataset, dict):
         logger.info(

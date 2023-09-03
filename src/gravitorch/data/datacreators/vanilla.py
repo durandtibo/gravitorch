@@ -33,6 +33,8 @@ class DataCreator(BaseDataCreator[T]):
 
         >>> from gravitorch.data.datacreators import DataCreator
         >>> creator = DataCreator([1, 2, 3, 4])
+        >>> creator
+        DataCreator(deepcopy=False)
         >>> creator.create()
         [1, 2, 3, 4]
     """
@@ -41,7 +43,7 @@ class DataCreator(BaseDataCreator[T]):
         self._data = data
         self._deepcopy = bool(deepcopy)
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(deepcopy={self._deepcopy})"
 
     def create(self, engine: BaseEngine | None = None) -> T:

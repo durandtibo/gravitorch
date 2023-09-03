@@ -38,10 +38,10 @@ class ReproducibleBatchSampler(BatchSampler):
         >>> reproducible_batch_sampler = ReproducibleBatchSampler(batch_sampler)
         >>> list(reproducible_batch_sampler)
         [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
-        >>> batch_sampler = ReproducibleBatchSampler(batch_sampler, start_iteration=1)
+        >>> reproducible_batch_sampler = ReproducibleBatchSampler(batch_sampler, start_iteration=1)
         >>> list(reproducible_batch_sampler)
         [[3, 4, 5], [6, 7, 8], [9]]
-        >>> batch_sampler = ReproducibleBatchSampler(batch_sampler, start_iteration=2)
+        >>> reproducible_batch_sampler = ReproducibleBatchSampler(batch_sampler, start_iteration=2)
         >>> list(reproducible_batch_sampler)
         [[6, 7, 8], [9]]
     """
@@ -76,6 +76,15 @@ class PartialSequentialSampler(Sampler):
             If the number of samples is bigger than the number of
             samples in the dataset, the number of samples to draw
             is the dataset size.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.dataloaders.samplers import PartialSequentialSampler
+        >>> sampler = PartialSequentialSampler(list(range(10)), num_samples=5)
+        >>> list(sampler)
+        [0, 1, 2, 3, 4]
     """
 
     def __init__(self, datasource: Sized, num_samples: int) -> None:
@@ -96,7 +105,17 @@ class PartialSequentialSampler(Sampler):
 
 class PartialRandomSampler(PartialSequentialSampler):
     r"""Implements a partial random sampler that samples randomly some
-    items of the dataset."""
+    items of the dataset.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.dataloaders.samplers import PartialSequentialSampler
+        >>> sampler = PartialSequentialSampler(list(range(10)), num_samples=5)
+        >>> len(list(sampler))
+        5
+    """
 
     def __iter__(self) -> Iterator:
         return iter(torch.randperm(len(self.datasource))[: self.num_samples].tolist())

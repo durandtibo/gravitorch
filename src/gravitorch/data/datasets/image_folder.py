@@ -22,6 +22,13 @@ class ImageFolderDataset(ImageFolder):
     r"""Implements a dataset that returns a dict instead of a tuple.
 
     This dataset extends the ``torchvision.datasets.ImageFolder`` class.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datasets import ImageFolderDataset
+        >>> dataset = ImageFolderDataset(root="tmp/dataset")  # doctest: +SKIP
     """
 
     def __init__(self, *args, **kwargs) -> None:

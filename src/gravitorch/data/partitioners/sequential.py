@@ -24,6 +24,29 @@ class SequentialPartitioner(BasePartitioner[T]):
         partition_size (int, optional): Specifies the partition size
             i.e. the number of items in each partition.
             Default: ``1``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.partitioners import SequentialPartitioner
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> engine.increment_epoch()
+        >>> engine.epoch
+        0
+        >>> partitioner = SequentialPartitioner(partition_size=3)
+        >>> partitioner
+        SequentialPartitioner(partition_size=3)
+        >>> partitions = partitioner.partition(list(range(10)), engine)
+        >>> partitions
+        [[0, 1, 2]]
+        >>> engine.increment_epoch()
+        >>> engine.epoch
+        1
+        >>> partitions = partitioner.partition(list(range(10)), engine)
+        >>> partitions
+        [[3, 4, 5]]
     """
 
     def __init__(self, partition_size: int = 1) -> None:

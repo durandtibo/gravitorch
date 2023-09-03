@@ -36,6 +36,17 @@ class ExampleDataset(Dataset[T]):
     Args:
     ----
         examples: Specifies the examples of the dataset.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datasets import ExampleDataset
+        >>> dataset = ExampleDataset((1, 2, 3, 4, 5, 6))
+        >>> dataset
+        ExampleDataset(num_examples=6)
+        >>> dataset[0]
+        1
     """
 
     def __init__(self, examples: Sequence[T]) -> None:
@@ -97,7 +108,7 @@ class ExampleDataset(Dataset[T]):
         .. code-block:: pycon
 
             >>> from gravitorch.data.datasets import ExampleDataset
-            >>> dataset = ExampleDataset.from_json_file("/path/to/file.pt")
+            >>> dataset = ExampleDataset.from_json_file("/path/to/file.pt")  # doctest: +SKIP
         """
         return cls(load_json(sanitize_path(path)))
 
@@ -119,7 +130,7 @@ class ExampleDataset(Dataset[T]):
         .. code-block:: pycon
 
             >>> from gravitorch.data.datasets import ExampleDataset
-            >>> dataset = ExampleDataset.from_pickle_file("/path/to/file.pkl")
+            >>> dataset = ExampleDataset.from_pickle_file("/path/to/file.pkl")  # doctest: +SKIP
         """
         return cls(load_pickle(sanitize_path(path)))
 
@@ -142,7 +153,7 @@ class ExampleDataset(Dataset[T]):
         .. code-block:: pycon
 
             >>> from gravitorch.data.datasets import ExampleDataset
-            >>> dataset = ExampleDataset.from_pytorch_file("/path/to/file.pt")
+            >>> dataset = ExampleDataset.from_pytorch_file("/path/to/file.pt")  # doctest: +SKIP
         """
         return cls(torch.load(sanitize_path(path), **kwargs))
 

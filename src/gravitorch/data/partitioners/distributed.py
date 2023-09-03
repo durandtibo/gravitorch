@@ -26,6 +26,18 @@ class DDPPartitioner(BasePartitioner[T]):
     ----
         partition_size (int): Specifies the partition size i.e. the
             number of items in each partition.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.partitioners import DDPPartitioner
+        >>> partitioner = DDPPartitioner(partition_size=3)
+        >>> partitioner
+        DDPPartitioner(partition_size=3)
+        >>> partitions = partitioner.partition(list(range(10)))
+        >>> partitions
+        [[0, 1, 2]]
     """
 
     def __init__(self, partition_size: int) -> None:
@@ -55,6 +67,20 @@ class SyncParallelPartitioner(BasePartitioner[T]):
     ----
         partitioner (``BasePartitioner`` or dict): Specifies a
             partitioner or its configuration.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.partitioners import FixedSizePartitioner, SyncParallelPartitioner
+        >>> partitioner = SyncParallelPartitioner(FixedSizePartitioner(partition_size=3))
+        >>> partitioner
+         SyncParallelPartitioner(
+          partitioner=FixedSizePartitioner(partition_size=3, drop_last=False),
+        )
+        >>> partitions = partitioner.partition(list(range(10)))
+        >>> partitions
+        [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
     """
 
     def __init__(self, partitioner: BasePartitioner | dict) -> None:

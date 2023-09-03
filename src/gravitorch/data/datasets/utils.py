@@ -21,12 +21,9 @@ def log_box_dataset_class(dataset: Dataset) -> None:
     .. code-block:: pycon
 
         >>> import torchvision
-        >>> from gravitorch.data.datasets import log_box_dataset_class
-        >>> dataset = torchvision.datasets.MNIST(...)
+        >>> from gravitorch.data.datasets import DummyMultiClassDataset, log_box_dataset_class
+        >>> dataset = DummyMultiClassDataset(num_examples=10, num_classes=5, feature_size=6)
         >>> log_box_dataset_class(dataset)
-         -------
-        | MNIST |
-         -------
     """
     dataset_name = dataset.__class__.__qualname__
     logger.info(" " + "-" * (len(dataset_name) + 2))

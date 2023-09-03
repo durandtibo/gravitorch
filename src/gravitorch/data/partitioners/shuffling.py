@@ -31,6 +31,21 @@ class EpochShufflePartitioner(BasePartitioner[T]):
             This random seed is added to the engine epoch value to
             define the initial seed of the ``torch.Generator`` object.
             Default: ``7553907118525846636``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.partitioners import EpochShufflePartitioner, FixedSizePartitioner
+        >>> partitioner = EpochShufflePartitioner(partitioner=FixedSizePartitioner(3))
+        >>> partitioner
+        EpochShufflePartitioner(
+          partitioner=FixedSizePartitioner(partition_size=3, drop_last=False),
+          random_seed=7553907118525846636,
+        )
+        >>> partitions = partitioner.partition(list(range(10)))
+        >>> partitions  # doctest: +ELLIPSIS
+        [[...], [...], [...], [...]]
     """
 
     def __init__(

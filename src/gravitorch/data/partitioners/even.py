@@ -22,6 +22,18 @@ class EvenPartitioner(BasePartitioner[T]):
         drop_remainder (bool, optional): If ``True``, it drops the
             last items if the number of items is not evenly divisible
             by ``num_partitions``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.partitioners import EvenPartitioner
+        >>> partitioner = EvenPartitioner(num_partitions=3)
+        >>> partitioner
+        EvenPartitioner(num_partitions=3, drop_remainder=False)
+        >>> partitions = partitioner.partition(list(range(10)))
+        >>> partitions
+        [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
     """
 
     def __init__(self, num_partitions: int, drop_remainder: bool = False) -> None:

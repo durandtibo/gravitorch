@@ -43,6 +43,18 @@ class HypercubeVertexDataCreator(BaseDataCreator[dict[str, Tensor]]):
             Default: ``15782179921860610490``
         log_info (bool, optional): If ``True``, log information when
             the data are generated. Default: ``True``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datacreators import HypercubeVertexDataCreator
+        >>> creator = HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6)
+        >>> creator
+        HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=15782179921860610490)
+        >>> data = creator.create()
+        >>> data  # doctest: +ELLIPSIS
+        {'target': tensor([...]), 'input': tensor([[...]])}
     """
 
     def __init__(
