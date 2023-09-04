@@ -9,6 +9,144 @@ on:
   workflow_dispatch:  # manual trigger
 
 jobs:
+  coverage:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ '3.10' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install packages
+        run: |
+          poetry run make config-poetry
+          poetry run make install
+
+      - name: Show installed packages
+        run: |
+          poetry run poetry show
+          poetry run poetry show --tree
+
+      - name: Run unit tests
+        run: |
+          poetry run make unit-test-cov
+
+      - name: Run integration tests
+        run: |
+          poetry run make integration-test-cov
+
+      - name: Upload coverage to Codecov
+        if: github.repository == 'durandtibo/gravitorch' && (github.event_name == 'push' || github.event_name == 'pull_request')
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+          # Ignore codecov failures as the codecov server is not
+          # very reliable but we don't want to report a failure
+          # in the github UI just because the coverage report failed to
+          # be published.
+          fail_ci_if_error: false
+
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageLocations: ./coverage.xml:coverage.py
+          debug: true
+
+
+  doctest:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ '3.10' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install packages
+        run: |
+          poetry run make config-poetry
+          poetry run make install
+
+      - name: Show installed packages
+        run: |
+          poetry run poetry show
+          poetry run poetry show --tree
+
+      - name: Run doctest
+        run: |
+          poetry run make doctest-src
+
+
+  format:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ '3.10' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install packages
+        run: |
+          poetry run make config-poetry
+          poetry run make install
+
+      - name: Show installed packages
+        run: |
+          poetry run poetry show
+          poetry run poetry show --tree
+
+      - name: Format
+        run: |
+          poetry run make format
+
+      - name: Lint
+        run: |
+          poetry run make lint
+
+
   test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
@@ -111,74 +249,6 @@ jobs:
       - name: Run integration tests
         run: |
           poetry run make integration-test
-
-
-  coverage:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest ]
-        python-version: [ '3.10' ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-
-      - name: Install packages
-        run: |
-          poetry run make config-poetry
-          poetry run make install
-
-      - name: Show installed packages
-        run: |
-          poetry run poetry show
-          poetry run poetry show --tree
-
-      - name: Format
-        run: |
-          poetry run make format
-
-      - name: Lint
-        run: |
-          poetry run make lint
-
-      - name: Run unit tests
-        run: |
-          poetry run make unit-test-cov
-
-      - name: Run integration tests
-        run: |
-          poetry run make integration-test-cov
-
-      - name: Upload coverage to Codecov
-        if: github.repository == 'durandtibo/gravitorch' && (github.event_name == 'push' || github.event_name == 'pull_request')
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage.xml
-          # Ignore codecov failures as the codecov server is not
-          # very reliable but we don't want to report a failure
-          # in the github UI just because the coverage report failed to
-          # be published.
-          fail_ci_if_error: false
-
-      - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v5.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-        with:
-          coverageLocations: ./coverage.xml:coverage.py
-          debug: true
 
 
   detect-cyclic-import:
