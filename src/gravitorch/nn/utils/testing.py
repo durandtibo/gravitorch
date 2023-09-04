@@ -11,7 +11,7 @@ from torch.nn import Module
 from torch.nn.utils import clip_grad_norm_
 from torch.optim import SGD, Adam, Optimizer
 
-from gravitorch.nn.utils.module_helpers import module_mode
+from gravitorch.nn.utils.helpers import module_mode
 from gravitorch.utils.seed import torch_seed
 
 logger = logging.getLogger(__name__)

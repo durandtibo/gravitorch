@@ -8,7 +8,7 @@ import torch
 from torch import Tensor, nn
 
 from gravitorch import constants as ct
-from gravitorch.nn.utils.module_helpers import get_module_device
+from gravitorch.nn.utils.helpers import get_module_device
 
 
 class PyTorchMnistNet(nn.Module):

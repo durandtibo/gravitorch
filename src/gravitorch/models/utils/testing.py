@@ -10,7 +10,7 @@ from torch.optim import SGD, Adam, Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.models.base import BaseModel
-from gravitorch.nn.utils.module_helpers import module_mode
+from gravitorch.nn.utils.helpers import module_mode
 from gravitorch.utils.seed import torch_seed
 
 logger = logging.getLogger(__name__)

@@ -13,7 +13,7 @@ from torch.nn import Module
 
 from gravitorch import constants as ct
 from gravitorch.nn.utils.factory import setup_module
-from gravitorch.nn.utils.module_helpers import get_module_device
+from gravitorch.nn.utils.helpers import get_module_device
 
 
 class ImageClassificationNetwork(Module):

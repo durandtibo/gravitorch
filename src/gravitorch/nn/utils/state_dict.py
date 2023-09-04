@@ -19,7 +19,7 @@ from tabulate import tabulate
 from torch.nn import Module
 
 from gravitorch import constants as ct
-from gravitorch.nn.utils.module_helpers import get_module_device
+from gravitorch.nn.utils.helpers import get_module_device
 from gravitorch.utils.mapping import remove_keys_starting_with
 from gravitorch.utils.path import sanitize_path
 
