@@ -39,6 +39,86 @@ class VanillaCoreCreator(BaseCoreCreator):
         lr_scheduler (``BaseLRSchedulerCreator`` or dict or ``None`):
             Specifies the LR scheduler or its configuration.
             Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> from gravitorch.creators.core import VanillaCoreCreator
+        >>> creator = VanillaCoreCreator(
+        ...     datasource={"_target_": "gravitorch.testing.DummyDataSource"},
+        ...     model={"_target_": "gravitorch.testing.DummyClassificationModel"},
+        ...     optimizer={"_target_": "torch.optim.SGD", "lr": 0.01},
+        ...     lr_scheduler={"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
+        ... )
+        >>> creator  # doctest: +ELLIPSIS
+        VanillaCoreCreator(
+          datasource=DummyDataSource(
+            datasets:
+              (train): DummyDataset(num_examples=4, feature_size=4)
+              (eval): DummyDataset(num_examples=4, feature_size=4)
+            dataloader_creators:
+              (train): DataLoaderCreator(
+                  batch_size : 1
+                  seed       : 0
+                  shuffle    : False
+                )
+              (eval): DataLoaderCreator(
+                  batch_size : 1
+                  seed       : 0
+                  shuffle    : False
+                )
+          ),
+          model=DummyClassificationModel(
+            (linear): Linear(in_features=4, out_features=3, bias=True)
+            (criterion): CrossEntropyLoss()
+          ),
+          optimizer=SGD (
+            Parameter Group 0...
+                lr: 0.01
+                maximize: False
+                momentum: 0
+                nesterov: False
+                weight_decay: 0
+          ),
+          lr_scheduler=<torch.optim.lr_scheduler.StepLR object at 0x...>,
+        )
+        >>> engine = create_dummy_engine()
+        >>> datasource, model, optimizer, lr_scheduler = creator.create(engine)
+        >>> datasource
+        DummyDataSource(
+          datasets:
+            (train): DummyDataset(num_examples=4, feature_size=4)
+            (eval): DummyDataset(num_examples=4, feature_size=4)
+          dataloader_creators:
+            (train): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+            (eval): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+        )
+        >>> model
+        DummyClassificationModel(
+          (linear): Linear(in_features=4, out_features=3, bias=True)
+          (criterion): CrossEntropyLoss()
+        )
+        >>> optimizer  # doctest: +ELLIPSIS
+        SGD (
+          Parameter Group 0...
+              lr: 0.01
+              maximize: False
+              momentum: 0
+              nesterov: False
+              weight_decay: 0
+        )
+        >>> lr_scheduler  # doctest: +ELLIPSIS
+        <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
 
     def __init__(

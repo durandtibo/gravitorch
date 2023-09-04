@@ -26,6 +26,21 @@ def setup_optimizer_creator(creator: BaseOptimizerCreator | dict | None) -> Base
     Returns:
     -------
         ``BaseOptimizerCreator``: The instantiated optimizer creator.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
+        >>> from gravitorch.creators.optimizer import setup_optimizer_creator
+        >>> creator = setup_optimizer_creator(
+        ...     {
+        ...         "_target_": "gravitorch.creators.optimizer.VanillaOptimizerCreator",
+        ...         "optimizer_config": {"_target_": "torch.optim.SGD", "lr": 0.01},
+        ...     }
+        ... )
+        >>> creator
+        VanillaOptimizerCreator(add_module_to_engine=True)
     """
     if creator is None:
         creator = NoOptimizerCreator()

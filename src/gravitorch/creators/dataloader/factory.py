@@ -29,6 +29,20 @@ def setup_dataloader_creator(
     Returns:
     -------
         ``BaseDataLoaderCreator``: The data loader creator.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.dataloader import setup_dataloader_creator
+        >>> from gravitorch.testing import DummyDataset
+        >>> creator = setup_dataloader_creator(
+        ...     {"_target_": "gravitorch.creators.dataloader.DataLoaderCreator"}
+        ... )
+        >>> creator
+        DataLoaderCreator(
+          seed : 0
+        )
     """
     if creator is None:
         creator = AutoDataLoaderCreator()

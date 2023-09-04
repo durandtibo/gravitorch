@@ -19,6 +19,28 @@ class BaseOptimizerCreator(ABC, metaclass=AbstractFactory):
     Note that it is not the unique approach to create an optimizer. Feel
     free to use other approaches if this approach does not fit your
     needs.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
+        >>> from gravitorch.creators.optimizer import VanillaOptimizerCreator
+        >>> creator = VanillaOptimizerCreator({"_target_": "torch.optim.SGD", "lr": 0.01})
+        >>> creator
+        VanillaOptimizerCreator(add_module_to_engine=True)
+        >>> engine = create_dummy_engine()
+        >>> model = DummyClassificationModel()
+        >>> optimizer = creator.create(engine, model)
+        >>> optimizer  # doctest: +ELLIPSIS
+        SGD (
+        Parameter Group 0...
+            lr: 0.01
+            maximize: False
+            momentum: 0
+            nesterov: False
+            weight_decay: 0
+        )
     """
 
     @abstractmethod
@@ -38,4 +60,24 @@ class BaseOptimizerCreator(ABC, metaclass=AbstractFactory):
         -------
             ``torch.optim.Optimizer`` or ``None``: The created
                 optimizer or ``None`` if no optimizer is created.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
+            >>> from gravitorch.creators.optimizer import VanillaOptimizerCreator
+            >>> creator = VanillaOptimizerCreator({"_target_": "torch.optim.SGD", "lr": 0.01})
+            >>> engine = create_dummy_engine()
+            >>> model = DummyClassificationModel()
+            >>> optimizer = creator.create(engine, model)
+            >>> optimizer  # doctest: +ELLIPSIS
+            SGD (
+            Parameter Group 0...
+                lr: 0.01
+                maximize: False
+                momentum: 0
+                nesterov: False
+                weight_decay: 0
+            )
         """

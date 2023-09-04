@@ -22,6 +22,22 @@ class BaseDataLoaderCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
     This class and its child classes are designed to be used in a data
     source.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.dataloader import DataLoaderCreator
+        >>> from gravitorch.testing import DummyDataset
+        >>> creator = DataLoaderCreator()
+        >>> creator
+        DataLoaderCreator(
+          seed : 0
+        )
+        >>> dataset = DummyDataset()
+        >>> dataloader = creator.create(dataset)
+        >>> dataloader  # doctest:+ELLIPSIS
+        <torch.utils.data.dataloader.DataLoader object at 0x...>
     """
 
     @abstractmethod
@@ -41,4 +57,16 @@ class BaseDataLoaderCreator(Generic[T], ABC, metaclass=AbstractFactory):
         Returns:
         -------
             ``Iterable``: The instantiated data loader.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.creators.dataloader import DataLoaderCreator
+            >>> from gravitorch.testing import DummyDataset
+            >>> creator = DataLoaderCreator()
+            >>> dataset = DummyDataset()
+            >>> dataloader = creator.create(dataset)
+            >>> dataloader  # doctest:+ELLIPSIS
+            <torch.utils.data.dataloader.DataLoader object at 0x...>
         """

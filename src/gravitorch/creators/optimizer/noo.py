@@ -22,23 +22,26 @@ class NoOptimizerCreator(BaseOptimizerCreator):
     an optimizer. For example if you only want to evaluate your model,
     you do not need to create an optimizer. The ``create`` method always
     returns ``None``.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
+        >>> from gravitorch.creators.optimizer import VanillaOptimizerCreator
+        >>> creator = NoOptimizerCreator()
+        >>> creator
+        NoOptimizerCreator()
+        >>> engine = create_dummy_engine()
+        >>> model = DummyClassificationModel()
+        >>> optimizer = creator.create(engine, model)
+        >>> optimizer
+        None
     """
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
     def create(self, engine: BaseEngine, model: Module) -> None:
-        r"""Does not create an optimizer.
-
-        Args:
-        ----
-            engine (``gravitorch.engines.BaseEngine``): Specifies an
-                engine.
-            model (``torch.nn.Module``): Specifies a model.
-
-        Returns:
-        -------
-            ``None``: because there is no optimizer to create.
-        """
         logger.info("No optimizer")
         return
