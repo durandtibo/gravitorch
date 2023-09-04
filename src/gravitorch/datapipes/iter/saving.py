@@ -55,10 +55,6 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
     ) -> None:
         self._datapipe = datapipe
         self._root_path = sanitize_path(root_path)
-        if not self._root_path.is_dir():
-            raise NotADirectoryError(
-                f"root_path has to be a directory (received: {self._root_path})"
-            )
         self._pattern = str(pattern)
         if "index" not in self._pattern:
             raise ValueError(f"pattern does not have 'index' (received: {self._pattern})")
@@ -124,10 +120,6 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
     ) -> None:
         self._datapipe = datapipe
         self._root_path = sanitize_path(root_path)
-        if not self._root_path.is_dir():  # TODO: create path
-            raise NotADirectoryError(
-                f"root_path has to be a directory (received: {self._root_path})"
-            )
         self._pattern = str(pattern)
         if "index" not in self._pattern:
             raise ValueError(f"pattern does not have 'index' (received: {self._pattern})")
