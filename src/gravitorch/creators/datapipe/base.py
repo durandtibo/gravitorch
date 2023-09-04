@@ -26,6 +26,27 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
 
     Note: it is possible to create an ``IterDataPipe`` object without
     using this class.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.datapipe import SequentialIterDataPipeCreator
+        >>> creator = SequentialIterDataPipeCreator(
+        ...     [
+        ...         {
+        ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+        ...             "iterable": [1, 2, 3, 4],
+        ...         }
+        ...     ]
+        ... )
+        >>> creator
+        SequentialIterDataPipeCreator(
+          (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]},
+        )
+        >>> datapipe = creator.create()
+        >>> tuple(datapipe)
+        (1, 2, 3, 4)
     """
 
     @abstractmethod
@@ -56,19 +77,18 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.creators.datapipe import BaseIterDataPipeCreator
-            >>> creator: BaseIterDataPipeCreator = ...  # Create an IterDataPipe creator
-            # Create an IterDataPipe object
-            >>> from torch.utils.data import IterDataPipe
-            >>> my_datapipe: IterDataPipe = creator.create()
-            # Create an IterDataPipe object with an engine
-            >>> from gravitorch.engines import BaseEngine
-            >>> my_engine: BaseEngine = ...  # Create an engine
-            >>> my_datapipe: IterDataPipe = creator.create(my_engine)
-            # Create an IterDataPipe object with some source_inputs
-            >>> my_datapipe: IterDataPipe = creator.create(source_inputs=[...])
-            # Create an IterDataPipe object with en engine and some source_inputs
-            >>> my_datapipe: IterDataPipe = creator.create(engine=my_engine, source_inputs=[...])
+            >>> from gravitorch.creators.datapipe import SequentialIterDataPipeCreator
+            >>> creator = SequentialIterDataPipeCreator(
+            ...     [
+            ...         {
+            ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+            ...             "iterable": [1, 2, 3, 4],
+            ...         }
+            ...     ]
+            ... )
+            >>> datapipe = creator.create()
+            >>> tuple(datapipe)
+            (1, 2, 3, 4)
         """
 
 
@@ -94,27 +114,13 @@ def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> Base
     .. code-block:: pycon
 
         >>> from gravitorch.creators.datapipe import setup_iter_datapipe_creator
-        # Set up an ``IterDataPipe`` creator from an ``IterDataPipe`` creator i.e. do nothing ;)
-        >>> from gravitorch.creators.datapipe import SequentialIterDataPipeCreator
-        >>> creator = setup_iter_datapipe_creator(
-        ...     SequentialIterDataPipeCreator(
-        ...         config=[
-        ...             {
-        ...                 OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapperIterDataPipe",
-        ...                 "data": [1, 2, 3, 4],
-        ...             }
-        ...         ],
-        ...     )
-        ... )
-        # Set up an ``IterDataPipe`` creator from its config
-        >>> from objectory import OBJECT_TARGET
         >>> creator = setup_iter_datapipe_creator(
         ...     {
-        ...         OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+        ...         "_target_": "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
         ...         "config": [
         ...             {
-        ...                 OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapperIterDataPipe",
-        ...                 "data": [1, 2, 3, 4],
+        ...                 "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+        ...                 "iterable": [1, 2, 3, 4],
         ...             }
         ...         ],
         ...     }

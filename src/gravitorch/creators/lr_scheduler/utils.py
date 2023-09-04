@@ -28,6 +28,27 @@ def setup_lr_scheduler_creator(
     -------
         ``BaseLRSchedulerCreator``: The instantiated LR scheduler
             creator.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.creators.lr_scheduler import setup_lr_scheduler_creator
+        >>> creator = setup_lr_scheduler_creator(
+        ...     {
+        ...         "_target_": "gravitorch.creators.lr_scheduler.VanillaLRSchedulerCreator",
+        ...         "lr_scheduler_config": {
+        ...             "_target_": "torch.optim.lr_scheduler.StepLR",
+        ...             "step_size": 5,
+        ...         },
+        ...     }
+        ... )
+        >>> creator
+        VanillaLRSchedulerCreator(
+          lr_scheduler_handler=None,
+          add_module_to_engine=True,
+        )
     """
     if creator is None:
         creator = VanillaLRSchedulerCreator()

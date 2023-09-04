@@ -36,6 +36,34 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
             of the ``IterDataPipe``. If this key exists in ``config``,
             it will be replaced by a new value, based on the engine
             state.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.creators.datapipe import EpochRandomIterDataPipeCreator
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> creator = EpochRandomIterDataPipeCreator(
+        ...     {
+        ...         "_target_": "gravitorch.datapipes.iter.TensorDictShuffler",
+        ...         "datapipe": {
+        ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+        ...             "iterable": [1, 2, 3, 4, 5],
+        ...         },
+        ...         "random_seed": 42,
+        ...     }
+        ... )
+        >>> creator
+        EpochRandomIterDataPipeCreator(config={'_target_': 'gravitorch.datapipes.iter.TensorDictShuffler', 'datapipe': {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4, 5]}, 'random_seed': 42}, random_seed_key=random_seed)
+        >>> engine = create_dummy_engine()
+        >>> dp = creator.create(engine)
+        >>> dp
+        TensorDictShufflerIterDataPipe(
+          dim=0,
+          random_seed=41,
+          datapipe={'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4, 5]},
+        )
     """
 
     def __init__(self, config: dict, random_seed_key: str = "random_seed") -> None:

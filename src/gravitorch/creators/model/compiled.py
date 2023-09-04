@@ -31,6 +31,37 @@ class CompiledModelCreator(BaseModelCreator):
             arguments used to compile the model. Please read the
             documentation of ``torch.compile`` to see the possible
             options. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> from gravitorch.creators.model import (
+        ...     CompiledModelCreator,
+        ...     VanillaModelCreator,
+        ... )
+        >>> creator = CompiledModelCreator(
+        ...     VanillaModelCreator({"_target_": "gravitorch.testing.DummyClassificationModel"})
+        ... )
+        >>> creator
+        CompiledModelCreator(
+          model_creator=VanillaModelCreator(
+            attach_model_to_engine=True,
+            add_module_to_engine=True,
+            device_placement=AutoDevicePlacement(device=cpu),
+          ),
+          compile_kwargs={},
+        )
+        >>> engine = create_dummy_engine()
+        >>> model = creator.create(engine)
+        >>> model
+        OptimizedModule(
+          (_orig_mod): DummyClassificationModel(
+            (linear): Linear(in_features=4, out_features=3, bias=True)
+            (criterion): CrossEntropyLoss()
+          )
+        )
     """
 
     def __init__(

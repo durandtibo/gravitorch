@@ -25,6 +25,35 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
     Note that it is not the unique approach to create a datasource. Feel
     free to use other approaches if this approach does not fit your
     needs.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> from gravitorch.creators.datasource import VanillaDataSourceCreator
+        >>> creator = VanillaDataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
+        >>> creator
+        VanillaDataSourceCreator(attach_to_engine=True, add_module_to_engine=True)
+        >>> engine = create_dummy_engine()
+        >>> datasource = creator.create(engine)
+        >>> datasource
+        DummyDataSource(
+          datasets:
+            (train): DummyDataset(num_examples=4, feature_size=4)
+            (eval): DummyDataset(num_examples=4, feature_size=4)
+          dataloader_creators:
+            (train): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+            (eval): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+        )
     """
 
     @abstractmethod
@@ -43,6 +72,33 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
         -------
             ``gravitorch.datasources.BaseDataSource``: The created data
                 source.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> from gravitorch.creators.datasource import VanillaDataSourceCreator
+            >>> creator = VanillaDataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
+            >>> engine = create_dummy_engine()
+            >>> datasource = creator.create(engine)
+            >>> datasource
+            DummyDataSource(
+              datasets:
+                (train): DummyDataset(num_examples=4, feature_size=4)
+                (eval): DummyDataset(num_examples=4, feature_size=4)
+              dataloader_creators:
+                (train): DataLoaderCreator(
+                    batch_size : 1
+                    seed       : 0
+                    shuffle    : False
+                  )
+                (eval): DataLoaderCreator(
+                    batch_size : 1
+                    seed       : 0
+                    shuffle    : False
+                  )
+            )
         """
 
 
@@ -61,6 +117,20 @@ def setup_datasource_creator(creator: BaseDataSourceCreator | dict) -> BaseDataS
     -------
         ``BaseDataSourceCreator``: The instantiated datasource
             creator.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.datasource import setup_datasource_creator
+        >>> creator = setup_datasource_creator(
+        ...     {
+        ...         "_target_": "gravitorch.creators.datasource.VanillaDataSourceCreator",
+        ...         "config": {"_target_": "gravitorch.testing.DummyDataSource"},
+        ...     }
+        ... )
+        >>> creator
+        VanillaDataSourceCreator(attach_to_engine=True, add_module_to_engine=True)
     """
     if isinstance(creator, dict):
         logger.info(

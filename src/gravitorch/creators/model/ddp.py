@@ -35,6 +35,35 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
             options. Note that it is not possible to set ``module``
             and ``device_ids`` with a keyword argument.
             Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> from gravitorch.creators.model import (
+        ...     DataDistributedParallelModelCreator,
+        ...     VanillaModelCreator,
+        ... )
+        >>> creator = DataDistributedParallelModelCreator(
+        ...     VanillaModelCreator({"_target_": "gravitorch.testing.DummyClassificationModel"})
+        ... )
+        >>> creator
+        DataDistributedParallelModelCreator(
+          model_creator=VanillaModelCreator(
+            attach_model_to_engine=True,
+            add_module_to_engine=True,
+            device_placement=AutoDevicePlacement(device=cpu),
+          ),
+          ddp_kwargs={},
+        )
+        >>> engine = create_dummy_engine()
+        >>> model = creator.create(engine)
+        >>> model
+        DummyClassificationModel(
+          (linear): Linear(in_features=4, out_features=3, bias=True)
+          (criterion): CrossEntropyLoss()
+        )
     """
 
     def __init__(
@@ -77,6 +106,14 @@ def to_ddp(module: nn.Module, ddp_kwargs: dict | None = None) -> nn.Module:
     -------
         ``torch.nn.Module``: The model wrapped in a
             ``DistributedDataParallel`` module.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.creators.model.ddp import to_ddp
+        >>> to_ddp(torch.nn.Linear(4, 6))
     """
     if isinstance(module, DistributedDataParallel):
         logger.warning(

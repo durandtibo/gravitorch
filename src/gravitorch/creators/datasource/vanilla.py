@@ -31,6 +31,35 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
             source is added to the engine state, so the datasource
             state is stored when the engine creates a checkpoint.
             Default: ``True``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> from gravitorch.creators.datasource import VanillaDataSourceCreator
+        >>> creator = VanillaDataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
+        >>> creator
+        VanillaDataSourceCreator(attach_to_engine=True, add_module_to_engine=True)
+        >>> engine = create_dummy_engine()
+        >>> datasource = creator.create(engine)
+        >>> datasource
+        DummyDataSource(
+          datasets:
+            (train): DummyDataset(num_examples=4, feature_size=4)
+            (eval): DummyDataset(num_examples=4, feature_size=4)
+          dataloader_creators:
+            (train): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+            (eval): DataLoaderCreator(
+                batch_size : 1
+                seed       : 0
+                shuffle    : False
+              )
+        )
     """
 
     def __init__(

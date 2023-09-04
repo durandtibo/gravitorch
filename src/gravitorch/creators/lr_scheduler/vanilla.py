@@ -43,6 +43,28 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
             scheduler is added to the engine state, so the LR
             scheduler state is stored when the engine creates a
             checkpoint. Default: ``True``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
+        >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
+        >>> creator = VanillaLRSchedulerCreator(
+        ...     {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5}
+        ... )
+        >>> creator
+        VanillaLRSchedulerCreator(
+          lr_scheduler_handler=None,
+          add_module_to_engine=True,
+        )
+        >>> engine = create_dummy_engine()
+        >>> model = DummyClassificationModel()
+        >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+        >>> lr_scheduler = creator.create(engine, optimizer)
+        >>> lr_scheduler  # doctest: +ELLIPSIS
+        <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
 
     def __init__(

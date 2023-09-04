@@ -39,6 +39,24 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
     ----
         **kwargs: See ``DataLoaderCreator`` or
             ``DistributedDataLoaderCreator`` documentation.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.dataloader import AutoDataLoaderCreator
+        >>> from gravitorch.testing import DummyDataset
+        >>> creator = AutoDataLoaderCreator()
+        >>> creator
+        AutoDataLoaderCreator(
+          creator=DataLoaderCreator(
+            seed : 0
+          )
+        )
+        >>> dataset = DummyDataset()
+        >>> dataloader = creator.create(dataset)
+        >>> dataloader  # doctest:+ELLIPSIS
+        <torch.utils.data.dataloader.DataLoader object at 0x...>
     """
 
     def __init__(self, **kwargs) -> None:
@@ -48,7 +66,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
             self._creator = DataLoaderCreator(**kwargs)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  creator={str_indent(str(self._creator))},\n)"
+        return f"{self.__class__.__qualname__}(\n  creator={str_indent(str(self._creator))}\n)"
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         return self._creator.create(dataset=dataset, engine=engine)
@@ -66,6 +84,22 @@ class DataLoaderCreator(BaseDataLoaderCreator[T]):
         seed (int, optional): Specifies the random seed used to
             reproduce the shuffling of the samples. Default: ``0``
         **kwargs: See ``torch.utils.data.DataLoader`` documentation.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.dataloader import DataLoaderCreator
+        >>> from gravitorch.testing import DummyDataset
+        >>> creator = DataLoaderCreator()
+        >>> creator
+        DataLoaderCreator(
+          seed : 0
+        )
+        >>> dataset = DummyDataset()
+        >>> dataloader = creator.create(dataset)
+        >>> dataloader  # doctest:+ELLIPSIS
+        <torch.utils.data.dataloader.DataLoader object at 0x...>
     """
 
     def __init__(self, seed: int = 0, **kwargs) -> None:
@@ -107,6 +141,24 @@ class DistributedDataLoaderCreator(BaseDataLoaderCreator[T]):
         seed (int, optional): Specifies the random seed used to
             shuffle the samples if ``shuffle=True``. Default: ``0``
         **kwargs: See ``torch.utils.data.DataLoader`` documentation.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.dataloader import DistributedDataLoaderCreator
+        >>> from gravitorch.testing import DummyDataset
+        >>> creator = DistributedDataLoaderCreator()
+        >>> creator
+        DistributedDataLoaderCreator(
+          drop_last : False
+          seed      : 0
+          shuffle   : True
+        )
+        >>> dataset = DummyDataset()
+        >>> dataloader = creator.create(dataset)
+        >>> dataloader  # doctest:+ELLIPSIS
+        <torch.utils.data.dataloader.DataLoader object at 0x...>
     """
 
     def __init__(

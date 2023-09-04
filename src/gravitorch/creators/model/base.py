@@ -20,8 +20,32 @@ logger = logging.getLogger(__name__)
 class BaseModelCreator(ABC, metaclass=AbstractFactory):
     r"""Defines the base class to create a model.
 
-    Note that it is not the unique approach to create a model. Feel free
-    to use other approaches if this approach does not fit your needs.
+    Note that it is not the unique approach to create a model. Feel
+    free to use other approaches if this approach does not fit your
+    needs.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> from gravitorch.creators.model import VanillaModelCreator
+        >>> creator = VanillaModelCreator(
+        ...     {"_target_": "gravitorch.testing.DummyClassificationModel"}
+        ... )
+        >>> creator
+        VanillaModelCreator(
+          attach_model_to_engine=True,
+          add_module_to_engine=True,
+          device_placement=AutoDevicePlacement(device=cpu),
+        )
+        >>> engine = create_dummy_engine()
+        >>> model = creator.create(engine)
+        >>> model
+        DummyClassificationModel(
+          (linear): Linear(in_features=4, out_features=3, bias=True)
+          (criterion): CrossEntropyLoss()
+        )
     """
 
     @abstractmethod
@@ -40,6 +64,23 @@ class BaseModelCreator(ABC, metaclass=AbstractFactory):
         Returns:
         -------
             ``torch.nn.Module``: The created model.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.testing import create_dummy_engine
+            >>> from gravitorch.creators.model import VanillaModelCreator
+            >>> creator = VanillaModelCreator(
+            ...     {"_target_": "gravitorch.testing.DummyClassificationModel"}
+            ... )
+            >>> engine = create_dummy_engine()
+            >>> model = creator.create(engine)
+            >>> model
+            DummyClassificationModel(
+              (linear): Linear(in_features=4, out_features=3, bias=True)
+              (criterion): CrossEntropyLoss()
+            )
         """
 
 
@@ -57,6 +98,24 @@ def setup_model_creator(creator: BaseModelCreator | dict) -> BaseModelCreator:
     Returns:
     -------
         ``BaseModelCreator``: The instantiated model creator.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.model import setup_model_creator
+        >>> creator = setup_model_creator(
+        ...     {
+        ...         "_target_": "gravitorch.creators.model.VanillaModelCreator",
+        ...         "model_config": {"_target_": "gravitorch.testing.DummyClassificationModel"},
+        ...     }
+        ... )
+        >>> creator
+        VanillaModelCreator(
+          attach_model_to_engine=True,
+          add_module_to_engine=True,
+          device_placement=AutoDevicePlacement(device=cpu),
+        )
     """
     if isinstance(creator, dict):
         logger.info(

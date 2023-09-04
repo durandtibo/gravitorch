@@ -5,7 +5,7 @@ __all__ = ["ZeroRedundancyOptimizerCreator"]
 import logging
 from typing import TYPE_CHECKING
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from objectory import OBJECT_TARGET
 from torch.distributed.optim import ZeroRedundancyOptimizer
 from torch.nn import Module
@@ -56,6 +56,25 @@ class ZeroRedundancyOptimizerCreator(BaseOptimizerCreator):
             optimizer state dict is important to export the optimizer
             state dict. If ``False``, no handler is attached.
             Default: ``True``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
+        >>> from gravitorch.creators.optimizer import ZeroRedundancyOptimizerCreator
+        >>> creator = ZeroRedundancyOptimizerCreator({"_target_": "torch.optim.SGD", "lr": 0.01})
+        >>> creator
+        ZeroRedundancyOptimizerCreator(
+          (optimizer_class): <class 'torch.optim.sgd.SGD'>
+          (optimizer_config): {'lr': 0.01}
+          (zero_kwargs): {}
+          (add_module_to_engine): True
+          (attach_handler): True
+        )
+        >>> engine = create_dummy_engine()
+        >>> model = DummyClassificationModel()
+        >>> optimizer = creator.create(engine, model)  # doctest: +SKIP
     """
 
     def __init__(
@@ -72,33 +91,20 @@ class ZeroRedundancyOptimizerCreator(BaseOptimizerCreator):
         self._attach_handler = bool(attach_handler)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  optimizer_class={self._optimizer_class},\n"
-            f"  optimizer_config={str_indent(str_pretty_json(self._optimizer_config))},\n"
-            f"  zero_kwargs={str_indent(str_pretty_json(self._zero_kwargs))},\n"
-            f"  add_module_to_engine={self._add_module_to_engine},\n"
-            f"  attach_handler={self._attach_handler},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "optimizer_class": self._optimizer_class,
+                    "optimizer_config": str_pretty_json(self._optimizer_config),
+                    "zero_kwargs": str_pretty_json(self._zero_kwargs),
+                    "add_module_to_engine": self._add_module_to_engine,
+                    "attach_handler": self._attach_handler,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, engine: BaseEngine, model: Module) -> ZeroRedundancyOptimizer:
-        r"""Creates a zero redundancy optimizer (ZeRO).
-
-        This method is responsible to register the event handlers
-        associated to the optimizer.
-
-        Args:
-        ----
-            engine (``gravitorch.engines.BaseEngine``): Specifies an
-                engine.
-            model (``torch.nn.Module``): Specifies a model.
-
-        Returns:
-        -------
-            ``torch.distributed.optim.ZeroRedundancyOptimizer``: The
-                created zero redundancy optimizer (ZeRO).
-        """
         optimizer = ZeroRedundancyOptimizer(
             params=model.parameters(),
             optimizer_class=self._optimizer_class,

@@ -20,6 +20,28 @@ class BaseLRSchedulerCreator(ABC, metaclass=AbstractFactory):
     Note that it is not the unique approach to create a LR scheduler.
     Feel free to use other approaches if this approach does not fit your
     needs.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
+        >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
+        >>> creator = VanillaLRSchedulerCreator(
+        ...     {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5}
+        ... )
+        >>> creator
+        VanillaLRSchedulerCreator(
+          lr_scheduler_handler=None,
+          add_module_to_engine=True,
+        )
+        >>> engine = create_dummy_engine()
+        >>> model = DummyClassificationModel()
+        >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+        >>> lr_scheduler = creator.create(engine, optimizer)
+        >>> lr_scheduler  # doctest: +ELLIPSIS
+        <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
 
     @abstractmethod
@@ -44,4 +66,21 @@ class BaseLRSchedulerCreator(ABC, metaclass=AbstractFactory):
         -------
             ``LRSchedulerType`` or ``None``: The created LR scheduler
                 or ``None`` if there is no LR scheduler to create.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
+            >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
+            >>> creator = VanillaLRSchedulerCreator(
+            ...     {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5}
+            ... )
+            >>> engine = create_dummy_engine()
+            >>> model = DummyClassificationModel()
+            >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+            >>> lr_scheduler = creator.create(engine, optimizer)
+            >>> lr_scheduler  # doctest: +ELLIPSIS
+            <torch.optim.lr_scheduler.StepLR object at 0x...>
         """

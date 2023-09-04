@@ -42,6 +42,29 @@ class VanillaModelCreator(BaseModelCreator):
             placement module. This module moves the model on a target
             device. If ``None``, an ``AutoDevicePlacement`` object is
             instantiated. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> from gravitorch.creators.model import VanillaModelCreator
+        >>> creator = VanillaModelCreator(
+        ...     {"_target_": "gravitorch.testing.DummyClassificationModel"}
+        ... )
+        >>> creator
+        VanillaModelCreator(
+          attach_model_to_engine=True,
+          add_module_to_engine=True,
+          device_placement=AutoDevicePlacement(device=cpu),
+        )
+        >>> engine = create_dummy_engine()
+        >>> model = creator.create(engine)
+        >>> model
+        DummyClassificationModel(
+          (linear): Linear(in_features=4, out_features=3, bias=True)
+          (criterion): CrossEntropyLoss()
+        )
     """
 
     def __init__(
