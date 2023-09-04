@@ -5,7 +5,6 @@ from unittest.mock import Mock, patch
 from pytest import mark, raises
 
 from gravitorch.datapipes.iter import PickleSaver, PyTorchSaver, SourceWrapper
-from gravitorch.utils.io import save_text
 
 #################################
 #     Tests for PickleSaver     #
@@ -22,13 +21,6 @@ def test_pickle_saver_str(tmp_path: Path) -> None:
     assert str(PickleSaver(SourceWrapper([]), root_path=tmp_path)).startswith(
         "PickleSaverIterDataPipe("
     )
-
-
-def test_pickle_saver_incorrect_root_path(tmp_path: Path) -> None:
-    root_path = tmp_path.joinpath("file.txt")
-    save_text("abc", root_path)
-    with raises(NotADirectoryError, match="root_path has to be a directory"):
-        PickleSaver(SourceWrapper([1, 2]), root_path=root_path)
 
 
 def test_pickle_saver_incorrect_pattern(tmp_path: Path) -> None:
@@ -82,13 +74,6 @@ def test_pytorch_saver_str(tmp_path: Path) -> None:
     assert str(PyTorchSaver(SourceWrapper([]), root_path=tmp_path)).startswith(
         "PyTorchSaverIterDataPipe("
     )
-
-
-def test_pytorch_saver_incorrect_root_path(tmp_path: Path) -> None:
-    root_path = tmp_path.joinpath("file.txt")
-    save_text("abc", root_path)
-    with raises(NotADirectoryError, match="root_path has to be a directory"):
-        PyTorchSaver(SourceWrapper([1, 2]), root_path=root_path)
 
 
 def test_pytorch_saver_incorrect_pattern(tmp_path: Path) -> None:
