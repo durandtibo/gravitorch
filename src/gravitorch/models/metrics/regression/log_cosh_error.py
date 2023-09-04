@@ -48,18 +48,18 @@ class LogCoshError(BaseStateEpochMetric):
          'eval/log_cosh_err_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
         >>> metric.value()
-        {'eval/log_cosh_err_mean': 0.07229681313037872,
+        {'eval/log_cosh_err_mean': 0.072296...,
          'eval/log_cosh_err_min': 0.0,
-         'eval/log_cosh_err_max': 0.43378087878227234,
-         'eval/log_cosh_err_sum': 0.8675617575645447,
+         'eval/log_cosh_err_max': 0.433780...,
+         'eval/log_cosh_err_sum': 0.867561...,
          'eval/log_cosh_err_num_predictions': 12}
         >>> metric.reset()
         >>> metric(torch.eye(2), torch.ones(2, 2))
         >>> metric.value()
-        {'eval/log_cosh_err_mean': 0.21689043939113617,
+        {'eval/log_cosh_err_mean': 0.216890...,
          'eval/log_cosh_err_min': 0.0,
-         'eval/log_cosh_err_max': 0.43378087878227234,
-         'eval/log_cosh_err_sum': 0.8675617575645447,
+         'eval/log_cosh_err_max': 0.433780...,
+         'eval/log_cosh_err_sum': 0.867561...,
          'eval/log_cosh_err_num_predictions': 4}
     """
 

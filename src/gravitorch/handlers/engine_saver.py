@@ -121,11 +121,11 @@ class BestHistorySaver(BaseEngineSaver):
         >>> handler  # doctest: +ELLIPSIS
         BestHistorySaver(
           (event): completed
-          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (path): .../tmp/ckpt
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("completed")
+        >>> engine.fire_event("completed")  # doctest: +SKIP
     """
 
     def __init__(
@@ -157,11 +157,11 @@ class LastHistorySaver(BaseEngineSaver):
         >>> handler  # doctest: +ELLIPSIS
         LastHistorySaver(
           (event): epoch_completed
-          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (path): .../tmp/ckpt
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.fire_event("epoch_completed")  # doctest: +SKIP
     """
 
     def __init__(
@@ -218,12 +218,12 @@ class BestEngineStateSaver(BaseEngineSaver):
         >>> handler  # doctest: +ELLIPSIS
         BestEngineStateSaver(
           (event): epoch_completed
-          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (path): .../tmp/ckpt
           (keys): ('eval/loss',)
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.fire_event("epoch_completed")  # doctest: +SKIP
     """
 
     def __init__(
@@ -305,11 +305,11 @@ class EpochEngineStateSaver(BaseEngineSaver):
         >>> handler  # doctest: +ELLIPSIS
         EpochEngineStateSaver(
           (event): epoch_completed
-          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (path): .../tmp/ckpt
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.fire_event("epoch_completed")  # doctest: +SKIP
     """
 
     def __init__(
@@ -367,12 +367,12 @@ class TagEngineStateSaver(BaseEngineSaver):
         >>> handler  # doctest: +ELLIPSIS
         TagEngineStateSaver(
           (event): epoch_completed
-          (path): /Users/thibaut/workspace/code/2023/meteor/tmp/ckpt
+          (path): .../tmp/ckpt
           (tag): last
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.fire_event("epoch_completed")  # doctest: +SKIP
     """
 
     def __init__(

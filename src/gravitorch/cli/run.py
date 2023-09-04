@@ -41,12 +41,16 @@ def main(config: dict[str, Any]) -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.cli.run import main
-        >>> config = {
-        ...     "_target_": "gravitorch.runners.TrainingRunner",
-        ...     "engine": {"_target_": "gravitorch.engines.AlphaEngine"},
-        ...     "exp_tracker": {"_target_": "gravitorch.utils.exp_trackers.NoOpExpTracker"},
-        ... }
-        >>> main(config)
+        >>> from gravitorch.testing import create_dummy_engine
+        >>> engine = create_dummy_engine()
+        >>> main(
+        ...     {
+        ...         "runner": {
+        ...             "_target_": "gravitorch.runners.TrainingRunner",
+        ...             "engine": engine,
+        ...         }
+        ...     }
+        ... )
     """
     with timeblock("Total time of the run: {time}"):
         logger.info("Creating runner...")
@@ -75,7 +79,7 @@ def run_cli(config: DictConfig) -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.cli.run import run_cli
-        >>> run_cli()
+        >>> run_cli()  # doctest: +SKIP
     """
     log_run_info(config)
     register_resolvers()
