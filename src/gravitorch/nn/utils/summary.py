@@ -20,7 +20,7 @@ import torch
 from torch.nn import Module
 from torch.utils.hooks import RemovableHandle
 
-from gravitorch.nn.utils.module_helpers import num_learnable_parameters, num_parameters
+from gravitorch.nn.utils.helpers import num_learnable_parameters, num_parameters
 
 PARAMETER_NUM_UNITS = (" ", "K", "M", "B", "T")
 UNKNOWN_SIZE = "?"

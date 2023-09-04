@@ -10,7 +10,7 @@ from objectory import factory
 from torch.nn import Module
 from torch.optim import Optimizer
 
-from gravitorch.nn.utils.module_helpers import has_learnable_parameters
+from gravitorch.nn.utils.helpers import has_learnable_parameters
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)

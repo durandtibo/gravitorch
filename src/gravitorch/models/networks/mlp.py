@@ -11,7 +11,7 @@ from torch import Tensor, nn
 
 from gravitorch import constants as ct
 from gravitorch.nn.utils.factory import setup_module
-from gravitorch.nn.utils.module_helpers import get_module_device, get_module_name
+from gravitorch.nn.utils.helpers import get_module_device, get_module_name
 
 
 class BaseMLP(nn.Module):

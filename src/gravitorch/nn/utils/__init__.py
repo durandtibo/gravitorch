@@ -38,7 +38,7 @@ from gravitorch.nn.utils.factory import (
     is_module_config,
     setup_module,
 )
-from gravitorch.nn.utils.module_helpers import (
+from gravitorch.nn.utils.helpers import (
     freeze_module,
     get_module_device,
     get_module_devices,

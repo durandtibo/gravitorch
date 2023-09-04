@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 from torch.nn import Module
 
 from gravitorch.models.utils.summary import ModelSummary
-from gravitorch.nn.utils.module_helpers import (
+from gravitorch.nn.utils.helpers import (
     get_module_devices,
     num_learnable_parameters,
     num_parameters,

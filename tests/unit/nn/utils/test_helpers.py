@@ -17,7 +17,7 @@ from gravitorch.nn import (
     num_parameters,
     unfreeze_module,
 )
-from gravitorch.nn.utils.module_helpers import (
+from gravitorch.nn.utils.helpers import (
     _get_sequential_input_size,
     _get_sequential_output_size,
     get_module_name,

@@ -13,10 +13,7 @@ from torch.nn import Module, SyncBatchNorm
 from torch.nn.parallel import DistributedDataParallel
 
 from gravitorch.distributed import comm as dist
-from gravitorch.nn.utils.module_helpers import (
-    has_learnable_parameters,
-    is_module_on_device,
-)
+from gravitorch.nn.utils.helpers import has_learnable_parameters, is_module_on_device
 
 logger = logging.getLogger(__name__)
 
