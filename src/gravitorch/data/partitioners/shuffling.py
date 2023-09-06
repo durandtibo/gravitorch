@@ -6,7 +6,7 @@ from collections.abc import Sequence
 from typing import TypeVar
 
 import torch
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 
 from gravitorch.data.partitioners.base import BasePartitioner, setup_partitioner
 from gravitorch.engines import BaseEngine
@@ -40,8 +40,8 @@ class EpochShufflePartitioner(BasePartitioner[T]):
         >>> partitioner = EpochShufflePartitioner(partitioner=FixedSizePartitioner(3))
         >>> partitioner
         EpochShufflePartitioner(
-          partitioner=FixedSizePartitioner(partition_size=3, drop_last=False),
-          random_seed=7553907118525846636,
+          (partitioner): FixedSizePartitioner(partition_size=3, drop_last=False)
+          (random_seed): 7553907118525846636
         )
         >>> partitions = partitioner.partition(list(range(10)))
         >>> partitions  # doctest: +ELLIPSIS
@@ -55,12 +55,10 @@ class EpochShufflePartitioner(BasePartitioner[T]):
         self._random_seed = random_seed
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  partitioner={str_indent(self._partitioner)},\n"
-            f"  random_seed={self._random_seed},\n"
-            ")"
+        args = str_indent(
+            str_mapping({"partitioner": self._partitioner, "random_seed": self._random_seed})
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     @property
     def partitioner(self) -> BasePartitioner:

@@ -5,7 +5,7 @@ __all__ = ["DDPPartitioner", "SyncParallelPartitioner"]
 from collections.abc import Sequence
 from typing import TypeVar
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 
 from gravitorch.data.partitioners.base import BasePartitioner, setup_partitioner
 from gravitorch.distributed.ddp import broadcast_object_list
@@ -76,7 +76,7 @@ class SyncParallelPartitioner(BasePartitioner[T]):
         >>> partitioner = SyncParallelPartitioner(FixedSizePartitioner(partition_size=3))
         >>> partitioner
          SyncParallelPartitioner(
-          partitioner=FixedSizePartitioner(partition_size=3, drop_last=False),
+          (partitioner): FixedSizePartitioner(partition_size=3, drop_last=False)
         )
         >>> partitions = partitioner.partition(list(range(10)))
         >>> partitions
@@ -87,11 +87,8 @@ class SyncParallelPartitioner(BasePartitioner[T]):
         self._partitioner = setup_partitioner(partitioner)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  partitioner={str_indent(self._partitioner)},\n"
-            ")"
-        )
+        args = str_indent(str_mapping({"partitioner": self._partitioner}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     @property
     def partitioner(self) -> BasePartitioner:
