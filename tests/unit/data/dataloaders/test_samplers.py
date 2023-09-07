@@ -22,11 +22,15 @@ def batch_sampler() -> BatchSampler:
     return BatchSampler(SequentialSampler(range(10)), batch_size=3, drop_last=False)
 
 
-def test_reproducible_batch_sampler(batch_sampler: BatchSampler) -> None:
+def test_reproducible_batch_sampler_str(batch_sampler: BatchSampler) -> None:
+    assert str(ReproducibleBatchSampler(batch_sampler)).startswith("ReproducibleBatchSampler(")
+
+
+def test_reproducible_batch_sampler_iter(batch_sampler: BatchSampler) -> None:
     assert list(ReproducibleBatchSampler(batch_sampler)) == [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
 
 
-def test_reproducible_batch_sampler_multiple_sampling(batch_sampler: BatchSampler) -> None:
+def test_reproducible_batch_sampler_iter_multiple_sampling(batch_sampler: BatchSampler) -> None:
     assert list(ReproducibleBatchSampler(batch_sampler)) == [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
 
 
@@ -40,7 +44,7 @@ def test_reproducible_batch_sampler_multiple_sampling(batch_sampler: BatchSample
         (4, []),
     ),
 )
-def test_reproducible_batch_sampler_start_iteration(
+def test_reproducible_batch_sampler_iter_start_iteration(
     batch_sampler: BatchSampler, start_iteration: int, batch_indices: list[int]
 ) -> None:
     rbs = ReproducibleBatchSampler(batch_sampler, start_iteration=start_iteration)
@@ -48,14 +52,16 @@ def test_reproducible_batch_sampler_start_iteration(
     assert list(rbs) == batch_indices
 
 
-def test_reproducible_batch_sampler_incorrect() -> None:
+def test_reproducible_batch_sampler_iter_incorrect() -> None:
     with raises(
         TypeError, match="Argument batch_sampler should be torch.utils.data.sampler.BatchSampler"
     ):
         ReproducibleBatchSampler([1, 2, 3], start_iteration=-1)
 
 
-def test_reproducible_batch_sampler_start_iteration_incorrect(batch_sampler: BatchSampler) -> None:
+def test_reproducible_batch_sampler_iter_start_iteration_incorrect(
+    batch_sampler: BatchSampler,
+) -> None:
     with raises(ValueError, match="Argument start_iteration should be positive integer"):
         ReproducibleBatchSampler(batch_sampler, start_iteration=-1)
 
@@ -63,6 +69,12 @@ def test_reproducible_batch_sampler_start_iteration_incorrect(batch_sampler: Bat
 ##############################################
 #     Tests for PartialSequentialSampler     #
 ##############################################
+
+
+def test_partial_sequential_sampler_str() -> None:
+    assert str(PartialSequentialSampler(range(10), num_samples=5)).startswith(
+        "PartialSequentialSampler("
+    )
 
 
 def test_partial_sequential_sampler_num_samples_5() -> None:
@@ -107,6 +119,10 @@ def test_partial_sequential_sampler_incorrect() -> None:
 ##########################################
 #     Tests for PartialRandomSampler     #
 ##########################################
+
+
+def test_partial_random_sampler_str() -> None:
+    assert str(PartialRandomSampler(range(10), num_samples=5)).startswith("PartialRandomSampler(")
 
 
 @patch("torch.randperm", lambda x: torch.tensor([6, 5, 4, 0, 8, 9, 2, 1, 3, 7]))
