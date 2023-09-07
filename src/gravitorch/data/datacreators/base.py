@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-__all__ = ["BaseDataCreator", "setup_data_creator"]
+__all__ = ["BaseDataCreator", "is_datacreator_config", "setup_data_creator"]
 
 import logging
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 from objectory import AbstractFactory
+from objectory.utils import is_object_config
 
 from gravitorch.utils.format import str_target_object
 
@@ -57,6 +58,37 @@ class BaseDataCreator(ABC, Generic[T], metaclass=AbstractFactory):
             >>> data  # doctest: +ELLIPSIS
             {'target': tensor([...]), 'input': tensor([[...]])}
         """
+
+
+def is_datacreator_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseDataCreator``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseDataCreator`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.datacreators import is_datacreator_config
+        >>> is_datacreator_config(
+        ...     {"_target_": "gravitorch.data.datacreators.HypercubeVertexDataCreator"}
+        ... )
+        True
+    """
+    return is_object_config(config, BaseDataCreator)
 
 
 def setup_data_creator(data_creator: BaseDataCreator | dict) -> BaseDataCreator:

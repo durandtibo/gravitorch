@@ -7,8 +7,24 @@ from objectory import OBJECT_TARGET
 from gravitorch.data.datacreators import (
     BaseDataCreator,
     HypercubeVertexDataCreator,
+    is_datacreator_config,
     setup_data_creator,
 )
+
+###########################################
+#     Tests for is_datacreator_config     #
+###########################################
+
+
+def test_is_datacreator_config_true() -> None:
+    assert is_datacreator_config(
+        {OBJECT_TARGET: "gravitorch.data.datacreators.HypercubeVertexDataCreator"}
+    )
+
+
+def test_is_datacreator_config_false() -> None:
+    assert not is_datacreator_config({OBJECT_TARGET: "torch.nn.Identity"})
+
 
 ########################################
 #     Tests for setup_data_creator     #
