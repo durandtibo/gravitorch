@@ -6,7 +6,7 @@ import copy
 import logging
 from typing import TYPE_CHECKING, Any, TypeVar
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 
 from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
 
@@ -43,9 +43,9 @@ class CacheDataCreator(BaseDataCreator[T]):
         ... )
         >>> creator
         CacheDataCreator(
-          creator=HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=15782179921860610490),
-          is_cache_created=False,
-          deepcopy=False,
+          (creator): HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=15782179921860610490)
+          (is_cache_created): False
+          (deepcopy): False
         )
         >>> data = creator.create()
         >>> data  # doctest: +ELLIPSIS
@@ -61,13 +61,16 @@ class CacheDataCreator(BaseDataCreator[T]):
         self._cached_data: Any = None
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  creator={str_indent(self._creator)},\n"
-            f"  is_cache_created={self._is_cache_created},\n"
-            f"  deepcopy={self._deepcopy},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "creator": self._creator,
+                    "is_cache_created": self._is_cache_created,
+                    "deepcopy": self._deepcopy,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     @property
     def creator(self) -> BaseDataCreator[T]:
