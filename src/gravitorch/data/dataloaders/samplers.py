@@ -8,6 +8,7 @@ __all__ = ["ReproducibleBatchSampler", "PartialSequentialSampler", "PartialRando
 from collections.abc import Generator, Iterator, Sized
 
 import torch
+from coola.utils import str_indent, str_mapping
 from torch.utils.data import BatchSampler, Sampler
 
 
@@ -36,6 +37,11 @@ class ReproducibleBatchSampler(BatchSampler):
         ...     drop_last=False,
         ... )
         >>> reproducible_batch_sampler = ReproducibleBatchSampler(batch_sampler)
+        >>> reproducible_batch_sampler  # doctest:+ELLIPSIS
+        ReproducibleBatchSampler(
+          (batch_sampler): <torch.utils.data.sampler.BatchSampler object at 0x...>
+          (start_iteration): 0
+        )
         >>> list(reproducible_batch_sampler)
         [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
         >>> reproducible_batch_sampler = ReproducibleBatchSampler(batch_sampler, start_iteration=1)
@@ -56,6 +62,14 @@ class ReproducibleBatchSampler(BatchSampler):
 
         self.batch_sampler = batch_sampler
         self._start_iteration = start_iteration
+
+    def __repr__(self) -> str:
+        args = str_indent(
+            str_mapping(
+                {"batch_sampler": self.batch_sampler, "start_iteration": self._start_iteration}
+            )
+        )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def __iter__(self) -> Generator:
         yield from list(self.batch_sampler)[self._start_iteration :]
@@ -83,6 +97,8 @@ class PartialSequentialSampler(Sampler):
 
         >>> from gravitorch.data.dataloaders.samplers import PartialSequentialSampler
         >>> sampler = PartialSequentialSampler(list(range(10)), num_samples=5)
+        >>> sampler
+        PartialSequentialSampler(num_samples=5)
         >>> list(sampler)
         [0, 1, 2, 3, 4]
     """
@@ -95,6 +111,9 @@ class PartialSequentialSampler(Sampler):
                 f"num_samples should be a positive integer value, but got {num_samples}"
             )
         self.num_samples = num_samples
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__qualname__}(num_samples={self.num_samples:,})"
 
     def __iter__(self) -> Iterator:
         return iter(range(len(self)))
@@ -113,9 +132,14 @@ class PartialRandomSampler(PartialSequentialSampler):
 
         >>> from gravitorch.data.dataloaders.samplers import PartialSequentialSampler
         >>> sampler = PartialSequentialSampler(list(range(10)), num_samples=5)
+        >>> sampler
+        PartialSequentialSampler(num_samples=5)
         >>> len(list(sampler))
         5
     """
 
     def __iter__(self) -> Iterator:
         return iter(torch.randperm(len(self.datasource))[: self.num_samples].tolist())
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__qualname__}(num_samples={self.num_samples:,})"
