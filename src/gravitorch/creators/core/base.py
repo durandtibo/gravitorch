@@ -47,35 +47,35 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
         ... )
         >>> creator  # doctest: +ELLIPSIS
         VanillaCoreCreator(
-          datasource=DummyDataSource(
-            datasets:
-              (train): DummyDataset(num_examples=4, feature_size=4)
-              (eval): DummyDataset(num_examples=4, feature_size=4)
-            dataloader_creators:
-              (train): DataLoaderCreator(
-                  batch_size : 1
-                  seed       : 0
-                  shuffle    : False
-                )
-              (eval): DataLoaderCreator(
-                  batch_size : 1
-                  seed       : 0
-                  shuffle    : False
-                )
-          ),
-          model=DummyClassificationModel(
-            (linear): Linear(in_features=4, out_features=3, bias=True)
-            (criterion): CrossEntropyLoss()
-          ),
-          optimizer=SGD (
+          (datasource): DummyDataSource(
+              datasets:
+                (train): DummyDataset(num_examples=4, feature_size=4)
+                (eval): DummyDataset(num_examples=4, feature_size=4)
+              dataloader_creators:
+                (train): DataLoaderCreator(
+                    (seed): 0
+                    (batch_size): 1
+                    (shuffle): False
+                  )
+                (eval): DataLoaderCreator(
+                    (seed): 0
+                    (batch_size): 1
+                    (shuffle): False
+                  )
+            )
+          (model): DummyClassificationModel(
+              (linear): Linear(in_features=4, out_features=3, bias=True)
+              (criterion): CrossEntropyLoss()
+            )
+          (optimizer): SGD (
             Parameter Group 0...
                 lr: 0.01
                 maximize: False
                 momentum: 0
                 nesterov: False
                 weight_decay: 0
-          ),
-          lr_scheduler=<torch.optim.lr_scheduler.StepLR object at 0x...>,
+            )
+          (lr_scheduler): <torch.optim.lr_scheduler.StepLR object at 0x...>
         )
         >>> engine = create_dummy_engine()
         >>> datasource, model, optimizer, lr_scheduler = creator.create(engine)
@@ -86,14 +86,14 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
             (eval): DummyDataset(num_examples=4, feature_size=4)
           dataloader_creators:
             (train): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
             (eval): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
         )
         >>> model
@@ -161,14 +161,14 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
                 (eval): DummyDataset(num_examples=4, feature_size=4)
               dataloader_creators:
                 (train): DataLoaderCreator(
-                    batch_size : 1
-                    seed       : 0
-                    shuffle    : False
+                    (seed): 0
+                    (batch_size): 1
+                    (shuffle): False
                   )
                 (eval): DataLoaderCreator(
-                    batch_size : 1
-                    seed       : 0
-                    shuffle    : False
+                    (seed): 0
+                    (batch_size): 1
+                    (shuffle): False
                   )
             )
             >>> model
@@ -223,39 +223,35 @@ def setup_core_creator(creator: BaseCoreCreator | dict) -> BaseCoreCreator:
         ... )
         >>> creator  # doctest: +ELLIPSIS
         VanillaCoreCreator(
-          datasource=DummyDataSource(
-            datasets:
-              (train): DummyDataset(num_examples=4, feature_size=4)
-              (eval): DummyDataset(num_examples=4, feature_size=4)
-            dataloader_creators:
-              (train): DataLoaderCreator(
-                  batch_size : 1
-                  seed       : 0
-                  shuffle    : False
-                )
-              (eval): DataLoaderCreator(
-                  batch_size : 1
-                  seed       : 0
-                  shuffle    : False
-                )
-          ),
-          model=DummyClassificationModel(
-            (linear): Linear(in_features=4, out_features=3, bias=True)
-            (criterion): CrossEntropyLoss()
-          ),
-          optimizer=SGD (
-            Parameter Group 0
-                dampening: 0
-                differentiable: False
-                foreach: None
-                initial_lr: 0.01
+          (datasource): DummyDataSource(
+              datasets:
+                (train): DummyDataset(num_examples=4, feature_size=4)
+                (eval): DummyDataset(num_examples=4, feature_size=4)
+              dataloader_creators:
+                (train): DataLoaderCreator(
+                    (seed): 0
+                    (batch_size): 1
+                    (shuffle): False
+                  )
+                (eval): DataLoaderCreator(
+                    (seed): 0
+                    (batch_size): 1
+                    (shuffle): False
+                  )
+            )
+          (model): DummyClassificationModel(
+              (linear): Linear(in_features=4, out_features=3, bias=True)
+              (criterion): CrossEntropyLoss()
+            )
+          (optimizer): SGD (
+            Parameter Group 0...
                 lr: 0.01
                 maximize: False
                 momentum: 0
                 nesterov: False
                 weight_decay: 0
-            ),
-          lr_scheduler=<torch.optim.lr_scheduler.StepLR object at 0x...>,
+            )
+          (lr_scheduler): <torch.optim.lr_scheduler.StepLR object at 0x...>
         )
     """
     if isinstance(creator, dict):

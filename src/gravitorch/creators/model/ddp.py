@@ -5,7 +5,7 @@ __all__ = ["DataDistributedParallelModelCreator", "to_ddp"]
 import logging
 from typing import TYPE_CHECKING
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch import nn
 from torch.nn.parallel import DistributedDataParallel
 
@@ -50,12 +50,13 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
         ... )
         >>> creator
         DataDistributedParallelModelCreator(
-          model_creator=VanillaModelCreator(
-            attach_model_to_engine=True,
-            add_module_to_engine=True,
-            device_placement=AutoDevicePlacement(device=cpu),
-          ),
-          ddp_kwargs={},
+          (model_creator): VanillaModelCreator(
+              (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
+              (attach_model_to_engine): True
+              (add_module_to_engine): True
+              (device_placement): AutoDevicePlacement(device=cpu)
+            )
+          (ddp_kwargs): {}
         )
         >>> engine = create_dummy_engine()
         >>> model = creator.create(engine)
@@ -73,12 +74,15 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
         self._ddp_kwargs = ddp_kwargs or {}
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  model_creator={self._model_creator},\n"
-            f"  ddp_kwargs={str_indent(str_pretty_json(self._ddp_kwargs))},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "model_creator": self._model_creator,
+                    "ddp_kwargs": str_pretty_json(self._ddp_kwargs),
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, engine: BaseEngine) -> nn.Module:
         model = self._model_creator.create(engine)

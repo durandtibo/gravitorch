@@ -4,7 +4,7 @@ __all__ = ["AdvancedCoreCreator"]
 
 from typing import TYPE_CHECKING
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.nn import Module
 from torch.optim import Optimizer
 
@@ -67,17 +67,23 @@ class AdvancedCoreCreator(BaseCoreCreator):
         ... )
         >>> creator  # doctest: +ELLIPSIS
         AdvancedCoreCreator(
-          datasource_creator=VanillaDataSourceCreator(attach_to_engine=True, add_module_to_engine=True),
-          model_creator=VanillaModelCreator(
-            attach_model_to_engine=True,
-            add_module_to_engine=True,
-            device_placement=AutoDevicePlacement(device=cpu),
-          ),
-          optimizer_creator=VanillaOptimizerCreator(add_module_to_engine=True),
-          lr_scheduler_creator=VanillaLRSchedulerCreator(
-            lr_scheduler_handler=None,
-            add_module_to_engine=True,
-          ),
+          (datasource): VanillaDataSourceCreator(
+              (config): {'_target_': 'gravitorch.testing.DummyDataSource'}
+              (attach_to_engine): True
+              (add_module_to_engine): True
+            )
+          (model_creator): VanillaModelCreator(
+              (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
+              (attach_model_to_engine): True
+              (add_module_to_engine): True
+              (device_placement): AutoDevicePlacement(device=cpu)
+            )
+          (optimizer_creator): VanillaOptimizerCreator(add_module_to_engine=True)
+          (lr_scheduler_creator): VanillaLRSchedulerCreator(
+              (lr_scheduler_config): {'_target_': 'torch.optim.lr_scheduler.StepLR', 'step_size': 5}
+              (lr_scheduler_handler): None
+              (add_module_to_engine): True
+            )
         )
         >>> engine = create_dummy_engine()
         >>> datasource, model, optimizer, lr_scheduler = creator.create(engine)
@@ -88,14 +94,14 @@ class AdvancedCoreCreator(BaseCoreCreator):
             (eval): DummyDataset(num_examples=4, feature_size=4)
           dataloader_creators:
             (train): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
             (eval): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
         )
         >>> model
@@ -129,14 +135,17 @@ class AdvancedCoreCreator(BaseCoreCreator):
         self._lr_scheduler_creator = setup_lr_scheduler_creator(lr_scheduler_creator)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  datasource_creator={str_indent(self._datasource_creator)},\n"
-            f"  model_creator={str_indent(self._model_creator)},\n"
-            f"  optimizer_creator={str_indent(self._optimizer_creator)},\n"
-            f"  lr_scheduler_creator={str_indent(self._lr_scheduler_creator)},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "datasource": self._datasource_creator,
+                    "model_creator": self._model_creator,
+                    "optimizer_creator": self._optimizer_creator,
+                    "lr_scheduler_creator": self._lr_scheduler_creator,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(
         self, engine: BaseEngine

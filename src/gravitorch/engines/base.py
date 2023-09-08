@@ -59,14 +59,14 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
                 (eval): DummyDataset(num_examples=4, feature_size=4)
               dataloader_creators:
                 (train): DataLoaderCreator(
-                    batch_size : 2
-                    seed       : 0
-                    shuffle    : False
+                    (seed): 0
+                    (batch_size): 2
+                    (shuffle): False
                   )
                 (eval): DataLoaderCreator(
-                    batch_size : 2
-                    seed       : 0
-                    shuffle    : False
+                    (seed): 0
+                    (batch_size): 2
+                    (shuffle): False
                   )
             )
         """
