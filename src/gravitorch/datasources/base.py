@@ -274,14 +274,14 @@ def setup_datasource(datasource: BaseDataSource | dict) -> BaseDataSource:
             (eval): DummyDataset(num_examples=4, feature_size=4)
           dataloader_creators:
             (train): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
             (eval): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
         )
     """
@@ -332,14 +332,14 @@ def setup_and_attach_datasource(
             (eval): DummyDataset(num_examples=4, feature_size=4)
           dataloader_creators:
             (train): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
             (eval): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
         )
     """

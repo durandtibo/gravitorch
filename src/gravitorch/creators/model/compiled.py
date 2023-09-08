@@ -6,7 +6,7 @@ import logging
 from typing import TYPE_CHECKING
 
 import torch
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.nn import Module
 
 from gravitorch.creators.model.base import BaseModelCreator, setup_model_creator
@@ -46,12 +46,13 @@ class CompiledModelCreator(BaseModelCreator):
         ... )
         >>> creator
         CompiledModelCreator(
-          model_creator=VanillaModelCreator(
-            attach_model_to_engine=True,
-            add_module_to_engine=True,
-            device_placement=AutoDevicePlacement(device=cpu),
-          ),
-          compile_kwargs={},
+          (model_creator): VanillaModelCreator(
+              (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
+              (attach_model_to_engine): True
+              (add_module_to_engine): True
+              (device_placement): AutoDevicePlacement(device=cpu)
+            )
+          (compile_kwargs): {}
         )
         >>> engine = create_dummy_engine()
         >>> model = creator.create(engine)
@@ -73,12 +74,15 @@ class CompiledModelCreator(BaseModelCreator):
         self._compile_kwargs = compile_kwargs or {}
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  model_creator={self._model_creator},\n"
-            f"  compile_kwargs={str_indent(str_pretty_json(self._compile_kwargs))},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "model_creator": self._model_creator,
+                    "compile_kwargs": str_pretty_json(self._compile_kwargs),
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, engine: BaseEngine) -> Module:
         return torch.compile(self._model_creator.create(engine), **self._compile_kwargs)

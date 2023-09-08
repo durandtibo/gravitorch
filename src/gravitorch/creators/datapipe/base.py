@@ -42,7 +42,7 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
         ... )
         >>> creator
         SequentialIterDataPipeCreator(
-          (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]},
+          (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
         )
         >>> datapipe = creator.create()
         >>> tuple(datapipe)
@@ -125,6 +125,10 @@ def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> Base
         ...         ],
         ...     }
         ... )
+        >>> creator
+        SequentialIterDataPipeCreator(
+          (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
+        )
     """
     if isinstance(creator, dict):
         logger.info(

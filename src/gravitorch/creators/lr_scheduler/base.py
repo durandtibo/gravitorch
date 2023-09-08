@@ -33,8 +33,9 @@ class BaseLRSchedulerCreator(ABC, metaclass=AbstractFactory):
         ... )
         >>> creator
         VanillaLRSchedulerCreator(
-          lr_scheduler_handler=None,
-          add_module_to_engine=True,
+          (lr_scheduler_config): {'_target_': 'torch.optim.lr_scheduler.StepLR', 'step_size': 5}
+          (lr_scheduler_handler): None
+          (add_module_to_engine): True
         )
         >>> engine = create_dummy_engine()
         >>> model = DummyClassificationModel()

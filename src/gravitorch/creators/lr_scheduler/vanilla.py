@@ -5,12 +5,13 @@ __all__ = ["VanillaLRSchedulerCreator"]
 import logging
 from typing import TYPE_CHECKING
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.optim import Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.creators.lr_scheduler.base import BaseLRSchedulerCreator
 from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
+from gravitorch.utils.format import str_pretty_json
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -56,8 +57,9 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
         ... )
         >>> creator
         VanillaLRSchedulerCreator(
-          lr_scheduler_handler=None,
-          add_module_to_engine=True,
+          (lr_scheduler_config): {'_target_': 'torch.optim.lr_scheduler.StepLR', 'step_size': 5}
+          (lr_scheduler_handler): None
+          (add_module_to_engine): True
         )
         >>> engine = create_dummy_engine()
         >>> model = DummyClassificationModel()
@@ -78,17 +80,21 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
         # Local import to avoid cyclic import
         from gravitorch.handlers.utils import setup_handler
 
-        self._lr_scheduler_manager = setup_handler(lr_scheduler_handler)
+        self._lr_scheduler_handler = setup_handler(lr_scheduler_handler)
         logger.info(f"lr_scheduler_handler:\n{lr_scheduler_handler}")
         self._add_module_to_engine = bool(add_module_to_engine)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  lr_scheduler_handler={str_indent(str(self._lr_scheduler_manager))},\n"
-            f"  add_module_to_engine={self._add_module_to_engine},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "lr_scheduler_config": str_pretty_json(self._lr_scheduler_config),
+                    "lr_scheduler_handler": self._lr_scheduler_handler,
+                    "add_module_to_engine": self._add_module_to_engine,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, engine: BaseEngine, optimizer: Optimizer | None) -> LRSchedulerType | None:
         lr_scheduler = setup_lr_scheduler(
@@ -102,9 +108,9 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
             logger.info(f"Adding a LR scheduler to the engine state (key: {ct.LR_SCHEDULER})...")
             engine.add_module(ct.LR_SCHEDULER, lr_scheduler)
 
-        if self._lr_scheduler_manager:
+        if self._lr_scheduler_handler:
             logger.info("Attaching a LR scheduler manager to the engine...")
-            self._lr_scheduler_manager.attach(engine=engine)
+            self._lr_scheduler_handler.attach(engine=engine)
         else:
             logger.warning(
                 "No LR scheduler manager is set. If you do not use a LR scheduler manager, you "

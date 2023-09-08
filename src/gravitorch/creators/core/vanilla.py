@@ -4,7 +4,7 @@ __all__ = ["VanillaCoreCreator"]
 
 from typing import TYPE_CHECKING
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch import nn
 from torch.optim import Optimizer
 
@@ -54,35 +54,35 @@ class VanillaCoreCreator(BaseCoreCreator):
         ... )
         >>> creator  # doctest: +ELLIPSIS
         VanillaCoreCreator(
-          datasource=DummyDataSource(
-            datasets:
-              (train): DummyDataset(num_examples=4, feature_size=4)
-              (eval): DummyDataset(num_examples=4, feature_size=4)
-            dataloader_creators:
-              (train): DataLoaderCreator(
-                  batch_size : 1
-                  seed       : 0
-                  shuffle    : False
-                )
-              (eval): DataLoaderCreator(
-                  batch_size : 1
-                  seed       : 0
-                  shuffle    : False
-                )
-          ),
-          model=DummyClassificationModel(
-            (linear): Linear(in_features=4, out_features=3, bias=True)
-            (criterion): CrossEntropyLoss()
-          ),
-          optimizer=SGD (
+          (datasource): DummyDataSource(
+              datasets:
+                (train): DummyDataset(num_examples=4, feature_size=4)
+                (eval): DummyDataset(num_examples=4, feature_size=4)
+              dataloader_creators:
+                (train): DataLoaderCreator(
+                    (seed): 0
+                    (batch_size): 1
+                    (shuffle): False
+                  )
+                (eval): DataLoaderCreator(
+                    (seed): 0
+                    (batch_size): 1
+                    (shuffle): False
+                  )
+            )
+          (model): DummyClassificationModel(
+              (linear): Linear(in_features=4, out_features=3, bias=True)
+              (criterion): CrossEntropyLoss()
+            )
+          (optimizer): SGD (
             Parameter Group 0...
                 lr: 0.01
                 maximize: False
                 momentum: 0
                 nesterov: False
                 weight_decay: 0
-          ),
-          lr_scheduler=<torch.optim.lr_scheduler.StepLR object at 0x...>,
+            )
+          (lr_scheduler): <torch.optim.lr_scheduler.StepLR object at 0x...>
         )
         >>> engine = create_dummy_engine()
         >>> datasource, model, optimizer, lr_scheduler = creator.create(engine)
@@ -93,14 +93,14 @@ class VanillaCoreCreator(BaseCoreCreator):
             (eval): DummyDataset(num_examples=4, feature_size=4)
           dataloader_creators:
             (train): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
             (eval): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
         )
         >>> model
@@ -136,14 +136,17 @@ class VanillaCoreCreator(BaseCoreCreator):
         )
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  datasource={str_indent(self._datasource)},\n"
-            f"  model={str_indent(self._model)},\n"
-            f"  optimizer={str_indent(self._optimizer, num_spaces=4)},\n"
-            f"  lr_scheduler={str_indent(self._lr_scheduler)},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "datasource": self._datasource,
+                    "model": self._model,
+                    "optimizer": self._optimizer,
+                    "lr_scheduler": self._lr_scheduler,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(
         self, engine: BaseEngine
