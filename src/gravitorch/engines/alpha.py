@@ -80,6 +80,11 @@ class AlphaEngine(BaseEngine):
         self._training_loop = self._setup_training_loop(training_loop)
         self._evaluation_loop = self._setup_evaluation_loop(evaluation_loop)
 
+        self._datasource = None
+        self._model = None
+        self._optimizer = None
+        self._lr_scheduler = None
+
         core_creator = setup_core_creator(core_creator)
         logger.info(f"core_creator:\n{core_creator}")
         (
@@ -93,22 +98,22 @@ class AlphaEngine(BaseEngine):
         self._should_terminate = False
 
     def __repr__(self) -> str:
-        names = [
-            "datasource",
-            "model",
-            "optimizer",
-            "lr_scheduler",
-            "training_loop",
-            "evaluation_loop",
-            "state",
-            "event_manager",
-            "exp_tracker",
-        ]
-        modules = {}
-        for name in names:
-            if hasattr(self, f"_{name}"):
-                modules[name] = getattr(self, f"_{name}")
-        return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(modules))})"
+        args = str_indent(
+            str_mapping(
+                {
+                    "datasource": self._datasource,
+                    "model": self._model,
+                    "optimizer": self._optimizer,
+                    "lr_scheduler": self._lr_scheduler,
+                    "training_loop": self._training_loop,
+                    "evaluation_loop": self._evaluation_loop,
+                    "state": self._state,
+                    "event_manager": self._event_manager,
+                    "exp_tracker": self._exp_tracker,
+                }
+            )
+        )
+        return f"{self.__class__.__qualname__}(\n  {args})"
 
     @property
     def datasource(self) -> BaseDataSource:
