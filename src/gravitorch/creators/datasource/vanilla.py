@@ -5,6 +5,8 @@ __all__ = ["VanillaDataSourceCreator"]
 import logging
 from typing import TYPE_CHECKING
 
+from coola.utils import str_indent, str_mapping
+
 from gravitorch import constants as ct
 from gravitorch.creators.datasource.base import BaseDataSourceCreator
 from gravitorch.datasources.base import (
@@ -12,6 +14,7 @@ from gravitorch.datasources.base import (
     setup_and_attach_datasource,
     setup_datasource,
 )
+from gravitorch.utils.format import str_pretty_json
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -40,7 +43,11 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
         >>> from gravitorch.creators.datasource import VanillaDataSourceCreator
         >>> creator = VanillaDataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
         >>> creator
-        VanillaDataSourceCreator(attach_to_engine=True, add_module_to_engine=True)
+        VanillaDataSourceCreator(
+          (config): {'_target_': 'gravitorch.testing.DummyDataSource'}
+          (attach_to_engine): True
+          (add_module_to_engine): True
+        )
         >>> engine = create_dummy_engine()
         >>> datasource = creator.create(engine)
         >>> datasource
@@ -50,14 +57,14 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
             (eval): DummyDataset(num_examples=4, feature_size=4)
           dataloader_creators:
             (train): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
             (eval): DataLoaderCreator(
-                batch_size : 1
-                seed       : 0
-                shuffle    : False
+                (seed): 0
+                (batch_size): 1
+                (shuffle): False
               )
         )
     """
@@ -73,10 +80,16 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
         self._add_module_to_engine = bool(add_module_to_engine)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(attach_to_engine={self._attach_to_engine}, "
-            f"add_module_to_engine={self._add_module_to_engine})"
+        args = str_indent(
+            str_mapping(
+                {
+                    "config": str_pretty_json(self._config),
+                    "attach_to_engine": self._attach_to_engine,
+                    "add_module_to_engine": self._add_module_to_engine,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, engine: BaseEngine) -> BaseDataSource:
         logger.info("Creating a datasource...")

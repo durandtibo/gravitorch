@@ -6,11 +6,13 @@ import logging
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
+from coola.utils import str_indent, str_mapping
 from objectory import OBJECT_TARGET, factory
 from torch.utils.data import IterDataPipe
 
 from gravitorch.creators.datapipe.base import BaseIterDataPipeCreator
 from gravitorch.distributed import comm as dist
+from gravitorch.utils.format import str_pretty_json
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -55,7 +57,23 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
         ...     }
         ... )
         >>> creator
-        EpochRandomIterDataPipeCreator(config={'_target_': 'gravitorch.datapipes.iter.TensorDictShuffler', 'datapipe': {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4, 5]}, 'random_seed': 42}, random_seed_key=random_seed)
+        EpochRandomIterDataPipeCreator(
+          (config): {
+              "_target_": "gravitorch.datapipes.iter.TensorDictShuffler",
+              "datapipe": {
+                "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+                "iterable": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "random_seed": 42
+            }
+          (random_seed_key): random_seed
+        )
         >>> engine = create_dummy_engine()
         >>> dp = creator.create(engine)
         >>> dp
@@ -71,10 +89,15 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
         self._random_seed_key = str(random_seed_key)
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(config={self._config}, "
-            f"random_seed_key={self._random_seed_key})"
+        args = str_indent(
+            str_mapping(
+                {
+                    "config": str_pretty_json(self._config),
+                    "random_seed_key": self._random_seed_key,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None

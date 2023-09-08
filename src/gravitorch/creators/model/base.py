@@ -35,9 +35,10 @@ class BaseModelCreator(ABC, metaclass=AbstractFactory):
         ... )
         >>> creator
         VanillaModelCreator(
-          attach_model_to_engine=True,
-          add_module_to_engine=True,
-          device_placement=AutoDevicePlacement(device=cpu),
+          (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
+          (attach_model_to_engine): True
+          (add_module_to_engine): True
+          (device_placement): AutoDevicePlacement(device=cpu)
         )
         >>> engine = create_dummy_engine()
         >>> model = creator.create(engine)
@@ -112,9 +113,10 @@ def setup_model_creator(creator: BaseModelCreator | dict) -> BaseModelCreator:
         ... )
         >>> creator
         VanillaModelCreator(
-          attach_model_to_engine=True,
-          add_module_to_engine=True,
-          device_placement=AutoDevicePlacement(device=cpu),
+          (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
+          (attach_model_to_engine): True
+          (add_module_to_engine): True
+          (device_placement): AutoDevicePlacement(device=cpu)
         )
     """
     if isinstance(creator, dict):

@@ -5,7 +5,7 @@ __all__ = ["VanillaModelCreator"]
 import logging
 from typing import TYPE_CHECKING
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch import nn
 
 from gravitorch import constants as ct
@@ -16,6 +16,7 @@ from gravitorch.utils.device_placement import (
     BaseDevicePlacement,
     setup_device_placement,
 )
+from gravitorch.utils.format import str_pretty_json
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -54,9 +55,10 @@ class VanillaModelCreator(BaseModelCreator):
         ... )
         >>> creator
         VanillaModelCreator(
-          attach_model_to_engine=True,
-          add_module_to_engine=True,
-          device_placement=AutoDevicePlacement(device=cpu),
+          (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
+          (attach_model_to_engine): True
+          (add_module_to_engine): True
+          (device_placement): AutoDevicePlacement(device=cpu)
         )
         >>> engine = create_dummy_engine()
         >>> model = creator.create(engine)
@@ -80,13 +82,17 @@ class VanillaModelCreator(BaseModelCreator):
         self._device_placement = setup_device_placement(device_placement or AutoDevicePlacement())
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  attach_model_to_engine={self._attach_model_to_engine},\n"
-            f"  add_module_to_engine={self._add_module_to_engine},\n"
-            f"  device_placement={str_indent(self._device_placement)},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "model_config": str_pretty_json(self._model_config),
+                    "attach_model_to_engine": self._attach_model_to_engine,
+                    "add_module_to_engine": self._add_module_to_engine,
+                    "device_placement": self._device_placement,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, engine: BaseEngine) -> nn.Module:
         logger.info("Creating model...")

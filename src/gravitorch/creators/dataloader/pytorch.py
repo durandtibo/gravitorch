@@ -8,13 +8,12 @@ __all__ = [
 
 from typing import TYPE_CHECKING, TypeVar
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.data.dataloaders.factory import create_dataloader
 from gravitorch.distributed import comm as dist
-from gravitorch.utils.format import str_pretty_dict
 from gravitorch.utils.seed import get_torch_generator
 
 if TYPE_CHECKING:
@@ -49,9 +48,9 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
         >>> creator = AutoDataLoaderCreator()
         >>> creator
         AutoDataLoaderCreator(
-          creator=DataLoaderCreator(
-            seed : 0
-          )
+          (creator): DataLoaderCreator(
+              (seed): 0
+            )
         )
         >>> dataset = DummyDataset()
         >>> dataloader = creator.create(dataset)
@@ -66,7 +65,8 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
             self._creator = DataLoaderCreator(**kwargs)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  creator={str_indent(str(self._creator))}\n)"
+        args = str_indent(str_mapping({"creator": self._creator}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         return self._creator.create(dataset=dataset, engine=engine)
@@ -94,7 +94,7 @@ class DataLoaderCreator(BaseDataLoaderCreator[T]):
         >>> creator = DataLoaderCreator()
         >>> creator
         DataLoaderCreator(
-          seed : 0
+          (seed): 0
         )
         >>> dataset = DummyDataset()
         >>> dataloader = creator.create(dataset)
@@ -107,11 +107,8 @@ class DataLoaderCreator(BaseDataLoaderCreator[T]):
         self._kwargs = kwargs
 
     def __repr__(self) -> str:
-        config = {"seed": self._seed} | self._kwargs
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(str_pretty_dict(config, sorted_keys=True))}\n)"
-        )
+        args = str_indent(str_mapping({"seed": self._seed} | self._kwargs))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         epoch = 0 if engine is None else engine.epoch
@@ -151,9 +148,9 @@ class DistributedDataLoaderCreator(BaseDataLoaderCreator[T]):
         >>> creator = DistributedDataLoaderCreator()
         >>> creator
         DistributedDataLoaderCreator(
-          drop_last : False
-          seed      : 0
-          shuffle   : True
+          (shuffle): True
+          (drop_last): False
+          (seed): 0
         )
         >>> dataset = DummyDataset()
         >>> dataloader = creator.create(dataset)
@@ -170,15 +167,17 @@ class DistributedDataLoaderCreator(BaseDataLoaderCreator[T]):
         self._kwargs = kwargs
 
     def __repr__(self) -> str:
-        config = {
-            "shuffle": self._shuffle,
-            "drop_last": self._drop_last,
-            "seed": self._seed,
-        } | self._kwargs
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(str_pretty_dict(config, sorted_keys=True))}\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "shuffle": self._shuffle,
+                    "drop_last": self._drop_last,
+                    "seed": self._seed,
+                }
+                | self._kwargs
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def create(self, dataset: Dataset, engine: BaseEngine | None = None) -> DataLoader[T]:
         sampler = DistributedSampler(

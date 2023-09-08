@@ -32,7 +32,7 @@ class BaseDataLoaderCreator(Generic[T], ABC, metaclass=AbstractFactory):
         >>> creator = DataLoaderCreator()
         >>> creator
         DataLoaderCreator(
-          seed : 0
+          (seed): 0
         )
         >>> dataset = DummyDataset()
         >>> dataloader = creator.create(dataset)

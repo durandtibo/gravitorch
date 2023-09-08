@@ -41,7 +41,7 @@ def setup_dataloader_creator(
         ... )
         >>> creator
         DataLoaderCreator(
-          seed : 0
+          (seed): 0
         )
     """
     if creator is None:

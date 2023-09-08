@@ -130,7 +130,7 @@ class SequentialIterDataPipeCreator(BaseIterDataPipeCreator):
         self._config = config
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_sequence(self._config))},\n)"
+        return f"{self.__class__.__qualname__}(\n  {str_indent(str_sequence(self._config))}\n)"
 
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
@@ -398,9 +398,7 @@ class SequentialCreatorIterDataPipeCreator(BaseIterDataPipeCreator):
         self._creators = [setup_iter_datapipe_creator(creator) for creator in creators]
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_sequence(self._creators))},\n)"
-        )
+        return f"{self.__class__.__qualname__}(\n  {str_indent(str_sequence(self._creators))}\n)"
 
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
