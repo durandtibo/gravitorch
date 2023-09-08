@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, TypeVar
 
 from coola.utils import str_indent, str_mapping
 
-from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
+from gravitorch.data.datacreators.base import BaseDataCreator, setup_datacreator
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -53,7 +53,7 @@ class CacheDataCreator(BaseDataCreator[T]):
     """
 
     def __init__(self, creator: BaseDataCreator[T] | dict, deepcopy: bool = False) -> None:
-        self._creator = setup_data_creator(creator)
+        self._creator = setup_datacreator(creator)
         self._deepcopy = bool(deepcopy)
         self._is_cache_created = False
         # This variable is used to cache the data. The type depends on the value returned by

@@ -6,13 +6,13 @@ __all__ = [
     "DataCreator",
     "HypercubeVertexDataCreator",
     "is_datacreator_config",
-    "setup_data_creator",
+    "setup_datacreator",
 ]
 
 from gravitorch.data.datacreators.base import (
     BaseDataCreator,
     is_datacreator_config,
-    setup_data_creator,
+    setup_datacreator,
 )
 from gravitorch.data.datacreators.caching import CacheDataCreator
 from gravitorch.data.datacreators.hypercube import HypercubeVertexDataCreator
