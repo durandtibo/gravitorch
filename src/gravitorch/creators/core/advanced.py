@@ -17,7 +17,7 @@ from gravitorch.creators.lr_scheduler.base import BaseLRSchedulerCreator
 from gravitorch.creators.lr_scheduler.utils import setup_lr_scheduler_creator
 from gravitorch.creators.model.base import BaseModelCreator, setup_model_creator
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
-from gravitorch.creators.optimizer.utils import setup_optimizer_creator
+from gravitorch.creators.optimizer.factory import setup_optimizer_creator
 from gravitorch.datasources.base import BaseDataSource
 from gravitorch.lr_schedulers.base import LRSchedulerType
 

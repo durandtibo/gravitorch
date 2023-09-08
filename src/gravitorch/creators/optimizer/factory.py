@@ -1,14 +1,50 @@
 from __future__ import annotations
 
-__all__ = ["setup_optimizer_creator"]
+__all__ = ["is_optimizer_creator_config", "setup_optimizer_creator"]
 
 import logging
+
+from objectory.utils import is_object_config
 
 from gravitorch.creators.optimizer.base import BaseOptimizerCreator
 from gravitorch.creators.optimizer.noo import NoOptimizerCreator
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
+
+
+def is_optimizer_creator_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseOptimizerCreator``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseOptimizerCreator`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.engines import is_engine_config
+        >>> is_engine_config(
+        ...     {
+        ...         "_target_": "gravitorch.creators.optimizer.VanillaOptimizerCreator",
+        ...         "optimizer_config": {"_target_": "torch.optim.SGD", "lr": 0.01},
+        ...     }
+        ... )
+        True
+    """
+    return is_object_config(config, BaseOptimizerCreator)
 
 
 def setup_optimizer_creator(creator: BaseOptimizerCreator | dict | None) -> BaseOptimizerCreator:
