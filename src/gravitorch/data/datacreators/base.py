@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["BaseDataCreator", "is_datacreator_config", "setup_data_creator"]
+__all__ = ["BaseDataCreator", "is_datacreator_config", "setup_datacreator"]
 
 import logging
 from abc import ABC, abstractmethod
@@ -91,7 +91,7 @@ def is_datacreator_config(config: dict) -> bool:
     return is_object_config(config, BaseDataCreator)
 
 
-def setup_data_creator(data_creator: BaseDataCreator | dict) -> BaseDataCreator:
+def setup_datacreator(data_creator: BaseDataCreator | dict) -> BaseDataCreator:
     r"""Sets up a data creator.
 
     The data creator is instantiated from its configuration by using
@@ -110,8 +110,8 @@ def setup_data_creator(data_creator: BaseDataCreator | dict) -> BaseDataCreator:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.datacreators import setup_data_creator
-        >>> datacreator = setup_data_creator(
+        >>> from gravitorch.data.datacreators import setup_datacreator
+        >>> datacreator = setup_datacreator(
         ...     {
         ...         "_target_": "gravitorch.data.datacreators.HypercubeVertexDataCreator",
         ...         "num_examples": 10,

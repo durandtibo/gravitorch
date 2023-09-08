@@ -14,7 +14,7 @@ from gravitorch.creators.datapipe.base import (
     BaseIterDataPipeCreator,
     setup_iter_datapipe_creator,
 )
-from gravitorch.data.datacreators.base import BaseDataCreator, setup_data_creator
+from gravitorch.data.datacreators.base import BaseDataCreator, setup_datacreator
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.utils.asset import AssetManager
 
@@ -218,7 +218,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         super().__init__(datapipe_creators)
         logger.info("Initializing the data creators...")
         self._data_creators = {
-            key: setup_data_creator(creator) for key, creator in data_creators.items()
+            key: setup_datacreator(creator) for key, creator in data_creators.items()
         }
         logger.info(f"Data creators:\n{str_mapping(self._data_creators)}")
         logger.info("Creating data...")
