@@ -35,8 +35,8 @@ def is_optimizer_creator_config(config: dict) -> bool:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.engines import is_engine_config
-        >>> is_engine_config(
+        >>> from gravitorch.creators.optimizer import is_optimizer_creator_config
+        >>> is_optimizer_creator_config(
         ...     {
         ...         "_target_": "gravitorch.creators.optimizer.VanillaOptimizerCreator",
         ...         "optimizer_config": {"_target_": "torch.optim.SGD", "lr": 0.01},
