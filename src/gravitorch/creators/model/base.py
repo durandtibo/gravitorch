@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-__all__ = ["BaseModelCreator", "setup_model_creator"]
+__all__ = ["BaseModelCreator", "is_model_creator_config", "setup_model_creator"]
 
 import logging
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 from objectory import AbstractFactory
+from objectory.utils import is_object_config
 from torch import nn
 
 from gravitorch.utils.format import str_target_object
@@ -83,6 +84,40 @@ class BaseModelCreator(ABC, metaclass=AbstractFactory):
               (criterion): CrossEntropyLoss()
             )
         """
+
+
+def is_model_creator_config(config: dict) -> bool:
+    r"""Indicate if the input configuration is a configuration for a
+    ``BaseModelCreator``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseModelCreator`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.model import is_model_creator_config
+        >>> is_model_creator_config(
+        ...     {
+        ...         "_target_": "gravitorch.creators.model.VanillaModelCreator",
+        ...         "model_config": {"_target_": "gravitorch.testing.DummyClassificationModel"},
+        ...     }
+        ... )
+        True
+    """
+    return is_object_config(config, BaseModelCreator)
 
 
 def setup_model_creator(creator: BaseModelCreator | dict) -> BaseModelCreator:

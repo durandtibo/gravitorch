@@ -1,6 +1,28 @@
 from objectory import OBJECT_TARGET
 
-from gravitorch.creators.model import VanillaModelCreator, setup_model_creator
+from gravitorch.creators.model import (
+    VanillaModelCreator,
+    is_model_creator_config,
+    setup_model_creator,
+)
+
+#############################################
+#     Tests for is_model_creator_config     #
+#############################################
+
+
+def test_is_model_creator_config_true() -> None:
+    assert is_model_creator_config(
+        {
+            OBJECT_TARGET: "gravitorch.creators.model.VanillaModelCreator",
+            "model_config": {"_target_": "gravitorch.testing.DummyClassificationModel"},
+        }
+    )
+
+
+def test_is_model_creator_config_false() -> None:
+    assert not is_model_creator_config({OBJECT_TARGET: "torch.nn.Identity"})
+
 
 #########################################
 #     Tests for setup_model_creator     #
