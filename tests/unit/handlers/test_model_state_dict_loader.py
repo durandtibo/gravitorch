@@ -160,7 +160,7 @@ def test_partial_model_state_dict_loader_load_mock(
         checkpoint_path=tmp_path, strict=strict, exclude_key_prefixes=exclude_key_prefixes
     )
     model = Mock(spec=nn.Module)
-    with patch("gravitorch.handlers.model_state_dict_loader.load_model_state_dict") as load_mock:
+    with patch("gravitorch.handlers.model_state_dict_loader.load_module_state_dict") as load_mock:
         handler.load(Mock(spec=BaseEngine, model=model))
         load_mock.assert_called_once_with(
             path=tmp_path,

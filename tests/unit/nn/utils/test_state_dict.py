@@ -15,8 +15,11 @@ from gravitorch.nn import (
     load_checkpoint_to_module,
     state_dicts_are_equal,
 )
-from gravitorch.nn.utils import load_state_dict_to_module, show_state_dict_info
-from gravitorch.nn.utils.state_dict import load_model_state_dict
+from gravitorch.nn.utils import (
+    load_module_state_dict,
+    load_state_dict_to_module,
+    show_state_dict_info,
+)
 from gravitorch.utils import get_available_devices
 
 LINEAR_STATE_DICT = {
@@ -269,13 +272,13 @@ def test_show_state_dict_info_no_tensor(caplog: LogCaptureFixture) -> None:
 
 
 ###########################################
-#     Tests for load_model_state_dict     #
+#     Tests for load_module_state_dict     #
 ###########################################
 
 
 @mark.parametrize("device_weights", get_available_devices())
 @mark.parametrize("device_module", get_available_devices())
-def test_load_model_state_dict_devices(
+def test_load_module_state_dict_devices(
     tmp_path: Path, device_weights: str, device_module: str
 ) -> None:
     # This test verifies that it is possible to load weights from any devices to a model
@@ -300,13 +303,13 @@ def test_load_model_state_dict_devices(
         6 * torch.ones(2, 5, device=device_module)
     )
 
-    load_model_state_dict(checkpoint_path, module)
+    load_module_state_dict(checkpoint_path, module)
     assert module(torch.ones(2, 4, device=device_module)).equal(
         6 * torch.ones(2, 5, device=device_module)
     )
 
 
-def test_load_model_state_dict_dict_strict_false_partial_state(tmp_path: Path) -> None:
+def test_load_module_state_dict_dict_strict_false_partial_state(tmp_path: Path) -> None:
     checkpoint_path = tmp_path.joinpath("checkpoint.pt")
     torch.save(
         {
@@ -323,12 +326,12 @@ def test_load_model_state_dict_dict_strict_false_partial_state(tmp_path: Path) -
     )
 
     module = nn.Linear(4, 5)
-    load_model_state_dict(checkpoint_path, module, strict=False, exclude_key_prefixes=["bias"])
+    load_module_state_dict(checkpoint_path, module, strict=False, exclude_key_prefixes=["bias"])
     assert not module.bias.equal(torch.ones(5))
     assert module.weight.equal(torch.ones(5, 4))
 
 
-def test_load_model_state_dict_dict_strict_true_partial_state(tmp_path: Path) -> None:
+def test_load_module_state_dict_dict_strict_true_partial_state(tmp_path: Path) -> None:
     checkpoint_path = tmp_path.joinpath("checkpoint.pt")
     torch.save(
         {
@@ -346,4 +349,4 @@ def test_load_model_state_dict_dict_strict_true_partial_state(tmp_path: Path) ->
 
     module = nn.Linear(4, 5)
     with raises(RuntimeError, match=r"Error\(s\) in loading state_dict for Linear:"):
-        load_model_state_dict(checkpoint_path, module, strict=True, exclude_key_prefixes=["bias"])
+        load_module_state_dict(checkpoint_path, module, strict=True, exclude_key_prefixes=["bias"])

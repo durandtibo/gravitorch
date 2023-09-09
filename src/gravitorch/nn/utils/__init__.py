@@ -20,7 +20,7 @@ __all__ = [
     "is_module_config",
     "is_module_on_device",
     "load_checkpoint_to_module",
-    "load_model_state_dict",
+    "load_module_state_dict",
     "load_state_dict_to_module",
     "module_mode",
     "num_learnable_parameters",
@@ -64,7 +64,7 @@ from gravitorch.nn.utils.parameter import (
 from gravitorch.nn.utils.state_dict import (
     find_module_state_dict,
     load_checkpoint_to_module,
-    load_model_state_dict,
+    load_module_state_dict,
     load_state_dict_to_module,
     show_state_dict_info,
     state_dicts_are_equal,
