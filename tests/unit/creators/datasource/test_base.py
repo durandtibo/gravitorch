@@ -4,8 +4,27 @@ from objectory import OBJECT_TARGET
 
 from gravitorch.creators.datasource import (
     BaseDataSourceCreator,
+    is_datasource_creator_config,
     setup_datasource_creator,
 )
+
+##################################################
+#     Tests for is_datasource_creator_config     #
+##################################################
+
+
+def test_is_datasource_creator_config_true() -> None:
+    assert is_datasource_creator_config(
+        {
+            OBJECT_TARGET: "gravitorch.creators.datasource.VanillaDataSourceCreator",
+            "config": {OBJECT_TARGET: "gravitorch.testing.DummyDataSource"},
+        }
+    )
+
+
+def test_is_datasource_creator_config_false() -> None:
+    assert not is_datasource_creator_config({OBJECT_TARGET: "torch.nn.Identity"})
+
 
 ##############################################
 #     Tests for setup_datasource_creator     #
