@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-__all__ = ["BaseDataSourceCreator", "setup_datasource_creator"]
+__all__ = ["BaseDataSourceCreator", "is_datasource_creator_config", "setup_datasource_creator"]
 
 import logging
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 from objectory import AbstractFactory
+from objectory.utils import is_object_config
 
 from gravitorch.utils.format import str_target_object
 
@@ -104,6 +105,40 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
                   )
             )
         """
+
+
+def is_datasource_creator_config(config: dict) -> bool:
+    r"""Indicates if the input configuration is a configuration for a
+    ``BaseDataSourceCreator``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseDataSourceCreator`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.datasource import is_datasource_creator_config
+        >>> is_datasource_creator_config(
+        ...     {
+        ...         "_target_": "gravitorch.creators.datasource.VanillaDataSourceCreator",
+        ...         "config": {"_target_": "gravitorch.testing.DummyDataSource"},
+        ...     }
+        ... )
+        True
+    """
+    return is_object_config(config, BaseDataSourceCreator)
 
 
 def setup_datasource_creator(creator: BaseDataSourceCreator | dict) -> BaseDataSourceCreator:
