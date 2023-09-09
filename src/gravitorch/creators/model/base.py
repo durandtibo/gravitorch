@@ -87,7 +87,7 @@ class BaseModelCreator(ABC, metaclass=AbstractFactory):
 
 
 def is_model_creator_config(config: dict) -> bool:
-    r"""Indicates  if the input configuration is a configuration for a
+    r"""Indicates if the input configuration is a configuration for a
     ``BaseModelCreator``.
 
     This function only checks if the value of the key  ``_target_``

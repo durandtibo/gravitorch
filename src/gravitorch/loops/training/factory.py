@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def is_training_loop_config(config: dict) -> bool:
-    r"""Indicates  if the input configuration is a configuration for a
+    r"""Indicates if the input configuration is a configuration for a
     ``BaseTrainingLoop``.
 
     This function only checks if the value of the key  ``_target_``

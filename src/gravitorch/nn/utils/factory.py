@@ -46,7 +46,7 @@ def attach_module_to_engine(module: Module, engine: BaseEngine) -> None:
 
 
 def is_module_config(config: dict) -> bool:
-    r"""Indicates  if the input configuration is a configuration for a
+    r"""Indicates if the input configuration is a configuration for a
     ``torch.nn.Module``.
 
     This function only checks if the value of the key  ``_target_``

@@ -53,7 +53,7 @@ def create_datasets(datasets: Mapping[Hashable, Dataset | dict]) -> dict[Hashabl
 
 
 def is_dataset_config(config: dict) -> bool:
-    r"""Indicates  if the input configuration is a configuration for a
+    r"""Indicates if the input configuration is a configuration for a
     ``torch.utils.data.Dataset``.
 
     This function only checks if the value of the key  ``_target_``

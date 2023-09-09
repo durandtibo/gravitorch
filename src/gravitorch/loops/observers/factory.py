@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 def is_loop_observer_config(config: dict) -> bool:
-    r"""Indicates  if the input configuration is a configuration for a
+    r"""Indicates if the input configuration is a configuration for a
     ``BaseLoopObserver``.
 
     This function only checks if the value of the key  ``_target_``
