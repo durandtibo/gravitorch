@@ -5,8 +5,27 @@ from objectory import OBJECT_TARGET
 from gravitorch.data.partitioners import (
     BasePartitioner,
     FixedSizePartitioner,
+    is_partitioner_config,
     setup_partitioner,
 )
+
+###########################################
+#     Tests for is_partitioner_config     #
+###########################################`
+
+
+def test_is_partitioner_config_true() -> None:
+    assert is_partitioner_config(
+        {
+            OBJECT_TARGET: "gravitorch.data.partitioners.FixedSizePartitioner",
+            "partition_size": 3,
+        }
+    )
+
+
+def test_is_partitioner_config_false() -> None:
+    assert not is_partitioner_config({OBJECT_TARGET: "torch.nn.Identity"})
+
 
 #######################################
 #     Tests for setup_partitioner     #

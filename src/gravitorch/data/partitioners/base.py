@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["BasePartitioner", "setup_partitioner"]
+__all__ = ["BasePartitioner", "is_partitioner_config", "setup_partitioner"]
 
 import logging
 from abc import ABC, abstractmethod
@@ -8,6 +8,7 @@ from collections.abc import Sequence
 from typing import Generic, TypeVar
 
 from objectory import AbstractFactory
+from objectory.utils import is_object_config
 
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.format import str_target_object
@@ -57,6 +58,40 @@ class BasePartitioner(Generic[T], ABC, metaclass=AbstractFactory):
             >>> partitions
             [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
         """
+
+
+def is_partitioner_config(config: dict) -> bool:
+    r"""Indicates if the input configuration is a configuration for a
+    ``BasePartitioner``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BasePartitioner`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.optimizer import is_optimizer_creator_config
+        >>> is_optimizer_creator_config(
+        ...     {
+        ...         "_target_": "gravitorch.data.partitioners.FixedSizePartitioner",
+        ...         "partition_size": 3,
+        ...     }
+        ... )
+        True
+    """
+    return is_object_config(config, BasePartitioner)
 
 
 def setup_partitioner(partitioner: BasePartitioner | dict) -> BasePartitioner:
