@@ -76,7 +76,7 @@ def create_sequential_iter_datapipe(configs: Sequence[dict]) -> IterDataPipe:
 
 
 def is_iter_datapipe_config(config: dict) -> bool:
-    r"""Indicate if the input configuration is a configuration for a
+    r"""Indicates  if the input configuration is a configuration for a
     ``IterDataPipe``.
 
     This function only checks if the value of the key  ``_target_``

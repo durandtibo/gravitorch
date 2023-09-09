@@ -871,7 +871,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
 
 
 def is_engine_config(config: dict) -> bool:
-    r"""Indicate if the input configuration is a configuration for a
+    r"""Indicates  if the input configuration is a configuration for a
     ``BaseEngine``.
 
     This function only checks if the value of the key  ``_target_``

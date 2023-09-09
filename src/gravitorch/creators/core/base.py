@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-__all__ = ["BaseCoreCreator", "setup_core_creator"]
+__all__ = ["BaseCoreCreator", "is_core_creator_config", "setup_core_creator"]
 
 import logging
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 from objectory import AbstractFactory
+from objectory.utils import is_object_config
 from torch.nn import Module
 from torch.optim import Optimizer
 
@@ -188,6 +189,43 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
             >>> lr_scheduler  # doctest: +ELLIPSIS
             <torch.optim.lr_scheduler.StepLR object at 0x...>
         """
+
+
+def is_core_creator_config(config: dict) -> bool:
+    r"""Indicates if the input configuration is a configuration for a
+    ``BaseCoreCreator``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseCoreCreator`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.core import is_core_creator_config
+        >>> is_core_creator_config(
+        ...     {
+        ...         "_target_": "gravitorch.creators.core.VanillaCoreCreator",
+        ...         "datasource": {"_target_": "gravitorch.testing.DummyDataSource"},
+        ...         "model": {"_target_": "gravitorch.testing.DummyClassificationModel"},
+        ...         "optimizer": {"_target_": "torch.optim.SGD", "lr": 0.01},
+        ...         "lr_scheduler": {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
+        ...     }
+        ... )
+        True
+    """
+    return is_object_config(config, BaseCoreCreator)
 
 
 def setup_core_creator(creator: BaseCoreCreator | dict) -> BaseCoreCreator:

@@ -107,7 +107,7 @@ def create_dataloader2(
 
 
 def is_dataloader_config(config: dict) -> bool:
-    r"""Indicate if the input configuration is a configuration for a
+    r"""Indicates  if the input configuration is a configuration for a
     ``torch.utils.data.DataLoader``.
 
     This function only checks if the value of the key  ``_target_``
@@ -136,7 +136,7 @@ def is_dataloader_config(config: dict) -> bool:
 
 
 def is_dataloader2_config(config: dict) -> bool:
-    r"""Indicate if the input configuration is a configuration for a
+    r"""Indicates  if the input configuration is a configuration for a
     ``torchdata.dataloader2.DataLoader2``.
 
     This function only checks if the value of the key  ``_target_``

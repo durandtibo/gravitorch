@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 def is_model_config(config: dict) -> bool:
-    r"""Indicate if the input configuration is a configuration for a
+    r"""Indicates  if the input configuration is a configuration for a
     ``BaseModel``.
 
     This function only checks if the value of the key  ``_target_``
