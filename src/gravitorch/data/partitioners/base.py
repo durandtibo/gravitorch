@@ -82,8 +82,8 @@ def is_partitioner_config(config: dict) -> bool:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.optimizer import is_optimizer_creator_config
-        >>> is_optimizer_creator_config(
+        >>> from gravitorch.data.partitioners import is_partitioner_config
+        >>> is_partitioner_config(
         ...     {
         ...         "_target_": "gravitorch.data.partitioners.FixedSizePartitioner",
         ...         "partition_size": 3,
