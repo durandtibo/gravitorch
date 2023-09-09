@@ -16,7 +16,7 @@ from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn.utils.state_dict import (
     load_checkpoint_to_module,
-    load_model_state_dict,
+    load_module_state_dict,
 )
 from gravitorch.utils.path import sanitize_path
 
@@ -194,7 +194,7 @@ class PartialModelStateDictLoader(BaseHandler):
             >>> handler = PartialModelStateDictLoader("tmp/ckpt.pt")
             >>> handler.load(engine)  # doctest: +SKIP
         """
-        load_model_state_dict(
+        load_module_state_dict(
             path=self._checkpoint_path,
             module=engine.model,
             strict=self._strict,

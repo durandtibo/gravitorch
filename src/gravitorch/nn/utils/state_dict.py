@@ -3,7 +3,7 @@ from __future__ import annotations
 __all__ = [
     "find_module_state_dict",
     "load_checkpoint_to_module",
-    "load_model_state_dict",
+    "load_module_state_dict",
     "load_state_dict_to_module",
     "show_state_dict_info",
     "state_dicts_are_equal",
@@ -261,13 +261,13 @@ def show_state_dict_info(state_dict: dict, tablefmt: str = "simple") -> None:
     logger.info(f'State dict info\n{tabulate(stats, headers="firstrow", tablefmt=tablefmt)}\n')
 
 
-def load_model_state_dict(
+def load_module_state_dict(
     path: Path | str,
     module: Module,
     exclude_key_prefixes: Sequence[str] | None = None,
     strict: bool = True,
 ) -> None:
-    r"""Loads a model state dict.
+    r"""Loads a module state dict.
 
     Args:
     ----
@@ -289,9 +289,9 @@ def load_model_state_dict(
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.nn.utils import load_model_state_dict
+        >>> from gravitorch.nn.utils import load_module_state_dict
         >>> module = torch.nn.Linear(4, 5)
-        >>> load_model_state_dict("tmp/to/checkpoint.pt", module)  # doctest: +SKIP
+        >>> load_module_state_dict("tmp/to/checkpoint.pt", module)  # doctest: +SKIP
     """
     # Load the state dict.
     path = sanitize_path(path)
