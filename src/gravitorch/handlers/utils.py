@@ -63,7 +63,7 @@ def add_unique_event_handler(
 
 
 def is_handler_config(config: dict) -> bool:
-    r"""Indicate if the input configuration is a configuration for a
+    r"""Indicates if the input configuration is a configuration for a
     ``BaseHandler``.
 
     This function only checks if the value of the key  ``_target_``

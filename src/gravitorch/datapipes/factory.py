@@ -162,7 +162,7 @@ def create_chained_datapipe(
 
 
 def is_datapipe_config(config: dict) -> bool:
-    r"""Indicate if the input configuration is a configuration for a
+    r"""Indicates if the input configuration is a configuration for a
     ``DataPipe``.
 
     This function only checks if the value of the key  ``_target_``
