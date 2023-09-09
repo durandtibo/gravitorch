@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["BaseIterDataPipeCreator", "setup_iter_datapipe_creator"]
+__all__ = ["BaseIterDataPipeCreator", "is_datapipe_creator_config", "setup_iter_datapipe_creator"]
 
 import logging
 from abc import ABC, abstractmethod
@@ -8,6 +8,7 @@ from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
 from objectory import AbstractFactory
+from objectory.utils import is_object_config
 from torch.utils.data import IterDataPipe
 
 from gravitorch.utils.format import str_target_object
@@ -90,6 +91,45 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
             >>> tuple(datapipe)
             (1, 2, 3, 4)
         """
+
+
+def is_datapipe_creator_config(config: dict) -> bool:
+    r"""Indicates if the input configuration is a configuration for a
+    ``BaseIterDataPipeCreator``.
+
+    This function only checks if the value of the key  ``_target_``
+    is valid. It does not check the other values. If ``_target_``
+    indicates a function, the returned type hint is used to check
+    the class.
+
+    Args:
+    ----
+        config (dict): Specifies the configuration to check.
+
+    Returns:
+    -------
+        bool: ``True`` if the input configuration is a configuration
+            for a ``BaseIterDataPipeCreator`` object.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.creators.datapipe import is_datapipe_creator_config
+        >>> is_datapipe_creator_config(
+        ...     {
+        ...         "_target_": "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+        ...         "config": [
+        ...             {
+        ...                 "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
+        ...                 "iterable": [1, 2, 3, 4],
+        ...             }
+        ...         ],
+        ...     }
+        ... )
+        True
+    """
+    return is_object_config(config, BaseIterDataPipeCreator)
 
 
 def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> BaseIterDataPipeCreator:

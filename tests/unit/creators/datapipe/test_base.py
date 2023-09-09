@@ -5,8 +5,32 @@ from objectory import OBJECT_TARGET
 from gravitorch.creators.datapipe import (
     BaseIterDataPipeCreator,
     SequentialIterDataPipeCreator,
+    is_datapipe_creator_config,
     setup_iter_datapipe_creator,
 )
+
+################################################
+#     Tests for is_datapipe_creator_config     #
+################################################
+
+
+def test_is_datapipe_creator_config_true() -> None:
+    assert is_datapipe_creator_config(
+        {
+            OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+            "config": [
+                {
+                    OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+                    "iterable": [1, 2, 3, 4],
+                }
+            ],
+        }
+    )
+
+
+def test_is_datapipe_creator_config_false() -> None:
+    assert not is_datapipe_creator_config({OBJECT_TARGET: "torch.nn.Identity"})
+
 
 #################################################
 #     Tests for setup_iter_datapipe_creator     #
