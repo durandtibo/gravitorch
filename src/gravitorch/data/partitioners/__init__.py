@@ -7,10 +7,15 @@ __all__ = [
     "SequentialPartitioner",
     "SyncParallelPartitioner",
     "TrivialPartitioner",
+    "is_partitioner_config",
     "setup_partitioner",
 ]
 
-from gravitorch.data.partitioners.base import BasePartitioner, setup_partitioner
+from gravitorch.data.partitioners.base import (
+    BasePartitioner,
+    is_partitioner_config,
+    setup_partitioner,
+)
 from gravitorch.data.partitioners.distributed import (
     DDPPartitioner,
     SyncParallelPartitioner,
