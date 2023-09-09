@@ -3,8 +3,28 @@ from objectory import OBJECT_TARGET
 from gravitorch.creators.dataloader import (
     AutoDataLoaderCreator,
     DataLoaderCreator,
+    is_dataloader_creator_config,
     setup_dataloader_creator,
 )
+
+##################################################
+#     Tests for is_dataloader_creator_config     #
+##################################################
+
+
+def test_is_dataloader_creator_config_true() -> None:
+    assert is_dataloader_creator_config(
+        {OBJECT_TARGET: "gravitorch.creators.dataloader.DataLoaderCreator"}
+    )
+
+
+def test_is_dataloader_creator_config_false() -> None:
+    assert not is_dataloader_creator_config({OBJECT_TARGET: "torch.nn.Identity"})
+
+
+##############################################
+#     Tests for setup_dataloader_creator     #
+##############################################
 
 
 def test_setup_dataloader_creator_none() -> None:
