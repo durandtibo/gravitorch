@@ -6,7 +6,7 @@ import logging
 from collections.abc import Iterator
 from pathlib import Path
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.utils.data import IterDataPipe
 
 from gravitorch.utils.io import save_pickle, save_pytorch
@@ -41,9 +41,9 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
         >>> dp = PickleSaver(IterableWrapper([1, 2, 3, 4, 5]), root_path="tmp/")
         >>> dp  # doctest: +ELLIPSIS
         PickleSaverIterDataPipe(
-          root_path=.../tmp,
-          pattern=data_{index:04d}.pkl,
-          datapipe=IterableWrapperIterDataPipe,
+          (root_path): .../tmp
+          (pattern): data_{index:04d}.pkl
+          (datapipe): IterableWrapperIterDataPipe
         )
     """
 
@@ -72,12 +72,16 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
         return str(self)
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  root_path={self._root_path},\n"
-            f"  pattern={self._pattern},\n"
-            f"  datapipe={str_indent(self._datapipe)},\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "root_path": self._root_path,
+                    "pattern": self._pattern,
+                    "datapipe": self._datapipe,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
 
 class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
@@ -106,9 +110,9 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
         >>> dp = PyTorchSaver(IterableWrapper([1, 2, 3, 4, 5]), root_path="tmp/")
         >>> dp  # doctest: +ELLIPSIS
         PyTorchSaverIterDataPipe(
-          root_path=.../tmp,
-          pattern=data_{index:04d}.pt,
-          datapipe=IterableWrapperIterDataPipe,
+          (root_path): .../tmp
+          (pattern): data_{index:04d}.pt
+          (datapipe): IterableWrapperIterDataPipe
         )
     """
 
@@ -137,9 +141,13 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
         return str(self)
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  root_path={self._root_path},\n"
-            f"  pattern={self._pattern},\n"
-            f"  datapipe={str_indent(self._datapipe)},\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "root_path": self._root_path,
+                    "pattern": self._pattern,
+                    "datapipe": self._datapipe,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"

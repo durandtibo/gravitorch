@@ -78,9 +78,9 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
         >>> dp = creator.create(engine)
         >>> dp
         TensorDictShufflerIterDataPipe(
-          dim=0,
-          random_seed=41,
-          datapipe={'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4, 5]},
+          (dim): 0
+          (random_seed): 41
+          (datapipe): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4, 5]}
         )
     """
 

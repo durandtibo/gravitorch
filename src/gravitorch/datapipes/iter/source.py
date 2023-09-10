@@ -7,7 +7,7 @@ import logging
 from collections.abc import Iterable, Iterator
 
 from coola import summary
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.utils.data import IterDataPipe
 
 logger = logging.getLogger(__name__)
@@ -34,14 +34,13 @@ class SourceWrapperIterDataPipe(IterDataPipe):
         >>> dp = SourceWrapper([1, 2, 3, 4, 5])
         >>> dp
         SourceWrapperIterDataPipe(
-          deepcopy: False,
-          source:
-            <class 'list'> (length=5)
-              (0): 1
-              (1): 2
-              (2): 3
-              (3): 4
-              (4): 5
+          (deepcopy): False
+          (source): <class 'list'> (length=5)
+                  (0): 1
+                  (1): 2
+                  (2): 3
+                  (3): 4
+                  (4): 5
         )
         >>> list(dp)
         [1, 2, 3, 4, 5]
@@ -70,8 +69,12 @@ class SourceWrapperIterDataPipe(IterDataPipe):
         return str(self)
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  deepcopy: {self._deepcopy},\n"
-            f"  source:\n    {str_indent(summary(self._source), num_spaces=4)}\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "deepcopy": self._deepcopy,
+                    "source": str_indent(summary(self._source), num_spaces=4),
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"

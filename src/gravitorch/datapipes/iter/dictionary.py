@@ -4,7 +4,7 @@ __all__ = ["DictOfListConverterIterDataPipe", "ListOfDictConverterIterDataPipe"]
 
 from collections.abc import Hashable, Iterator, Mapping, Sequence
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.utils.data import IterDataPipe
 
 from gravitorch.utils.mapping import convert_to_dict_of_lists, convert_to_list_of_dicts
@@ -35,7 +35,7 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
         ... )
         >>> dp
         DictOfListConverterIterDataPipe(
-          source_datapipe=IterableWrapperIterDataPipe,
+          (datapipe): IterableWrapperIterDataPipe
         )
         >>> list(dp)
         [{'key1': [1, 2, 3], 'key2': [10, 20, 30]}, {'key': ['a', -2]}]
@@ -55,10 +55,8 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
         return str(self)
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  source_datapipe={str_indent(self._source_datapipe)},\n)"
-        )
+        args = str_indent(str_mapping({"datapipe": self._source_datapipe}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
 
 class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
@@ -81,7 +79,7 @@ class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
         ... )
         >>> dp
         ListOfDictConverterIterDataPipe(
-          source_datapipe=IterableWrapperIterDataPipe,
+          (datapipe): IterableWrapperIterDataPipe
         )
         >>> list(dp)
         [[{'key1': 1, 'key2': 10}, {'key1': 2, 'key2': 20}, {'key1': 3, 'key2': 30}], [{'key': 'a'}, {'key': -2}]]
@@ -101,7 +99,5 @@ class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
         return str(self)
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  source_datapipe={str_indent(self._source_datapipe)},\n)"
-        )
+        args = str_indent(str_mapping({"datapipe": self._source_datapipe}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
