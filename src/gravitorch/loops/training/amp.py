@@ -18,14 +18,14 @@ from gravitorch import constants as ct
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.observers import BaseLoopObserver
-from gravitorch.loops.training.vanilla import VanillaTrainingLoop
+from gravitorch.loops.training.vanilla import TrainingLoop
 from gravitorch.utils.device_placement import BaseDevicePlacement
 from gravitorch.utils.profilers import BaseProfiler
 
 logger = logging.getLogger(__name__)
 
 
-class AMPTrainingLoop(VanillaTrainingLoop):
+class AMPTrainingLoop(TrainingLoop):
     r"""Implements a training loop to train a model on a dataset by using
     training loop using automatic mixed precision (AMP).
 

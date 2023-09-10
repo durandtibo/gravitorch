@@ -10,7 +10,7 @@ import logging
 from objectory.utils import is_object_config
 
 from gravitorch.loops.training.base import BaseTrainingLoop
-from gravitorch.loops.training.vanilla import VanillaTrainingLoop
+from gravitorch.loops.training.vanilla import TrainingLoop
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
@@ -39,7 +39,7 @@ def is_training_loop_config(config: dict) -> bool:
     .. code-block:: pycon
 
         >>> from gravitorch.loops.training import is_training_loop_config
-        >>> is_training_loop_config({"_target_": "gravitorch.loops.training.VanillaTrainingLoop"})
+        >>> is_training_loop_config({"_target_": "gravitorch.loops.training.TrainingLoop"})
         True
     """
     return is_object_config(config, BaseTrainingLoop)
@@ -55,7 +55,7 @@ def setup_training_loop(training_loop: BaseTrainingLoop | dict | None) -> BaseTr
     ----
         training_loop (``BaseTrainingLoop`` or dict or None):
             Specifies the training loop or its configuration.
-            If ``None``, the ``VanillaTrainingLoop`` is instantiated.
+            If ``None``, the ``TrainingLoop`` is instantiated.
 
     Returns:
     -------
@@ -66,11 +66,9 @@ def setup_training_loop(training_loop: BaseTrainingLoop | dict | None) -> BaseTr
     .. code-block:: pycon
 
         >>> from gravitorch.loops.training import setup_training_loop
-        >>> loop = setup_training_loop(
-        ...     {"_target_": "gravitorch.loops.training.VanillaTrainingLoop"}
-        ... )
+        >>> loop = setup_training_loop({"_target_": "gravitorch.loops.training.TrainingLoop"})
         >>> loop
-        VanillaTrainingLoop(
+        TrainingLoop(
           (set_grad_to_none): True
           (batch_device_placement): AutoDevicePlacement(device=cpu)
           (tag): train
@@ -81,7 +79,7 @@ def setup_training_loop(training_loop: BaseTrainingLoop | dict | None) -> BaseTr
         )
     """
     if training_loop is None:
-        training_loop = VanillaTrainingLoop()
+        training_loop = TrainingLoop()
     if isinstance(training_loop, dict):
         logger.info(
             "Initializing a training loop from its configuration... "

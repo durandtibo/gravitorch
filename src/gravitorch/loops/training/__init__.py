@@ -6,7 +6,7 @@ __all__ = [
     "BaseBasicTrainingLoop",
     "BaseTrainingLoop",
     "NoOpTrainingLoop",
-    "VanillaTrainingLoop",
+    "TrainingLoop",
     "is_training_loop_config",
     "setup_training_loop",
 ]
@@ -20,4 +20,4 @@ from gravitorch.loops.training.factory import (
     setup_training_loop,
 )
 from gravitorch.loops.training.noop import NoOpTrainingLoop
-from gravitorch.loops.training.vanilla import VanillaTrainingLoop
+from gravitorch.loops.training.vanilla import TrainingLoop

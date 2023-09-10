@@ -22,7 +22,7 @@ class NoOpTrainingLoop(BaseTrainingLoop):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.loops.training import VanillaTrainingLoop
+        >>> from gravitorch.loops.training import TrainingLoop
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> loop = NoOpTrainingLoop()

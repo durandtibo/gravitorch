@@ -30,12 +30,12 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.loops.training import VanillaTrainingLoop
+        >>> from gravitorch.loops.training import TrainingLoop
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
-        >>> loop = VanillaTrainingLoop()
+        >>> loop = TrainingLoop()
         >>> loop
-        VanillaTrainingLoop(
+        TrainingLoop(
           (set_grad_to_none): True
           (batch_device_placement): AutoDevicePlacement(device=cpu)
           (tag): train
@@ -62,10 +62,10 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.loops.training import VanillaTrainingLoop
+            >>> from gravitorch.loops.training import TrainingLoop
             >>> from gravitorch.testing import create_dummy_engine
             >>> engine = create_dummy_engine()
-            >>> loop = VanillaTrainingLoop()
+            >>> loop = TrainingLoop()
             >>> loop.train(engine)
         """
 
@@ -83,8 +83,8 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.loops.training import VanillaTrainingLoop
-            >>> loop = VanillaTrainingLoop()
+            >>> from gravitorch.loops.training import TrainingLoop
+            >>> loop = TrainingLoop()
             >>> loop.load_state_dict({})
         """
 
@@ -100,8 +100,8 @@ class BaseTrainingLoop(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.loops.training import VanillaTrainingLoop
-            >>> loop = VanillaTrainingLoop()
+            >>> from gravitorch.loops.training import TrainingLoop
+            >>> loop = TrainingLoop()
             >>> state = loop.state_dict()
             >>> state
             {}

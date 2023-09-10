@@ -58,7 +58,7 @@ class AlphaEngine(BaseEngine):
             Default: ``None``
         training_loop (``BaseTrainingLoop`` or dict or ``None``):
             Specifies the training loop or its configuration.
-            If ``None``, a ``VanillaTrainingLoop`` object is created.
+            If ``None``, a ``TrainingLoop`` object is created.
             Default: ``None``
         evaluation_loop (``BaseEvaluationLoop`` or dict or ``None``):
             Specifies the evaluation loop or its configuration.
@@ -358,7 +358,7 @@ class AlphaEngine(BaseEngine):
         ----
             training_loop (``BaseTrainingLoop`` or dict or None):
                 Specifies the training loop or its configuration.
-                If ``None``, the ``VanillaTrainingLoop`` is
+                If ``None``, the ``TrainingLoop`` is
                 instantiated.
 
         Returns:

@@ -39,7 +39,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         - ``_train_one_batch``
 
     This class was implemented to reduce the duplicated code between
-    ``VanillaTrainingLoop`` and ``AccelerateTrainingLoop``.
+    ``TrainingLoop`` and ``AccelerateTrainingLoop``.
 
     Args:
     ----
