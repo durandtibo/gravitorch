@@ -1,4 +1,8 @@
+import logging
+
 from objectory import OBJECT_TARGET
+from pytest import LogCaptureFixture
+from torch.nn import Module
 
 from gravitorch.creators.dataloader import (
     AutoDataLoaderCreator,
@@ -41,3 +45,9 @@ def test_setup_dataloader_creator_config() -> None:
 def test_setup_dataloader_creator_object() -> None:
     dataloader_creator = setup_dataloader_creator(DataLoaderCreator())
     assert isinstance(dataloader_creator, DataLoaderCreator)
+
+
+def test_setup_dataloader_creator_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_dataloader_creator({OBJECT_TARGET: "torch.nn.Identity"}), Module)
+        assert caplog.messages

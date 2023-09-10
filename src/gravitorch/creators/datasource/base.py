@@ -181,4 +181,6 @@ def setup_datasource_creator(creator: BaseDataSourceCreator | dict) -> BaseDataS
             f"{str_target_object(creator)}"
         )
         creator = BaseDataSourceCreator.factory(**creator)
+    if not isinstance(creator, BaseDataSourceCreator):
+        logger.warning(f"creator is not a `BaseDataSourceCreator` (received: {type(creator)})")
     return creator

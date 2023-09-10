@@ -86,4 +86,6 @@ def setup_optimizer_creator(creator: BaseOptimizerCreator | dict | None) -> Base
             f"{str_target_object(creator)}"
         )
         creator = BaseOptimizerCreator.factory(**creator)
+    if not isinstance(creator, BaseOptimizerCreator):
+        logger.warning(f"creator is not a `BaseOptimizerCreator` (received: {type(creator)})")
     return creator

@@ -88,4 +88,6 @@ def setup_metric(metric: BaseMetric | dict) -> BaseMetric:
     if isinstance(metric, dict):
         logger.info(f"Initializing a metric from its configuration... {str_target_object(metric)}")
         metric = BaseMetric.factory(**metric)
+    if not isinstance(metric, Module):
+        logger.warning(f"metric is not a `torch.nn.Module` (received: {type(metric)})")
     return metric
