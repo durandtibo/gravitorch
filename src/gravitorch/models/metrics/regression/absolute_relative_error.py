@@ -42,9 +42,7 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
         AbsoluteRelativeError(
           mode=eval,
           name=abs_rel_err,
-          state=ErrorState(
-            (meter) TensorMeter(count=0, total=0.0, min_value=inf, max_value=-inf)
-          )
+          state=ErrorState(num_predictions=0)
         )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
@@ -127,9 +125,7 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
         SymmetricAbsoluteRelativeError(
           mode=eval,
           name=sym_abs_rel_err,
-          state=ErrorState(
-            (meter) TensorMeter(count=0, total=0.0, min_value=inf, max_value=-inf)
-          )
+          state=ErrorState(num_predictions=0)
         )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
