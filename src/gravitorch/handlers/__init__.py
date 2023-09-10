@@ -36,7 +36,7 @@ __all__ = [
     "NetworkArchitectureAnalyzer",
     "PartialModelStateDictLoader",
     "TagEngineStateSaver",
-    "VanillaLRScheduler",
+    "LRScheduler",
     "add_unique_event_handler",
     "is_handler_config",
     "setup_and_attach_handlers",
@@ -69,7 +69,7 @@ from gravitorch.handlers.lr_monitor import EpochLRMonitor, IterationLRMonitor
 from gravitorch.handlers.lr_scheduler import (
     EpochLRScheduler,
     IterationLRScheduler,
-    VanillaLRScheduler,
+    LRScheduler,
 )
 from gravitorch.handlers.lr_scheduler_updater import (
     EpochLRSchedulerUpdater,
