@@ -16,14 +16,18 @@ NAMES = ("NAME", "my_module")
 ###################################
 
 
-def test_module_manager_str_empty() -> None:
-    assert str(ModuleManager()) == "ModuleManager()"
-
-
-def test_module_manager_str_with_module() -> None:
+def test_module_manager_repr() -> None:
     manager = ModuleManager()
     manager.add_module("my_module", nn.Linear(4, 5))
-    assert str(manager).startswith("ModuleManager(")
+    assert repr(manager).startswith("ModuleManager(")
+
+
+def test_module_manager_repr_empty() -> None:
+    assert repr(ModuleManager()) == "ModuleManager()"
+
+
+def test_module_manager_str() -> None:
+    assert str(ModuleManager()) == "ModuleManager(total=0)"
 
 
 def test_module_manager_len_empty() -> None:

@@ -23,6 +23,15 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
 
         >>> from gravitorch.utils.engine_states import EngineState
         >>> state = EngineState()
+        >>> state
+        EngineState(
+          (modules): ModuleManager(total=0)
+          (histories): HistoryManager()
+          (random_seed): 9984043075503325450
+          (max_epochs): 1
+          (epoch): -1
+          (iteration): -1
+        )
         >>> state.epoch  # 0-based, the first epoch is 0. -1 means the training has not started
         >>> state.iteration  # 0-based, the first iteration is 0. -1 means the training has not started
         >>> state.max_epochs  # maximum number of epochs to run
