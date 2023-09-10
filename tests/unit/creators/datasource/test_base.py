@@ -16,7 +16,7 @@ from gravitorch.creators.datasource import (
 def test_is_datasource_creator_config_true() -> None:
     assert is_datasource_creator_config(
         {
-            OBJECT_TARGET: "gravitorch.creators.datasource.VanillaDataSourceCreator",
+            OBJECT_TARGET: "gravitorch.creators.datasource.DataSourceCreator",
             "config": {OBJECT_TARGET: "gravitorch.testing.DummyDataSource"},
         }
     )

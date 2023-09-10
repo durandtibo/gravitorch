@@ -49,7 +49,7 @@ def test_alpha_engine_core_creator_dict() -> None:
         core_creator={
             OBJECT_TARGET: "gravitorch.creators.core.AdvancedCoreCreator",
             "datasource_creator": {
-                OBJECT_TARGET: "gravitorch.creators.datasource.VanillaDataSourceCreator",
+                OBJECT_TARGET: "gravitorch.creators.datasource.DataSourceCreator",
                 "config": {OBJECT_TARGET: "gravitorch.testing.DummyDataSource"},
             },
             "model_creator": {

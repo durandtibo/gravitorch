@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["VanillaDataSourceCreator"]
+__all__ = ["DataSourceCreator"]
 
 import logging
 from typing import TYPE_CHECKING
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class VanillaDataSourceCreator(BaseDataSourceCreator):
+class DataSourceCreator(BaseDataSourceCreator):
     r"""Implements a simple datasource creator.
 
     Args:
@@ -40,10 +40,10 @@ class VanillaDataSourceCreator(BaseDataSourceCreator):
     .. code-block:: pycon
 
         >>> from gravitorch.testing import create_dummy_engine
-        >>> from gravitorch.creators.datasource import VanillaDataSourceCreator
-        >>> creator = VanillaDataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
+        >>> from gravitorch.creators.datasource import DataSourceCreator
+        >>> creator = DataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
         >>> creator
-        VanillaDataSourceCreator(
+        DataSourceCreator(
           (config): {'_target_': 'gravitorch.testing.DummyDataSource'}
           (attach_to_engine): True
           (add_module_to_engine): True

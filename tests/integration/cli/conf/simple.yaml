@@ -8,7 +8,7 @@ engine:
   core_creator:
     _target_: gravitorch.creators.core.AdvancedCoreCreator
     datasource_creator:
-      _target_: gravitorch.creators.datasource.VanillaDataSourceCreator
+      _target_: gravitorch.creators.datasource.DataSourceCreator
       config:
         _target_: gravitorch.datasources.DatasetDataSource
         datasets:

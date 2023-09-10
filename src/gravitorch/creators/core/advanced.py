@@ -46,13 +46,13 @@ class AdvancedCoreCreator(BaseCoreCreator):
     .. code-block:: pycon
 
         >>> from gravitorch.creators.core import AdvancedCoreCreator
-        >>> from gravitorch.creators.datasource import VanillaDataSourceCreator
+        >>> from gravitorch.creators.datasource import DataSourceCreator
         >>> from gravitorch.creators.model import VanillaModelCreator
         >>> from gravitorch.creators.optimizer import OptimizerCreator
         >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
         >>> from gravitorch.testing import create_dummy_engine
         >>> creator = AdvancedCoreCreator(
-        ...     datasource_creator=VanillaDataSourceCreator(
+        ...     datasource_creator=DataSourceCreator(
         ...         {"_target_": "gravitorch.testing.DummyDataSource"}
         ...     ),
         ...     model_creator=VanillaModelCreator(
@@ -65,7 +65,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
         ... )
         >>> creator  # doctest: +ELLIPSIS
         AdvancedCoreCreator(
-          (datasource): VanillaDataSourceCreator(
+          (datasource): DataSourceCreator(
               (config): {'_target_': 'gravitorch.testing.DummyDataSource'}
               (attach_to_engine): True
               (add_module_to_engine): True
