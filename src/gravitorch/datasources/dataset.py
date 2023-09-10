@@ -68,10 +68,10 @@ class DatasetDataSource(BaseDataSource):
         ... )
         >>> datasource
         DatasetDataSource(
-          datasets:
+          (datasets):
             (train): ExampleDataset(num_examples=4)
             (eval): ExampleDataset(num_examples=3)
-          dataloader_creators:
+          (dataloader_creators):
         )
     """
 
@@ -94,14 +94,17 @@ class DatasetDataSource(BaseDataSource):
         self._check()
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            "  datasets:\n"
-            f"    {str_indent(str_mapping(self._datasets), num_spaces=4)}\n"
-            "  dataloader_creators:\n"
-            f"    {str_indent(str_mapping(self._dataloader_creators), num_spaces=4)}"
-            "\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "datasets": "\n" + str_mapping(self._datasets) if self._datasets else "",
+                    "dataloader_creators": "\n" + str_mapping(self._dataloader_creators)
+                    if self._dataloader_creators
+                    else "",
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def attach(self, engine: BaseEngine) -> None:
         logger.info("Attach the datasource to an engine")

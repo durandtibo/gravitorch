@@ -44,10 +44,10 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
         >>> datasource = creator.create(engine)
         >>> datasource
         DummyDataSource(
-          datasets:
+          (datasets):
             (train): DummyDataset(num_examples=4, feature_size=4)
             (eval): DummyDataset(num_examples=4, feature_size=4)
-          dataloader_creators:
+          (dataloader_creators):
             (train): DataLoaderCreator(
                 (seed): 0
                 (batch_size): 1
@@ -89,10 +89,10 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
             >>> datasource = creator.create(engine)
             >>> datasource
             DummyDataSource(
-              datasets:
+              (datasets):
                 (train): DummyDataset(num_examples=4, feature_size=4)
                 (eval): DummyDataset(num_examples=4, feature_size=4)
-              dataloader_creators:
+              (dataloader_creators):
                 (train): DataLoaderCreator(
                     (seed): 0
                     (batch_size): 1

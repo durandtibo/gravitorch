@@ -49,10 +49,10 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
         >>> creator  # doctest: +ELLIPSIS
         VanillaCoreCreator(
           (datasource): DummyDataSource(
-              datasets:
+              (datasets):
                 (train): DummyDataset(num_examples=4, feature_size=4)
                 (eval): DummyDataset(num_examples=4, feature_size=4)
-              dataloader_creators:
+              (dataloader_creators):
                 (train): DataLoaderCreator(
                     (seed): 0
                     (batch_size): 1
@@ -82,10 +82,10 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
         >>> datasource, model, optimizer, lr_scheduler = creator.create(engine)
         >>> datasource
         DummyDataSource(
-          datasets:
+          (datasets):
             (train): DummyDataset(num_examples=4, feature_size=4)
             (eval): DummyDataset(num_examples=4, feature_size=4)
-          dataloader_creators:
+          (dataloader_creators):
             (train): DataLoaderCreator(
                 (seed): 0
                 (batch_size): 1
@@ -157,10 +157,10 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
             >>> datasource, model, optimizer, lr_scheduler = creator.create(engine)
             >>> datasource
             DummyDataSource(
-              datasets:
+              (datasets):
                 (train): DummyDataset(num_examples=4, feature_size=4)
                 (eval): DummyDataset(num_examples=4, feature_size=4)
-              dataloader_creators:
+              (dataloader_creators):
                 (train): DataLoaderCreator(
                     (seed): 0
                     (batch_size): 1
@@ -262,10 +262,10 @@ def setup_core_creator(creator: BaseCoreCreator | dict) -> BaseCoreCreator:
         >>> creator  # doctest: +ELLIPSIS
         VanillaCoreCreator(
           (datasource): DummyDataSource(
-              datasets:
+              (datasets):
                 (train): DummyDataset(num_examples=4, feature_size=4)
                 (eval): DummyDataset(num_examples=4, feature_size=4)
-              dataloader_creators:
+              (dataloader_creators):
                 (train): DataLoaderCreator(
                     (seed): 0
                     (batch_size): 1
