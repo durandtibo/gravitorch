@@ -176,4 +176,6 @@ def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> Base
             f"{str_target_object(creator)}"
         )
         creator = BaseIterDataPipeCreator.factory(**creator)
+    if not isinstance(creator, BaseIterDataPipeCreator):
+        logger.warning(f"creator is not a `BaseIterDataPipeCreator` (received: {type(creator)})")
     return creator

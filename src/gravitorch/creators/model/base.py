@@ -155,4 +155,6 @@ def setup_model_creator(creator: BaseModelCreator | dict) -> BaseModelCreator:
             f"Initializing a model creator from its configuration... {str_target_object(creator)}"
         )
         creator = BaseModelCreator.factory(**creator)
+    if not isinstance(creator, BaseModelCreator):
+        logger.warning(f"creator is not a `BaseModelCreator` (received: {type(creator)})")
     return creator

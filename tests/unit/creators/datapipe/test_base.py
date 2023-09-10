@@ -1,6 +1,9 @@
+import logging
 from unittest.mock import Mock, patch
 
 from objectory import OBJECT_TARGET
+from pytest import LogCaptureFixture
+from torch.nn import Module
 
 from gravitorch.creators.datapipe import (
     BaseIterDataPipeCreator,
@@ -42,13 +45,6 @@ def test_setup_iter_datapipe_creator_object() -> None:
     assert setup_iter_datapipe_creator(creator) is creator
 
 
-def test_setup_iter_datapipe_creator_dict_mock() -> None:
-    creator_mock = Mock(factory=Mock(return_value="abc"))
-    with patch("gravitorch.creators.datapipe.base.BaseIterDataPipeCreator", creator_mock):
-        assert setup_iter_datapipe_creator({OBJECT_TARGET: "name"}) == "abc"
-        creator_mock.factory.assert_called_once_with(_target_="name")
-
-
 def test_setup_iter_datapipe_creator_dict() -> None:
     assert isinstance(
         setup_iter_datapipe_creator(
@@ -64,3 +60,18 @@ def test_setup_iter_datapipe_creator_dict() -> None:
         ),
         SequentialIterDataPipeCreator,
     )
+
+
+def test_setup_iter_datapipe_creator_dict_mock() -> None:
+    factory_mock = Mock(return_value=Mock(spec=BaseIterDataPipeCreator))
+    with patch("gravitorch.creators.datapipe.base.BaseIterDataPipeCreator.factory", factory_mock):
+        assert isinstance(
+            setup_iter_datapipe_creator({OBJECT_TARGET: "name"}), BaseIterDataPipeCreator
+        )
+        factory_mock.assert_called_once_with(_target_="name")
+
+
+def test_setup_iter_datapipe_creator_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_iter_datapipe_creator({OBJECT_TARGET: "torch.nn.Identity"}), Module)
+        assert caplog.messages

@@ -98,4 +98,6 @@ def setup_lr_scheduler_creator(
             f"{str_target_object(creator)}"
         )
         creator = BaseLRSchedulerCreator.factory(**creator)
+    if not isinstance(creator, BaseLRSchedulerCreator):
+        logger.warning(f"creator is not a `BaseLRSchedulerCreator` (received: {type(creator)})")
     return creator

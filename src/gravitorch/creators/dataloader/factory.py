@@ -85,4 +85,6 @@ def setup_dataloader_creator(
             f"{str_target_object(creator)}"
         )
         creator = BaseDataLoaderCreator.factory(**creator)
+    if not isinstance(creator, BaseDataLoaderCreator):
+        logger.warning(f"creator is not a `BaseDataLoaderCreator` (received: {type(creator)})")
     return creator

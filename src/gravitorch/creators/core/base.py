@@ -298,4 +298,6 @@ def setup_core_creator(creator: BaseCoreCreator | dict) -> BaseCoreCreator:
             f"{str_target_object(creator)}"
         )
         creator = BaseCoreCreator.factory(**creator)
+    if not isinstance(creator, BaseCoreCreator):
+        logger.warning(f"creator is not a `BaseCoreCreator` (received: {type(creator)})")
     return creator
