@@ -11,7 +11,7 @@ def create_engine_config(random_seed: int) -> dict:
         "core_creator": {
             OBJECT_TARGET: "gravitorch.creators.core.AdvancedCoreCreator",
             "datasource_creator": {
-                OBJECT_TARGET: "gravitorch.creators.datasource.VanillaDataSourceCreator",
+                OBJECT_TARGET: "gravitorch.creators.datasource.DataSourceCreator",
                 "config": {
                     OBJECT_TARGET: "gravitorch.datasources.DatasetDataSource",
                     "datasets": {

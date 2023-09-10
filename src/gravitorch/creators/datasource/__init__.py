@@ -1,6 +1,6 @@
 __all__ = [
     "BaseDataSourceCreator",
-    "VanillaDataSourceCreator",
+    "DataSourceCreator",
     "is_datasource_creator_config",
     "setup_datasource_creator",
 ]
@@ -10,4 +10,4 @@ from gravitorch.creators.datasource.base import (
     is_datasource_creator_config,
     setup_datasource_creator,
 )
-from gravitorch.creators.datasource.vanilla import VanillaDataSourceCreator
+from gravitorch.creators.datasource.vanilla import DataSourceCreator

@@ -8,10 +8,7 @@ from torch.optim.lr_scheduler import StepLR
 
 from gravitorch import constants as ct
 from gravitorch.creators.core import AdvancedCoreCreator
-from gravitorch.creators.datasource import (
-    BaseDataSourceCreator,
-    VanillaDataSourceCreator,
-)
+from gravitorch.creators.datasource import BaseDataSourceCreator, DataSourceCreator
 from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
 from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
 from gravitorch.creators.optimizer import OptimizerCreator
@@ -25,7 +22,7 @@ from gravitorch.testing import DummyDataSource
 
 @fixture
 def datasource_creator() -> BaseDataSourceCreator:
-    return VanillaDataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
+    return DataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
 
 
 @fixture

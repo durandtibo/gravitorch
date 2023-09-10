@@ -4,24 +4,24 @@ from objectory import OBJECT_TARGET
 from pytest import mark
 
 from gravitorch import constants as ct
-from gravitorch.creators.datasource import VanillaDataSourceCreator
+from gravitorch.creators.datasource import DataSourceCreator
 from gravitorch.datasources import BaseDataSource
 from gravitorch.engines import BaseEngine
 from gravitorch.testing import DummyDataSource
 
-##############################################
-#     Tests for VanillaDataSourceCreator     #
-##############################################
+#######################################
+#     Tests for DataSourceCreator     #
+#######################################
 
 
-def test_vanilla_datasource_creator_str() -> None:
-    assert str(VanillaDataSourceCreator(config={})).startswith("VanillaDataSourceCreator(")
+def test_datasource_creator_str() -> None:
+    assert str(DataSourceCreator(config={})).startswith("DataSourceCreator(")
 
 
 @mark.parametrize("attach_to_engine", (True, False))
-def test_vanilla_datasource_creator_attach_to_engine(attach_to_engine: bool) -> None:
+def test_datasource_creator_attach_to_engine(attach_to_engine: bool) -> None:
     assert (
-        VanillaDataSourceCreator(
+        DataSourceCreator(
             config={},
             attach_to_engine=attach_to_engine,
         )._attach_to_engine
@@ -30,23 +30,23 @@ def test_vanilla_datasource_creator_attach_to_engine(attach_to_engine: bool) -> 
 
 
 @mark.parametrize("add_module_to_engine", (True, False))
-def test_vanilla_datasource_creator_add_module_to_engine(add_module_to_engine: bool) -> None:
+def test_datasource_creator_add_module_to_engine(add_module_to_engine: bool) -> None:
     assert (
-        VanillaDataSourceCreator(
+        DataSourceCreator(
             config={}, add_module_to_engine=add_module_to_engine
         )._add_module_to_engine
         == add_module_to_engine
     )
 
 
-def test_vanilla_datasource_creator_create() -> None:
-    creator = VanillaDataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
+def test_datasource_creator_create() -> None:
+    creator = DataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
     datasource = creator.create(engine=Mock(spec=BaseEngine))
     assert isinstance(datasource, DummyDataSource)
 
 
-def test_vanilla_datasource_creator_create_attach_to_engine_true() -> None:
-    creator = VanillaDataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
+def test_datasource_creator_create_attach_to_engine_true() -> None:
+    creator = DataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
     engine = Mock(spec=BaseEngine)
     datasource = Mock(spec=BaseDataSource)
     setup_mock = Mock(return_value=datasource)
@@ -57,8 +57,8 @@ def test_vanilla_datasource_creator_create_attach_to_engine_true() -> None:
         )
 
 
-def test_vanilla_datasource_creator_create_attach_to_engine_false() -> None:
-    creator = VanillaDataSourceCreator(
+def test_datasource_creator_create_attach_to_engine_false() -> None:
+    creator = DataSourceCreator(
         config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"}, attach_to_engine=False
     )
     datasource = Mock(spec=BaseDataSource)
@@ -70,17 +70,17 @@ def test_vanilla_datasource_creator_create_attach_to_engine_false() -> None:
         )
 
 
-def test_vanilla_datasource_creator_create_add_module_to_engine_true() -> None:
+def test_datasource_creator_create_add_module_to_engine_true() -> None:
     engine = Mock(spec=BaseEngine)
-    creator = VanillaDataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
+    creator = DataSourceCreator(config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"})
     datasource = creator.create(engine)
     assert isinstance(datasource, DummyDataSource)
     engine.add_module.assert_called_once_with(ct.DATA_SOURCE, datasource)
 
 
-def test_vanilla_datasource_creator_create_add_module_to_engine_false() -> None:
+def test_datasource_creator_create_add_module_to_engine_false() -> None:
     engine = Mock(spec=BaseEngine)
-    creator = VanillaDataSourceCreator(
+    creator = DataSourceCreator(
         config={OBJECT_TARGET: "gravitorch.testing.DummyDataSource"},
         add_module_to_engine=False,
     )

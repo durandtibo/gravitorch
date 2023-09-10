@@ -32,10 +32,10 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
     .. code-block:: pycon
 
         >>> from gravitorch.testing import create_dummy_engine
-        >>> from gravitorch.creators.datasource import VanillaDataSourceCreator
-        >>> creator = VanillaDataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
+        >>> from gravitorch.creators.datasource import DataSourceCreator
+        >>> creator = DataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
         >>> creator
-        VanillaDataSourceCreator(
+        DataSourceCreator(
           (config): {'_target_': 'gravitorch.testing.DummyDataSource'}
           (attach_to_engine): True
           (add_module_to_engine): True
@@ -83,8 +83,8 @@ class BaseDataSourceCreator(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.testing import create_dummy_engine
-            >>> from gravitorch.creators.datasource import VanillaDataSourceCreator
-            >>> creator = VanillaDataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
+            >>> from gravitorch.creators.datasource import DataSourceCreator
+            >>> creator = DataSourceCreator({"_target_": "gravitorch.testing.DummyDataSource"})
             >>> engine = create_dummy_engine()
             >>> datasource = creator.create(engine)
             >>> datasource
@@ -132,7 +132,7 @@ def is_datasource_creator_config(config: dict) -> bool:
         >>> from gravitorch.creators.datasource import is_datasource_creator_config
         >>> is_datasource_creator_config(
         ...     {
-        ...         "_target_": "gravitorch.creators.datasource.VanillaDataSourceCreator",
+        ...         "_target_": "gravitorch.creators.datasource.DataSourceCreator",
         ...         "config": {"_target_": "gravitorch.testing.DummyDataSource"},
         ...     }
         ... )
@@ -164,12 +164,12 @@ def setup_datasource_creator(creator: BaseDataSourceCreator | dict) -> BaseDataS
         >>> from gravitorch.creators.datasource import setup_datasource_creator
         >>> creator = setup_datasource_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.datasource.VanillaDataSourceCreator",
+        ...         "_target_": "gravitorch.creators.datasource.DataSourceCreator",
         ...         "config": {"_target_": "gravitorch.testing.DummyDataSource"},
         ...     }
         ... )
         >>> creator
-        VanillaDataSourceCreator(
+        DataSourceCreator(
           (config): {'_target_': 'gravitorch.testing.DummyDataSource'}
           (attach_to_engine): True
           (add_module_to_engine): True
