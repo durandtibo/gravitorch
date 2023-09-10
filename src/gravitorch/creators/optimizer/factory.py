@@ -38,7 +38,7 @@ def is_optimizer_creator_config(config: dict) -> bool:
         >>> from gravitorch.creators.optimizer import is_optimizer_creator_config
         >>> is_optimizer_creator_config(
         ...     {
-        ...         "_target_": "gravitorch.creators.optimizer.VanillaOptimizerCreator",
+        ...         "_target_": "gravitorch.creators.optimizer.OptimizerCreator",
         ...         "optimizer_config": {"_target_": "torch.optim.SGD", "lr": 0.01},
         ...     }
         ... )
@@ -71,12 +71,12 @@ def setup_optimizer_creator(creator: BaseOptimizerCreator | dict | None) -> Base
         >>> from gravitorch.creators.optimizer import setup_optimizer_creator
         >>> creator = setup_optimizer_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.optimizer.VanillaOptimizerCreator",
+        ...         "_target_": "gravitorch.creators.optimizer.OptimizerCreator",
         ...         "optimizer_config": {"_target_": "torch.optim.SGD", "lr": 0.01},
         ...     }
         ... )
         >>> creator
-        VanillaOptimizerCreator(add_module_to_engine=True)
+        OptimizerCreator(add_module_to_engine=True)
     """
     if creator is None:
         creator = NoOptimizerCreator()

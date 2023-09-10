@@ -28,7 +28,7 @@ class NoOptimizerCreator(BaseOptimizerCreator):
     .. code-block:: pycon
 
         >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
-        >>> from gravitorch.creators.optimizer import VanillaOptimizerCreator
+        >>> from gravitorch.creators.optimizer import OptimizerCreator
         >>> creator = NoOptimizerCreator()
         >>> creator
         NoOptimizerCreator()

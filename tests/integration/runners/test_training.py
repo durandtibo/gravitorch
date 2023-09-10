@@ -87,7 +87,7 @@ def create_engine_config(random_seed: int) -> dict:
                 },
             },
             "optimizer_creator": {
-                OBJECT_TARGET: "gravitorch.creators.optimizer.VanillaOptimizerCreator",
+                OBJECT_TARGET: "gravitorch.creators.optimizer.OptimizerCreator",
                 "optimizer_config": {
                     OBJECT_TARGET: "torch.optim.SGD",
                     "lr": 0.01,

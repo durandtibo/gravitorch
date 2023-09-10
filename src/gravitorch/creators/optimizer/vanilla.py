@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["VanillaOptimizerCreator"]
+__all__ = ["OptimizerCreator"]
 
 import logging
 from typing import TYPE_CHECKING
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class VanillaOptimizerCreator(BaseOptimizerCreator):
+class OptimizerCreator(BaseOptimizerCreator):
     r"""Implements a vanilla optimizer creator.
 
     Args:
@@ -37,10 +37,10 @@ class VanillaOptimizerCreator(BaseOptimizerCreator):
     .. code-block:: pycon
 
         >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
-        >>> from gravitorch.creators.optimizer import VanillaOptimizerCreator
-        >>> creator = VanillaOptimizerCreator({"_target_": "torch.optim.SGD", "lr": 0.01})
+        >>> from gravitorch.creators.optimizer import OptimizerCreator
+        >>> creator = OptimizerCreator({"_target_": "torch.optim.SGD", "lr": 0.01})
         >>> creator
-        VanillaOptimizerCreator(add_module_to_engine=True)
+        OptimizerCreator(add_module_to_engine=True)
         >>> engine = create_dummy_engine()
         >>> model = DummyClassificationModel()
         >>> optimizer = creator.create(engine, model)

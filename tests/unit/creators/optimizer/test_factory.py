@@ -4,7 +4,7 @@ from objectory import OBJECT_TARGET
 
 from gravitorch.creators.optimizer import (
     NoOptimizerCreator,
-    VanillaOptimizerCreator,
+    OptimizerCreator,
     is_optimizer_creator_config,
     setup_optimizer_creator,
 )
@@ -17,7 +17,7 @@ from gravitorch.creators.optimizer import (
 def test_is_optimizer_creator_config_true() -> None:
     assert is_optimizer_creator_config(
         {
-            OBJECT_TARGET: "gravitorch.creators.optimizer.VanillaOptimizerCreator",
+            OBJECT_TARGET: "gravitorch.creators.optimizer.OptimizerCreator",
             "optimizer_config": {"_target_": "torch.optim.SGD", "lr": 0.01},
         }
     )
@@ -37,7 +37,7 @@ def test_setup_optimizer_creator_none() -> None:
 
 
 def test_setup_optimizer_creator_object() -> None:
-    optimizer_creator = VanillaOptimizerCreator()
+    optimizer_creator = OptimizerCreator()
     assert setup_optimizer_creator(optimizer_creator) is optimizer_creator
 
 
@@ -45,10 +45,10 @@ def test_setup_optimizer_creator_dict() -> None:
     assert isinstance(
         setup_optimizer_creator(
             {
-                OBJECT_TARGET: "gravitorch.creators.optimizer.VanillaOptimizerCreator",
+                OBJECT_TARGET: "gravitorch.creators.optimizer.OptimizerCreator",
             }
         ),
-        VanillaOptimizerCreator,
+        OptimizerCreator,
     )
 
 
