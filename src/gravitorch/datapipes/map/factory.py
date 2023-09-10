@@ -48,7 +48,7 @@ def is_map_datapipe_config(config: dict) -> bool:
 
 
 def setup_map_datapipe(datapipe: MapDataPipe | dict) -> MapDataPipe:
-    r"""Set up an ``MapDataPipe``.
+    r"""Sets up an ``MapDataPipe``.
 
     Args:
     ----

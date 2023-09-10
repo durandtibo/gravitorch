@@ -44,23 +44,31 @@ class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
     ----
         length_key (``Hashable``, optional): Specifies the key with
             the length of each example. Default: ``'length'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.data.dataloaders.collators import PackedSequenceCollator
+        >>> collator = PackedSequenceCollator()
+        >>> collator
+        PackedSequenceCollator(length_key=length)
+        >>> data = [
+        ...     ({"length": 2}, {"feature": torch.full((2,), 2.0)}),
+        ...     ({"length": 3}, {"feature": torch.full((3,), 3.0)}),
+        ...     ({"length": 4}, {"feature": torch.full((4,), 4.0)}),
+        ... ]
+        >>> batch = collator(data)
+        >>> batch
+        {'length': tensor([4, 3, 2]),
+         'feature': PackedSequence(data=tensor([4., 3., 2., 4., 3., 2., 4., 3., 4.]), batch_sizes=tensor([3, 3, 2, 1]), sorted_indices=None, unsorted_indices=None)}
     """
 
     def __init__(self, length_key: Hashable = ct.LENGTH) -> None:
         self._length_key = length_key
 
     def __call__(self, data: list[tuple[dict, dict]]) -> dict:
-        r"""Creates a batch of packed sequence examples given a list of
-        examples.
-
-        Args:
-        ----
-            data (list): The list of examples.
-
-        Returns:
-        -------
-            dict: The generated mini-batch.
-        """
         # Sort the examples by the length of their sequence.
         data.sort(key=lambda x: x[0][self._length_key], reverse=True)
 
@@ -80,7 +88,7 @@ class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
 
         return batch
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(length_key={self._length_key})"
 
 
@@ -106,23 +114,30 @@ class DictPackedSequenceCollator(BaseCollator[dict, dict]):
         keys_to_pack (``Sequence``): Specifies the sequence of keys
             to pack. The first key is used to sort the examples by
             length.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.data.dataloaders.collators import DictPackedSequenceCollator
+        >>> collator = DictPackedSequenceCollator(keys_to_pack=["feature"])
+        >>> collator
+        DictPackedSequenceCollator(keys_to_pack=('feature',))
+        >>> data = [
+        ...     {"feature": torch.full((2,), 2.0)},
+        ...     {"feature": torch.full((3,), 3.0)},
+        ...     {"feature": torch.full((4,), 4.0)},
+        ... ]
+        >>> batch = collator(data)
+        >>> batch
+        {'feature': PackedSequence(data=tensor([4., 3., 2., 4., 3., 2., 4., 3., 4.]), batch_sizes=tensor([3, 3, 2, 1]), sorted_indices=None, unsorted_indices=None)}
     """
 
     def __init__(self, keys_to_pack: Sequence[Hashable]) -> None:
         self._keys_to_pack = tuple(keys_to_pack)
 
     def __call__(self, data: Sequence[dict]) -> dict:
-        r"""Creates a batch of packed sequence examples given a list of
-        examples.
-
-        Args:
-        ----
-            data (``Sequence``): The sequence of examples.
-
-        Returns:
-        -------
-            dict: The generated mini-batch.
-        """
         # Remove the empty sequences.
         data = [example for example in data if example[self._keys_to_pack[0]].shape[0] > 0]
         num_seq = len(data)
@@ -141,5 +156,5 @@ class DictPackedSequenceCollator(BaseCollator[dict, dict]):
 
         return batch
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(keys_to_pack={self._keys_to_pack})"

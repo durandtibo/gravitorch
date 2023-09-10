@@ -16,7 +16,29 @@ T = TypeVar("T")
 
 
 class BaseCollator(Generic[T, R], Callable[[list[T]], R], ABC, metaclass=AbstractFactory):
-    r"""Defines the base class to create a batch of examples."""
+    r"""Defines the base class to create a batch of examples.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.data.dataloaders.collators import DictPaddedSequenceCollator
+        >>> collator = DictPaddedSequenceCollator(keys_to_pad=["feature"])
+        >>> collator
+        DictPaddedSequenceCollator(keys_to_pack=('feature',), batch_first=False, padding_value=0.0)
+        >>> data = [
+        ...     {"feature": torch.full((2,), 2.0)},
+        ...     {"feature": torch.full((3,), 3.0)},
+        ...     {"feature": torch.full((4,), 4.0)},
+        ... ]
+        >>> batch = collator(data)
+        >>> batch
+        {'feature': tensor([[4., 3., 2.],
+                [4., 3., 2.],
+                [4., 3., 0.],
+                [4., 0., 0.]])}
+    """
 
     @abstractmethod
     def __call__(self, data: list[T]) -> R:
@@ -29,6 +51,25 @@ class BaseCollator(Generic[T, R], Callable[[list[T]], R], ABC, metaclass=Abstrac
         Returns:
         -------
              A batch of examples.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.data.dataloaders.collators import DictPaddedSequenceCollator
+            >>> collator = DictPaddedSequenceCollator(keys_to_pad=["feature"])
+            >>> data = [
+            ...     {"feature": torch.full((2,), 2.0)},
+            ...     {"feature": torch.full((3,), 3.0)},
+            ...     {"feature": torch.full((4,), 4.0)},
+            ... ]
+            >>> batch = collator(data)
+            >>> batch
+            {'feature': tensor([[4., 3., 2.],
+                    [4., 3., 2.],
+                    [4., 3., 0.],
+                    [4., 0., 0.]])}
         """
 
 
@@ -44,6 +85,17 @@ def setup_collator(collator: Callable[[list[T]], R] | dict | None) -> Callable[[
     Returns:
     -------
         ``Callable``: The data loader collator.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.data.dataloaders.collators import setup_collator
+        >>> collator = setup_collator(
+        ...     {"_target_": "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"}
+        ... )
+        >>> collator
+        PaddedSequenceCollator(length_key=length, batch_first=False, padding_value=0.0)
     """
     if collator is None:
         collator = default_collate
