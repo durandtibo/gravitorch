@@ -6,7 +6,7 @@ from pytest import fixture
 from torch import nn
 from torch.nn.parallel import DistributedDataParallel
 
-from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
+from gravitorch.creators.model import BaseModelCreator, ModelCreator
 from gravitorch.creators.model.ddp import DataDistributedParallelModelCreator, to_ddp
 from gravitorch.distributed import gloocontext, ncclcontext
 from gravitorch.engines import BaseEngine
@@ -20,7 +20,7 @@ from gravitorch.testing import cuda_available, gloo_available, nccl_available
 
 @fixture
 def model_creator() -> BaseModelCreator:
-    return VanillaModelCreator(
+    return ModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6}
     )
 

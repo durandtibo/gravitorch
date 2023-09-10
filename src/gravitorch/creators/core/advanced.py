@@ -47,7 +47,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
 
         >>> from gravitorch.creators.core import AdvancedCoreCreator
         >>> from gravitorch.creators.datasource import DataSourceCreator
-        >>> from gravitorch.creators.model import VanillaModelCreator
+        >>> from gravitorch.creators.model import ModelCreator
         >>> from gravitorch.creators.optimizer import OptimizerCreator
         >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
         >>> from gravitorch.testing import create_dummy_engine
@@ -55,7 +55,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
         ...     datasource_creator=DataSourceCreator(
         ...         {"_target_": "gravitorch.testing.DummyDataSource"}
         ...     ),
-        ...     model_creator=VanillaModelCreator(
+        ...     model_creator=ModelCreator(
         ...         {"_target_": "gravitorch.testing.DummyClassificationModel"}
         ...     ),
         ...     optimizer_creator=OptimizerCreator({"_target_": "torch.optim.SGD", "lr": 0.01}),
@@ -70,7 +70,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
               (attach_to_engine): True
               (add_module_to_engine): True
             )
-          (model_creator): VanillaModelCreator(
+          (model_creator): ModelCreator(
               (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
               (attach_model_to_engine): True
               (add_module_to_engine): True

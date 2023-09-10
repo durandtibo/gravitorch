@@ -8,7 +8,7 @@ from torch import nn
 from gravitorch.creators.model import (
     BaseModelCreator,
     CompiledModelCreator,
-    VanillaModelCreator,
+    ModelCreator,
 )
 from gravitorch.engines import BaseEngine
 
@@ -19,7 +19,7 @@ from gravitorch.engines import BaseEngine
 
 @fixture
 def model_creator() -> BaseModelCreator:
-    return VanillaModelCreator(
+    return ModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6}
     )
 
@@ -31,11 +31,11 @@ def test_compiled_model_creator_str() -> None:
 @mark.parametrize(
     "model_creator",
     (
-        VanillaModelCreator(
+        ModelCreator(
             model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6}
         ),
         {
-            OBJECT_TARGET: "gravitorch.creators.model.VanillaModelCreator",
+            OBJECT_TARGET: "gravitorch.creators.model.ModelCreator",
             "model_config": {OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6},
         },
     ),
@@ -43,7 +43,7 @@ def test_compiled_model_creator_str() -> None:
 def test_compiled_model_creator_model_creator(model_creator: Union[BaseModelCreator, dict]) -> None:
     assert isinstance(
         CompiledModelCreator(model_creator=model_creator)._model_creator,
-        VanillaModelCreator,
+        ModelCreator,
     )
 
 

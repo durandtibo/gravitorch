@@ -10,7 +10,7 @@ from gravitorch import distributed as dist
 from gravitorch.creators.model import (
     BaseModelCreator,
     DataDistributedParallelModelCreator,
-    VanillaModelCreator,
+    ModelCreator,
 )
 from gravitorch.creators.model.ddp import to_ddp
 from gravitorch.engines import BaseEngine
@@ -22,7 +22,7 @@ from gravitorch.engines import BaseEngine
 
 @fixture
 def model_creator() -> BaseModelCreator:
-    return VanillaModelCreator(
+    return ModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6}
     )
 
@@ -36,11 +36,11 @@ def test_data_distributed_parallel_model_creator_str() -> None:
 @mark.parametrize(
     "model_creator",
     (
-        VanillaModelCreator(
+        ModelCreator(
             model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6}
         ),
         {
-            OBJECT_TARGET: "gravitorch.creators.model.VanillaModelCreator",
+            OBJECT_TARGET: "gravitorch.creators.model.ModelCreator",
             "model_config": {OBJECT_TARGET: "torch.nn.Linear", "in_features": 4, "out_features": 6},
         },
     ),
@@ -50,7 +50,7 @@ def test_data_distributed_parallel_model_creator_model_creator(
 ) -> None:
     assert isinstance(
         DataDistributedParallelModelCreator(model_creator=model_creator)._model_creator,
-        VanillaModelCreator,
+        ModelCreator,
     )
 
 

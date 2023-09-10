@@ -43,14 +43,14 @@ class DataDistributedParallelModelCreator(BaseModelCreator):
         >>> from gravitorch.testing import create_dummy_engine
         >>> from gravitorch.creators.model import (
         ...     DataDistributedParallelModelCreator,
-        ...     VanillaModelCreator,
+        ...     ModelCreator,
         ... )
         >>> creator = DataDistributedParallelModelCreator(
-        ...     VanillaModelCreator({"_target_": "gravitorch.testing.DummyClassificationModel"})
+        ...     ModelCreator({"_target_": "gravitorch.testing.DummyClassificationModel"})
         ... )
         >>> creator
         DataDistributedParallelModelCreator(
-          (model_creator): VanillaModelCreator(
+          (model_creator): ModelCreator(
               (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
               (attach_model_to_engine): True
               (add_module_to_engine): True

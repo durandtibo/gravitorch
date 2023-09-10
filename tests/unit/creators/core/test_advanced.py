@@ -10,7 +10,7 @@ from gravitorch import constants as ct
 from gravitorch.creators.core import AdvancedCoreCreator
 from gravitorch.creators.datasource import BaseDataSourceCreator, DataSourceCreator
 from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
-from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
+from gravitorch.creators.model import BaseModelCreator, ModelCreator
 from gravitorch.creators.optimizer import OptimizerCreator
 from gravitorch.engines import BaseEngine
 from gravitorch.testing import DummyDataSource
@@ -27,7 +27,7 @@ def datasource_creator() -> BaseDataSourceCreator:
 
 @fixture
 def model_creator() -> BaseModelCreator:
-    return VanillaModelCreator(
+    return ModelCreator(
         model_config={OBJECT_TARGET: "torch.nn.Linear", "in_features": 8, "out_features": 2},
     )
 

@@ -50,7 +50,7 @@ def test_setup_engine_dict() -> None:
                         "config": {OBJECT_TARGET: "gravitorch.testing.DummyDataSource"},
                     },
                     "model_creator": {
-                        OBJECT_TARGET: "gravitorch.creators.model.VanillaModelCreator",
+                        OBJECT_TARGET: "gravitorch.creators.model.ModelCreator",
                         "model_config": {
                             OBJECT_TARGET: "torch.nn.Linear",
                             "in_features": 8,
