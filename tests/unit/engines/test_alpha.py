@@ -9,7 +9,7 @@ from torch.optim import SGD, Optimizer
 from gravitorch import constants as ct
 from gravitorch.creators.core import BaseCoreCreator
 from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
-from gravitorch.loops.evaluation import BaseEvaluationLoop, VanillaEvaluationLoop
+from gravitorch.loops.evaluation import BaseEvaluationLoop, EvaluationLoop
 from gravitorch.loops.training import BaseTrainingLoop, TrainingLoop
 from gravitorch.testing import DummyDataSource
 from gravitorch.utils.artifacts import BaseArtifact
@@ -487,12 +487,12 @@ def test_alpha_engine_with_exp_tracker_object_activated(
 
 def test_alpha_engine_setup_evaluation_loop_with_none(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)  # None is the default value of evaluation_loop
-    assert isinstance(engine._evaluation_loop, VanillaEvaluationLoop)
+    assert isinstance(engine._evaluation_loop, EvaluationLoop)
     assert engine._evaluation_loop == engine.get_module(ct.EVALUATION_LOOP)
 
 
 def test_alpha_engine_setup_evaluation_loop_with_object(core_creator: BaseCoreCreator) -> None:
-    evaluation_loop = VanillaEvaluationLoop()
+    evaluation_loop = EvaluationLoop()
     engine = AlphaEngine(core_creator, evaluation_loop=evaluation_loop)
     assert engine._evaluation_loop is evaluation_loop
 

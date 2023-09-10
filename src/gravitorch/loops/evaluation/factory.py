@@ -10,7 +10,7 @@ import logging
 from objectory.utils import is_object_config
 
 from gravitorch.loops.evaluation.base import BaseEvaluationLoop
-from gravitorch.loops.evaluation.vanilla import VanillaEvaluationLoop
+from gravitorch.loops.evaluation.vanilla import EvaluationLoop
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
@@ -39,9 +39,7 @@ def is_evaluation_loop_config(config: dict) -> bool:
     .. code-block:: pycon
 
         >>> from gravitorch.loops.evaluation import is_evaluation_loop_config
-        >>> is_evaluation_loop_config(
-        ...     {"_target_": "gravitorch.loops.evaluation.VanillaEvaluationLoop"}
-        ... )
+        >>> is_evaluation_loop_config({"_target_": "gravitorch.loops.evaluation.EvaluationLoop"})
         True
     """
     return is_object_config(config, BaseEvaluationLoop)
@@ -57,7 +55,7 @@ def setup_evaluation_loop(evaluation_loop: BaseEvaluationLoop | dict | None) -> 
     ----
         evaluation_loop (``BaseEvaluationLoop`` or dict or None):
             Specifies the evaluation loop or its configuration.
-            If ``None``, the ``VanillaEvaluationLoop`` is instantiated.
+            If ``None``, the ``EvaluationLoop`` is instantiated.
 
     Returns:
     -------
@@ -68,11 +66,9 @@ def setup_evaluation_loop(evaluation_loop: BaseEvaluationLoop | dict | None) -> 
     .. code-block:: pycon
 
         >>> from gravitorch.loops.evaluation import setup_evaluation_loop
-        >>> loop = setup_evaluation_loop(
-        ...     {"_target_": "gravitorch.loops.evaluation.VanillaEvaluationLoop"}
-        ... )
+        >>> loop = setup_evaluation_loop({"_target_": "gravitorch.loops.evaluation.EvaluationLoop"})
         >>> loop
-        VanillaEvaluationLoop(
+        EvaluationLoop(
           (batch_device_placement): AutoDevicePlacement(device=cpu)
           (grad_enabled): False
           (tag): eval
@@ -82,7 +78,7 @@ def setup_evaluation_loop(evaluation_loop: BaseEvaluationLoop | dict | None) -> 
         )
     """
     if evaluation_loop is None:
-        evaluation_loop = VanillaEvaluationLoop()
+        evaluation_loop = EvaluationLoop()
     if isinstance(evaluation_loop, dict):
         logger.info(
             f"Initializing an evaluation loop from its configuration... "

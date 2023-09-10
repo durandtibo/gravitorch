@@ -2,7 +2,7 @@ r"""This module implements a simple evaluation loop."""
 
 from __future__ import annotations
 
-__all__ = ["VanillaEvaluationLoop"]
+__all__ = ["EvaluationLoop"]
 
 import logging
 import sys
@@ -30,7 +30,7 @@ from gravitorch.utils.profilers import BaseProfiler
 logger = logging.getLogger(__name__)
 
 
-class VanillaEvaluationLoop(BaseBasicEvaluationLoop):
+class EvaluationLoop(BaseBasicEvaluationLoop):
     r"""Implements a simple evaluation loop to evaluate a model on a
     given dataset.
 
@@ -64,12 +64,12 @@ class VanillaEvaluationLoop(BaseBasicEvaluationLoop):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+        >>> from gravitorch.loops.evaluation import EvaluationLoop
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
-        >>> loop = VanillaEvaluationLoop()
+        >>> loop = EvaluationLoop()
         >>> loop
-        VanillaEvaluationLoop(
+        EvaluationLoop(
           (batch_device_placement): AutoDevicePlacement(device=cpu)
           (grad_enabled): False
           (tag): eval

@@ -97,7 +97,7 @@ def create_engine_config(random_seed: int) -> dict:
             },
         },
         "training_loop": {OBJECT_TARGET: "gravitorch.loops.training.TrainingLoop"},
-        "evaluation_loop": {OBJECT_TARGET: "gravitorch.loops.evaluation.VanillaEvaluationLoop"},
+        "evaluation_loop": {OBJECT_TARGET: "gravitorch.loops.evaluation.EvaluationLoop"},
         "state": {
             OBJECT_TARGET: "gravitorch.utils.engine_states.EngineState",
             "max_epochs": 1,

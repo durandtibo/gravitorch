@@ -30,12 +30,12 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+        >>> from gravitorch.loops.evaluation import EvaluationLoop
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
-        >>> loop = VanillaEvaluationLoop()
+        >>> loop = EvaluationLoop()
         >>> loop
-        VanillaEvaluationLoop(
+        EvaluationLoop(
           (batch_device_placement): AutoDevicePlacement(device=cpu)
           (grad_enabled): False
           (tag): eval
@@ -58,10 +58,10 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+            >>> from gravitorch.loops.evaluation import EvaluationLoop
             >>> from gravitorch.testing import create_dummy_engine
             >>> engine = create_dummy_engine()
-            >>> loop = VanillaEvaluationLoop()
+            >>> loop = EvaluationLoop()
             >>> loop.eval(engine)
         """
 
@@ -79,8 +79,8 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
-            >>> loop = VanillaEvaluationLoop()
+            >>> from gravitorch.loops.evaluation import EvaluationLoop
+            >>> loop = EvaluationLoop()
             >>> loop.load_state_dict({})
         """
 
@@ -96,8 +96,8 @@ class BaseEvaluationLoop(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
-            >>> loop = VanillaEvaluationLoop()
+            >>> from gravitorch.loops.evaluation import EvaluationLoop
+            >>> loop = EvaluationLoop()
             >>> state = loop.state_dict()
             >>> state
             {}

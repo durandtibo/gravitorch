@@ -1,4 +1,4 @@
-_target_: gravitorch.loops.evaluation.VanillaEvaluationLoop
+_target_: gravitorch.loops.evaluation.EvaluationLoop
 grad_enabled: false
 condition:
   _target_: gravitorch.loops.evaluation.conditions.EveryEpochEvalCondition

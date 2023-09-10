@@ -16,7 +16,7 @@ from torch.nn import Module
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.evaluation.conditions import BaseEvalCondition
-from gravitorch.loops.evaluation.vanilla import VanillaEvaluationLoop
+from gravitorch.loops.evaluation.vanilla import EvaluationLoop
 from gravitorch.loops.observers.base import BaseLoopObserver
 from gravitorch.utils.device_placement import BaseDevicePlacement
 from gravitorch.utils.profilers.base import BaseProfiler
@@ -24,7 +24,7 @@ from gravitorch.utils.profilers.base import BaseProfiler
 logger = logging.getLogger(__name__)
 
 
-class AMPEvaluationLoop(VanillaEvaluationLoop):
+class AMPEvaluationLoop(EvaluationLoop):
     r"""Implements a training loop to train a model on a dataset by using
     training loop using automatic mixed precision (AMP).
 
