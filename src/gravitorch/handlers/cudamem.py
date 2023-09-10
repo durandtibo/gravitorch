@@ -11,7 +11,6 @@ import logging
 from typing import TYPE_CHECKING
 
 import torch
-from minevent import ConditionalEventHandler
 
 from gravitorch.engines.events import (
     EngineEvents,
@@ -21,6 +20,7 @@ from gravitorch.engines.events import (
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.utils.cudamem import log_max_cuda_memory_allocated
+from gravitorch.utils.events import GConditionalEventHandler
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 if TYPE_CHECKING:
@@ -68,7 +68,7 @@ class EpochCudaMemoryMonitor(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.monitor,
                 condition=EpochPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},
@@ -145,7 +145,7 @@ class IterationCudaMemoryMonitor(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.monitor,
                 condition=IterationPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},
@@ -224,7 +224,7 @@ class EpochCudaEmptyCache(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.empty_cache,
                 condition=EpochPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},
@@ -292,7 +292,7 @@ class IterationCudaEmptyCache(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.empty_cache,
                 condition=IterationPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},

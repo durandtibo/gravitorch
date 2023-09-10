@@ -12,10 +12,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import torch
-from minevent import EventHandler
 
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.path import sanitize_path
 
 if TYPE_CHECKING:
@@ -72,7 +72,7 @@ class EngineStateLoader(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=EventHandler(
+            event_handler=GEventHandler(
                 self.load_engine_state_dict, handler_kwargs={"engine": engine}
             ),
         )

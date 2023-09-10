@@ -1,6 +1,5 @@
 from unittest.mock import Mock, patch
 
-from minevent import ConditionalEventHandler
 from pytest import mark, raises
 
 from gravitorch.engines import BaseEngine, EngineEvents
@@ -11,6 +10,7 @@ from gravitorch.handlers import (
     IterationCudaEmptyCache,
     IterationCudaMemoryMonitor,
 )
+from gravitorch.utils.events import GConditionalEventHandler
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 EVENTS = ("my_event", "my_other_event")
@@ -57,7 +57,7 @@ def test_epoch_cuda_memory_monitor_attach(event: str, freq: int) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        ConditionalEventHandler(
+        GConditionalEventHandler(
             handler.monitor,
             condition=EpochPeriodicCondition(engine=engine, freq=freq),
             handler_kwargs={"engine": engine},
@@ -132,7 +132,7 @@ def test_iteration_cuda_memory_monitor_attach(event: str, freq: int) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        ConditionalEventHandler(
+        GConditionalEventHandler(
             handler.monitor,
             condition=IterationPeriodicCondition(engine=engine, freq=freq),
             handler_kwargs={"engine": engine},
@@ -209,7 +209,7 @@ def test_epoch_cuda_empty_cache_attach(event: str, freq: int) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        ConditionalEventHandler(
+        GConditionalEventHandler(
             handler.empty_cache,
             condition=EpochPeriodicCondition(engine=engine, freq=freq),
             handler_kwargs={"engine": engine},
@@ -278,7 +278,7 @@ def test_iteration_cuda_empty_cache_attach(event: str, freq: int) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        ConditionalEventHandler(
+        GConditionalEventHandler(
             handler.empty_cache,
             condition=IterationPeriodicCondition(engine=engine, freq=freq),
             handler_kwargs={"engine": engine},

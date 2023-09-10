@@ -1,5 +1,4 @@
 import torch
-from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import fixture, mark
 
@@ -13,6 +12,7 @@ from gravitorch.models.metrics import (
 )
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.history import MaxScalarHistory
 
 SIZES = (1, 2)
@@ -64,10 +64,10 @@ def test_vanilla_metric_multiclass_accuracy_attach_train(engine: BaseEngine) -> 
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/cat_acc_accuracy"), MaxScalarHistory)
     assert engine.has_event_handler(
-        EventHandler(metric.metric.reset), EngineEvents.TRAIN_EPOCH_STARTED
+        GEventHandler(metric.metric.reset), EngineEvents.TRAIN_EPOCH_STARTED
     )
     assert engine.has_event_handler(
-        EventHandler(metric.metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -77,10 +77,10 @@ def test_vanilla_metric_multiclass_accuracy_attach_eval(engine: BaseEngine) -> N
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/cat_acc_accuracy"), MaxScalarHistory)
     assert engine.has_event_handler(
-        EventHandler(metric.metric.reset), EngineEvents.EVAL_EPOCH_STARTED
+        GEventHandler(metric.metric.reset), EngineEvents.EVAL_EPOCH_STARTED
     )
     assert engine.has_event_handler(
-        EventHandler(metric.metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 

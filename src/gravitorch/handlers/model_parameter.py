@@ -4,12 +4,11 @@ __all__ = ["ModelParameterAnalyzer"]
 
 from typing import TYPE_CHECKING
 
-from minevent import EventHandler
-
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
 from gravitorch.nn.utils.parameter import show_parameter_summary
+from gravitorch.utils.events import GEventHandler
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -71,7 +70,7 @@ class ModelParameterAnalyzer(BaseHandler):
         for event in self._events:
             engine.add_event_handler(
                 event,
-                EventHandler(self.analyze, handler_kwargs={"engine": engine}),
+                GEventHandler(self.analyze, handler_kwargs={"engine": engine}),
             )
 
     def analyze(self, engine: BaseEngine) -> None:

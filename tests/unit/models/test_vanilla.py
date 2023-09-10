@@ -3,7 +3,6 @@ from unittest.mock import Mock, patch
 
 import torch
 from coola import objects_are_equal
-from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import mark
 from torch import nn
@@ -18,6 +17,7 @@ from gravitorch.models.networks import BetaMLP
 from gravitorch.models.vanilla import VanillaModel
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
+from gravitorch.utils.events import GEventHandler
 
 SIZES = (1, 2)
 
@@ -292,21 +292,21 @@ def test_attach_with_metric() -> None:
     )
     model.attach(engine)
     assert engine.has_event_handler(
-        EventHandler(model.metrics[f"{ct.TRAIN}_metric"].metric.reset),
+        GEventHandler(model.metrics[f"{ct.TRAIN}_metric"].metric.reset),
         event=EngineEvents.TRAIN_EPOCH_STARTED,
     )
     assert engine.has_event_handler(
-        EventHandler(
+        GEventHandler(
             model.metrics[f"{ct.TRAIN}_metric"].metric.value, handler_kwargs={"engine": engine}
         ),
         event=EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
     assert engine.has_event_handler(
-        EventHandler(model.metrics[f"{ct.EVAL}_metric"].metric.reset),
+        GEventHandler(model.metrics[f"{ct.EVAL}_metric"].metric.reset),
         event=EngineEvents.EVAL_EPOCH_STARTED,
     )
     assert engine.has_event_handler(
-        EventHandler(
+        GEventHandler(
             model.metrics[f"{ct.EVAL}_metric"].metric.value, handler_kwargs={"engine": engine}
         ),
         event=EngineEvents.EVAL_EPOCH_COMPLETED,

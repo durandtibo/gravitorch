@@ -39,7 +39,7 @@ class GEventHandler(EventHandler):
 
 
 class GConditionalEventHandler(ConditionalEventHandler):
-    r"""Implements a variant of ``minvent.ConditionalEventHandler`` to
+    r"""Implements a variant of ``minvent.GConditionalEventHandler`` to
     not show the arguments in the to string method.
 
     Example usage:

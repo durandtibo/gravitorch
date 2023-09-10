@@ -4,8 +4,6 @@ __all__ = ["ModelArchitectureAnalyzer", "NetworkArchitectureAnalyzer"]
 
 from typing import TYPE_CHECKING
 
-from minevent import EventHandler
-
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import to_events
@@ -13,6 +11,7 @@ from gravitorch.models.utils import (
     analyze_model_architecture,
     analyze_network_architecture,
 )
+from gravitorch.utils.events import GEventHandler
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -55,7 +54,7 @@ class ModelArchitectureAnalyzer(BaseHandler):
         for event in self._events:
             engine.add_event_handler(
                 event,
-                EventHandler(self.analyze, handler_kwargs={"engine": engine}),
+                GEventHandler(self.analyze, handler_kwargs={"engine": engine}),
             )
 
     def analyze(self, engine: BaseEngine) -> None:

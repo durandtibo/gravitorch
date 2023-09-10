@@ -5,12 +5,11 @@ __all__ = ["ModelFreezer"]
 import logging
 from typing import TYPE_CHECKING
 
-from minevent import EventHandler
-
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn import freeze_module
+from gravitorch.utils.events import GEventHandler
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -71,7 +70,7 @@ class ModelFreezer(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=EventHandler(
+            event_handler=GEventHandler(
                 self.freeze,
                 handler_kwargs={"engine": engine},
             ),

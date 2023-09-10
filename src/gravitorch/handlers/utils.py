@@ -45,14 +45,14 @@ def add_unique_event_handler(
 
     .. code-block:: pycon
 
-        >>> from minevent import EventHandler
+        >>> from gravitorch.utils.events import GEventHandler
         >>> from gravitorch.handlers import add_unique_event_handler
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> def hello_handler():
         ...     print("Hello!")
         ...
-        >>> event_handler = EventHandler(hello_handler)
+        >>> event_handler = GEventHandler(hello_handler)
         >>> add_unique_event_handler(engine, "my_event", event_handler)
     """
     if engine.has_event_handler(event_handler, event):

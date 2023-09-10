@@ -1,7 +1,6 @@
 from unittest.mock import Mock
 
 import torch
-from minevent import EventHandler
 from pytest import fixture, mark
 from torch import nn
 
@@ -10,6 +9,7 @@ from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.models.metrics import AbsoluteError, SequentialMetric, SquaredError
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.history import MinScalarHistory
 
 
@@ -54,17 +54,17 @@ def test_sequential_metric_attach_train(engine: BaseEngine) -> None:
     assert isinstance(engine.get_history(f"{ct.TRAIN}/abs_err_min"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/abs_err_sum"), MinScalarHistory)
     assert engine.has_event_handler(
-        EventHandler(metric.metrics[0].reset), EngineEvents.TRAIN_EPOCH_STARTED
+        GEventHandler(metric.metrics[0].reset), EngineEvents.TRAIN_EPOCH_STARTED
     )
     assert engine.has_event_handler(
-        EventHandler(metric.metrics[0].value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.metrics[0].value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
     assert engine.has_event_handler(
-        EventHandler(metric.metrics[1].reset), EngineEvents.TRAIN_EPOCH_STARTED
+        GEventHandler(metric.metrics[1].reset), EngineEvents.TRAIN_EPOCH_STARTED
     )
     assert engine.has_event_handler(
-        EventHandler(metric.metrics[1].value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.metrics[1].value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -77,17 +77,17 @@ def test_sequential_metric_attach_eval(engine: BaseEngine) -> None:
     assert isinstance(engine.get_history(f"{ct.EVAL}/abs_err_min"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/abs_err_sum"), MinScalarHistory)
     assert engine.has_event_handler(
-        EventHandler(metric.metrics[0].reset), EngineEvents.EVAL_EPOCH_STARTED
+        GEventHandler(metric.metrics[0].reset), EngineEvents.EVAL_EPOCH_STARTED
     )
     assert engine.has_event_handler(
-        EventHandler(metric.metrics[0].value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.metrics[0].value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
     assert engine.has_event_handler(
-        EventHandler(metric.metrics[1].reset), EngineEvents.EVAL_EPOCH_STARTED
+        GEventHandler(metric.metrics[1].reset), EngineEvents.EVAL_EPOCH_STARTED
     )
     assert engine.has_event_handler(
-        EventHandler(metric.metrics[1].value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.metrics[1].value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 

@@ -4,11 +4,10 @@ __all__ = ["EpochSysInfoMonitor"]
 
 from typing import TYPE_CHECKING
 
-from minevent import ConditionalEventHandler
-
 from gravitorch.engines.events import EngineEvents, EpochPeriodicCondition
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
+from gravitorch.utils.events import GConditionalEventHandler
 from gravitorch.utils.sysinfo import log_system_info
 
 if TYPE_CHECKING:
@@ -54,7 +53,7 @@ class EpochSysInfoMonitor(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.monitor,
                 condition=EpochPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},

@@ -2,7 +2,6 @@ from collections.abc import Sequence
 from unittest.mock import Mock
 
 import torch
-from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import fixture, mark, raises
 from torch.nn import Identity
@@ -23,6 +22,7 @@ from gravitorch.models.metrics.state import (
 from gravitorch.nn import ToBinaryLabel
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.history import MaxScalarHistory, MinScalarHistory
 
 MODES = (ct.TRAIN, ct.EVAL)
@@ -72,9 +72,9 @@ def test_binary_accuracy_attach_train(name: str, engine: BaseEngine) -> None:
     metric = BinaryAccuracy(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_accuracy"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -84,9 +84,9 @@ def test_binary_accuracy_attach_eval(name: str, engine: BaseEngine) -> None:
     metric = BinaryAccuracy(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_accuracy"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -104,9 +104,9 @@ def test_binary_accuracy_attach_state_extended(engine: BaseEngine) -> None:
         engine.get_history(f"{ct.EVAL}/bin_acc_num_incorrect_predictions"),
         MinScalarHistory,
     )
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -375,9 +375,9 @@ def test_categorical_accuracy_attach_train(name: str, engine: BaseEngine) -> Non
     metric = CategoricalAccuracy(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_accuracy"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -387,9 +387,9 @@ def test_categorical_accuracy_attach_eval(name: str, engine: BaseEngine) -> None
     metric = CategoricalAccuracy(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_accuracy"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -407,9 +407,9 @@ def test_categorical_accuracy_attach_state_extended(engine: BaseEngine) -> None:
         engine.get_history(f"{ct.EVAL}/cat_acc_num_incorrect_predictions"),
         MinScalarHistory,
     )
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -675,9 +675,9 @@ def test_top_k_accuracy_attach_train(name: str, engine: BaseEngine) -> None:
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_1_accuracy"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_5_accuracy"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -688,9 +688,9 @@ def test_top_k_accuracy_attach_eval(name: str, engine: BaseEngine) -> None:
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_1_accuracy"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_5_accuracy"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -720,9 +720,9 @@ def test_top_k_accuracy_attach_state_extended(engine: BaseEngine) -> None:
         engine.get_history(f"{ct.EVAL}/acc_top_5_num_incorrect_predictions"),
         MinScalarHistory,
     )
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
