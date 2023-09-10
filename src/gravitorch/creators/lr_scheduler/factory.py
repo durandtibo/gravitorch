@@ -7,7 +7,7 @@ import logging
 from objectory.utils import is_object_config
 
 from gravitorch.creators.lr_scheduler.base import BaseLRSchedulerCreator
-from gravitorch.creators.lr_scheduler.vanilla import VanillaLRSchedulerCreator
+from gravitorch.creators.lr_scheduler.vanilla import LRSchedulerCreator
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
@@ -38,7 +38,7 @@ def is_lr_scheduler_creator_config(config: dict) -> bool:
         >>> from gravitorch.creators.lr_scheduler import is_lr_scheduler_creator_config
         >>> is_lr_scheduler_creator_config(
         ...     {
-        ...         "_target_": "gravitorch.creators.lr_scheduler.VanillaLRSchedulerCreator",
+        ...         "_target_": "gravitorch.creators.lr_scheduler.LRSchedulerCreator",
         ...         "lr_scheduler_config": {
         ...             "_target_": "torch.optim.lr_scheduler.StepLR",
         ...             "step_size": 5,
@@ -76,7 +76,7 @@ def setup_lr_scheduler_creator(
         >>> from gravitorch.creators.lr_scheduler import setup_lr_scheduler_creator
         >>> creator = setup_lr_scheduler_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.lr_scheduler.VanillaLRSchedulerCreator",
+        ...         "_target_": "gravitorch.creators.lr_scheduler.LRSchedulerCreator",
         ...         "lr_scheduler_config": {
         ...             "_target_": "torch.optim.lr_scheduler.StepLR",
         ...             "step_size": 5,
@@ -84,14 +84,14 @@ def setup_lr_scheduler_creator(
         ...     }
         ... )
         >>> creator
-        VanillaLRSchedulerCreator(
+        LRSchedulerCreator(
           (lr_scheduler_config): {'_target_': 'torch.optim.lr_scheduler.StepLR', 'step_size': 5}
           (lr_scheduler_handler): None
           (add_module_to_engine): True
         )
     """
     if creator is None:
-        creator = VanillaLRSchedulerCreator()
+        creator = LRSchedulerCreator()
     if isinstance(creator, dict):
         logger.info(
             "Initializing the LR scheduler creator from its configuration... "

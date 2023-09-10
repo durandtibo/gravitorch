@@ -49,7 +49,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
         >>> from gravitorch.creators.datasource import DataSourceCreator
         >>> from gravitorch.creators.model import ModelCreator
         >>> from gravitorch.creators.optimizer import OptimizerCreator
-        >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
+        >>> from gravitorch.creators.lr_scheduler import LRSchedulerCreator
         >>> from gravitorch.testing import create_dummy_engine
         >>> creator = AdvancedCoreCreator(
         ...     datasource_creator=DataSourceCreator(
@@ -59,7 +59,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
         ...         {"_target_": "gravitorch.testing.DummyClassificationModel"}
         ...     ),
         ...     optimizer_creator=OptimizerCreator({"_target_": "torch.optim.SGD", "lr": 0.01}),
-        ...     lr_scheduler_creator=VanillaLRSchedulerCreator(
+        ...     lr_scheduler_creator=LRSchedulerCreator(
         ...         {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5}
         ...     ),
         ... )
@@ -77,7 +77,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
               (device_placement): AutoDevicePlacement(device=cpu)
             )
           (optimizer_creator): OptimizerCreator(add_module_to_engine=True)
-          (lr_scheduler_creator): VanillaLRSchedulerCreator(
+          (lr_scheduler_creator): LRSchedulerCreator(
               (lr_scheduler_config): {'_target_': 'torch.optim.lr_scheduler.StepLR', 'step_size': 5}
               (lr_scheduler_handler): None
               (add_module_to_engine): True

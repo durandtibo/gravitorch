@@ -27,12 +27,12 @@ class BaseLRSchedulerCreator(ABC, metaclass=AbstractFactory):
 
         >>> import torch
         >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
-        >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
-        >>> creator = VanillaLRSchedulerCreator(
+        >>> from gravitorch.creators.lr_scheduler import LRSchedulerCreator
+        >>> creator = LRSchedulerCreator(
         ...     {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5}
         ... )
         >>> creator
-        VanillaLRSchedulerCreator(
+        LRSchedulerCreator(
           (lr_scheduler_config): {'_target_': 'torch.optim.lr_scheduler.StepLR', 'step_size': 5}
           (lr_scheduler_handler): None
           (add_module_to_engine): True
@@ -74,8 +74,8 @@ class BaseLRSchedulerCreator(ABC, metaclass=AbstractFactory):
 
             >>> import torch
             >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
-            >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
-            >>> creator = VanillaLRSchedulerCreator(
+            >>> from gravitorch.creators.lr_scheduler import LRSchedulerCreator
+            >>> creator = LRSchedulerCreator(
             ...     {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5}
             ... )
             >>> engine = create_dummy_engine()
