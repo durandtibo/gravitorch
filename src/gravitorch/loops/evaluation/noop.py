@@ -22,7 +22,7 @@ class NoOpEvaluationLoop(BaseEvaluationLoop):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.loops.evaluation import VanillaEvaluationLoop
+        >>> from gravitorch.loops.evaluation import EvaluationLoop
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> loop = NoOpEvaluationLoop()

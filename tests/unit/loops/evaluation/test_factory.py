@@ -5,7 +5,7 @@ from pytest import LogCaptureFixture
 from torch.nn import Identity
 
 from gravitorch.loops.evaluation import (
-    VanillaEvaluationLoop,
+    EvaluationLoop,
     is_evaluation_loop_config,
     setup_evaluation_loop,
 )
@@ -16,9 +16,7 @@ from gravitorch.loops.evaluation import (
 
 
 def test_is_evaluation_loop_config_true() -> None:
-    assert is_evaluation_loop_config(
-        {OBJECT_TARGET: "gravitorch.loops.evaluation.VanillaEvaluationLoop"}
-    )
+    assert is_evaluation_loop_config({OBJECT_TARGET: "gravitorch.loops.evaluation.EvaluationLoop"})
 
 
 def test_is_evaluation_loop_config_false() -> None:
@@ -31,18 +29,18 @@ def test_is_evaluation_loop_config_false() -> None:
 
 
 def test_setup_evaluation_loop_none() -> None:
-    assert isinstance(setup_evaluation_loop(None), VanillaEvaluationLoop)
+    assert isinstance(setup_evaluation_loop(None), EvaluationLoop)
 
 
 def test_setup_evaluation_loop_object() -> None:
-    evaluation_loop = VanillaEvaluationLoop()
+    evaluation_loop = EvaluationLoop()
     assert setup_evaluation_loop(evaluation_loop) is evaluation_loop
 
 
 def test_setup_evaluation_loop_dict() -> None:
     assert isinstance(
-        setup_evaluation_loop({OBJECT_TARGET: "gravitorch.loops.evaluation.VanillaEvaluationLoop"}),
-        VanillaEvaluationLoop,
+        setup_evaluation_loop({OBJECT_TARGET: "gravitorch.loops.evaluation.EvaluationLoop"}),
+        EvaluationLoop,
     )
 
 

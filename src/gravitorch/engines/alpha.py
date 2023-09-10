@@ -62,7 +62,7 @@ class AlphaEngine(BaseEngine):
             Default: ``None``
         evaluation_loop (``BaseEvaluationLoop`` or dict or ``None``):
             Specifies the evaluation loop or its configuration.
-            If ``None``, a ``VanillaEvaluationLoop`` object is
+            If ``None``, a ``EvaluationLoop`` object is
             created. Default: ``None``
     """
 
@@ -291,7 +291,7 @@ class AlphaEngine(BaseEngine):
         ----
             evaluation_loop (``BaseEvaluationLoop`` or dict or None):
                 Specifies the evaluation loop or its configuration.
-                If ``None``, the ``VanillaEvaluationLoop`` is
+                If ``None``, the ``EvaluationLoop`` is
                 instantiated.
 
         Returns:

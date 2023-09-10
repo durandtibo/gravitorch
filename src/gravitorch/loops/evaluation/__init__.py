@@ -6,7 +6,7 @@ __all__ = [
     "BaseBasicEvaluationLoop",
     "BaseEvaluationLoop",
     "NoOpEvaluationLoop",
-    "VanillaEvaluationLoop",
+    "EvaluationLoop",
     "is_evaluation_loop_config",
     "setup_evaluation_loop",
 ]
@@ -20,4 +20,4 @@ from gravitorch.loops.evaluation.factory import (
     setup_evaluation_loop,
 )
 from gravitorch.loops.evaluation.noop import NoOpEvaluationLoop
-from gravitorch.loops.evaluation.vanilla import VanillaEvaluationLoop
+from gravitorch.loops.evaluation.vanilla import EvaluationLoop
