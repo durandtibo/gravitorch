@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["VanillaLRSchedulerCreator"]
+__all__ = ["LRSchedulerCreator"]
 
 import logging
 from typing import TYPE_CHECKING
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
+class LRSchedulerCreator(BaseLRSchedulerCreator):
     r"""Implements a vanilla a learning rate (LR) scheduler creator.
 
     This LR scheduler creator has two main inputs: an input to
@@ -51,12 +51,12 @@ class VanillaLRSchedulerCreator(BaseLRSchedulerCreator):
 
         >>> import torch
         >>> from gravitorch.testing import create_dummy_engine, DummyClassificationModel
-        >>> from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
-        >>> creator = VanillaLRSchedulerCreator(
+        >>> from gravitorch.creators.lr_scheduler import LRSchedulerCreator
+        >>> creator = LRSchedulerCreator(
         ...     {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5}
         ... )
         >>> creator
-        VanillaLRSchedulerCreator(
+        LRSchedulerCreator(
           (lr_scheduler_config): {'_target_': 'torch.optim.lr_scheduler.StepLR', 'step_size': 5}
           (lr_scheduler_handler): None
           (add_module_to_engine): True

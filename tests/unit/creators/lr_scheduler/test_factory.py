@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 from objectory import OBJECT_TARGET
 
 from gravitorch.creators.lr_scheduler import (
-    VanillaLRSchedulerCreator,
+    LRSchedulerCreator,
     is_lr_scheduler_creator_config,
     setup_lr_scheduler_creator,
 )
@@ -16,7 +16,7 @@ from gravitorch.creators.lr_scheduler import (
 def test_is_lr_scheduler_creator_config_true() -> None:
     assert is_lr_scheduler_creator_config(
         {
-            OBJECT_TARGET: "gravitorch.creators.lr_scheduler.VanillaLRSchedulerCreator",
+            OBJECT_TARGET: "gravitorch.creators.lr_scheduler.LRSchedulerCreator",
             "lr_scheduler_config": {
                 OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR",
                 "step_size": 5,
@@ -35,11 +35,11 @@ def test_is_lr_scheduler_creator_config_false() -> None:
 
 
 def test_setup_lr_scheduler_creator_none() -> None:
-    assert isinstance(setup_lr_scheduler_creator(None), VanillaLRSchedulerCreator)
+    assert isinstance(setup_lr_scheduler_creator(None), LRSchedulerCreator)
 
 
 def test_setup_lr_scheduler_creator_object() -> None:
-    lr_scheduler_creator = VanillaLRSchedulerCreator()
+    lr_scheduler_creator = LRSchedulerCreator()
     assert setup_lr_scheduler_creator(lr_scheduler_creator) is lr_scheduler_creator
 
 
@@ -47,10 +47,10 @@ def test_setup_lr_scheduler_creator_dict() -> None:
     assert isinstance(
         setup_lr_scheduler_creator(
             {
-                OBJECT_TARGET: "gravitorch.creators.lr_scheduler.VanillaLRSchedulerCreator",
+                OBJECT_TARGET: "gravitorch.creators.lr_scheduler.LRSchedulerCreator",
             }
         ),
-        VanillaLRSchedulerCreator,
+        LRSchedulerCreator,
     )
 
 

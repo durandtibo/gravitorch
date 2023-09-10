@@ -9,7 +9,7 @@ from torch.optim.lr_scheduler import StepLR
 from gravitorch import constants as ct
 from gravitorch.creators.core import AdvancedCoreCreator
 from gravitorch.creators.datasource import BaseDataSourceCreator, DataSourceCreator
-from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
+from gravitorch.creators.lr_scheduler import LRSchedulerCreator
 from gravitorch.creators.model import BaseModelCreator, ModelCreator
 from gravitorch.creators.optimizer import OptimizerCreator
 from gravitorch.engines import BaseEngine
@@ -92,7 +92,7 @@ def test_advanced_core_creator_create_lr_scheduler_creator(
         optimizer_creator=OptimizerCreator(
             optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
         ),
-        lr_scheduler_creator=VanillaLRSchedulerCreator(
+        lr_scheduler_creator=LRSchedulerCreator(
             lr_scheduler_config={OBJECT_TARGET: "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         ),
     )
