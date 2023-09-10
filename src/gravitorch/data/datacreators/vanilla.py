@@ -17,7 +17,7 @@ T = TypeVar("T")
 
 
 class DataCreator(BaseDataCreator[T]):
-    r"""Implement a simple data creator.
+    r"""Implements a simple data creator.
 
     Args:
     ----

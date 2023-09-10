@@ -42,6 +42,27 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
             Default: ``False``
         padding_value (float, optional): value for padded elements.
             Default: ``0.0``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.data.dataloaders.collators import PaddedSequenceCollator
+        >>> collator = PaddedSequenceCollator()
+        >>> collator
+        PaddedSequenceCollator(length_key=length, batch_first=False, padding_value=0.0)
+        >>> data = [
+        ...     ({"length": 2}, {"feature": torch.full((2,), 2.0)}),
+        ...     ({"length": 3}, {"feature": torch.full((3,), 3.0)}),
+        ...     ({"length": 4}, {"feature": torch.full((4,), 4.0)}),
+        ... ]
+        >>> batch = collator(data)
+        >>> batch
+        {'length': tensor([4, 3, 2]), 'feature': tensor([[4., 3., 2.],
+                [4., 3., 2.],
+                [4., 3., 0.],
+                [4., 0., 0.]])}
     """
 
     def __init__(
@@ -55,17 +76,6 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
         self._padding_value = padding_value
 
     def __call__(self, data: list[tuple[dict, dict]]) -> dict:
-        r"""Creates a batch of packed sequence examples given a list of
-        examples.
-
-        Args:
-        ----
-            data (list): The list of examples.
-
-        Returns:
-        -------
-            dict: The generated mini-batch.
-        """
         # Sort the examples by the length of their sequence.
         data.sort(key=lambda x: x[0][self._length_key], reverse=True)
 
@@ -89,7 +99,7 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
 
         return batch
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}("
             f"length_key={self._length_key}, "
@@ -122,6 +132,27 @@ class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
             Default: ``False``
         padding_value (float, optional): value for padded elements.
             Default: ``0.``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.data.dataloaders.collators import DictPaddedSequenceCollator
+        >>> collator = DictPaddedSequenceCollator(keys_to_pad=["feature"])
+        >>> collator
+        DictPaddedSequenceCollator(keys_to_pack=('feature',), batch_first=False, padding_value=0.0)
+        >>> data = [
+        ...     {"feature": torch.full((2,), 2.0)},
+        ...     {"feature": torch.full((3,), 3.0)},
+        ...     {"feature": torch.full((4,), 4.0)},
+        ... ]
+        >>> batch = collator(data)
+        >>> batch
+        {'feature': tensor([[4., 3., 2.],
+                [4., 3., 2.],
+                [4., 3., 0.],
+                [4., 0., 0.]])}
     """
 
     def __init__(
@@ -135,17 +166,6 @@ class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
         self._padding_value = padding_value
 
     def __call__(self, data: Sequence[dict]) -> dict:
-        r"""Creates a batch of packed sequence examples given a list of
-        examples.
-
-        Args:
-        ----
-            data: The sequence of examples.
-
-        Returns:
-        -------
-            dict: The generated mini-batch.
-        """
         # Remove the empty sequences.
         data = [example for example in data if example[self._keys_to_pad[0]].shape[0] > 0]
         num_seq = len(data)
@@ -166,7 +186,7 @@ class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
 
         return batch
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__qualname__}("
             f"keys_to_pack={self._keys_to_pad}, "

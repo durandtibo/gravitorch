@@ -89,7 +89,7 @@ def get_torch_generator(
 
 
 class BaseRandomSeedSetter(ABC):
-    r"""Define the base class to implement a random seed setter.
+    r"""Defines the base class to implement a random seed setter.
 
     Each child class must implement the method ``manual_seed``.
 
