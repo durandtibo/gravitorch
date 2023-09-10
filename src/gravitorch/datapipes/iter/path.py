@@ -5,7 +5,7 @@ __all__ = ["DirFilterIterDataPipe", "FileFilterIterDataPipe", "PathListerIterDat
 from collections.abc import Iterator
 from pathlib import Path
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.utils.data import IterDataPipe
 
 
@@ -27,7 +27,7 @@ class DirFilterIterDataPipe(IterDataPipe[Path]):
         >>> dp = DirFilter(IterableWrapper([Path("tmp/A"), Path("tmp/B"), Path("tmp/C")]))
         >>> dp
         DirFilterIterDataPipe(
-          datapipe=IterableWrapperIterDataPipe,
+          (datapipe): IterableWrapperIterDataPipe
         )
     """
 
@@ -43,7 +43,8 @@ class DirFilterIterDataPipe(IterDataPipe[Path]):
         return str(self)
 
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  datapipe={str_indent(self._datapipe)},\n)"
+        args = str_indent(str_mapping({"datapipe": self._datapipe}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
 
 class FileFilterIterDataPipe(IterDataPipe[Path]):
@@ -64,7 +65,7 @@ class FileFilterIterDataPipe(IterDataPipe[Path]):
         >>> dp = FileFilter(IterableWrapper([Path("tmp/A"), Path("tmp/B"), Path("tmp/C")]))
         >>> dp
         FileFilterIterDataPipe(
-          datapipe=IterableWrapperIterDataPipe,
+          (datapipe): IterableWrapperIterDataPipe
         )
     """
 
@@ -80,7 +81,8 @@ class FileFilterIterDataPipe(IterDataPipe[Path]):
         return str(self)
 
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  datapipe={str_indent(self._datapipe)},\n)"
+        args = str_indent(str_mapping({"datapipe": self._datapipe}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
 
 class PathListerIterDataPipe(IterDataPipe[Path]):
@@ -105,9 +107,9 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
         >>> dp = PathLister(IterableWrapper([Path("tmp/A"), Path("tmp/B"), Path("tmp/C")]))
         >>> dp
         PathListerIterDataPipe(
-          pattern=*,
-          deterministic=True,
-          datapipe=IterableWrapperIterDataPipe,
+          (pattern): *
+          (deterministic): True
+          (datapipe): IterableWrapperIterDataPipe
         )
     """
 
@@ -132,9 +134,13 @@ class PathListerIterDataPipe(IterDataPipe[Path]):
         return str(self)
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  pattern={self._pattern},\n"
-            f"  deterministic={self._deterministic},\n"
-            f"  datapipe={str_indent(self._datapipe)},\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "pattern": self._pattern,
+                    "deterministic": self._deterministic,
+                    "datapipe": self._datapipe,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"

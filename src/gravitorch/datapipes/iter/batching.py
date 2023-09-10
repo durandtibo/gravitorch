@@ -7,7 +7,7 @@ from collections.abc import Hashable, Iterator, Sequence
 
 import torch
 from coola import summary
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch import Tensor
 from torch.utils.data import IterDataPipe
 
@@ -51,10 +51,10 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
         ... )
         >>> dp
         DictBatcherIterDataPipe(
-          batch_size=3,
-          shuffle=False,
-          random_seed=11918852809641073385,
-          datapipe_or_data=IterableWrapperIterDataPipe,
+          (batch_size): 3
+          (shuffle): False
+          (random_seed): 11918852809641073385
+          (datapipe_or_data): IterableWrapperIterDataPipe
         )
         >>> list(dp)  # doctest: +ELLIPSIS
         [{'key1': tensor([...]), 'key2': tensor([[...]])},
@@ -97,18 +97,22 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
         return str(self)
 
     def __str__(self) -> str:
-        desc = (
+        datapipe_or_data = (
             str(self._datapipe_or_data)
             if isinstance(self._datapipe_or_data, IterDataPipe)
             else summary(self._datapipe_or_data)
         )
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  batch_size={self._batch_size},\n"
-            f"  shuffle={self._shuffle},\n"
-            f"  random_seed={self.random_seed},\n"
-            f"  datapipe_or_data={str_indent(desc)},\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "batch_size": self._batch_size,
+                    "shuffle": self._shuffle,
+                    "random_seed": self.random_seed,
+                    "datapipe_or_data": datapipe_or_data,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def __getstate__(self) -> dict:
         state = super().__getstate__().copy()

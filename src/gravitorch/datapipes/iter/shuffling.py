@@ -12,7 +12,7 @@ from collections.abc import Iterator, Mapping, Sequence
 
 import numpy as np
 import torch
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch import Tensor
 from torch.utils.data import IterDataPipe
 
@@ -68,18 +68,18 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
         >>> dp = TensorDictShuffler(MyIterDataPipe())
         >>> dp
         TensorDictShufflerIterDataPipe(
-          dim=0,
-          random_seed=3510637111256283951,
-          datapipe=MyIterDataPipe,
+          (dim): 0
+          (random_seed): 3510637111256283951
+          (datapipe): MyIterDataPipe
         )
         >>> list(dp)  # doctest: +ELLIPSIS
         [{'key': tensor([...])}, {'key': tensor([...])}, {'key': tensor([...])}]
         >>> dp = TensorDictShuffler(MyIterDataPipe(), dim={"key": 0})
         >>> dp
         TensorDictShufflerIterDataPipe(
-          dim={'key': 0},
-          random_seed=3510637111256283951,
-          datapipe=MyIterDataPipe,
+          (dim): {'key': 0}
+          (random_seed): 3510637111256283951
+          (datapipe): MyIterDataPipe
         )
         >>> list(dp)  # doctest: +ELLIPSIS
         [{'key': tensor([...])}, {'key': tensor([...])}, {'key': tensor([...])}]
@@ -106,12 +106,16 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
         return str(self)
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  dim={self._dim},\n"
-            f"  random_seed={self.random_seed},\n"
-            f"  datapipe={str_indent(self._datapipe)},\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "dim": self._dim,
+                    "random_seed": self.random_seed,
+                    "datapipe": self._datapipe,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     @property
     def random_seed(self) -> int:

@@ -5,7 +5,7 @@ __all__ = ["LooperIterDataPipe"]
 from collections.abc import Iterator
 from typing import TypeVar
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 from torch.utils.data import IterDataPipe
 
 T = TypeVar("T")
@@ -29,11 +29,17 @@ class LooperIterDataPipe(IterDataPipe[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.datapipes.iter import Looper, SourceWrapper
-        >>> dp = Looper(SourceWrapper([1, 2, 3, 4]), length=10)
+        >>> from torch.utils.data.datapipes.iter import IterableWrapper
+        >>> from gravitorch.datapipes.iter import Looper
+        >>> dp = Looper(IterableWrapper([1, 2, 3, 4]), length=10)
+        >>> dp
+        LooperIterDataPipe(
+          (length): 10
+          (datapipe): IterableWrapperIterDataPipe
+        )
         >>> list(dp)
         [1, 2, 3, 4, 1, 2, 3, 4, 1, 2]
-        >>> dp = Looper(SourceWrapper([1, 2, 3, 4, 5, 6]), length=4)
+        >>> dp = Looper(IterableWrapper([1, 2, 3, 4, 5, 6]), length=4)
         >>> list(dp)
         [1, 2, 3, 4]
     """
@@ -62,8 +68,5 @@ class LooperIterDataPipe(IterDataPipe[T]):
         return str(self)
 
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  length={self._length:,},\n"
-            f"  datapipe={str_indent(self._datapipe)},\n)"
-        )
+        args = str_indent(str_mapping({"length": self._length, "datapipe": self._datapipe}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
