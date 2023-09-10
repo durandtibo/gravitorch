@@ -85,6 +85,8 @@ class DatasetDataSource(BaseDataSource):
         logger.info("Initializing the datasets...")
         self._datasets = {key: setup_dataset(dataset) for key, dataset in datasets.items()}
         logger.info(f"datasets:\n{str_mapping(self._datasets)}")
+        for name, dataset in self._datasets.items():
+            self._asset_manager.add_asset(f"{name}_dataset", dataset)
 
         logger.info("Initializing the data loader creators...")
         self._dataloader_creators = {
