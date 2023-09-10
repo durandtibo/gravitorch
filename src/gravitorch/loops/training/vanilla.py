@@ -2,7 +2,7 @@ r"""This module implements a simple training loop."""
 
 from __future__ import annotations
 
-__all__ = ["VanillaTrainingLoop"]
+__all__ = ["TrainingLoop"]
 
 import logging
 import sys
@@ -32,7 +32,7 @@ from gravitorch.utils.profilers import BaseProfiler
 logger = logging.getLogger(__name__)
 
 
-class VanillaTrainingLoop(BaseBasicTrainingLoop):
+class TrainingLoop(BaseBasicTrainingLoop):
     r"""Implements a simple training loop to train a model on a dataset.
 
     Args:
@@ -66,12 +66,12 @@ class VanillaTrainingLoop(BaseBasicTrainingLoop):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.loops.training import VanillaTrainingLoop
+        >>> from gravitorch.loops.training import TrainingLoop
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
-        >>> loop = VanillaTrainingLoop()
+        >>> loop = TrainingLoop()
         >>> loop
-        VanillaTrainingLoop(
+        TrainingLoop(
           (set_grad_to_none): True
           (batch_device_placement): AutoDevicePlacement(device=cpu)
           (tag): train

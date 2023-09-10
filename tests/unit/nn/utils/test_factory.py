@@ -43,7 +43,7 @@ def test_is_module_config_true() -> None:
 
 
 def test_is_module_config_false() -> None:
-    assert not is_module_config({OBJECT_TARGET: "gravitorch.loops.training.VanillaTrainingLoop"})
+    assert not is_module_config({OBJECT_TARGET: "gravitorch.loops.training.TrainingLoop"})
 
 
 ##################################

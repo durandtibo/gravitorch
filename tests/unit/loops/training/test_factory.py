@@ -5,7 +5,7 @@ from pytest import LogCaptureFixture
 from torch.nn import Identity
 
 from gravitorch.loops.training import (
-    VanillaTrainingLoop,
+    TrainingLoop,
     is_training_loop_config,
     setup_training_loop,
 )
@@ -16,7 +16,7 @@ from gravitorch.loops.training import (
 
 
 def test_is_training_loop_config_true() -> None:
-    assert is_training_loop_config({OBJECT_TARGET: "gravitorch.loops.training.VanillaTrainingLoop"})
+    assert is_training_loop_config({OBJECT_TARGET: "gravitorch.loops.training.TrainingLoop"})
 
 
 def test_is_training_loop_config_false() -> None:
@@ -29,18 +29,18 @@ def test_is_training_loop_config_false() -> None:
 
 
 def test_setup_training_loop_none() -> None:
-    assert isinstance(setup_training_loop(None), VanillaTrainingLoop)
+    assert isinstance(setup_training_loop(None), TrainingLoop)
 
 
 def test_setup_training_loop_object() -> None:
-    training_loop = VanillaTrainingLoop()
+    training_loop = TrainingLoop()
     assert setup_training_loop(training_loop) is training_loop
 
 
 def test_setup_training_loop_dict() -> None:
     assert isinstance(
-        setup_training_loop({OBJECT_TARGET: "gravitorch.loops.training.VanillaTrainingLoop"}),
-        VanillaTrainingLoop,
+        setup_training_loop({OBJECT_TARGET: "gravitorch.loops.training.TrainingLoop"}),
+        TrainingLoop,
     )
 
 

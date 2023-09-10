@@ -10,7 +10,7 @@ from gravitorch import constants as ct
 from gravitorch.creators.core import BaseCoreCreator
 from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
 from gravitorch.loops.evaluation import BaseEvaluationLoop, VanillaEvaluationLoop
-from gravitorch.loops.training import BaseTrainingLoop, VanillaTrainingLoop
+from gravitorch.loops.training import BaseTrainingLoop, TrainingLoop
 from gravitorch.testing import DummyDataSource
 from gravitorch.utils.artifacts import BaseArtifact
 from gravitorch.utils.engine_states import EngineState
@@ -499,11 +499,11 @@ def test_alpha_engine_setup_evaluation_loop_with_object(core_creator: BaseCoreCr
 
 def test_alpha_engine_setup_training_loop_with_none(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)  # None is the default value of training_loop
-    assert isinstance(engine._training_loop, VanillaTrainingLoop)
+    assert isinstance(engine._training_loop, TrainingLoop)
     assert engine._training_loop == engine.get_module(ct.TRAINING_LOOP)
 
 
 def test_alpha_engine_setup_training_loop_with_object(core_creator: BaseCoreCreator) -> None:
-    training_loop = VanillaTrainingLoop()
+    training_loop = TrainingLoop()
     engine = AlphaEngine(core_creator, training_loop=training_loop)
     assert engine._training_loop is training_loop
