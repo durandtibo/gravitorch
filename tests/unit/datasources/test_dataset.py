@@ -65,26 +65,28 @@ def test_dataset_datasource_attach(caplog: LogCaptureFixture) -> None:
 
 
 def test_dataset_datasource_get_asset_exists() -> None:
-    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
-    datasource._asset_manager.add_asset("something", 2)
-    assert datasource.get_asset("something") == 2
+    datasource = DatasetDataSource(
+        datasets={"train": ExampleDataset(["a", "b", "c"])}, dataloader_creators={}
+    )
+    assert datasource.get_asset("train_dataset").equal(ExampleDataset(["a", "b", "c"]))
 
 
 def test_dataset_datasource_get_asset_does_not_exist() -> None:
     datasource = DatasetDataSource(datasets={}, dataloader_creators={})
-    with raises(AssetNotFoundError, match="The asset 'something' does not exist"):
-        datasource.get_asset("something")
+    with raises(AssetNotFoundError, match="The asset 'missing' does not exist"):
+        datasource.get_asset("missing")
 
 
 def test_dataset_datasource_has_asset_true() -> None:
-    datasource = DatasetDataSource(datasets={}, dataloader_creators={})
-    datasource._asset_manager.add_asset("something", 1)
-    assert datasource.has_asset("something")
+    datasource = DatasetDataSource(
+        datasets={"train": ExampleDataset(["a", "b", "c"])}, dataloader_creators={}
+    )
+    assert datasource.has_asset("train_dataset")
 
 
 def test_dataset_datasource_has_asset_false() -> None:
     datasource = DatasetDataSource(datasets={}, dataloader_creators={})
-    assert not datasource.has_asset("something")
+    assert not datasource.has_asset("missing")
 
 
 def test_dataset_datasource_get_dataloader_train() -> None:

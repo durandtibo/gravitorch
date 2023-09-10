@@ -82,7 +82,9 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
             >>> engine = create_dummy_engine()
             >>> datasource = DummyDataSource()
-            >>> my_asset = datasource.get_asset("my_asset_id")  # doctest: +SKIP
+            >>> train_dataset = datasource.get_asset("train_dataset")
+            >>> train_dataset
+            DummyDataset(num_examples=4, feature_size=4)
         """
 
     @abstractmethod
@@ -104,7 +106,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
             >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
             >>> engine = create_dummy_engine()
             >>> datasource = DummyDataSource()
-            >>> datasource.has_asset("my_asset_id")
+            >>> datasource.has_asset("missing")
             False
         """
 
