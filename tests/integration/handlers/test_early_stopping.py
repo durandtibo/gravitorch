@@ -3,7 +3,7 @@ from unittest.mock import Mock
 from gravitorch import constants as ct
 from gravitorch.engines import AlphaEngine, BaseEngine, EngineEvents
 from gravitorch.handlers import EarlyStopping
-from gravitorch.utils.engine_states import VanillaEngineState
+from gravitorch.utils.engine_states import EngineState
 from gravitorch.utils.history import MaxScalarHistory, MinScalarHistory
 
 EVENTS = ("my_event", "my_other_event")
@@ -102,7 +102,7 @@ def test_early_stopping_simulation_delta_and_cumulative_delta() -> None:
 
 
 def test_early_stopping_simulation_resume() -> None:
-    engine = create_engine(state=VanillaEngineState(epoch=10))
+    engine = create_engine(state=EngineState(epoch=10))
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
     handler = EarlyStopping()
     handler.attach(engine)
@@ -129,7 +129,7 @@ def test_early_stopping_simulation_resume() -> None:
 
 
 def test_early_stopping_simulation_resume_cumulative_delta() -> None:
-    engine = create_engine(state=VanillaEngineState(epoch=10))
+    engine = create_engine(state=EngineState(epoch=10))
     engine.add_history(MinScalarHistory(f"{ct.EVAL}/loss"))
     handler = EarlyStopping(delta=0.5, cumulative_delta=True)
     handler.attach(engine)

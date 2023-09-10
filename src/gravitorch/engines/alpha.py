@@ -46,7 +46,7 @@ class AlphaEngine(BaseEngine):
             optimizer and LR scheduler.
         state (``BaseEngineState`` or dict or ``None``): Specifies
             the engine state or its configuration. If ``None``, a
-            ``VanillaEngineState`` object is created. The state is
+            ``EngineState`` object is created. The state is
             used to represent all the modules added to the engine,
             but the event system is not include in the engine state.
             Default: ``None``
@@ -335,7 +335,7 @@ class AlphaEngine(BaseEngine):
         ----
             state (``BaseEngineState`` or dict or None):
                 Specifies the engine state or its configuration.
-                If ``None``, the ``VanillaEngineState`` is
+                If ``None``, the ``EngineState`` is
                 instantiated.
 
         Returns:
