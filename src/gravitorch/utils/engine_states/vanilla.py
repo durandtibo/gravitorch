@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["VanillaEngineState"]
+__all__ = ["EngineState"]
 
 from typing import Any
 
@@ -11,8 +11,8 @@ from gravitorch.utils.history import BaseHistory, HistoryManager
 from gravitorch.utils.module_manager import ModuleManager
 
 
-class VanillaEngineState(BaseEngineState):
-    r"""Defines the vanilla engine state.
+class EngineState(BaseEngineState):
+    r"""Defines the vanilla/default engine state.
 
     Args:
     ----
@@ -29,10 +29,10 @@ class VanillaEngineState(BaseEngineState):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.utils.engine_states import VanillaEngineState
-        >>> state = VanillaEngineState()
+        >>> from gravitorch.utils.engine_states import EngineState
+        >>> state = EngineState()
         >>> state
-        VanillaEngineState(
+        EngineState(
           modules=ModuleManager(),
           histories=HistoryManager(),
           random_seed=9984043075503325450,

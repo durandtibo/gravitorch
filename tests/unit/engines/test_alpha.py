@@ -14,7 +14,7 @@ from gravitorch.loops.evaluation import BaseEvaluationLoop, VanillaEvaluationLoo
 from gravitorch.loops.training import BaseTrainingLoop, VanillaTrainingLoop
 from gravitorch.testing import DummyDataSource
 from gravitorch.utils.artifacts import BaseArtifact
-from gravitorch.utils.engine_states import VanillaEngineState
+from gravitorch.utils.engine_states import EngineState
 from gravitorch.utils.exp_trackers import BaseExpTracker, EpochStep, NoOpExpTracker
 from gravitorch.utils.history import GenericHistory, MinScalarHistory
 
@@ -412,7 +412,7 @@ def test_alpha_engine_train_max_epochs_2(core_creator: BaseCoreCreator) -> None:
         core_creator,
         evaluation_loop=evaluation_loop,
         training_loop=training_loop,
-        state=VanillaEngineState(max_epochs=2),
+        state=EngineState(max_epochs=2),
     )
     engine.train()
     assert engine.epoch == 1
@@ -442,7 +442,7 @@ def test_alpha_engine_train_with_terminate(core_creator: BaseCoreCreator) -> Non
         core_creator,
         evaluation_loop=evaluation_loop,
         training_loop=training_loop,
-        state=VanillaEngineState(max_epochs=10),
+        state=EngineState(max_epochs=10),
     )
     engine.add_event_handler(
         EngineEvents.EPOCH_COMPLETED,

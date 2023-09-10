@@ -8,7 +8,7 @@ __all__ = ["setup_engine_state"]
 import logging
 
 from gravitorch.utils.engine_states.base import BaseEngineState
-from gravitorch.utils.engine_states.vanilla import VanillaEngineState
+from gravitorch.utils.engine_states.vanilla import EngineState
 from gravitorch.utils.format import str_target_object
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ def setup_engine_state(state: BaseEngineState | dict | None) -> BaseEngineState:
     ----
         state (``BaseEngineState`` or dict or None): Specifies the
             engine state or its configuration. If ``None``, the
-            ``VanillaEngineState`` is instantiated.
+            ``EngineState`` is instantiated.
 
     Returns:
     -------
@@ -35,11 +35,9 @@ def setup_engine_state(state: BaseEngineState | dict | None) -> BaseEngineState:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.engine_states import setup_engine_state
-        >>> state = setup_engine_state(
-        ...     {"_target_": "gravitorch.utils.engine_states.VanillaEngineState"}
-        ... )
+        >>> state = setup_engine_state({"_target_": "gravitorch.utils.engine_states.EngineState"})
         >>> state
-        VanillaEngineState(
+        EngineState(
           modules=ModuleManager(),
           histories=HistoryManager(),
           random_seed=9984043075503325450,
@@ -49,7 +47,7 @@ def setup_engine_state(state: BaseEngineState | dict | None) -> BaseEngineState:
         )
     """
     if state is None:
-        state = VanillaEngineState()
+        state = EngineState()
     if isinstance(state, dict):
         logger.info(
             f"Initializing an engine state from its configuration... {str_target_object(state)}"
