@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["VanillaModelCreator"]
+__all__ = ["ModelCreator"]
 
 import logging
 from typing import TYPE_CHECKING
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class VanillaModelCreator(BaseModelCreator):
+class ModelCreator(BaseModelCreator):
     r"""Implements a vanilla model creator.
 
     This model creator is designed for models that run on a single
@@ -49,12 +49,10 @@ class VanillaModelCreator(BaseModelCreator):
     .. code-block:: pycon
 
         >>> from gravitorch.testing import create_dummy_engine
-        >>> from gravitorch.creators.model import VanillaModelCreator
-        >>> creator = VanillaModelCreator(
-        ...     {"_target_": "gravitorch.testing.DummyClassificationModel"}
-        ... )
+        >>> from gravitorch.creators.model import ModelCreator
+        >>> creator = ModelCreator({"_target_": "gravitorch.testing.DummyClassificationModel"})
         >>> creator
-        VanillaModelCreator(
+        ModelCreator(
           (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
           (attach_model_to_engine): True
           (add_module_to_engine): True

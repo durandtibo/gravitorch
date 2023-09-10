@@ -53,7 +53,7 @@ def create_engine_config(random_seed: int) -> dict:
                 },
             },
             "model_creator": {
-                OBJECT_TARGET: "gravitorch.creators.model.VanillaModelCreator",
+                OBJECT_TARGET: "gravitorch.creators.model.ModelCreator",
                 "model_config": {
                     OBJECT_TARGET: "gravitorch.models.VanillaModel",
                     "random_seed": random_seed,

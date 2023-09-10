@@ -30,12 +30,10 @@ class BaseModelCreator(ABC, metaclass=AbstractFactory):
     .. code-block:: pycon
 
         >>> from gravitorch.testing import create_dummy_engine
-        >>> from gravitorch.creators.model import VanillaModelCreator
-        >>> creator = VanillaModelCreator(
-        ...     {"_target_": "gravitorch.testing.DummyClassificationModel"}
-        ... )
+        >>> from gravitorch.creators.model import ModelCreator
+        >>> creator = ModelCreator({"_target_": "gravitorch.testing.DummyClassificationModel"})
         >>> creator
-        VanillaModelCreator(
+        ModelCreator(
           (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
           (attach_model_to_engine): True
           (add_module_to_engine): True
@@ -72,10 +70,8 @@ class BaseModelCreator(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.testing import create_dummy_engine
-            >>> from gravitorch.creators.model import VanillaModelCreator
-            >>> creator = VanillaModelCreator(
-            ...     {"_target_": "gravitorch.testing.DummyClassificationModel"}
-            ... )
+            >>> from gravitorch.creators.model import ModelCreator
+            >>> creator = ModelCreator({"_target_": "gravitorch.testing.DummyClassificationModel"})
             >>> engine = create_dummy_engine()
             >>> model = creator.create(engine)
             >>> model
@@ -111,7 +107,7 @@ def is_model_creator_config(config: dict) -> bool:
         >>> from gravitorch.creators.model import is_model_creator_config
         >>> is_model_creator_config(
         ...     {
-        ...         "_target_": "gravitorch.creators.model.VanillaModelCreator",
+        ...         "_target_": "gravitorch.creators.model.ModelCreator",
         ...         "model_config": {"_target_": "gravitorch.testing.DummyClassificationModel"},
         ...     }
         ... )
@@ -142,12 +138,12 @@ def setup_model_creator(creator: BaseModelCreator | dict) -> BaseModelCreator:
         >>> from gravitorch.creators.model import setup_model_creator
         >>> creator = setup_model_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.model.VanillaModelCreator",
+        ...         "_target_": "gravitorch.creators.model.ModelCreator",
         ...         "model_config": {"_target_": "gravitorch.testing.DummyClassificationModel"},
         ...     }
         ... )
         >>> creator
-        VanillaModelCreator(
+        ModelCreator(
           (model_config): {'_target_': 'gravitorch.testing.DummyClassificationModel'}
           (attach_model_to_engine): True
           (add_module_to_engine): True

@@ -42,7 +42,7 @@ engine:
             pin_memory: ${..train.pin_memory}
             drop_last: ${..train.drop_last}
     model_creator:
-      _target_: gravitorch.creators.model.VanillaModelCreator
+      _target_: gravitorch.creators.model.ModelCreator
       model_config:
         _target_: gravitorch.models.VanillaModel
         random_seed: ${random_seed}
