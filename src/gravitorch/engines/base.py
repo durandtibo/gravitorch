@@ -54,10 +54,10 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> engine = create_dummy_engine()
             >>> engine.datasource
             DummyDataSource(
-              datasets:
+              (datasets):
                 (train): DummyDataset(num_examples=4, feature_size=4)
                 (eval): DummyDataset(num_examples=4, feature_size=4)
-              dataloader_creators:
+              (dataloader_creators):
                 (train): DataLoaderCreator(
                     (seed): 0
                     (batch_size): 2
