@@ -6,25 +6,23 @@ from torch.optim import SGD
 from torch.optim.lr_scheduler import StepLR
 
 from gravitorch import constants as ct
-from gravitorch.creators.core import VanillaCoreCreator
+from gravitorch.creators.core import CoreCreator
 from gravitorch.datasources import BaseDataSource
 from gravitorch.engines import BaseEngine
 from gravitorch.testing import DummyDataSource
 
-########################################
-#     Tests for VanillaCoreCreator     #
-########################################
+#################################
+#     Tests for CoreCreator     #
+#################################
 
 
-def test_vanilla_core_creator_str() -> None:
-    assert str(VanillaCoreCreator(DummyDataSource(), nn.Linear(4, 6))).startswith(
-        "VanillaCoreCreator("
-    )
+def test_core_creator_str() -> None:
+    assert str(CoreCreator(DummyDataSource(), nn.Linear(4, 6))).startswith("CoreCreator(")
 
 
-def test_vanilla_core_creator_create() -> None:
+def test_core_creator_create() -> None:
     engine = Mock(spec=BaseEngine)
-    creator = VanillaCoreCreator(
+    creator = CoreCreator(
         datasource=DummyDataSource(),
         model=nn.Linear(4, 6),
     )
@@ -38,9 +36,9 @@ def test_vanilla_core_creator_create() -> None:
     assert engine.add_module.call_args_list[1].args == (ct.MODEL, model)
 
 
-def test_vanilla_core_creator_create_optimizer() -> None:
+def test_core_creator_create_optimizer() -> None:
     engine = Mock(spec=BaseEngine)
-    creator = VanillaCoreCreator(
+    creator = CoreCreator(
         datasource=DummyDataSource(),
         model=nn.Linear(4, 6),
         optimizer={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},
@@ -56,9 +54,9 @@ def test_vanilla_core_creator_create_optimizer() -> None:
     assert engine.add_module.call_args_list[2].args == (ct.OPTIMIZER, optimizer)
 
 
-def test_vanilla_core_creator_create_lr_scheduler() -> None:
+def test_core_creator_create_lr_scheduler() -> None:
     engine = Mock(spec=BaseEngine)
-    creator = VanillaCoreCreator(
+    creator = CoreCreator(
         datasource=DummyDataSource(),
         model=nn.Linear(4, 6),
         optimizer={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01},

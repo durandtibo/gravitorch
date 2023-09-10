@@ -39,15 +39,15 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
     .. code-block:: pycon
 
         >>> from gravitorch.testing import create_dummy_engine
-        >>> from gravitorch.creators.core import VanillaCoreCreator
-        >>> creator = VanillaCoreCreator(
+        >>> from gravitorch.creators.core import CoreCreator
+        >>> creator = CoreCreator(
         ...     datasource={"_target_": "gravitorch.testing.DummyDataSource"},
         ...     model={"_target_": "gravitorch.testing.DummyClassificationModel"},
         ...     optimizer={"_target_": "torch.optim.SGD", "lr": 0.01},
         ...     lr_scheduler={"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         ... )
         >>> creator  # doctest: +ELLIPSIS
-        VanillaCoreCreator(
+        CoreCreator(
           (datasource): DummyDataSource(
               (datasets):
                 (train): DummyDataset(num_examples=4, feature_size=4)
@@ -146,8 +146,8 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
         .. code-block:: pycon
 
             >>> from gravitorch.testing import create_dummy_engine
-            >>> from gravitorch.creators.core import VanillaCoreCreator
-            >>> creator = VanillaCoreCreator(
+            >>> from gravitorch.creators.core import CoreCreator
+            >>> creator = CoreCreator(
             ...     datasource={"_target_": "gravitorch.testing.DummyDataSource"},
             ...     model={"_target_": "gravitorch.testing.DummyClassificationModel"},
             ...     optimizer={"_target_": "torch.optim.SGD", "lr": 0.01},
@@ -216,7 +216,7 @@ def is_core_creator_config(config: dict) -> bool:
         >>> from gravitorch.creators.core import is_core_creator_config
         >>> is_core_creator_config(
         ...     {
-        ...         "_target_": "gravitorch.creators.core.VanillaCoreCreator",
+        ...         "_target_": "gravitorch.creators.core.CoreCreator",
         ...         "datasource": {"_target_": "gravitorch.testing.DummyDataSource"},
         ...         "model": {"_target_": "gravitorch.testing.DummyClassificationModel"},
         ...         "optimizer": {"_target_": "torch.optim.SGD", "lr": 0.01},
@@ -252,7 +252,7 @@ def setup_core_creator(creator: BaseCoreCreator | dict) -> BaseCoreCreator:
         >>> from gravitorch.creators.core import setup_core_creator
         >>> creator = setup_core_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.core.VanillaCoreCreator",
+        ...         "_target_": "gravitorch.creators.core.CoreCreator",
         ...         "datasource": {"_target_": "gravitorch.testing.DummyDataSource"},
         ...         "model": {"_target_": "gravitorch.testing.DummyClassificationModel"},
         ...         "optimizer": {"_target_": "torch.optim.SGD", "lr": 0.01},
@@ -260,7 +260,7 @@ def setup_core_creator(creator: BaseCoreCreator | dict) -> BaseCoreCreator:
         ...     }
         ... )
         >>> creator  # doctest: +ELLIPSIS
-        VanillaCoreCreator(
+        CoreCreator(
           (datasource): DummyDataSource(
               (datasets):
                 (train): DummyDataset(num_examples=4, feature_size=4)

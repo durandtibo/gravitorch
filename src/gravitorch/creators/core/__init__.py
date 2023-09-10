@@ -1,7 +1,7 @@
 __all__ = [
     "AdvancedCoreCreator",
     "BaseCoreCreator",
-    "VanillaCoreCreator",
+    "CoreCreator",
     "is_core_creator_config",
     "setup_core_creator",
 ]
@@ -12,4 +12,4 @@ from gravitorch.creators.core.base import (
     is_core_creator_config,
     setup_core_creator,
 )
-from gravitorch.creators.core.vanilla import VanillaCoreCreator
+from gravitorch.creators.core.vanilla import CoreCreator
