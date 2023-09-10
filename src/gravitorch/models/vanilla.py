@@ -92,9 +92,7 @@ class VanillaModel(BaseModel):
               (metric): CategoricalAccuracy(
                 mode=train,
                 name=cat_acc,
-                state=AccuracyState(
-                  (meter) MeanTensorMeter(count=0, total=0)
-                )
+                state=AccuracyState(num_predictions=0)
                 (prediction_transform): ToCategoricalLabel()
               )
             )
@@ -102,9 +100,7 @@ class VanillaModel(BaseModel):
               (metric): CategoricalAccuracy(
                 mode=eval,
                 name=cat_acc,
-                state=AccuracyState(
-                  (meter) MeanTensorMeter(count=0, total=0)
-                )
+                state=AccuracyState(num_predictions=0)
                 (prediction_transform): ToCategoricalLabel()
               )
             )

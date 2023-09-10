@@ -1,10 +1,12 @@
+import logging
 from typing import Union
 
 import torch
 from coola import objects_are_allclose
 from objectory import OBJECT_TARGET
-from pytest import mark, raises
+from pytest import LogCaptureFixture, mark, raises
 from torch import Tensor
+from torch.nn import Module
 
 from gravitorch.models.metrics import EmptyMetricError
 from gravitorch.models.metrics.state import (
@@ -21,6 +23,10 @@ from gravitorch.utils.history import MaxScalarHistory, MinScalarHistory
 ####################################
 #     Tests for MeanErrorState     #
 ####################################
+
+
+def test_mean_error_state_repr() -> None:
+    assert repr(MeanErrorState()).startswith("MeanErrorState(")
 
 
 def test_mean_error_state_str() -> None:
@@ -100,9 +106,13 @@ def test_mean_error_state_value_empty() -> None:
         state.value()
 
 
-###############################################
+########################################
 #     Tests for RootMeanErrorState     #
-###############################################
+########################################
+
+
+def test_root_mean_error_state_repr() -> None:
+    assert repr(RootMeanErrorState()).startswith("RootMeanErrorState(")
 
 
 def test_root_mean_error_state_str() -> None:
@@ -185,6 +195,10 @@ def test_root_mean_error_state_value_empty() -> None:
 ################################
 #     Tests for ErrorState     #
 ################################
+
+
+def test_error_state_repr() -> None:
+    assert repr(ErrorState()).startswith("ErrorState(")
 
 
 def test_error_state_str() -> None:
@@ -280,6 +294,10 @@ def test_error_state_value_empty() -> None:
 ########################################
 #     Tests for ExtendedErrorState     #
 ########################################
+
+
+def test_extended_error_state_repr() -> None:
+    assert repr(ExtendedErrorState()).startswith("ExtendedErrorState(")
 
 
 def test_extended_error_state_str() -> None:
@@ -419,6 +437,10 @@ def test_extended_error_state_value_empty() -> None:
 ###################################
 
 
+def test_accuracy_state_repr() -> None:
+    assert repr(AccuracyState()).startswith("AccuracyState(")
+
+
 def test_accuracy_state_str() -> None:
     assert str(AccuracyState()).startswith("AccuracyState(")
 
@@ -505,6 +527,10 @@ def test_accuracy_state_value_empty() -> None:
 ###########################################
 #     Tests for ExtendedAccuracyState     #
 ###########################################
+
+
+def test_extended_accuracy_state_repr() -> None:
+    assert repr(ExtendedAccuracyState()).startswith("ExtendedAccuracyState(")
 
 
 def test_extended_accuracy_state_str() -> None:
@@ -632,3 +658,9 @@ def test_setup_state_dict() -> None:
         setup_state({OBJECT_TARGET: "gravitorch.models.metrics.state.MeanErrorState"}),
         MeanErrorState,
     )
+
+
+def test_setup_state_incorrect_type(caplog: LogCaptureFixture) -> None:
+    with caplog.at_level(level=logging.WARNING):
+        assert isinstance(setup_state({OBJECT_TARGET: "torch.nn.Identity"}), Module)
+        assert caplog.messages

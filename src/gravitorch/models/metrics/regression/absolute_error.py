@@ -39,9 +39,7 @@ class AbsoluteError(BaseStateEpochMetric):
         AbsoluteError(
           mode=eval,
           name=abs_err,
-          state=ErrorState(
-            (meter) TensorMeter(count=0, total=0.0, min_value=inf, max_value=-inf)
-          )
+          state=ErrorState(num_predictions=0)
         )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()

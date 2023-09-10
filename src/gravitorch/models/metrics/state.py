@@ -15,6 +15,7 @@ import logging
 import math
 from abc import ABC, abstractmethod
 
+from coola.utils import str_indent, str_mapping
 from objectory import AbstractFactory
 from torch import Tensor
 
@@ -133,8 +134,16 @@ class MeanErrorState(BaseState):
         self._meter = MeanTensorMeter()
         self._track_num_predictions = bool(track_num_predictions)
 
+    def __repr__(self) -> str:
+        args = str_indent(
+            str_mapping(
+                {"meter": self._meter, "track_num_predictions": self._track_num_predictions}
+            )
+        )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
+
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  (meter) {repr(self._meter)}\n)"
+        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
 
     @property
     def num_predictions(self) -> int:
@@ -198,8 +207,16 @@ class RootMeanErrorState(BaseState):
         self._meter = MeanTensorMeter()
         self._track_num_predictions = bool(track_num_predictions)
 
+    def __repr__(self) -> str:
+        args = str_indent(
+            str_mapping(
+                {"meter": self._meter, "track_num_predictions": self._track_num_predictions}
+            )
+        )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
+
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  (meter) {repr(self._meter)}\n)"
+        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
 
     @property
     def num_predictions(self) -> int:
@@ -264,8 +281,12 @@ class ErrorState(BaseState):
     def __init__(self) -> None:
         self._meter = TensorMeter()
 
+    def __repr__(self) -> str:
+        args = str_indent(str_mapping({"meter": self._meter}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
+
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  (meter) {repr(self._meter)}\n)"
+        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
 
     @property
     def num_predictions(self) -> int:
@@ -353,12 +374,12 @@ class ExtendedErrorState(BaseState):
         self._meter = TensorMeter2()
         self._quantiles = to_tensor(quantiles)
 
+    def __repr__(self) -> str:
+        args = str_indent(str_mapping({"meter": self._meter, "quantiles": self._quantiles}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
+
     def __str__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  (meter) {repr(self._meter)}\n"
-            f"  quantiles={self._quantiles}\n)"
-        )
+        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
 
     @property
     def num_predictions(self) -> int:
@@ -442,8 +463,12 @@ class AccuracyState(BaseState):
         self._meter = MeanTensorMeter()
         self._track_num_predictions = bool(track_num_predictions)
 
+    def __repr__(self) -> str:
+        args = str_indent(str_mapping({"meter": self._meter}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
+
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  (meter) {repr(self._meter)}\n)"
+        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
 
     @property
     def num_predictions(self) -> int:
@@ -510,8 +535,12 @@ class ExtendedAccuracyState(BaseState):
     def __init__(self) -> None:
         self._meter = MeanTensorMeter()
 
+    def __repr__(self) -> str:
+        args = str_indent(str_mapping({"meter": self._meter}))
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
+
     def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n  (meter) {repr(self._meter)}\n)"
+        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
 
     @property
     def num_predictions(self) -> int:
@@ -576,4 +605,6 @@ def setup_state(state: BaseState | dict) -> BaseState:
             f"Initializing a metric state from its configuration... {str_target_object(state)}"
         )
         state = BaseState.factory(**state)
+    if not isinstance(state, BaseState):
+        logger.warning(f"state is not a `BaseState` (received: {type(state)})")
     return state
