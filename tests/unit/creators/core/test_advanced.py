@@ -14,7 +14,7 @@ from gravitorch.creators.datasource import (
 )
 from gravitorch.creators.lr_scheduler import VanillaLRSchedulerCreator
 from gravitorch.creators.model import BaseModelCreator, VanillaModelCreator
-from gravitorch.creators.optimizer import VanillaOptimizerCreator
+from gravitorch.creators.optimizer import OptimizerCreator
 from gravitorch.engines import BaseEngine
 from gravitorch.testing import DummyDataSource
 
@@ -69,7 +69,7 @@ def test_advanced_core_creator_create_optimizer_creator(
     creator = AdvancedCoreCreator(
         datasource_creator=datasource_creator,
         model_creator=model_creator,
-        optimizer_creator=VanillaOptimizerCreator(
+        optimizer_creator=OptimizerCreator(
             optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
         ),
     )
@@ -92,7 +92,7 @@ def test_advanced_core_creator_create_lr_scheduler_creator(
     creator = AdvancedCoreCreator(
         datasource_creator=datasource_creator,
         model_creator=model_creator,
-        optimizer_creator=VanillaOptimizerCreator(
+        optimizer_creator=OptimizerCreator(
             optimizer_config={OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
         ),
         lr_scheduler_creator=VanillaLRSchedulerCreator(

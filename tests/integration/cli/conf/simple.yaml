@@ -72,7 +72,7 @@ engine:
               _target_: gravitorch.models.metrics.CategoricalAccuracy
               mode: eval
     optimizer_creator:
-      _target_: gravitorch.creators.optimizer.VanillaOptimizerCreator
+      _target_: gravitorch.creators.optimizer.OptimizerCreator
       optimizer_config:
         _target_: torch.optim.SGD
         lr: 0.01
