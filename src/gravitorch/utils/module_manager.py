@@ -38,10 +38,11 @@ class ModuleManager:
 
     def __repr__(self) -> str:
         if self._modules:
-            return (
-                f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_mapping(self._modules))}\n)"
-            )
+            return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(self._modules))}\n)"
         return f"{self.__class__.__qualname__}()"
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__qualname__}(total={len(self._modules):,})"
 
     def add_module(self, name: str, module: Any) -> None:
         r"""Adds a module to the module state manager.

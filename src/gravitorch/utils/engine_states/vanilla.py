@@ -4,7 +4,7 @@ __all__ = ["EngineState"]
 
 from typing import Any
 
-from coola.utils import str_indent
+from coola.utils import str_indent, str_mapping
 
 from gravitorch.utils.engine_states.base import BaseEngineState
 from gravitorch.utils.history import BaseHistory, HistoryManager
@@ -33,12 +33,12 @@ class EngineState(BaseEngineState):
         >>> state = EngineState()
         >>> state
         EngineState(
-          modules=ModuleManager(),
-          histories=HistoryManager(),
-          random_seed=9984043075503325450,
-          max_epochs=1,
-          epoch=-1,
-          iteration=-1,
+          (modules): ModuleManager(total=0)
+          (histories): HistoryManager()
+          (random_seed): 9984043075503325450
+          (max_epochs): 1
+          (epoch): -1
+          (iteration): -1
         )
     """
 
@@ -58,16 +58,19 @@ class EngineState(BaseEngineState):
         self._modules = ModuleManager()
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  modules={str_indent(self._modules)},\n"
-            f"  histories={str_indent(self._histories)},\n"
-            f"  random_seed={self._random_seed},\n"
-            f"  max_epochs={self._max_epochs},\n"
-            f"  epoch={self._epoch},\n"
-            f"  iteration={self._iteration},\n"
-            ")"
+        args = str_indent(
+            str_mapping(
+                {
+                    "modules": self._modules,
+                    "histories": self._histories,
+                    "random_seed": self._random_seed,
+                    "max_epochs": self._max_epochs,
+                    "epoch": self._epoch,
+                    "iteration": self._iteration,
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     @property
     def epoch(self) -> int:

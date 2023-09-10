@@ -38,12 +38,12 @@ def setup_engine_state(state: BaseEngineState | dict | None) -> BaseEngineState:
         >>> state = setup_engine_state({"_target_": "gravitorch.utils.engine_states.EngineState"})
         >>> state
         EngineState(
-          modules=ModuleManager(),
-          histories=HistoryManager(),
-          random_seed=9984043075503325450,
-          max_epochs=1,
-          epoch=-1,
-          iteration=-1,
+          (modules): ModuleManager(total=0)
+          (histories): HistoryManager()
+          (random_seed): 9984043075503325450
+          (max_epochs): 1
+          (epoch): -1
+          (iteration): -1
         )
     """
     if state is None:
