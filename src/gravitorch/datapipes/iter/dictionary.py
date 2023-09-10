@@ -16,7 +16,7 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
 
     Args:
     ----
-        source_datapipe (``IterDataPipe``): Specifies an ``IterDataPipe``
+        datapipe (``IterDataPipe``): Specifies an ``IterDataPipe``
             of sequences of mappings.
 
     Example usage:
@@ -41,21 +41,21 @@ class DictOfListConverterIterDataPipe(IterDataPipe[dict[Hashable, list]]):
         [{'key1': [1, 2, 3], 'key2': [10, 20, 30]}, {'key': ['a', -2]}]
     """
 
-    def __init__(self, source_datapipe: IterDataPipe[Sequence[Mapping]]) -> None:
-        self._source_datapipe = source_datapipe
+    def __init__(self, datapipe: IterDataPipe[Sequence[Mapping]]) -> None:
+        self._datapipe = datapipe
 
     def __iter__(self) -> Iterator[dict[Hashable, list]]:
-        for data in self._source_datapipe:
+        for data in self._datapipe:
             yield convert_to_dict_of_lists(data)
 
     def __len__(self) -> int:
-        return len(self._source_datapipe)
+        return len(self._datapipe)
 
     def __repr__(self) -> str:
         return str(self)
 
     def __str__(self) -> str:
-        args = str_indent(str_mapping({"datapipe": self._source_datapipe}))
+        args = str_indent(str_mapping({"datapipe": self._datapipe}))
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
 
@@ -65,7 +65,7 @@ class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
 
     Args:
     ----
-        source_datapipe (``IterDataPipe``): Specifies an
+        datapipe (``IterDataPipe``): Specifies an
             ``IterDataPipe`` of mappings of sequences.
 
     Example usage:
@@ -85,19 +85,19 @@ class ListOfDictConverterIterDataPipe(IterDataPipe[list[dict]]):
         [[{'key1': 1, 'key2': 10}, {'key1': 2, 'key2': 20}, {'key1': 3, 'key2': 30}], [{'key': 'a'}, {'key': -2}]]
     """
 
-    def __init__(self, source_datapipe: IterDataPipe[Mapping[Hashable, Sequence]]) -> None:
-        self._source_datapipe = source_datapipe
+    def __init__(self, datapipe: IterDataPipe[Mapping[Hashable, Sequence]]) -> None:
+        self._datapipe = datapipe
 
     def __iter__(self) -> Iterator[list[dict]]:
-        for data in self._source_datapipe:
+        for data in self._datapipe:
             yield convert_to_list_of_dicts(data)
 
     def __len__(self) -> int:
-        return len(self._source_datapipe)
+        return len(self._datapipe)
 
     def __repr__(self) -> str:
         return str(self)
 
     def __str__(self) -> str:
-        args = str_indent(str_mapping({"datapipe": self._source_datapipe}))
+        args = str_indent(str_mapping({"datapipe": self._datapipe}))
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
