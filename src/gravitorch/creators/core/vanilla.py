@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["VanillaCoreCreator"]
+__all__ = ["CoreCreator"]
 
 from typing import TYPE_CHECKING
 
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
 
 
-class VanillaCoreCreator(BaseCoreCreator):
+class CoreCreator(BaseCoreCreator):
     r"""Implements a simple core engine moules creator.
 
     This creator does not always "create" the core modules because
@@ -45,15 +45,15 @@ class VanillaCoreCreator(BaseCoreCreator):
     .. code-block:: pycon
 
         >>> from gravitorch.testing import create_dummy_engine
-        >>> from gravitorch.creators.core import VanillaCoreCreator
-        >>> creator = VanillaCoreCreator(
+        >>> from gravitorch.creators.core import CoreCreator
+        >>> creator = CoreCreator(
         ...     datasource={"_target_": "gravitorch.testing.DummyDataSource"},
         ...     model={"_target_": "gravitorch.testing.DummyClassificationModel"},
         ...     optimizer={"_target_": "torch.optim.SGD", "lr": 0.01},
         ...     lr_scheduler={"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         ... )
         >>> creator  # doctest: +ELLIPSIS
-        VanillaCoreCreator(
+        CoreCreator(
           (datasource): DummyDataSource(
               (datasets):
                 (train): DummyDataset(num_examples=4, feature_size=4)

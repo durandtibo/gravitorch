@@ -251,11 +251,11 @@ def create_dummy_engine(
     optimizer = optimizer or {OBJECT_TARGET: "torch.optim.SGD", "lr": 0.01}
 
     # Local imports to avoid circular imports
-    from gravitorch.creators.core import VanillaCoreCreator
+    from gravitorch.creators.core import CoreCreator
     from gravitorch.engines import AlphaEngine
 
     return AlphaEngine(
-        core_creator=VanillaCoreCreator(
+        core_creator=CoreCreator(
             datasource=datasource,
             model=model.to(device=device),
             optimizer=optimizer,

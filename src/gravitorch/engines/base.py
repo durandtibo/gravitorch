@@ -923,7 +923,7 @@ def setup_engine(engine: BaseEngine | dict) -> BaseEngine:
         ...     {
         ...         "_target_": "gravitorch.engines.AlphaEngine",
         ...         "core_creator": {
-        ...             "_target_": "gravitorch.creators.core.VanillaCoreCreator",
+        ...             "_target_": "gravitorch.creators.core.CoreCreator",
         ...             "datasource": {"_target_": "gravitorch.testing.DummyDataSource"},
         ...             "model": {"_target_": "gravitorch.testing.DummyClassificationModel"},
         ...         },
