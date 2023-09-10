@@ -8,28 +8,28 @@ from gravitorch.handlers import (
     IterationLRMonitor,
     IterationLRScheduler,
     IterationLRSchedulerUpdater,
-    VanillaLRScheduler,
+    LRScheduler,
 )
 
 EVENTS = ("my_event", "my_other_event")
 METRICS = ("metric1", "metric2")
 
 
-########################################
-#     Tests for VanillaLRScheduler     #
-########################################
+#################################
+#     Tests for LRScheduler     #
+#################################
 
 
 def test_vanilla_lr_scheduler_str() -> None:
-    assert str(VanillaLRScheduler(lr_scheduler_updater=Mock(), lr_monitor=Mock())).startswith(
-        "VanillaLRScheduler("
+    assert str(LRScheduler(lr_scheduler_updater=Mock(), lr_monitor=Mock())).startswith(
+        "LRScheduler("
     )
 
 
 def test_vanilla_lr_scheduler_attach() -> None:
     lr_scheduler_updater = Mock()
     lr_monitor = Mock()
-    handler = VanillaLRScheduler(lr_scheduler_updater=lr_scheduler_updater, lr_monitor=lr_monitor)
+    handler = LRScheduler(lr_scheduler_updater=lr_scheduler_updater, lr_monitor=lr_monitor)
     engine = Mock(spec=BaseEngine)
     handler.attach(engine)
     lr_scheduler_updater.attach.assert_called_once_with(engine)

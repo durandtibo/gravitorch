@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["VanillaLRScheduler", "EpochLRScheduler", "IterationLRScheduler"]
+__all__ = ["LRScheduler", "EpochLRScheduler", "IterationLRScheduler"]
 
 from typing import TYPE_CHECKING
 
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
 
 
-class VanillaLRScheduler(BaseHandler):
+class LRScheduler(BaseHandler):
     r"""Implements a handler to update a learning rate (LR) scheduler and
     monitor the LR value.
 
@@ -36,17 +36,17 @@ class VanillaLRScheduler(BaseHandler):
     .. code-block:: pycon
 
         >>> from gravitorch.handlers import (
-        ...     VanillaLRScheduler,
+        ...     LRScheduler,
         ...     EpochLRMonitor,
         ...     EpochLRSchedulerUpdater,
         ... )
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
-        >>> handler = VanillaLRScheduler(
+        >>> handler = LRScheduler(
         ...     lr_scheduler_updater=EpochLRSchedulerUpdater(), lr_monitor=EpochLRMonitor()
         ... )
         >>> handler
-        VanillaLRScheduler(
+        LRScheduler(
           (lr_monitor): EpochLRMonitor(freq=1, event=train_epoch_started)
           (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
         )
@@ -86,7 +86,7 @@ class VanillaLRScheduler(BaseHandler):
         self._lr_monitor.attach(engine)
 
 
-class EpochLRScheduler(VanillaLRScheduler):
+class EpochLRScheduler(LRScheduler):
     r"""Implements a handler to update a learning rate (LR) scheduler at
     the end of each training epoch and monitor the LR value.
 
@@ -121,7 +121,7 @@ class EpochLRScheduler(VanillaLRScheduler):
         )
 
 
-class IterationLRScheduler(VanillaLRScheduler):
+class IterationLRScheduler(LRScheduler):
     r"""Implements a handler to update a learning rate (LR) scheduler at
     the end of each training iteration and monitor the LR value.
 
