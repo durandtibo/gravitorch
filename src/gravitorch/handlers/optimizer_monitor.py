@@ -5,8 +5,6 @@ __all__ = ["EpochOptimizerMonitor", "IterationOptimizerMonitor"]
 import logging
 from typing import TYPE_CHECKING
 
-from minevent import ConditionalEventHandler
-
 from gravitorch.engines.events import (
     EngineEvents,
     EpochPeriodicCondition,
@@ -18,6 +16,7 @@ from gravitorch.optimizers.utils import (
     log_optimizer_parameters_per_group,
     show_optimizer_parameters_per_group,
 )
+from gravitorch.utils.events import GConditionalEventHandler
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 if TYPE_CHECKING:
@@ -86,7 +85,7 @@ class EpochOptimizerMonitor(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.monitor,
                 condition=EpochPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},
@@ -185,7 +184,7 @@ class IterationOptimizerMonitor(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.monitor,
                 condition=IterationPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},

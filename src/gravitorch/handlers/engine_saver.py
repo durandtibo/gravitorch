@@ -15,12 +15,12 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from coola.utils import str_indent, str_mapping
-from minevent import EventHandler
 
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.history import get_best_values, get_last_values
 from gravitorch.utils.io import save_pytorch
 from gravitorch.utils.path import sanitize_path
@@ -77,7 +77,7 @@ class BaseEngineSaver(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=EventHandler(self.save, handler_kwargs={"engine": engine}),
+            event_handler=GEventHandler(self.save, handler_kwargs={"engine": engine}),
         )
 
     def save(self, engine: BaseEngine) -> None:

@@ -2,7 +2,6 @@ from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
 import torch
-from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import mark, raises
 
@@ -31,6 +30,7 @@ from gravitorch.utils.device_placement import (
     CpuDevicePlacement,
     ManualDevicePlacement,
 )
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.profilers import BaseProfiler, NoOpProfiler, PyTorchProfiler
@@ -232,7 +232,7 @@ def test_vanilla_evaluation_loop_fire_event_eval_epoch_events(device: str, event
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_event_handler(
-        event, EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
+        event, GEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
     assert engine.epoch == 1
@@ -247,7 +247,7 @@ def test_vanilla_evaluation_loop_fire_event_eval_iteration_events(device: str, e
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_event_handler(
-        event, EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
+        event, GEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
     VanillaEvaluationLoop(batch_device_placement=ManualDevicePlacement(device)).eval(engine)
     assert engine.epoch == 7

@@ -1,5 +1,4 @@
 import torch
-from minevent import EventHandler
 from pytest import fixture, mark, raises
 
 from gravitorch import constants as ct
@@ -11,6 +10,7 @@ from gravitorch.models.metrics import (
 )
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.history import MaxScalarHistory, MinScalarHistory
 
 MODES = (ct.TRAIN, ct.EVAL)
@@ -51,9 +51,9 @@ def test_binary_confusion_matrix_attach_train(name: str, engine: BaseEngine) -> 
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_recall"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_true_negative_rate"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_true_positive_rate"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -71,9 +71,9 @@ def test_binary_confusion_matrix_attach_eval(name: str, engine: BaseEngine) -> N
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_recall"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_true_negative_rate"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_true_positive_rate"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -396,9 +396,9 @@ def test_categorical_confusion_matrix_attach_train(name: str, engine: BaseEngine
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_weighted_precision"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_weighted_recall"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_weighted_f1_score"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -418,9 +418,9 @@ def test_categorical_confusion_matrix_attach_eval(name: str, engine: BaseEngine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_weighted_precision"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_weighted_recall"), MaxScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_weighted_f1_score"), MaxScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 

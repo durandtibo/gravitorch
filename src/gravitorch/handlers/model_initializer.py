@@ -9,12 +9,12 @@ import logging
 from typing import TYPE_CHECKING
 
 from coola.utils import str_indent, str_mapping
-from minevent import EventHandler
 
 from gravitorch.engines.events import EngineEvents
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.nn.init import BaseInitializer, setup_initializer
+from gravitorch.utils.events import GEventHandler
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
@@ -80,7 +80,7 @@ class ModelInitializer(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=EventHandler(
+            event_handler=GEventHandler(
                 self._initializer.initialize,
                 handler_kwargs={"module": engine.model},
             ),

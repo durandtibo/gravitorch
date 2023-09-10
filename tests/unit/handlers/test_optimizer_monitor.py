@@ -1,11 +1,11 @@
 from unittest.mock import Mock, patch
 
-from minevent import ConditionalEventHandler
 from pytest import mark, raises
 
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.engines.events import EpochPeriodicCondition, IterationPeriodicCondition
 from gravitorch.handlers import EpochOptimizerMonitor, IterationOptimizerMonitor
+from gravitorch.utils.events import GConditionalEventHandler
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 EVENTS = ("my_event", "my_other_event")
@@ -71,7 +71,7 @@ def test_epoch_optimizer_monitor_attach(event: str, freq: int) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        ConditionalEventHandler(
+        GConditionalEventHandler(
             handler.monitor,
             condition=EpochPeriodicCondition(engine=engine, freq=freq),
             handler_kwargs={"engine": engine},
@@ -178,7 +178,7 @@ def test_iteration_optimizer_monitor_attach(event: str, freq: int) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        ConditionalEventHandler(
+        GConditionalEventHandler(
             handler.monitor,
             condition=IterationPeriodicCondition(engine=engine, freq=freq),
             handler_kwargs={"engine": engine},

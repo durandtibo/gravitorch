@@ -3,7 +3,6 @@ from unittest.mock import Mock
 
 import torch
 from coola import objects_are_allclose
-from minevent import EventHandler
 from pytest import fixture, mark, raises
 
 from gravitorch import constants as ct
@@ -21,6 +20,7 @@ from gravitorch.models.metrics.state import (
 )
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.history import MinScalarHistory
 
 MODES = (ct.TRAIN, ct.EVAL)
@@ -60,9 +60,9 @@ def test_squared_error_attach_train(name: str, engine: BaseEngine) -> None:
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_max"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_min"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_sum"), MinScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -75,9 +75,9 @@ def test_squared_error_attach_eval(name: str, engine: BaseEngine) -> None:
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_max"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_min"), MinScalarHistory)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_sum"), MinScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -86,9 +86,9 @@ def test_squared_error_attach_state_mean(engine: BaseEngine) -> None:
     metric = SquaredError(ct.EVAL, state=MeanErrorState())
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/sq_err_mean"), MinScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 
@@ -346,9 +346,9 @@ def test_root_mean_squared_error_attach_train(name: str, engine: BaseEngine) -> 
     metric = RootMeanSquaredError(ct.TRAIN, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}_root_mean"), MinScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -358,9 +358,9 @@ def test_root_mean_squared_error_attach_eval(name: str, engine: BaseEngine) -> N
     metric = RootMeanSquaredError(ct.EVAL, name=name)
     metric.attach(engine)
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}_root_mean"), MinScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 

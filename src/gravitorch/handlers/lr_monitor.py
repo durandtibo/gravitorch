@@ -5,8 +5,6 @@ __all__ = ["EpochLRMonitor", "IterationLRMonitor"]
 import logging
 from typing import TYPE_CHECKING
 
-from minevent import ConditionalEventHandler
-
 from gravitorch.engines.events import (
     EngineEvents,
     EpochPeriodicCondition,
@@ -15,6 +13,7 @@ from gravitorch.engines.events import (
 from gravitorch.handlers.base import BaseHandler
 from gravitorch.handlers.utils import add_unique_event_handler
 from gravitorch.optimizers.utils import get_learning_rate_per_group
+from gravitorch.utils.events import GConditionalEventHandler
 from gravitorch.utils.exp_trackers import EpochStep, IterationStep
 
 if TYPE_CHECKING:
@@ -65,7 +64,7 @@ class EpochLRMonitor(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.monitor,
                 condition=EpochPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},
@@ -144,7 +143,7 @@ class IterationLRMonitor(BaseHandler):
         add_unique_event_handler(
             engine=engine,
             event=self._event,
-            event_handler=ConditionalEventHandler(
+            event_handler=GConditionalEventHandler(
                 self.monitor,
                 condition=IterationPeriodicCondition(engine=engine, freq=self._freq),
                 handler_kwargs={"engine": engine},

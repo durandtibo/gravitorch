@@ -2,7 +2,6 @@ from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
 import torch
-from minevent import EventHandler
 from objectory import OBJECT_TARGET
 from pytest import fixture, mark, raises
 
@@ -25,6 +24,7 @@ from gravitorch.testing import (
     accelerate_available,
     create_dummy_engine,
 )
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.exp_trackers import EpochStep
 from gravitorch.utils.history import EmptyHistoryError, MinScalarHistory
 from gravitorch.utils.imports import is_accelerate_available
@@ -241,7 +241,7 @@ def test_accelerate_evaluation_loop_eval_skip_evaluation() -> None:
 def test_accelerate_evaluation_loop_fire_event_eval_epoch_events(event: str) -> None:
     engine = create_dummy_engine()
     engine.add_event_handler(
-        event, EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
+        event, GEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)
@@ -256,7 +256,7 @@ def test_accelerate_evaluation_loop_fire_event_eval_epoch_events(event: str) -> 
 def test_accelerate_evaluation_loop_fire_event_eval_iteration_events(event: str) -> None:
     engine = create_dummy_engine()
     engine.add_event_handler(
-        event, EventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
+        event, GEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine})
     )
     evaluation_loop = AccelerateEvaluationLoop()
     evaluation_loop.eval(engine)

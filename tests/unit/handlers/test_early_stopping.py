@@ -1,11 +1,11 @@
 from unittest.mock import Mock
 
-from minevent import EventHandler
 from pytest import mark, raises
 
 from gravitorch import constants as ct
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.handlers import EarlyStopping
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.history import (
     EmptyHistoryError,
     GenericHistory,
@@ -67,11 +67,11 @@ def test_early_stopping_attach_with_correct_metric() -> None:
     handler.attach(engine)
     assert engine.add_event_handler.call_args_list[0].args == (
         EngineEvents.TRAIN_STARTED,
-        EventHandler(handler.start, handler_kwargs={"engine": engine}),
+        GEventHandler(handler.start, handler_kwargs={"engine": engine}),
     )
     assert engine.add_event_handler.call_args_list[1].args == (
         EngineEvents.EPOCH_COMPLETED,
-        EventHandler(handler.step, handler_kwargs={"engine": engine}),
+        GEventHandler(handler.step, handler_kwargs={"engine": engine}),
     )
     engine.add_module.assert_called_once_with(ct.EARLY_STOPPING, handler)
 
@@ -103,11 +103,11 @@ def test_early_stopping_attach_without_metric() -> None:
     handler.attach(engine)
     assert engine.add_event_handler.call_args_list[0].args == (
         EngineEvents.TRAIN_STARTED,
-        EventHandler(handler.start, handler_kwargs={"engine": engine}),
+        GEventHandler(handler.start, handler_kwargs={"engine": engine}),
     )
     assert engine.add_event_handler.call_args_list[1].args == (
         EngineEvents.EPOCH_COMPLETED,
-        EventHandler(handler.step, handler_kwargs={"engine": engine}),
+        GEventHandler(handler.step, handler_kwargs={"engine": engine}),
     )
     engine.add_module.assert_called_once_with(ct.EARLY_STOPPING, handler)
 

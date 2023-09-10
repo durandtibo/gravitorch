@@ -1,5 +1,4 @@
 import torch
-from minevent import EventHandler
 from pytest import fixture, mark, raises
 
 from gravitorch import constants as ct
@@ -7,6 +6,7 @@ from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.models.metrics import EmptyMetricError, NormalizedMeanSquaredError
 from gravitorch.testing import create_dummy_engine
 from gravitorch.utils import get_available_devices
+from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.history import MinScalarHistory
 
 MODES = (ct.TRAIN, ct.EVAL)
@@ -43,9 +43,9 @@ def test_normalized_mean_squared_error_attach_train(name: str, engine: BaseEngin
     metric.attach(engine)
     assert engine.has_history(f"{ct.TRAIN}/{name}")
     assert isinstance(engine.get_history(f"{ct.TRAIN}/{name}"), MinScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.TRAIN_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.TRAIN_EPOCH_COMPLETED,
     )
 
@@ -56,9 +56,9 @@ def test_normalized_mean_squared_error_attach_eval(name: str, engine: BaseEngine
     metric.attach(engine)
     assert engine.has_history(f"{ct.EVAL}/{name}")
     assert isinstance(engine.get_history(f"{ct.EVAL}/{name}"), MinScalarHistory)
-    assert engine.has_event_handler(EventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
+    assert engine.has_event_handler(GEventHandler(metric.reset), EngineEvents.EVAL_EPOCH_STARTED)
     assert engine.has_event_handler(
-        EventHandler(metric.value, handler_kwargs={"engine": engine}),
+        GEventHandler(metric.value, handler_kwargs={"engine": engine}),
         EngineEvents.EVAL_EPOCH_COMPLETED,
     )
 

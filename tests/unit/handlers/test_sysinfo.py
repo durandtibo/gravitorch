@@ -1,12 +1,12 @@
 import logging
 from unittest.mock import Mock
 
-from minevent import ConditionalEventHandler
 from pytest import LogCaptureFixture, mark, raises
 
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.engines.events import EpochPeriodicCondition
 from gravitorch.handlers import EpochSysInfoMonitor
+from gravitorch.utils.events import GConditionalEventHandler
 
 EVENTS = ("my_event", "my_other_event")
 
@@ -52,7 +52,7 @@ def test_epoch_sysinfo_monitor_attach(event: str, freq: int) -> None:
     handler.attach(engine)
     engine.add_event_handler.assert_called_once_with(
         event,
-        ConditionalEventHandler(
+        GConditionalEventHandler(
             handler.monitor,
             condition=EpochPeriodicCondition(engine=engine, freq=freq),
             handler_kwargs={"engine": engine},
