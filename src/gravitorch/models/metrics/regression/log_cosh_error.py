@@ -99,5 +99,20 @@ class LogCoshError(BaseStateEpochMetric):
             target (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the target tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import LogCoshError
+            >>> metric = LogCoshError("eval")
+            >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+            >>> metric.value()
+            {'eval/log_cosh_err_mean': 0.0,
+             'eval/log_cosh_err_min': 0.0,
+             'eval/log_cosh_err_max': 0.0,
+             'eval/log_cosh_err_sum': 0.0,
+             'eval/log_cosh_err_num_predictions': 8}
         """
         self._state.update(log_cosh_loss(prediction, target, reduction="none", scale=self._scale))

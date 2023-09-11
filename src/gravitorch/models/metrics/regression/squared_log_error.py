@@ -92,6 +92,21 @@ class SquaredLogError(BaseStateEpochMetric):
             target (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the target tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import SquaredLogError
+            >>> metric = SquaredLogError("eval")
+            >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+            >>> metric.value()
+            {'eval/sq_log_err_mean': 0.0,
+             'eval/sq_log_err_min': 0.0,
+             'eval/sq_log_err_max': 0.0,
+             'eval/sq_log_err_sum': 0.0,
+             'eval/sq_log_err_num_predictions': 8}
         """
         self._state.update(msle_loss(prediction, target, reduction="none"))
 
@@ -171,6 +186,21 @@ class SquaredSymlogError(BaseStateEpochMetric):
             target (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the target tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import SquaredSymlogError
+            >>> metric = SquaredSymlogError("eval")
+            >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+            >>> metric.value()  # doctest: +ELLIPSIS
+            {'eval/sq_symlog_err_mean': 0.0,
+             'eval/sq_symlog_err_min': 0.0,
+             'eval/sq_symlog_err_max': 0.0,
+             'eval/sq_symlog_err_sum': 0.0,
+             'eval/sq_symlog_err_num_predictions': 8}
         """
         self._state.update(symlog_mse_loss(prediction, target, reduction="none"))
 
@@ -247,5 +277,20 @@ class SquaredAsinhError(BaseStateEpochMetric):
             target (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the target tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import SquaredAsinhError
+            >>> metric = SquaredAsinhError("eval")
+            >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+            >>> metric.value()  # doctest: +ELLIPSIS
+            {'eval/sq_asinh_err_mean': 0.0,
+             'eval/sq_asinh_err_min': 0.0,
+             'eval/sq_asinh_err_max': 0.0,
+             'eval/sq_asinh_err_sum': 0.0,
+             'eval/sq_asinh_err_num_predictions': 8}
         """
         self._state.update(asinh_mse_loss(prediction, target, reduction="none"))

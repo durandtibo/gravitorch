@@ -159,11 +159,35 @@ class BinaryConfusionMatrix(BaseEpochMetric):
             target (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` or ``(d0, d1, ..., dn, 1)``
                 and type long or float): Specifies the target tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import BinaryConfusionMatrix
+            >>> metric = BinaryConfusionMatrix("eval")
+            >>> metric(torch.tensor([0, 1, 0, 1]), torch.tensor([0, 1, 0, 1]))
+            >>> metric.value()
+            {'eval/bin_conf_mat_accuracy': 1.0,
+             'eval/bin_conf_mat_balanced_accuracy': 1.0,
+             'eval/bin_conf_mat_false_negative_rate': 0.0,
+             'eval/bin_conf_mat_false_negative': 0,
+             'eval/bin_conf_mat_false_positive_rate': 0.0,
+             'eval/bin_conf_mat_false_positive': 0,
+             'eval/bin_conf_mat_jaccard_index': 1.0,
+             'eval/bin_conf_mat_num_predictions': 4,
+             'eval/bin_conf_mat_precision': 1.0,
+             'eval/bin_conf_mat_recall': 1.0,
+             'eval/bin_conf_mat_true_negative_rate': 1.0,
+             'eval/bin_conf_mat_true_negative': 2,
+             'eval/bin_conf_mat_true_positive_rate': 1.0,
+             'eval/bin_conf_mat_true_positive': 2,
+             'eval/bin_conf_mat_f1_score': 1.0}
         """
         self._confusion_matrix.update(prediction.flatten(), target.flatten())
 
     def reset(self) -> None:
-        r"""Resets the metric."""
         self._confusion_matrix.reset()
 
     def value(self, engine: BaseEngine | None = None) -> dict:
@@ -321,6 +345,31 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
                 ``(d0, d1, ..., dn)`` and type long or float):
                 Specifies the target tensor. The values have to be in
                 ``{0, 1, ..., num_classes-1}``.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import CategoricalConfusionMatrix
+            >>> metric = CategoricalConfusionMatrix("eval", num_classes=3)
+            >>> metric(
+            ...     torch.tensor([[3, 2, 1], [1, 3, 2], [3, 2, 1], [1, 3, 2]]),
+            ...     torch.tensor([0, 1, 0, 1]),
+            ... )
+            >>> metric.value()  # doctest:+ELLIPSIS
+            {'eval/cat_conf_mat_accuracy': 1.0,
+             'eval/cat_conf_mat_balanced_accuracy': 0.666666...,
+             'eval/cat_conf_mat_macro_precision': 0.666666...,
+             'eval/cat_conf_mat_macro_recall': 0.666666...,
+             'eval/cat_conf_mat_macro_f1_score': nan,
+             'eval/cat_conf_mat_micro_precision': 1.0,
+             'eval/cat_conf_mat_micro_recall': 1.0,
+             'eval/cat_conf_mat_micro_f1_score': 1.0,
+             'eval/cat_conf_mat_weighted_precision': 1.0,
+             'eval/cat_conf_mat_weighted_recall': 1.0,
+             'eval/cat_conf_mat_weighted_f1_score': nan,
+             'eval/cat_conf_mat_num_predictions': 4}
         """
         self._confusion_matrix.update(
             self.prediction_transform(prediction).flatten(), target.flatten()

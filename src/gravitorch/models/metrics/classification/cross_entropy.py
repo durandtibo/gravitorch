@@ -71,6 +71,17 @@ class CategoricalCrossEntropy(BaseStateEpochMetric):
                 type long or float): Specifies the categorical
                 targets. The values have to be in
                 ``{0, 1, ..., num_classes-1}``.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import CategoricalCrossEntropy
+            >>> metric = CategoricalCrossEntropy("eval")
+            >>> metric(torch.eye(4), torch.arange(4))
+            >>> metric.value()  # doctest:+ELLIPSIS
+            {'eval/cat_ce_mean': 0.743668..., 'eval/cat_ce_num_predictions': 4}
         """
         self._state.update(
             cross_entropy(

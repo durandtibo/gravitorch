@@ -38,6 +38,15 @@ class BaseState(ABC, metaclass=AbstractFactory):
         >>> import torch
         >>> from gravitorch.models.metrics.state import ErrorState
         >>> state = ErrorState()
+        >>> state
+        ErrorState(
+          (meter): TensorMeter
+              count   : 0
+              sum     : N/A (empty)
+              average : N/A (empty)
+              min     : N/A (empty)
+              max     : N/A (empty)
+        )
         >>> state.get_histories("error_")
         (MinScalarHistory(name=error_mean, max_size=10, history=()),
          MinScalarHistory(name=error_min, max_size=10, history=()),
@@ -75,11 +84,53 @@ class BaseState(ABC, metaclass=AbstractFactory):
         Returns:
         -------
             tuple: The history trackers.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import ErrorState
+            >>> state = ErrorState()
+            >>> state.get_histories("error_")
+            (MinScalarHistory(name=error_mean, max_size=10, history=()),
+             MinScalarHistory(name=error_min, max_size=10, history=()),
+             MinScalarHistory(name=error_max, max_size=10, history=()),
+             MinScalarHistory(name=error_sum, max_size=10, history=()))
         """
 
     @abstractmethod
     def reset(self) -> None:
-        r"""Resets the state."""
+        r"""Resets the state.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import ErrorState
+            >>> state = ErrorState()
+            >>> state.update(torch.arange(6))
+            >>> state
+            ErrorState(
+              (meter): TensorMeter
+                  count   : 6
+                  sum     : 15.0
+                  average : 2.5
+                  min     : 0.0
+                  max     : 5.0
+            )
+            >>> state.reset()
+            >>> state
+            ErrorState(
+              (meter): TensorMeter
+                  count   : 0
+                  sum     : N/A (empty)
+                  average : N/A (empty)
+                  min     : N/A (empty)
+                  max     : N/A (empty)
+            )
+        """
 
     @abstractmethod
     def update(self, *args, **kwargs) -> None:
@@ -89,6 +140,24 @@ class BaseState(ABC, metaclass=AbstractFactory):
         ----
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import ErrorState
+            >>> state = ErrorState()
+            >>> state.update(torch.arange(6))
+            >>> state
+            ErrorState(
+              (meter): TensorMeter
+                  count   : 6
+                  sum     : 15.0
+                  average : 2.5
+                  min     : 0.0
+                  max     : 5.0
+            )
         """
 
     @abstractmethod
@@ -105,6 +174,21 @@ class BaseState(ABC, metaclass=AbstractFactory):
         Returns:
         -------
             dict: The metric values.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import ErrorState
+            >>> state = ErrorState()
+            >>> state.update(torch.arange(6))
+            >>> state.value("error_")
+            {'error_mean': 2.5,
+             'error_min': 0.0,
+             'error_max': 5.0,
+             'error_sum': 15.0,
+             'error_num_predictions': 6}
         """
 
 
@@ -126,6 +210,11 @@ class MeanErrorState(BaseState):
         >>> import torch
         >>> from gravitorch.models.metrics.state import MeanErrorState
         >>> state = MeanErrorState()
+        >>> state
+        MeanErrorState(
+          (meter): MeanTensorMeter(count=0, total=0)
+          (track_num_predictions): True
+        )
         >>> state.get_histories("error_")
         (MinScalarHistory(name=error_mean, max_size=10, history=()),)
         >>> state.update(torch.arange(6))
@@ -161,6 +250,18 @@ class MeanErrorState(BaseState):
         Args:
         ----
             error (```torch.Tensor``): A tensor of errors.
+
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import MeanErrorState
+            >>> state = MeanErrorState()
+            >>> state.update(torch.arange(6))
+            >>> state.value("error_")
+            {'error_mean': 2.5, 'error_num_predictions': 6}
         """
         self._meter.update(error.detach())
 
@@ -196,6 +297,11 @@ class RootMeanErrorState(BaseState):
         >>> import torch
         >>> from gravitorch.models.metrics.state import RootMeanErrorState
         >>> state = RootMeanErrorState()
+        >>> state
+        RootMeanErrorState(
+          (meter): MeanTensorMeter(count=0, total=0)
+          (track_num_predictions): True
+        )
         >>> state.get_histories("error_")
         (MinScalarHistory(name=error_root_mean, max_size=10, history=()),)
         >>> state.update(torch.arange(6))
@@ -231,6 +337,17 @@ class RootMeanErrorState(BaseState):
         Args:
         ----
             error (```torch.Tensor``): A tensor of errors.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import RootMeanErrorState
+            >>> state = RootMeanErrorState()
+            >>> state.update(torch.arange(6))
+            >>> state.value("error_")
+            {'error_root_mean': 1.5811388300841898, 'error_num_predictions': 6}
         """
         self._meter.update(error.detach())
 
@@ -261,6 +378,15 @@ class ErrorState(BaseState):
         >>> import torch
         >>> from gravitorch.models.metrics.state import ErrorState
         >>> state = ErrorState()
+        >>> state
+        ErrorState(
+          (meter): TensorMeter
+              count   : 0
+              sum     : N/A (empty)
+              average : N/A (empty)
+              min     : N/A (empty)
+              max     : N/A (empty)
+        )
         >>> state.get_histories("error_")
         (MinScalarHistory(name=error_mean, max_size=10, history=()),
          MinScalarHistory(name=error_min, max_size=10, history=()),
@@ -303,6 +429,21 @@ class ErrorState(BaseState):
         Args:
         ----
             error (```torch.Tensor``): A tensor of errors.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import ErrorState
+            >>> state = ErrorState()
+            >>> state.update(torch.arange(6))
+            >>> state.value("error_")
+            {'error_mean': 2.5,
+             'error_min': 0.0,
+             'error_max': 5.0,
+             'error_sum': 15.0,
+             'error_num_predictions': 6}
         """
         self._meter.update(error.detach())
 
@@ -343,6 +484,11 @@ class ExtendedErrorState(BaseState):
         >>> import torch
         >>> from gravitorch.models.metrics.state import ExtendedErrorState
         >>> state = ExtendedErrorState(quantiles=[0.5, 0.9])
+        >>> state
+        ExtendedErrorState(
+          (meter): TensorMeter2(count=0)
+          (quantiles): tensor([0.5000, 0.9000])
+        )
         >>> state.get_histories("error_")
         (MinScalarHistory(name=error_mean, max_size=10, history=()),
          MinScalarHistory(name=error_median, max_size=10, history=()),
@@ -399,6 +545,25 @@ class ExtendedErrorState(BaseState):
         Args:
         ----
             error (```torch.Tensor``): A tensor of errors.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import ExtendedErrorState
+            >>> state = ExtendedErrorState(quantiles=[0.5, 0.9])
+            >>> state.update(torch.arange(11))
+            >>> state.value("error_")
+            {'error_mean': 5.0,
+             'error_median': 5,
+             'error_min': 0,
+             'error_max': 10,
+             'error_sum': 55,
+             'error_std': 3.316624879837036,
+             'error_quantile_0.5': 5.0,
+             'error_quantile_0.9': 9.0,
+             'error_num_predictions': 11}
         """
         self._meter.update(error.detach().cpu())
 
@@ -443,6 +608,10 @@ class AccuracyState(BaseState):
         >>> import torch
         >>> from gravitorch.models.metrics.state import AccuracyState
         >>> state = AccuracyState()
+        >>> state
+        AccuracyState(
+          (meter): MeanTensorMeter(count=0, total=0)
+        )
         >>> state.get_histories()
         (MaxScalarHistory(name=accuracy, max_size=10, history=()),)
         >>> state.update(torch.eye(4))
@@ -476,6 +645,17 @@ class AccuracyState(BaseState):
             correct (```torch.Tensor``): A tensor that indicates the
                 correct predictions. ``1`` indicates a correct
                 prediction and ``0`` indicates a bad prediction.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import AccuracyState
+            >>> state = AccuracyState()
+            >>> state.update(torch.eye(4))
+            >>> state.value()
+            {'accuracy': 0.25, 'num_predictions': 16}
         """
         self._meter.update(correct.detach())
 
@@ -506,6 +686,10 @@ class ExtendedAccuracyState(BaseState):
         >>> import torch
         >>> from gravitorch.models.metrics.state import ExtendedAccuracyState
         >>> state = ExtendedAccuracyState()
+        >>> state
+        ExtendedAccuracyState(
+          (meter): MeanTensorMeter(count=0, total=0)
+        )
         >>> state.get_histories()
         (MaxScalarHistory(name=accuracy, max_size=10, history=()),
          MinScalarHistory(name=error, max_size=10, history=()),
@@ -550,6 +734,21 @@ class ExtendedAccuracyState(BaseState):
             correct (```torch.Tensor``): A tensor that indicates the
                 correct predictions. ``1`` indicates a correct
                 prediction and ``0`` indicates a bad prediction.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics.state import ExtendedAccuracyState
+            >>> state = ExtendedAccuracyState()
+            >>> state.update(torch.eye(4))
+            >>> state.value()
+            {'accuracy': 0.25,
+             'error': 0.75,
+             'num_correct_predictions': 4,
+             'num_incorrect_predictions': 12,
+             'num_predictions': 16}
         """
         self._meter.update(correct.detach())
 
