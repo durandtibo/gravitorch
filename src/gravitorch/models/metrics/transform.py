@@ -43,12 +43,6 @@ class TransformedPredictionTarget(BaseMetric):
         self.target_transform = setup_module(target_transform or Identity())
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches the metric to the provided engine.
-
-        Args:
-        ----
-            engine (``BaseEngine``): Specifies the engine.
-        """
         self.metric.attach(engine)
 
     def forward(self, prediction: Tensor, target: Tensor) -> dict | None:
@@ -68,23 +62,9 @@ class TransformedPredictionTarget(BaseMetric):
         return self.metric(self.prediction_transform(prediction), self.target_transform(target))
 
     def reset(self) -> None:
-        r"""Resets all the metrics."""
         self.metric.reset()
 
     def value(self, engine: BaseEngine | None = None) -> dict:
-        r"""Evaluates the metric and logs the results given all the
-        examples previously seen.
-
-        Args:
-        ----
-            engine (``BaseEngine``, optional): Specifies the engine.
-                This argument is required to log the results in the
-                engine. Default: ``None``.
-
-        Returns:
-        -------
-             dict: The results of the metric
-        """
         return self.metric.value(engine)
 
     @classmethod

@@ -7,6 +7,7 @@ __all__ = ["PaddedSequenceMetric", "VanillaMetric"]
 
 
 import torch
+from coola.utils import str_mapping
 from torch import Tensor
 
 from gravitorch import constants as ct
@@ -39,8 +40,32 @@ class VanillaMetric(BaseMetric):
         >>> from gravitorch.models.metrics import TopKAccuracy
         >>> # Initialization with a metric object.
         >>> metric = VanillaMetric(TopKAccuracy(mode="train", topk=[1]))
+        >>> metric
+        VanillaMetric(
+          (prediction_key): prediction
+          (target_key): target
+          (metric): TopKAccuracy(
+            (mode): train
+            (name): acc_top
+            (topk): (1,)
+            (states):
+              (1): AccuracyState(num_predictions=0)
+          )
+        )
         >>> # Initialization with the config of a metric.
         >>> metric = VanillaMetric(mode="eval", metric={"_target_": "TopKAccuracy", "topk": [1]})
+        >>> metric
+        VanillaMetric(
+          (prediction_key): prediction
+          (target_key): target
+          (metric): TopKAccuracy(
+            (mode): eval
+            (name): acc_top
+            (topk): (1,)
+            (states):
+              (1): AccuracyState(num_predictions=0)
+          )
+        )
         >>> # Customize keys.
         >>> net_out = {"next_sentence_prediction": ...}
         >>> batch = {"next_sentence_target": ...}
@@ -49,6 +74,18 @@ class VanillaMetric(BaseMetric):
         ...     prediction_key="next_sentence_prediction",
         ...     target_key="next_sentence_target",
         ... )
+        >>> metric
+        VanillaMetric(
+          (prediction_key): next_sentence_prediction
+          (target_key): next_sentence_target
+          (metric): TopKAccuracy(
+            (mode): train
+            (name): acc_top
+            (topk): (1,)
+            (states):
+              (1): AccuracyState(num_predictions=0)
+          )
+        )
     """
 
     def __init__(
@@ -64,18 +101,10 @@ class VanillaMetric(BaseMetric):
         self._target_key = target_key
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches current metric to provided engine.
-
-        This method can be used to:
-
-            - add event handler to the engine
-            - set up history trackers
-
-        Args:
-        ----
-            engine (``BaseEngine``): Specifies the engine.
-        """
         self.metric.attach(engine)
+
+    def extra_repr(self) -> str:
+        return str_mapping({"prediction_key": self._prediction_key, "target_key": self._target_key})
 
     def forward(self, cri_out: dict, net_out: dict, batch: dict) -> dict | None:
         r"""Updates the metric given a mini-batch of examples.
@@ -258,6 +287,17 @@ class PaddedSequenceMetric(VanillaMetric):
         self._mask_key = mask_key
         self._valid_value = bool(valid_value)
         self._mask_in_batch = bool(mask_in_batch)
+
+    def extra_repr(self) -> str:
+        return str_mapping(
+            {
+                "prediction_key": self._prediction_key,
+                "target_key": self._target_key,
+                "mask_key": self._mask_key,
+                "valid_value": self._valid_value,
+                "mask_in_batch": self._mask_in_batch,
+            }
+        )
 
     def forward(self, cri_out: dict, net_out: dict, batch: dict) -> dict | None:
         r"""Updates the metric given a mini-batch of examples.

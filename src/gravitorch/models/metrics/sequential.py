@@ -70,7 +70,6 @@ class SequentialMetric(BaseMetric):
         return outputs
 
     def reset(self) -> None:
-        r"""Resets all the metrics."""
         for metric in self.metrics:
             metric.reset()
 

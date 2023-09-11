@@ -24,6 +24,30 @@ class CategoricalCrossEntropy(BaseStateEpochMetric):
         state (``BaseState`` or dict or ``None``, optional): Specifies
             the metric state or its configuration. If ``None``,
             ``MeanErrorState`` is instantiated. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.metrics import CategoricalCrossEntropy
+        >>> metric = CategoricalCrossEntropy("eval")
+        >>> metric
+        CategoricalCrossEntropy(
+          (mode): eval
+          (name): cat_ce
+          (state): MeanErrorState(num_predictions=0)
+        )
+        >>> metric(torch.eye(4), torch.arange(4))
+        >>> metric.value()  # doctest:+ELLIPSIS
+        {'eval/cat_ce_mean': 0.743668..., 'eval/cat_ce_num_predictions': 4}
+        >>> metric(torch.ones(2, 3), torch.ones(2))
+        >>> metric.value()  # doctest:+ELLIPSIS
+        {'eval/cat_ce_mean': 0.861983..., 'eval/cat_ce_num_predictions': 6}
+        >>> metric.reset()
+        >>> metric(torch.ones(2, 3), torch.ones(2))
+        >>> metric.value()  # doctest:+ELLIPSIS
+        {'eval/cat_ce_mean': 1.098612..., 'eval/cat_ce_num_predictions': 2}
     """
 
     def __init__(

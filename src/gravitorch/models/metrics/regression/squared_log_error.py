@@ -42,6 +42,12 @@ class SquaredLogError(BaseStateEpochMetric):
         >>> import torch
         >>> from gravitorch.models.metrics import SquaredLogError
         >>> metric = SquaredLogError("eval")
+        >>> metric
+        SquaredLogError(
+          (mode): eval
+          (name): sq_log_err
+          (state): ErrorState(num_predictions=0)
+        )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
         {'eval/sq_log_err_mean': 0.0,
@@ -115,6 +121,12 @@ class SquaredSymlogError(BaseStateEpochMetric):
         >>> import torch
         >>> from gravitorch.models.metrics import SquaredSymlogError
         >>> metric = SquaredSymlogError("eval")
+        >>> metric
+        SquaredSymlogError(
+          (mode): eval
+          (name): sq_symlog_err
+          (state): ErrorState(num_predictions=0)
+        )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()  # doctest: +ELLIPSIS
         {'eval/sq_symlog_err_mean': 0.0,
@@ -184,6 +196,12 @@ class SquaredAsinhError(BaseStateEpochMetric):
         >>> import torch
         >>> from gravitorch.models.metrics import SquaredAsinhError
         >>> metric = SquaredAsinhError("eval")
+        >>> metric
+        SquaredAsinhError(
+          (mode): eval
+          (name): sq_asinh_err
+          (state): ErrorState(num_predictions=0)
+        )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()  # doctest: +ELLIPSIS
         {'eval/sq_asinh_err_mean': 0.0,

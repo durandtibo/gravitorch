@@ -89,18 +89,22 @@ class VanillaModel(BaseModel):
           )
           (metrics): ModuleDict(
             (train_metric): VanillaMetric(
+              (prediction_key): prediction
+              (target_key): target
               (metric): CategoricalAccuracy(
-                mode=train,
-                name=cat_acc,
-                state=AccuracyState(num_predictions=0)
+                (mode): train
+                (name): cat_acc
+                (state): AccuracyState(num_predictions=0)
                 (prediction_transform): ToCategoricalLabel()
               )
             )
             (eval_metric): VanillaMetric(
+              (prediction_key): prediction
+              (target_key): target
               (metric): CategoricalAccuracy(
-                mode=eval,
-                name=cat_acc,
-                state=AccuracyState(num_predictions=0)
+                (mode): eval
+                (name): cat_acc
+                (state): AccuracyState(num_predictions=0)
                 (prediction_transform): ToCategoricalLabel()
               )
             )
@@ -109,7 +113,8 @@ class VanillaModel(BaseModel):
         >>> model(
         ...     {"target": torch.ones(2, dtype=torch.long), "input": torch.randn(2, 4)}
         ... )  # doctest: +ELLIPSIS
-        {'prediction': tensor([[...]], grad_fn=<ReluBackward0>), 'loss': tensor(..., grad_fn=<NllLossBackward0>)}
+        {'prediction': tensor([[...]], grad_fn=<ReluBackward0>),
+         'loss': tensor(..., grad_fn=<NllLossBackward0>)}
     """
 
     def __init__(

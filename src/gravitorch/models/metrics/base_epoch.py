@@ -4,6 +4,8 @@ __all__ = ["BaseEpochMetric", "BaseStateEpochMetric"]
 
 import logging
 
+from coola.utils import str_mapping
+
 from gravitorch import constants as ct
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -81,42 +83,17 @@ class BaseStateEpochMetric(BaseEpochMetric):
         self._state = setup_state(state)
 
     def extra_repr(self) -> str:
-        return f"mode={self._mode},\nname={self._name},\nstate={self._state}"
+        return str_mapping({"mode": self._mode, "name": self._name, "state": self._state})
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches current metric to the provided engine.
-
-        This method can be used to:
-
-            - add event handler to the engine
-            - set up history trackers
-
-        Args:
-        ----
-            engine (``BaseEngine``): Specifies the engine.
-        """
         super().attach(engine)
         for history in self._state.get_histories(f"{self._metric_name}_"):
             engine.add_history(history)
 
     def reset(self) -> None:
-        r"""Resets the metric."""
         self._state.reset()
 
     def value(self, engine: BaseEngine | None = None) -> dict:
-        r"""Evaluates the metric and log the results given all the
-        predictions previously seen.
-
-        Args:
-        ----
-            engine (``BaseEngine`` or ``None``, optional): Specifies
-                the engine. This argument is required to log the
-                results in the engine. Default: ``None``.
-
-        Returns:
-        -------
-             dict: The results of the metric
-        """
         results = self._state.value(f"{self._metric_name}_")
         if engine:
             engine.log_metrics(results, EpochStep(engine.epoch))
