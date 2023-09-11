@@ -39,6 +39,8 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         >>> import torch
         >>> from gravitorch.models.metrics import NormalizedMeanSquaredError
         >>> metric = NormalizedMeanSquaredError("eval")
+        >>> metric
+        NormalizedMeanSquaredError(mode=eval, name=nmse)
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
         {'eval/nmse': 0.0, 'eval/nmse_num_predictions': 8}
@@ -62,17 +64,6 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         return f"mode={self._mode}, name={self._name}"
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches current metric to the provided engine.
-
-        This method can be used to:
-
-            - add event handler to the engine
-            - set up history trackers
-
-        Args:
-        ----
-            engine (``BaseEngine``): Specifies the engine.
-        """
         super().attach(engine)
         engine.add_history(MinScalarHistory(name=self._metric_name))
 
@@ -96,25 +87,11 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         self._num_predictions += target.numel()
 
     def reset(self) -> None:
-        r"""Resets the metric."""
         self._sum_squared_errors = 0.0
         self._sum_squared_targets = 0.0
         self._num_predictions = 0
 
     def value(self, engine: BaseEngine | None = None) -> dict:
-        r"""Evaluates the metric and log the results given all the
-        examples previously seen.
-
-        Args:
-        ----
-            engine (``BaseEngine``, optional): Specifies the engine.
-                This argument is required to log the results in the
-                engine. Default: ``None``.
-
-        Returns:
-        -------
-             dict: The results of the metric.
-        """
         num_predictions = sync_reduce(self._num_predictions, op=SUM)
         if not num_predictions:
             raise EmptyMetricError(f"{self.__class__.__qualname__} is empty")

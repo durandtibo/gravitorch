@@ -37,9 +37,9 @@ class AbsoluteError(BaseStateEpochMetric):
         >>> metric = AbsoluteError("eval")
         >>> metric
         AbsoluteError(
-          mode=eval,
-          name=abs_err,
-          state=ErrorState(num_predictions=0)
+          (mode): eval
+          (name): abs_err
+          (state): ErrorState(num_predictions=0)
         )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()

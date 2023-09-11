@@ -6,6 +6,7 @@ __all__ = ["AbsoluteRelativeError", "SymmetricAbsoluteRelativeError"]
 
 import logging
 
+from coola.utils import str_mapping
 from torch import Tensor
 
 from gravitorch.models.metrics.base_epoch import BaseStateEpochMetric
@@ -40,9 +41,10 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
         >>> metric = AbsoluteRelativeError("eval")
         >>> metric
         AbsoluteRelativeError(
-          mode=eval,
-          name=abs_rel_err,
-          state=ErrorState(num_predictions=0)
+          (mode): eval
+          (name): abs_rel_err
+          (eps): 1e-08
+          (state): ErrorState(num_predictions=0)
         )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
@@ -82,6 +84,11 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
                 f"positive number to avoid undefined results when the target is zero."
             )
         self._eps = float(eps)
+
+    def extra_repr(self) -> str:
+        return str_mapping(
+            {"mode": self._mode, "name": self._name, "eps": self._eps, "state": self._state}
+        )
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
         r"""Updates the mean absolute percentage error metric given a
@@ -123,9 +130,10 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
         >>> metric = SymmetricAbsoluteRelativeError("eval")
         >>> metric
         SymmetricAbsoluteRelativeError(
-          mode=eval,
-          name=sym_abs_rel_err,
-          state=ErrorState(num_predictions=0)
+          (mode): eval
+          (name): sym_abs_rel_err
+          (eps): 1e-08
+          (state): ErrorState(num_predictions=0)
         )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
@@ -165,6 +173,11 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
                 f"positive number to avoid undefined results when the target is zero."
             )
         self._eps = float(eps)
+
+    def extra_repr(self) -> str:
+        return str_mapping(
+            {"mode": self._mode, "name": self._name, "eps": self._eps, "state": self._state}
+        )
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
         r"""Updates the mean absolute percentage error metric given a

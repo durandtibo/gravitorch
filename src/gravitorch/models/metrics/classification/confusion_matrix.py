@@ -8,6 +8,7 @@ __all__ = ["BinaryConfusionMatrix", "CategoricalConfusionMatrix"]
 import logging
 from collections.abc import Sequence
 
+from coola.utils import str_mapping
 from torch import Tensor
 
 from gravitorch.engines.base import BaseEngine
@@ -38,6 +39,73 @@ class BinaryConfusionMatrix(BaseEpochMetric):
                 Default: ``'bin_conf_mat'``
         betas (sequence, optional): Specifies the betas used to
             compute the f-beta score. Default: ``(1,)``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.metrics import BinaryConfusionMatrix
+        >>> metric = BinaryConfusionMatrix("eval")
+        >>> metric
+        BinaryConfusionMatrix(
+          (mode): eval
+          (name): bin_conf_mat
+          (betas): (1,)
+          (confusion_matrix): BinaryConfusionMatrix(num_classes=2, num_predictions=0)
+        )
+        >>> metric(torch.tensor([0, 1, 0, 1]), torch.tensor([0, 1, 0, 1]))
+        >>> metric.value()
+        {'eval/bin_conf_mat_accuracy': 1.0,
+         'eval/bin_conf_mat_balanced_accuracy': 1.0,
+         'eval/bin_conf_mat_false_negative_rate': 0.0,
+         'eval/bin_conf_mat_false_negative': 0,
+         'eval/bin_conf_mat_false_positive_rate': 0.0,
+         'eval/bin_conf_mat_false_positive': 0,
+         'eval/bin_conf_mat_jaccard_index': 1.0,
+         'eval/bin_conf_mat_num_predictions': 4,
+         'eval/bin_conf_mat_precision': 1.0,
+         'eval/bin_conf_mat_recall': 1.0,
+         'eval/bin_conf_mat_true_negative_rate': 1.0,
+         'eval/bin_conf_mat_true_negative': 2,
+         'eval/bin_conf_mat_true_positive_rate': 1.0,
+         'eval/bin_conf_mat_true_positive': 2,
+         'eval/bin_conf_mat_f1_score': 1.0}
+        >>> metric(torch.tensor([1, 0]), torch.tensor([1, 0]))
+        >>> metric.value()
+        {'eval/bin_conf_mat_accuracy': 1.0,
+         'eval/bin_conf_mat_balanced_accuracy': 1.0,
+         'eval/bin_conf_mat_false_negative_rate': 0.0,
+         'eval/bin_conf_mat_false_negative': 0,
+         'eval/bin_conf_mat_false_positive_rate': 0.0,
+         'eval/bin_conf_mat_false_positive': 0,
+         'eval/bin_conf_mat_jaccard_index': 1.0,
+         'eval/bin_conf_mat_num_predictions': 6,
+         'eval/bin_conf_mat_precision': 1.0,
+         'eval/bin_conf_mat_recall': 1.0,
+         'eval/bin_conf_mat_true_negative_rate': 1.0,
+         'eval/bin_conf_mat_true_negative': 3,
+         'eval/bin_conf_mat_true_positive_rate': 1.0,
+         'eval/bin_conf_mat_true_positive': 3,
+         'eval/bin_conf_mat_f1_score': 1.0}
+        >>> metric.reset()
+        >>> metric(torch.tensor([1, 0]), torch.tensor([1, 0]))
+        >>> metric.value()
+        {'eval/bin_conf_mat_accuracy': 1.0,
+         'eval/bin_conf_mat_balanced_accuracy': 1.0,
+         'eval/bin_conf_mat_false_negative_rate': 0.0,
+         'eval/bin_conf_mat_false_negative': 0,
+         'eval/bin_conf_mat_false_positive_rate': 0.0,
+         'eval/bin_conf_mat_false_positive': 0,
+         'eval/bin_conf_mat_jaccard_index': 1.0,
+         'eval/bin_conf_mat_num_predictions': 2,
+         'eval/bin_conf_mat_precision': 1.0,
+         'eval/bin_conf_mat_recall': 1.0,
+         'eval/bin_conf_mat_true_negative_rate': 1.0,
+         'eval/bin_conf_mat_true_negative': 1,
+         'eval/bin_conf_mat_true_positive_rate': 1.0,
+         'eval/bin_conf_mat_true_positive': 1,
+         'eval/bin_conf_mat_f1_score': 1.0}
     """
 
     def __init__(
@@ -52,20 +120,16 @@ class BinaryConfusionMatrix(BaseEpochMetric):
         self.reset()
 
     def extra_repr(self) -> str:
-        return f"mode={self._mode}, name={self._name}, betas={self._betas}"
+        return str_mapping(
+            {
+                "mode": self._mode,
+                "name": self._name,
+                "betas": self._betas,
+                "confusion_matrix": self._confusion_matrix,
+            }
+        )
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches current metric to the provided engine.
-
-        This method can be used to:
-
-            - add event handler to the engine
-            - set up history trackers
-
-        Args:
-        ----
-            engine (``BaseEngine``): Specifies the engine.
-        """
         super().attach(engine)
         trackers = [
             MaxScalarHistory(name=f"{self._metric_name}_accuracy"),
@@ -103,19 +167,6 @@ class BinaryConfusionMatrix(BaseEpochMetric):
         self._confusion_matrix.reset()
 
     def value(self, engine: BaseEngine | None = None) -> dict:
-        r"""Evaluates the metric and log the results given all the
-        examples previously seen.
-
-        Args:
-        ----
-            engine (``BaseEngine``, optional): Specifies the engine.
-                This argument is required to log the results in the
-                engine. Default: ``None``.
-
-        Returns:
-        -------
-             dict: The results of the metric
-        """
         self._confusion_matrix.all_reduce()
         num_predictions = self._confusion_matrix.num_predictions
         if not num_predictions:
@@ -152,6 +203,67 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
             Default: ``'cat_conf_mat'``
         betas (sequence, optional): Specifies the betas used to
             compute the f-beta score. Default: ``(1,)``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.metrics import CategoricalConfusionMatrix
+        >>> metric = CategoricalConfusionMatrix("eval", num_classes=3)
+        >>> metric
+        CategoricalConfusionMatrix(
+          (mode): eval
+          (name): cat_conf_mat
+          (confusion_matrix): MulticlassConfusionMatrix(num_classes=3, num_predictions=0)
+          (prediction_transform): ToCategoricalLabel()
+        )
+        >>> metric(
+        ...     torch.tensor([[3, 2, 1], [1, 3, 2], [3, 2, 1], [1, 3, 2]]),
+        ...     torch.tensor([0, 1, 0, 1]),
+        ... )
+        >>> metric.value()  # doctest:+ELLIPSIS
+        {'eval/cat_conf_mat_accuracy': 1.0,
+         'eval/cat_conf_mat_balanced_accuracy': 0.666666...,
+         'eval/cat_conf_mat_macro_precision': 0.666666...,
+         'eval/cat_conf_mat_macro_recall': 0.666666...,
+         'eval/cat_conf_mat_macro_f1_score': nan,
+         'eval/cat_conf_mat_micro_precision': 1.0,
+         'eval/cat_conf_mat_micro_recall': 1.0,
+         'eval/cat_conf_mat_micro_f1_score': 1.0,
+         'eval/cat_conf_mat_weighted_precision': 1.0,
+         'eval/cat_conf_mat_weighted_recall': 1.0,
+         'eval/cat_conf_mat_weighted_f1_score': nan,
+         'eval/cat_conf_mat_num_predictions': 4}
+        >>> metric(torch.tensor([[1, 2, 3], [3, 2, 1]]), torch.tensor([2, 0]))
+        >>> metric.value()  # doctest:+ELLIPSIS
+        {'eval/cat_conf_mat_accuracy': 1.0,
+         'eval/cat_conf_mat_balanced_accuracy': 1.0,
+         'eval/cat_conf_mat_macro_precision': 1.0,
+         'eval/cat_conf_mat_macro_recall': 1.0,
+         'eval/cat_conf_mat_macro_f1_score': 1.0,
+         'eval/cat_conf_mat_micro_precision': 1.0,
+         'eval/cat_conf_mat_micro_recall': 1.0,
+         'eval/cat_conf_mat_micro_f1_score': 1.0,
+         'eval/cat_conf_mat_weighted_precision': 1.0,
+         'eval/cat_conf_mat_weighted_recall': 1.0,
+         'eval/cat_conf_mat_weighted_f1_score': 1.0,
+         'eval/cat_conf_mat_num_predictions': 6}
+        >>> metric.reset()
+        >>> metric(torch.tensor([[1, 2, 3], [3, 2, 1]]), torch.tensor([2, 0]))
+        >>> metric.value()  # doctest:+ELLIPSIS
+        {'eval/cat_conf_mat_accuracy': 1.0,
+         'eval/cat_conf_mat_balanced_accuracy': 0.666666...,
+         'eval/cat_conf_mat_macro_precision': 0.666666...,
+         'eval/cat_conf_mat_macro_recall': 0.666666...,
+         'eval/cat_conf_mat_macro_f1_score': nan,
+         'eval/cat_conf_mat_micro_precision': 1.0,
+         'eval/cat_conf_mat_micro_recall': 1.0,
+         'eval/cat_conf_mat_micro_f1_score': 1.0,
+         'eval/cat_conf_mat_weighted_precision': 1.0,
+         'eval/cat_conf_mat_weighted_recall': 1.0,
+         'eval/cat_conf_mat_weighted_f1_score': nan,
+         'eval/cat_conf_mat_num_predictions': 2}
     """
 
     def __init__(
@@ -169,23 +281,15 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
         self.reset()
 
     def extra_repr(self) -> str:
-        return (
-            f"mode={self._mode}, name={self._name}, "
-            f"num_classes={self._confusion_matrix.num_classes}, betas={self._betas}"
+        return str_mapping(
+            {
+                "mode": self._mode,
+                "name": self._name,
+                "confusion_matrix": self._confusion_matrix,
+            }
         )
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches current metric to the provided engine.
-
-        This method can be used to:
-
-            - add event handler to the engine
-            - set up history trackers
-
-        Args:
-        ----
-            engine (``BaseEngine``): Specifies the engine.
-        """
         super().attach(engine)
         trackers = [
             MaxScalarHistory(name=f"{self._metric_name}_accuracy"),
@@ -223,23 +327,9 @@ class CategoricalConfusionMatrix(BaseEpochMetric):
         )
 
     def reset(self) -> None:
-        r"""Resets the metric."""
         self._confusion_matrix.reset()
 
     def value(self, engine: BaseEngine | None = None) -> dict:
-        r"""Evaluates the metric and log the results given all the
-        examples previously seen.
-
-        Args:
-        ----
-            engine (``BaseEngine``, optional): Specifies the engine.
-                This argument is required to log the results in the
-                engine. Default: ``None``.
-
-        Returns:
-        -------
-             dict: The results of the metric
-        """
         self._confusion_matrix.all_reduce()
         num_predictions = self._confusion_matrix.num_predictions
         if not num_predictions:

@@ -7,6 +7,7 @@ __all__ = ["LogCoshError"]
 
 import logging
 
+from coola.utils import str_mapping
 from torch import Tensor
 
 from gravitorch.models.metrics.base_epoch import BaseStateEpochMetric
@@ -39,6 +40,13 @@ class LogCoshError(BaseStateEpochMetric):
         >>> import torch
         >>> from gravitorch.models.metrics import LogCoshError
         >>> metric = LogCoshError("eval")
+        >>> metric
+        LogCoshError(
+          (mode): eval
+          (name): log_cosh_err
+          (scale): 1.0
+          (state): ErrorState(num_predictions=0)
+        )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
         >>> metric.value()
         {'eval/log_cosh_err_mean': 0.0,
@@ -74,6 +82,11 @@ class LogCoshError(BaseStateEpochMetric):
         if scale <= 0.0:
             raise ValueError(f"Incorrect scale {scale}. The scale has to be >0")
         self._scale = float(scale)
+
+    def extra_repr(self) -> str:
+        return str_mapping(
+            {"mode": self._mode, "name": self._name, "scale": self._scale, "state": self._state}
+        )
 
     def forward(self, prediction: Tensor, target: Tensor) -> None:
         r"""Updates the metric given a mini-batch of examples.

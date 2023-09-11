@@ -52,6 +52,9 @@ class BaseState(ABC, metaclass=AbstractFactory):
          'error_num_predictions': 6}
     """
 
+    def __str__(self) -> str:
+        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
+
     @property
     @abstractmethod
     def num_predictions(self) -> int:
@@ -142,9 +145,6 @@ class MeanErrorState(BaseState):
         )
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
-
     @property
     def num_predictions(self) -> int:
         return self._meter.count
@@ -215,9 +215,6 @@ class RootMeanErrorState(BaseState):
         )
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
-
     @property
     def num_predictions(self) -> int:
         return self._meter.count
@@ -284,9 +281,6 @@ class ErrorState(BaseState):
     def __repr__(self) -> str:
         args = str_indent(str_mapping({"meter": self._meter}))
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
-
-    def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
 
     @property
     def num_predictions(self) -> int:
@@ -378,9 +372,6 @@ class ExtendedErrorState(BaseState):
         args = str_indent(str_mapping({"meter": self._meter, "quantiles": self._quantiles}))
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
-
     @property
     def num_predictions(self) -> int:
         return self._meter.count
@@ -467,9 +458,6 @@ class AccuracyState(BaseState):
         args = str_indent(str_mapping({"meter": self._meter}))
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
-
     @property
     def num_predictions(self) -> int:
         return self._meter.count
@@ -539,9 +527,6 @@ class ExtendedAccuracyState(BaseState):
         args = str_indent(str_mapping({"meter": self._meter}))
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__qualname__}(num_predictions={self.num_predictions:,})"
-
     @property
     def num_predictions(self) -> int:
         return self._meter.count
@@ -599,6 +584,22 @@ def setup_state(state: BaseState | dict) -> BaseState:
     Returns:
     -------
         ``BaseState``: The instantiated metric state.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.models.metrics.state import setup_state
+        >>> state = setup_state({"_target_": "gravitorch.models.metrics.state.ErrorState"})
+        >>> state
+        ErrorState(
+          (meter): TensorMeter
+              count   : 0
+              sum     : N/A (empty)
+              average : N/A (empty)
+              min     : N/A (empty)
+              max     : N/A (empty)
+        )
     """
     if isinstance(state, dict):
         logger.info(

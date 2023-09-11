@@ -7,7 +7,7 @@ __all__ = ["BinaryAccuracy", "CategoricalAccuracy", "TopKAccuracy"]
 import logging
 from collections.abc import Sequence
 
-from coola.utils import str_indent, str_mapping
+from coola.utils import str_mapping
 from objectory import OBJECT_TARGET
 from torch import Tensor
 from torch.nn import Identity
@@ -36,6 +36,31 @@ class BinaryAccuracy(BaseStateEpochMetric):
         state (``BaseState`` or dict or ``None``, optional): Specifies
             the metric state or its configuration. If ``None``,
             ``AccuracyState`` is instantiated. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.metrics import BinaryAccuracy
+        >>> metric = BinaryAccuracy("eval")
+        >>> metric
+        BinaryAccuracy(
+          (mode): eval
+          (name): bin_acc
+          (state): AccuracyState(num_predictions=0)
+          (prediction_transform): Identity()
+        )
+        >>> metric(torch.zeros(4), torch.ones(4))
+        >>> metric.value()
+        {'eval/bin_acc_accuracy': 0.0, 'eval/bin_acc_num_predictions': 4}
+        >>> metric(torch.ones(4), torch.ones(4))
+        >>> metric.value()
+        {'eval/bin_acc_accuracy': 0.5, 'eval/bin_acc_num_predictions': 8}
+        >>> metric.reset()
+        >>> metric(torch.ones(4), torch.ones(4))
+        >>> metric.value()
+        {'eval/bin_acc_accuracy': 1.0, 'eval/bin_acc_num_predictions': 4}
     """
 
     def __init__(
@@ -79,6 +104,31 @@ class CategoricalAccuracy(BaseStateEpochMetric):
         state (``BaseState`` or dict or ``None``, optional): Specifies
             the metric state or its configuration. If ``None``,
             ``AccuracyState`` is instantiated. Default: ``None``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.metrics import CategoricalAccuracy
+        >>> metric = CategoricalAccuracy("eval")
+        >>> metric
+        CategoricalAccuracy(
+          (mode): eval
+          (name): cat_acc
+          (state): AccuracyState(num_predictions=0)
+          (prediction_transform): ToCategoricalLabel()
+        )
+        >>> metric(torch.tensor([[0, 2, 1], [2, 1, 0]]), torch.tensor([1, 0]))
+        >>> metric.value()
+        {'eval/cat_acc_accuracy': 1.0, 'eval/cat_acc_num_predictions': 2}
+        >>> metric(torch.tensor([[0, 2, 1], [2, 1, 0]]), torch.tensor([1, 2]))
+        >>> metric.value()
+        {'eval/cat_acc_accuracy': 0.75, 'eval/cat_acc_num_predictions': 4}
+        >>> metric.reset()
+        >>> metric(torch.tensor([[0, 2, 1], [2, 1, 0]]), torch.tensor([1, 2]))
+        >>> metric.value()
+        {'eval/cat_acc_accuracy': 0.5, 'eval/cat_acc_num_predictions': 2}
     """
 
     def __init__(
@@ -118,6 +168,32 @@ class TopKAccuracy(BaseEpochMetric):
             evaluate the top-k accuracy metric. Default: ``(1, 5)``
         name (str, optional): Specifies the name used to log the
             metric. Default: ``'accuracy'``
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.models.metrics import TopKAccuracy
+        >>> metric = TopKAccuracy("eval", topk=(1,))
+        >>> metric
+        TopKAccuracy(
+          (mode): eval
+          (name): acc_top
+          (topk): (1,)
+          (states):
+            (1): AccuracyState(num_predictions=0)
+        )
+        >>> metric(torch.tensor([[0, 2, 1], [2, 1, 0]]), torch.tensor([1, 0]))
+        >>> metric.value()
+        {'eval/acc_top_1_accuracy': 1.0, 'eval/acc_top_1_num_predictions': 2}
+        >>> metric(torch.tensor([[0, 2, 1], [2, 1, 0]]), torch.tensor([1, 2]))
+        >>> metric.value()
+        {'eval/acc_top_1_accuracy': 0.75, 'eval/acc_top_1_num_predictions': 4}
+        >>> metric.reset()
+        >>> metric(torch.tensor([[0, 2, 1], [2, 1, 0]]), torch.tensor([1, 2]))
+        >>> metric.value()
+        {'eval/acc_top_1_accuracy': 0.5, 'eval/acc_top_1_num_predictions': 2}
     """
 
     def __init__(
@@ -131,17 +207,18 @@ class TopKAccuracy(BaseEpochMetric):
         self._topk = topk if isinstance(topk, tuple) else tuple(topk)
         self._maxk = max(self._topk)
 
-        self._states: dict[int, BaseState] = {
-            tol: setup_state(
-                state_config or {OBJECT_TARGET: "gravitorch.models.metrics.state.AccuracyState"}
-            )
-            for tol in self._topk
-        }
+        if state_config is None:
+            state_config = {OBJECT_TARGET: "gravitorch.models.metrics.state.AccuracyState"}
+        self._states: dict[int, BaseState] = {tol: setup_state(state_config) for tol in self._topk}
 
     def extra_repr(self) -> str:
-        return (
-            f"mode={self._mode},\nname={self._name},\ntopk={self._topk},\n"
-            f"states:\n  {str_indent(str_mapping(self._states))}"
+        return str_mapping(
+            {
+                "mode": self._mode,
+                "name": self._name,
+                "topk": self._topk,
+                "states": "\n" + str_mapping(self._states),
+            }
         )
 
     @property
@@ -149,17 +226,6 @@ class TopKAccuracy(BaseEpochMetric):
         return self._topk
 
     def attach(self, engine: BaseEngine) -> None:
-        r"""Attaches current metric to the provided engine.
-
-        This method can be used to:
-
-            - add event handler to the engine
-            - set up history trackers
-
-        Args:
-        ----
-            engine (``BaseEngine``): Specifies the engine.
-        """
         super().attach(engine)
         for k, state in self._states.items():
             for history in state.get_histories(f"{self._metric_name}_{k}_"):
@@ -185,7 +251,6 @@ class TopKAccuracy(BaseEpochMetric):
             state.update(correct[..., :k].sum(dim=-1))
 
     def reset(self) -> None:
-        r"""Resets the metric."""
         for state in self._states.values():
             state.reset()
 
