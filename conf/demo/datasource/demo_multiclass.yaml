@@ -18,13 +18,13 @@ data_creators:
 
 datapipe_creators:
   train:
-    _target_: gravitorch.creators.datapipe.EpochRandomIterDataPipeCreator
+    _target_: gravitorch.creators.datapipe.EpochRandomDataPipeCreator
     config:
       _target_: gravitorch.datapipes.iter.DictBatcher
       batch_size: ${oc.select:batch_size,32}
       shuffle: true
   eval:
-    _target_: gravitorch.creators.datapipe.SequentialIterDataPipeCreator
+    _target_: gravitorch.creators.datapipe.SequentialDataPipeCreator
     config:
       - _target_: gravitorch.datapipes.iter.DictBatcher
         batch_size: ${oc.select:batch_size,32}

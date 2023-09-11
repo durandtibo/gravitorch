@@ -1,21 +1,19 @@
 __all__ = [
-    "BaseIterDataPipeCreator",
-    "EpochRandomIterDataPipeCreator",
+    "BaseDataPipeCreator",
+    "EpochRandomDataPipeCreator",
     "SequentialCreatorIterDataPipeCreator",
-    "SequentialIterDataPipeCreator",
-    "create_sequential_iter_datapipe",
+    "SequentialDataPipeCreator",
     "is_datapipe_creator_config",
-    "setup_iter_datapipe_creator",
+    "setup_datapipe_creator",
 ]
 
 from gravitorch.creators.datapipe.base import (
-    BaseIterDataPipeCreator,
+    BaseDataPipeCreator,
     is_datapipe_creator_config,
-    setup_iter_datapipe_creator,
+    setup_datapipe_creator,
 )
-from gravitorch.creators.datapipe.random import EpochRandomIterDataPipeCreator
+from gravitorch.creators.datapipe.random import EpochRandomDataPipeCreator
 from gravitorch.creators.datapipe.sequential import (
     SequentialCreatorIterDataPipeCreator,
-    SequentialIterDataPipeCreator,
-    create_sequential_iter_datapipe,
+    SequentialDataPipeCreator,
 )

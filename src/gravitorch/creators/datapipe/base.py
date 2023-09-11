@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["BaseIterDataPipeCreator", "is_datapipe_creator_config", "setup_iter_datapipe_creator"]
+__all__ = ["BaseDataPipeCreator", "is_datapipe_creator_config", "setup_datapipe_creator"]
 
 import logging
 from abc import ABC, abstractmethod
@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 from objectory import AbstractFactory
 from objectory.utils import is_object_config
-from torch.utils.data import IterDataPipe
+from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.utils.format import str_target_object
 
@@ -19,21 +19,21 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
-    r"""Defines the base class to implement an ``IterDataPipe`` creator.
+class BaseDataPipeCreator(ABC, metaclass=AbstractFactory):
+    r"""Defines the base class to implement a ``DataPipe`` creator.
 
-    A ``IterDataPipe`` creator is responsible to create a single
+    A ``DataPipe`` creator is responsible to create a single
     DataPipe.
 
-    Note: it is possible to create an ``IterDataPipe`` object without
+    Note: it is possible to create a ``DataPipe`` object without
     using this class.
 
     Example usage:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.datapipe import SequentialIterDataPipeCreator
-        >>> creator = SequentialIterDataPipeCreator(
+        >>> from gravitorch.creators.datapipe import SequentialDataPipeCreator
+        >>> creator = SequentialDataPipeCreator(
         ...     [
         ...         {
         ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -42,7 +42,7 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
         ...     ]
         ... )
         >>> creator
-        SequentialIterDataPipeCreator(
+        SequentialDataPipeCreator(
           (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
         )
         >>> datapipe = creator.create()
@@ -53,33 +53,34 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
     @abstractmethod
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
-    ) -> IterDataPipe:
-        r"""Creates an ``IterDataPipe`` object.
+    ) -> IterDataPipe | MapDataPipe:
+        r"""Creates a ``DataPipe`` object.
 
         Args:
         ----
             engine (``BaseEngine`` or ``None``, optional): Specifies
                 an engine. The engine can be used to initialize the
-                ``IterDataPipe`` by using the current epoch value.
+                ``DataPipe`` by using the current epoch value.
                 Default: ``None``
             source_inputs (sequence or ``None``): Specifies the first
-                positional arguments of the source ``IterDataPipe``.
+                positional arguments of the source ``DataPipe``.
                 This argument can be used to create a new
-                ``IterDataPipe`` object, that takes existing
-                ``IterDataPipe`` objects as input. See examples below
+                ``DataPipe`` object, that takes existing
+                ``DataPipe`` objects as input. See examples below
                 to see how to use it. If ``None``, ``source_inputs``
                 is set to an empty tuple. Default: ``None``
 
         Returns:
         -------
-            ``IterDataPipe``: The created ``IterDataPipe`` object.
+            ``IterDataPipe`` or ``MapDataPipe``: The created
+                ``DataPipe`` object.
 
         Example usage:
 
         .. code-block:: pycon
 
-            >>> from gravitorch.creators.datapipe import SequentialIterDataPipeCreator
-            >>> creator = SequentialIterDataPipeCreator(
+            >>> from gravitorch.creators.datapipe import SequentialDataPipeCreator
+            >>> creator = SequentialDataPipeCreator(
             ...     [
             ...         {
             ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -95,7 +96,7 @@ class BaseIterDataPipeCreator(ABC, metaclass=AbstractFactory):
 
 def is_datapipe_creator_config(config: dict) -> bool:
     r"""Indicates if the input configuration is a configuration for a
-    ``BaseIterDataPipeCreator``.
+    ``BaseDataPipeCreator``.
 
     This function only checks if the value of the key  ``_target_``
     is valid. It does not check the other values. If ``_target_``
@@ -109,7 +110,7 @@ def is_datapipe_creator_config(config: dict) -> bool:
     Returns:
     -------
         bool: ``True`` if the input configuration is a configuration
-            for a ``BaseIterDataPipeCreator`` object.
+            for a ``BaseDataPipeCreator`` object.
 
     Example usage:
 
@@ -118,7 +119,7 @@ def is_datapipe_creator_config(config: dict) -> bool:
         >>> from gravitorch.creators.datapipe import is_datapipe_creator_config
         >>> is_datapipe_creator_config(
         ...     {
-        ...         "_target_": "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+        ...         "_target_": "gravitorch.creators.datapipe.SequentialDataPipeCreator",
         ...         "config": [
         ...             {
         ...                 "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -129,34 +130,34 @@ def is_datapipe_creator_config(config: dict) -> bool:
         ... )
         True
     """
-    return is_object_config(config, BaseIterDataPipeCreator)
+    return is_object_config(config, BaseDataPipeCreator)
 
 
-def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> BaseIterDataPipeCreator:
-    r"""Sets up an ``IterDataPipe`` creator.
+def setup_datapipe_creator(creator: BaseDataPipeCreator | dict) -> BaseDataPipeCreator:
+    r"""Sets up a ``DataPipe`` creator.
 
-    The ``IterDataPipe`` creator is instantiated from its
+    The ``DataPipe`` creator is instantiated from its
     configuration by using the ``BaseDataPipeCreator`` factory
     function.
 
     Args:
     ----
-        creator (``BaseIterDataPipeCreator`` or dict): Specifies the
-            ``IterDataPipe`` creator or its configuration.
+        creator (``BaseDataPipeCreator`` or dict): Specifies the
+            ``DataPipe`` creator or its configuration.
 
     Returns:
     -------
-        ``BaseIterDataPipeCreator``: The instantiated ``IterDataPipe``
+        ``BaseDataPipeCreator``: The instantiated ``DataPipe``
             creator.
 
     Example usage:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.datapipe import setup_iter_datapipe_creator
-        >>> creator = setup_iter_datapipe_creator(
+        >>> from gravitorch.creators.datapipe import setup_datapipe_creator
+        >>> creator = setup_datapipe_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+        ...         "_target_": "gravitorch.creators.datapipe.SequentialDataPipeCreator",
         ...         "config": [
         ...             {
         ...                 "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -166,16 +167,16 @@ def setup_iter_datapipe_creator(creator: BaseIterDataPipeCreator | dict) -> Base
         ...     }
         ... )
         >>> creator
-        SequentialIterDataPipeCreator(
+        SequentialDataPipeCreator(
           (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
         )
     """
     if isinstance(creator, dict):
         logger.info(
-            "Initializing a IterDataPipe creator from its configuration... "
+            "Initializing a DataPipe creator from its configuration... "
             f"{str_target_object(creator)}"
         )
-        creator = BaseIterDataPipeCreator.factory(**creator)
-    if not isinstance(creator, BaseIterDataPipeCreator):
-        logger.warning(f"creator is not a `BaseIterDataPipeCreator` (received: {type(creator)})")
+        creator = BaseDataPipeCreator.factory(**creator)
+    if not isinstance(creator, BaseDataPipeCreator):
+        logger.warning(f"creator is not a `BaseDataPipeCreator` (received: {type(creator)})")
     return creator

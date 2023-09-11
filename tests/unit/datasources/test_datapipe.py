@@ -4,10 +4,7 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 from pytest import LogCaptureFixture, fixture, raises
 
-from gravitorch.creators.datapipe import (
-    BaseIterDataPipeCreator,
-    SequentialIterDataPipeCreator,
-)
+from gravitorch.creators.datapipe import BaseDataPipeCreator, SequentialDataPipeCreator
 from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCreator
 from gravitorch.datapipes.iter import SourceWrapper
 from gravitorch.datasources import (
@@ -28,7 +25,7 @@ def datasource() -> IterDataPipeCreatorDataSource:
     return IterDataPipeCreatorDataSource(
         {
             "train": {
-                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialDataPipeCreator",
                 "config": [
                     {
                         OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -37,7 +34,7 @@ def datasource() -> IterDataPipeCreatorDataSource:
                 ],
             },
             "val": {
-                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialDataPipeCreator",
                 "config": [
                     {
                         OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -50,9 +47,9 @@ def datasource() -> IterDataPipeCreatorDataSource:
 
 
 def test_iter_data_pipe_creator_datasource_str() -> None:
-    assert str(
-        IterDataPipeCreatorDataSource({"train": Mock(spec=BaseIterDataPipeCreator)})
-    ).startswith("IterDataPipeCreatorDataSource(")
+    assert str(IterDataPipeCreatorDataSource({"train": Mock(spec=BaseDataPipeCreator)})).startswith(
+        "IterDataPipeCreatorDataSource("
+    )
 
 
 def test_iter_data_pipe_creator_datasource_attach(
@@ -115,14 +112,14 @@ def test_iter_data_pipe_creator_datasource_get_dataloader_missing(
 
 def test_iter_data_pipe_creator_datasource_get_dataloader_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
-    datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
+    datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
     datasource.get_dataloader("train", engine=engine)
     datapipe_creator.create.assert_called_once_with(engine=engine)
 
 
 def test_iter_data_pipe_creator_datasource_get_dataloader_without_engine() -> None:
-    datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
+    datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
     datasource.get_dataloader("train")
     datapipe_creator.create.assert_called_once_with(engine=None)
@@ -160,7 +157,7 @@ def test_iter_data_pipe_creator_datasource_state_dict(
 def test_data_creator_iter_data_pipe_creator_datasource_str() -> None:
     assert str(
         DataCreatorIterDataPipeCreatorDataSource(
-            datapipe_creators={"train": Mock(spec=BaseIterDataPipeCreator)},
+            datapipe_creators={"train": Mock(spec=BaseDataPipeCreator)},
             data_creators={"train": Mock(spec=BaseDataCreator)},
         )
     ).startswith("DataCreatorIterDataPipeCreatorDataSource(")
@@ -168,7 +165,7 @@ def test_data_creator_iter_data_pipe_creator_datasource_str() -> None:
 
 def test_data_creator_iter_data_pipe_creator_datasource_data_creators() -> None:
     creator = DataCreatorIterDataPipeCreatorDataSource(
-        datapipe_creators={"train": Mock(spec=BaseIterDataPipeCreator)},
+        datapipe_creators={"train": Mock(spec=BaseDataPipeCreator)},
         data_creators={
             "train": HypercubeVertexDataCreator(num_examples=10, num_classes=5),
             "val": {
@@ -185,7 +182,7 @@ def test_data_creator_iter_data_pipe_creator_datasource_data_creators() -> None:
 
 def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe() -> None:
     data_creator = Mock(spec=BaseDataCreator, create=Mock(return_value=[1, 2, 3]))
-    datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
+    datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={"train": datapipe_creator},
         data_creators={"train": data_creator},
@@ -197,7 +194,7 @@ def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe() -> Non
 
 
 def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_creator() -> None:
-    datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
+    datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={"train": datapipe_creator},
         data_creators={},
@@ -211,7 +208,7 @@ def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_
     None
 ):
     engine = Mock(spec=BaseEngine)
-    datapipe_creator = Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
+    datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={"train": datapipe_creator},
         data_creators={},
@@ -224,7 +221,7 @@ def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_
 def test_data_creator_iter_data_pipe_creator_datasource_get_dataloader() -> None:
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={
-            "train": SequentialIterDataPipeCreator(
+            "train": SequentialDataPipeCreator(
                 config=[
                     {OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
                 ]

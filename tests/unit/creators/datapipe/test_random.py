@@ -4,29 +4,29 @@ from objectory import OBJECT_TARGET
 from pytest import raises
 from torch.utils.data import IterDataPipe
 
-from gravitorch.creators.datapipe import EpochRandomIterDataPipeCreator
+from gravitorch.creators.datapipe import EpochRandomDataPipeCreator
 from gravitorch.engines import BaseEngine
 
-####################################################
-#     Tests for EpochRandomIterDataPipeCreator     #
-####################################################
+################################################
+#     Tests for EpochRandomDataPipeCreator     #
+################################################
 
 
-def test_epoch_random_iter_data_pipe_creator_str() -> None:
-    assert str(EpochRandomIterDataPipeCreator({})).startswith("EpochRandomIterDataPipeCreator(")
+def test_epoch_random_data_pipe_creator_str() -> None:
+    assert str(EpochRandomDataPipeCreator({})).startswith("EpochRandomDataPipeCreator(")
 
 
-def test_epoch_random_iter_data_pipe_creator_create_engine_none() -> None:
-    with raises(ValueError, match="engine cannot be None because the epoch value is used"):
-        EpochRandomIterDataPipeCreator({}).create()
+def test_epoch_random_data_pipe_creator_create_engine_none() -> None:
+    with raises(RuntimeError, match="engine cannot be None because the epoch value is used"):
+        EpochRandomDataPipeCreator({}).create()
 
 
 @patch("gravitorch.creators.datapipe.random.dist.get_rank", lambda *args, **kwargs: 0)
-def test_epoch_random_iter_data_pipe_creator_create() -> None:
+def test_epoch_random_data_pipe_creator_create() -> None:
     datapipe = Mock(spec=IterDataPipe)
     factory_mock = Mock(return_value=datapipe)
     with patch("gravitorch.creators.datapipe.random.factory", factory_mock):
-        creator = EpochRandomIterDataPipeCreator({OBJECT_TARGET: "MyIterDataPipe", "key": "value"})
+        creator = EpochRandomDataPipeCreator({OBJECT_TARGET: "MyIterDataPipe", "key": "value"})
         assert (
             creator.create(engine=Mock(spec=BaseEngine, epoch=1, max_epochs=10, random_seed=42))
             == datapipe
@@ -35,11 +35,11 @@ def test_epoch_random_iter_data_pipe_creator_create() -> None:
 
 
 @patch("gravitorch.creators.datapipe.random.dist.get_rank", lambda *args, **kwargs: 0)
-def test_epoch_random_iter_data_pipe_creator_create_with_source_inputs() -> None:
+def test_epoch_random_data_pipe_creator_create_with_source_inputs() -> None:
     datapipe = Mock(spec=IterDataPipe)
     factory_mock = Mock(return_value=datapipe)
     with patch("gravitorch.creators.datapipe.random.factory", factory_mock):
-        creator = EpochRandomIterDataPipeCreator({OBJECT_TARGET: "MyIterDataPipe", "key": "value"})
+        creator = EpochRandomDataPipeCreator({OBJECT_TARGET: "MyIterDataPipe", "key": "value"})
         assert (
             creator.create(
                 engine=Mock(spec=BaseEngine, epoch=1, max_epochs=10, random_seed=42),
@@ -53,9 +53,9 @@ def test_epoch_random_iter_data_pipe_creator_create_with_source_inputs() -> None
 
 
 @patch("gravitorch.creators.datapipe.random.dist.get_rank", lambda *args, **kwargs: 0)
-def test_epoch_random_iter_data_pipe_creator_create_rank_0() -> None:
+def test_epoch_random_data_pipe_creator_create_rank_0() -> None:
     assert (
-        EpochRandomIterDataPipeCreator(
+        EpochRandomDataPipeCreator(
             {
                 OBJECT_TARGET: "gravitorch.datapipes.iter.TensorDictShuffler",
                 "datapipe": Mock(spec=IterDataPipe),
@@ -69,9 +69,9 @@ def test_epoch_random_iter_data_pipe_creator_create_rank_0() -> None:
 
 
 @patch("gravitorch.creators.datapipe.random.dist.get_rank", lambda *args, **kwargs: 1)
-def test_epoch_random_iter_data_pipe_creator_get_random_seed_rank_1() -> None:
+def test_epoch_random_data_pipe_creator_get_random_seed_rank_1() -> None:
     assert (
-        EpochRandomIterDataPipeCreator(
+        EpochRandomDataPipeCreator(
             {
                 OBJECT_TARGET: "gravitorch.datapipes.iter.TensorDictShuffler",
                 "datapipe": Mock(spec=IterDataPipe),
@@ -85,9 +85,9 @@ def test_epoch_random_iter_data_pipe_creator_get_random_seed_rank_1() -> None:
 
 
 @patch("gravitorch.creators.datapipe.random.dist.get_rank", lambda *args, **kwargs: 0)
-def test_epoch_random_iter_data_pipe_creator_create_no_random_seed() -> None:
+def test_epoch_random_data_pipe_creator_create_no_random_seed() -> None:
     assert (
-        EpochRandomIterDataPipeCreator(
+        EpochRandomDataPipeCreator(
             {
                 OBJECT_TARGET: "gravitorch.datapipes.iter.TensorDictShuffler",
                 "datapipe": Mock(spec=IterDataPipe),

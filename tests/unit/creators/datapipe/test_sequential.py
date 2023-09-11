@@ -5,21 +5,20 @@ from pytest import raises
 from torch.utils.data.datapipes.iter import Batcher, Multiplexer
 
 from gravitorch.creators.datapipe import (
-    BaseIterDataPipeCreator,
+    BaseDataPipeCreator,
     SequentialCreatorIterDataPipeCreator,
-    SequentialIterDataPipeCreator,
-    create_sequential_iter_datapipe,
+    SequentialDataPipeCreator,
 )
 from gravitorch.datapipes.iter import SourceWrapper
 from gravitorch.engines import BaseEngine
 
-###################################################
-#     Tests for SequentialIterDataPipeCreator     #
-###################################################
+###############################################
+#     Tests for SequentialDataPipeCreator     #
+###############################################
 
 
-def test_sequential_iter_datapipe_creator_str() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_str() -> None:
+    creator = SequentialDataPipeCreator(
         [
             {
                 OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -27,18 +26,18 @@ def test_sequential_iter_datapipe_creator_str() -> None:
             }
         ]
     )
-    assert str(creator).startswith("SequentialIterDataPipeCreator(")
+    assert str(creator).startswith("SequentialDataPipeCreator(")
 
 
-def test_sequential_iter_datapipe_creator_empty() -> None:
+def test_sequential_datapipe_creator_empty() -> None:
     with raises(
         ValueError, match="It is not possible to create a DataPipe because config is empty"
     ):
-        SequentialIterDataPipeCreator([])
+        SequentialDataPipeCreator([])
 
 
-def test_sequential_iter_datapipe_creator_dict() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_dict() -> None:
+    creator = SequentialDataPipeCreator(
         {
             OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
             "source": [1, 2, 3, 4],
@@ -49,8 +48,8 @@ def test_sequential_iter_datapipe_creator_dict() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_sequential_iter_datapipe_creator_dict_source_inputs() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_dict_source_inputs() -> None:
+    creator = SequentialDataPipeCreator(
         config={OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
     )
     datapipe = creator.create(source_inputs=([1, 2, 3, 4],))
@@ -58,8 +57,8 @@ def test_sequential_iter_datapipe_creator_dict_source_inputs() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_sequential_iter_datapipe_creator_dict_one_input_datapipe() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_dict_one_input_datapipe() -> None:
+    creator = SequentialDataPipeCreator(
         config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
     )
     datapipe = creator.create(source_inputs=[SourceWrapper([1, 2, 3, 4])])
@@ -67,8 +66,8 @@ def test_sequential_iter_datapipe_creator_dict_one_input_datapipe() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_sequential_iter_datapipe_creator_dict_two_input_datapipes() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_dict_two_input_datapipes() -> None:
+    creator = SequentialDataPipeCreator(
         config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
     )
     datapipe = creator.create(
@@ -81,8 +80,8 @@ def test_sequential_iter_datapipe_creator_dict_two_input_datapipes() -> None:
     assert tuple(datapipe) == (1, 11, 2, 12, 3, 13, 4, 14)
 
 
-def test_sequential_iter_datapipe_creator_sequence_1() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_sequence_1() -> None:
+    creator = SequentialDataPipeCreator(
         [
             {
                 OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -95,8 +94,8 @@ def test_sequential_iter_datapipe_creator_sequence_1() -> None:
     assert tuple(datapipe) == (1, 2, 3, 4)
 
 
-def test_sequential_iter_datapipe_creator_sequence_2() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_sequence_2() -> None:
+    creator = SequentialDataPipeCreator(
         [
             {
                 OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -110,8 +109,8 @@ def test_sequential_iter_datapipe_creator_sequence_2() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_sequential_iter_datapipe_creator_sequence_source_inputs() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_sequence_source_inputs() -> None:
+    creator = SequentialDataPipeCreator(
         config=[
             {OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
             {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
@@ -122,8 +121,8 @@ def test_sequential_iter_datapipe_creator_sequence_source_inputs() -> None:
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_sequential_iter_datapipe_creator_sequence_source_inputs_datapipe() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_sequence_source_inputs_datapipe() -> None:
+    creator = SequentialDataPipeCreator(
         config=[{OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2}],
     )
     datapipe = creator.create(source_inputs=[SourceWrapper([1, 2, 3, 4])])
@@ -131,8 +130,8 @@ def test_sequential_iter_datapipe_creator_sequence_source_inputs_datapipe() -> N
     assert tuple(datapipe) == ([1, 2], [3, 4])
 
 
-def test_sequential_iter_datapipe_creator_sequence_multiple_input_datapipes() -> None:
-    creator = SequentialIterDataPipeCreator(
+def test_sequential_datapipe_creator_sequence_multiple_input_datapipes() -> None:
+    creator = SequentialDataPipeCreator(
         config=[
             {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
             {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
@@ -143,129 +142,6 @@ def test_sequential_iter_datapipe_creator_sequence_multiple_input_datapipes() ->
             SourceWrapper([1, 2, 3, 4]),
             SourceWrapper([11, 12, 13, 14]),
         ]
-    )
-    assert isinstance(datapipe, Batcher)
-    assert tuple(datapipe) == ([1, 11], [2, 12], [3, 13], [4, 14])
-
-
-#####################################################
-#     Tests for create_sequential_iter_datapipe     #
-#####################################################
-
-
-def test_create_sequential_iter_datapipe_empty_dict() -> None:
-    with raises(
-        ValueError, match="It is not possible to create a DataPipe because config is empty"
-    ):
-        create_sequential_iter_datapipe({})
-
-
-def test_create_sequential_iter_datapipe_empty_sequence() -> None:
-    with raises(
-        ValueError, match="It is not possible to create a DataPipe because config is empty"
-    ):
-        create_sequential_iter_datapipe([])
-
-
-def test_create_sequential_iter_datapipe_dict() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        {
-            OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
-            "source": [1, 2, 3, 4],
-        }
-    )
-    assert isinstance(datapipe, SourceWrapper)
-    assert tuple(datapipe) == (1, 2, 3, 4)
-
-
-def test_create_sequential_iter_datapipe_dict_source_inputs() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        config={OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
-        source_inputs=([1, 2, 3, 4],),
-    )
-    assert isinstance(datapipe, SourceWrapper)
-    assert tuple(datapipe) == (1, 2, 3, 4)
-
-
-def test_create_sequential_iter_datapipe_dict_one_input_datapipe() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
-        source_inputs=[SourceWrapper([1, 2, 3, 4])],
-    )
-    assert isinstance(datapipe, Batcher)
-    assert tuple(datapipe) == ([1, 2], [3, 4])
-
-
-def test_create_sequential_iter_datapipe_dict_two_input_datapipes() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        config={OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
-        source_inputs=[
-            SourceWrapper([1, 2, 3, 4]),
-            SourceWrapper([11, 12, 13, 14]),
-        ],
-    )
-    assert isinstance(datapipe, Multiplexer)
-    assert tuple(datapipe) == (1, 11, 2, 12, 3, 13, 4, 14)
-
-
-def test_create_sequential_iter_datapipe_sequence_1() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        [
-            {
-                OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
-                "source": [1, 2, 3, 4],
-            }
-        ]
-    )
-    assert isinstance(datapipe, SourceWrapper)
-    assert tuple(datapipe) == (1, 2, 3, 4)
-
-
-def test_create_sequential_iter_datapipe_sequence_2() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        [
-            {
-                OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
-                "source": [1, 2, 3, 4],
-            },
-            {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
-        ]
-    )
-    assert isinstance(datapipe, Batcher)
-    assert tuple(datapipe) == ([1, 2], [3, 4])
-
-
-def test_create_sequential_iter_datapipe_sequence_source_inputs() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        config=[
-            {OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
-            {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
-        ],
-        source_inputs=([1, 2, 3, 4],),
-    )
-    assert isinstance(datapipe, Batcher)
-    assert tuple(datapipe) == ([1, 2], [3, 4])
-
-
-def test_create_sequential_iter_datapipe_sequence_source_inputs_datapipe() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        config=[{OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2}],
-        source_inputs=[SourceWrapper([1, 2, 3, 4])],
-    )
-    assert isinstance(datapipe, Batcher)
-    assert tuple(datapipe) == ([1, 2], [3, 4])
-
-
-def test_create_sequential_iter_datapipe_sequence_multiple_input_datapipes() -> None:
-    datapipe = create_sequential_iter_datapipe(
-        config=[
-            {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Multiplexer"},
-            {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
-        ],
-        source_inputs=[
-            SourceWrapper([1, 2, 3, 4]),
-            SourceWrapper([11, 12, 13, 14]),
-        ],
     )
     assert isinstance(datapipe, Batcher)
     assert tuple(datapipe) == ([1, 11], [2, 12], [3, 13], [4, 14])
@@ -277,22 +153,22 @@ def test_create_sequential_iter_datapipe_sequence_multiple_input_datapipes() -> 
 
 
 def test_sequential_creator_iter_datapipe_creator_str() -> None:
-    assert str(
-        SequentialCreatorIterDataPipeCreator([Mock(spec=BaseIterDataPipeCreator)])
-    ).startswith("SequentialCreatorIterDataPipeCreator(")
+    assert str(SequentialCreatorIterDataPipeCreator([Mock(spec=BaseDataPipeCreator)])).startswith(
+        "SequentialCreatorIterDataPipeCreator("
+    )
 
 
 def test_sequential_creator_iter_datapipe_creator_creators() -> None:
     creator = SequentialCreatorIterDataPipeCreator(
         [
-            SequentialIterDataPipeCreator(
+            SequentialDataPipeCreator(
                 {
                     OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
                     "source": [1, 2, 3, 4],
                 },
             ),
             {
-                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialIterDataPipeCreator",
+                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialDataPipeCreator",
                 "config": {
                     OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher",
                     "batch_size": 2,
@@ -301,8 +177,8 @@ def test_sequential_creator_iter_datapipe_creator_creators() -> None:
         ]
     )
     assert len(creator._creators) == 2
-    assert isinstance(creator._creators[0], SequentialIterDataPipeCreator)
-    assert isinstance(creator._creators[1], SequentialIterDataPipeCreator)
+    assert isinstance(creator._creators[0], SequentialDataPipeCreator)
+    assert isinstance(creator._creators[1], SequentialDataPipeCreator)
 
 
 def test_sequential_creator_iter_datapipe_creator_creators_empty() -> None:
@@ -314,7 +190,7 @@ def test_sequential_creator_iter_datapipe_creator_creators_empty() -> None:
 
 def test_sequential_creator_iter_datapipe_creator_create_1() -> None:
     creators = [
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output")),
     ]
     creator = SequentialCreatorIterDataPipeCreator(creators)
     assert creator.create() == "output"
@@ -323,8 +199,8 @@ def test_sequential_creator_iter_datapipe_creator_create_1() -> None:
 
 def test_sequential_creator_iter_datapipe_creator_create_2() -> None:
     creators = [
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output1")),
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output2")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output1")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output2")),
     ]
     creator = SequentialCreatorIterDataPipeCreator(creators)
     assert creator.create() == "output2"
@@ -335,8 +211,8 @@ def test_sequential_creator_iter_datapipe_creator_create_2() -> None:
 def test_sequential_creator_iter_datapipe_creator_create_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     creators = [
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output1")),
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output2")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output1")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output2")),
     ]
     creator = SequentialCreatorIterDataPipeCreator(creators)
     assert creator.create(engine) == "output2"
@@ -346,8 +222,8 @@ def test_sequential_creator_iter_datapipe_creator_create_with_engine() -> None:
 
 def test_sequential_creator_iter_datapipe_creator_create_with_source_inputs() -> None:
     creators = [
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output1")),
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output2")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output1")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output2")),
     ]
     creator = SequentialCreatorIterDataPipeCreator(creators)
     assert creator.create(source_inputs=("my_input",)) == "output2"
@@ -358,8 +234,8 @@ def test_sequential_creator_iter_datapipe_creator_create_with_source_inputs() ->
 def test_sequential_creator_iter_datapipe_creator_create_with_engine_and_source_inputs() -> None:
     engine = Mock(spec=BaseEngine)
     creators = [
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output1")),
-        Mock(spec=BaseIterDataPipeCreator, create=Mock(return_value="output2")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output1")),
+        Mock(spec=BaseDataPipeCreator, create=Mock(return_value="output2")),
     ]
     creator = SequentialCreatorIterDataPipeCreator(creators)
     assert creator.create(engine, ("my_input",)) == "output2"
@@ -370,13 +246,13 @@ def test_sequential_creator_iter_datapipe_creator_create_with_engine_and_source_
 def test_sequential_creator_iter_datapipe_creator_create_batcher() -> None:
     creator = SequentialCreatorIterDataPipeCreator(
         [
-            SequentialIterDataPipeCreator(
+            SequentialDataPipeCreator(
                 {
                     OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
                     "source": [1, 2, 3, 4],
                 },
             ),
-            SequentialIterDataPipeCreator(
+            SequentialDataPipeCreator(
                 {OBJECT_TARGET: "torch.utils.data.datapipes.iter.Batcher", "batch_size": 2},
             ),
         ]
