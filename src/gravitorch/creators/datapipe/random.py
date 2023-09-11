@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["EpochRandomIterDataPipeCreator"]
+__all__ = ["EpochRandomDataPipeCreator"]
 
 import logging
 from collections.abc import Sequence
@@ -8,9 +8,9 @@ from typing import TYPE_CHECKING
 
 from coola.utils import str_indent, str_mapping
 from objectory import OBJECT_TARGET, factory
-from torch.utils.data import IterDataPipe
+from torch.utils.data import IterDataPipe, MapDataPipe
 
-from gravitorch.creators.datapipe.base import BaseIterDataPipeCreator
+from gravitorch.creators.datapipe.base import BaseDataPipeCreator
 from gravitorch.distributed import comm as dist
 from gravitorch.utils.format import str_pretty_json
 
@@ -20,10 +20,9 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
-    r"""Implements an ``IterDataPipe`` creator to create an
-    ``IterDataPipe`` object where its random seed is controlled by an
-    engine.
+class EpochRandomDataPipeCreator(BaseDataPipeCreator):
+    r"""Implements a ``DataPipe`` creator to create a ``DataPipe`` object
+    where its random seed is controlled by an engine.
 
     Given an engine, the random seed is set based on the engine random
     seed, the current epoch value, the maximum number of epochs and
@@ -32,10 +31,10 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
     Args:
     ----
         config (dict): Specifies the configuration of the
-            ``IterDataPipe``.
+            ``DataPipe``.
         random_seed_key (str, optional): Specifies the key in the
             configuration which is used to indicate the random seed
-            of the ``IterDataPipe``. If this key exists in ``config``,
+            of the ``DataPipe``. If this key exists in ``config``,
             it will be replaced by a new value, based on the engine
             state.
 
@@ -44,9 +43,9 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
     .. code-block:: pycon
 
         >>> from torch.utils.data.datapipes.iter import IterableWrapper
-        >>> from gravitorch.creators.datapipe import EpochRandomIterDataPipeCreator
+        >>> from gravitorch.creators.datapipe import EpochRandomDataPipeCreator
         >>> from gravitorch.testing import create_dummy_engine
-        >>> creator = EpochRandomIterDataPipeCreator(
+        >>> creator = EpochRandomDataPipeCreator(
         ...     {
         ...         "_target_": "gravitorch.datapipes.iter.TensorDictShuffler",
         ...         "datapipe": {
@@ -57,7 +56,7 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
         ...     }
         ... )
         >>> creator
-        EpochRandomIterDataPipeCreator(
+        EpochRandomDataPipeCreator(
           (config): {
               "_target_": "gravitorch.datapipes.iter.TensorDictShuffler",
               "datapipe": {
@@ -101,11 +100,11 @@ class EpochRandomIterDataPipeCreator(BaseIterDataPipeCreator):
 
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
-    ) -> IterDataPipe:
+    ) -> IterDataPipe | MapDataPipe:
         if engine is None:
-            raise ValueError(
+            raise RuntimeError(
                 "engine cannot be None because the epoch value is used to create the "
-                "IterDataPipe object"
+                "DataPipe object"
             )
         source_inputs = source_inputs or ()
         config = self._config.copy()  # Make a copy because the dict is modified below.

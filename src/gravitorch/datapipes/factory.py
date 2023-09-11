@@ -42,7 +42,7 @@ def create_chained_datapipe(
             want to create a ``DataPipe`` object recursively, you
             need to give a sequence of dict.
         - If ``config`` is a sequence of ``dict`` objects, this
-            function creates an ``DataPipe`` object with a
+            function creates a ``DataPipe`` object with a
             chained structure. The sequence of configurations
             follows the order of the ``DataPipe``s. The first
             config is used to create the first ``DataPipe``
