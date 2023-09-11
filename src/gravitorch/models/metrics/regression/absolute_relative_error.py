@@ -101,6 +101,21 @@ class AbsoluteRelativeError(BaseStateEpochMetric):
                 Specifies the predictions.
             target (``torch.Tensor`` with same shape and data type as
                 ``prediction``): Specifies the target tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import AbsoluteRelativeError
+            >>> metric = AbsoluteRelativeError("eval")
+            >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+            >>> metric.value()
+            {'eval/abs_rel_err_mean': 0.0,
+             'eval/abs_rel_err_min': 0.0,
+             'eval/abs_rel_err_max': 0.0,
+             'eval/abs_rel_err_sum': 0.0,
+             'eval/abs_rel_err_num_predictions': 8}
         """
         self._state.update(absolute_relative_error(prediction, target, eps=self._eps))
 
@@ -191,5 +206,20 @@ class SymmetricAbsoluteRelativeError(BaseStateEpochMetric):
             target (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the target tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import SymmetricAbsoluteRelativeError
+            >>> metric = SymmetricAbsoluteRelativeError("eval")
+            >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+            >>> metric.value()
+            {'eval/sym_abs_rel_err_mean': 0.0,
+             'eval/sym_abs_rel_err_min': 0.0,
+             'eval/sym_abs_rel_err_max': 0.0,
+             'eval/sym_abs_rel_err_sum': 0.0,
+             'eval/sym_abs_rel_err_num_predictions': 8}
         """
         self._state.update(symmetric_absolute_relative_error(prediction, target, eps=self._eps))

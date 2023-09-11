@@ -85,5 +85,20 @@ class AbsoluteError(BaseStateEpochMetric):
             target (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the target tensor.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import AbsoluteError
+            >>> metric = AbsoluteError("eval")
+            >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+            >>> metric.value()
+            {'eval/abs_err_mean': 0.0,
+             'eval/abs_err_min': 0.0,
+             'eval/abs_err_max': 0.0,
+             'eval/abs_err_sum': 0.0,
+             'eval/abs_err_num_predictions': 8}
         """
         self._state.update(absolute_error(prediction, target))

@@ -88,6 +88,17 @@ class BinaryAccuracy(BaseStateEpochMetric):
                 and type bool or long or float):
                 Specifies the targets. The values have to be ``0`` or
                 ``1``.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import BinaryAccuracy
+            >>> metric = BinaryAccuracy("eval")
+            >>> metric(torch.zeros(4), torch.ones(4))
+            >>> metric.value()
+            {'eval/bin_acc_accuracy': 0.0, 'eval/bin_acc_num_predictions': 4}
         """
         prediction = self.prediction_transform(prediction)
         self._state.update(prediction.eq(target.view_as(prediction)))
@@ -153,6 +164,17 @@ class CategoricalAccuracy(BaseStateEpochMetric):
                 type long or float): Specifies the categorical
                 targets. The values have to be in
                 ``{0, 1, ..., num_classes-1}``.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import CategoricalAccuracy
+            >>> metric = CategoricalAccuracy("eval")
+            >>> metric(torch.tensor([[0, 2, 1], [2, 1, 0]]), torch.tensor([1, 0]))
+            >>> metric.value()
+            {'eval/cat_acc_accuracy': 1.0, 'eval/cat_acc_num_predictions': 2}
         """
         prediction = self.prediction_transform(prediction)
         self._state.update(prediction.eq(target.view_as(prediction)))
@@ -244,6 +266,17 @@ class TopKAccuracy(BaseEpochMetric):
                 and type long or float): Specifies the targets.
                 The values have to be in
                 ``{0, 1, ..., num_classes-1}``.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import TopKAccuracy
+            >>> metric = TopKAccuracy("eval", topk=(1,))
+            >>> metric(torch.tensor([[0, 2, 1], [2, 1, 0]]), torch.tensor([1, 0]))
+            >>> metric.value()
+            {'eval/acc_top_1_accuracy': 1.0, 'eval/acc_top_1_num_predictions': 2}
         """
         _, pred = prediction.topk(self._maxk, -1, True, True)
         correct = pred.eq(target.view(*pred.shape[:-1], 1).expand_as(pred)).float()
@@ -255,19 +288,6 @@ class TopKAccuracy(BaseEpochMetric):
             state.reset()
 
     def value(self, engine: BaseEngine | None = None) -> dict:
-        r"""Evaluates the metric and log the results given all the
-        examples previously seen.
-
-        Args:
-        ----
-            engine (``BaseEngine``, optional): Specifies the engine.
-                This argument is required to log the results.
-                Default: ``None``.
-
-        Returns:
-        -------
-             dict: The results of the metric
-        """
         results = {}
         for k, state in self._states.items():
             results.update(state.value(f"{self._metric_name}_{k}_"))

@@ -79,6 +79,17 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
             target (``torch.Tensor`` of shape
                 ``(d0, d1, ..., dn)`` and type float or long):
                 Specifies the tensor of targets.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from gravitorch.models.metrics import NormalizedMeanSquaredError
+            >>> metric = NormalizedMeanSquaredError("eval")
+            >>> metric(torch.ones(2, 4), torch.ones(2, 4))
+            >>> metric.value()
+            {'eval/nmse': 0.0, 'eval/nmse_num_predictions': 8}
         """
         self._sum_squared_errors += mse_loss(
             prediction.float(), target.float(), reduction="sum"
