@@ -40,8 +40,32 @@ class VanillaMetric(BaseMetric):
         >>> from gravitorch.models.metrics import TopKAccuracy
         >>> # Initialization with a metric object.
         >>> metric = VanillaMetric(TopKAccuracy(mode="train", topk=[1]))
+        >>> metric
+        VanillaMetric(
+          (prediction_key): prediction
+          (target_key): target
+          (metric): TopKAccuracy(
+            (mode): train
+            (name): acc_top
+            (topk): (1,)
+            (states):
+              (1): AccuracyState(num_predictions=0)
+          )
+        )
         >>> # Initialization with the config of a metric.
         >>> metric = VanillaMetric(mode="eval", metric={"_target_": "TopKAccuracy", "topk": [1]})
+        >>> metric
+        VanillaMetric(
+          (prediction_key): prediction
+          (target_key): target
+          (metric): TopKAccuracy(
+            (mode): eval
+            (name): acc_top
+            (topk): (1,)
+            (states):
+              (1): AccuracyState(num_predictions=0)
+          )
+        )
         >>> # Customize keys.
         >>> net_out = {"next_sentence_prediction": ...}
         >>> batch = {"next_sentence_target": ...}
@@ -50,6 +74,18 @@ class VanillaMetric(BaseMetric):
         ...     prediction_key="next_sentence_prediction",
         ...     target_key="next_sentence_target",
         ... )
+        >>> metric
+        VanillaMetric(
+          (prediction_key): next_sentence_prediction
+          (target_key): next_sentence_target
+          (metric): TopKAccuracy(
+            (mode): train
+            (name): acc_top
+            (topk): (1,)
+            (states):
+              (1): AccuracyState(num_predictions=0)
+          )
+        )
     """
 
     def __init__(
