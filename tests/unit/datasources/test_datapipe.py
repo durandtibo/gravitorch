@@ -4,7 +4,7 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 from pytest import LogCaptureFixture, fixture, raises
 
-from gravitorch.creators.datapipe import BaseDataPipeCreator, SequentialDataPipeCreator
+from gravitorch.creators.datapipe import BaseDataPipeCreator, ChainedDataPipeCreator
 from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCreator
 from gravitorch.datapipes.iter import SourceWrapper
 from gravitorch.datasources import (
@@ -25,7 +25,7 @@ def datasource() -> IterDataPipeCreatorDataSource:
     return IterDataPipeCreatorDataSource(
         {
             "train": {
-                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+                OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
                 "config": [
                     {
                         OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -34,7 +34,7 @@ def datasource() -> IterDataPipeCreatorDataSource:
                 ],
             },
             "val": {
-                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+                OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
                 "config": [
                     {
                         OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -221,7 +221,7 @@ def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_
 def test_data_creator_iter_data_pipe_creator_datasource_get_dataloader() -> None:
     creator = DataCreatorIterDataPipeCreatorDataSource(
         datapipe_creators={
-            "train": SequentialDataPipeCreator(
+            "train": ChainedDataPipeCreator(
                 config=[
                     {OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
                 ]

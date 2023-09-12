@@ -7,7 +7,7 @@ from torch.nn import Module
 
 from gravitorch.creators.datapipe import (
     BaseDataPipeCreator,
-    SequentialDataPipeCreator,
+    ChainedDataPipeCreator,
     is_datapipe_creator_config,
     setup_datapipe_creator,
 )
@@ -20,7 +20,7 @@ from gravitorch.creators.datapipe import (
 def test_is_datapipe_creator_config_true() -> None:
     assert is_datapipe_creator_config(
         {
-            OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+            OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
             "config": [
                 {
                     OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -49,7 +49,7 @@ def test_setup_datapipe_creator_dict() -> None:
     assert isinstance(
         setup_datapipe_creator(
             {
-                OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+                OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
                 "config": [
                     {
                         OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
@@ -58,7 +58,7 @@ def test_setup_datapipe_creator_dict() -> None:
                 ],
             }
         ),
-        SequentialDataPipeCreator,
+        ChainedDataPipeCreator,
     )
 
 

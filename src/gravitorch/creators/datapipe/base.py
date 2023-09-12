@@ -32,8 +32,8 @@ class BaseDataPipeCreator(ABC, metaclass=AbstractFactory):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.datapipe import SequentialDataPipeCreator
-        >>> creator = SequentialDataPipeCreator(
+        >>> from gravitorch.creators.datapipe import ChainedDataPipeCreator
+        >>> creator = ChainedDataPipeCreator(
         ...     [
         ...         {
         ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -42,7 +42,7 @@ class BaseDataPipeCreator(ABC, metaclass=AbstractFactory):
         ...     ]
         ... )
         >>> creator
-        SequentialDataPipeCreator(
+        ChainedDataPipeCreator(
           (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
         )
         >>> datapipe = creator.create()
@@ -79,8 +79,8 @@ class BaseDataPipeCreator(ABC, metaclass=AbstractFactory):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.creators.datapipe import SequentialDataPipeCreator
-            >>> creator = SequentialDataPipeCreator(
+            >>> from gravitorch.creators.datapipe import ChainedDataPipeCreator
+            >>> creator = ChainedDataPipeCreator(
             ...     [
             ...         {
             ...             "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -119,7 +119,7 @@ def is_datapipe_creator_config(config: dict) -> bool:
         >>> from gravitorch.creators.datapipe import is_datapipe_creator_config
         >>> is_datapipe_creator_config(
         ...     {
-        ...         "_target_": "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+        ...         "_target_": "gravitorch.creators.datapipe.ChainedDataPipeCreator",
         ...         "config": [
         ...             {
         ...                 "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -157,7 +157,7 @@ def setup_datapipe_creator(creator: BaseDataPipeCreator | dict) -> BaseDataPipeC
         >>> from gravitorch.creators.datapipe import setup_datapipe_creator
         >>> creator = setup_datapipe_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+        ...         "_target_": "gravitorch.creators.datapipe.ChainedDataPipeCreator",
         ...         "config": [
         ...             {
         ...                 "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -167,7 +167,7 @@ def setup_datapipe_creator(creator: BaseDataPipeCreator | dict) -> BaseDataPipeC
         ...     }
         ... )
         >>> creator
-        SequentialDataPipeCreator(
+        ChainedDataPipeCreator(
           (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
         )
     """
