@@ -55,7 +55,7 @@ def test_setup_datasource_dict() -> None:
                 OBJECT_TARGET: "gravitorch.datasources.IterDataPipeCreatorDataSource",
                 "datapipe_creators": {
                     "train": {
-                        OBJECT_TARGET: "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+                        OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
                         "config": [
                             {
                                 OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",

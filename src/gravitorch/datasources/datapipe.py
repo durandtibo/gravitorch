@@ -45,10 +45,10 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
     .. code-block:: pycon
 
         >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
-        >>> from gravitorch.creators.datapipe import SequentialDataPipeCreator
+        >>> from gravitorch.creators.datapipe import ChainedDataPipeCreator
         >>> datasource = IterDataPipeCreatorDataSource(
         ...     datapipe_creators={
-        ...         "train": SequentialDataPipeCreator(
+        ...         "train": ChainedDataPipeCreator(
         ...             config=[
         ...                 {
         ...                     "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -56,7 +56,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...                 },
         ...             ]
         ...         ),
-        ...         "val": SequentialDataPipeCreator(
+        ...         "val": ChainedDataPipeCreator(
         ...             config=[
         ...                 {
         ...                     "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -71,7 +71,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         >>> datasource = IterDataPipeCreatorDataSource(
         ...     datapipe_creators={
         ...         "train": {
-        ...             "_target_": "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+        ...             "_target_": "gravitorch.creators.datapipe.ChainedDataPipeCreator",
         ...             "config": [
         ...                 {
         ...                     "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -80,7 +80,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...             ],
         ...         },
         ...         "val": {
-        ...             "_target_": "gravitorch.creators.datapipe.SequentialDataPipeCreator",
+        ...             "_target_": "gravitorch.creators.datapipe.ChainedDataPipeCreator",
         ...             "config": [
         ...                 {
         ...                     "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -175,10 +175,10 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
     .. code-block:: pycon
 
         >>> from gravitorch.datasources import DataCreatorIterDataPipeCreatorDataSource
-        >>> from gravitorch.creators.datapipe import SequentialDataPipeCreator
+        >>> from gravitorch.creators.datapipe import ChainedDataPipeCreator
         >>> datasource = DataCreatorIterDataPipeCreatorDataSource(
         ...     datapipe_creators={
-        ...         "train": SequentialDataPipeCreator(
+        ...         "train": ChainedDataPipeCreator(
         ...             config=[
         ...                 {
         ...                     "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -186,7 +186,7 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         ...                 },
         ...             ]
         ...         ),
-        ...         "val": SequentialDataPipeCreator(
+        ...         "val": ChainedDataPipeCreator(
         ...             config=[
         ...                 {
         ...                     "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",

@@ -24,7 +24,7 @@ datapipe_creators:
       batch_size: ${oc.select:batch_size,32}
       shuffle: true
   eval:
-    _target_: gravitorch.creators.datapipe.SequentialDataPipeCreator
+    _target_: gravitorch.creators.datapipe.ChainedDataPipeCreator
     config:
       - _target_: gravitorch.datapipes.iter.DictBatcher
         batch_size: ${oc.select:batch_size,32}
