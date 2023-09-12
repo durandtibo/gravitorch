@@ -37,7 +37,7 @@ class SequentialRunner(BaseRunner):
         self._runners = tuple(setup_runner(runner) for runner in runners)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_sequence(self._runners))}\n)"
+        return f"{self.__class__.__qualname__}(\n  {str_indent(str_sequence(self._runners))}\n)"
 
     def run(self) -> Any:
         for runner in self._runners:
