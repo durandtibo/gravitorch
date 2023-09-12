@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["IterDataPipeCreatorDataSource", "DataCreatorIterDataPipeCreatorDataSource"]
+__all__ = ["IterDataPipeCreatorDataSource", "DataCreatorDataSource"]
 
 import logging
 from collections.abc import Iterable
@@ -66,6 +66,15 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...         ),
         ...     }
         ... )
+        >>> datasource
+        IterDataPipeCreatorDataSource(
+          (train): ChainedDataPipeCreator(
+              (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
+            )
+          (val): ChainedDataPipeCreator(
+              (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': ['a', 'b', 'c']}
+            )
+        )
         >>> # Create by using the configs
         >>> # Note that both examples lead to the same result.
         >>> datasource = IterDataPipeCreatorDataSource(
@@ -90,6 +99,15 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...         },
         ...     }
         ... )
+        >>> datasource
+        IterDataPipeCreatorDataSource(
+          (train): ChainedDataPipeCreator(
+              (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
+            )
+          (val): ChainedDataPipeCreator(
+              (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': ['a', 'b', 'c']}
+            )
+        )
     """
 
     def __init__(self, datapipe_creators: dict[str, BaseDataPipeCreator | dict]) -> None:
@@ -145,7 +163,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         return datapipe
 
 
-class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
+class DataCreatorDataSource(IterDataPipeCreatorDataSource):
     r"""Implements a datasource that creates data loaders using
     ``IterDataPipe`` creators.
 
@@ -174,9 +192,9 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.datasources import DataCreatorIterDataPipeCreatorDataSource
+        >>> from gravitorch.datasources import DataCreatorDataSource
         >>> from gravitorch.creators.datapipe import ChainedDataPipeCreator
-        >>> datasource = DataCreatorIterDataPipeCreatorDataSource(
+        >>> datasource = DataCreatorDataSource(
         ...     datapipe_creators={
         ...         "train": ChainedDataPipeCreator(
         ...             config=[
@@ -208,6 +226,19 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         ...         },
         ...     },
         ... )
+        >>> datasource
+        DataCreatorDataSource(
+          (data_creators):
+            (train): HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=64, noise_std=0.2, random_seed=15782179921860610490)
+            (val): HypercubeVertexDataCreator(num_examples=10, num_classes=5, feature_size=64, noise_std=0.2, random_seed=15782179921860610490)
+          (datapipe_creators):
+            (train): ChainedDataPipeCreator(
+                (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
+              )
+            (val): ChainedDataPipeCreator(
+                (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': ['a', 'b', 'c']}
+              )
+        )
     """
 
     def __init__(
@@ -226,14 +257,19 @@ class DataCreatorIterDataPipeCreatorDataSource(IterDataPipeCreatorDataSource):
         logger.info(f"Data:\n{summary(self._data)}")
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            "  data_creators\n"
-            f"    {str_indent(str_mapping(self._data_creators), num_spaces=4)}\n"
-            "  datapipe_creators\n"
-            f"    {str_indent(str_mapping(self._datapipe_creators), num_spaces=4)}"
-            "\n)"
+        args = str_indent(
+            str_mapping(
+                {
+                    "data_creators": "\n" + str_mapping(self._data_creators)
+                    if self._data_creators
+                    else "",
+                    "datapipe_creators": "\n" + str_mapping(self._datapipe_creators)
+                    if self._datapipe_creators
+                    else "",
+                }
+            )
         )
+        return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def _create_datapipe(self, loader_id: str, engine: BaseEngine | None = None) -> IterDataPipe:
         r"""Creates an ``IterDataPipe`` object.

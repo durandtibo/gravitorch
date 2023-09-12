@@ -2,7 +2,7 @@ from __future__ import annotations
 
 __all__ = [
     "BaseDataSource",
-    "DataCreatorIterDataPipeCreatorDataSource",
+    "DataCreatorDataSource",
     "DatasetDataSource",
     "ImageNetDataSource",
     "IterDataPipeCreatorDataSource",
@@ -20,7 +20,7 @@ from gravitorch.datasources.base import (
     setup_datasource,
 )
 from gravitorch.datasources.datapipe import (
-    DataCreatorIterDataPipeCreatorDataSource,
+    DataCreatorDataSource,
     IterDataPipeCreatorDataSource,
 )
 from gravitorch.datasources.dataset import DatasetDataSource

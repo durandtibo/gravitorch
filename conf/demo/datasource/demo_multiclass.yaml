@@ -1,4 +1,4 @@
-_target_: gravitorch.datasources.DataCreatorIterDataPipeCreatorDataSource
+_target_: gravitorch.datasources.DataCreatorDataSource
 
 data_creators:
   train:
