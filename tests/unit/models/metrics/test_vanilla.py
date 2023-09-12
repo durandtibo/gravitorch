@@ -34,6 +34,10 @@ def engine() -> BaseEngine:
 ###################################
 
 
+def test_vanilla_metric_str() -> None:
+    assert str(VanillaMetric(AbsoluteError(ct.EVAL))).startswith("VanillaMetric(")
+
+
 @mark.parametrize("mode", MODES)
 def test_vanilla_metric_multiclass_accuracy_from_object(mode: str) -> None:
     metric = VanillaMetric(CategoricalAccuracy(mode))
@@ -152,6 +156,10 @@ def test_vanilla_metric_multiclass_accuracy_forward_multiple_batches_with_reset(
 ##########################################
 #     Tests for PaddedSequenceMetric     #
 ##########################################
+
+
+def test_padded_sequence_metric_str() -> None:
+    assert str(PaddedSequenceMetric(AbsoluteError(ct.EVAL))).startswith("PaddedSequenceMetric(")
 
 
 @mark.parametrize("device", get_available_devices())
