@@ -6,6 +6,7 @@ from pytest import LogCaptureFixture, mark, raises
 from gravitorch.engines import BaseEngine, EngineEvents
 from gravitorch.engines.events import EpochPeriodicCondition
 from gravitorch.handlers import EpochSysInfoMonitor
+from gravitorch.testing import psutil_available
 from gravitorch.utils.events import GConditionalEventHandler
 
 EVENTS = ("my_event", "my_other_event")
@@ -66,6 +67,7 @@ def test_epoch_sysinfo_monitor_attach_duplicate() -> None:
     engine.add_event_handler.assert_not_called()
 
 
+@psutil_available
 def test_epoch_sysinfo_monitor_monitor(caplog: LogCaptureFixture) -> None:
     engine = Mock(spec=BaseEngine, epoch=4)
     handler = EpochSysInfoMonitor()
