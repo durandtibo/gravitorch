@@ -7,6 +7,7 @@ from gravitorch.utils.imports import (
     check_fairscale,
     check_matplotlib,
     check_pillow,
+    check_psutil,
     check_tensorboard,
     check_torchdata,
     check_torchvision,
@@ -103,6 +104,17 @@ def test_is_pillow_available() -> None:
 ##################
 #     psutil     #
 ##################
+
+
+def test_check_psutil_with_package() -> None:
+    with patch("gravitorch.utils.imports.is_psutil_available", lambda *args: True):
+        check_psutil()
+
+
+def test_check_psutil_without_package() -> None:
+    with patch("gravitorch.utils.imports.is_psutil_available", lambda *args: False):
+        with raises(RuntimeError, match="`psutil` package is required but not installed."):
+            check_psutil()
 
 
 def test_is_psutil_available() -> None:
