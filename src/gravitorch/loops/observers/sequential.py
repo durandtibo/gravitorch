@@ -41,9 +41,7 @@ class SequentialLoopObserver(BaseLoopObserver):
         )
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_sequence(self._observers))}\n)"
-        )
+        return f"{self.__class__.__qualname__}(\n  {str_indent(str_sequence(self._observers))}\n)"
 
     def start(self, engine: BaseEngine) -> None:
         for observer in self._observers:

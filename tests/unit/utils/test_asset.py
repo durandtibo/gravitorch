@@ -1,13 +1,6 @@
-import numpy as np
-import torch
 from pytest import mark, raises
 
-from gravitorch.utils.asset import (
-    AssetExistsError,
-    AssetManager,
-    AssetNotFoundError,
-    get_asset_summary,
-)
+from gravitorch.utils.asset import AssetExistsError, AssetManager, AssetNotFoundError
 
 NAMES = ("name", "mean")
 
@@ -128,37 +121,3 @@ def test_asset_manager_remove_asset_does_not_exist() -> None:
         match="The asset 'name' does not exist so it is not possible to remove it",
     ):
         manager.remove_asset("name")
-
-
-#######################################
-#     Tests for get_asset_summary     #
-#######################################
-
-
-def test_get_asset_summary_tensor() -> None:
-    assert (
-        get_asset_summary(torch.ones(2, 3))
-        == "<class 'torch.Tensor'>  shape=torch.Size([2, 3])  dtype=torch.float32  device=cpu"
-    )
-
-
-def test_get_asset_summary_ndarray() -> None:
-    assert (
-        get_asset_summary(np.ones((2, 3))) == "<class 'numpy.ndarray'>  shape=(2, 3)  dtype=float64"
-    )
-
-
-def test_get_asset_summary_bool() -> None:
-    assert get_asset_summary(True) == "<class 'bool'>  True"
-
-
-def test_get_asset_summary_int() -> None:
-    assert get_asset_summary(42) == "<class 'int'>  42"
-
-
-def test_get_asset_summary_float() -> None:
-    assert get_asset_summary(2.35) == "<class 'float'>  2.35"
-
-
-def test_get_asset_summary_str() -> None:
-    assert get_asset_summary("abc") == "<class 'str'>"

@@ -2,15 +2,13 @@ r"""This module implements an asset manager."""
 
 from __future__ import annotations
 
-__all__ = ["AssetExistsError", "AssetManager", "AssetNotFoundError", "get_asset_summary"]
+__all__ = ["AssetExistsError", "AssetManager", "AssetNotFoundError"]
 
 import copy
 import logging
 from typing import Any
 
-import numpy as np
-import torch
-from coola import objects_are_equal
+from coola import objects_are_equal, summary
 from coola.utils import str_indent, str_mapping
 
 logger = logging.getLogger(__name__)
@@ -42,8 +40,8 @@ class AssetManager:
         self._assets = assets or {}
 
     def __repr__(self) -> str:
-        summaries = {name: self._get_asset_summary(asset) for name, asset in self._assets.items()}
-        return f"{self.__class__.__qualname__}(\n" f"  {str_indent(str_mapping(summaries))}\n" ")"
+        summaries = {name: summary(asset) for name, asset in self._assets.items()}
+        return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(summaries))}\n)"
 
     def __str__(self) -> str:
         return f"{self.__class__.__qualname__}(num_assets={len(self._assets):,})"
@@ -233,35 +231,3 @@ class AssetManager:
                 f"The asset '{name}' does not exist so it is not possible to remove it"
             )
         del self._assets[name]
-
-    def _get_asset_summary(self, asset: Any) -> str:
-        return get_asset_summary(asset)
-
-
-def get_asset_summary(asset: Any) -> str:
-    r"""Gets a one line summary of an asset.
-
-    Args:
-    ----
-        asset: Specifies the asset.
-
-    Returns:
-    -------
-        str: A one line summary of an asset.
-
-    Example usage:
-
-    .. code-block:: pycon
-
-        >>> import torch
-        >>> from gravitorch.utils.asset import get_asset_summary
-        >>> get_asset_summary(torch.ones(2, 3))
-        <class 'torch.Tensor'>  shape=torch.Size([2, 3])  dtype=torch.float32  device=cpu
-    """
-    if torch.is_tensor(asset):
-        return f"{type(asset)}  shape={asset.shape}  dtype={asset.dtype}  device={asset.device}"
-    if isinstance(asset, np.ndarray):
-        return f"{type(asset)}  shape={asset.shape}  dtype={asset.dtype}"
-    if isinstance(asset, (bool, int, float)):
-        return f"{type(asset)}  {asset}"
-    return f"{type(asset)}"
