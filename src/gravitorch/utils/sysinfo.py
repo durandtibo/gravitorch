@@ -9,9 +9,11 @@ __all__ = [
 
 import logging
 
-import psutil
-
 from gravitorch.utils.format import human_byte_size
+from gravitorch.utils.imports import check_psutil, is_psutil_available
+
+if is_psutil_available():  # pragma: no cover
+    import psutil
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +32,7 @@ def cpu_human_summary() -> str:
         >>> from gravitorch.utils.sysinfo import cpu_human_summary
         >>> cpu_human_summary()
     """
+    check_psutil()
     loadavg = tuple(100.0 * x / psutil.cpu_count() for x in psutil.getloadavg())
     return (
         f"CPU - logical/physical count: {psutil.cpu_count()}/{psutil.cpu_count(logical=False)} | "
@@ -67,6 +70,7 @@ def swap_memory_human_summary() -> str:
         >>> from gravitorch.utils.sysinfo import swap_memory_human_summary
         >>> swap_memory_human_summary()
     """
+    check_psutil()
     swap = psutil.swap_memory()
     return (
         f"swap memory - total: {human_byte_size(swap.total)} | "
@@ -92,6 +96,7 @@ def virtual_memory_human_summary() -> str:
         >>> from gravitorch.utils.sysinfo import virtual_memory_human_summary
         >>> virtual_memory_human_summary()
     """
+    check_psutil()
     vm = psutil.virtual_memory()
     return (
         f"virtual memory - total: {human_byte_size(vm.total)} | "
