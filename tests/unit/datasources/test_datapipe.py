@@ -8,7 +8,7 @@ from gravitorch.creators.datapipe import BaseDataPipeCreator, ChainedDataPipeCre
 from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCreator
 from gravitorch.datapipes.iter import SourceWrapper
 from gravitorch.datasources import (
-    DataCreatorIterDataPipeCreatorDataSource,
+    DataCreatorDataSource,
     IterDataPipeCreatorDataSource,
     LoaderNotFoundError,
 )
@@ -149,22 +149,22 @@ def test_iter_data_pipe_creator_datasource_state_dict(
     assert datasource.state_dict() == {}
 
 
-##############################################################
-#     Tests for DataCreatorIterDataPipeCreatorDataSource     #
-##############################################################
+###########################################
+#     Tests for DataCreatorDataSource     #
+###########################################
 
 
-def test_data_creator_iter_data_pipe_creator_datasource_str() -> None:
+def test_data_creator_datasource_str() -> None:
     assert str(
-        DataCreatorIterDataPipeCreatorDataSource(
+        DataCreatorDataSource(
             datapipe_creators={"train": Mock(spec=BaseDataPipeCreator)},
             data_creators={"train": Mock(spec=BaseDataCreator)},
         )
-    ).startswith("DataCreatorIterDataPipeCreatorDataSource(")
+    ).startswith("DataCreatorDataSource(")
 
 
-def test_data_creator_iter_data_pipe_creator_datasource_data_creators() -> None:
-    creator = DataCreatorIterDataPipeCreatorDataSource(
+def test_data_creator_datasource_data_creators() -> None:
+    creator = DataCreatorDataSource(
         datapipe_creators={"train": Mock(spec=BaseDataPipeCreator)},
         data_creators={
             "train": HypercubeVertexDataCreator(num_examples=10, num_classes=5),
@@ -180,10 +180,10 @@ def test_data_creator_iter_data_pipe_creator_datasource_data_creators() -> None:
     isinstance(creator._data_creators["val"], HypercubeVertexDataCreator)
 
 
-def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe() -> None:
+def test_data_creator_datasource_create_datapipe() -> None:
     data_creator = Mock(spec=BaseDataCreator, create=Mock(return_value=[1, 2, 3]))
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
-    creator = DataCreatorIterDataPipeCreatorDataSource(
+    creator = DataCreatorDataSource(
         datapipe_creators={"train": datapipe_creator},
         data_creators={"train": data_creator},
     )
@@ -193,9 +193,9 @@ def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe() -> Non
     datapipe_creator.create.assert_called_once_with(engine=None, source_inputs=([1, 2, 3],))
 
 
-def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_creator() -> None:
+def test_data_creator_datasource_create_datapipe_no_data_creator() -> None:
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
-    creator = DataCreatorIterDataPipeCreatorDataSource(
+    creator = DataCreatorDataSource(
         datapipe_creators={"train": datapipe_creator},
         data_creators={},
     )
@@ -204,12 +204,10 @@ def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_creator_with_engine() -> (
-    None
-):
+def test_data_creator_datasource_create_datapipe_no_data_creator_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
-    creator = DataCreatorIterDataPipeCreatorDataSource(
+    creator = DataCreatorDataSource(
         datapipe_creators={"train": datapipe_creator},
         data_creators={},
     )
@@ -218,8 +216,8 @@ def test_data_creator_iter_data_pipe_creator_datasource_create_datapipe_no_data_
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_iter_data_pipe_creator_datasource_get_dataloader() -> None:
-    creator = DataCreatorIterDataPipeCreatorDataSource(
+def test_data_creator_datasource_get_dataloader() -> None:
+    creator = DataCreatorDataSource(
         datapipe_creators={
             "train": ChainedDataPipeCreator(
                 config=[
