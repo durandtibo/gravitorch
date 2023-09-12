@@ -8,6 +8,7 @@ __all__ = [
     "check_fairscale",
     "check_matplotlib",
     "check_pillow",
+    "check_psutil",
     "check_tensorboard",
     "check_torchdata",
     "check_torchvision",
@@ -188,6 +189,28 @@ def is_pillow_available() -> bool:
 ##################
 #     psutil     #
 ##################
+
+
+def check_psutil() -> None:
+    r"""Checks if the ``psutil`` package is installed.
+
+    Raises
+    ------
+        RuntimeError if the ``psutil`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_psutil
+        >>> check_psutil()
+    """
+    if not is_psutil_available():
+        raise RuntimeError(
+            "`psutil` package is required but not installed. "
+            "You can install `psutil` package with the command:\n\n"
+            "pip install psutil\n"
+        )
 
 
 def is_psutil_available() -> bool:
