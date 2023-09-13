@@ -254,7 +254,7 @@ class DataCreatorDataSource(IterDataPipeCreatorDataSource):
         logger.info(f"Data creators:\n{str_mapping(self._data_creators)}")
         logger.info("Creating data...")
         self._data = {key: creator.create() for key, creator in self._data_creators.items()}
-        logger.info(f"Data:\n{summary(self._data)}")
+        logger.info(f"Data:\n{summary(self._data, max_depth=2)}")
 
     def __repr__(self) -> str:
         args = str_indent(
