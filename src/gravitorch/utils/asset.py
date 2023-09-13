@@ -31,7 +31,13 @@ class AssetManager:
 
         >>> from gravitorch.utils.asset import AssetManager
         >>> manager = AssetManager()
+        >>> manager
+        AssetManager()
         >>> manager.add_asset("mean", 5)
+        >>> manager
+        AssetManager(
+          (mean): <class 'int'> 5
+        )
         >>> manager.get_asset("mean")
         5
     """
@@ -39,9 +45,13 @@ class AssetManager:
     def __init__(self, assets: dict[str, Any] | None = None) -> None:
         self._assets = assets or {}
 
+    def __len__(self) -> int:
+        return len(self._assets)
+
     def __repr__(self) -> str:
-        summaries = {name: summary(asset) for name, asset in self._assets.items()}
-        return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(summaries))}\n)"
+        assets = {name: summary(asset) for name, asset in self._assets.items()}
+        args = f"\n  {str_indent(str_mapping(assets))}\n" if assets else ""
+        return f"{self.__class__.__qualname__}({args})"
 
     def __str__(self) -> str:
         return f"{self.__class__.__qualname__}(num_assets={len(self._assets):,})"
@@ -231,3 +241,78 @@ class AssetManager:
                 f"The asset '{name}' does not exist so it is not possible to remove it"
             )
         del self._assets[name]
+
+    def load_state_dict(self, state_dict: dict, keys: list | tuple | None = None) -> None:
+        r"""Loads the state dict of each module.
+
+        Note this method ignore the missing modules or keys. For
+        example if you want to load the optimizer module but there is
+        no 'optimizer' key in the state dict, this method will ignore
+        the optimizer module.
+
+        Args:
+        ----
+            state_dict (dict): Specifies the state dict to load.
+            keys (list or tuple or ``None``): Specifies the keys to
+                load. If ``None``, it loads all the keys associated
+                to the registered modules.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> import torch
+            >>> from torch import nn
+            >>> from gravitorch.utils.asset import AssetManager
+            >>> manager = AssetManager()
+            >>> manager.add_asset("my_module", nn.Linear(4, 6))
+            >>> manager.load_state_dict(
+            ...     {"my_module": {"weight": torch.ones(6, 4), "bias": torch.zeros(6)}}
+            ... )
+        """
+        keys = keys or tuple(self._assets.keys())
+        for key in keys:
+            if key not in state_dict:
+                logger.info(f"Ignore key {key} because it is not in the state dict")
+                continue
+            if key not in self._assets:
+                logger.info(f"Ignore key {key} because there is no module associated to it")
+                continue
+            if not hasattr(self._assets[key], "load_state_dict"):
+                logger.info(
+                    f"Ignore key {key} because the module does not have 'load_state_dict' method"
+                )
+                continue
+            self._assets[key].load_state_dict(state_dict[key])
+
+    def state_dict(self) -> dict:
+        r"""Creates a state dict with all the modules.
+
+        The state of each module is store with the associated key of
+        the module.
+
+        Returns
+        -------
+            dict: The state dict of all the modules.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from torch import nn
+            >>> from gravitorch.utils.asset import AssetManager
+            >>> manager = AssetManager()
+            >>> manager.add_asset("my_module", nn.Linear(4, 6))
+            >>> manager.state_dict()  # doctest: +ELLIPSIS
+            {'my_module': OrderedDict([('weight', tensor([[...)), ('bias', tensor([...))])}
+            >>> manager.add_asset("int", 123)
+            >>> manager.state_dict()  # doctest: +ELLIPSIS
+            {'my_module': OrderedDict([('weight', tensor([[...]])), ('bias', tensor([...]))])}
+        """
+        state = {}
+        for name, module in self._assets.items():
+            if hasattr(module, "state_dict"):
+                state[name] = module.state_dict()
+            else:
+                logger.info(f"Skip '{name}' module because it does not have 'state_dict' method")
+        return state
