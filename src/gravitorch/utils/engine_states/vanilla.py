@@ -6,9 +6,9 @@ from typing import Any
 
 from coola.utils import str_indent, str_mapping
 
+from gravitorch.utils.asset import AssetManager
 from gravitorch.utils.engine_states.base import BaseEngineState
 from gravitorch.utils.history import BaseHistory, HistoryManager
-from gravitorch.utils.module_manager import ModuleManager
 
 
 class EngineState(BaseEngineState):
@@ -33,7 +33,7 @@ class EngineState(BaseEngineState):
         >>> state = EngineState()
         >>> state
         EngineState(
-          (modules): ModuleManager(total=0)
+          (modules): AssetManager(num_assets=0)
           (histories): HistoryManager()
           (random_seed): 9984043075503325450
           (max_epochs): 1
@@ -55,7 +55,7 @@ class EngineState(BaseEngineState):
         self._random_seed = random_seed
 
         self._histories = HistoryManager()
-        self._modules = ModuleManager()
+        self._modules = AssetManager()
 
     def __repr__(self) -> str:
         args = str_indent(
@@ -92,7 +92,7 @@ class EngineState(BaseEngineState):
         self._histories.add_history(history=history, key=key)
 
     def add_module(self, name: str, module: Any) -> None:
-        self._modules.add_module(name=name, module=module)
+        self._modules.add_asset(name=name, asset=module, replace_ok=True)
 
     def get_best_values(self, prefix: str = "", suffix: str = "") -> dict[str, Any]:
         return self._histories.get_best_values(prefix, suffix)
@@ -104,13 +104,13 @@ class EngineState(BaseEngineState):
         return self._histories.get_histories()
 
     def get_module(self, name: str) -> Any:
-        return self._modules.get_module(name)
+        return self._modules.get_asset(name)
 
     def has_history(self, key: str) -> bool:
         return self._histories.has_history(key)
 
     def has_module(self, name: str) -> bool:
-        return self._modules.has_module(name)
+        return self._modules.has_asset(name)
 
     def increment_epoch(self, increment: int = 1) -> None:
         self._epoch += increment
@@ -125,7 +125,7 @@ class EngineState(BaseEngineState):
         self._modules.load_state_dict(state_dict["modules"])
 
     def remove_module(self, name: str) -> None:
-        self._modules.remove_module(name)
+        self._modules.remove_asset(name)
 
     def state_dict(self) -> dict:
         return {

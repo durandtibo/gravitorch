@@ -1,6 +1,7 @@
 from pytest import mark, raises
 from torch import nn
 
+from gravitorch.utils.asset import AssetNotFoundError
 from gravitorch.utils.engine_states import EngineState
 from gravitorch.utils.history import GenericHistory, MinScalarHistory
 
@@ -64,7 +65,7 @@ def test_engine_state_add_history_without_key(key: str) -> None:
 def test_engine_state_add_module(name: str) -> None:
     state = EngineState()
     state.add_module(name, nn.Linear(4, 5))
-    assert state._modules.has_module(name)
+    assert state._modules.has_asset(name)
 
 
 def test_engine_state_get_best_values_without_history() -> None:
@@ -115,7 +116,7 @@ def test_engine_state_get_module() -> None:
 
 def test_engine_state_get_module_missing() -> None:
     state = EngineState()
-    with raises(ValueError, match="The module 'my_module' does not exist"):
+    with raises(AssetNotFoundError, match="The asset 'my_module' does not exist"):
         state.get_module("my_module")
 
 
@@ -201,7 +202,8 @@ def test_engine_state_remove_module_exists() -> None:
 def test_engine_state_remove_module_does_not_exist() -> None:
     state = EngineState()
     with raises(
-        ValueError, match="The module 'my_module' does not exist so it is not possible to remove it"
+        AssetNotFoundError,
+        match="The asset 'my_module' does not exist so it is not possible to remove it",
     ):
         state.remove_module("my_module")
 
