@@ -13,6 +13,7 @@ from gravitorch.loops.evaluation import BaseEvaluationLoop, EvaluationLoop
 from gravitorch.loops.training import BaseTrainingLoop, TrainingLoop
 from gravitorch.testing import DummyDataSource
 from gravitorch.utils.artifacts import BaseArtifact
+from gravitorch.utils.asset import AssetNotFoundError
 from gravitorch.utils.engine_states import EngineState
 from gravitorch.utils.events import GEventHandler
 from gravitorch.utils.exp_trackers import BaseExpTracker, EpochStep, NoOpExpTracker
@@ -194,7 +195,7 @@ def test_alpha_engine_get_module_exists(core_creator: BaseCoreCreator) -> None:
 
 def test_alpha_engine_get_module_does_not_exists(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
-    with raises(ValueError, match="The module 'my_module' does not exist"):
+    with raises(AssetNotFoundError, match="The asset 'my_module' does not exist"):
         engine.get_module("my_module")
 
 
@@ -372,7 +373,8 @@ def test_alpha_engine_remove_module_exists(core_creator: BaseCoreCreator) -> Non
 def test_alpha_engine_remove_module_does_not_exists(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
     with raises(
-        ValueError, match="The module 'my_module' does not exist so it is not possible to remove it"
+        AssetNotFoundError,
+        match="The asset 'my_module' does not exist so it is not possible to remove it",
     ):
         engine.remove_module("my_module")
 
