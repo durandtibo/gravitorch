@@ -5,7 +5,7 @@ __all__ = ["EvaluationRunner"]
 import logging
 from collections.abc import Sequence
 
-from coola.utils import str_indent, str_mapping
+from coola.utils import str_indent, str_mapping, str_sequence
 
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
@@ -55,6 +55,76 @@ class EvaluationRunner(BaseResourceRunner):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> runner = EvaluationRunner(engine)
+        >>> runner  # doctest:+ELLIPSIS
+        EvaluationRunner(
+          (engine): AlphaEngine(
+              (datasource): DummyDataSource(
+                  (datasets):
+                    (train): DummyDataset(num_examples=4, feature_size=4)
+                    (eval): DummyDataset(num_examples=4, feature_size=4)
+                  (dataloader_creators):
+                    (train): DataLoaderCreator(
+                        (seed): 0
+                        (batch_size): 2
+                        (shuffle): False
+                      )
+                    (eval): DataLoaderCreator(
+                        (seed): 0
+                        (batch_size): 2
+                        (shuffle): False
+                      )
+                )
+              (model): DummyClassificationModel(
+                  (linear): Linear(in_features=4, out_features=3, bias=True)
+                  (criterion): CrossEntropyLoss()
+                )
+              (optimizer): SGD (
+                Parameter Group 0
+                    dampening: 0
+                    differentiable: False
+                    foreach: None
+                    lr: 0.01
+                    maximize: False
+                    momentum: 0
+                    nesterov: False
+                    weight_decay: 0
+                )
+              (lr_scheduler): None
+              (training_loop): TrainingLoop(
+                  (set_grad_to_none): True
+                  (batch_device_placement): AutoDevicePlacement(device=cpu)
+                  (tag): train
+                  (clip_grad_fn): None
+                  (clip_grad_args): ()
+                  (observer): NoOpLoopObserver()
+                  (profiler): NoOpProfiler()
+                )
+              (evaluation_loop): EvaluationLoop(
+                  (batch_device_placement): AutoDevicePlacement(device=cpu)
+                  (grad_enabled): False
+                  (tag): eval
+                  (condition): EveryEpochEvalCondition(every=1)
+                  (observer): NoOpLoopObserver()
+                  (profiler): NoOpProfiler()
+                )
+              (state): EngineState(
+                  (modules): AssetManager(num_assets=5)
+                  (histories): HistoryManager()
+                  (random_seed): 9984043075503325450
+                  (max_epochs): 1
+                  (epoch): -1
+                  (iteration): -1
+                )
+              (event_manager): EventManager(
+                  (event_handlers):
+                  (last_fired_event): None
+                )
+              (exp_tracker): NoOpExpTracker(experiment_path=..., is_activated=True))
+          (exp_tracker): None
+          (handlers): ()
+          (resources): ()
+          (random_seed): 10139531598155730726
+        )
         >>> runner.run()
     """
 
@@ -78,8 +148,8 @@ class EvaluationRunner(BaseResourceRunner):
                 {
                     "engine": self._engine,
                     "exp_tracker": self._exp_tracker,
-                    "handlers": self._handlers,
-                    "resources": self._resources,
+                    "handlers": "\n" + str_sequence(self._handlers) if self._handlers else "()",
+                    "resources": "\n" + str_sequence(self._resources) if self._resources else "()",
                     "random_seed": self._random_seed,
                 }
             )
