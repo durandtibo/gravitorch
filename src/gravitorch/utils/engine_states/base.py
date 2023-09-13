@@ -25,7 +25,7 @@ class BaseEngineState(ABC, metaclass=AbstractFactory):
         >>> state = EngineState()
         >>> state
         EngineState(
-          (modules): ModuleManager(total=0)
+          (modules): AssetManager(num_assets=0)
           (histories): HistoryManager()
           (random_seed): 9984043075503325450
           (max_epochs): 1
