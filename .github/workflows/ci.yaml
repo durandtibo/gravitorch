@@ -414,6 +414,51 @@ jobs:
         run: |
           poetry run make integration-test-cov
 
+  test-numpy:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ '3.10' ]
+        numpy-version: [ '1.25', '1.24' ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install packages
+        run: |
+          poetry run make config-poetry
+          poetry run make install
+
+      - name: Install PyTorch
+        run: |
+          poetry run pip install numpy==${{ matrix.numpy-version }}
+
+      - name: Show installed packages
+        run: |
+          poetry run poetry show
+          poetry run poetry show --tree
+
+      - name: Run unit tests
+        run: |
+          poetry run make unit-test-cov
+
+      - name: Run integration tests
+        run: |
+          poetry run make integration-test-cov
+
   test-torch:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
