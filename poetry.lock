@@ -3854,4 +3854,4 @@ vision = ["pillow", "torchvision"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "9bf7607c071398c6997a09a0d2570e4426a46fb6adb2217ce62d9da0b039da27"
+content-hash = "8daf5355b05dbedfc2570db2840c76d23b765d3e9464e5e8de899f03cb36009c"
