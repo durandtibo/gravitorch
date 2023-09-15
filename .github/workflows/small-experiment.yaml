@@ -1,4 +1,4 @@
-name: small experiment
+name: Small Experiment
 on:
   pull_request:
     branches:
@@ -11,7 +11,7 @@ on:
   workflow_dispatch:  # manual trigger
 
 jobs:
-  test:
+  run-mlp:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
