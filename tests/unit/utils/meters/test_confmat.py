@@ -13,6 +13,7 @@ from gravitorch.utils.meters.confmat import (
     check_confusion_matrix,
     check_op_compatibility_binary,
     check_op_compatibility_multiclass,
+    str_binary_confusion_matrix,
 )
 
 ###########################################
@@ -1645,3 +1646,40 @@ def test_check_op_compatibility_multiclass_incorrect_shape() -> None:
             MulticlassConfusionMatrix.from_num_classes(4),
             "op",
         )
+
+
+#######################################
+#     str_binary_confusion_matrix     #
+#######################################
+
+
+def test_str_binary_confusion_matrix() -> None:
+    assert (
+        str_binary_confusion_matrix(torch.tensor([[1001, 42], [123, 789]]))
+        == """┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                     ┃ predicted negative (0) ┃ predicted positive (1) ┃
+┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ actual negative (0) ┃ [TN]  1,001            ┃ [FP]  42               ┃
+┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ actual positive (1) ┃ [FN]  123              ┃ [TP]  789              ┃
+┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┛"""
+    )
+
+
+def test_str_binary_confusion_matrix_empty() -> None:
+    assert (
+        str_binary_confusion_matrix(torch.zeros(2, 2))
+        == """┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                     ┃ predicted negative (0) ┃ predicted positive (1) ┃
+┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ actual negative (0) ┃ [TN]  0                ┃ [FP]  0                ┃
+┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ actual positive (1) ┃ [FN]  0                ┃ [TP]  0                ┃
+┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┛"""
+    )
+
+
+@mark.parametrize("shape", ((1,), (1, 1), (2, 3), (3, 2), (3, 3)))
+def test_str_binary_confusion_matrix_incorrect_shape(shape: tuple[int, ...]) -> None:
+    with raises(RuntimeError, match="Expected a 2x2 confusion matrix but received"):
+        str_binary_confusion_matrix(torch.zeros(*shape))

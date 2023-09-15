@@ -1,12 +1,18 @@
 from __future__ import annotations
 
-__all__ = ["BaseConfusionMatrix", "BinaryConfusionMatrix", "MulticlassConfusionMatrix"]
+__all__ = [
+    "BaseConfusionMatrix",
+    "BinaryConfusionMatrix",
+    "MulticlassConfusionMatrix",
+    "str_binary_confusion_matrix",
+]
 
 from collections.abc import Iterable, Sequence
 from typing import Any
 
 import torch
 from coola.utils import str_indent
+from tabulate import tabulate
 from torch import Tensor
 
 from gravitorch.distributed.ddp import SUM, sync_reduce_
@@ -1378,3 +1384,38 @@ def check_op_compatibility_multiclass(
         raise ValueError(
             f"Incorrect shape: received {other.matrix.shape} but expect {current.matrix.shape}"
         )
+
+
+def str_binary_confusion_matrix(confmat: Tensor) -> str:
+    r"""Computes a string representation of the confusion matrix.
+
+    Args:
+        confmat (``torch.Tensor``): Specifies the confusion matrix.
+
+    Returns:
+        str: A string representation of the confusion matrix.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> import torch
+        >>> from gravitorch.utils.meters.confmat import str_binary_confusion_matrix
+        >>> print(str_binary_confusion_matrix(torch.tensor([[1001, 42], [123, 789]])))
+        ┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+        ┃                     ┃ predicted negative (0) ┃ predicted positive (1) ┃
+        ┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫
+        ┃ actual negative (0) ┃ [TN]  1,001            ┃ [FP]  42               ┃
+        ┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫
+        ┃ actual positive (1) ┃ [FN]  123              ┃ [TP]  789              ┃
+        ┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┛
+    """
+    if confmat.shape != (2, 2):
+        raise RuntimeError(f"Expected a 2x2 confusion matrix but received: {confmat.shape}")
+    confmat = confmat.long()
+    table = [
+        ["", "predicted negative (0)", "predicted positive (1)"],
+        ["actual negative (0)", f"[TN]  {confmat[0,0]:,}", f"[FP]  {confmat[0,1]:,}"],
+        ["actual positive (1)", f"[FN]  {confmat[1,0]:,}", f"[TP]  {confmat[1,1]:,}"],
+    ]
+    return tabulate(table, tablefmt="heavy_grid")
