@@ -336,7 +336,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.10' ]
-        hydra-core-version: [ 1.3.2 ]
+        hydra-core-version: [ 1.3.2, 1.3.0 ]
 
     steps:
       - name: Checkout
@@ -372,51 +372,6 @@ jobs:
         run: |
           poetry run make integration-test-cov
 
-
-  test-minevent:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest ]
-        python-version: [ '3.10' ]
-        minevent-version: [ '0.0.2' ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-
-      - name: Install packages
-        run: |
-          poetry run make config-poetry
-          poetry run make install
-
-      - name: Install PyTorch
-        run: |
-          poetry run pip install minevent==${{ matrix.minevent-version }}
-
-      - name: Show installed packages
-        run: |
-          poetry run poetry show
-          poetry run poetry show --tree
-
-      - name: Run unit tests
-        run: |
-          poetry run make unit-test-cov
-
-      - name: Run integration tests
-        run: |
-          poetry run make integration-test-cov
 
   test-numpy:
     runs-on: ${{ matrix.os }}
@@ -463,7 +418,8 @@ jobs:
         run: |
           poetry run make integration-test-cov
 
-  test-objectory:
+
+  test-pytorch-ignite:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
@@ -472,7 +428,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.10' ]
-        objectory-version: [ 0.0.7 ]
+        pytorch-ignite-version: [ 0.4.12, 0.4.11 ]
 
     steps:
       - name: Checkout
@@ -493,7 +449,7 @@ jobs:
 
       - name: Install PyTorch
         run: |
-          poetry run pip install objectory==${{ matrix.objectory-version }}
+          poetry run pip install pytorch-ignite==${{ matrix.pytorch-ignite-version }}
 
       - name: Show installed packages
         run: |
@@ -508,6 +464,7 @@ jobs:
         run: |
           poetry run make integration-test-cov
 
+
   test-torch:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
@@ -517,7 +474,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.10' ]
-        pytorch-version: [ 2.0.0 ]
+        pytorch-version: [ 2.0.1, 2.0.0 ]
 
     steps:
       - name: Checkout
@@ -553,10 +510,51 @@ jobs:
         run: |
           poetry run make integration-test-cov
 
-      - name: Run functional tests
-        timeout-minutes: 4
+
+  test-tqdm:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 8
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ '3.10' ]
+        pytqdm-version: [ 4.66.1, 4.65.2, 4.64.1, 4.63.2, 4.62.3 ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install packages
         run: |
-          poetry run make functional-test-cov
+          poetry run make config-poetry
+          poetry run make install
+
+      - name: Install PyTorch
+        run: |
+          poetry run pip install tqdm==${{ matrix.pytqdm-version }}
+
+      - name: Show installed packages
+        run: |
+          poetry run poetry show
+          poetry run poetry show --tree
+
+      - name: Run unit tests
+        run: |
+          poetry run make unit-test-cov
+
+      - name: Run integration tests
+        run: |
+          poetry run make integration-test-cov
 
 
   detect-cyclic-import:
