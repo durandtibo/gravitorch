@@ -1,4 +1,4 @@
-name: Cyclic Imports Detection
+name: Cyclic Imports
 on:
   schedule:
     - cron: '30 9 * * *' # run at 9:30 AM UTC
@@ -11,7 +11,7 @@ on:
   workflow_dispatch:  # manual trigger
 
 jobs:
-  cyclic-import:
+  test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
