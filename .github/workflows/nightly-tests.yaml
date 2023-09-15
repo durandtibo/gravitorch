@@ -122,7 +122,7 @@ jobs:
 
       - name: Install coola
         run: |
-          poetry run pip uninstall coola
+          poetry run pip uninstall --yes coola
           poetry run pip install coola==${{ matrix.coola-version }}
 
       - name: Show installed packages
@@ -169,7 +169,7 @@ jobs:
 
       - name: Install PyTorch
         run: |
-          poetry run pip uninstall hya
+          poetry run pip uninstall --yes hya
           poetry run pip install hya==${{ matrix.hya-version }}
 
       - name: Show installed packages
@@ -216,7 +216,7 @@ jobs:
 
       - name: Install hydra
         run: |
-          poetry run pip uninstall hydra-core
+          poetry run pip uninstall --yes hydra-core
           poetry run pip install hydra-core==${{ matrix.hydra-core-version }}
 
       - name: Show installed packages
@@ -263,7 +263,7 @@ jobs:
 
       - name: Install numpy
         run: |
-          poetry run pip uninstall numpy
+          poetry run pip uninstall --yes numpy
           poetry run pip install numpy==${{ matrix.numpy-version }}
 
       - name: Show installed packages
@@ -310,7 +310,7 @@ jobs:
 
       - name: Install pytorch-ignite
         run: |
-          poetry run pip uninstall pytorch-ignite
+          poetry run pip uninstall --yes pytorch-ignite
           poetry run pip install pytorch-ignite==${{ matrix.pytorch-ignite-version }}
 
       - name: Show installed packages
@@ -357,7 +357,7 @@ jobs:
 
       - name: Install PyTorch
         run: |
-          poetry run pip uninstall torch
+          poetry run pip uninstall --yes torch
           poetry run pip install torch==${{ matrix.pytorch-version }}
 
       - name: Show installed packages
@@ -404,7 +404,7 @@ jobs:
 
       - name: Install tqdm
         run: |
-          poetry run pip uninstall tqdm
+          poetry run pip uninstall --yes tqdm
           poetry run pip install tqdm==${{ matrix.tqdm-version }}
 
       - name: Show installed packages
