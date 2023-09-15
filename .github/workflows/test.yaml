@@ -1,4 +1,4 @@
-name: Nightly Tests
+name: Tests
 on:
   schedule:
     - cron: '30 9 * * *' # run at 9:30 AM UTC
