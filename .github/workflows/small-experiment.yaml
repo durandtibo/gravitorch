@@ -1,4 +1,4 @@
-name: small experiment
+name: Small Experiment
 on:
   pull_request:
     branches:
