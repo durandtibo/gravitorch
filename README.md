@@ -66,7 +66,7 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `minevent`       | `>=0.0.2,<0.0.3`   |
 | `numpy`          | `>=1.22,<1.26`     |
 | `objectory`      | `>=0.0.7,<0.0.8`   |
-| `pytorch-ignite` | `>=0.4.8,<0.5`     |
+| `pytorch-ignite` | `>=0.4.11,<0.5`    |
 | `tabulate`       | `>=0.9,<0.10`      |
 | `torch`          | `>=2.0,<2.1`       |
 | `tqdm`           | `>=4.62,<4.67`     |
