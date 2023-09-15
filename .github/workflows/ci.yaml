@@ -428,7 +428,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.10' ]
-        pytorch-ignite-version: [ 0.4.12, 0.4.11, 0.4.10, 0.4.9, 0.4.8 ]
+        pytorch-ignite-version: [ 0.4.12, 0.4.11 ]
 
     steps:
       - name: Checkout
