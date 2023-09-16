@@ -65,7 +65,7 @@ class LRSchedulerCreator(BaseLRSchedulerCreator):
         >>> model = DummyClassificationModel()
         >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
         >>> lr_scheduler = creator.create(engine, optimizer)
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
 

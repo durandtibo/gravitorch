@@ -55,7 +55,7 @@ class ModelSummary:
         >>> from torch import nn
         >>> from gravitorch.models.utils import ModelSummary
         >>> model = torch.nn.Linear(4, 5)
-        >>> print(ModelSummary(model, mode="top"))  # doctest: +NORMALIZE_WHITESPACE
+        >>> print(ModelSummary(model, mode="top"))
         ╒════╤═══════════════╤════════╤══════════╤════════════════╕
         │    │ Name          │ Type   │   Params │   Learn Params │
         ╞════╪═══════════════╪════════╪══════════╪════════════════╡
@@ -86,7 +86,7 @@ class ModelSummary:
         ...         )
         ...
         >>> model = MyNetwork()
-        >>> print(ModelSummary(model, mode="top"))  # doctest: +NORMALIZE_WHITESPACE
+        >>> print(ModelSummary(model, mode="top"))
         ╒════╤═══════════════╤══════════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕
         │    │ Name          │ Type         │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │
         ╞════╪═══════════════╪══════════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡
@@ -103,7 +103,7 @@ class ModelSummary:
          - 455        Learnable params
          - 0          Non-learnable params
          - 455        Total params
-        >>> print(ModelSummary(model, mode="full"))  # doctest: +NORMALIZE_WHITESPACE
+        >>> print(ModelSummary(model, mode="full"))
         ╒════╤════════════════════════╤══════════════╤══════════╤════════════════╤════════════╤═══════════════╤═════════════╤═══════════════╕
         │    │ Name                   │ Type         │   Params │   Learn Params │ In sizes   │ In dtype      │ Out sizes   │ Out dtype     │
         ╞════╪════════════════════════╪══════════════╪══════════╪════════════════╪════════════╪═══════════════╪═════════════╪═══════════════╡

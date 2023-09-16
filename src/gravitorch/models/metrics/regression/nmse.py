@@ -45,7 +45,7 @@ class NormalizedMeanSquaredError(BaseEpochMetric):
         >>> metric.value()
         {'eval/nmse': 0.0, 'eval/nmse_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/nmse': 0.166666..., 'eval/nmse_num_predictions': 12}
         >>> metric.reset()
         >>> metric(torch.eye(2), torch.ones(2, 2))

@@ -63,7 +63,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
         ...         {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5}
         ...     ),
         ... )
-        >>> creator  # doctest: +ELLIPSIS
+        >>> creator
         AdvancedCoreCreator(
           (datasource): DataSourceCreator(
               (config): {'_target_': 'gravitorch.testing.DummyDataSource'}
@@ -107,7 +107,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
           (linear): Linear(in_features=4, out_features=3, bias=True)
           (criterion): CrossEntropyLoss()
         )
-        >>> optimizer  # doctest: +ELLIPSIS
+        >>> optimizer
         SGD (
           Parameter Group 0...
               lr: 0.01
@@ -116,7 +116,7 @@ class AdvancedCoreCreator(BaseCoreCreator):
               nesterov: False
               weight_decay: 0
         )
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
 

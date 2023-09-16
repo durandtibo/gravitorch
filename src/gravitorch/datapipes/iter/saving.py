@@ -39,7 +39,7 @@ class PickleSaverIterDataPipe(IterDataPipe[Path]):
         >>> from torch.utils.data.datapipes.iter import IterableWrapper
         >>> from gravitorch.datapipes.iter import PickleSaver
         >>> dp = PickleSaver(IterableWrapper([1, 2, 3, 4, 5]), root_path="tmp/")
-        >>> dp  # doctest: +ELLIPSIS
+        >>> dp
         PickleSaverIterDataPipe(
           (root_path): .../tmp
           (pattern): data_{index:04d}.pkl
@@ -108,7 +108,7 @@ class PyTorchSaverIterDataPipe(IterDataPipe[Path]):
         >>> from torch.utils.data.datapipes.iter import IterableWrapper
         >>> from gravitorch.datapipes.iter import PyTorchSaver
         >>> dp = PyTorchSaver(IterableWrapper([1, 2, 3, 4, 5]), root_path="tmp/")
-        >>> dp  # doctest: +ELLIPSIS
+        >>> dp
         PyTorchSaverIterDataPipe(
           (root_path): .../tmp
           (pattern): data_{index:04d}.pt

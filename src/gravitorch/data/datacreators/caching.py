@@ -48,7 +48,7 @@ class CacheDataCreator(BaseDataCreator[T]):
           (deepcopy): False
         )
         >>> data = creator.create()
-        >>> data  # doctest: +ELLIPSIS
+        >>> data
         {'target': tensor([...]), 'input': tensor([[...]])}
     """
 

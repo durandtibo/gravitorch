@@ -145,7 +145,7 @@ def find_tar_files(path: Path, recursive: bool = True) -> tuple[Path, ...]:
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.path import find_tar_files
-        >>> find_tar_files(Path("something"))  # doctest: +ELLIPSIS
+        >>> find_tar_files(Path("something"))
         (...)
     """
     path = sanitize_path(path)
@@ -181,13 +181,13 @@ def sanitize_path(path: Path | str) -> Path:
 
         >>> from pathlib import Path
         >>> from gravitorch.utils.path import sanitize_path
-        >>> sanitize_path("something")  # doctest: +ELLIPSIS
+        >>> sanitize_path("something")
         PosixPath('.../something')
-        >>> sanitize_path("")  # doctest: +ELLIPSIS
+        >>> sanitize_path("")
         PosixPath('...')
-        >>> sanitize_path(Path("something"))  # doctest: +ELLIPSIS
+        >>> sanitize_path(Path("something"))
         PosixPath('.../something')
-        >>> sanitize_path(Path("something/./../"))  # doctest: +ELLIPSIS
+        >>> sanitize_path(Path("something/./../"))
         PosixPath('...')
     """
     if isinstance(path, str):
@@ -216,7 +216,7 @@ def get_human_readable_file_size(path: Path | str, unit: str | None = None) -> s
     .. code-block:: pycon
 
         >>> from gravitorch.utils.path import get_human_readable_file_size
-        >>> get_human_readable_file_size("README.md")  # doctest: +ELLIPSIS
+        >>> get_human_readable_file_size("README.md")
         '...B'
     """
     return human_byte_size(size=sanitize_path(path).stat().st_size, unit=unit)

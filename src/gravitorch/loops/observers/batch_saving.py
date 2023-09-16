@@ -31,7 +31,7 @@ class PyTorchBatchSaver(BaseLoopObserver):
 
         >>> from gravitorch.loops.observers import PyTorchBatchSaver
         >>> observer = PyTorchBatchSaver(path="tmp/batch")
-        >>> observer  # doctest: +ELLIPSIS
+        >>> observer
         PyTorchBatchSaver(path=.../tmp/batch, max_num_batches=1,000)
     """
 

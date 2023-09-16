@@ -62,7 +62,7 @@ def create_sequential_lr(
         ...     ],
         ...     milestones=[2],
         ... )
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <torch.optim.lr_scheduler.SequentialLR object at 0x...>
     """
     return SequentialLR(
@@ -109,7 +109,7 @@ def create_linear_warmup_cosine_decay_lr(
         >>> lr_scheduler = create_linear_warmup_cosine_decay_lr(
         ...     optimizer=optimizer, num_warmup_steps=100, num_total_steps=1000
         ... )
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <torch.optim.lr_scheduler.SequentialLR object at 0x...>
     """
     warmup = LinearLR(
@@ -156,7 +156,7 @@ def create_linear_warmup_linear_decay_lr(
         >>> lr_scheduler = create_linear_warmup_linear_decay_lr(
         ...     optimizer=optimizer, num_warmup_steps=100, num_total_steps=1000
         ... )
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <torch.optim.lr_scheduler.SequentialLR object at 0x...>
     """
     warmup = LinearLR(

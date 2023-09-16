@@ -62,9 +62,7 @@ class ParameterSummary:
             >>> import torch
             >>> from torch.nn import Parameter
             >>> from gravitorch.nn import ParameterSummary
-            >>> ParameterSummary.from_parameter(
-            ...     "weight", Parameter(torch.randn(6, 4))
-            ... )  # doctest: +ELLIPSIS
+            >>> ParameterSummary.from_parameter("weight", Parameter(torch.randn(6, 4)))
             ParameterSummary(name='weight', mean=..., median=..., std=..., min=..., max=..., shape=(6, 4), learnable=True, device=device(type='cpu'))
         """
         if isinstance(parameter, UninitializedParameter):
@@ -122,7 +120,7 @@ def get_parameter_summaries(module: Module) -> list[ParameterSummary]:
 
         >>> import torch
         >>> from gravitorch.nn import get_parameter_summaries
-        >>> get_parameter_summaries(torch.nn.Linear(4, 6))  # doctest: +ELLIPSIS
+        >>> get_parameter_summaries(torch.nn.Linear(4, 6))
         [ParameterSummary(name='weight', mean=..., median=..., std=..., min=..., max=..., shape=(6, 4), learnable=True, device=device(type='cpu')),
          ParameterSummary(name='bias', mean=..., median=..., std=..., min=..., max=..., shape=(6,), learnable=True, device=device(type='cpu'))]
     """

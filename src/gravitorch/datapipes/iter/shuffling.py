@@ -72,7 +72,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
           (random_seed): 3510637111256283951
           (datapipe): MyIterDataPipe
         )
-        >>> list(dp)  # doctest: +ELLIPSIS
+        >>> list(dp)
         [{'key': tensor([...])}, {'key': tensor([...])}, {'key': tensor([...])}]
         >>> dp = TensorDictShuffler(MyIterDataPipe(), dim={"key": 0})
         >>> dp
@@ -81,7 +81,7 @@ class TensorDictShufflerIterDataPipe(IterDataPipe[dict]):
           (random_seed): 3510637111256283951
           (datapipe): MyIterDataPipe
         )
-        >>> list(dp)  # doctest: +ELLIPSIS
+        >>> list(dp)
         [{'key': tensor([...])}, {'key': tensor([...])}, {'key': tensor([...])}]
     """
 
@@ -159,11 +159,9 @@ def shuffle_tensors(
     .. code-block:: pycon
 
         >>> from gravitorch.datapipes.iter.shuffling import shuffle_tensors
-        >>> shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)])  # doctest: +ELLIPSIS
+        >>> shuffle_tensors([torch.arange(4), torch.arange(20).view(4, 5)])
         [tensor([...]), tensor([[...]])]
-        >>> shuffle_tensors(
-        ...     [torch.arange(4).view(1, 4), torch.arange(20).view(5, 4)], dim=1
-        ... )  # doctest: +ELLIPSIS
+        >>> shuffle_tensors([torch.arange(4).view(1, 4), torch.arange(20).view(5, 4)], dim=1)
         [tensor([[...]]), tensor([[...]])]
     """
     dims = [tensor.shape[dim] for tensor in tensors]
@@ -221,27 +219,25 @@ def shuffle_tensor_mapping(
 
         >>> from gravitorch.datapipes.iter.shuffling import shuffle_tensor_mapping
         >>> # Shuffle all the tensors on dimension 0 (default)
-        >>> shuffle_tensor_mapping(
-        ...     {"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)}
-        ... )  # doctest: +ELLIPSIS
+        >>> shuffle_tensor_mapping({"key1": torch.arange(4), "key2": torch.arange(20).view(4, 5)})
         {'key1': tensor([...]), 'key2': tensor([[...]])}
         >>> # Shuffle all the tensors on dimension 1
         >>> shuffle_tensor_mapping(
         ...     {"key1": torch.arange(4).view(1, 4), "key2": torch.arange(20).view(5, 4)},
         ...     dim=1,
-        ... )  # doctest: +ELLIPSIS
+        ... )
         {'key1': tensor([...]), 'key2': tensor([[...]])}
         >>> # Shuffle the tensor 'key1' on dimension 0 and the tensor 'key2' on dimension 1
         >>> shuffle_tensor_mapping(
         ...     {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)},
         ...     dim={"key1": 0, "key2": 1},
-        ... )  # doctest: +ELLIPSIS
+        ... )
         {'key1': tensor([...]), 'key2': tensor([[...]])}
         >>> # Shuffle only the tensor 'key2' on dimension 1
         >>> shuffle_tensor_mapping(
         ...     {"key1": torch.arange(4), "key2": torch.arange(20).view(5, 4)},
         ...     dim={"key2": 1},
-        ... )  # doctest: +ELLIPSIS
+        ... )
         {'key1': tensor([...]), 'key2': tensor([[...]])}
     """
     dims = dim if isinstance(dim, dict) else {key: dim for key in mapping}

@@ -43,7 +43,7 @@ def setup_optimizer(model: Module, optimizer: Optimizer | dict | None) -> Optimi
         >>> optimizer = setup_optimizer(
         ...     torch.nn.Linear(4, 6), optimizer={"_target_": "torch.optim.SGD", "lr": 0.01}
         ... )
-        >>> optimizer  # doctest: +ELLIPSIS
+        >>> optimizer
         SGD (
         Parameter Group 0...
             lr: 0.01
@@ -54,7 +54,7 @@ def setup_optimizer(model: Module, optimizer: Optimizer | dict | None) -> Optimi
         )
         >>> model = torch.nn.Linear(4, 6)
         >>> optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
-        >>> setup_optimizer(model, optimizer)  # doctest: +ELLIPSIS
+        >>> setup_optimizer(model, optimizer)
         SGD (
         Parameter Group 0...
             lr: 0.001

@@ -121,7 +121,7 @@ class BatchLoadingTimer(Iterable[T]):
         >>> for batch in batch_loader:
         ...     x = batch + 1
         ...
-        >>> batch_loader.get_stats()  # doctest: +ELLIPSIS
+        >>> batch_loader.get_stats()
         {'batch_load_time_avg_ms': ...,
          'batch_load_time_max_ms': ...,
          'batch_load_time_median_ms': ...,
@@ -196,7 +196,7 @@ class BatchLoadingTimer(Iterable[T]):
             >>> for batch in batch_loader:
             ...     x = batch + 1
             ...
-            >>> batch_loader.get_stats()  # doctest: +ELLIPSIS
+            >>> batch_loader.get_stats()
             {'batch_load_time_avg_ms': ...,
              'batch_load_time_max_ms': ...,
              'batch_load_time_median_ms': ...,

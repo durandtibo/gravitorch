@@ -56,7 +56,7 @@ class DictBatcherIterDataPipe(IterDataPipe[dict]):
           (random_seed): 11918852809641073385
           (datapipe_or_data): IterableWrapperIterDataPipe
         )
-        >>> list(dp)  # doctest: +ELLIPSIS
+        >>> list(dp)
         [{'key1': tensor([...]), 'key2': tensor([[...]])},
          {'key1': tensor([...]), 'key2': tensor([[...]])},
          {'key1': tensor([...]), 'key2': tensor([[...]])},
@@ -171,7 +171,7 @@ class TupleBatcherIterDataPipe(IterDataPipe[tuple[Tensor, ...]]):
           random_seed=13382866045483866228,
           datapipe_or_data=IterableWrapperIterDataPipe,
         )
-        >>> list(dp)  # doctest: +ELLIPSIS
+        >>> list(dp)
         [(tensor([...]), tensor([[...]])),
          (tensor([...]), tensor([[...]])),
          (tensor([...]), tensor([[...]])),

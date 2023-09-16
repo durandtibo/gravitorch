@@ -44,7 +44,7 @@ class EpochShufflePartitioner(BasePartitioner[T]):
           (random_seed): 7553907118525846636
         )
         >>> partitions = partitioner.partition(list(range(10)))
-        >>> partitions  # doctest: +ELLIPSIS
+        >>> partitions
         [[...], [...], [...], [...]]
     """
 

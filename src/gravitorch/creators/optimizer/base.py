@@ -32,7 +32,7 @@ class BaseOptimizerCreator(ABC, metaclass=AbstractFactory):
         >>> engine = create_dummy_engine()
         >>> model = DummyClassificationModel()
         >>> optimizer = creator.create(engine, model)
-        >>> optimizer  # doctest: +ELLIPSIS
+        >>> optimizer
         SGD (
         Parameter Group 0...
             lr: 0.01
@@ -71,7 +71,7 @@ class BaseOptimizerCreator(ABC, metaclass=AbstractFactory):
             >>> engine = create_dummy_engine()
             >>> model = DummyClassificationModel()
             >>> optimizer = creator.create(engine, model)
-            >>> optimizer  # doctest: +ELLIPSIS
+            >>> optimizer
             SGD (
             Parameter Group 0...
                 lr: 0.01

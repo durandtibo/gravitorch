@@ -46,7 +46,7 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
         ...     optimizer={"_target_": "torch.optim.SGD", "lr": 0.01},
         ...     lr_scheduler={"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         ... )
-        >>> creator  # doctest: +ELLIPSIS
+        >>> creator
         CoreCreator(
           (datasource): DummyDataSource(
               (datasets):
@@ -102,7 +102,7 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
           (linear): Linear(in_features=4, out_features=3, bias=True)
           (criterion): CrossEntropyLoss()
         )
-        >>> optimizer  # doctest: +ELLIPSIS
+        >>> optimizer
         SGD (
           Parameter Group 0...
               lr: 0.01
@@ -111,7 +111,7 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
               nesterov: False
               weight_decay: 0
         )
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
 
@@ -177,7 +177,7 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
               (linear): Linear(in_features=4, out_features=3, bias=True)
               (criterion): CrossEntropyLoss()
             )
-            >>> optimizer  # doctest: +ELLIPSIS
+            >>> optimizer
             SGD (
               Parameter Group 0...
                   lr: 0.01
@@ -186,7 +186,7 @@ class BaseCoreCreator(ABC, metaclass=AbstractFactory):
                   nesterov: False
                   weight_decay: 0
             )
-            >>> lr_scheduler  # doctest: +ELLIPSIS
+            >>> lr_scheduler
             <torch.optim.lr_scheduler.StepLR object at 0x...>
         """
 
@@ -259,7 +259,7 @@ def setup_core_creator(creator: BaseCoreCreator | dict) -> BaseCoreCreator:
         ...         "lr_scheduler": {"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         ...     }
         ... )
-        >>> creator  # doctest: +ELLIPSIS
+        >>> creator
         CoreCreator(
           (datasource): DummyDataSource(
               (datasets):

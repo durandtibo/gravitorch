@@ -65,7 +65,7 @@ class VanillaLoss(Module):
         >>> loss = criterion(
         ...     net_out={"my_prediction": torch.rand(2, 4)}, batch={"my_target": torch.rand(2, 4)}
         ... )
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         {'loss': tensor(...)}
     """
 

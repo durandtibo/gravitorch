@@ -42,7 +42,7 @@ class InverseSquareRootLR(LambdaLR):
         >>> from gravitorch.lr_schedulers import InverseSquareRootLR
         >>> optimizer = torch.optim.SGD(torch.nn.Linear(4, 6).parameters(), lr=0.01)
         >>> lr_scheduler = InverseSquareRootLR(optimizer)
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <gravitorch.lr_schedulers.invsqrt.InverseSquareRootLR object at 0x...>
     """
 

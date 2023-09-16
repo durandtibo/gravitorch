@@ -57,7 +57,7 @@ def create_dataloader(dataset: Dataset | dict, **kwargs) -> DataLoader:
         ...         "num_classes": 2,
         ...         "feature_size": 4,
         ...     }
-        ... )  # doctest: +ELLIPSIS`
+        ... )
         <torch.utils.data.dataloader.DataLoader object at 0x...>
     """
     return DataLoader(
@@ -95,7 +95,7 @@ def create_dataloader2(
         ...         "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
         ...         "iterable": range(10),
         ...     }
-        ... )  # doctest: +ELLIPSIS`
+        ... )
         <torchdata.dataloader2.dataloader2.DataLoader2 object at 0x...>
     """
     check_torchdata()
@@ -186,7 +186,7 @@ def setup_dataloader(dataloader: DataLoader | dict) -> DataLoader:
         >>> dataloader = setup_dataloader(
         ...     {"_target_": "torch.utils.data.DataLoader", "dataset": ExampleDataset((1, 2, 3, 4))}
         ... )
-        >>> dataloader  # doctest: +ELLIPSIS
+        >>> dataloader
         <torch.utils.data.dataloader.DataLoader object at 0x...>
     """
     if isinstance(dataloader, dict):
@@ -222,7 +222,7 @@ def setup_dataloader2(dataloader: DataLoader2 | dict) -> DataLoader2:
         ...         "datapipe": IterableWrapper((1, 2, 3, 4)),
         ...     }
         ... )
-        >>> dataloader  # doctest: +ELLIPSIS
+        >>> dataloader
         <torchdata.dataloader2.dataloader2.DataLoader2 object at 0x...>
     """
     check_torchdata()
