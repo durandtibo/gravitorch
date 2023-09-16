@@ -235,7 +235,7 @@ class ExponentialMovingAverage:
         ...
         >>> meter.count
         11
-        >>> meter.smoothed_average()  # doctest: +ELLIPSIS
+        >>> meter.smoothed_average()
         1.036567...
     """
 
@@ -385,7 +385,7 @@ class ExponentialMovingAverage:
             >>> for i in range(11):
             ...     meter.update(i)
             ...
-            >>> meter.smoothed_average()  # doctest: +ELLIPSIS
+            >>> meter.smoothed_average()
             1.036567...
         """
         if not self._count:
@@ -408,7 +408,7 @@ class ExponentialMovingAverage:
             >>> for i in range(11):
             ...     meter.update(i)
             ...
-            >>> meter.state_dict()  # doctest: +ELLIPSIS
+            >>> meter.state_dict()
             {'alpha': 0.98, 'count': 11, 'smoothed_average': 1.036567...}
         """
         return {

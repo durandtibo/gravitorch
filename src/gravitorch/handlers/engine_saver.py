@@ -118,7 +118,7 @@ class BestHistorySaver(BaseEngineSaver):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> handler = BestHistorySaver(path="tmp/ckpt")
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         BestHistorySaver(
           (event): completed
           (path): .../tmp/ckpt
@@ -154,7 +154,7 @@ class LastHistorySaver(BaseEngineSaver):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> handler = LastHistorySaver(path="tmp/ckpt")
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         LastHistorySaver(
           (event): epoch_completed
           (path): .../tmp/ckpt
@@ -215,7 +215,7 @@ class BestEngineStateSaver(BaseEngineSaver):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> handler = BestEngineStateSaver(path="tmp/ckpt", keys=["eval/loss"])
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         BestEngineStateSaver(
           (event): epoch_completed
           (path): .../tmp/ckpt
@@ -302,7 +302,7 @@ class EpochEngineStateSaver(BaseEngineSaver):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> handler = EpochEngineStateSaver(path="tmp/ckpt")
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         EpochEngineStateSaver(
           (event): epoch_completed
           (path): .../tmp/ckpt
@@ -364,7 +364,7 @@ class TagEngineStateSaver(BaseEngineSaver):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> handler = TagEngineStateSaver(path="tmp/ckpt")
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         TagEngineStateSaver(
           (event): epoch_completed
           (path): .../tmp/ckpt

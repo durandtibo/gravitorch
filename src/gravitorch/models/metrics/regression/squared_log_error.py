@@ -56,7 +56,7 @@ class SquaredLogError(BaseStateEpochMetric):
          'eval/sq_log_err_sum': 0.0,
          'eval/sq_log_err_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_log_err_mean': 0.080075...,
          'eval/sq_log_err_min': 0.0,
          'eval/sq_log_err_max': 0.480453...,
@@ -64,7 +64,7 @@ class SquaredLogError(BaseStateEpochMetric):
          'eval/sq_log_err_num_predictions': 12}
         >>> metric.reset()
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_log_err_mean': 0.240226...,
          'eval/sq_log_err_min': 0.0,
          'eval/sq_log_err_max': 0.480453...,
@@ -143,14 +143,14 @@ class SquaredSymlogError(BaseStateEpochMetric):
           (state): ErrorState(num_predictions=0)
         )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_symlog_err_mean': 0.0,
          'eval/sq_symlog_err_min': 0.0,
          'eval/sq_symlog_err_max': 0.0,
          'eval/sq_symlog_err_sum': 0.0,
          'eval/sq_symlog_err_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_symlog_err_mean': 0.080075...,
          'eval/sq_symlog_err_min': 0.0,
          'eval/sq_symlog_err_max': 0.480453...,
@@ -158,7 +158,7 @@ class SquaredSymlogError(BaseStateEpochMetric):
          'eval/sq_symlog_err_num_predictions': 12}
         >>> metric.reset()
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_symlog_err_mean': 0.240226...,
          'eval/sq_symlog_err_min': 0.0,
          'eval/sq_symlog_err_max': 0.480453...,
@@ -195,7 +195,7 @@ class SquaredSymlogError(BaseStateEpochMetric):
             >>> from gravitorch.models.metrics import SquaredSymlogError
             >>> metric = SquaredSymlogError("eval")
             >>> metric(torch.ones(2, 4), torch.ones(2, 4))
-            >>> metric.value()  # doctest: +ELLIPSIS
+            >>> metric.value()
             {'eval/sq_symlog_err_mean': 0.0,
              'eval/sq_symlog_err_min': 0.0,
              'eval/sq_symlog_err_max': 0.0,
@@ -233,14 +233,14 @@ class SquaredAsinhError(BaseStateEpochMetric):
           (state): ErrorState(num_predictions=0)
         )
         >>> metric(torch.ones(2, 4), torch.ones(2, 4))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_asinh_err_mean': 0.0,
          'eval/sq_asinh_err_min': 0.0,
          'eval/sq_asinh_err_max': 0.0,
          'eval/sq_asinh_err_sum': 0.0,
          'eval/sq_asinh_err_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_asinh_err_mean': 0.129469...,
          'eval/sq_asinh_err_min': 0.0,
          'eval/sq_asinh_err_max': 0.776819...,
@@ -248,7 +248,7 @@ class SquaredAsinhError(BaseStateEpochMetric):
          'eval/sq_asinh_err_num_predictions': 12}
         >>> metric.reset()
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_asinh_err_mean': 0.388409...,
          'eval/sq_asinh_err_min': 0.0,
          'eval/sq_asinh_err_max': 0.776819...,
@@ -286,7 +286,7 @@ class SquaredAsinhError(BaseStateEpochMetric):
             >>> from gravitorch.models.metrics import SquaredAsinhError
             >>> metric = SquaredAsinhError("eval")
             >>> metric(torch.ones(2, 4), torch.ones(2, 4))
-            >>> metric.value()  # doctest: +ELLIPSIS
+            >>> metric.value()
             {'eval/sq_asinh_err_mean': 0.0,
              'eval/sq_asinh_err_min': 0.0,
              'eval/sq_asinh_err_max': 0.0,

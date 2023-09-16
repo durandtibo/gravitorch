@@ -44,7 +44,7 @@ class Constant(BaseInitializer):
         >>> initializer.initialize(module)
         >>> for key, param in module.named_parameters():
         ...     print(key, param)
-        ... # doctest: +ELLIPSIS
+        ...
         0.weight Parameter containing:
         tensor([[2., 2., 2., 2.],
                 [2., 2., 2., 2.],
@@ -120,7 +120,7 @@ class ConstantBias(BaseInitializer):
         >>> initializer.initialize(module)
         >>> for key, param in module.named_parameters():
         ...     print(key, param)
-        ... # doctest: +ELLIPSIS
+        ...
         0.weight Parameter containing:
         tensor([[...]], requires_grad=True)
         0.bias Parameter containing:
@@ -197,7 +197,7 @@ def constant_bias(
         >>> constant_bias(module, 2)
         >>> for key, param in module.named_parameters():
         ...     print(key, param)
-        ... # doctest: +ELLIPSIS
+        ...
         0.weight Parameter containing:
         tensor([[...]], requires_grad=True)
         0.bias Parameter containing:

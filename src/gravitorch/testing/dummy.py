@@ -192,9 +192,7 @@ class DummyClassificationModel(BaseModel):
           (linear): Linear(in_features=4, out_features=3, bias=True)
           (criterion): CrossEntropyLoss()
         )
-        >>> model(
-        ...     {"input": torch.ones(2, 4), "target": torch.ones(2, dtype=torch.long)}
-        ... )  # doctest: +ELLIPSIS
+        >>> model({"input": torch.ones(2, 4), "target": torch.ones(2, dtype=torch.long)})
         {'loss': tensor(..., grad_fn=<NllLossBackward0>)}
     """
 

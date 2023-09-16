@@ -73,7 +73,7 @@ class PackedSequenceLoss(Module):
         ...     "my_mask": torch.ones(2, 4),
         ... }
         >>> loss = criterion(net_out, batch)
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         {'loss': tensor(...)}
     """
 

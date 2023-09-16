@@ -49,7 +49,7 @@ class SquaredError(BaseStateEpochMetric):
          'eval/sq_err_sum': 0.0,
          'eval/sq_err_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/sq_err_mean': 0.166666...,
          'eval/sq_err_min': 0.0,
          'eval/sq_err_max': 1.0,
@@ -134,11 +134,11 @@ class RootMeanSquaredError(SquaredError):
         >>> metric.value()
         {'eval/rmse_root_mean': 0.0, 'eval/rmse_num_predictions': 8}
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/rmse_root_mean': 0.408248..., 'eval/rmse_num_predictions': 12}
         >>> metric.reset()
         >>> metric(torch.eye(2), torch.ones(2, 2))
-        >>> metric.value()  # doctest: +ELLIPSIS
+        >>> metric.value()
         {'eval/rmse_root_mean': 0.707106..., 'eval/rmse_num_predictions': 4}
     """
 

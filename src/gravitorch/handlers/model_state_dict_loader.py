@@ -54,7 +54,7 @@ class ModelStateDictLoader(BaseHandler):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> handler = ModelStateDictLoader("tmp/ckpt.pt")
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         ModelStateDictLoader(checkpoint_path=.../tmp/ckpt.pt, event=started, strict=True, key=None)
         >>> handler.attach(engine)
         >>> engine.fire_event("started")  # doctest: +SKIP
@@ -141,7 +141,7 @@ class PartialModelStateDictLoader(BaseHandler):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> handler = PartialModelStateDictLoader("tmp/ckpt.pt")
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         PartialModelStateDictLoader(checkpoint_path=.../tmp/ckpt.pt, event=started, strict=True, exclude_key_prefixes=[])
         >>> handler.attach(engine)
         >>> engine.fire_event("started")  # doctest: +SKIP

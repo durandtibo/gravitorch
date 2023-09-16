@@ -28,7 +28,7 @@ class BaseInitializer(ABC, metaclass=AbstractFactory):
         >>> initializer.initialize(module)
         >>> for key, param in module.named_parameters():
         ...     print(key, param)
-        ... # doctest: +ELLIPSIS
+        ...
         0.weight Parameter containing:
         tensor([[2., 2., 2., 2.],
                 [2., 2., 2., 2.],
@@ -70,7 +70,7 @@ class BaseInitializer(ABC, metaclass=AbstractFactory):
             >>> initializer.initialize(module)
             >>> for key, param in module.named_parameters():
             ...     print(key, param)
-            ... # doctest: +ELLIPSIS
+            ...
             0.weight Parameter containing:
             tensor([[2., 2., 2., 2.],
                     [2., 2., 2., 2.],

@@ -54,7 +54,7 @@ def setup_lr_scheduler(
         ...     optimizer=optimizer,
         ...     lr_scheduler={"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         ... )
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
     if lr_scheduler is None:

@@ -95,7 +95,7 @@ class FusionFFN(Module):
         >>> x1 = torch.tensor([[2, 3, 4], [5, 6, 7]], dtype=torch.float, requires_grad=True)
         >>> x2 = torch.tensor([[12, 13, 14], [15, 16, 17]], dtype=torch.float, requires_grad=True)
         >>> out = module(x1, x2)
-        >>> out  # doctest: +ELLIPSIS
+        >>> out
         tensor([[...]], grad_fn=<AddmmBackward0>)
         >>> out.mean().backward()
     """

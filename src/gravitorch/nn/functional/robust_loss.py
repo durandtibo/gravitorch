@@ -53,7 +53,7 @@ def msle_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") -> Te
         >>> import torch
         >>> from gravitorch.nn.functional import msle_loss
         >>> loss = msle_loss(torch.randn(2, 4, requires_grad=True), torch.randn(2, 4))
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MseLossBackward0>)
         >>> loss.backward()
     """
@@ -94,7 +94,7 @@ def asinh_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean") 
         >>> import torch
         >>> from gravitorch.nn.functional import asinh_mse_loss
         >>> loss = asinh_mse_loss(torch.randn(2, 4, requires_grad=True), torch.randn(2, 4))
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MseLossBackward0>)
         >>> loss.backward()
     """
@@ -135,7 +135,7 @@ def symlog_mse_loss(prediction: Tensor, target: Tensor, reduction: str = "mean")
         >>> import torch
         >>> from gravitorch.nn.functional import symlog_mse_loss
         >>> loss = symlog_mse_loss(torch.randn(2, 4, requires_grad=True), torch.randn(2, 4))
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MseLossBackward0>)
         >>> loss.backward()
     """
@@ -175,7 +175,7 @@ def relative_mse_loss(
         >>> import torch
         >>> from gravitorch.nn.functional import relative_mse_loss
         >>> loss = relative_mse_loss(torch.randn(3, 5, requires_grad=True), torch.randn(3, 5))
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """
@@ -225,7 +225,7 @@ def relative_smooth_l1_loss(
         >>> import torch
         >>> from gravitorch.nn.functional import relative_smooth_l1_loss
         >>> loss = relative_smooth_l1_loss(torch.randn(3, 5, requires_grad=True), torch.randn(3, 5))
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """
@@ -279,7 +279,7 @@ def symmetric_relative_smooth_l1_loss(
         >>> loss = symmetric_relative_smooth_l1_loss(
         ...     torch.randn(3, 5, requires_grad=True), torch.randn(3, 5)
         ... )
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """
@@ -327,7 +327,7 @@ def log_cosh_loss(
         >>> import torch
         >>> from gravitorch.nn.functional import log_cosh_loss
         >>> loss = log_cosh_loss(torch.randn(3, 5, requires_grad=True), torch.randn(3, 5))
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """

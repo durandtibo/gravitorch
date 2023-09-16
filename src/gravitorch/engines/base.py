@@ -828,7 +828,7 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> from gravitorch.testing import create_dummy_engine
             >>> engine = create_dummy_engine()
             >>> state = engine.state_dict()
-            >>> state  # doctest: +ELLIPSIS
+            >>> state
             {'epoch': -1,
              'iteration': -1,
              'histories': {},
@@ -929,7 +929,7 @@ def setup_engine(engine: BaseEngine | dict) -> BaseEngine:
         ...         },
         ...     }
         ... )
-        >>> engine  # doctest: +ELLIPSIS
+        >>> engine
         AlphaEngine(...)
     """
     if isinstance(engine, dict):

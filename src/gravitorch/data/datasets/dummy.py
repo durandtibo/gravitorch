@@ -41,7 +41,7 @@ class DummyMultiClassDataset(Dataset):
         >>> dataset = DummyMultiClassDataset(num_examples=10, num_classes=5, feature_size=6)
         >>> dataset
         DummyMultiClassDataset(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=10169389905513828140)
-        >>> dataset[0]  # doctest: +ELLIPSIS
+        >>> dataset[0]
         {'input': tensor([...]), 'target': tensor(...), 'name': '0'}
     """
 

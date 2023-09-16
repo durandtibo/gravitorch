@@ -106,7 +106,7 @@ class PaddedSequenceLoss(Module):
         >>> net_out = {"my_prediction": torch.randn(2, 4)}
         >>> batch = {"my_target": torch.randn(2, 4), "my_mask": torch.ones(2, 4)}
         >>> loss = criterion(net_out, batch)
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         {'loss': tensor(...)}
     """
 

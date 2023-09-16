@@ -77,10 +77,10 @@ def get_torch_generator(
         >>> import torch
         >>> from gravitorch.utils.seed import get_torch_generator
         >>> generator = get_torch_generator(42)
-        >>> torch.rand(2, 4, generator=generator)  # doctest: +ELLIPSIS
+        >>> torch.rand(2, 4, generator=generator)
         tensor([[...]])
         >>> generator = get_torch_generator(42)
-        >>> torch.rand(2, 4, generator=generator)  # doctest: +ELLIPSIS
+        >>> torch.rand(2, 4, generator=generator)
         tensor([[...]])
     """
     generator = torch.Generator(device)
@@ -299,17 +299,17 @@ def manual_seed(seed: int, setter: BaseRandomSeedSetter | None = None) -> None:
 
         >>> from gravitorch.utils.seed import manual_seed
         >>> manual_seed(42)
-        >>> torch.randn(3)  # doctest: +ELLIPSIS
+        >>> torch.randn(3)
         tensor([...])
-        >>> torch.randn(3)  # doctest: +ELLIPSIS
+        >>> torch.randn(3)
         tensor([...])
         >>> manual_seed(42)
-        >>> torch.randn(3)  # doctest: +ELLIPSIS
+        >>> torch.randn(3)
         tensor([...])
         >>> # Set the seed only for numpy
         >>> from gravitorch.utils.seed import NumpyRandomSeedSetter
         >>> manual_seed(42, NumpyRandomSeedSetter())
-        >>> torch.randn(3)  # doctest: +ELLIPSIS
+        >>> torch.randn(3)
         tensor([...])
     """
     setter = setter or RandomSeedSetter()
@@ -337,11 +337,11 @@ def numpy_seed(seed: int) -> Generator[None, None, None]:
         >>> from gravitorch.utils.seed import numpy_seed
         >>> with numpy_seed(42):
         ...     print(numpy.random.randn(2, 4))
-        ... # doctest: +ELLIPSIS
+        ...
         [[...]]
         >>> with numpy_seed(42):
         ...     print(numpy.random.randn(2, 4))
-        ... # doctest: +ELLIPSIS
+        ...
         [[...]]
     """
     state = numpy.random.get_state()
@@ -373,11 +373,11 @@ def torch_seed(seed: int) -> Generator[None, None, None]:
         >>> from gravitorch.utils.seed import torch_seed
         >>> with torch_seed(42):
         ...     print(torch.randn(2, 4))
-        ... # doctest: +ELLIPSIS
+        ...
         tensor([[...]])
         >>> with torch_seed(42):
         ...     print(torch.randn(2, 4))
-        ... # doctest: +ELLIPSIS
+        ...
         tensor([[...]])
     """
     state = torch.get_rng_state()

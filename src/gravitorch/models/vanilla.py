@@ -110,9 +110,7 @@ class VanillaModel(BaseModel):
             )
           )
         )
-        >>> model(
-        ...     {"target": torch.ones(2, dtype=torch.long), "input": torch.randn(2, 4)}
-        ... )  # doctest: +ELLIPSIS
+        >>> model({"target": torch.ones(2, dtype=torch.long), "input": torch.randn(2, 4)})
         {'prediction': tensor([[...]], grad_fn=<ReluBackward0>),
          'loss': tensor(..., grad_fn=<NllLossBackward0>)}
     """

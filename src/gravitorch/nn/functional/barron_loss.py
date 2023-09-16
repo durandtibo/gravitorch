@@ -58,7 +58,7 @@ def barron_robust_loss(
         >>> import torch
         >>> from gravitorch.nn.functional import barron_robust_loss
         >>> loss = barron_robust_loss(torch.randn(2, 4, requires_grad=True), torch.randn(2, 4))
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """
@@ -121,7 +121,7 @@ def asinh_barron_robust_loss(
         >>> loss = asinh_barron_robust_loss(
         ...     torch.randn(2, 4, requires_grad=True), torch.randn(2, 4)
         ... )
-        >>> loss  # doctest: +ELLIPSIS
+        >>> loss
         tensor(..., grad_fn=<MeanBackward0>)
         >>> loss.backward()
     """

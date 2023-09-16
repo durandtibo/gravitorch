@@ -303,10 +303,10 @@ class AssetManager:
             >>> from gravitorch.utils.asset import AssetManager
             >>> manager = AssetManager()
             >>> manager.add_asset("my_module", nn.Linear(4, 6))
-            >>> manager.state_dict()  # doctest: +ELLIPSIS
+            >>> manager.state_dict()
             {'my_module': OrderedDict([('weight', tensor([[...)), ('bias', tensor([...))])}
             >>> manager.add_asset("int", 123)
-            >>> manager.state_dict()  # doctest: +ELLIPSIS
+            >>> manager.state_dict()
             {'my_module': OrderedDict([('weight', tensor([[...]])), ('bias', tensor([...]))])}
         """
         state = {}

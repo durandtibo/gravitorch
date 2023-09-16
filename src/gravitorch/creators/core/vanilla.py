@@ -52,7 +52,7 @@ class CoreCreator(BaseCoreCreator):
         ...     optimizer={"_target_": "torch.optim.SGD", "lr": 0.01},
         ...     lr_scheduler={"_target_": "torch.optim.lr_scheduler.StepLR", "step_size": 5},
         ... )
-        >>> creator  # doctest: +ELLIPSIS
+        >>> creator
         CoreCreator(
           (datasource): DummyDataSource(
               (datasets):
@@ -108,7 +108,7 @@ class CoreCreator(BaseCoreCreator):
           (linear): Linear(in_features=4, out_features=3, bias=True)
           (criterion): CrossEntropyLoss()
         )
-        >>> optimizer  # doctest: +ELLIPSIS
+        >>> optimizer
         SGD (
           Parameter Group 0...
               lr: 0.01
@@ -117,7 +117,7 @@ class CoreCreator(BaseCoreCreator):
               nesterov: False
               weight_decay: 0
         )
-        >>> lr_scheduler  # doctest: +ELLIPSIS
+        >>> lr_scheduler
         <torch.optim.lr_scheduler.StepLR object at 0x...>
     """
 

@@ -51,7 +51,7 @@ class EngineStateLoader(BaseHandler):
         >>> from gravitorch.testing import create_dummy_engine
         >>> engine = create_dummy_engine()
         >>> handler = EngineStateLoader(path="tmp/ckpt.pt", event="my_event")
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         EngineStateLoader(event=my_event, path=.../tmp/ckpt.pt, missing_ok=False)
         >>> handler.attach(engine)
         >>> engine.fire_event("my_event")  # doctest: +SKIP
@@ -139,7 +139,7 @@ class EngineStateLoaderWithExcludeKeys(EngineStateLoader):
         >>> handler = EngineStateLoaderWithExcludeKeys(
         ...     path="tmp/ckpt.pt", event="my_event", exclude_keys=["optimizer"]
         ... )
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         EngineStateLoaderWithExcludeKeys(event=my_event, path=.../tmp/ckpt.pt, exclude_keys=('optimizer',), missing_ok=False)
         >>> handler.attach(engine)
         >>> engine.fire_event("my_event")  # doctest: +SKIP
@@ -221,7 +221,7 @@ class EngineStateLoaderWithIncludeKeys(EngineStateLoader):
         >>> handler = EngineStateLoaderWithIncludeKeys(
         ...     path="tmp/ckpt.pt", event="my_event", include_keys=["model"]
         ... )
-        >>> handler  # doctest: +ELLIPSIS
+        >>> handler
         EngineStateLoaderWithIncludeKeys(event=my_event, path=.../tmp/ckpt.pt, include_keys=('model',), missing_ok=False)
         >>> handler.attach(engine)
         >>> engine.fire_event("my_event")  # doctest: +SKIP
