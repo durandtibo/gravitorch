@@ -60,6 +60,7 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `gravitorch`              | `0.0.21`           |
 |---------------------------|--------------------|
 | `python`                  | `>=3.9,<3.12`      |
+| `colorlog`<sup>*</sup>    | `>=6.7,<6.8`       |
 | `coola`                   | `>=0.0.20,<0.0.23` |
 | `hya`                     | `>=0.0.12,<0.0.13` |
 | `hydra-core`              | `>=1.3,<1.4`       |
@@ -67,13 +68,14 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `minevent`                | `>=0.0.2,<0.0.3`   |
 | `numpy`                   | `>=1.22,<1.26`     |
 | `objectory`               | `>=0.0.7,<0.0.8`   |
+| `psutil`<sup>*</sup>      | `>=5.9,<5.10`      |
 | `pytorch-ignite`          | `>=0.4.11,<0.5`    |
 | `tabulate`                | `>=0.9,<0.10`      |
+| `tensorboard`<sup>*</sup> | `>=2.10,<2.15`     |
 | `torch`                   | `>=2.0,<2.1`       |
-| `tqdm`                    | `>=4.64,<4.67`     |
 | `torchdata`<sup>*</sup>   | `>=0.6,<0.7`       |
 | `torchvision`<sup>*</sup> | `>=0.15,<0.16`     |
-| `psutil`<sup>*</sup>      | `>=5.9,<5.10`      |
+| `tqdm`                    | `>=4.64,<4.67`     |
 
 <sup>*</sup> indicates an optional dependency
 
