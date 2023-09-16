@@ -6,7 +6,7 @@ from collections.abc import Iterator
 
 from torch.utils.data import DataLoader
 
-from gravitorch.experimental.dataflow.base import BaseDataFlow
+from gravitorch.dataflow.base import BaseDataFlow
 from gravitorch.utils.imports import is_torchdata_available
 
 if is_torchdata_available():
@@ -28,7 +28,7 @@ class DataLoaderDataFlow(BaseDataFlow):
 
         >>> import torch
         >>> from torch.utils.data import DataLoader, TensorDataset
-        >>> from gravitorch.experimental.dataflow import IterableDataFlow
+        >>> from gravitorch.dataflow import IterableDataFlow
         >>> dataloader = DataLoader(TensorDataset(torch.arange(10)), batch_size=4)
         >>> with DataLoaderDataFlow(dataloader) as dataflow:
         ...     for batch in dataflow:

@@ -7,7 +7,7 @@ import logging
 from collections.abc import Iterable, Iterator
 from typing import TypeVar
 
-from gravitorch.experimental.dataflow.base import BaseDataFlow
+from gravitorch.dataflow.base import BaseDataFlow
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ class IterableDataFlow(BaseDataFlow[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.experimental.dataflow import IterableDataFlow
+        >>> from gravitorch.dataflow import IterableDataFlow
         >>> with IterableDataFlow([1, 2, 3, 4, 5]) as dataflow:
         ...     for batch in dataflow:
         ...         print(batch)  # do something
