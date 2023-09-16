@@ -62,7 +62,7 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `python`                  | `>=3.9,<3.12`      |
 | `colorlog`<sup>*</sup>    | `>=6.7,<6.8`       |
 | `coola`                   | `>=0.0.20,<0.0.23` |
-| `hya`                     | `>=0.0.12,<0.0.13` |
+| `hya`                     | `>=0.0.12,<0.0.14` |
 | `hydra-core`              | `>=1.3,<1.4`       |
 | `matplotlib`<sup>*</sup>  | `>=3.6,<3.9`       |
 | `minevent`                | `>=0.0.2,<0.0.3`   |
@@ -76,6 +76,7 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `torchdata`<sup>*</sup>   | `>=0.6,<0.7`       |
 | `torchvision`<sup>*</sup> | `>=0.15,<0.16`     |
 | `tqdm`                    | `>=4.64,<4.67`     |
+| `pillow`<sup>*</sup>      | `>=9.0,<11.0`      |
 
 <sup>*</sup> indicates an optional dependency
 

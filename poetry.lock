@@ -1116,20 +1116,20 @@ typing = ["pydantic (<2.0)", "types-PyYAML", "types-requests", "types-simplejson
 
 [[package]]
 name = "hya"
-version = "0.0.12"
+version = "0.0.13"
 description = "A library of custom OmegaConf resolvers"
 optional = false
 python-versions = ">=3.9,<3.12"
 files = [
-    {file = "hya-0.0.12-py3-none-any.whl", hash = "sha256:df36932173d6576d1ffc55c710c011ef78d214f2347112ef79a4e2e752c2e513"},
-    {file = "hya-0.0.12.tar.gz", hash = "sha256:c8ef3e26278f1e948f7a5b01861ae7ace9081a2c7d021adc9f4425f6633d1d39"},
+    {file = "hya-0.0.13-py3-none-any.whl", hash = "sha256:84dacc1e27dfe6a702ce7104a5257689f9e314109b3b35bfb03f96359e1490c4"},
+    {file = "hya-0.0.13.tar.gz", hash = "sha256:cd7677e8bdd2903ce0650dfb628855f1c53b95915f70c6bf137b2c09cf4cda96"},
 ]
 
 [package.dependencies]
 omegaconf = ">=2.1,<2.4"
 
 [package.extras]
-all = ["torch (>=1.10,<2.1)"]
+all = ["braceexpand (>=0.1.7,<0.1.8)", "torch (>=1.10,<2.1)"]
 
 [[package]]
 name = "hydra-core"
@@ -3904,4 +3904,4 @@ vision = ["pillow", "torchvision"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "0fc3080e7472b51bec7cc3c0ce840f79787ee236648cd38e7bfd901beca12411"
+content-hash = "dea9207f7b2c900b7164d9c8facc9552fc1acc3c17f188d9a34987912b8f61c2"
