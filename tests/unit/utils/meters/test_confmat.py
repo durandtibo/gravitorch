@@ -22,7 +22,16 @@ from gravitorch.utils.meters.confmat import (
 
 
 def test_binary_confusion_matrix_repr() -> None:
-    assert repr(BinaryConfusionMatrix()).startswith("BinaryConfusionMatrix(")
+    assert repr(BinaryConfusionMatrix()) == (
+        "┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓\n"
+        "┃                     ┃ predicted negative (0) ┃ predicted positive (1) ┃\n"
+        "┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+        "┃ actual negative (0) ┃ [TN]  0                ┃ [FP]  0                ┃\n"
+        "┣━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+        "┃ actual positive (1) ┃ [FN]  0                ┃ [TP]  0                ┃\n"
+        "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━┛\n"
+        "num_predictions=0"
+    )
 
 
 def test_binary_confusion_matrix_str() -> None:
