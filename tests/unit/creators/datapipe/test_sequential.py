@@ -11,9 +11,9 @@ from gravitorch.creators.datapipe import (
 )
 from gravitorch.engines import BaseEngine
 
-##########################################################
+###############################################
 #     Tests for SequentialDataPipeCreator     #
-##########################################################
+###############################################
 
 
 def test_sequential_datapipe_creator_str() -> None:
@@ -27,7 +27,7 @@ def test_sequential_datapipe_creator_creators() -> None:
         [
             ChainedDataPipeCreator(
                 {
-                    OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
+                    OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
                     "source": [1, 2, 3, 4],
                 },
             ),
@@ -112,8 +112,8 @@ def test_sequential_datapipe_creator_create_batcher() -> None:
         [
             ChainedDataPipeCreator(
                 {
-                    OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
-                    "source": [1, 2, 3, 4],
+                    OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+                    "iterable": [1, 2, 3, 4],
                 },
             ),
             ChainedDataPipeCreator(
