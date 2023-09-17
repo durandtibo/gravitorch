@@ -3,10 +3,10 @@ from __future__ import annotations
 __all__ = ["SequentialDataPipeCreator"]
 
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeVar
 
 from coola.utils import str_indent, str_sequence
-from torch.utils.data import IterDataPipe
+from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.creators.datapipe.base import (
     BaseDataPipeCreator,
@@ -15,6 +15,8 @@ from gravitorch.creators.datapipe.base import (
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
+
+T = TypeVar("T")
 
 
 class SequentialDataPipeCreator(BaseDataPipeCreator):
@@ -138,7 +140,7 @@ class SequentialDataPipeCreator(BaseDataPipeCreator):
 
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
-    ) -> IterDataPipe:
+    ) -> IterDataPipe[T] | MapDataPipe[T]:
         datapipe = self._creators[0].create(engine=engine, source_inputs=source_inputs)
         for creator in self._creators[1:]:
             datapipe = creator.create(engine=engine, source_inputs=(datapipe,))
