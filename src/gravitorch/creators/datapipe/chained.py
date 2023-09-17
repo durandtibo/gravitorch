@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 T = TypeVar("T")
 
 
-class ChainedDataPipeCreator(BaseDataPipeCreator):
+class ChainedDataPipeCreator(BaseDataPipeCreator[T]):
     r"""Implements a ``DataPipe`` creator to create a sequence of
     ``DataPipe``s from their configuration.
 
