@@ -52,7 +52,7 @@ def test_setup_datapipe_creator_dict() -> None:
                 OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
                 "config": [
                     {
-                        OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
+                        OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
                         "data": [1, 2, 3, 4],
                     }
                 ],
