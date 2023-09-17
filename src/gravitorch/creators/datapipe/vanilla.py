@@ -3,14 +3,16 @@ from __future__ import annotations
 __all__ = ["DataPipeCreator"]
 
 from collections.abc import Sequence
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.creators.datapipe.base import BaseDataPipeCreator
 from gravitorch.datapipes import clone_datapipe, setup_datapipe
-from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.format import str_indent, str_mapping
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 T = TypeVar("T")
 
