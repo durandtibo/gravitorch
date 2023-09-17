@@ -122,7 +122,9 @@ class ChainedDataPipeCreator(BaseDataPipeCreator):
     def __init__(self, config: dict | Sequence[dict]) -> None:
         if not config:
             raise ValueError("It is not possible to create a DataPipe because config is empty")
-        self._config = config
+        if isinstance(config, dict):
+            config = [config]
+        self._config = tuple(config)
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(\n  {str_indent(str_sequence(self._config))}\n)"
