@@ -54,6 +54,22 @@ class BaseDatasetCreator(Generic[T], ABC, metaclass=AbstractFactory):
         Returns:
         -------
             ``torch.utils.data.Dataset``: The created dataset.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.creators.dataset import DatasetCreator
+            >>> creator = DatasetCreator(
+            ...     {
+            ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+            ...         "num_examples": 10,
+            ...         "num_classes": 2,
+            ...         "feature_size": 4,
+            ...     }
+            ... )
+            >>> creator.create()
+            DummyMultiClassDataset(num_examples=10, num_classes=2, feature_size=4, noise_std=0.2, ...)
         """
 
 
