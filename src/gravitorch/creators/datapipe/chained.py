@@ -3,16 +3,18 @@ from __future__ import annotations
 __all__ = ["ChainedDataPipeCreator"]
 
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeVar
 
 from coola.utils import str_indent, str_sequence
-from torch.utils.data import IterDataPipe
+from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.creators.datapipe.base import BaseDataPipeCreator
 from gravitorch.datapipes import create_chained_datapipe
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
+
+T = TypeVar("T")
 
 
 class ChainedDataPipeCreator(BaseDataPipeCreator):
@@ -127,5 +129,5 @@ class ChainedDataPipeCreator(BaseDataPipeCreator):
 
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
-    ) -> IterDataPipe:
+    ) -> IterDataPipe[T] | MapDataPipe[T]:
         return create_chained_datapipe(config=self._config, source_inputs=source_inputs)

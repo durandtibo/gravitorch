@@ -5,7 +5,7 @@ __all__ = ["BaseDataPipeCreator", "is_datapipe_creator_config", "setup_datapipe_
 import logging
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from objectory import AbstractFactory
 from objectory.utils import is_object_config
@@ -18,8 +18,10 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+T = TypeVar("T")
 
-class BaseDataPipeCreator(ABC, metaclass=AbstractFactory):
+
+class BaseDataPipeCreator(Generic[T], ABC, metaclass=AbstractFactory):
     r"""Defines the base class to implement a ``DataPipe`` creator.
 
     A ``DataPipe`` creator is responsible to create a single
@@ -53,7 +55,7 @@ class BaseDataPipeCreator(ABC, metaclass=AbstractFactory):
     @abstractmethod
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
-    ) -> IterDataPipe | MapDataPipe:
+    ) -> IterDataPipe[T] | MapDataPipe[T]:
         r"""Creates a ``DataPipe`` object.
 
         Args:

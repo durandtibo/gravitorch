@@ -4,7 +4,7 @@ __all__ = ["EpochRandomDataPipeCreator"]
 
 import logging
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeVar
 
 from coola.utils import str_indent, str_mapping
 from objectory import OBJECT_TARGET, factory
@@ -18,6 +18,8 @@ if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
+
+T = TypeVar("T")
 
 
 class EpochRandomDataPipeCreator(BaseDataPipeCreator):
@@ -100,7 +102,7 @@ class EpochRandomDataPipeCreator(BaseDataPipeCreator):
 
     def create(
         self, engine: BaseEngine | None = None, source_inputs: Sequence | None = None
-    ) -> IterDataPipe | MapDataPipe:
+    ) -> IterDataPipe[T] | MapDataPipe[T]:
         if engine is None:
             raise RuntimeError(
                 "engine cannot be None because the epoch value is used to create the "
