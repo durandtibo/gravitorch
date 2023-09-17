@@ -6,7 +6,6 @@ from typing import TypeVar
 
 from torch.utils.data import DataLoader, Dataset
 
-from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.creators.dataset import (
     BaseDatasetCreator,
     DatasetCreator,
@@ -15,6 +14,7 @@ from gravitorch.creators.dataset import (
 from gravitorch.data.dataloaders import create_dataloader, setup_dataloader
 from gravitorch.data.datasets import is_dataset_config
 from gravitorch.engines.base import BaseEngine
+from gravitorch.experimental.dataloader.base import BaseDataLoaderCreator
 from gravitorch.utils.format import str_indent, str_mapping
 from gravitorch.utils.seed import get_torch_generator
 
@@ -37,7 +37,7 @@ class DataLoaderCreator(BaseDataLoaderCreator[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataloader import DataLoaderCreator
+        >>> from gravitorch.experimental.dataloader import DataLoaderCreator
         >>> from gravitorch.data.datasets import ExampleDataset
         >>> creator = DataLoaderCreator(
         ...     {
@@ -84,7 +84,7 @@ class VanillaDataLoaderCreator(BaseDataLoaderCreator[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataloader import VanillaDataLoaderCreator
+        >>> from gravitorch.experimental.dataloader import VanillaDataLoaderCreator
         >>> creator = VanillaDataLoaderCreator(
         ...     {
         ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",

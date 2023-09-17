@@ -10,10 +10,13 @@ from torch import Tensor
 from torch.utils.data import Dataset, RandomSampler, SequentialSampler
 from torch.utils.data.dataloader import DataLoader, default_collate
 
-from gravitorch.creators.dataloader import DataLoaderCreator, VanillaDataLoaderCreator
 from gravitorch.creators.dataset import DatasetCreator
 from gravitorch.data.dataloaders.collators import PaddedSequenceCollator
 from gravitorch.engines import BaseEngine
+from gravitorch.experimental.dataloader import (
+    DataLoaderCreator,
+    VanillaDataLoaderCreator,
+)
 
 
 class FakeDataset(Dataset):

@@ -3,7 +3,7 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 from torch.utils.data import DataLoader
 
-from gravitorch.creators.dataloader import (
+from gravitorch.experimental.dataloader import (
     DataLoaderCreator,
     is_dataloader_creator_config,
     setup_dataloader_creator,
@@ -17,7 +17,7 @@ from gravitorch.creators.dataloader import (
 def test_is_dataloader_creator_config_true() -> None:
     assert is_dataloader_creator_config(
         {
-            OBJECT_TARGET: "gravitorch.creators.dataloader.DataLoaderCreator",
+            OBJECT_TARGET: "gravitorch.experimental.dataloader.DataLoaderCreator",
             "dataloader": Mock(spec=DataLoader),
         }
     )
@@ -41,7 +41,7 @@ def test_setup_dataloader_creator_dict() -> None:
     assert isinstance(
         setup_dataloader_creator(
             {
-                OBJECT_TARGET: "gravitorch.creators.dataloader.DataLoaderCreator",
+                OBJECT_TARGET: "gravitorch.experimental.dataloader.DataLoaderCreator",
                 "dataloader": Mock(spec=DataLoader),
             }
         ),

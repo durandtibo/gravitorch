@@ -6,13 +6,13 @@ from typing import TypeVar
 
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
-from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.creators.dataset.base import BaseDatasetCreator, setup_dataset_creator
 from gravitorch.creators.dataset.vanilla import DatasetCreator
 from gravitorch.data.dataloaders import create_dataloader
 from gravitorch.data.datasets import is_dataset_config
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
+from gravitorch.experimental.dataloader.base import BaseDataLoaderCreator
 from gravitorch.utils.format import str_indent, str_mapping
 from gravitorch.utils.seed import get_torch_generator
 
@@ -48,7 +48,7 @@ class DistributedDataLoaderCreator(BaseDataLoaderCreator[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataloader import DistributedDataLoaderCreator
+        >>> from gravitorch.experimental.dataloader import DistributedDataLoaderCreator
         >>> creator = DistributedDataLoaderCreator(
         ...     {
         ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",

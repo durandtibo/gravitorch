@@ -10,10 +10,10 @@ from torch import Tensor
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 from torch.utils.data.dataloader import default_collate
 
-from gravitorch.creators.dataloader import DistributedDataLoaderCreator
 from gravitorch.creators.dataset import DatasetCreator
 from gravitorch.data.dataloaders.collators import PaddedSequenceCollator
 from gravitorch.engines import BaseEngine
+from gravitorch.experimental.dataloader import DistributedDataLoaderCreator
 
 
 class FakeDataset(Dataset):
@@ -247,34 +247,34 @@ def test_distributed_dataloader_creator_collate_fn_from_config(dataset: Dataset)
     assert isinstance(dataloader.collate_fn, PaddedSequenceCollator)
 
 
-@patch("gravitorch.creators.dataloader.distributed.dist.get_world_size", lambda *args: 1)
+@patch("gravitorch.experimental.dataloader.distributed.dist.get_world_size", lambda *args: 1)
 def test_distributed_dataloader_creator_num_replicas_1(dataset: Dataset) -> None:
     dataloader = DistributedDataLoaderCreator(dataset, batch_size=1).create()
     assert isinstance(dataloader, DataLoader)
     assert len(dataloader) == 20
 
 
-@patch("gravitorch.creators.dataloader.distributed.dist.get_world_size", lambda *args: 2)
+@patch("gravitorch.experimental.dataloader.distributed.dist.get_world_size", lambda *args: 2)
 def test_distributed_dataloader_creator_num_replicas_2(dataset: Dataset) -> None:
     dataloader = DistributedDataLoaderCreator(dataset, batch_size=1).create()
     assert isinstance(dataloader, DataLoader)
     assert len(dataloader) == 10
 
 
-@patch("gravitorch.creators.dataloader.distributed.dist.get_world_size", lambda *args: 4)
+@patch("gravitorch.experimental.dataloader.distributed.dist.get_world_size", lambda *args: 4)
 def test_distributed_dataloader_creator_num_replicas_4(dataset: Dataset) -> None:
     dataloader = DistributedDataLoaderCreator(dataset, batch_size=1).create()
     assert isinstance(dataloader, DataLoader)
     assert len(dataloader) == 5
 
 
-@patch("gravitorch.creators.dataloader.distributed.dist.get_world_size", lambda *args: 2)
+@patch("gravitorch.experimental.dataloader.distributed.dist.get_world_size", lambda *args: 2)
 def test_distributed_dataloader_creator_num_replicas_2_ranks(dataset: Dataset) -> None:
     indices = set()
-    with patch("gravitorch.creators.dataloader.distributed.dist.get_rank", lambda *args: 0):
+    with patch("gravitorch.experimental.dataloader.distributed.dist.get_rank", lambda *args: 0):
         for batch in DistributedDataLoaderCreator(dataset, batch_size=1).create():
             indices.add(batch[0, 0].item())
-    with patch("gravitorch.creators.dataloader.distributed.dist.get_rank", lambda *args: 1):
+    with patch("gravitorch.experimental.dataloader.distributed.dist.get_rank", lambda *args: 1):
         for batch in DistributedDataLoaderCreator(dataset, batch_size=1).create():
             indices.add(batch[0, 0].item())
     assert len(indices) == 20

@@ -8,12 +8,12 @@ from torch import Tensor
 from torch.utils.data import Dataset
 from torch.utils.data.dataloader import DataLoader
 
-from gravitorch.creators.dataloader import (
+from gravitorch.creators.dataset import DatasetCreator
+from gravitorch.experimental.dataloader import (
     AutoDataLoaderCreator,
     DistributedDataLoaderCreator,
     VanillaDataLoaderCreator,
 )
-from gravitorch.creators.dataset import DatasetCreator
 
 
 class FakeDataset(Dataset):
@@ -93,7 +93,7 @@ def test_auto_dataloader_creator_batch_size(dataset: Dataset, batch_size: int) -
 
 
 @mark.parametrize("batch_size", (1, 2, 4))
-@patch("gravitorch.creators.dataloader.distributed.dist.is_distributed", lambda *args: False)
+@patch("gravitorch.experimental.dataloader.distributed.dist.is_distributed", lambda *args: False)
 def test_auto_dataloader_creator_non_distributed(dataset: Dataset, batch_size: int) -> None:
     creator = AutoDataLoaderCreator(dataset, batch_size=batch_size)
     assert isinstance(creator._dataloader, VanillaDataLoaderCreator)
@@ -103,7 +103,7 @@ def test_auto_dataloader_creator_non_distributed(dataset: Dataset, batch_size: i
 
 
 @mark.parametrize("batch_size", (1, 2, 4))
-@patch("gravitorch.creators.dataloader.distributed.dist.is_distributed", lambda *args: True)
+@patch("gravitorch.experimental.dataloader.distributed.dist.is_distributed", lambda *args: True)
 def test_auto_dataloader_creator_distributed(dataset: Dataset, batch_size: int) -> None:
     creator = AutoDataLoaderCreator(dataset, batch_size=batch_size)
     assert isinstance(creator._dataloader, DistributedDataLoaderCreator)

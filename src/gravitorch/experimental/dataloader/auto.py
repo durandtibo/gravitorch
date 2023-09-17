@@ -40,7 +40,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataloader import AutoDataLoaderCreator
+        >>> from gravitorch.experimental.dataloader import AutoDataLoaderCreator
         >>> creator = AutoDataLoaderCreator(
         ...     {
         ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",

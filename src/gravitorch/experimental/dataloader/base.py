@@ -27,7 +27,7 @@ class BaseDataLoaderCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataloader import VanillaDataLoaderCreator
+        >>> from gravitorch.experimental.dataloader import VanillaDataLoaderCreator
         >>> creator = VanillaDataLoaderCreator(
         ...     {
         ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
@@ -77,9 +77,9 @@ def is_dataloader_creator_config(config: dict) -> bool:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataloader import is_dataloader_creator_config
+        >>> from gravitorch.experimental.dataloader import is_dataloader_creator_config
         >>> is_dataloader_creator_config(
-        ...     {"_target_": "gravitorch.creators.dataloader.DataLoaderCreator"}
+        ...     {"_target_": "gravitorch.experimental.dataloader.DataLoaderCreator"}
         ... )
         True
     """
@@ -105,10 +105,10 @@ def setup_dataloader_creator(creator: BaseDataLoaderCreator[T] | dict) -> BaseDa
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataloader import setup_dataloader_creator
+        >>> from gravitorch.experimental.dataloader import setup_dataloader_creator
         >>> creator = setup_dataloader_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.dataloader.VanillaDataLoaderCreator",
+        ...         "_target_": "gravitorch.experimental.dataloader.VanillaDataLoaderCreator",
         ...         "dataset": {
         ...             "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
         ...             "num_examples": 10,
