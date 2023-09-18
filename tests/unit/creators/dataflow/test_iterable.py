@@ -37,7 +37,7 @@ def test_iterable_dataflow_creator_create() -> None:
 
 def test_iterable_dataflow_creator_create_cache() -> None:
     creator = IterableDataFlowCreator(
-        {OBJECT_TARGET: "unit.creators.dataflow.test_iterable.create_list"}, cache=True
+        {OBJECT_TARGET: "tests.unit.creators.dataflow.test_iterable.create_list"}, cache=True
     )
     assert isinstance(creator._iterable, dict)
     dataflow = creator.create()

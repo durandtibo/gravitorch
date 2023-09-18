@@ -3,9 +3,9 @@ from __future__ import annotations
 from torch.utils.data import DataLoader
 
 from gravitorch.creators.dataflow import DataLoaderDataFlowCreator
-from gravitorch.creators.dataloader import DataLoaderCreator
 from gravitorch.data.datasets import ExampleDataset
 from gravitorch.dataflow import DataLoaderDataFlow
+from gravitorch.experimental.dataloader import VanillaDataLoaderCreator
 
 ###############################################
 #     Tests for DataLoaderDataFlowCreator     #
@@ -26,7 +26,7 @@ def test_dataloader_dataflow_creator_create_dataloader() -> None:
 
 def test_dataloader_dataflow_creator_create_dataloader_creator() -> None:
     dataflow = DataLoaderDataFlowCreator(
-        DataLoaderCreator(ExampleDataset((1, 2, 3, 4, 5)))
+        VanillaDataLoaderCreator(ExampleDataset((1, 2, 3, 4, 5)))
     ).create()
     assert isinstance(dataflow, DataLoaderDataFlow)
     assert list(dataflow) == [1, 2, 3, 4, 5]

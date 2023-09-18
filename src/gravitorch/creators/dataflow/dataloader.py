@@ -8,11 +8,14 @@ from coola.utils import str_indent, str_mapping
 from torch.utils.data import DataLoader
 
 from gravitorch.creators.dataflow.base import BaseDataFlowCreator
-from gravitorch.creators.dataloader import DataLoaderCreator, setup_dataloader_creator
-from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.data.dataloaders import is_dataloader_config
 from gravitorch.dataflow.dataloader import DataLoaderDataFlow
 from gravitorch.engines.base import BaseEngine
+from gravitorch.experimental.dataloader import (
+    BaseDataLoaderCreator,
+    DataLoaderCreator,
+    setup_dataloader_creator,
+)
 
 T = TypeVar("T")
 
