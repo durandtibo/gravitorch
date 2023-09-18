@@ -3,10 +3,10 @@ from unittest.mock import Mock
 
 from objectory import OBJECT_TARGET
 from pytest import LogCaptureFixture, fixture, raises
+from torch.utils.data.datapipes.iter import IterableWrapper
 
 from gravitorch.creators.datapipe import BaseDataPipeCreator, ChainedDataPipeCreator
 from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCreator
-from gravitorch.datapipes.iter import SourceWrapper
 from gravitorch.datasources import (
     DataCreatorDataSource,
     IterDataPipeCreatorDataSource,
@@ -28,8 +28,8 @@ def datasource() -> IterDataPipeCreatorDataSource:
                 OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
                 "config": [
                     {
-                        OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
-                        "source": [1, 2, 3, 4],
+                        OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+                        "iterable": [1, 2, 3, 4],
                     },
                 ],
             },
@@ -37,8 +37,8 @@ def datasource() -> IterDataPipeCreatorDataSource:
                 OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
                 "config": [
                     {
-                        OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper",
-                        "source": ["a", "b", "c"],
+                        OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper",
+                        "iterable": ["a", "b", "c"],
                     },
                 ],
             },
@@ -91,7 +91,7 @@ def test_iter_data_pipe_creator_datasource_get_dataloader_train(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
     loader = datasource.get_dataloader("train")
-    assert isinstance(loader, SourceWrapper)
+    assert isinstance(loader, IterableWrapper)
     assert tuple(loader) == (1, 2, 3, 4)
 
 
@@ -99,7 +99,7 @@ def test_iter_data_pipe_creator_datasource_get_dataloader_val(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
     loader = datasource.get_dataloader("val")
-    assert isinstance(loader, SourceWrapper)
+    assert isinstance(loader, IterableWrapper)
     assert tuple(loader) == ("a", "b", "c")
 
 
@@ -221,7 +221,7 @@ def test_data_creator_datasource_get_dataloader() -> None:
         datapipe_creators={
             "train": ChainedDataPipeCreator(
                 config=[
-                    {OBJECT_TARGET: "gravitorch.datapipes.iter.SourceWrapper"},
+                    {OBJECT_TARGET: "torch.utils.data.datapipes.iter.IterableWrapper"},
                 ]
             )
         },
@@ -230,4 +230,4 @@ def test_data_creator_datasource_get_dataloader() -> None:
         },
     )
     datapipe = creator.get_dataloader("train")
-    assert isinstance(datapipe, SourceWrapper)
+    assert isinstance(datapipe, IterableWrapper)

@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-class EpochRandomDataPipeCreator(BaseDataPipeCreator):
+class EpochRandomDataPipeCreator(BaseDataPipeCreator[T]):
     r"""Implements a ``DataPipe`` creator to create a ``DataPipe`` object
     where its random seed is controlled by an engine.
 

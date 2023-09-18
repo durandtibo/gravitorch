@@ -1,6 +1,7 @@
 __all__ = [
     "BaseDataPipeCreator",
     "ChainedDataPipeCreator",
+    "DataPipeCreator",
     "DictBatcherIterDataPipeCreator",
     "EpochRandomDataPipeCreator",
     "SequentialDataPipeCreator",
@@ -17,3 +18,4 @@ from gravitorch.creators.datapipe.chained import ChainedDataPipeCreator
 from gravitorch.creators.datapipe.dictbatcher import DictBatcherIterDataPipeCreator
 from gravitorch.creators.datapipe.random import EpochRandomDataPipeCreator
 from gravitorch.creators.datapipe.sequential import SequentialDataPipeCreator
+from gravitorch.creators.datapipe.vanilla import DataPipeCreator

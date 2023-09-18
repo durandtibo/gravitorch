@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 T = TypeVar("T")
 
 
-class SequentialDataPipeCreator(BaseDataPipeCreator):
+class SequentialDataPipeCreator(BaseDataPipeCreator[T]):
     r"""Implements an ``IterDataPipe`` creator to create an
     ``IterDataPipe`` object by using a sequence ``IterDataPipe``
     creators.
