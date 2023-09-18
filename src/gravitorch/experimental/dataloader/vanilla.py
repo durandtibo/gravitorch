@@ -2,7 +2,7 @@ from __future__ import annotations
 
 __all__ = ["DataLoaderCreator", "VanillaDataLoaderCreator"]
 
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from torch.utils.data import DataLoader, Dataset
 
@@ -11,12 +11,14 @@ from gravitorch.creators.dataset import (
     DatasetCreator,
     setup_dataset_creator,
 )
-from gravitorch.data.dataloaders import create_dataloader, setup_dataloader
-from gravitorch.datasets import is_dataset_config
-from gravitorch.engines.base import BaseEngine
+from gravitorch.data.dataloaders.factory import create_dataloader, setup_dataloader
+from gravitorch.datasets.factory import is_dataset_config
 from gravitorch.experimental.dataloader.base import BaseDataLoaderCreator
 from gravitorch.utils.format import str_indent, str_mapping
 from gravitorch.utils.seed import get_torch_generator
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 T = TypeVar("T")
 

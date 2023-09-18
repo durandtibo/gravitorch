@@ -4,13 +4,15 @@ __all__ = ["IterableDataFlowCreator"]
 
 from collections.abc import Iterable
 from contextlib import suppress
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from gravitorch.creators.dataflow.base import BaseDataFlowCreator
 from gravitorch.dataflow import IterableDataFlow
-from gravitorch.engines.base import BaseEngine
-from gravitorch.utils import setup_object
+from gravitorch.utils.factory import setup_object
 from gravitorch.utils.format import str_mapping
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 T = TypeVar("T")
 
