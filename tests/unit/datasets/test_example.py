@@ -6,8 +6,8 @@ from unittest.mock import patch
 from coola import EqualityTester
 from pytest import LogCaptureFixture, mark
 
-from gravitorch.data.datasets import ExampleDataset
-from gravitorch.data.datasets.example import ExampleDatasetEqualityOperator
+from gravitorch.datasets import ExampleDataset
+from gravitorch.datasets.example import ExampleDatasetEqualityOperator
 from gravitorch.utils.io import save_json, save_pickle, save_pytorch
 
 ####################################
@@ -105,7 +105,7 @@ def test_batch_equality_operator_equal_true_same_object() -> None:
 
 
 def test_batch_equality_operator_equal_true_show_difference(caplog: LogCaptureFixture) -> None:
-    with patch("gravitorch.data.datasets.example.log_box_dataset_class"):
+    with patch("gravitorch.datasets.example.log_box_dataset_class"):
         with caplog.at_level(logging.INFO):
             assert ExampleDatasetEqualityOperator().equal(
                 tester=EqualityTester(),

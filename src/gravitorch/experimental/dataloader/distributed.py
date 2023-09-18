@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader, Dataset, DistributedSampler
 from gravitorch.creators.dataset.base import BaseDatasetCreator, setup_dataset_creator
 from gravitorch.creators.dataset.vanilla import DatasetCreator
 from gravitorch.data.dataloaders import create_dataloader
-from gravitorch.data.datasets import is_dataset_config
+from gravitorch.datasets import is_dataset_config
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.experimental.dataloader.base import BaseDataLoaderCreator
@@ -51,7 +51,7 @@ class DistributedDataLoaderCreator(BaseDataLoaderCreator[T]):
         >>> from gravitorch.experimental.dataloader import DistributedDataLoaderCreator
         >>> creator = DistributedDataLoaderCreator(
         ...     {
-        ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...         "_target_": "gravitorch.datasets.DummyMultiClassDataset",
         ...         "num_examples": 10,
         ...         "num_classes": 2,
         ...         "feature_size": 4,

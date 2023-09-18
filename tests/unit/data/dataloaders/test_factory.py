@@ -16,7 +16,7 @@ from gravitorch.data.dataloaders import (
     setup_dataloader,
     setup_dataloader2,
 )
-from gravitorch.data.datasets import DummyMultiClassDataset, ExampleDataset
+from gravitorch.datasets import DummyMultiClassDataset, ExampleDataset
 from gravitorch.testing import torchdata_available
 from gravitorch.utils.imports import is_torchdata_available
 
@@ -47,7 +47,7 @@ def dataset() -> Dataset:
     (
         DummyMultiClassDataset(num_examples=10, num_classes=2, feature_size=4),
         {
-            OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+            OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
             "num_examples": 10,
             "num_classes": 2,
             "feature_size": 4,
@@ -213,7 +213,7 @@ def test_setup_dataloader_dict() -> None:
             {
                 OBJECT_TARGET: "torch.utils.data.DataLoader",
                 "dataset": {
-                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.datasets.ExampleDataset",
                     "examples": (1, 2, 3, 4, 5),
                 },
             },

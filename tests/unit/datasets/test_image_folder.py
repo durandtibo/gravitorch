@@ -5,7 +5,7 @@ import numpy as np
 from pytest import TempPathFactory, fixture, raises
 
 from gravitorch import constants as ct
-from gravitorch.data.datasets import ImageFolderDataset
+from gravitorch.datasets import ImageFolderDataset
 from gravitorch.testing import pillow_available, torchvision_available
 from gravitorch.utils.imports import is_pillow_available
 

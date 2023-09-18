@@ -72,9 +72,6 @@ jobs:
       - name: check gravitorch.data.dataloaders
         run: |
           poetry run python -c "from gravitorch.data import dataloaders"
-      - name: check gravitorch.data.datasets
-        run: |
-          poetry run python -c "from gravitorch.data import datasets"
       - name: check gravitorch.data.partitioners
         run: |
           poetry run python -c "from gravitorch.data import partitioners"
@@ -87,6 +84,9 @@ jobs:
       - name: check gravitorch.datapipes.map
         run: |
           poetry run python -c "from gravitorch.datapipes import map"
+      - name: check gravitorch.datasets
+        run: |
+          poetry run python -c "from gravitorch import datasets"
       - name: check gravitorch.datasources
         run: |
           poetry run python -c "from gravitorch import datasources"

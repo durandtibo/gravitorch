@@ -34,7 +34,7 @@ class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.datasets import ExampleDataset
+        >>> from gravitorch.datasets import ExampleDataset
         >>> from gravitorch.creators.dataflow import DataLoaderDataFlowCreator
         >>> from torch.utils.data import DataLoader
         >>> creator = DataLoaderDataFlowCreator(DataLoader(ExampleDataset([1, 2, 3, 4, 5])))

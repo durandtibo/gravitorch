@@ -18,7 +18,7 @@ from coola import (
 )
 from torch.utils.data import Dataset
 
-from gravitorch.data.datasets.utils import log_box_dataset_class
+from gravitorch.datasets.utils import log_box_dataset_class
 from gravitorch.utils.io import load_json, load_pickle
 from gravitorch.utils.path import sanitize_path
 
@@ -41,7 +41,7 @@ class ExampleDataset(Dataset[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.datasets import ExampleDataset
+        >>> from gravitorch.datasets import ExampleDataset
         >>> dataset = ExampleDataset((1, 2, 3, 4, 5, 6))
         >>> dataset
         ExampleDataset(num_examples=6)
@@ -78,7 +78,7 @@ class ExampleDataset(Dataset[T]):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.data.datasets import ExampleDataset
+            >>> from gravitorch.datasets import ExampleDataset
             >>> ExampleDataset([1, 2]).equal(ExampleDataset([1, 2]))
             True
             >>> ExampleDataset([1, 2]).equal(ExampleDataset([2, 1]))
@@ -107,7 +107,7 @@ class ExampleDataset(Dataset[T]):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.data.datasets import ExampleDataset
+            >>> from gravitorch.datasets import ExampleDataset
             >>> dataset = ExampleDataset.from_json_file("/path/to/file.pt")  # doctest: +SKIP
         """
         return cls(load_json(sanitize_path(path)))
@@ -129,7 +129,7 @@ class ExampleDataset(Dataset[T]):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.data.datasets import ExampleDataset
+            >>> from gravitorch.datasets import ExampleDataset
             >>> dataset = ExampleDataset.from_pickle_file("/path/to/file.pkl")  # doctest: +SKIP
         """
         return cls(load_pickle(sanitize_path(path)))
@@ -152,7 +152,7 @@ class ExampleDataset(Dataset[T]):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.data.datasets import ExampleDataset
+            >>> from gravitorch.datasets import ExampleDataset
             >>> dataset = ExampleDataset.from_pytorch_file("/path/to/file.pt")  # doctest: +SKIP
         """
         return cls(torch.load(sanitize_path(path), **kwargs))

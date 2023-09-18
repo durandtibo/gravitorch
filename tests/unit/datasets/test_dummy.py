@@ -2,7 +2,7 @@ import torch
 from pytest import mark, raises
 
 from gravitorch import constants as ct
-from gravitorch.data.datasets import DummyMultiClassDataset
+from gravitorch.datasets import DummyMultiClassDataset
 
 #############################################
 #     Tests of DummyMultiClassDataset     #

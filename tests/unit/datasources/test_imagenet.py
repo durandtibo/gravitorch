@@ -5,13 +5,13 @@ from pytest import TempPathFactory, fixture, raises
 
 from gravitorch import constants as ct
 from gravitorch.creators.dataloader import AutoDataLoaderCreator
-from gravitorch.data.datasets import ImageFolderDataset
+from gravitorch.datasets import ImageFolderDataset
 from gravitorch.datasources.imagenet import (
     ImageNetDataSource,
     create_train_eval_datasets_v1,
 )
 from gravitorch.testing import torchvision_available
-from tests.unit.data.datasets.test_image_folder import create_image_folder
+from tests.unit.datasets.test_image_folder import create_image_folder
 
 
 @fixture(scope="module")

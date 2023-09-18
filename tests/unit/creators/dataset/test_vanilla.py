@@ -6,7 +6,7 @@ from objectory import OBJECT_TARGET
 from torch.utils.data import Dataset
 
 from gravitorch.creators.dataset import DatasetCreator
-from gravitorch.data.datasets import DummyMultiClassDataset
+from gravitorch.datasets import DummyMultiClassDataset
 
 ####################################
 #     Tests for DatasetCreator     #
@@ -26,7 +26,7 @@ def test_dataset_creator_create_dataset_config() -> None:
     assert isinstance(
         DatasetCreator(
             {
-                OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+                OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
                 "num_examples": 10,
                 "num_classes": 2,
                 "feature_size": 4,
@@ -39,7 +39,7 @@ def test_dataset_creator_create_dataset_config() -> None:
 def test_dataset_creator_create_dataset_cache_true() -> None:
     creator = DatasetCreator(
         {
-            OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+            OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
             "num_examples": 10,
             "num_classes": 2,
             "feature_size": 4,
@@ -56,7 +56,7 @@ def test_dataset_creator_create_dataset_cache_true() -> None:
 def test_dataset_creator_create_dataset_cache_false() -> None:
     creator = DatasetCreator(
         {
-            OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+            OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
             "num_examples": 10,
             "num_classes": 2,
             "feature_size": 4,

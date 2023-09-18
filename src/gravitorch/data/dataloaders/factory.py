@@ -17,7 +17,7 @@ from objectory.utils import is_object_config
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.graph import DataPipe
 
-from gravitorch.data.datasets.factory import setup_dataset
+from gravitorch.datasets import setup_dataset
 from gravitorch.utils.factory import setup_object
 from gravitorch.utils.format import str_target_object
 from gravitorch.utils.imports import check_torchdata, is_torchdata_available
@@ -52,7 +52,7 @@ def create_dataloader(dataset: Dataset | dict, **kwargs) -> DataLoader:
         >>> from gravitorch.data.dataloaders import create_dataloader
         >>> create_dataloader(
         ...     {
-        ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...         "_target_": "gravitorch.datasets.DummyMultiClassDataset",
         ...         "num_examples": 10,
         ...         "num_classes": 2,
         ...         "feature_size": 4,
@@ -182,7 +182,7 @@ def setup_dataloader(dataloader: DataLoader | dict) -> DataLoader:
     .. code-block:: pycon
 
         >>> from gravitorch.data.dataloaders import setup_dataloader
-        >>> from gravitorch.data.datasets import ExampleDataset
+        >>> from gravitorch.datasets import ExampleDataset
         >>> dataloader = setup_dataloader(
         ...     {"_target_": "torch.utils.data.DataLoader", "dataset": ExampleDataset((1, 2, 3, 4))}
         ... )

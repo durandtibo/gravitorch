@@ -8,7 +8,7 @@ from pytest import LogCaptureFixture, raises
 from torch.utils.data import DataLoader, Dataset
 
 from gravitorch.creators.dataloader import AutoDataLoaderCreator, BaseDataLoaderCreator
-from gravitorch.data.datasets import ExampleDataset
+from gravitorch.datasets import ExampleDataset
 from gravitorch.datasources import DatasetDataSource, LoaderNotFoundError
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError
@@ -28,7 +28,7 @@ def test_dataset_datasource_datasets() -> None:
     datasource = DatasetDataSource(
         datasets={
             "train": {
-                OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
+                OBJECT_TARGET: "gravitorch.datasets.ExampleDataset",
                 "examples": [1, 2, 3, 4],
             },
             "val": ExampleDataset(["a", "b", "c"]),

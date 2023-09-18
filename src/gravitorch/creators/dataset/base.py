@@ -27,7 +27,7 @@ class BaseDatasetCreator(Generic[T], ABC, metaclass=AbstractFactory):
         >>> from gravitorch.creators.dataset import DatasetCreator
         >>> creator = DatasetCreator(
         ...     {
-        ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...         "_target_": "gravitorch.datasets.DummyMultiClassDataset",
         ...         "num_examples": 10,
         ...         "num_classes": 2,
         ...         "feature_size": 4,
@@ -36,7 +36,7 @@ class BaseDatasetCreator(Generic[T], ABC, metaclass=AbstractFactory):
         >>> creator
         DatasetCreator(
           cache=False
-          dataset={'_target_': 'gravitorch.data.datasets.DummyMultiClassDataset', 'num_examples': 10, 'num_classes': 2, 'feature_size': 4}
+          dataset={'_target_': 'gravitorch.datasets.DummyMultiClassDataset', 'num_examples': 10, 'num_classes': 2, 'feature_size': 4}
         )
         >>> creator.create()
         DummyMultiClassDataset(num_examples=10, num_classes=2, feature_size=4, noise_std=0.2, ...)
@@ -62,7 +62,7 @@ class BaseDatasetCreator(Generic[T], ABC, metaclass=AbstractFactory):
             >>> from gravitorch.creators.dataset import DatasetCreator
             >>> creator = DatasetCreator(
             ...     {
-            ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+            ...         "_target_": "gravitorch.datasets.DummyMultiClassDataset",
             ...         "num_examples": 10,
             ...         "num_classes": 2,
             ...         "feature_size": 4,
@@ -97,7 +97,7 @@ def setup_dataset_creator(creator: BaseDatasetCreator | dict) -> BaseDatasetCrea
         ...     {
         ...         "_target_": "gravitorch.creators.dataset.DatasetCreator",
         ...         "dataset": {
-        ...             "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...             "_target_": "gravitorch.datasets.DummyMultiClassDataset",
         ...             "num_examples": 10,
         ...             "num_classes": 2,
         ...             "feature_size": 4,
@@ -107,7 +107,7 @@ def setup_dataset_creator(creator: BaseDatasetCreator | dict) -> BaseDatasetCrea
         >>> creator
         DatasetCreator(
           cache=False
-          dataset={'_target_': 'gravitorch.data.datasets.DummyMultiClassDataset', 'num_examples': 10, 'num_classes': 2, 'feature_size': 4}
+          dataset={'_target_': 'gravitorch.datasets.DummyMultiClassDataset', 'num_examples': 10, 'num_classes': 2, 'feature_size': 4}
         )
     """
     if isinstance(creator, dict):

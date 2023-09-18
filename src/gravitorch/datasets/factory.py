@@ -37,12 +37,12 @@ def create_datasets(datasets: Mapping[Hashable, Dataset | dict]) -> dict[Hashabl
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.datasets import ExampleDataset, create_datasets
+        >>> from gravitorch.datasets import ExampleDataset, create_datasets
         >>> create_datasets(
         ...     {
         ...         "train": ExampleDataset((1, 2, 3)),
         ...         "val": {
-        ...             "_target_": "gravitorch.data.datasets.ExampleDataset",
+        ...             "_target_": "gravitorch.datasets.ExampleDataset",
         ...             "examples": (4, 5),
         ...         },
         ...     }
@@ -74,9 +74,9 @@ def is_dataset_config(config: dict) -> bool:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.datasets import is_dataset_config
+        >>> from gravitorch.datasets import is_dataset_config
         >>> is_dataset_config(
-        ...     {"_target_": "gravitorch.data.datasets.ExampleDataset", "examples": [1, 2, 1, 3]}
+        ...     {"_target_": "gravitorch.datasets.ExampleDataset", "examples": [1, 2, 1, 3]}
         ... )
         True
     """
@@ -102,9 +102,9 @@ def setup_dataset(dataset: Dataset | dict | None) -> Dataset | None:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.datasets import setup_dataset
+        >>> from gravitorch.datasets import setup_dataset
         >>> dataset = setup_dataset(
-        ...     {"_target_": "gravitorch.data.datasets.ExampleDataset", "examples": [1, 2, 1, 3]},
+        ...     {"_target_": "gravitorch.datasets.ExampleDataset", "examples": [1, 2, 1, 3]},
         ... )
         >>> dataset
         ExampleDataset(num_examples=4)

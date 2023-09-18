@@ -352,7 +352,7 @@ def test_vanilla_dataloader_creator_dataset_repeat(dataset: Dataset) -> None:
 def test_vanilla_dataloader_creator_dataset_config_repeat() -> None:
     creator = VanillaDataLoaderCreator(
         {
-            OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+            OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
             "num_examples": 10,
             "num_classes": 2,
             "feature_size": 4,
@@ -373,7 +373,7 @@ def test_vanilla_dataloader_creator_dataset_creator_repeat_caching() -> None:
     creator = VanillaDataLoaderCreator(
         DatasetCreator(
             {
-                OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+                OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
                 "num_examples": 10,
                 "num_classes": 2,
                 "feature_size": 4,
@@ -396,7 +396,7 @@ def test_vanilla_dataloader_creator_dataset_creator_repeat_no_caching() -> None:
     creator = VanillaDataLoaderCreator(
         DatasetCreator(
             {
-                OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+                OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
                 "num_examples": 10,
                 "num_classes": 2,
                 "feature_size": 4,
