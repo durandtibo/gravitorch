@@ -38,8 +38,15 @@ class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
         >>> from gravitorch.creators.dataflow import DataLoaderDataFlowCreator
         >>> from torch.utils.data import DataLoader
         >>> creator = DataLoaderDataFlowCreator(DataLoader(ExampleDataset([1, 2, 3, 4, 5])))
-        >>> dataloader = creator.create()
-        >>> dataloader
+        >>> creator
+        DataLoaderDataFlowCreator(
+          (dataloader): DataLoaderCreator(
+              cache=False
+              dataloader=<torch.utils.data.dataloader.DataLoader object at 0x...>
+            )
+        )
+        >>> dataflow = creator.create()
+        >>> dataflow
         DataLoaderDataFlow(length=5)
     """
 
@@ -52,10 +59,7 @@ class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
 
     def __repr__(self) -> str:
         config = {"dataloader": self._dataloader}
-        return (
-            f"{self.__class__.__qualname__}(\n"
-            f"  {str_indent(str_mapping(config, sorted_keys=True))}\n)"
-        )
+        return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(config))}\n)"
 
     def create(self, engine: BaseEngine | None = None) -> DataLoaderDataFlow[T]:
         return DataLoaderDataFlow(self._dataloader.create(engine))

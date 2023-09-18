@@ -29,7 +29,10 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
         >>> from gravitorch.creators.dataflow import IterableDataFlowCreator
         >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
-        >>> creator.create()
+        >>> creator
+        IterableDataFlowCreator(cache=False, length=5)
+        >>> dataflow = creator.create()
+        >>> dataflow
         IterableDataFlow(length=5)
     """
 
@@ -45,6 +48,16 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
         Returns:
         -------
             ``BaseDataFlow``: The created dataflow.
+
+        Example usage:
+
+        .. code-block:: pycon
+
+            >>> from gravitorch.creators.dataflow import IterableDataFlowCreator
+            >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
+            >>> dataflow = creator.create()
+            >>> dataflow
+            IterableDataFlow(length=5)
         """
 
 

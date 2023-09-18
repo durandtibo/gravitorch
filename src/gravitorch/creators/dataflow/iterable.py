@@ -34,7 +34,11 @@ class IterableDataFlowCreator(BaseDataFlowCreator[T]):
 
         >>> from gravitorch.creators.dataflow import IterableDataFlowCreator
         >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
-        >>> creator.create()
+        >>> creator
+        IterableDataFlowCreator(cache=False, length=5)
+        >>> dataflow = creator.create()
+        >>> dataflow
+        IterableDataFlow(length=5)
     """
 
     def __init__(self, iterable: Iterable[T], cache: bool = False, **kwargs) -> None:
