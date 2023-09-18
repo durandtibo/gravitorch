@@ -10,11 +10,11 @@ from coola.utils import str_indent, str_mapping
 from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.creators.dataloader2.base import BaseDataLoader2Creator
-from gravitorch.creators.datapipe.vanilla import DataPipeCreator
 from gravitorch.creators.datapipe.base import (
     BaseDataPipeCreator,
     setup_datapipe_creator,
 )
+from gravitorch.creators.datapipe.vanilla import DataPipeCreator
 from gravitorch.data.dataloaders import create_dataloader2, setup_dataloader2
 from gravitorch.datapipes import is_datapipe_config
 from gravitorch.engines import BaseEngine
