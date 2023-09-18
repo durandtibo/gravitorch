@@ -13,7 +13,7 @@ engine:
         _target_: gravitorch.datasources.DatasetDataSource
         datasets:
           train:
-            _target_: gravitorch.data.datasets.DummyMultiClassDataset
+            _target_: gravitorch.datasets.DummyMultiClassDataset
             num_examples: 20
             num_classes: ${oc.select:num_classes,50}
             feature_size: ${oc.select:feature_size,64}

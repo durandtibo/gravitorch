@@ -1,7 +1,7 @@
 from coola import objects_are_equal
 from objectory import OBJECT_TARGET
 
-from gravitorch.data.datasets import (
+from gravitorch.datasets import (
     DummyMultiClassDataset,
     ExampleDataset,
     create_datasets,
@@ -23,7 +23,7 @@ def test_create_datasets_one() -> None:
         create_datasets(
             {
                 "train": {
-                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.datasets.ExampleDataset",
                     "examples": (1, 2, 3),
                 }
             }
@@ -37,7 +37,7 @@ def test_create_datasets_two() -> None:
         create_datasets(
             {
                 "train": {
-                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.datasets.ExampleDataset",
                     "examples": (1, 2, 3),
                 },
                 "val": ExampleDataset((4, 5)),
@@ -52,12 +52,12 @@ def test_create_datasets_three() -> None:
         create_datasets(
             {
                 "train": {
-                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.datasets.ExampleDataset",
                     "examples": (1, 2, 3),
                 },
                 "val": ExampleDataset((4, 5)),
                 "test": {
-                    OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset",
+                    OBJECT_TARGET: "gravitorch.datasets.ExampleDataset",
                     "examples": ("A", "B"),
                 },
             }
@@ -77,7 +77,7 @@ def test_create_datasets_three() -> None:
 
 def test_is_dataset_config_true() -> None:
     assert is_dataset_config(
-        {OBJECT_TARGET: "gravitorch.data.datasets.ExampleDataset", "examples": ("A", "B")}
+        {OBJECT_TARGET: "gravitorch.datasets.ExampleDataset", "examples": ("A", "B")}
     )
 
 
@@ -99,7 +99,7 @@ def test_setup_dataset_dict() -> None:
     assert isinstance(
         setup_dataset(
             {
-                OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+                OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
                 "num_examples": 10,
                 "num_classes": 5,
             }

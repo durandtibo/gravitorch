@@ -43,7 +43,7 @@ class AutoDataLoaderCreator(BaseDataLoaderCreator[T]):
         >>> from gravitorch.experimental.dataloader import AutoDataLoaderCreator
         >>> creator = AutoDataLoaderCreator(
         ...     {
-        ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...         "_target_": "gravitorch.datasets.DummyMultiClassDataset",
         ...         "num_examples": 10,
         ...         "num_classes": 2,
         ...         "feature_size": 4,

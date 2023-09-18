@@ -7,7 +7,7 @@ from typing import TypeVar
 from torch.utils.data import Dataset
 
 from gravitorch.creators.dataset.base import BaseDatasetCreator
-from gravitorch.data.datasets import setup_dataset
+from gravitorch.datasets import setup_dataset
 from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.format import str_indent, str_mapping
 
@@ -33,7 +33,7 @@ class DatasetCreator(BaseDatasetCreator[T]):
         >>> from gravitorch.creators.dataset import DatasetCreator
         >>> creator = DatasetCreator(
         ...     {
-        ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...         "_target_": "gravitorch.datasets.DummyMultiClassDataset",
         ...         "num_examples": 10,
         ...         "num_classes": 2,
         ...         "feature_size": 4,
@@ -42,7 +42,7 @@ class DatasetCreator(BaseDatasetCreator[T]):
         >>> creator
         DatasetCreator(
           cache=False
-          dataset={'_target_': 'gravitorch.data.datasets.DummyMultiClassDataset', 'num_examples': 10, 'num_classes': 2, 'feature_size': 4}
+          dataset={'_target_': 'gravitorch.datasets.DummyMultiClassDataset', 'num_examples': 10, 'num_classes': 2, 'feature_size': 4}
         )
         >>> creator.create()
         DummyMultiClassDataset(num_examples=10, num_classes=2, feature_size=4, noise_std=0.2, ...)

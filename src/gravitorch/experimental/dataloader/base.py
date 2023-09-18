@@ -30,7 +30,7 @@ class BaseDataLoaderCreator(Generic[T], ABC, metaclass=AbstractFactory):
         >>> from gravitorch.experimental.dataloader import VanillaDataLoaderCreator
         >>> creator = VanillaDataLoaderCreator(
         ...     {
-        ...         "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...         "_target_": "gravitorch.datasets.DummyMultiClassDataset",
         ...         "num_examples": 10,
         ...         "num_classes": 2,
         ...         "feature_size": 4,
@@ -110,7 +110,7 @@ def setup_dataloader_creator(creator: BaseDataLoaderCreator[T] | dict) -> BaseDa
         ...     {
         ...         "_target_": "gravitorch.experimental.dataloader.VanillaDataLoaderCreator",
         ...         "dataset": {
-        ...             "_target_": "gravitorch.data.datasets.DummyMultiClassDataset",
+        ...             "_target_": "gravitorch.datasets.DummyMultiClassDataset",
         ...             "num_examples": 10,
         ...             "num_classes": 2,
         ...             "feature_size": 4,
@@ -121,7 +121,7 @@ def setup_dataloader_creator(creator: BaseDataLoaderCreator[T] | dict) -> BaseDa
         VanillaDataLoaderCreator(
           dataset=DatasetCreator(
               cache=False
-              dataset={'_target_': 'gravitorch.data.datasets.DummyMultiClassDataset', 'num_examples': 10, 'num_classes': 2, 'feature_size': 4}
+              dataset={'_target_': 'gravitorch.datasets.DummyMultiClassDataset', 'num_examples': 10, 'num_classes': 2, 'feature_size': 4}
             )
           seed=0
         )

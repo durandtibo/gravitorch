@@ -4,7 +4,7 @@ from unittest.mock import Mock
 from pytest import LogCaptureFixture
 from torch.utils.data import Dataset
 
-from gravitorch.data.datasets.utils import log_box_dataset_class
+from gravitorch.datasets import log_box_dataset_class
 
 ###########################################
 #     Tests for log_box_dataset_class     #

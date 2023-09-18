@@ -294,7 +294,7 @@ def test_distributed_dataloader_creator_dataset_repeat(dataset: Dataset) -> None
 def test_distributed_dataloader_creator_dataset_config_repeat() -> None:
     creator = DistributedDataLoaderCreator(
         {
-            OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+            OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
             "num_examples": 10,
             "num_classes": 2,
             "feature_size": 4,
@@ -315,7 +315,7 @@ def test_distributed_dataloader_creator_dataset_creator_repeat_caching() -> None
     creator = DistributedDataLoaderCreator(
         DatasetCreator(
             {
-                OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+                OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
                 "num_examples": 10,
                 "num_classes": 2,
                 "feature_size": 4,
@@ -338,7 +338,7 @@ def test_distributed_dataloader_creator_dataset_creator_repeat_no_caching() -> N
     creator = DistributedDataLoaderCreator(
         DatasetCreator(
             {
-                OBJECT_TARGET: "gravitorch.data.datasets.DummyMultiClassDataset",
+                OBJECT_TARGET: "gravitorch.datasets.DummyMultiClassDataset",
                 "num_examples": 10,
                 "num_classes": 2,
                 "feature_size": 4,

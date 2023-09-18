@@ -9,7 +9,7 @@ import logging
 from torch.utils.data import Dataset
 
 from gravitorch import constants as ct
-from gravitorch.data.datasets.utils import log_box_dataset_class
+from gravitorch.datasets.utils import log_box_dataset_class
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ class DummyMultiClassDataset(Dataset):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.datasets import DummyMultiClassDataset
+        >>> from gravitorch.datasets import DummyMultiClassDataset
         >>> dataset = DummyMultiClassDataset(num_examples=10, num_classes=5, feature_size=6)
         >>> dataset
         DummyMultiClassDataset(num_examples=10, num_classes=5, feature_size=6, noise_std=0.2, random_seed=10169389905513828140)

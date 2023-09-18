@@ -27,7 +27,7 @@ class ImageFolderDataset(ImageFolder):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.datasets import ImageFolderDataset
+        >>> from gravitorch.datasets import ImageFolderDataset
         >>> dataset = ImageFolderDataset(root="tmp/dataset")  # doctest: +SKIP
     """
 

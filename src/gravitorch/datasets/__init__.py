@@ -12,12 +12,12 @@ __all__ = [
     "setup_dataset",
 ]
 
-from gravitorch.data.datasets.dummy import DummyMultiClassDataset
-from gravitorch.data.datasets.example import ExampleDataset
-from gravitorch.data.datasets.factory import (
+from gravitorch.datasets.dummy import DummyMultiClassDataset
+from gravitorch.datasets.example import ExampleDataset
+from gravitorch.datasets.factory import (
     create_datasets,
     is_dataset_config,
     setup_dataset,
 )
-from gravitorch.data.datasets.image_folder import ImageFolderDataset
-from gravitorch.data.datasets.utils import log_box_dataset_class
+from gravitorch.datasets.image_folder import ImageFolderDataset
+from gravitorch.datasets.utils import log_box_dataset_class
