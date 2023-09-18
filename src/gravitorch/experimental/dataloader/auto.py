@@ -2,17 +2,19 @@ from __future__ import annotations
 
 __all__ = ["AutoDataLoaderCreator"]
 
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from torch.utils.data import DataLoader, Dataset
 
 from gravitorch.creators.dataset.base import BaseDatasetCreator
 from gravitorch.distributed import comm as dist
-from gravitorch.engines.base import BaseEngine
 from gravitorch.experimental.dataloader.base import BaseDataLoaderCreator
 from gravitorch.experimental.dataloader.distributed import DistributedDataLoaderCreator
 from gravitorch.experimental.dataloader.vanilla import VanillaDataLoaderCreator
 from gravitorch.utils.format import str_indent
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 T = TypeVar("T")
 

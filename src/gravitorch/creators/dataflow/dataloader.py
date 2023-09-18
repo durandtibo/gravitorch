@@ -2,20 +2,22 @@ from __future__ import annotations
 
 __all__ = ["DataLoaderDataFlowCreator"]
 
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from coola.utils import str_indent, str_mapping
 from torch.utils.data import DataLoader
 
 from gravitorch.creators.dataflow.base import BaseDataFlowCreator
-from gravitorch.data.dataloaders import is_dataloader_config
+from gravitorch.data.dataloaders.factory import is_dataloader_config
 from gravitorch.dataflow.dataloader import DataLoaderDataFlow
-from gravitorch.engines.base import BaseEngine
-from gravitorch.experimental.dataloader import (
+from gravitorch.experimental.dataloader.base import (
     BaseDataLoaderCreator,
-    DataLoaderCreator,
     setup_dataloader_creator,
 )
+from gravitorch.experimental.dataloader.vanilla import DataLoaderCreator
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 T = TypeVar("T")
 

@@ -7,6 +7,7 @@ __all__ = [
     "ImageNetDataSource",
     "IterDataPipeCreatorDataSource",
     "LoaderNotFoundError",
+    "VanillaDataSource",
     "is_datasource_config",
     "setup_and_attach_datasource",
     "setup_datasource",
@@ -25,3 +26,4 @@ from gravitorch.datasources.datapipe import (
 )
 from gravitorch.datasources.dataset import DatasetDataSource
 from gravitorch.datasources.imagenet import ImageNetDataSource
+from gravitorch.datasources.vanilla import VanillaDataSource
