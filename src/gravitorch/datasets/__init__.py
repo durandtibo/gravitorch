@@ -4,7 +4,6 @@ from __future__ import annotations
 
 __all__ = [
     "DummyMultiClassDataset",
-    "ImageFolderDataset",
     "ExampleDataset",
     "create_datasets",
     "is_dataset_config",
@@ -19,5 +18,4 @@ from gravitorch.datasets.factory import (
     is_dataset_config,
     setup_dataset,
 )
-from gravitorch.datasets.image_folder import ImageFolderDataset
 from gravitorch.datasets.utils import log_box_dataset_class
