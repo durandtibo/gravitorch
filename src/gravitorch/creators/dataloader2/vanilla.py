@@ -4,7 +4,7 @@ __all__ = ["DataLoader2Creator", "VanillaDataLoader2Creator"]
 
 import logging
 from collections.abc import Iterable
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from coola.utils import str_indent, str_mapping
 from torch.utils.data import IterDataPipe, MapDataPipe
@@ -16,8 +16,7 @@ from gravitorch.creators.datapipe.base import (
 )
 from gravitorch.creators.datapipe.vanilla import DataPipeCreator
 from gravitorch.data.dataloaders import create_dataloader2, setup_dataloader2
-from gravitorch.datapipes import is_datapipe_config
-from gravitorch.engines import BaseEngine
+from gravitorch.datapipes.factory import is_datapipe_config
 from gravitorch.utils.imports import is_torchdata_available
 
 if is_torchdata_available():
@@ -27,6 +26,9 @@ else:  # pragma: no cover
     Adapter = "Adapter"
     DataLoader2 = "DataLoader2"
     ReadingServiceInterface = "ReadingServiceInterface"
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 T = TypeVar("T")
 
