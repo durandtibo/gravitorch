@@ -76,7 +76,6 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `tensorboard`<sup>*</sup> | `>=2.10,<2.15`     |
 | `torch`                   | `>=2.0,<2.1`       |
 | `torchdata`<sup>*</sup>   | `>=0.6,<0.7`       |
-| `torchvision`<sup>*</sup> | `>=0.15,<0.16`     |
 | `tqdm`                    | `>=4.64,<4.67`     |
 
 <sup>*</sup> indicates an optional dependency
