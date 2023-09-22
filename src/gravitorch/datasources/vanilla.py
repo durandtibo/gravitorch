@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Any, TypeVar
 
 from coola.utils import str_indent, str_mapping
 
+from gravitorch.creators.dataflow.base import setup_dataflow_creator
 from gravitorch.dataflow.base import BaseDataFlow
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.utils.asset import AssetManager
@@ -53,10 +54,6 @@ class VanillaDataSource(BaseDataSource):
 
     def __init__(self, dataflow_creators: Mapping[str, BaseDataFlowCreator[T] | dict]) -> None:
         self._asset_manager = AssetManager()
-
-        # Local import to avoid circular imports
-        from gravitorch.creators.dataflow.base import setup_dataflow_creator
-
         self._dataflow_creators: Mapping[str, BaseDataFlowCreator] = {
             key: setup_dataflow_creator(value) for key, value in dataflow_creators.items()
         }

@@ -10,13 +10,11 @@ from torch.optim import Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.creators.core.base import BaseCoreCreator
-from gravitorch.datasources.base import BaseDataSource, setup_datasource
-from gravitorch.lr_schedulers.base import LRSchedulerType, setup_lr_scheduler
-from gravitorch.models.utils import setup_model
-from gravitorch.optimizers.factory import setup_optimizer
 
 if TYPE_CHECKING:
+    from gravitorch.datasources import BaseDataSource
     from gravitorch.engines import BaseEngine
+    from gravitorch.lr_schedulers import LRSchedulerType
 
 
 class CoreCreator(BaseCoreCreator):
@@ -128,6 +126,12 @@ class CoreCreator(BaseCoreCreator):
         optimizer: Optimizer | dict | None = None,
         lr_scheduler: LRSchedulerType | dict | None = None,
     ) -> None:
+        # Local imports to avoid cyclic imports
+        from gravitorch.datasources import setup_datasource
+        from gravitorch.lr_schedulers import setup_lr_scheduler
+        from gravitorch.models import setup_model
+        from gravitorch.optimizers import setup_optimizer
+
         self._datasource = setup_datasource(datasource)
         self._model = setup_model(model)
         self._optimizer = setup_optimizer(model=self._model, optimizer=optimizer)

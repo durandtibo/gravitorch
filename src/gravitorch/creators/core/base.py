@@ -11,12 +11,12 @@ from objectory.utils import is_object_config
 from torch.nn import Module
 from torch.optim import Optimizer
 
-from gravitorch.datasources.base import BaseDataSource
-from gravitorch.lr_schedulers.base import LRSchedulerType
 from gravitorch.utils.format import str_target_object
 
 if TYPE_CHECKING:
+    from gravitorch.datasources import BaseDataSource
     from gravitorch.engines import BaseEngine
+    from gravitorch.lr_schedulers import LRSchedulerType
 
 logger = logging.getLogger(__name__)
 

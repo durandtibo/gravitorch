@@ -9,10 +9,10 @@ from typing import TYPE_CHECKING, Generic, TypeVar
 from objectory import AbstractFactory
 from objectory.utils import is_object_config
 
-from gravitorch.dataflow.base import BaseDataFlow
 from gravitorch.utils.format import str_target_object
 
 if TYPE_CHECKING:
+    from gravitorch.dataflow import BaseDataFlow
     from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)

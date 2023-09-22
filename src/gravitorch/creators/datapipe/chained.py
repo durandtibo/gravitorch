@@ -9,7 +9,7 @@ from coola.utils import str_indent, str_sequence
 from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.creators.datapipe.base import BaseDataPipeCreator
-from gravitorch.datapipes import create_chained_datapipe
+from gravitorch.datapipes.factory import create_chained_datapipe
 
 if TYPE_CHECKING:
     from gravitorch.engines import BaseEngine
