@@ -44,7 +44,7 @@ class DataLoaderDataFlow(BaseDataFlow):
                 "Incorrect type. Expecting DataLoader or DataLoader2 but "
                 f"received {type(dataloader)}"
             )
-        self.dataloader = dataloader
+        self.dataloader = dataloader  # TODO: add support for config
 
     def __iter__(self) -> Iterator:
         return iter(self.dataloader)

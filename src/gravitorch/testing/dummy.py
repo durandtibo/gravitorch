@@ -20,10 +20,11 @@ from torch.optim import Optimizer
 from torch.utils.data import Dataset, IterableDataset
 
 from gravitorch import constants as ct
-from gravitorch.creators.dataloader import DataLoaderCreator
+from gravitorch.creators.dataflow import DataLoaderDataFlowCreator
 from gravitorch.datasources.base import BaseDataSource
-from gravitorch.datasources.dataset import DatasetDataSource
+from gravitorch.datasources.vanilla import VanillaDataSource
 from gravitorch.engines.base import BaseEngine
+from gravitorch.experimental.dataloader import VanillaDataLoaderCreator
 from gravitorch.lr_schedulers.base import LRSchedulerType
 from gravitorch.models.base import BaseModel
 
@@ -119,7 +120,55 @@ class DummyIterableDataset(IterableDataset):
         )
 
 
-class DummyDataSource(DatasetDataSource):
+# class DummyDataSource(DatasetDataSource):
+#     r"""Implements a dummy datasource for testing purpose.
+#
+#     Args:
+#     ----
+#         train_dataset (``Dataset`` or ``None``, optional): Specifies
+#             the training dataset. If ``None``, a dummy map-style
+#             dataset is automatically created. Default: ``None``
+#         eval_dataset (``Dataset`` or ``None``, optional): Specifies
+#             the evaluation dataset. If ``None``, a dummy map-style
+#             dataset is automatically created. Default: ``None``
+#         batch_size (int, optional): Specifies the batch size.
+#             Default: ``1``
+#
+#     Example usage:
+#
+#     .. code-block:: pycon
+#
+#         >>> from gravitorch.testing import DummyDataset, DummyDataSource
+#         >>> datasource = DummyDataSource(
+#         ...     train_dataset=DummyDataset(num_examples=10, feature_size=3),
+#         ...     eval_dataset=DummyDataset(num_examples=6, feature_size=3),
+#         ... )
+#         >>> next(iter(datasource.get_dataloader("train")))
+#         {'input': tensor([[1., 1., 1.]]), 'target': tensor([1])}
+#         >>> next(iter(datasource.get_dataloader("eval")))
+#         {'input': tensor([[1., 1., 1.]]), 'target': tensor([1])}
+#     """
+#
+#     def __init__(
+#         self,
+#         train_dataset: Dataset | None = None,
+#         eval_dataset: Dataset | None = None,
+#         batch_size: int | None = 1,
+#     ) -> None:
+#         if train_dataset is None:
+#             train_dataset = DummyDataset()
+#         if eval_dataset is None:
+#             eval_dataset = DummyDataset()
+#         super().__init__(
+#             datasets={ct.TRAIN: train_dataset, ct.EVAL: eval_dataset},
+#             dataloader_creators={
+#                 ct.TRAIN: DataLoaderCreator(batch_size=batch_size, shuffle=False),
+#                 ct.EVAL: DataLoaderCreator(batch_size=batch_size, shuffle=False),
+#             },
+#         )
+
+
+class DummyDataSource(VanillaDataSource):
     r"""Implements a dummy datasource for testing purpose.
 
     Args:
@@ -159,10 +208,17 @@ class DummyDataSource(DatasetDataSource):
         if eval_dataset is None:
             eval_dataset = DummyDataset()
         super().__init__(
-            datasets={ct.TRAIN: train_dataset, ct.EVAL: eval_dataset},
-            dataloader_creators={
-                ct.TRAIN: DataLoaderCreator(batch_size=batch_size, shuffle=False),
-                ct.EVAL: DataLoaderCreator(batch_size=batch_size, shuffle=False),
+            dataflow_creators={
+                ct.TRAIN: DataLoaderDataFlowCreator(
+                    VanillaDataLoaderCreator(
+                        dataset=train_dataset, batch_size=batch_size, shuffle=False
+                    )
+                ),
+                ct.EVAL: DataLoaderDataFlowCreator(
+                    VanillaDataLoaderCreator(
+                        dataset=eval_dataset, batch_size=batch_size, shuffle=False
+                    )
+                ),
             },
         )
 

@@ -9,6 +9,7 @@ from torch.optim import SGD, Adam
 from torch.utils.data import Dataset
 
 from gravitorch import constants as ct
+from gravitorch.creators.dataflow import DataLoaderDataFlowCreator
 from gravitorch.datasources import BaseDataSource
 from gravitorch.testing import (
     DummyClassificationModel,
@@ -80,20 +81,20 @@ def test_dummy_datasource_str() -> None:
     assert str(DummyDataSource()).startswith("DummyDataSource(")
 
 
-def test_dummy_datasource_default_datasets() -> None:
+def test_dummy_datasource_default() -> None:
     datasource = DummyDataSource()
-    assert len(datasource._datasets) == 2
-    assert isinstance(datasource._datasets[ct.TRAIN], DummyDataset)
-    assert isinstance(datasource._datasets[ct.EVAL], DummyDataset)
+    assert len(datasource._dataflow_creators) == 2
+    assert isinstance(datasource._dataflow_creators[ct.TRAIN], DataLoaderDataFlowCreator)
+    assert isinstance(datasource._dataflow_creators[ct.EVAL], DataLoaderDataFlowCreator)
 
 
-def test_dummy_datasource_datasets() -> None:
+def test_dummy_datasource() -> None:
     train_dataset = Mock(spec=Dataset)
     eval_dataset = Mock(spec=Dataset)
     datasource = DummyDataSource(train_dataset=train_dataset, eval_dataset=eval_dataset)
-    assert len(datasource._datasets) == 2
-    assert datasource._datasets[ct.TRAIN] is train_dataset
-    assert datasource._datasets[ct.EVAL] is eval_dataset
+    assert len(datasource._dataflow_creators) == 2
+    assert isinstance(datasource._dataflow_creators[ct.TRAIN], DataLoaderDataFlowCreator)
+    assert isinstance(datasource._dataflow_creators[ct.EVAL], DataLoaderDataFlowCreator)
 
 
 ##############################################
