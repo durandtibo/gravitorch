@@ -20,10 +20,12 @@ from torch.optim import Optimizer
 from torch.utils.data import Dataset, IterableDataset
 
 from gravitorch import constants as ct
-from gravitorch.datasources import BaseDataSource, DatasetDataSource
-from gravitorch.engines import BaseEngine
+from gravitorch.creators.dataloader import DataLoaderCreator
+from gravitorch.datasources.base import BaseDataSource
+from gravitorch.datasources.dataset import DatasetDataSource
+from gravitorch.engines.base import BaseEngine
 from gravitorch.lr_schedulers.base import LRSchedulerType
-from gravitorch.models import BaseModel
+from gravitorch.models.base import BaseModel
 
 
 class DummyDataset(Dataset):
@@ -156,10 +158,6 @@ class DummyDataSource(DatasetDataSource):
             train_dataset = DummyDataset()
         if eval_dataset is None:
             eval_dataset = DummyDataset()
-
-        # Local import to avoid cyclic dependency
-        from gravitorch.creators.dataloader import DataLoaderCreator
-
         super().__init__(
             datasets={ct.TRAIN: train_dataset, ct.EVAL: eval_dataset},
             dataloader_creators={
