@@ -41,7 +41,7 @@ def check_accelerate() -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.imports import check_accelerate
-        >>> check_accelerate()
+        >>> check_accelerate()  # doctest: +SKIP
     """
     if not is_accelerate_available():
         raise RuntimeError(
@@ -83,7 +83,7 @@ def check_fairscale() -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.imports import check_fairscale
-        >>> check_fairscale()  # xdoctest: +SKIP()
+        >>> check_fairscale()  # xdoctest: +SKIP
     """
     if not is_fairscale_available():
         raise RuntimeError(
@@ -123,7 +123,7 @@ def check_matplotlib() -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.imports import check_matplotlib
-        >>> check_matplotlib()
+        >>> check_matplotlib()  # doctest: +SKIP
     """
     if not is_matplotlib_available():
         raise RuntimeError(
@@ -163,7 +163,7 @@ def check_pillow() -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.imports import check_pillow
-        >>> check_pillow()
+        >>> check_pillow()  # doctest: +SKIP
     """
     if not is_pillow_available():
         raise RuntimeError(
@@ -203,7 +203,7 @@ def check_psutil() -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.imports import check_psutil
-        >>> check_psutil()
+        >>> check_psutil()  # doctest: +SKIP
     """
     if not is_psutil_available():
         raise RuntimeError(
@@ -243,7 +243,7 @@ def check_tensorboard() -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.imports import check_tensorboard
-        >>> check_tensorboard()
+        >>> check_tensorboard()  # doctest: +SKIP
     """
     if not is_tensorboard_available():
         raise RuntimeError(
@@ -283,7 +283,7 @@ def check_torchdata() -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.imports import check_torchdata
-        >>> check_torchdata()
+        >>> check_torchdata()  # doctest: +SKIP
     """
     if not is_torchdata_available():
         raise RuntimeError(
@@ -325,7 +325,7 @@ def check_torchvision() -> None:
     .. code-block:: pycon
 
         >>> from gravitorch.utils.imports import check_torchvision
-        >>> check_torchvision()
+        >>> check_torchvision()  # doctest: +SKIP
     """
     if not is_torchvision_available():
         raise RuntimeError(
