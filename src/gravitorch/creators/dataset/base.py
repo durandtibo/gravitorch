@@ -4,13 +4,15 @@ __all__ = ["BaseDatasetCreator", "setup_dataset_creator"]
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from objectory import AbstractFactory
 from torch.utils.data import Dataset
 
-from gravitorch.engines.base import BaseEngine
 from gravitorch.utils.format import str_target_object
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
 

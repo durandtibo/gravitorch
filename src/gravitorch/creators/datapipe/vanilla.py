@@ -8,7 +8,8 @@ from typing import TYPE_CHECKING, TypeVar
 from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.creators.datapipe.base import BaseDataPipeCreator
-from gravitorch.datapipes import clone_datapipe, setup_datapipe
+from gravitorch.datapipes.factory import setup_datapipe
+from gravitorch.datapipes.utils import clone_datapipe
 from gravitorch.utils.format import str_indent, str_mapping
 
 if TYPE_CHECKING:

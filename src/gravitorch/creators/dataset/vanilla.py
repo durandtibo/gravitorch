@@ -2,14 +2,16 @@ from __future__ import annotations
 
 __all__ = ["DatasetCreator"]
 
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from torch.utils.data import Dataset
 
 from gravitorch.creators.dataset.base import BaseDatasetCreator
-from gravitorch.datasets import setup_dataset
-from gravitorch.engines.base import BaseEngine
+from gravitorch.datasets.factory import setup_dataset
 from gravitorch.utils.format import str_indent, str_mapping
+
+if TYPE_CHECKING:
+    from gravitorch.engines import BaseEngine
 
 T = TypeVar("T")
 
