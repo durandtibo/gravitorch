@@ -13,7 +13,6 @@ from typing import Any
 import torch
 from coola.utils import str_indent, str_mapping
 from torch.nn import Module
-from tqdm import tqdm
 
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
@@ -21,13 +20,25 @@ from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.evaluation.basic import BaseBasicEvaluationLoop
 from gravitorch.loops.evaluation.conditions import BaseEvalCondition
 from gravitorch.loops.observers import BaseLoopObserver
-from gravitorch.utils.imports import check_accelerate, is_accelerate_available
+from gravitorch.utils.imports import (
+    check_accelerate,
+    is_accelerate_available,
+    is_tqdm_available,
+)
 from gravitorch.utils.profilers import BaseProfiler
 
 if is_accelerate_available():
     from accelerate import Accelerator
-else:
-    Accelerator = None  # pragma: no cover
+else:  # pragma: no cover
+    Accelerator = None
+
+if is_tqdm_available():
+    from tqdm import tqdm
+else:  # pragma: no cover
+
+    def tqdm(x: Iterable, *args, **kwargs) -> Iterable:
+        return x
+
 
 logger = logging.getLogger(__name__)
 
