@@ -13,7 +13,6 @@ import torch
 from coola.utils import str_indent, str_mapping
 from torch.nn import Module
 from torch.optim import Optimizer
-from tqdm import tqdm
 
 from gravitorch import constants as ct
 from gravitorch.distributed import comm as dist
@@ -27,7 +26,16 @@ from gravitorch.utils.device_placement import (
     BaseDevicePlacement,
     setup_device_placement,
 )
+from gravitorch.utils.imports import is_tqdm_available
 from gravitorch.utils.profilers import BaseProfiler
+
+if is_tqdm_available():
+    from tqdm import tqdm
+else:  # pragma: no cover
+
+    def tqdm(x: Iterable, *args, **kwargs) -> Iterable:
+        return x
+
 
 logger = logging.getLogger(__name__)
 
