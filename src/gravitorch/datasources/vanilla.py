@@ -23,7 +23,7 @@ T = TypeVar("T")
 
 
 class VanillaDataSource(BaseDataSource):
-    r"""Implement a simple data source using dataflows creators.
+    r"""Implement a simple data source using dataflow creators.
 
     Args:
     ----

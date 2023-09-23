@@ -47,8 +47,8 @@ class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
               dataloader=<torch.utils.data.dataloader.DataLoader object at 0x...>
             )
         )
-        >>> dataflows = creator.create()
-        >>> dataflows
+        >>> dataflow = creator.create()
+        >>> dataflow
         DataLoaderDataFlow(length=5)
     """
 

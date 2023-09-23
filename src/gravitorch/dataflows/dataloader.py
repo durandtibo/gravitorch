@@ -16,7 +16,7 @@ else:
 
 
 class DataLoaderDataFlow(BaseDataFlow):
-    r"""Implements a simple dataflows for PyTorch data loaders.
+    r"""Implements a simple dataflow for PyTorch data loaders.
 
     Args:
         dataloader (``DataLoader`` or ``DataLoader2``): Specifies the
@@ -30,8 +30,8 @@ class DataLoaderDataFlow(BaseDataFlow):
         >>> from torch.utils.data import DataLoader, TensorDataset
         >>> from gravitorch.dataflows import IterableDataFlow
         >>> dataloader = DataLoader(TensorDataset(torch.arange(10)), batch_size=4)
-        >>> with DataLoaderDataFlow(dataloader) as dataflows:
-        ...     for batch in dataflows:
+        >>> with DataLoaderDataFlow(dataloader) as dataflow:
+        ...     for batch in dataflow:
         ...         print(batch)  # do something
         ...
     """

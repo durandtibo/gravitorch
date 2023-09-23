@@ -21,7 +21,7 @@ T = TypeVar("T")
 
 
 class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
-    r"""Define the base class to implement a dataflows creator.
+    r"""Define the base class to implement a dataflow creator.
 
     Example usage:
 
@@ -31,8 +31,8 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
         >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
         >>> creator
         IterableDataFlowCreator(cache=False, length=5)
-        >>> dataflows = creator.create()
-        >>> dataflows
+        >>> dataflow = creator.create()
+        >>> dataflow
         IterableDataFlow(length=5)
     """
 
@@ -55,8 +55,8 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
             >>> from gravitorch.creators.dataflow import IterableDataFlowCreator
             >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
-            >>> dataflows = creator.create()
-            >>> dataflows
+            >>> dataflow = creator.create()
+            >>> dataflow
             IterableDataFlow(length=5)
         """
 
@@ -93,19 +93,19 @@ def is_dataflow_creator_config(config: dict) -> bool:
 
 
 def setup_dataflow_creator(creator: BaseDataFlowCreator[T] | dict) -> BaseDataFlowCreator[T]:
-    r"""Sets up the dataflows creator.
+    r"""Sets up the dataflow creator.
 
-    The dataflows creator is instantiated from its configuration by
+    The dataflow creator is instantiated from its configuration by
     using the ``BaseDataFlowCreator`` factory function.
 
     Args:
     ----
         creator (``BaseDataFlowCreator`` or dict): Specifies the
-            dataflows creator or its configuration.
+            dataflow creator or its configuration.
 
     Returns:
     -------
-        ``BaseDataFlowCreator``: The instantiated dataflows creator.
+        ``BaseDataFlowCreator``: The instantiated dataflow creator.
 
     Example usage:
 
@@ -123,7 +123,7 @@ def setup_dataflow_creator(creator: BaseDataFlowCreator[T] | dict) -> BaseDataFl
     """
     if isinstance(creator, dict):
         logger.info(
-            "Initializing the dataflows creator from its configuration... "
+            "Initializing the dataflow creator from its configuration... "
             f"{str_target_object(creator)}"
         )
         creator = BaseDataFlowCreator.factory(**creator)

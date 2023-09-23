@@ -38,8 +38,8 @@ class IterableDataFlowCreator(BaseDataFlowCreator[T]):
         >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
         >>> creator
         IterableDataFlowCreator(cache=False, length=5)
-        >>> dataflows = creator.create()
-        >>> dataflows
+        >>> dataflow = creator.create()
+        >>> dataflow
         IterableDataFlow(length=5)
     """
 

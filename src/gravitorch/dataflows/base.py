@@ -18,8 +18,8 @@ class BaseDataFlow(Generic[T], ABC):
     .. code-block:: pycon
 
         >>> from gravitorch.dataflows import IterableDataFlow
-        >>> with IterableDataFlow([1, 2, 3, 4, 5]) as dataflows:
-        ...     for batch in dataflows:
+        >>> with IterableDataFlow([1, 2, 3, 4, 5]) as dataflow:
+        ...     for batch in dataflow:
         ...         print(batch)  # do something
         ...
     """
@@ -49,8 +49,8 @@ class BaseDataFlow(Generic[T], ABC):
         .. code-block:: pycon
 
             >>> from gravitorch.dataflows import IterableDataFlow
-            >>> dataflows = IterableDataFlow([1, 2, 3, 4, 5])
-            >>> dataflows.launch()
+            >>> dataflow = IterableDataFlow([1, 2, 3, 4, 5])
+            >>> dataflow.launch()
         """
 
     @abstractmethod
@@ -62,8 +62,8 @@ class BaseDataFlow(Generic[T], ABC):
         .. code-block:: pycon
 
             >>> from gravitorch.dataflows import IterableDataFlow
-            >>> dataflows = IterableDataFlow([1, 2, 3, 4, 5])
-            >>> dataflows.launch()
+            >>> dataflow = IterableDataFlow([1, 2, 3, 4, 5])
+            >>> dataflow.launch()
             >>> # do anything
-            >>> dataflows.shutdown()
+            >>> dataflow.shutdown()
         """
