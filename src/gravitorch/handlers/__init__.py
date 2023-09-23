@@ -13,6 +13,7 @@ __all__ = [
     "EpochCudaEmptyCache",
     "EpochCudaMemoryMonitor",
     "EpochEngineStateSaver",
+    "EpochGarbageCollector",
     "EpochLRMonitor",
     "EpochLRScheduler",
     "EpochLRSchedulerUpdater",
@@ -24,6 +25,7 @@ __all__ = [
     "IterationLRScheduler",
     "IterationLRSchedulerUpdater",
     "IterationOptimizerMonitor",
+    "LRScheduler",
     "LRSchedulerUpdater",
     "LastHistorySaver",
     "MetricEpochLRSchedulerUpdater",
@@ -36,7 +38,6 @@ __all__ = [
     "NetworkArchitectureAnalyzer",
     "PartialModelStateDictLoader",
     "TagEngineStateSaver",
-    "LRScheduler",
     "add_unique_event_handler",
     "is_handler_config",
     "setup_and_attach_handlers",
@@ -65,6 +66,7 @@ from gravitorch.handlers.engine_saver import (
     LastHistorySaver,
     TagEngineStateSaver,
 )
+from gravitorch.handlers.garbage import EpochGarbageCollector
 from gravitorch.handlers.lr_monitor import EpochLRMonitor, IterationLRMonitor
 from gravitorch.handlers.lr_scheduler import (
     EpochLRScheduler,
