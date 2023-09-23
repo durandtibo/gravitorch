@@ -12,6 +12,7 @@ __all__ = [
     "check_tensorboard",
     "check_torchdata",
     "check_torchvision",
+    "check_tqdm",
     "is_accelerate_available",
     "is_fairscale_available",
     "is_matplotlib_available",
@@ -20,6 +21,7 @@ __all__ = [
     "is_tensorboard_available",
     "is_torchdata_available",
     "is_torchvision_available",
+    "is_tqdm_available",
 ]
 
 from importlib.util import find_spec
@@ -348,3 +350,45 @@ def is_torchvision_available() -> bool:
         >>> is_torchvision_available()
     """
     return find_spec("torchvision") is not None
+
+
+#######################
+#     tqdm     #
+#######################
+
+
+def check_tqdm() -> None:
+    r"""Checks if the ``tqdm`` package is installed.
+
+    Raises
+    ------
+        RuntimeError if the ``tqdm`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_tqdm
+        >>> check_tqdm()  # doctest: +SKIP
+    """
+    if not is_tqdm_available():
+        raise RuntimeError(
+            "`tqdm` package is required but not installed. "
+            "You can install `tqdm` package with the command:\n\n"
+            "pip install tqdm\n"
+        )
+
+
+def is_tqdm_available() -> bool:
+    r"""Indicates if the ``tqdm`` package is installed or not.
+
+    https://github.com/tqdm/tqdm
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_tqdm_available
+        >>> is_tqdm_available()
+    """
+    return find_spec("tqdm") is not None
