@@ -37,7 +37,7 @@ class EpochGarbageCollector(BaseHandler):
         >>> engine = create_dummy_engine()
         >>> handler = EpochGarbageCollector()
         >>> handler
-        EpochGarbageCollection(freq=1, event=epoch_completed)
+        EpochGarbageCollector(freq=1, event=epoch_completed)
         >>> handler.attach(engine)
         >>> engine.fire_event("epoch_completed")
     """
