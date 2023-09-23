@@ -12,7 +12,7 @@ from objectory.utils import is_object_config
 from gravitorch.utils.format import str_target_object
 
 if TYPE_CHECKING:
-    from gravitorch.dataflow import BaseDataFlow
+    from gravitorch.dataflows import BaseDataFlow
     from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
@@ -21,7 +21,7 @@ T = TypeVar("T")
 
 
 class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
-    r"""Define the base class to implement a dataflow creator.
+    r"""Define the base class to implement a dataflows creator.
 
     Example usage:
 
@@ -31,14 +31,14 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
         >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
         >>> creator
         IterableDataFlowCreator(cache=False, length=5)
-        >>> dataflow = creator.create()
-        >>> dataflow
+        >>> dataflows = creator.create()
+        >>> dataflows
         IterableDataFlow(length=5)
     """
 
     @abstractmethod
     def create(self, engine: BaseEngine | None = None) -> BaseDataFlow[T]:
-        r"""Create a dataflow.
+        r"""Create a dataflows.
 
         Args:
         ----
@@ -47,7 +47,7 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
         Returns:
         -------
-            ``BaseDataFlow``: The created dataflow.
+            ``BaseDataFlow``: The created dataflows.
 
         Example usage:
 
@@ -55,8 +55,8 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
             >>> from gravitorch.creators.dataflow import IterableDataFlowCreator
             >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
-            >>> dataflow = creator.create()
-            >>> dataflow
+            >>> dataflows = creator.create()
+            >>> dataflows
             IterableDataFlow(length=5)
         """
 
@@ -93,19 +93,19 @@ def is_dataflow_creator_config(config: dict) -> bool:
 
 
 def setup_dataflow_creator(creator: BaseDataFlowCreator[T] | dict) -> BaseDataFlowCreator[T]:
-    r"""Sets up the dataflow creator.
+    r"""Sets up the dataflows creator.
 
-    The dataflow creator is instantiated from its configuration by
+    The dataflows creator is instantiated from its configuration by
     using the ``BaseDataFlowCreator`` factory function.
 
     Args:
     ----
         creator (``BaseDataFlowCreator`` or dict): Specifies the
-            dataflow creator or its configuration.
+            dataflows creator or its configuration.
 
     Returns:
     -------
-        ``BaseDataFlowCreator``: The instantiated dataflow creator.
+        ``BaseDataFlowCreator``: The instantiated dataflows creator.
 
     Example usage:
 
@@ -123,7 +123,7 @@ def setup_dataflow_creator(creator: BaseDataFlowCreator[T] | dict) -> BaseDataFl
     """
     if isinstance(creator, dict):
         logger.info(
-            "Initializing the dataflow creator from its configuration... "
+            "Initializing the dataflows creator from its configuration... "
             f"{str_target_object(creator)}"
         )
         creator = BaseDataFlowCreator.factory(**creator)

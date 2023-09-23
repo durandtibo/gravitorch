@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 
 from gravitorch.creators.dataflow.base import BaseDataFlowCreator
 from gravitorch.data.dataloaders.factory import is_dataloader_config
-from gravitorch.dataflow.dataloader import DataLoaderDataFlow
+from gravitorch.dataflows.dataloader import DataLoaderDataFlow
 from gravitorch.experimental.dataloader.base import (
     BaseDataLoaderCreator,
     setup_dataloader_creator,
@@ -47,8 +47,8 @@ class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
               dataloader=<torch.utils.data.dataloader.DataLoader object at 0x...>
             )
         )
-        >>> dataflow = creator.create()
-        >>> dataflow
+        >>> dataflows = creator.create()
+        >>> dataflows
         DataLoaderDataFlow(length=5)
     """
 

@@ -7,7 +7,7 @@ from contextlib import suppress
 from typing import TYPE_CHECKING, TypeVar
 
 from gravitorch.creators.dataflow.base import BaseDataFlowCreator
-from gravitorch.dataflow.iterable import IterableDataFlow
+from gravitorch.dataflows.iterable import IterableDataFlow
 from gravitorch.utils.factory import setup_object
 from gravitorch.utils.format import str_mapping
 
@@ -38,8 +38,8 @@ class IterableDataFlowCreator(BaseDataFlowCreator[T]):
         >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
         >>> creator
         IterableDataFlowCreator(cache=False, length=5)
-        >>> dataflow = creator.create()
-        >>> dataflow
+        >>> dataflows = creator.create()
+        >>> dataflows
         IterableDataFlow(length=5)
     """
 

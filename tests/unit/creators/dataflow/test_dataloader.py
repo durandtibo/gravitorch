@@ -3,7 +3,7 @@ from __future__ import annotations
 from torch.utils.data import DataLoader
 
 from gravitorch.creators.dataflow import DataLoaderDataFlowCreator
-from gravitorch.dataflow import DataLoaderDataFlow
+from gravitorch.dataflows import DataLoaderDataFlow
 from gravitorch.datasets import ExampleDataset
 from gravitorch.experimental.dataloader import VanillaDataLoaderCreator
 

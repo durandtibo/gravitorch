@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from coola.utils import str_indent, str_mapping
 
 from gravitorch.creators.dataflow.base import setup_dataflow_creator
-from gravitorch.dataflow.base import BaseDataFlow
+from gravitorch.dataflows.base import BaseDataFlow
 from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
 from gravitorch.utils.asset import AssetManager
 
@@ -23,11 +23,11 @@ T = TypeVar("T")
 
 
 class VanillaDataSource(BaseDataSource):
-    r"""Implement a simple data source using dataflow creators.
+    r"""Implement a simple data source using dataflows creators.
 
     Args:
     ----
-        dataflow_creators (``Mapping``): Specifies the dataflow
+        dataflow_creators (``Mapping``): Specifies the dataflows
             creators or their configuration.
 
     Example usage:

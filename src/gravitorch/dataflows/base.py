@@ -11,15 +11,15 @@ T = TypeVar("T")
 
 
 class BaseDataFlow(Generic[T], ABC):
-    r"""Base class to implement a dataflow.
+    r"""Base class to implement a dataflows.
 
     Example usage:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.dataflow import IterableDataFlow
-        >>> with IterableDataFlow([1, 2, 3, 4, 5]) as dataflow:
-        ...     for batch in dataflow:
+        >>> from gravitorch.dataflows import IterableDataFlow
+        >>> with IterableDataFlow([1, 2, 3, 4, 5]) as dataflows:
+        ...     for batch in dataflows:
         ...         print(batch)  # do something
         ...
     """
@@ -48,9 +48,9 @@ class BaseDataFlow(Generic[T], ABC):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.dataflow import IterableDataFlow
-            >>> dataflow = IterableDataFlow([1, 2, 3, 4, 5])
-            >>> dataflow.launch()
+            >>> from gravitorch.dataflows import IterableDataFlow
+            >>> dataflows = IterableDataFlow([1, 2, 3, 4, 5])
+            >>> dataflows.launch()
         """
 
     @abstractmethod
@@ -61,9 +61,9 @@ class BaseDataFlow(Generic[T], ABC):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.dataflow import IterableDataFlow
-            >>> dataflow = IterableDataFlow([1, 2, 3, 4, 5])
-            >>> dataflow.launch()
+            >>> from gravitorch.dataflows import IterableDataFlow
+            >>> dataflows = IterableDataFlow([1, 2, 3, 4, 5])
+            >>> dataflows.launch()
             >>> # do anything
-            >>> dataflow.shutdown()
+            >>> dataflows.shutdown()
         """
