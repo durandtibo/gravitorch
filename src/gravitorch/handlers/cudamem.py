@@ -36,7 +36,7 @@ class EpochCudaMemoryMonitor(BaseHandler):
     Args:
     ----
         event (str, optional): Specifies the epoch-based event when
-            the CUDA memory usage should be capture.
+            the CUDA memory usage should be captured.
             Default: ``'epoch_completed'``
         freq (int, optional): Specifies the epoch frequency used to
             monitor the CUDA memory usage. Default: ``1``
