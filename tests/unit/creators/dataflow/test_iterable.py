@@ -3,7 +3,7 @@ from __future__ import annotations
 from objectory import OBJECT_TARGET
 
 from gravitorch.creators.dataflow import IterableDataFlowCreator
-from gravitorch.dataflow import IterableDataFlow
+from gravitorch.dataflows import IterableDataFlow
 
 
 def create_list() -> list:

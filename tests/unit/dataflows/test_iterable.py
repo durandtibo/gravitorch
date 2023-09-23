@@ -1,6 +1,6 @@
 from pytest import raises
 
-from gravitorch.dataflow import IterableDataFlow
+from gravitorch.dataflows import IterableDataFlow
 
 ######################################
 #     Tests for IterableDataFlow     #

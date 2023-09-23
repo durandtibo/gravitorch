@@ -7,7 +7,7 @@ from objectory import OBJECT_TARGET
 from pytest import LogCaptureFixture, fixture, raises
 
 from gravitorch.creators.dataflow import BaseDataFlowCreator, IterableDataFlowCreator
-from gravitorch.dataflow import IterableDataFlow
+from gravitorch.dataflows import IterableDataFlow
 from gravitorch.datasources import LoaderNotFoundError, VanillaDataSource
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError

@@ -7,7 +7,7 @@ from contextlib import suppress
 from typing import TYPE_CHECKING, TypeVar
 
 from gravitorch.creators.dataflow.base import BaseDataFlowCreator
-from gravitorch.dataflow.iterable import IterableDataFlow
+from gravitorch.dataflows.iterable import IterableDataFlow
 from gravitorch.utils.factory import setup_object
 from gravitorch.utils.format import str_mapping
 

@@ -12,7 +12,7 @@ from objectory.utils import is_object_config
 from gravitorch.utils.format import str_target_object
 
 if TYPE_CHECKING:
-    from gravitorch.dataflow import BaseDataFlow
+    from gravitorch.dataflows import BaseDataFlow
     from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
@@ -38,7 +38,7 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
     @abstractmethod
     def create(self, engine: BaseEngine | None = None) -> BaseDataFlow[T]:
-        r"""Create a dataflow.
+        r"""Create a dataflows.
 
         Args:
         ----
@@ -47,7 +47,7 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
         Returns:
         -------
-            ``BaseDataFlow``: The created dataflow.
+            ``BaseDataFlow``: The created dataflows.
 
         Example usage:
 
