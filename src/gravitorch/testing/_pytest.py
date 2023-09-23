@@ -12,6 +12,7 @@ from gravitorch.utils.imports import (
     is_tensorboard_available,
     is_torchdata_available,
     is_torchvision_available,
+    is_tqdm_available,
 )
 
 cuda_available = mark.skipif(not torch.cuda.is_available(), reason="Requires a device with CUDA")
@@ -59,4 +60,8 @@ torchvision_available = mark.skipif(
         "`torchvision` is not available. Please install `torchvision` if you want "
         "to run this test"
     ),
+)
+tqdm_available = mark.skipif(
+    not is_tqdm_available(),
+    reason="`tqdm` is not available. Please install `tqdm` if you want to run this test",
 )

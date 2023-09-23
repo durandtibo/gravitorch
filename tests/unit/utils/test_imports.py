@@ -11,6 +11,7 @@ from gravitorch.utils.imports import (
     check_tensorboard,
     check_torchdata,
     check_torchvision,
+    check_tqdm,
     is_accelerate_available,
     is_fairscale_available,
     is_matplotlib_available,
@@ -19,6 +20,7 @@ from gravitorch.utils.imports import (
     is_tensorboard_available,
     is_torchdata_available,
     is_torchvision_available,
+    is_tqdm_available,
 )
 
 ######################
@@ -141,9 +143,9 @@ def test_is_tensorboard_available() -> None:
     assert isinstance(is_tensorboard_available(), bool)
 
 
-#######################
+#####################
 #     torchdata     #
-#######################
+#####################
 
 
 def test_check_torchdata_with_package() -> None:
@@ -179,3 +181,23 @@ def test_check_torchvision_without_package() -> None:
 
 def test_is_torchvision_available() -> None:
     assert isinstance(is_torchvision_available(), bool)
+
+
+################
+#     tqdm     #
+################
+
+
+def test_check_tqdm_with_package() -> None:
+    with patch("gravitorch.utils.imports.is_tqdm_available", lambda *args: True):
+        check_tqdm()
+
+
+def test_check_tqdm_without_package() -> None:
+    with patch("gravitorch.utils.imports.is_tqdm_available", lambda *args: False):
+        with raises(RuntimeError, match="`tqdm` package is required but not installed."):
+            check_tqdm()
+
+
+def test_is_tqdm_available() -> None:
+    assert isinstance(is_tqdm_available(), bool)
