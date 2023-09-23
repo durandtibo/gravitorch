@@ -10,7 +10,7 @@ __all__ = [
 import logging
 
 from gravitorch.utils.format import human_byte_size
-from gravitorch.utils.imports import check_psutil, is_psutil_available
+from gravitorch.utils.imports import is_psutil_available
 
 if is_psutil_available():  # pragma: no cover
     import psutil
@@ -32,7 +32,13 @@ def cpu_human_summary() -> str:
         >>> from gravitorch.utils.sysinfo import cpu_human_summary
         >>> cpu_human_summary()
     """
-    check_psutil()
+    if not is_psutil_available():
+        logger.warning(
+            "`psutil` package is required to compute the CPU usage summary. "
+            "You can install `psutil` package with the command:\n\n"
+            "pip install psutil\n"
+        )
+        return "CPU - N/A"
     loadavg = tuple(100.0 * x / psutil.cpu_count() for x in psutil.getloadavg())
     return (
         f"CPU - logical/physical count: {psutil.cpu_count()}/{psutil.cpu_count(logical=False)} | "
@@ -70,7 +76,13 @@ def swap_memory_human_summary() -> str:
         >>> from gravitorch.utils.sysinfo import swap_memory_human_summary
         >>> swap_memory_human_summary()
     """
-    check_psutil()
+    if not is_psutil_available():
+        logger.warning(
+            "`psutil` package is required to compute the swap memory usage summary. "
+            "You can install `psutil` package with the command:\n\n"
+            "pip install psutil\n"
+        )
+        return "swap memory - N/A"
     swap = psutil.swap_memory()
     return (
         f"swap memory - total: {human_byte_size(swap.total)} | "
@@ -96,7 +108,13 @@ def virtual_memory_human_summary() -> str:
         >>> from gravitorch.utils.sysinfo import virtual_memory_human_summary
         >>> virtual_memory_human_summary()
     """
-    check_psutil()
+    if not is_psutil_available():
+        logger.warning(
+            "`psutil` package is required to compute the virtual memory usage summary. "
+            "You can install `psutil` package with the command:\n\n"
+            "pip install psutil\n"
+        )
+        return "virtual memory - N/A"
     vm = psutil.virtual_memory()
     return (
         f"virtual memory - total: {human_byte_size(vm.total)} | "
