@@ -49,6 +49,9 @@ class DataLoaderDataFlow(BaseDataFlow):
     def __iter__(self) -> Iterator:
         return iter(self.dataloader)
 
+    def __len__(self) -> int:
+        return len(self.dataloader)
+
     def __repr__(self) -> str:
         try:
             extra = f"length={len(self.dataloader):,}"

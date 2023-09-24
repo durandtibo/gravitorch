@@ -111,7 +111,7 @@ class TrainingLoop(BaseBasicTrainingLoop):
         )
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
-    def _prepare_model_optimizer_dataloader(
+    def _prepare_model_optimizer_dataflow(
         self, engine: BaseEngine
     ) -> tuple[Module, Optimizer, Iterable]:
         logger.info("Preparing the model, optimizer, and data loader...")

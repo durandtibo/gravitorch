@@ -55,6 +55,9 @@ class IterableDataFlow(BaseDataFlow[T]):
                 )
         yield from iterable
 
+    def __len__(self) -> int:
+        return len(self.iterable)
+
     def __repr__(self) -> str:
         try:
             extra = f"length={len(self.iterable):,}"

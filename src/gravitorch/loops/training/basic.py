@@ -14,6 +14,8 @@ from torch.nn import Module
 from torch.optim import Optimizer
 
 from gravitorch import constants as ct
+from gravitorch.dataflows.base import BaseDataFlow
+from gravitorch.dataflows.iterable import IterableDataFlow
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -87,11 +89,13 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         dist.barrier()
         engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
 
-        model, optimizer, dataloader = self._prepare_model_optimizer_dataloader(engine)
+        model, optimizer, dataflow = self._prepare_model_optimizer_dataflow(engine)
+        dataflow = dataflow if isinstance(dataflow, BaseDataFlow) else IterableDataFlow(dataflow)
         dist.barrier()
 
         self._observer.start(engine)
-        self._train_loop(engine=engine, model=model, dataloader=dataloader, optimizer=optimizer)
+        with dataflow as dataiter:
+            self._train_loop(engine=engine, model=model, dataiter=dataiter, optimizer=optimizer)
         self._observer.end(engine)
 
         engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
@@ -124,7 +128,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
             engine.add_history(MinScalarHistory(f"{self._tag}/{ct.LOSS}"))
 
     def _train_loop(
-        self, engine: BaseEngine, model: Module, dataloader: Iterable, optimizer: Optimizer
+        self, engine: BaseEngine, model: Module, optimizer: Optimizer, dataiter: Iterable
     ) -> None:
         r"""Computes the training loop.
 
@@ -132,23 +136,23 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         ----
             engine (``BaseEngine``): Specifies the engine.
             model (``torch.nn.Module``): Specifies the model.
-            dataloader (``Iterable``): Specifies the dataloader.
+            dataiter (``Iterable``): Specifies the iterable on data.
             optimizer (``torch.optim.Optimizer``): Specifies the
                 optimizer.
         """
         metrics = ScalarMetricTracker()
         prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
-        dataloader = tqdm(
-            dataloader,
+        dataiter = tqdm(
+            dataiter,
             desc=f"{prefix}Training [{engine.epoch}/{engine.max_epochs}]",
             position=dist.get_rank(),
             file=sys.stdout,
         )
-        dataloader = BatchLoadingTimer(dataloader, epoch=engine.epoch, prefix=f"{self._tag}/")
+        dataiter = BatchLoadingTimer(dataiter, epoch=engine.epoch, prefix=f"{self._tag}/")
         dist.barrier()
 
         with self._profiler as profiler:
-            for batch in dataloader:
+            for batch in dataiter:
                 engine.increment_iteration()
                 output = self._train_one_batch(engine, model, optimizer, batch)
                 metrics.update(output)
@@ -160,14 +164,14 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         dist.barrier()
 
         # Log some evaluation metrics to the engine.
-        dataloader.log_stats(engine=engine)
+        dataiter.log_stats(engine=engine)
         metrics.log_average_value(engine=engine, prefix=f"{self._tag}/")
         dist.barrier()
 
     @abstractmethod
-    def _prepare_model_optimizer_dataloader(
+    def _prepare_model_optimizer_dataflow(
         self, engine: BaseEngine
-    ) -> tuple[Module, Optimizer, Iterable]:
+    ) -> tuple[Module, Optimizer, BaseDataFlow | Iterable]:
         r"""Prepares the model, optimizer and data loader.
 
         Args:
@@ -178,7 +182,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         -------
             ``torch.nn.Module``, ``torch.optim.Optimizer``,
                 ``Iterable``: A tuple with the model, the optimizer
-                and the data loader.
+                and the dataflow.
         """
 
     @abstractmethod

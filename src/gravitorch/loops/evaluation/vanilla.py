@@ -114,7 +114,7 @@ class EvaluationLoop(BaseBasicEvaluationLoop):
         engine.fire_event(EngineEvents.EVAL_ITERATION_COMPLETED)
         return output
 
-    def _prepare_model_dataloader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
+    def _prepare_model_dataflow(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         logger.info("Preparing the model and data loader...")
         dataloader = engine.datasource.get_dataloader(loader_id=self._tag, engine=engine)
         logger.info("Evaluation data loader has been created")

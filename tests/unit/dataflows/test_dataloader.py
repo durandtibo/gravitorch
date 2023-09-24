@@ -49,3 +49,8 @@ def test_dataloader_dataflow_iter_dataloader2() -> None:
         assert objects_are_equal(
             [list(batch) for batch in flow], [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
         )
+
+
+def test_dataloader_dataflow_len() -> None:
+    with DataLoaderDataFlow(DataLoader(TensorDataset(torch.arange(10)), batch_size=4)) as flow:
+        assert len(flow) == 3
