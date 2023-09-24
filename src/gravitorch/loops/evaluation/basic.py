@@ -90,15 +90,18 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         logger.info(f"Evaluating model for epoch {engine.epoch}")
 
         self._prepare_evaluation(engine)
+        dist.barrier()
         engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
 
         model, dataloader = self._prepare_model_dataloader(engine)
-        self._observer.start(engine)
-        # with dataloader as dataloader:
-        self._evaluate_loop(engine=engine, model=model, dataloader=dataloader)
+        dist.barrier()
 
+        self._observer.start(engine)
+        self._evaluate_loop(engine=engine, model=model, dataloader=dataloader)
         self._observer.end(engine)
+
         engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+        dist.barrier()
 
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
         pass
