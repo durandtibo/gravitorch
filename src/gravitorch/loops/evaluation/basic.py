@@ -30,7 +30,7 @@ from gravitorch.utils.imports import is_tqdm_available
 from gravitorch.utils.metric_tracker import ScalarMetricTracker
 from gravitorch.utils.profilers import BaseProfiler, setup_profiler
 from gravitorch.utils.seed import manual_seed
-from gravitorch.utils.timing import BatchLoadingTimer
+from gravitorch.utils.timing import BatchIterTimer
 
 if is_tqdm_available():
     from tqdm import tqdm
@@ -138,7 +138,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
             position=dist.get_rank(),
             file=sys.stdout,
         )
-        dataiter = BatchLoadingTimer(dataiter, epoch=engine.epoch, prefix=f"{self._tag}/")
+        dataiter = BatchIterTimer(dataiter, epoch=engine.epoch, prefix=f"{self._tag}/")
         dist.barrier()
 
         with self._profiler as profiler:

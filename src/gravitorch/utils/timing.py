@@ -7,7 +7,7 @@ __all__ = [
     "BATCH_LOAD_TIME_MIN_MS",
     "BATCH_LOAD_TIME_PCT",
     "BATCH_LOAD_TIME_STDDEV_MS",
-    "BatchLoadingTimer",
+    "BatchIterTimer",
     "EPOCH_TIME_SEC",
     "ITER_TIME_AVG_MS",
     "NUM_BATCHES",
@@ -101,13 +101,13 @@ def timeblock(message: str = "Total time: {time}") -> Generator[None, None, None
         logger.info(message.format(time=human_time(sync_perf_counter() - start_time)))
 
 
-class BatchLoadingTimer(Iterable[T]):
-    r"""Implements an iterator around a batch loader iterable to monitor
-    the time performances.
+class BatchIterTimer(Iterable[T]):
+    r"""Implements an iterator around a batch iterable to monitor the
+    time performances.
 
     Args:
     ----
-        batch_loader (Iterable): Specifies the batch loader to measure
+        batchiter (Iterable): Specifies the batch loader to measure
             the time performances.
         epoch (int): Specifies the epoch.
         prefix (str): Specifies the prefix used to log the values.
@@ -116,12 +116,12 @@ class BatchLoadingTimer(Iterable[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.utils.timing import BatchLoadingTimer
-        >>> batch_loader = BatchLoadingTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
-        >>> for batch in batch_loader:
+        >>> from gravitorch.utils.timing import BatchIterTimer
+        >>> batchiter = BatchIterTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
+        >>> for batch in batchiter:
         ...     x = batch + 1
         ...
-        >>> batch_loader.get_stats()
+        >>> batchiter.get_stats()
         {'batch_load_time_avg_ms': ...,
          'batch_load_time_max_ms': ...,
          'batch_load_time_median_ms': ...,
@@ -131,11 +131,11 @@ class BatchLoadingTimer(Iterable[T]):
          'iter_time_avg_ms': ...,
          'epoch_time_sec': ...,
          'num_batches': 5}
-        >>> batch_loader.log_stats()
+        >>> batchiter.log_stats()
     """
 
-    def __init__(self, batch_loader: Iterable[T], epoch: int, prefix: str) -> None:
-        self._batch_loader = batch_loader
+    def __init__(self, batchiter: Iterable[T], epoch: int, prefix: str) -> None:
+        self._batchiter = batchiter
         self._epoch = epoch
         self._prefix = prefix
         self._meter = ScalarMeter(max_size=100)
@@ -146,7 +146,7 @@ class BatchLoadingTimer(Iterable[T]):
     def __iter__(self) -> Iterator[T]:
         self._start_time = sync_perf_counter()
         tic = self._start_time
-        for batch in self._batch_loader:
+        for batch in self._batchiter:
             self._meter.update(sync_perf_counter() - tic)
             yield batch
             tic = sync_perf_counter()
@@ -191,12 +191,12 @@ class BatchLoadingTimer(Iterable[T]):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.timing import BatchLoadingTimer
-            >>> batch_loader = BatchLoadingTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
-            >>> for batch in batch_loader:
+            >>> from gravitorch.utils.timing import BatchIterTimer
+            >>> batchiter = BatchIterTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
+            >>> for batch in batchiter:
             ...     x = batch + 1
             ...
-            >>> batch_loader.get_stats()
+            >>> batchiter.get_stats()
             {'batch_load_time_avg_ms': ...,
              'batch_load_time_max_ms': ...,
              'batch_load_time_median_ms': ...,
@@ -242,12 +242,12 @@ class BatchLoadingTimer(Iterable[T]):
 
         .. code-block:: pycon
 
-            >>> from gravitorch.utils.timing import BatchLoadingTimer
-            >>> batch_loader = BatchLoadingTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
-            >>> for batch in batch_loader:
+            >>> from gravitorch.utils.timing import BatchIterTimer
+            >>> batchiter = BatchIterTimer([1, 2, 3, 4, 5], epoch=0, prefix="train")
+            >>> for batch in batchiter:
             ...     x = batch + 1
             ...
-            >>> batch_loader.log_stats()
+            >>> batchiter.log_stats()
         """
         if self._meter.count == 0:
             return  # Do nothing if there is no mini-batch.
