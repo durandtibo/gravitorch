@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
 from gravitorch.creators.dataset.base import BaseDatasetCreator, setup_dataset_creator
 from gravitorch.creators.dataset.vanilla import DatasetCreator
-from gravitorch.data.dataloaders import create_dataloader
+from gravitorch.dataloaders import create_dataloader
 from gravitorch.datasets import is_dataset_config
 from gravitorch.distributed import comm as dist
 from gravitorch.experimental.dataloader.base import BaseDataLoaderCreator

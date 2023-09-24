@@ -12,7 +12,7 @@ __all__ = [
     "setup_dataloader2",
 ]
 
-from gravitorch.data.dataloaders.factory import (
+from gravitorch.dataloaders.factory import (
     create_dataloader,
     create_dataloader2,
     is_dataloader2_config,

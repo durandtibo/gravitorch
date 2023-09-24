@@ -18,7 +18,7 @@ from gravitorch.creators.dataloader import (
     DataLoaderCreator,
     DistributedDataLoaderCreator,
 )
-from gravitorch.data.dataloaders.collators import PaddedSequenceCollator
+from gravitorch.dataloaders.collators import PaddedSequenceCollator
 from gravitorch.engines import BaseEngine
 
 
@@ -226,7 +226,7 @@ def test_dataloader_creator_collate_fn_none(dataset: Dataset) -> None:
 
 def test_dataloader_creator_collate_fn_from_config(dataset: Dataset) -> None:
     dataloader = DataLoaderCreator(
-        collate_fn={OBJECT_TARGET: "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"}
+        collate_fn={OBJECT_TARGET: "gravitorch.dataloaders.collators.PaddedSequenceCollator"}
     ).create(dataset)
     assert isinstance(dataloader, DataLoader)
     assert isinstance(dataloader.collate_fn, PaddedSequenceCollator)
@@ -397,7 +397,7 @@ def test_distributed_dataloader_creator_collate_fn_none(dataset: Dataset) -> Non
 
 def test_distributed_dataloader_creator_collate_fn_from_config(dataset: Dataset) -> None:
     dataloader = DistributedDataLoaderCreator(
-        collate_fn={OBJECT_TARGET: "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"}
+        collate_fn={OBJECT_TARGET: "gravitorch.dataloaders.collators.PaddedSequenceCollator"}
     ).create(dataset)
     assert isinstance(dataloader, DataLoader)
     assert isinstance(dataloader.collate_fn, PaddedSequenceCollator)

@@ -14,7 +14,7 @@ from torch.nn.utils.rnn import pack_sequence
 from torch.utils.data.dataloader import default_collate
 
 from gravitorch import constants as ct
-from gravitorch.data.dataloaders.collators.base import BaseCollator
+from gravitorch.dataloaders.collators.base import BaseCollator
 
 
 class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
@@ -50,7 +50,7 @@ class PackedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.data.dataloaders.collators import PackedSequenceCollator
+        >>> from gravitorch.dataloaders.collators import PackedSequenceCollator
         >>> collator = PackedSequenceCollator()
         >>> collator
         PackedSequenceCollator(length_key=length)
@@ -120,7 +120,7 @@ class DictPackedSequenceCollator(BaseCollator[dict, dict]):
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.data.dataloaders.collators import DictPackedSequenceCollator
+        >>> from gravitorch.dataloaders.collators import DictPackedSequenceCollator
         >>> collator = DictPackedSequenceCollator(keys_to_pack=["feature"])
         >>> collator
         DictPackedSequenceCollator(keys_to_pack=('feature',))

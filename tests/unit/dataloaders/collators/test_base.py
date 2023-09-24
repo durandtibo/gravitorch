@@ -3,7 +3,7 @@ from __future__ import annotations
 from objectory import OBJECT_TARGET
 from torch.utils.data.dataloader import default_collate
 
-from gravitorch.data.dataloaders.collators import PaddedSequenceCollator, setup_collator
+from gravitorch.dataloaders.collators import PaddedSequenceCollator, setup_collator
 
 ####################################
 #     Tests for setup_collator     #
@@ -17,9 +17,7 @@ def test_setup_collator_object() -> None:
 
 def test_setup_collator_dict() -> None:
     assert isinstance(
-        setup_collator(
-            {OBJECT_TARGET: "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"}
-        ),
+        setup_collator({OBJECT_TARGET: "gravitorch.dataloaders.collators.PaddedSequenceCollator"}),
         PaddedSequenceCollator,
     )
 

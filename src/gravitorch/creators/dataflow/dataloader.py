@@ -8,8 +8,8 @@ from coola.utils import str_indent, str_mapping
 from torch.utils.data import DataLoader
 
 from gravitorch.creators.dataflow.base import BaseDataFlowCreator
-from gravitorch.data.dataloaders.factory import is_dataloader_config
 from gravitorch.dataflows.dataloader import DataLoaderDataFlow
+from gravitorch.dataloaders.factory import is_dataloader_config
 from gravitorch.experimental.dataloader.base import (
     BaseDataLoaderCreator,
     setup_dataloader_creator,
