@@ -21,10 +21,19 @@ from gravitorch.loops.observers.base import BaseLoopObserver
 from gravitorch.loops.observers.factory import setup_loop_observer
 from gravitorch.loops.training.base import BaseTrainingLoop
 from gravitorch.utils.history import MinScalarHistory
+from gravitorch.utils.imports import is_tqdm_available
 from gravitorch.utils.metric_tracker import ScalarMetricTracker
 from gravitorch.utils.profilers import BaseProfiler, setup_profiler
 from gravitorch.utils.seed import get_random_seed, manual_seed
 from gravitorch.utils.timing import BatchLoadingTimer
+
+if is_tqdm_available():
+    from tqdm import tqdm
+else:  # pragma: no cover
+
+    def tqdm(x: Iterable, *args, **kwargs) -> Iterable:
+        return x
+
 
 logger = logging.getLogger(__name__)
 
@@ -75,34 +84,15 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
     def train(self, engine: BaseEngine) -> None:
         dist.barrier()
         self._prepare_training(engine)
+        dist.barrier()
         engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
 
         model, optimizer, dataloader = self._prepare_model_optimizer_dataloader(engine)
+        dist.barrier()
 
-        # Train the model on each mini-batch in the dataset.
-        metrics = ScalarMetricTracker()
-        dataloader = BatchLoadingTimer(dataloader, epoch=engine.epoch, prefix=f"{self._tag}/")
         self._observer.start(engine)
-        dist.barrier()
-
-        with self._profiler as profiler:
-            for batch in dataloader:
-                engine.increment_iteration()
-                # Run forward/backward on the given batch.
-                output = self._train_one_batch(engine, model, optimizer, batch)
-                metrics.update(output)
-                self._observer.update(engine=engine, model_input=batch, model_output=output)
-                profiler.step()
-
-        # To be sure the progress bar is displayed before the following lines
-        sys.stdout.flush()
-        dist.barrier()
+        self._train_loop(engine=engine, model=model, dataloader=dataloader, optimizer=optimizer)
         self._observer.end(engine)
-
-        # Log some training metrics to the engine.
-        dataloader.log_stats(engine=engine)
-        metrics.log_average_value(engine=engine, prefix=f"{self._tag}/")
-        dist.barrier()
 
         engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
         dist.barrier()
@@ -132,6 +122,47 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
 
         if not engine.has_history(f"{self._tag}/{ct.LOSS}"):
             engine.add_history(MinScalarHistory(f"{self._tag}/{ct.LOSS}"))
+
+    def _train_loop(
+        self, engine: BaseEngine, model: Module, dataloader: Iterable, optimizer: Optimizer
+    ) -> None:
+        r"""Computes the training loop.
+
+        Args:
+        ----
+            engine (``BaseEngine``): Specifies the engine.
+            model (``torch.nn.Module``): Specifies the model.
+            dataloader (``Iterable``): Specifies the dataloader.
+            optimizer (``torch.optim.Optimizer``): Specifies the
+                optimizer.
+        """
+        metrics = ScalarMetricTracker()
+        prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
+        dataloader = tqdm(
+            dataloader,
+            desc=f"{prefix}Training [{engine.epoch}/{engine.max_epochs}]",
+            position=dist.get_rank(),
+            file=sys.stdout,
+        )
+        dataloader = BatchLoadingTimer(dataloader, epoch=engine.epoch, prefix=f"{self._tag}/")
+        dist.barrier()
+
+        with self._profiler as profiler:
+            for batch in dataloader:
+                engine.increment_iteration()
+                output = self._train_one_batch(engine, model, optimizer, batch)
+                metrics.update(output)
+                self._observer.update(engine=engine, model_input=batch, model_output=output)
+                profiler.step()
+
+        # To be sure the progress bar is displayed before the following lines
+        sys.stdout.flush()
+        dist.barrier()
+
+        # Log some evaluation metrics to the engine.
+        dataloader.log_stats(engine=engine)
+        metrics.log_average_value(engine=engine, prefix=f"{self._tag}/")
+        dist.barrier()
 
     @abstractmethod
     def _prepare_model_optimizer_dataloader(
