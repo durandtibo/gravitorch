@@ -13,6 +13,8 @@ from typing import Any
 from torch.nn import Module
 
 from gravitorch import constants as ct
+from gravitorch.dataflows.base import BaseDataFlow
+from gravitorch.dataflows.iterable import IterableDataFlow
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -78,12 +80,6 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         logger.info(f"profiler:\n{self._profiler}")
 
     def eval(self, engine: BaseEngine) -> None:
-        r"""Evaluates the model on the evaluation dataset.
-
-        Args:
-        ----
-            engine (``BaseEngine``): Specifies the engine.
-        """
         dist.barrier()
         if not engine.datasource.has_dataloader(self._tag) or not self._condition(engine):
             return
@@ -93,11 +89,13 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         dist.barrier()
         engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
 
-        model, dataloader = self._prepare_model_dataloader(engine)
+        model, dataflow = self._prepare_model_dataflow(engine)
+        dataflow = dataflow if isinstance(dataflow, BaseDataFlow) else IterableDataFlow(dataflow)
         dist.barrier()
 
         self._observer.start(engine)
-        self._evaluate_loop(engine=engine, model=model, dataloader=dataloader)
+        with dataflow as dataiter:
+            self._evaluate_loop(engine=engine, model=model, dataiter=dataiter)
         self._observer.end(engine)
 
         engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
@@ -123,28 +121,28 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         if not engine.has_history(f"{self._tag}/{ct.LOSS}"):
             engine.add_history(MinScalarHistory(f"{self._tag}/{ct.LOSS}"))
 
-    def _evaluate_loop(self, engine: BaseEngine, model: Module, dataloader: Iterable) -> None:
+    def _evaluate_loop(self, engine: BaseEngine, model: Module, dataiter: Iterable) -> None:
         r"""Computes the evaluation loop.
 
         Args:
         ----
             engine (``BaseEngine``): Specifies the engine.
             model (``torch.nn.Module``): Specifies the model.
-            dataloader (``Iterable``): Specifies the dataloader.
+            dataiter (``Iterable``): Specifies the iterable on data.
         """
         metrics = ScalarMetricTracker()
         prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
-        dataloader = tqdm(
-            dataloader,
+        dataiter = tqdm(
+            dataiter,
             desc=f"{prefix}Evaluation [{engine.epoch}]",
             position=dist.get_rank(),
             file=sys.stdout,
         )
-        dataloader = BatchLoadingTimer(dataloader, epoch=engine.epoch, prefix=f"{self._tag}/")
+        dataiter = BatchLoadingTimer(dataiter, epoch=engine.epoch, prefix=f"{self._tag}/")
         dist.barrier()
 
         with self._profiler as profiler:
-            for batch in dataloader:
+            for batch in dataiter:
                 output = self._eval_one_batch(engine, model, batch)
                 metrics.update(output)
                 self._observer.update(engine=engine, model_input=batch, model_output=output)
@@ -155,7 +153,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         dist.barrier()
 
         # Log some evaluation metrics to the engine.
-        dataloader.log_stats(engine=engine)
+        dataiter.log_stats(engine=engine)
         metrics.log_average_value(engine=engine, prefix=f"{self._tag}/")
         dist.barrier()
 
@@ -200,8 +198,8 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         """
 
     @abstractmethod
-    def _prepare_model_dataloader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
-        r"""Prepares the model, optimizer and data loader.
+    def _prepare_model_dataflow(self, engine: BaseEngine) -> tuple[Module, BaseDataFlow | Iterable]:
+        r"""Prepares the model and dataflow.
 
         Args:
         ----
@@ -209,6 +207,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
 
         Returns:
         -------
-            ``torch.nn.Module``, ``Iterable``: A tuple with the model
-                and the data loader.
+            ``torch.nn.Module``, ``BaseDataFlow`` or ``Iterable``:
+                A tuple with the model and the dataflow or data
+                iterable.
         """

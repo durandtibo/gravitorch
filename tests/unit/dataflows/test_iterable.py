@@ -49,3 +49,19 @@ def test_iterable_dataflow_iter_impossible_deepcopy() -> None:
         assert list(flow) == [0, 1, 2, 3, 4]
     with dataflow as flow:
         assert list(flow) == []
+
+
+def test_iterable_dataflow_len() -> None:
+    dataflow = IterableDataFlow([1, 2, 3, 4, 5])
+    assert len(dataflow) == 5
+    with dataflow as flow:
+        assert len(flow) == 5
+
+
+def test_iterable_dataflow_no_len() -> None:
+    dataflow = IterableDataFlow(i for i in range(5))
+    with raises(TypeError):
+        len(dataflow)
+    with dataflow as flow:
+        with raises(TypeError):
+            len(flow)

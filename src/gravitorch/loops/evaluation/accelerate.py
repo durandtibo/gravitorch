@@ -117,7 +117,7 @@ class AccelerateEvaluationLoop(BaseBasicEvaluationLoop):
         engine.fire_event(EngineEvents.EVAL_ITERATION_COMPLETED)
         return output
 
-    def _prepare_model_dataloader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
+    def _prepare_model_dataflow(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         logger.info("Preparing the model and data loader...")
         model, dataloader = self._accelerator.prepare(
             engine.model,
