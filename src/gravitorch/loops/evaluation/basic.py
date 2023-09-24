@@ -24,10 +24,19 @@ from gravitorch.loops.evaluation.conditions import (
 from gravitorch.loops.observers.base import BaseLoopObserver
 from gravitorch.loops.observers.factory import setup_loop_observer
 from gravitorch.utils.history import MinScalarHistory
+from gravitorch.utils.imports import is_tqdm_available
 from gravitorch.utils.metric_tracker import ScalarMetricTracker
 from gravitorch.utils.profilers import BaseProfiler, setup_profiler
 from gravitorch.utils.seed import manual_seed
 from gravitorch.utils.timing import BatchLoadingTimer
+
+if is_tqdm_available():
+    from tqdm import tqdm
+else:  # pragma: no cover
+
+    def tqdm(x: Iterable, *args, **kwargs) -> Iterable:
+        return x
+
 
 logger = logging.getLogger(__name__)
 
@@ -84,31 +93,11 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
 
         model, dataloader = self._prepare_model_dataloader(engine)
-
-        # Evaluate the model on each mini-match in the dataset.
-        metrics = ScalarMetricTracker()
-        dataloader = BatchLoadingTimer(dataloader, epoch=engine.epoch, prefix=f"{self._tag}/")
         self._observer.start(engine)
-        dist.barrier()
+        # with dataloader as dataloader:
+        self._evaluate_loop(engine=engine, model=model, dataloader=dataloader)
 
-        with self._profiler as profiler:
-            for batch in dataloader:
-                # Run forward on the given batch.
-                output = self._eval_one_batch(engine, model, batch)
-                metrics.update(output)
-                self._observer.update(engine=engine, model_input=batch, model_output=output)
-                profiler.step()
-
-        # To be sure the progress bar is displayed before the following lines
-        sys.stdout.flush()
-        dist.barrier()
         self._observer.end(engine)
-
-        # Log some evaluation metrics to the engine.
-        dataloader.log_stats(engine=engine)
-        metrics.log_average_value(engine=engine, prefix=f"{self._tag}/")
-        dist.barrier()
-
         engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
 
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
@@ -130,6 +119,42 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
 
         if not engine.has_history(f"{self._tag}/{ct.LOSS}"):
             engine.add_history(MinScalarHistory(f"{self._tag}/{ct.LOSS}"))
+
+    def _evaluate_loop(self, engine: BaseEngine, model: Module, dataloader: Iterable) -> None:
+        r"""Computes the evaluation loop.
+
+        Args:
+        ----
+            engine (``BaseEngine``): Specifies the engine.
+            model (``torch.nn.Module``): Specifies the model.
+            dataloader (``Iterable``): Specifies the dataloader.
+        """
+        metrics = ScalarMetricTracker()
+        prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
+        dataloader = tqdm(
+            dataloader,
+            desc=f"{prefix}Evaluation [{engine.epoch}]",
+            position=dist.get_rank(),
+            file=sys.stdout,
+        )
+        dataloader = BatchLoadingTimer(dataloader, epoch=engine.epoch, prefix=f"{self._tag}/")
+        dist.barrier()
+
+        with self._profiler as profiler:
+            for batch in dataloader:
+                output = self._eval_one_batch(engine, model, batch)
+                metrics.update(output)
+                self._observer.update(engine=engine, model_input=batch, model_output=output)
+                profiler.step()
+
+        # To be sure the progress bar is displayed before the following lines
+        sys.stdout.flush()
+        dist.barrier()
+
+        # Log some evaluation metrics to the engine.
+        dataloader.log_stats(engine=engine)
+        metrics.log_average_value(engine=engine, prefix=f"{self._tag}/")
+        dist.barrier()
 
     def _setup_condition(self, condition: BaseEvalCondition | dict | None) -> BaseEvalCondition:
         r"""Sets up the condition.

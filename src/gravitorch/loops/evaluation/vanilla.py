@@ -5,7 +5,6 @@ from __future__ import annotations
 __all__ = ["EvaluationLoop"]
 
 import logging
-import sys
 from collections.abc import Iterable
 from typing import Any
 
@@ -13,7 +12,6 @@ import torch
 from coola.utils import str_indent, str_mapping
 from torch.nn import Module
 
-from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.evaluation.basic import BaseBasicEvaluationLoop
@@ -24,16 +22,7 @@ from gravitorch.utils.device_placement import (
     BaseDevicePlacement,
     setup_device_placement,
 )
-from gravitorch.utils.imports import is_tqdm_available
 from gravitorch.utils.profilers import BaseProfiler
-
-if is_tqdm_available():
-    from tqdm import tqdm
-else:  # pragma: no cover
-
-    def tqdm(x: Iterable, *args, **kwargs) -> Iterable:
-        return x
-
 
 logger = logging.getLogger(__name__)
 
@@ -128,12 +117,5 @@ class EvaluationLoop(BaseBasicEvaluationLoop):
     def _prepare_model_dataloader(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         logger.info("Preparing the model and data loader...")
         dataloader = engine.datasource.get_dataloader(loader_id=self._tag, engine=engine)
-        prefix = f"({dist.get_rank()}/{dist.get_world_size()}) " if dist.is_distributed() else ""
-        dataloader = tqdm(
-            dataloader,
-            desc=f"{prefix}Evaluation [{engine.epoch}]",
-            position=dist.get_rank(),
-            file=sys.stdout,
-        )
         logger.info("Evaluation data loader has been created")
         return engine.model, dataloader
