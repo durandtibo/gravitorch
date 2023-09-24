@@ -6,7 +6,7 @@ import torch
 from pytest import mark
 
 from gravitorch import constants as ct
-from gravitorch.data.dataloaders.collators import (
+from gravitorch.dataloaders.collators import (
     DictPackedSequenceCollator,
     PackedSequenceCollator,
 )

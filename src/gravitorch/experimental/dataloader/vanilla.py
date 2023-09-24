@@ -11,7 +11,7 @@ from gravitorch.creators.dataset import (
     DatasetCreator,
     setup_dataset_creator,
 )
-from gravitorch.data.dataloaders.factory import create_dataloader, setup_dataloader
+from gravitorch.dataloaders.factory import create_dataloader, setup_dataloader
 from gravitorch.datasets.factory import is_dataset_config
 from gravitorch.experimental.dataloader.base import BaseDataLoaderCreator
 from gravitorch.utils.format import str_indent, str_mapping

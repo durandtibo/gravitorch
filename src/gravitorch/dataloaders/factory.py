@@ -49,7 +49,7 @@ def create_dataloader(dataset: Dataset | dict, **kwargs) -> DataLoader:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders import create_dataloader
+        >>> from gravitorch.dataloaders import create_dataloader
         >>> create_dataloader(
         ...     {
         ...         "_target_": "gravitorch.datasets.DummyMultiClassDataset",
@@ -89,7 +89,7 @@ def create_dataloader2(
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders import create_dataloader2
+        >>> from gravitorch.dataloaders import create_dataloader2
         >>> create_dataloader2(
         ...     {
         ...         "_target_": "torch.utils.data.datapipes.iter.IterableWrapper",
@@ -128,7 +128,7 @@ def is_dataloader_config(config: dict) -> bool:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders import is_dataloader_config
+        >>> from gravitorch.dataloaders import is_dataloader_config
         >>> is_dataloader_config({"_target_": "torch.utils.data.DataLoader"})
         True
     """
@@ -157,7 +157,7 @@ def is_dataloader2_config(config: dict) -> bool:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders import is_dataloader2_config
+        >>> from gravitorch.dataloaders import is_dataloader2_config
         >>> is_dataloader2_config({"_target_": "torchdata.dataloader2.DataLoader2"})
         True
     """
@@ -181,7 +181,7 @@ def setup_dataloader(dataloader: DataLoader | dict) -> DataLoader:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders import setup_dataloader
+        >>> from gravitorch.dataloaders import setup_dataloader
         >>> from gravitorch.datasets import ExampleDataset
         >>> dataloader = setup_dataloader(
         ...     {"_target_": "torch.utils.data.DataLoader", "dataset": ExampleDataset((1, 2, 3, 4))}
@@ -214,7 +214,7 @@ def setup_dataloader2(dataloader: DataLoader2 | dict) -> DataLoader2:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders import setup_dataloader2
+        >>> from gravitorch.dataloaders import setup_dataloader2
         >>> from torch.utils.data.datapipes.iter import IterableWrapper
         >>> dataloader = setup_dataloader2(
         ...     {

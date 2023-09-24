@@ -11,7 +11,7 @@ from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data.dataloader import default_collate
 
 from gravitorch import constants as ct
-from gravitorch.data.dataloaders.collators.base import BaseCollator
+from gravitorch.dataloaders.collators.base import BaseCollator
 
 
 class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
@@ -48,7 +48,7 @@ class PaddedSequenceCollator(BaseCollator[tuple[dict, dict], dict]):
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.data.dataloaders.collators import PaddedSequenceCollator
+        >>> from gravitorch.dataloaders.collators import PaddedSequenceCollator
         >>> collator = PaddedSequenceCollator()
         >>> collator
         PaddedSequenceCollator(length_key=length, batch_first=False, padding_value=0.0)
@@ -138,7 +138,7 @@ class DictPaddedSequenceCollator(BaseCollator[dict, dict]):
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.data.dataloaders.collators import DictPaddedSequenceCollator
+        >>> from gravitorch.dataloaders.collators import DictPaddedSequenceCollator
         >>> collator = DictPaddedSequenceCollator(keys_to_pad=["feature"])
         >>> collator
         DictPaddedSequenceCollator(keys_to_pack=('feature',), batch_first=False, padding_value=0.0)

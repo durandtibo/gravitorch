@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampl
 from torch.utils.data.datapipes.iter import IterableWrapper, Shuffler
 from torch.utils.data.graph import DataPipe
 
-from gravitorch.data.dataloaders import (
+from gravitorch.dataloaders import (
     create_dataloader,
     create_dataloader2,
     is_dataloader2_config,

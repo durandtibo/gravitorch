@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader, Dataset, DistributedSampler
 from torch.utils.data.dataloader import default_collate
 
 from gravitorch.creators.dataset import DatasetCreator
-from gravitorch.data.dataloaders.collators import PaddedSequenceCollator
+from gravitorch.dataloaders.collators import PaddedSequenceCollator
 from gravitorch.engines import BaseEngine
 from gravitorch.experimental.dataloader import DistributedDataLoaderCreator
 
@@ -241,7 +241,7 @@ def test_distributed_dataloader_creator_collate_fn_none(dataset: Dataset) -> Non
 def test_distributed_dataloader_creator_collate_fn_from_config(dataset: Dataset) -> None:
     dataloader = DistributedDataLoaderCreator(
         dataset,
-        collate_fn={OBJECT_TARGET: "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"},
+        collate_fn={OBJECT_TARGET: "gravitorch.dataloaders.collators.PaddedSequenceCollator"},
     ).create()
     assert isinstance(dataloader, DataLoader)
     assert isinstance(dataloader.collate_fn, PaddedSequenceCollator)

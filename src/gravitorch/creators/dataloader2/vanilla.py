@@ -15,7 +15,7 @@ from gravitorch.creators.datapipe.base import (
     setup_datapipe_creator,
 )
 from gravitorch.creators.datapipe.vanilla import DataPipeCreator
-from gravitorch.data.dataloaders import create_dataloader2, setup_dataloader2
+from gravitorch.dataloaders import create_dataloader2, setup_dataloader2
 from gravitorch.datapipes.factory import is_datapipe_config
 from gravitorch.utils.imports import is_torchdata_available
 

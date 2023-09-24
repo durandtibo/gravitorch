@@ -23,7 +23,7 @@ class BaseCollator(Generic[T, R], Callable[[list[T]], R], ABC, metaclass=Abstrac
     .. code-block:: pycon
 
         >>> import torch
-        >>> from gravitorch.data.dataloaders.collators import DictPaddedSequenceCollator
+        >>> from gravitorch.dataloaders.collators import DictPaddedSequenceCollator
         >>> collator = DictPaddedSequenceCollator(keys_to_pad=["feature"])
         >>> collator
         DictPaddedSequenceCollator(keys_to_pack=('feature',), batch_first=False, padding_value=0.0)
@@ -57,7 +57,7 @@ class BaseCollator(Generic[T, R], Callable[[list[T]], R], ABC, metaclass=Abstrac
         .. code-block:: pycon
 
             >>> import torch
-            >>> from gravitorch.data.dataloaders.collators import DictPaddedSequenceCollator
+            >>> from gravitorch.dataloaders.collators import DictPaddedSequenceCollator
             >>> collator = DictPaddedSequenceCollator(keys_to_pad=["feature"])
             >>> data = [
             ...     {"feature": torch.full((2,), 2.0)},
@@ -90,9 +90,9 @@ def setup_collator(collator: Callable[[list[T]], R] | dict | None) -> Callable[[
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders.collators import setup_collator
+        >>> from gravitorch.dataloaders.collators import setup_collator
         >>> collator = setup_collator(
-        ...     {"_target_": "gravitorch.data.dataloaders.collators.PaddedSequenceCollator"}
+        ...     {"_target_": "gravitorch.dataloaders.collators.PaddedSequenceCollator"}
         ... )
         >>> collator
         PaddedSequenceCollator(length_key=length, batch_first=False, padding_value=0.0)

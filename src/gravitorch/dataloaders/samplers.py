@@ -29,7 +29,7 @@ class ReproducibleBatchSampler(BatchSampler):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders.samplers import ReproducibleBatchSampler
+        >>> from gravitorch.dataloaders.samplers import ReproducibleBatchSampler
         >>> from torch.utils.data import BatchSampler, SequentialSampler
         >>> batch_sampler = BatchSampler(
         ...     SequentialSampler(range(10)),
@@ -95,7 +95,7 @@ class PartialSequentialSampler(Sampler):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders.samplers import PartialSequentialSampler
+        >>> from gravitorch.dataloaders.samplers import PartialSequentialSampler
         >>> sampler = PartialSequentialSampler(list(range(10)), num_samples=5)
         >>> sampler
         PartialSequentialSampler(num_samples=5)
@@ -130,7 +130,7 @@ class PartialRandomSampler(PartialSequentialSampler):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.data.dataloaders.samplers import PartialSequentialSampler
+        >>> from gravitorch.dataloaders.samplers import PartialSequentialSampler
         >>> sampler = PartialSequentialSampler(list(range(10)), num_samples=5)
         >>> sampler
         PartialSequentialSampler(num_samples=5)

@@ -12,7 +12,7 @@ from coola.utils import str_indent, str_mapping
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
-from gravitorch.data.dataloaders.factory import create_dataloader
+from gravitorch.dataloaders.factory import create_dataloader
 from gravitorch.distributed import comm as dist
 from gravitorch.utils.seed import get_torch_generator
 

@@ -6,7 +6,7 @@ import torch
 from pytest import fixture, mark, raises
 from torch.utils.data import BatchSampler, SequentialSampler
 
-from gravitorch.data.dataloaders.samplers import (
+from gravitorch.dataloaders.samplers import (
     PartialRandomSampler,
     PartialSequentialSampler,
     ReproducibleBatchSampler,

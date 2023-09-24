@@ -69,9 +69,12 @@ jobs:
       - name: check gravitorch.data.datacreators
         run: |
           poetry run python -c "from gravitorch.data import datacreators"
-      - name: check gravitorch.data.dataloaders
+      - name: check  gravitorch.dataloaders
         run: |
-          poetry run python -c "from gravitorch.data import dataloaders"
+          poetry run python -c "from gravitorch import dataloaders"
+      - name: check  gravitorch.dataloaders.collators
+        run: |
+          poetry run python -c "from gravitorch.dataloaders import collators"
       - name: check gravitorch.data.partitioners
         run: |
           poetry run python -c "from gravitorch.data import partitioners"
