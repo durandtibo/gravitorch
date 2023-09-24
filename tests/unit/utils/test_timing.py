@@ -17,7 +17,7 @@ from gravitorch.utils.timing import (
     EPOCH_TIME_SEC,
     ITER_TIME_AVG_MS,
     NUM_BATCHES,
-    BatchLoadingTimer,
+    BatchIterTimer,
     sync_perf_counter,
     timeblock,
 )
@@ -65,21 +65,21 @@ def test_timeblock_custom_missing_time() -> None:
 
 
 #######################################
-#     Tests for BatchLoadingTimer     #
+#     Tests for BatchIterTimer     #
 #######################################
 
 
-def my_batch_loader(num_batches: int = 3) -> Generator[Tensor, None, None]:
+def my_batchiter(num_batches: int = 3) -> Generator[Tensor, None, None]:
     for i in range(num_batches):
         yield torch.ones(2, 3).mul(i)
 
 
-def test_batch_loading_timer_iter_get_stats() -> None:
-    batch_loader = BatchLoadingTimer(my_batch_loader(), epoch=0, prefix="train")
-    for batch in batch_loader:
+def test_batch_iter_timer_iter_get_stats() -> None:
+    batchiter = BatchIterTimer(my_batchiter(), epoch=0, prefix="train")
+    for batch in batchiter:
         batch += 1
 
-    stats = batch_loader.get_stats()
+    stats = batchiter.get_stats()
     assert len(stats) == 9
     assert isinstance(stats[BATCH_LOAD_TIME_AVG_MS], float)
     assert isinstance(stats[BATCH_LOAD_TIME_MAX_MS], float)
@@ -92,31 +92,31 @@ def test_batch_loading_timer_iter_get_stats() -> None:
     assert stats[NUM_BATCHES] == 3
 
 
-def test_batch_loading_timer_iter_get_stats_empty() -> None:
-    assert BatchLoadingTimer(my_batch_loader(), epoch=0, prefix="train").get_stats() == {}
+def test_batch_iter_timer_iter_get_stats_empty() -> None:
+    assert BatchIterTimer(my_batchiter(), epoch=0, prefix="train").get_stats() == {}
 
 
-def test_batch_loading_timer_log_time_info_without_engine(caplog: LogCaptureFixture) -> None:
+def test_batch_iter_timer_log_time_info_without_engine(caplog: LogCaptureFixture) -> None:
     caplog.set_level(logging.INFO)
-    batch_loader = BatchLoadingTimer(my_batch_loader(), epoch=0, prefix="train")
-    for batch in batch_loader:
+    batchiter = BatchIterTimer(my_batchiter(), epoch=0, prefix="train")
+    for batch in batchiter:
         batch += 1
 
-    batch_loader.log_stats()
+    batchiter.log_stats()
     assert len(caplog.messages) == 2
 
 
-def test_batch_loading_timer_log_stats_with_engine() -> None:
-    batch_loader = BatchLoadingTimer(my_batch_loader(), epoch=0, prefix="train/")
-    for batch in batch_loader:
+def test_batch_iter_timer_log_stats_with_engine() -> None:
+    batchiter = BatchIterTimer(my_batchiter(), epoch=0, prefix="train/")
+    for batch in batchiter:
         batch += 1
 
     engine = Mock(spec=BaseEngine)
-    batch_loader.log_stats(engine)
+    batchiter.log_stats(engine)
     engine.log_metrics.assert_called_once()
 
 
-def test_batch_loading_timer_log_stats_empty(caplog: LogCaptureFixture) -> None:
+def test_batch_iter_timer_log_stats_empty(caplog: LogCaptureFixture) -> None:
     with caplog.at_level(logging.INFO):
-        BatchLoadingTimer(my_batch_loader(0), epoch=0, prefix="train").log_stats()
+        BatchIterTimer(my_batchiter(0), epoch=0, prefix="train").log_stats()
         assert len(caplog.messages) == 0
