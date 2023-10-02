@@ -9,6 +9,7 @@ __all__ = [
     "check_matplotlib",
     "check_pillow",
     "check_psutil",
+    "check_startorch",
     "check_tensorboard",
     "check_torchdata",
     "check_torchvision",
@@ -18,6 +19,7 @@ __all__ = [
     "is_matplotlib_available",
     "is_pillow_available",
     "is_psutil_available",
+    "is_startorch_available",
     "is_tensorboard_available",
     "is_torchdata_available",
     "is_torchvision_available",
@@ -226,6 +228,46 @@ def is_psutil_available() -> bool:
         >>> is_psutil_available()
     """
     return find_spec("psutil") is not None
+
+
+#####################
+#     startorch     #
+#####################
+
+
+def check_startorch() -> None:
+    r"""Checks if the ``startorch`` package is installed.
+
+    Raises
+    ------
+        RuntimeError if the ``startorch`` package is not installed.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import check_startorch
+        >>> check_startorch()  # doctest: +SKIP
+    """
+    if not is_startorch_available():
+        raise RuntimeError(
+            "`startorch` package is required but not installed. "
+            "You can install `startorch` package with the command:\n\n"
+            "pip install startorch\n"
+        )
+
+
+def is_startorch_available() -> bool:
+    r"""Indicates if the ``startorch`` package is installed or not.
+
+    Example usage:
+
+    .. code-block:: pycon
+
+        >>> from gravitorch.utils.imports import is_startorch_available
+        >>> is_startorch_available()
+    """
+    return find_spec("startorch") is not None
 
 
 #######################

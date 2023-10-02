@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.21a28"
+version = "0.0.21a29"
 description = "A library to train ML models with PyTorch"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -43,6 +43,7 @@ colorlog = { version = ">=6.7,<6.8", optional = true }
 matplotlib = { version = ">=3.6,<3.9", optional = true }
 pillow = { version = ">=9.0,<11.0", optional = true }
 psutil = { version = ">=5.9,<5.10", optional = true }
+startorch = { version = ">=0.0.5,<0.0.6", optional = true }
 tensorboard = { version = ">=2.10,<2.15", optional = true }
 torchdata = { version = ">=0.6,<0.7", optional = true }
 tqdm = { version = ">=4.64,<4.67", optional = true }
@@ -55,6 +56,7 @@ all = [
     "matplotlib",
     "pillow",
     "psutil",
+    "startorch",
     "tensorboard",
     "torch-tb-profiler",
     "torchdata",
@@ -78,7 +80,7 @@ pylint = "^2.17"
 pytest = "^7.4"
 pytest-cov = "^4.1"
 pytest-timeout = "^2.1"
-ruff = ">=0.0.291,<1.0"
+ruff = ">=0.0.292,<1.0"
 xdoctest = "^1.1"
 
 [build-system]
