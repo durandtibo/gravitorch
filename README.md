@@ -74,6 +74,7 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `matplotlib`<sup>*</sup>  | `>=3.6,<3.9`       |
 | `pillow`<sup>*</sup>      | `>=9.0,<11.0`      |
 | `psutil`<sup>*</sup>      | `>=5.9,<5.10`      |
+| `startorch`<sup>*</sup>   | `>=0.0.5,<0.0.6`   |
 | `tensorboard`<sup>*</sup> | `>=2.10,<2.15`     |
 | `torchdata`<sup>*</sup>   | `>=0.6,<0.7`       |
 | `tqdm`<sup>*</sup>        | `>=4.64,<4.67`     |
