@@ -63,7 +63,7 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `coola`                   | `>=0.0.20,<0.0.23` |
 | `hya`                     | `>=0.0.12,<0.0.14` |
 | `hydra-core`              | `>=1.3,<1.4`       |
-| `minevent`                | `>=0.0.2,<0.0.4`   |
+| `minevent`                | `>=0.0.4,<0.0.5`   |
 | `numpy`                   | `>=1.22,<1.26`     |
 | `objectory`               | `>=0.0.7,<0.0.8`   |
 | `pytorch-ignite`          | `>=0.4.11,<0.5`    |
