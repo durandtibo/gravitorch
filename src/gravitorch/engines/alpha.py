@@ -175,7 +175,7 @@ class AlphaEngine(BaseEngine):
             logger.info("Ending evaluation procedures")
 
     def fire_event(self, event: str) -> None:
-        self._event_manager.fire_event(event)
+        self._event_manager.trigger_event(event)
 
     def get_history(self, key: str) -> BaseHistory:
         return self._state.get_history(key)

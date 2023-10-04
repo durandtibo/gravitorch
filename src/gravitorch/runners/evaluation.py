@@ -117,7 +117,7 @@ class EvaluationRunner(BaseResourceRunner):
                 )
               (event_manager): EventManager(
                   (event_handlers):
-                  (last_fired_event): None
+                  (last_triggered_event): None
                 )
               (exp_tracker): NoOpExpTracker(experiment_path=..., is_activated=True))
           (exp_tracker): None
