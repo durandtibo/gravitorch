@@ -81,7 +81,7 @@ pytest-cov = "^4.1"
 pytest-timeout = "^2.1"
 ruff = ">=0.0.292,<1.0"
 xdoctest = "^1.1"
-urllib3 = ">=1.25,<2.0"
+urllib3 = ">=1.25,<3.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
