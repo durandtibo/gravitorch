@@ -2,7 +2,6 @@ from __future__ import annotations
 
 __all__ = [
     "AMPEvaluationLoop",
-    "AccelerateEvaluationLoop",
     "BaseBasicEvaluationLoop",
     "BaseEvaluationLoop",
     "NoOpEvaluationLoop",
@@ -11,7 +10,6 @@ __all__ = [
     "setup_evaluation_loop",
 ]
 
-from gravitorch.loops.evaluation.accelerate import AccelerateEvaluationLoop
 from gravitorch.loops.evaluation.amp import AMPEvaluationLoop
 from gravitorch.loops.evaluation.base import BaseEvaluationLoop
 from gravitorch.loops.evaluation.basic import BaseBasicEvaluationLoop
