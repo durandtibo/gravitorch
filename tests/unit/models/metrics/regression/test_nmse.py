@@ -204,9 +204,9 @@ def test_normalized_mean_squared_error_events_train(device: str, engine: BaseEng
     metric = NormalizedMeanSquaredError(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/nmse").get_last_value() == 4.0
     assert engine.get_history(f"{ct.TRAIN}/nmse_num_predictions").get_last_value() == 4
 
@@ -217,9 +217,9 @@ def test_normalized_mean_squared_error_events_eval(device: str, engine: BaseEngi
     metric = NormalizedMeanSquaredError(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/nmse").get_last_value() == 4.0
     assert engine.get_history(f"{ct.EVAL}/nmse_num_predictions").get_last_value() == 4
 

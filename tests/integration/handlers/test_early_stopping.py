@@ -30,7 +30,7 @@ def test_early_stopping_simulation_min() -> None:
     for loss in [3, 2, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]:
         engine.increment_epoch()
         engine.log_metric(f"{ct.EVAL}/loss", loss)
-        engine.fire_event(EngineEvents.EPOCH_COMPLETED)
+        engine.trigger_event(EngineEvents.EPOCH_COMPLETED)
         if engine.should_terminate:
             break
     assert engine.epoch == 12
@@ -50,7 +50,7 @@ def test_early_stopping_simulation_max() -> None:
     for loss in [1, 2, 3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5]:
         engine.increment_epoch()
         engine.log_metric("accuracy", loss)
-        engine.fire_event(EngineEvents.EPOCH_COMPLETED)
+        engine.trigger_event(EngineEvents.EPOCH_COMPLETED)
         if engine.should_terminate:
             break
     assert engine.epoch == 12
@@ -70,7 +70,7 @@ def test_early_stopping_simulation_delta() -> None:
     for loss in [3, 2, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]:
         engine.increment_epoch()
         engine.log_metric(f"{ct.EVAL}/loss", loss)
-        engine.fire_event(EngineEvents.EPOCH_COMPLETED)
+        engine.trigger_event(EngineEvents.EPOCH_COMPLETED)
         if engine.should_terminate:
             break
     assert engine.epoch == 7
@@ -90,7 +90,7 @@ def test_early_stopping_simulation_delta_and_cumulative_delta() -> None:
     for loss in [3, 2, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]:
         engine.increment_epoch()
         engine.log_metric(f"{ct.EVAL}/loss", loss)
-        engine.fire_event(EngineEvents.EPOCH_COMPLETED)
+        engine.trigger_event(EngineEvents.EPOCH_COMPLETED)
         if engine.should_terminate:
             break
     assert engine.epoch == 11
@@ -117,7 +117,7 @@ def test_early_stopping_simulation_resume() -> None:
     for loss in [3, 2, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]:
         engine.increment_epoch()
         engine.log_metric(f"{ct.EVAL}/loss", loss)
-        engine.fire_event(EngineEvents.EPOCH_COMPLETED)
+        engine.trigger_event(EngineEvents.EPOCH_COMPLETED)
         if engine.should_terminate:
             break
     assert engine.epoch == 15
@@ -144,7 +144,7 @@ def test_early_stopping_simulation_resume_cumulative_delta() -> None:
     for loss in [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]:
         engine.increment_epoch()
         engine.log_metric(f"{ct.EVAL}/loss", loss)
-        engine.fire_event(EngineEvents.EPOCH_COMPLETED)
+        engine.trigger_event(EngineEvents.EPOCH_COMPLETED)
         if engine.should_terminate:
             break
     assert engine.epoch == 13

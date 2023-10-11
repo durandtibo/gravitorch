@@ -57,7 +57,7 @@ class ModelStateDictLoader(BaseHandler):
         >>> handler
         ModelStateDictLoader(checkpoint_path=.../tmp/ckpt.pt, event=started, strict=True, key=None)
         >>> handler.attach(engine)
-        >>> engine.fire_event("started")  # doctest: +SKIP
+        >>> engine.trigger_event("started")  # doctest: +SKIP
     """
 
     def __init__(
@@ -144,7 +144,7 @@ class PartialModelStateDictLoader(BaseHandler):
         >>> handler
         PartialModelStateDictLoader(checkpoint_path=.../tmp/ckpt.pt, event=started, strict=True, exclude_key_prefixes=[])
         >>> handler.attach(engine)
-        >>> engine.fire_event("started")  # doctest: +SKIP
+        >>> engine.trigger_event("started")  # doctest: +SKIP
     """
 
     def __init__(

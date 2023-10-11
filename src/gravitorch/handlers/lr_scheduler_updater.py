@@ -46,7 +46,7 @@ class LRSchedulerUpdater(BaseHandler):
         >>> handler
         LRSchedulerUpdater(event=my_event)
         >>> handler.attach(engine)
-        >>> engine.fire_event("my_event")
+        >>> engine.trigger_event("my_event")
     """
 
     def __init__(self, event: str) -> None:
@@ -81,7 +81,7 @@ class EpochLRSchedulerUpdater(LRSchedulerUpdater):
         >>> handler
         EpochLRSchedulerUpdater(event=train_epoch_completed)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_epoch_completed")
+        >>> engine.trigger_event("train_epoch_completed")
     """
 
     def __init__(self) -> None:
@@ -103,7 +103,7 @@ class IterationLRSchedulerUpdater(LRSchedulerUpdater):
         >>> handler
         IterationLRSchedulerUpdater(event=train_iteration_completed)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_iteration_completed")
+        >>> engine.trigger_event("train_iteration_completed")
     """
 
     def __init__(self) -> None:
@@ -147,7 +147,7 @@ class MetricLRSchedulerUpdater(BaseHandler):
         MetricLRSchedulerUpdater(event=my_event, metric_name=eval/loss)
         >>> handler.attach(engine)
         >>> engine.log_metric("eval/loss", 1.2, step=EpochStep(1))
-        >>> engine.fire_event("my_event")
+        >>> engine.trigger_event("my_event")
     """
 
     def __init__(self, event: str, metric_name: str = f"{ct.EVAL}/loss") -> None:
@@ -229,7 +229,7 @@ class MetricEpochLRSchedulerUpdater(MetricLRSchedulerUpdater):
         >>> handler
         MetricEpochLRSchedulerUpdater(event=epoch_completed, metric_name=eval/loss)
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.trigger_event("epoch_completed")
     """
 
     def __init__(self, metric_name: str = f"{ct.EVAL}/loss") -> None:

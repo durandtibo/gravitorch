@@ -127,10 +127,10 @@ class TrainingLoop(BaseBasicTrainingLoop):
     def _train_one_batch(
         self, engine: BaseEngine, model: Module, optimizer: Optimizer, batch: Any
     ) -> dict:
-        engine.fire_event(EngineEvents.TRAIN_ITERATION_STARTED)
+        engine.trigger_event(EngineEvents.TRAIN_ITERATION_STARTED)
         optimizer.zero_grad(self._set_grad_to_none)
         output = model(self._batch_device_placement.send(batch))
-        engine.fire_event(EngineEvents.TRAIN_FORWARD_COMPLETED)
+        engine.trigger_event(EngineEvents.TRAIN_FORWARD_COMPLETED)
 
         loss = output[ct.LOSS]
         if torch.isnan(loss):
@@ -138,16 +138,16 @@ class TrainingLoop(BaseBasicTrainingLoop):
                 "NaN detected in loss so backpropagation is skipped "
                 f"(iteration: {engine.iteration})"
             )
-            engine.fire_event(EngineEvents.TRAIN_ITERATION_COMPLETED)
+            engine.trigger_event(EngineEvents.TRAIN_ITERATION_COMPLETED)
             return output
 
         loss.backward()
         if self._clip_grad_fn:
             self._clip_grad_fn(model.parameters(), *self._clip_grad_args)
-        engine.fire_event(EngineEvents.TRAIN_BACKWARD_COMPLETED)
+        engine.trigger_event(EngineEvents.TRAIN_BACKWARD_COMPLETED)
 
         optimizer.step()
-        engine.fire_event(EngineEvents.TRAIN_ITERATION_COMPLETED)
+        engine.trigger_event(EngineEvents.TRAIN_ITERATION_COMPLETED)
 
         return output
 

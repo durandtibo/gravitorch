@@ -86,7 +86,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         dist.barrier()
         self._prepare_training(engine)
         dist.barrier()
-        engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+        engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
 
         model, optimizer, datastream = self._prepare_model_optimizer_datastream(engine)
         dist.barrier()
@@ -96,7 +96,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
             self._train_loop(engine=engine, model=model, dataiter=dataiter, optimizer=optimizer)
         self._observer.end(engine)
 
-        engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+        engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
         dist.barrier()
 
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:

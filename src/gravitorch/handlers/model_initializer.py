@@ -50,7 +50,7 @@ class ModelInitializer(BaseHandler):
           (event): train_started
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_started")
+        >>> engine.trigger_event("train_started")
         >>> engine.model.state_dict()
         OrderedDict([('linear.weight', tensor([[0., 0., 0., 0.],
                 [0., 0., 0., 0.],

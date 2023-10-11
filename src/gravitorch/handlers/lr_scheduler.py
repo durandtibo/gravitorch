@@ -51,8 +51,8 @@ class LRScheduler(BaseHandler):
           (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_epoch_started")
-        >>> engine.fire_event("train_epoch_completed")
+        >>> engine.trigger_event("train_epoch_started")
+        >>> engine.trigger_event("train_epoch_completed")
     """
 
     def __init__(
@@ -111,8 +111,8 @@ class EpochLRScheduler(LRScheduler):
           (lr_scheduler_updater): EpochLRSchedulerUpdater(event=train_epoch_completed)
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_epoch_started")
-        >>> engine.fire_event("train_epoch_completed")
+        >>> engine.trigger_event("train_epoch_started")
+        >>> engine.trigger_event("train_epoch_completed")
     """
 
     def __init__(self) -> None:
@@ -151,8 +151,8 @@ class IterationLRScheduler(LRScheduler):
           (lr_scheduler_updater): IterationLRSchedulerUpdater(event=train_iteration_completed)
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_iteration_started")
-        >>> engine.fire_event("train_iteration_completed")
+        >>> engine.trigger_event("train_iteration_started")
+        >>> engine.trigger_event("train_iteration_completed")
     """
 
     def __init__(self, freq: int = 10) -> None:

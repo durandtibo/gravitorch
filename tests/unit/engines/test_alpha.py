@@ -148,14 +148,14 @@ def test_alpha_engine_eval(core_creator: BaseCoreCreator) -> None:
     evaluation_loop.eval.assert_called_once_with(engine)
 
 
-def test_alpha_engine_fire_event(core_creator: BaseCoreCreator) -> None:
+def test_alpha_engine_trigger_event(core_creator: BaseCoreCreator) -> None:
     engine = AlphaEngine(core_creator)
     engine.add_event_handler(
         "my_event",
         GEventHandler(increment_epoch_handler, handler_kwargs={"engine": engine}),
     )
     assert engine.epoch == -1
-    engine.fire_event("my_event")
+    engine.trigger_event("my_event")
     assert engine.epoch == 1
 
 

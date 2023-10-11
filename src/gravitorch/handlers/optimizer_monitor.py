@@ -58,7 +58,7 @@ class EpochOptimizerMonitor(BaseHandler):
         >>> handler
         EpochOptimizerMonitor(event=train_epoch_started, freq=1, tablefmt=fancy_grid, prefix=train/)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_epoch_started")
+        >>> engine.trigger_event("train_epoch_started")
     """
 
     def __init__(
@@ -157,7 +157,7 @@ class IterationOptimizerMonitor(BaseHandler):
         >>> handler
         IterationOptimizerMonitor(event=train_iteration_started, freq=10, tablefmt=fancy_grid, prefix=train/)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_iteration_started")
+        >>> engine.trigger_event("train_iteration_started")
     """
 
     def __init__(

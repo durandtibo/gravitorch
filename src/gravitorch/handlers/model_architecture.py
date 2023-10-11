@@ -38,7 +38,7 @@ class ModelArchitectureAnalyzer(BaseHandler):
         >>> handler
         ModelArchitectureAnalyzer(events=('started',))
         >>> handler.attach(engine)
-        >>> engine.fire_event("started")
+        >>> engine.trigger_event("started")
     """
 
     def __init__(
@@ -95,7 +95,7 @@ class NetworkArchitectureAnalyzer(ModelArchitectureAnalyzer):
         >>> handler
         NetworkArchitectureAnalyzer(events=('started',))
         >>> handler.attach(engine)
-        >>> engine.fire_event("started")
+        >>> engine.trigger_event("started")
     """
 
     def analyze(self, engine: BaseEngine) -> None:

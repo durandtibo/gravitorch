@@ -298,9 +298,9 @@ def test_squared_error_events_train(device: str, engine: BaseEngine) -> None:
     metric = SquaredError(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/sq_err_mean").get_last_value() == 2.0
     assert engine.get_history(f"{ct.TRAIN}/sq_err_max").get_last_value() == 4.0
     assert engine.get_history(f"{ct.TRAIN}/sq_err_min").get_last_value() == 0.0
@@ -314,9 +314,9 @@ def test_squared_error_events_eval(device: str, engine: BaseEngine) -> None:
     metric = SquaredError(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/sq_err_mean").get_last_value() == 2.0
     assert engine.get_history(f"{ct.EVAL}/sq_err_max").get_last_value() == 4.0
     assert engine.get_history(f"{ct.EVAL}/sq_err_min").get_last_value() == 0.0
@@ -533,9 +533,9 @@ def test_root_mean_squared_error_events_train(device: str, engine: BaseEngine) -
     metric = RootMeanSquaredError(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/rmse_root_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/rmse_num_predictions").get_last_value() == 4
 
@@ -546,9 +546,9 @@ def test_root_mean_squared_error_events_eval(device: str, engine: BaseEngine) ->
     metric = RootMeanSquaredError(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/rmse_root_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/rmse_num_predictions").get_last_value() == 4
 

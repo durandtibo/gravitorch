@@ -39,7 +39,7 @@ class EpochGarbageCollector(BaseHandler):
         >>> handler
         EpochGarbageCollector(freq=1, event=epoch_completed)
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.trigger_event("epoch_completed")
     """
 
     def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:

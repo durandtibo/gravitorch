@@ -310,9 +310,9 @@ def test_squared_log_error_events_train(device: str, engine: BaseEngine) -> None
     metric = SquaredLogError(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/sq_log_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/sq_log_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/sq_log_err_min").get_last_value() == 0.0
@@ -326,9 +326,9 @@ def test_squared_log_error_events_eval(device: str, engine: BaseEngine) -> None:
     metric = SquaredLogError(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/sq_log_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/sq_log_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/sq_log_err_min").get_last_value() == 0.0
@@ -640,9 +640,9 @@ def test_squared_symlog_error_events_train(device: str, engine: BaseEngine) -> N
     metric = SquaredSymlogError(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/sq_symlog_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/sq_symlog_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/sq_symlog_err_min").get_last_value() == 0.0
@@ -656,9 +656,9 @@ def test_squared_symlog_error_events_eval(device: str, engine: BaseEngine) -> No
     metric = SquaredSymlogError(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/sq_symlog_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/sq_symlog_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/sq_symlog_err_min").get_last_value() == 0.0
@@ -970,9 +970,9 @@ def test_squared_asinh_error_events_train(device: str, engine: BaseEngine) -> No
     metric = SquaredAsinhError(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/sq_asinh_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/sq_asinh_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/sq_asinh_err_min").get_last_value() == 0.0
@@ -986,9 +986,9 @@ def test_squared_asinh_error_events_eval(device: str, engine: BaseEngine) -> Non
     metric = SquaredAsinhError(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/sq_asinh_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/sq_asinh_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/sq_asinh_err_min").get_last_value() == 0.0

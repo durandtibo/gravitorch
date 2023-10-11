@@ -223,9 +223,9 @@ def test_transformed_prediction_target_events_train(device: str, engine: BaseEng
     metric = TransformedPredictionTarget(AbsoluteError(ct.TRAIN)).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/abs_err_mean").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/abs_err_max").get_last_value() == 2.0
     assert engine.get_history(f"{ct.TRAIN}/abs_err_min").get_last_value() == 0.0
@@ -239,9 +239,9 @@ def test_transformed_prediction_target_events_eval(device: str, engine: BaseEngi
     metric = TransformedPredictionTarget(AbsoluteError(ct.EVAL)).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device), -torch.eye(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/abs_err_mean").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/abs_err_max").get_last_value() == 2.0
     assert engine.get_history(f"{ct.EVAL}/abs_err_min").get_last_value() == 0.0
