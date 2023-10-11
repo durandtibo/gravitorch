@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gravitorch"
-version = "0.0.21a33"
+version = "0.0.21"
 description = "A library to train ML models with PyTorch"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -49,7 +49,6 @@ tqdm = { version = ">=4.64,<4.67", optional = true }
 
 [tool.poetry.extras]
 all = [
-    "accelerate",
     "colorlog",
     "lightning",
     "matplotlib",
