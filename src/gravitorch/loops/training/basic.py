@@ -15,7 +15,6 @@ from torch.optim import Optimizer
 
 from gravitorch import constants as ct
 from gravitorch.dataflows.base import BaseDataFlow
-from gravitorch.dataflows.iterable import IterableDataFlow
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -89,12 +88,11 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         dist.barrier()
         engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
 
-        model, optimizer, dataflow = self._prepare_model_optimizer_dataflow(engine)
-        dataflow = dataflow if isinstance(dataflow, BaseDataFlow) else IterableDataFlow(dataflow)
+        model, optimizer, datastream = self._prepare_model_optimizer_datastream(engine)
         dist.barrier()
 
         self._observer.start(engine)
-        with dataflow as dataiter:
+        with datastream as dataiter:
             self._train_loop(engine=engine, model=model, dataiter=dataiter, optimizer=optimizer)
         self._observer.end(engine)
 
@@ -169,10 +167,10 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         dist.barrier()
 
     @abstractmethod
-    def _prepare_model_optimizer_dataflow(
+    def _prepare_model_optimizer_datastream(
         self, engine: BaseEngine
     ) -> tuple[Module, Optimizer, BaseDataFlow | Iterable]:
-        r"""Prepares the model, optimizer and data loader.
+        r"""Prepares the model, optimizer and datastream.
 
         Args:
         ----
@@ -181,8 +179,8 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
         Returns:
         -------
             ``torch.nn.Module``, ``torch.optim.Optimizer``,
-                ``Iterable``: A tuple with the model, the optimizer
-                and the dataflow.
+                ``Iterable``: A tuple with the model, optimizer
+                and datastream.
         """
 
     @abstractmethod

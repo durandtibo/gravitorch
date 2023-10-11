@@ -12,6 +12,8 @@ import torch
 from coola.utils import str_indent, str_mapping
 from torch.nn import Module
 
+from gravitorch.dataflows.base import BaseDataFlow
+from gravitorch.dataflows.iterable import IterableDataFlow
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.evaluation.basic import BaseBasicEvaluationLoop
@@ -114,8 +116,11 @@ class EvaluationLoop(BaseBasicEvaluationLoop):
         engine.fire_event(EngineEvents.EVAL_ITERATION_COMPLETED)
         return output
 
-    def _prepare_model_dataflow(self, engine: BaseEngine) -> tuple[Module, Iterable]:
-        logger.info("Preparing the model and data loader...")
-        dataloader = engine.datasource.get_dataloader(loader_id=self._tag, engine=engine)
-        logger.info("Evaluation data loader has been created")
-        return engine.model, dataloader
+    def _prepare_model_datastream(self, engine: BaseEngine) -> tuple[Module, Iterable]:
+        logger.info("Preparing the model and datastream...")
+        datastream = engine.datasource.get_dataloader(loader_id=self._tag, engine=engine)
+        datastream = (
+            datastream if isinstance(datastream, BaseDataFlow) else IterableDataFlow(datastream)
+        )
+        logger.info("Evaluation datastream has been created")
+        return engine.model, datastream

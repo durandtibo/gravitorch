@@ -14,7 +14,6 @@ from torch.nn import Module
 
 from gravitorch import constants as ct
 from gravitorch.dataflows.base import BaseDataFlow
-from gravitorch.dataflows.iterable import IterableDataFlow
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -89,12 +88,11 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         dist.barrier()
         engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
 
-        model, dataflow = self._prepare_model_dataflow(engine)
-        dataflow = dataflow if isinstance(dataflow, BaseDataFlow) else IterableDataFlow(dataflow)
+        model, datastream = self._prepare_model_datastream(engine)
         dist.barrier()
 
         self._observer.start(engine)
-        with dataflow as dataiter:
+        with datastream as dataiter:
             self._evaluate_loop(engine=engine, model=model, dataiter=dataiter)
         self._observer.end(engine)
 
@@ -198,8 +196,10 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         """
 
     @abstractmethod
-    def _prepare_model_dataflow(self, engine: BaseEngine) -> tuple[Module, BaseDataFlow | Iterable]:
-        r"""Prepares the model and dataflow.
+    def _prepare_model_datastream(
+        self, engine: BaseEngine
+    ) -> tuple[Module, BaseDataFlow | Iterable]:
+        r"""Prepares the model and datastream.
 
         Args:
         ----
@@ -208,6 +208,6 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         Returns:
         -------
             ``torch.nn.Module``, ``BaseDataFlow`` or ``Iterable``:
-                A tuple with the model and the dataflow or data
+                A tuple with the model and the datastream or data
                 iterable.
         """
