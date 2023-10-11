@@ -2,7 +2,6 @@ from __future__ import annotations
 
 __all__ = [
     "AMPTrainingLoop",
-    "AccelerateTrainingLoop",
     "BaseBasicTrainingLoop",
     "BaseTrainingLoop",
     "NoOpTrainingLoop",
@@ -11,7 +10,6 @@ __all__ = [
     "setup_training_loop",
 ]
 
-from gravitorch.loops.training.accelerate import AccelerateTrainingLoop
 from gravitorch.loops.training.amp import AMPTrainingLoop
 from gravitorch.loops.training.base import BaseTrainingLoop
 from gravitorch.loops.training.basic import BaseBasicTrainingLoop
