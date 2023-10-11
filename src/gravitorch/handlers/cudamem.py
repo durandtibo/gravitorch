@@ -52,7 +52,7 @@ class EpochCudaMemoryMonitor(BaseHandler):
         >>> handler
         EpochCudaMemoryMonitor(freq=1, event=epoch_completed)
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.trigger_event("epoch_completed")
     """
 
     def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
@@ -129,7 +129,7 @@ class IterationCudaMemoryMonitor(BaseHandler):
         >>> handler
         IterationCudaMemoryMonitor(freq=1, event=train_iteration_completed)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_iteration_completed")
+        >>> engine.trigger_event("train_iteration_completed")
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1) -> None:
@@ -208,7 +208,7 @@ class EpochCudaEmptyCache(BaseHandler):
         >>> handler
         EpochCudaEmptyCache(freq=1, event=epoch_completed)
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.trigger_event("epoch_completed")
     """
 
     def __init__(self, event: str = EngineEvents.EPOCH_COMPLETED, freq: int = 1) -> None:
@@ -276,7 +276,7 @@ class IterationCudaEmptyCache(BaseHandler):
         >>> handler
         IterationCudaEmptyCache(freq=1, event=train_iteration_completed)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_iteration_completed")
+        >>> engine.trigger_event("train_iteration_completed")
     """
 
     def __init__(self, event: str = EngineEvents.TRAIN_ITERATION_COMPLETED, freq: int = 1) -> None:

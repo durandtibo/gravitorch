@@ -322,9 +322,9 @@ def test_binary_accuracy_events_train(device: str, engine: BaseEngine) -> None:
     metric = BinaryAccuracy(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.zeros(4, device=device), torch.ones(4, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.ones(4, device=device), torch.ones(4, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/bin_acc_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/bin_acc_num_predictions").get_last_value() == 4
 
@@ -335,9 +335,9 @@ def test_binary_accuracy_events_eval(device: str, engine: BaseEngine) -> None:
     metric = BinaryAccuracy(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.zeros(4, device=device), torch.ones(4, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.ones(4, device=device), torch.ones(4, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/bin_acc_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/bin_acc_num_predictions").get_last_value() == 4
 
@@ -597,9 +597,9 @@ def test_categorical_accuracy_events_train(device: str, engine: BaseEngine) -> N
     metric = CategoricalAccuracy(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.eye(2, device=device), torch.zeros(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.tensor([0, 1], device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/cat_acc_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/cat_acc_num_predictions").get_last_value() == 2
 
@@ -610,9 +610,9 @@ def test_categorical_accuracy_events_eval(device: str, engine: BaseEngine) -> No
     metric = CategoricalAccuracy(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.eye(2, device=device), torch.zeros(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device), torch.tensor([0, 1], device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/cat_acc_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/cat_acc_num_predictions").get_last_value() == 2
 
@@ -1004,12 +1004,12 @@ def test_top_k_accuracy_events_train(device: str, engine: BaseEngine) -> None:
     metric = TopKAccuracy(ct.TRAIN, topk=(1, 2, 3)).to(device=device)
     metric.attach(engine)
     metric(torch.eye(3, device=device), torch.arange(3, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(
         prediction=torch.tensor([[0, 2, 1], [2, 1, 0]], device=device),
         target=torch.tensor([1, 2], device=device),
     )
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/acc_top_1_accuracy").get_last_value() == 0.5
     assert engine.get_history(f"{ct.TRAIN}/acc_top_1_num_predictions").get_last_value() == 2
     assert engine.get_history(f"{ct.TRAIN}/acc_top_2_accuracy").get_last_value() == 0.5
@@ -1024,12 +1024,12 @@ def test_top_k_accuracy_events_eval(device: str, engine: BaseEngine) -> None:
     metric = TopKAccuracy(ct.EVAL, topk=(1, 2, 3)).to(device=device)
     metric.attach(engine)
     metric(torch.eye(3, device=device), torch.arange(3, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(
         prediction=torch.tensor([[0, 2, 1], [2, 1, 0]], device=device),
         target=torch.tensor([1, 2], device=device),
     )
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/acc_top_1_accuracy").get_last_value() == 0.5
     assert engine.get_history(f"{ct.EVAL}/acc_top_1_num_predictions").get_last_value() == 2
     assert engine.get_history(f"{ct.EVAL}/acc_top_2_accuracy").get_last_value() == 0.5

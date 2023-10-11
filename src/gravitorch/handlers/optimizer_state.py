@@ -42,7 +42,7 @@ class ConsolidateOptimizerState(BaseHandler):
         >>> handler
         ConsolidateOptimizerState(event=train_epoch_completed, recipient_rank=0)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_epoch_completed")
+        >>> engine.trigger_event("train_epoch_completed")
     """
 
     def __init__(

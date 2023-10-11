@@ -86,7 +86,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
 
         self._prepare_evaluation(engine)
         dist.barrier()
-        engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+        engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
 
         model, datastream = self._prepare_model_datastream(engine)
         dist.barrier()
@@ -96,7 +96,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
             self._evaluate_loop(engine=engine, model=model, dataiter=dataiter)
         self._observer.end(engine)
 
-        engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+        engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
         dist.barrier()
 
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:

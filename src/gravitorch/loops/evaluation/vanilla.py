@@ -110,10 +110,10 @@ class EvaluationLoop(BaseBasicEvaluationLoop):
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
     def _eval_one_batch(self, engine: BaseEngine, model: Module, batch: Any) -> dict:
-        engine.fire_event(EngineEvents.EVAL_ITERATION_STARTED)
+        engine.trigger_event(EngineEvents.EVAL_ITERATION_STARTED)
         with torch.set_grad_enabled(self._grad_enabled):
             output = model(self._batch_device_placement.send(batch))
-        engine.fire_event(EngineEvents.EVAL_ITERATION_COMPLETED)
+        engine.trigger_event(EngineEvents.EVAL_ITERATION_COMPLETED)
         return output
 
     def _prepare_model_datastream(self, engine: BaseEngine) -> tuple[Module, Iterable]:

@@ -282,7 +282,7 @@ def test_training_loop_train_batch_auto_device_placement(device: str) -> None:
 
 @mark.parametrize("device", get_available_devices())
 @mark.parametrize("event", (EngineEvents.TRAIN_EPOCH_STARTED, EngineEvents.TRAIN_EPOCH_COMPLETED))
-def test_training_loop_fire_event_train_epoch_events(device: str, event: str) -> None:
+def test_training_loop_trigger_event_train_epoch_events(device: str, event: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_event_handler(
@@ -303,7 +303,7 @@ def test_training_loop_fire_event_train_epoch_events(device: str, event: str) ->
         EngineEvents.TRAIN_ITERATION_COMPLETED,
     ),
 )
-def test_training_loop_fire_event_train_iteration_events(device: str, event: str) -> None:
+def test_training_loop_trigger_event_train_iteration_events(device: str, event: str) -> None:
     device = torch.device(device)
     engine = create_dummy_engine(device=device)
     engine.add_event_handler(
@@ -356,7 +356,7 @@ def test_training_loop_train_one_batch_fired_events(device: str) -> None:
         optimizer=SGD(model.parameters(), lr=0.01),
         batch={ct.INPUT: torch.ones(8, 4), ct.TARGET: torch.ones(8, dtype=torch.long)},
     )
-    assert engine.fire_event.call_args_list == [
+    assert engine.trigger_event.call_args_list == [
         ((EngineEvents.TRAIN_ITERATION_STARTED,), {}),
         ((EngineEvents.TRAIN_FORWARD_COMPLETED,), {}),
         ((EngineEvents.TRAIN_BACKWARD_COMPLETED,), {}),
@@ -438,7 +438,7 @@ def test_training_loop_train_one_batch_loss_nan() -> None:
     )
     assert isinstance(out, dict)
     assert torch.isnan(out[ct.LOSS])
-    assert engine.fire_event.call_args_list == [
+    assert engine.trigger_event.call_args_list == [
         ((EngineEvents.TRAIN_ITERATION_STARTED,), {}),
         ((EngineEvents.TRAIN_FORWARD_COMPLETED,), {}),
         ((EngineEvents.TRAIN_ITERATION_COMPLETED,), {}),

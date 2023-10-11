@@ -60,12 +60,12 @@ class EarlyStopping(BaseHandler):
         >>> handler
         EarlyStopping(metric_name=eval/loss, patience=10, delta=0.0, cumulative_delta=False, waiting_counter=0, best_score=None, best_epoch=None)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_started")
+        >>> engine.trigger_event("train_started")
         >>> engine.increment_epoch()
         >>> handler
         EarlyStopping(metric_name=eval/loss, patience=10, delta=0.0, cumulative_delta=False, waiting_counter=0, best_score=None, best_epoch=None)
         >>> engine.log_metric("eval/loss", 1.2, step=EpochStep(engine.epoch))
-        >>> engine.fire_event("epoch_completed")
+        >>> engine.trigger_event("epoch_completed")
         >>> handler
         EarlyStopping(metric_name=eval/loss, patience=10, delta=0.0, cumulative_delta=False, waiting_counter=0, best_score=1.2, best_epoch=0)
     """

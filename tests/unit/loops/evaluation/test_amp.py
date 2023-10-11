@@ -33,7 +33,7 @@ def test_amp_evaluation_loop_eval_one_batch_fired_events(device: str) -> None:
         model=DummyClassificationModel().to(device=device),
         batch={ct.INPUT: torch.ones(8, 4), ct.TARGET: torch.ones(8, dtype=torch.long)},
     )
-    assert engine.fire_event.call_args_list == [
+    assert engine.trigger_event.call_args_list == [
         ((EngineEvents.EVAL_ITERATION_STARTED,), {}),
         ((EngineEvents.EVAL_ITERATION_COMPLETED,), {}),
     ]

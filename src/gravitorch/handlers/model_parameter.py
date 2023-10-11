@@ -42,7 +42,7 @@ class ModelParameterAnalyzer(BaseHandler):
         >>> handler
         ModelParameterAnalyzer(events=('started', 'train_completed'), tablefmt=fancy_outline, floatfmt=.6f)
         >>> handler.attach(engine)
-        >>> engine.fire_event("started")
+        >>> engine.trigger_event("started")
     """
 
     def __init__(

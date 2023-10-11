@@ -311,9 +311,9 @@ def test_binary_confusion_matrix_events_train(device: str, engine: BaseEngine) -
     metric = BinaryConfusionMatrix(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.zeros(4, device=device), torch.ones(4, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([0, 1, 0, 1], device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_balanced_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/bin_conf_mat_false_negative").get_last_value() == 0
@@ -341,9 +341,9 @@ def test_binary_confusion_matrix_events_eval(device: str, engine: BaseEngine) ->
     metric = BinaryConfusionMatrix(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.zeros(4, device=device), torch.ones(4, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.tensor([0, 1, 0, 1], device=device), torch.tensor([0, 1, 0, 1], device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_balanced_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/bin_conf_mat_false_negative").get_last_value() == 0
@@ -665,12 +665,12 @@ def test_categorical_confusion_matrix_events_train(device: str, engine: BaseEngi
     metric = CategoricalConfusionMatrix(ct.TRAIN, num_classes=3).to(device=device)
     metric.attach(engine)
     metric(torch.zeros(4, device=device), torch.ones(4, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(
         torch.tensor([[3, 2, 1], [1, 3, 2], [3, 2, 1], [1, 3, 2], [1, 2, 3]], device=device),
         torch.tensor([0, 1, 0, 1, 2], device=device),
     )
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/cat_conf_mat_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/cat_conf_mat_balanced_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.TRAIN}/cat_conf_mat_macro_precision").get_last_value() == 1.0
@@ -691,12 +691,12 @@ def test_categorical_confusion_matrix_events_eval(device: str, engine: BaseEngin
     metric = CategoricalConfusionMatrix(ct.EVAL, num_classes=3).to(device=device)
     metric.attach(engine)
     metric(torch.zeros(4, device=device), torch.ones(4, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(
         torch.tensor([[3, 2, 1], [1, 3, 2], [3, 2, 1], [1, 3, 2], [1, 2, 3]], device=device),
         torch.tensor([0, 1, 0, 1, 2], device=device),
     )
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/cat_conf_mat_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/cat_conf_mat_balanced_accuracy").get_last_value() == 1.0
     assert engine.get_history(f"{ct.EVAL}/cat_conf_mat_macro_precision").get_last_value() == 1.0

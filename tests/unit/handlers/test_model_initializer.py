@@ -55,6 +55,6 @@ def test_model_initializer_initialize() -> None:
     engine = create_dummy_engine(model=Linear(4, 6))
     constant(engine.model, value=0.0)
     ModelInitializer(initializer=Constant(value=1.0)).attach(engine)
-    engine.fire_event(EngineEvents.TRAIN_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_STARTED)
     assert engine.model.weight.equal(torch.ones(6, 4))
     assert engine.model.bias.equal(torch.ones(6))

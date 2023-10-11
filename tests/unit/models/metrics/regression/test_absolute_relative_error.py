@@ -334,9 +334,9 @@ def test_absolute_relative_error_events_train(device: str, engine: BaseEngine) -
     metric = AbsoluteRelativeError(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device) + 1, torch.eye(2, device=device) + 1)
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/abs_rel_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/abs_rel_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/abs_rel_err_min").get_last_value() == 0.0
@@ -350,9 +350,9 @@ def test_absolute_relative_error_events_eval(device: str, engine: BaseEngine) ->
     metric = AbsoluteRelativeError(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device) + 1, torch.eye(2, device=device) + 1)
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/abs_rel_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/abs_rel_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/abs_rel_err_min").get_last_value() == 0.0
@@ -684,9 +684,9 @@ def test_symmetric_absolute_relative_error_events_train(device: str, engine: Bas
     metric = SymmetricAbsoluteRelativeError(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.eye(2, device=device) + 1, torch.eye(2, device=device) + 1)
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.TRAIN}/sym_abs_rel_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/sym_abs_rel_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.TRAIN}/sym_abs_rel_err_min").get_last_value() == 0.0
@@ -700,9 +700,9 @@ def test_symmetric_absolute_relative_error_events_eval(device: str, engine: Base
     metric = SymmetricAbsoluteRelativeError(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.ones(2, 2, device=device), 2 * torch.ones(2, 2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.eye(2, device=device) + 1, torch.eye(2, device=device) + 1)
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert engine.get_history(f"{ct.EVAL}/sym_abs_rel_err_mean").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/sym_abs_rel_err_max").get_last_value() == 0.0
     assert engine.get_history(f"{ct.EVAL}/sym_abs_rel_err_min").get_last_value() == 0.0

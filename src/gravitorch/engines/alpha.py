@@ -167,14 +167,14 @@ class AlphaEngine(BaseEngine):
         with timeblock("=== Evaluation time: {time} ==="):
             logger.info("Launching evaluation procedures")
             dist.barrier()
-            self.fire_event(EngineEvents.STARTED)
+            self.trigger_event(EngineEvents.STARTED)
             self._evaluation_loop.eval(self)
             dist.barrier()
-            self.fire_event(EngineEvents.COMPLETED)
+            self.trigger_event(EngineEvents.COMPLETED)
             self._exp_tracker.flush()
             logger.info("Ending evaluation procedures")
 
-    def fire_event(self, event: str) -> None:
+    def trigger_event(self, event: str) -> None:
         self._event_manager.trigger_event(event)
 
     def get_history(self, key: str) -> BaseHistory:
@@ -243,19 +243,19 @@ class AlphaEngine(BaseEngine):
     def train(self) -> None:
         with timeblock("=== Training time: {time} ==="):
             logger.info("Launching training procedures")
-            self.fire_event(EngineEvents.STARTED)
-            self.fire_event(EngineEvents.TRAIN_STARTED)
+            self.trigger_event(EngineEvents.STARTED)
+            self.trigger_event(EngineEvents.TRAIN_STARTED)
             if not self._should_terminate:
                 for _ in range(self.epoch + 1, self.max_epochs):
                     self.increment_epoch()
                     dist.barrier()
-                    self.fire_event(EngineEvents.EPOCH_STARTED)
+                    self.trigger_event(EngineEvents.EPOCH_STARTED)
 
                     self._training_loop.train(self)
                     self._evaluation_loop.eval(self)
 
                     dist.barrier()
-                    self.fire_event(EngineEvents.EPOCH_COMPLETED)
+                    self.trigger_event(EngineEvents.EPOCH_COMPLETED)
                     self._log_best_metrics()
                     self._exp_tracker.flush()
 
@@ -263,9 +263,9 @@ class AlphaEngine(BaseEngine):
                         break
 
                 dist.barrier()
-                self.fire_event(EngineEvents.TRAIN_COMPLETED)
+                self.trigger_event(EngineEvents.TRAIN_COMPLETED)
 
-            self.fire_event(EngineEvents.COMPLETED)
+            self.trigger_event(EngineEvents.COMPLETED)
             dist.barrier()
             self._exp_tracker.flush()
             logger.info("Ending training procedures...")

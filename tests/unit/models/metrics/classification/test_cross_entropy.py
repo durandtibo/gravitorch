@@ -319,9 +319,9 @@ def test_categorical_cross_entropy_events_train(device: str, engine: BaseEngine)
     metric = CategoricalCrossEntropy(ct.TRAIN).to(device=device)
     metric.attach(engine)
     metric(torch.eye(4, device=device), torch.arange(4, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_STARTED)
     metric(torch.ones(2, 3, device=device), torch.ones(2, device=device))
-    engine.fire_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.TRAIN_EPOCH_COMPLETED)
     assert math.isclose(
         engine.get_history(f"{ct.TRAIN}/cat_ce_mean").get_last_value(),
         1.0986122886681098,
@@ -336,9 +336,9 @@ def test_categorical_cross_entropy_events_eval(device: str, engine: BaseEngine) 
     metric = CategoricalCrossEntropy(ct.EVAL).to(device=device)
     metric.attach(engine)
     metric(torch.eye(4, device=device), torch.arange(4, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_STARTED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
     metric(torch.ones(2, 3, device=device), torch.ones(2, device=device))
-    engine.fire_event(EngineEvents.EVAL_EPOCH_COMPLETED)
+    engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
     assert math.isclose(
         engine.get_history(f"{ct.EVAL}/cat_ce_mean").get_last_value(),
         1.0986122886681098,

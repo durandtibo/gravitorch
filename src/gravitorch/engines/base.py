@@ -338,12 +338,12 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def fire_event(self, event: str) -> None:
-        r"""Fires the handler(s) for the given event.
+    def trigger_event(self, event: str) -> None:
+        r"""Triggers the handler(s) for the given event.
 
         Args:
         ----
-            event (str): Specifies the event to fire.
+            event (str): Specifies the event to trigger.
 
         Example usage:
 
@@ -352,12 +352,12 @@ class BaseEngine(ABC, metaclass=AbstractFactory):
             >>> from minevent import EventHandler
             >>> from gravitorch.testing import create_dummy_engine
             >>> engine = create_dummy_engine()
-            >>> engine.fire_event("my_event")  # should do nothing because there is no event handler
+            >>> engine.trigger_event("my_event")  # should do nothing because there is no event handler
             >>> def hello_handler():
             ...     print("Hello!")
             ...
             >>> engine.add_event_handler("my_event", EventHandler(hello_handler))
-            >>> engine.fire_event("my_event")
+            >>> engine.trigger_event("my_event")
             Hello!
         """
 

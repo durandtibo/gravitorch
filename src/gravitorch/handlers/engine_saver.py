@@ -125,7 +125,7 @@ class BestHistorySaver(BaseEngineSaver):
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("completed")  # doctest: +SKIP
+        >>> engine.trigger_event("completed")  # doctest: +SKIP
     """
 
     def __init__(
@@ -161,7 +161,7 @@ class LastHistorySaver(BaseEngineSaver):
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")  # doctest: +SKIP
+        >>> engine.trigger_event("epoch_completed")  # doctest: +SKIP
     """
 
     def __init__(
@@ -223,7 +223,7 @@ class BestEngineStateSaver(BaseEngineSaver):
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")  # doctest: +SKIP
+        >>> engine.trigger_event("epoch_completed")  # doctest: +SKIP
     """
 
     def __init__(
@@ -309,7 +309,7 @@ class EpochEngineStateSaver(BaseEngineSaver):
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")  # doctest: +SKIP
+        >>> engine.trigger_event("epoch_completed")  # doctest: +SKIP
     """
 
     def __init__(
@@ -372,7 +372,7 @@ class TagEngineStateSaver(BaseEngineSaver):
           (only_main_process): True
         )
         >>> handler.attach(engine)
-        >>> engine.fire_event("epoch_completed")  # doctest: +SKIP
+        >>> engine.trigger_event("epoch_completed")  # doctest: +SKIP
     """
 
     def __init__(

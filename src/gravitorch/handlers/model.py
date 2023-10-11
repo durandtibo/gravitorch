@@ -45,7 +45,7 @@ class ModelFreezer(BaseHandler):
         >>> handler
         ModelFreezer(event=train_started, module_name=)
         >>> handler.attach(engine)
-        >>> engine.fire_event("train_started")
+        >>> engine.trigger_event("train_started")
         >>> for name, param in engine.model.named_parameters():
         ...     print(name, param.requires_grad)
         ...
