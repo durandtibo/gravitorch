@@ -51,12 +51,6 @@
 
 The following is the corresponding `gravitorch` versions and supported dependencies.
 
-[//]: # (| `gravitorch` | `coola`            | `hya`              | `hydra-core` | `minevent`       | `numpy`        | `objectory`      | `torch`      | `python`      |)
-
-[//]: # (|--------------|--------------------|--------------------|--------------|------------------|----------------|------------------|--------------|---------------|)
-
-[//]: # (| `0.0.21`     | `>=0.0.20,<0.0.23` | `>=0.0.12,<0.0.13` | `>=1.3,<1.4` | `>=0.0.2,<0.0.3` | `>=1.22,<1.26` | `>=0.0.7,<0.0.8` | `>=2.0,<2.1` | `>=3.9,<3.12` |)
-
 | `gravitorch`              | `0.0.21`           |
 |---------------------------|--------------------|
 | `python`                  | `>=3.9,<3.12`      |
@@ -69,7 +63,6 @@ The following is the corresponding `gravitorch` versions and supported dependenc
 | `pytorch-ignite`          | `>=0.4.11,<0.5`    |
 | `tabulate`                | `>=0.9,<0.10`      |
 | `torch`                   | `>=2.0,<2.1`       |
-| `accelerate`<sup>*</sup>  | `>=0.20,<0.24`     |
 | `colorlog`<sup>*</sup>    | `>=6.7,<6.8`       |
 | `matplotlib`<sup>*</sup>  | `>=3.6,<3.9`       |
 | `pillow`<sup>*</sup>      | `>=9.0,<11.0`      |
