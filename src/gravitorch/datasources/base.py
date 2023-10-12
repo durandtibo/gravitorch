@@ -2,10 +2,10 @@ from __future__ import annotations
 
 __all__ = [
     "BaseDataSource",
-    "LoaderNotFoundError",
+    "DataStreamNotFoundError",
     "is_datasource_config",
-    "setup_datasource",
     "setup_and_attach_datasource",
+    "setup_datasource",
 ]
 
 import logging
@@ -30,7 +30,7 @@ T = TypeVar("T")
 class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
     r"""Defines the base class to implement a datasource.
 
-    A datasource object is responsible to create the data loaders.
+    A datasource object is responsible to create the datastreams.
 
     Note: it is an experimental class and the API may change.
     """
@@ -112,23 +112,23 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def get_dataloader(
-        self, loader_id: str, engine: BaseEngine | None = None
+    def get_datastream(
+        self, datastream_id: str, engine: BaseEngine | None = None
     ) -> Iterable[T] | BaseDataStream[T]:
-        r"""Gets a data loader.
+        r"""Gets a datastream for the given ID.
 
         Args:
         ----
-            loader_id (str): Specifies the ID of the data loader to
+            datastream_id (str): Specifies the ID of the datastream to
                 get.
             engine (``BaseEngine`` or ``None``, optional): Specifies
                 an engine. The engine can be used to initialize the
-                data loader by using the current epoch value.
+                datastream by using the current epoch value.
                 Default: ``None``
 
         Returns:
         -------
-            ``Iterable`` or ``BaseDataStream``: A data loader.
+            ``Iterable`` or ``BaseDataStream``: A datastream.
 
         Raises:
         ------
@@ -140,28 +140,28 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
             >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
             >>> datasource = DummyDataSource()
-            >>> dataloader = datasource.get_dataloader("train")
+            >>> dataloader = datasource.get_datastream("train")
             >>> dataloader
             <torch.utils.data.dataloader.DataLoader object at 0x...>
-            >>> # Get a data loader that can use information from an engine
+            >>> # Get a datastream that can use information from an engine
             >>> engine = create_dummy_engine()
-            >>> dataloader = datasource.get_dataloader("train", engine)
+            >>> dataloader = datasource.get_datastream("train", engine)
             >>> dataloader
             <torch.utils.data.dataloader.DataLoader object at 0x...>
         """
 
     @abstractmethod
-    def has_dataloader(self, loader_id: str) -> bool:
-        r"""Indicates if the datasource has a data loader with the given
+    def has_datastream(self, datastream_id: str) -> bool:
+        r"""Indicates if the datasource has a datastream for the given
         ID.
 
         Args:
         ----
-            loader_id (str): Specifies the ID of the data loader.
+            datastream_id (str): Specifies the ID of the datastream.
 
         Returns:
         -------
-            bool: ``True`` if the data loader exists, ``False``
+            bool: ``True`` if the datastream exists, ``False``
                 otherwise.
 
         Example usage:
@@ -170,11 +170,11 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
             >>> from gravitorch.testing import DummyDataSource
             >>> datasource = DummyDataSource()
-            >>> datasource.has_dataloader("train")
+            >>> datasource.has_datastream("train")
             True
-            >>> datasource.has_dataloader("eval")
+            >>> datasource.has_datastream("eval")
             True
-            >>> datasource.has_dataloader("missing")
+            >>> datasource.has_datastream("missing")
             False
         """
 
@@ -216,8 +216,8 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         return {}
 
 
-class LoaderNotFoundError(Exception):
-    r"""Raised when a loader is requested but does not exist."""
+class DataStreamNotFoundError(Exception):
+    r"""Raised when a datastream is requires but does not exist."""
 
 
 def is_datasource_config(config: dict) -> bool:

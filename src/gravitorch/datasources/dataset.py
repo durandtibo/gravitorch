@@ -12,7 +12,7 @@ from torch.utils.data import Dataset
 from gravitorch.creators.dataloader.base import BaseDataLoaderCreator
 from gravitorch.creators.dataloader.factory import setup_dataloader_creator
 from gravitorch.datasets import setup_dataset
-from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
+from gravitorch.datasources.base import BaseDataSource, DataStreamNotFoundError
 from gravitorch.utils.asset import AssetManager
 
 if TYPE_CHECKING:
@@ -117,15 +117,15 @@ class DatasetDataSource(BaseDataSource):
     def has_asset(self, asset_id: str) -> bool:
         return self._asset_manager.has_asset(asset_id)
 
-    def get_dataloader(self, loader_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
-        if not self.has_dataloader(loader_id):
-            raise LoaderNotFoundError(f"{loader_id} does not exist")
-        return self._dataloader_creators[loader_id].create(
-            dataset=self._datasets[loader_id], engine=engine
+    def get_datastream(self, datastream_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
+        if not self.has_datastream(datastream_id):
+            raise DataStreamNotFoundError(f"{datastream_id} does not exist")
+        return self._dataloader_creators[datastream_id].create(
+            dataset=self._datasets[datastream_id], engine=engine
         )
 
-    def has_dataloader(self, loader_id: str) -> bool:
-        return loader_id in self._dataloader_creators
+    def has_datastream(self, datastream_id: str) -> bool:
+        return datastream_id in self._dataloader_creators
 
     def _check(self) -> None:
         # Verify each data loader creator has a dataset

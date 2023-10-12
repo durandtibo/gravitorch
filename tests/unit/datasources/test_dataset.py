@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader, Dataset
 
 from gravitorch.creators.dataloader import AutoDataLoaderCreator, BaseDataLoaderCreator
 from gravitorch.datasets import ExampleDataset
-from gravitorch.datasources import DatasetDataSource, LoaderNotFoundError
+from gravitorch.datasources import DatasetDataSource, DataStreamNotFoundError
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError
 
@@ -89,7 +89,7 @@ def test_dataset_datasource_has_asset_false() -> None:
     assert not datasource.has_asset("missing")
 
 
-def test_dataset_datasource_get_dataloader_train() -> None:
+def test_dataset_datasource_get_datastream_train() -> None:
     datasource = DatasetDataSource(
         datasets={
             "train": ExampleDataset([1, 2, 3, 4]),
@@ -100,12 +100,12 @@ def test_dataset_datasource_get_dataloader_train() -> None:
             "val": AutoDataLoaderCreator(batch_size=2, shuffle=False),
         },
     )
-    loader = datasource.get_dataloader("train")
+    loader = datasource.get_datastream("train")
     assert isinstance(loader, DataLoader)
     assert objects_are_equal(tuple(loader), (torch.tensor([1, 2, 3, 4]),))
 
 
-def test_dataset_datasource_get_dataloader_val() -> None:
+def test_dataset_datasource_get_datastream_val() -> None:
     datasource = DatasetDataSource(
         datasets={
             "train": ExampleDataset([1, 2, 3, 4]),
@@ -116,18 +116,18 @@ def test_dataset_datasource_get_dataloader_val() -> None:
             "val": AutoDataLoaderCreator(batch_size=2, shuffle=False),
         },
     )
-    loader = datasource.get_dataloader("val")
+    loader = datasource.get_datastream("val")
     assert isinstance(loader, DataLoader)
     assert tuple(loader) == (["a", "b"], ["c"])
 
 
-def test_dataset_datasource_get_dataloader_missing() -> None:
+def test_dataset_datasource_get_datastream_missing() -> None:
     datasource = DatasetDataSource(datasets={}, dataloader_creators={})
-    with raises(LoaderNotFoundError):
-        datasource.get_dataloader("missing")
+    with raises(DataStreamNotFoundError):
+        datasource.get_datastream("missing")
 
 
-def test_dataset_datasource_get_dataloader_with_engine() -> None:
+def test_dataset_datasource_get_datastream_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     dataset = Mock(spec=Dataset)
     dataloader_creator = Mock(spec=BaseDataLoaderCreator)
@@ -135,32 +135,32 @@ def test_dataset_datasource_get_dataloader_with_engine() -> None:
         datasets={"train": dataset},
         dataloader_creators={"train": dataloader_creator},
     )
-    datasource.get_dataloader("train", engine)
+    datasource.get_datastream("train", engine)
     dataloader_creator.create.assert_called_once_with(dataset=dataset, engine=engine)
 
 
-def test_dataset_datasource_get_dataloader_without_engine() -> None:
+def test_dataset_datasource_get_datastream_without_engine() -> None:
     dataset = Mock(spec=Dataset)
     dataloader_creator = Mock(spec=BaseDataLoaderCreator)
     datasource = DatasetDataSource(
         datasets={"train": dataset},
         dataloader_creators={"train": dataloader_creator},
     )
-    datasource.get_dataloader("train")
+    datasource.get_datastream("train")
     dataloader_creator.create.assert_called_once_with(dataset=dataset, engine=None)
 
 
-def test_dataset_datasource_has_dataloader_true() -> None:
+def test_dataset_datasource_has_datastream_true() -> None:
     datasource = DatasetDataSource(
         datasets={},
         dataloader_creators={"train": AutoDataLoaderCreator(batch_size=4)},
     )
-    assert datasource.has_dataloader("train")
+    assert datasource.has_datastream("train")
 
 
-def test_dataset_datasource_has_dataloader_false() -> None:
+def test_dataset_datasource_has_datastream_false() -> None:
     datasource = DatasetDataSource(datasets={}, dataloader_creators={})
-    assert not datasource.has_dataloader("missing")
+    assert not datasource.has_datastream("missing")
 
 
 def test_dataset_datasource_load_state_dict() -> None:
