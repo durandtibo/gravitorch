@@ -80,7 +80,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
 
     def eval(self, engine: BaseEngine) -> None:
         dist.barrier()
-        if not engine.datasource.has_dataloader(self._tag) or not self._condition(engine):
+        if not engine.datasource.has_datastream(self._tag) or not self._condition(engine):
             return
         logger.info(f"Evaluating model for epoch {engine.epoch}")
 

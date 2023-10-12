@@ -118,7 +118,7 @@ class EvaluationLoop(BaseBasicEvaluationLoop):
 
     def _prepare_model_datastream(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         logger.info("Preparing the model and datastream...")
-        datastream = engine.datasource.get_dataloader(loader_id=self._tag, engine=engine)
+        datastream = engine.datasource.get_datastream(datastream_id=self._tag, engine=engine)
         datastream = (
             datastream if isinstance(datastream, BaseDataStream) else IterableDataStream(datastream)
         )

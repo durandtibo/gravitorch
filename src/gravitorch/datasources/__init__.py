@@ -5,7 +5,7 @@ __all__ = [
     "DataCreatorDataSource",
     "DatasetDataSource",
     "IterDataPipeCreatorDataSource",
-    "LoaderNotFoundError",
+    "DataStreamNotFoundError",
     "VanillaDataSource",
     "is_datasource_config",
     "setup_and_attach_datasource",
@@ -14,7 +14,7 @@ __all__ = [
 
 from gravitorch.datasources.base import (
     BaseDataSource,
-    LoaderNotFoundError,
+    DataStreamNotFoundError,
     is_datasource_config,
     setup_and_attach_datasource,
     setup_datasource,

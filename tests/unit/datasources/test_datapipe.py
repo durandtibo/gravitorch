@@ -9,8 +9,8 @@ from gravitorch.creators.datapipe import BaseDataPipeCreator, ChainedDataPipeCre
 from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCreator
 from gravitorch.datasources import (
     DataCreatorDataSource,
+    DataStreamNotFoundError,
     IterDataPipeCreatorDataSource,
-    LoaderNotFoundError,
 )
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError
@@ -87,54 +87,54 @@ def test_iter_data_pipe_creator_datasource_has_asset_false(
     assert not datasource.has_asset("something")
 
 
-def test_iter_data_pipe_creator_datasource_get_dataloader_train(
+def test_iter_data_pipe_creator_datasource_get_datastream_train(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    loader = datasource.get_dataloader("train")
+    loader = datasource.get_datastream("train")
     assert isinstance(loader, IterableWrapper)
     assert tuple(loader) == (1, 2, 3, 4)
 
 
-def test_iter_data_pipe_creator_datasource_get_dataloader_val(
+def test_iter_data_pipe_creator_datasource_get_datastream_val(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    loader = datasource.get_dataloader("val")
+    loader = datasource.get_datastream("val")
     assert isinstance(loader, IterableWrapper)
     assert tuple(loader) == ("a", "b", "c")
 
 
-def test_iter_data_pipe_creator_datasource_get_dataloader_missing(
+def test_iter_data_pipe_creator_datasource_get_datastream_missing(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    with raises(LoaderNotFoundError):
-        datasource.get_dataloader("missing")
+    with raises(DataStreamNotFoundError):
+        datasource.get_datastream("missing")
 
 
-def test_iter_data_pipe_creator_datasource_get_dataloader_with_engine() -> None:
+def test_iter_data_pipe_creator_datasource_get_datastream_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
-    datasource.get_dataloader("train", engine=engine)
+    datasource.get_datastream("train", engine=engine)
     datapipe_creator.create.assert_called_once_with(engine=engine)
 
 
-def test_iter_data_pipe_creator_datasource_get_dataloader_without_engine() -> None:
+def test_iter_data_pipe_creator_datasource_get_datastream_without_engine() -> None:
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
-    datasource.get_dataloader("train")
+    datasource.get_datastream("train")
     datapipe_creator.create.assert_called_once_with(engine=None)
 
 
-def test_iter_data_pipe_creator_datasource_has_dataloader_true(
+def test_iter_data_pipe_creator_datasource_has_datastream_true(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    assert datasource.has_dataloader("train")
+    assert datasource.has_datastream("train")
 
 
-def test_iter_data_pipe_creator_datasource_has_dataloader_false(
+def test_iter_data_pipe_creator_datasource_has_datastream_false(
     datasource: IterDataPipeCreatorDataSource,
 ) -> None:
-    assert not datasource.has_dataloader("missing")
+    assert not datasource.has_datastream("missing")
 
 
 def test_iter_data_pipe_creator_datasource_load_state_dict(
@@ -216,7 +216,7 @@ def test_data_creator_datasource_create_datapipe_no_data_creator_with_engine() -
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_datasource_get_dataloader() -> None:
+def test_data_creator_datasource_get_datastream() -> None:
     creator = DataCreatorDataSource(
         datapipe_creators={
             "train": ChainedDataPipeCreator(
@@ -229,5 +229,5 @@ def test_data_creator_datasource_get_dataloader() -> None:
             "train": HypercubeVertexDataCreator(num_examples=10, num_classes=5),
         },
     )
-    datapipe = creator.get_dataloader("train")
+    datapipe = creator.get_datastream("train")
     assert isinstance(datapipe, IterableWrapper)

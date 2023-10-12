@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from coola.utils import str_indent, str_mapping
 
 from gravitorch.creators.datastream.base import setup_datastream_creator
-from gravitorch.datasources.base import BaseDataSource, LoaderNotFoundError
+from gravitorch.datasources.base import BaseDataSource, DataStreamNotFoundError
 from gravitorch.datastreams.base import BaseDataStream
 from gravitorch.utils.asset import AssetManager
 
@@ -73,10 +73,12 @@ class VanillaDataSource(BaseDataSource):
     def has_asset(self, asset_id: str) -> bool:
         return self._asset_manager.has_asset(asset_id)
 
-    def get_dataloader(self, loader_id: str, engine: BaseEngine | None = None) -> BaseDataStream[T]:
-        if not self.has_dataloader(loader_id):
-            raise LoaderNotFoundError(f"{loader_id} does not exist")
-        return self._datastream_creators[loader_id].create(engine=engine)
+    def get_datastream(
+        self, datastream_id: str, engine: BaseEngine | None = None
+    ) -> BaseDataStream[T]:
+        if not self.has_datastream(datastream_id):
+            raise DataStreamNotFoundError(f"{datastream_id} does not exist")
+        return self._datastream_creators[datastream_id].create(engine=engine)
 
-    def has_dataloader(self, loader_id: str) -> bool:
-        return loader_id in self._datastream_creators
+    def has_datastream(self, datastream_id: str) -> bool:
+        return datastream_id in self._datastream_creators
