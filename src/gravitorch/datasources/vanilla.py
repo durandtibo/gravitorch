@@ -39,7 +39,7 @@ class VanillaDataSource(BaseDataSource):
         >>> datasource = VanillaDataSource(
         ...     {
         ...         "train": {
-        ...             "_target_": "gravitorch.creators.datastream.IterableDataFlowCreator",
+        ...             "_target_": "gravitorch.creators.datastream.IterableDataStreamCreator",
         ...             "iterable": [1, 2, 3, 4],
         ...         },
         ...         "eval": IterableDataStreamCreator(["a", "b", "c"]),
@@ -47,8 +47,8 @@ class VanillaDataSource(BaseDataSource):
         ... )
         >>> datasource
         VanillaDataSource(
-          (train): IterableDataFlowCreator(cache=False, length=4)
-          (eval): IterableDataFlowCreator(cache=False, length=3)
+          (train): IterableDataStreamCreator(cache=False, length=4)
+          (eval): IterableDataStreamCreator(cache=False, length=3)
         )
     """
 

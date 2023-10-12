@@ -8,13 +8,13 @@ from gravitorch.datastreams import DataLoaderDataStream
 from gravitorch.experimental.dataloader import VanillaDataLoaderCreator
 
 ###############################################
-#     Tests for DataLoaderDataFlowCreator     #
+#     Tests for DataLoaderDataStreamCreator     #
 ###############################################
 
 
 def test_dataloader_datastream_creator_str() -> None:
     assert str(DataLoaderDataStreamCreator(DataLoader(ExampleDataset((1, 2, 3, 4, 5))))).startswith(
-        "DataLoaderDataFlowCreator("
+        "DataLoaderDataStreamCreator("
     )
 
 

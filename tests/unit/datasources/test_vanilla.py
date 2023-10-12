@@ -25,7 +25,7 @@ def datasource() -> VanillaDataSource:
     return VanillaDataSource(
         {
             "train": {
-                OBJECT_TARGET: "gravitorch.creators.datastream.IterableDataFlowCreator",
+                OBJECT_TARGET: "gravitorch.creators.datastream.IterableDataStreamCreator",
                 "iterable": [1, 2, 3, 4],
             },
             "eval": IterableDataStreamCreator(["a", "b", "c"]),

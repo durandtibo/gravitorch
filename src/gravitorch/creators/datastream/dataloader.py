@@ -23,7 +23,7 @@ T = TypeVar("T")
 
 
 class DataLoaderDataStreamCreator(BaseDataStreamCreator[T]):
-    r"""Implements a simple ``DataLoaderDataFlow`` creator.
+    r"""Implements a simple ``DataLoaderDataStream`` creator.
 
     Args:
     ----
@@ -41,7 +41,7 @@ class DataLoaderDataStreamCreator(BaseDataStreamCreator[T]):
         >>> from torch.utils.data import DataLoader
         >>> creator = DataLoaderDataStreamCreator(DataLoader(ExampleDataset([1, 2, 3, 4, 5])))
         >>> creator
-        DataLoaderDataFlowCreator(
+        DataLoaderDataStreamCreator(
           (dataloader): DataLoaderCreator(
               cache=False
               dataloader=<torch.utils.data.dataloader.DataLoader object at 0x...>
@@ -49,7 +49,7 @@ class DataLoaderDataStreamCreator(BaseDataStreamCreator[T]):
         )
         >>> datastream = creator.create()
         >>> datastream
-        DataLoaderDataFlow(length=5)
+        DataLoaderDataStream(length=5)
     """
 
     def __init__(self, dataloader: DataLoader | BaseDataLoaderCreator | dict) -> None:

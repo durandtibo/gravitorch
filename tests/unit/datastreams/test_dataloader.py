@@ -12,18 +12,18 @@ if is_torchdata_available():
     from torchdata.dataloader2 import DataLoader2
 
 ########################################
-#     Tests for DataLoaderDataFlow     #
+#     Tests for DataLoaderDataStream     #
 ########################################
 
 
 def test_dataloader_datastream_str_with_length() -> None:
     assert str(DataLoaderDataStream(DataLoader(TensorDataset(torch.arange(10))))) == (
-        "DataLoaderDataFlow(length=10)"
+        "DataLoaderDataStream(length=10)"
     )
 
 
 def test_dataloader_datastream_str_without_length() -> None:
-    assert str(DataLoaderDataStream(DataLoader(i for i in range(5)))) == ("DataLoaderDataFlow()")
+    assert str(DataLoaderDataStream(DataLoader(i for i in range(5)))) == ("DataLoaderDataStream()")
 
 
 def test_dataloader_datastream_incorrect_type() -> None:

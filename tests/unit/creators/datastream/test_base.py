@@ -16,7 +16,7 @@ from gravitorch.creators.datastream import (
 def test_is_datastream_creator_config_true() -> None:
     assert is_datastream_creator_config(
         {
-            OBJECT_TARGET: "gravitorch.creators.datastream.IterableDataFlowCreator",
+            OBJECT_TARGET: "gravitorch.creators.datastream.IterableDataStreamCreator",
             "iterable": (1, 2, 3, 4, 5),
         }
     )
@@ -40,7 +40,7 @@ def test_setup_datastream_creator_dict() -> None:
     assert isinstance(
         setup_datastream_creator(
             {
-                OBJECT_TARGET: "gravitorch.creators.datastream.IterableDataFlowCreator",
+                OBJECT_TARGET: "gravitorch.creators.datastream.IterableDataStreamCreator",
                 "iterable": (1, 2, 3, 4, 5),
             }
         ),

@@ -3,16 +3,16 @@ from pytest import raises
 from gravitorch.datastreams import IterableDataStream
 
 ######################################
-#     Tests for IterableDataFlow     #
+#     Tests for IterableDataStream     #
 ######################################
 
 
 def test_iterable_datastream_str_with_length() -> None:
-    assert str(IterableDataStream([1, 2, 3, 4, 5])) == "IterableDataFlow(length=5)"
+    assert str(IterableDataStream([1, 2, 3, 4, 5])) == "IterableDataStream(length=5)"
 
 
 def test_iterable_datastream_str_without_length() -> None:
-    assert str(IterableDataStream(i for i in range(5))) == "IterableDataFlow()"
+    assert str(IterableDataStream(i for i in range(5))) == "IterableDataStream()"
 
 
 def test_iterable_datastream_incorrect_type() -> None:

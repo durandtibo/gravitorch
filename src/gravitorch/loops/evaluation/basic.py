@@ -207,7 +207,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
 
         Returns:
         -------
-            ``torch.nn.Module``, ``BaseDataFlow`` or ``Iterable``:
+            ``torch.nn.Module``, ``BaseDataStream`` or ``Iterable``:
                 A tuple with the model and the datastream or data
                 iterable.
         """

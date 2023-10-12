@@ -30,10 +30,10 @@ class BaseDataStreamCreator(Generic[T], ABC, metaclass=AbstractFactory):
         >>> from gravitorch.creators.datastream import IterableDataStreamCreator
         >>> creator = IterableDataStreamCreator((1, 2, 3, 4, 5))
         >>> creator
-        IterableDataFlowCreator(cache=False, length=5)
+        IterableDataStreamCreator(cache=False, length=5)
         >>> datastream = creator.create()
         >>> datastream
-        IterableDataFlow(length=5)
+        IterableDataStream(length=5)
     """
 
     @abstractmethod
@@ -47,7 +47,7 @@ class BaseDataStreamCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
         Returns:
         -------
-            ``BaseDataFlow``: The created datastreams.
+            ``BaseDataStream``: The created datastreams.
 
         Example usage:
 
@@ -57,13 +57,13 @@ class BaseDataStreamCreator(Generic[T], ABC, metaclass=AbstractFactory):
             >>> creator = IterableDataStreamCreator((1, 2, 3, 4, 5))
             >>> datastream = creator.create()
             >>> datastream
-            IterableDataFlow(length=5)
+            IterableDataStream(length=5)
         """
 
 
 def is_datastream_creator_config(config: dict) -> bool:
     r"""Indicate if the input configuration is a configuration for a
-    ``BaseDataFlowCreator``.
+    ``BaseDataStreamCreator``.
 
     This function only checks if the value of the key  ``_target_``
     is valid. It does not check the other values. If ``_target_``
@@ -77,7 +77,7 @@ def is_datastream_creator_config(config: dict) -> bool:
     Returns:
     -------
         bool: ``True`` if the input configuration is a configuration
-            for a ``BaseDataFlowCreator`` object.
+            for a ``BaseDataStreamCreator`` object.
 
     Example usage:
 
@@ -85,7 +85,7 @@ def is_datastream_creator_config(config: dict) -> bool:
 
         >>> from gravitorch.creators.datastream import is_datastream_creator_config
         >>> is_datastream_creator_config(
-        ...     {"_target_": "gravitorch.creators.datastream.IterableDataFlowCreator"}
+        ...     {"_target_": "gravitorch.creators.datastream.IterableDataStreamCreator"}
         ... )
         True
     """
@@ -96,16 +96,16 @@ def setup_datastream_creator(creator: BaseDataStreamCreator[T] | dict) -> BaseDa
     r"""Sets up the datastream creator.
 
     The datastream creator is instantiated from its configuration by
-    using the ``BaseDataFlowCreator`` factory function.
+    using the ``BaseDataStreamCreator`` factory function.
 
     Args:
     ----
-        creator (``BaseDataFlowCreator`` or dict): Specifies the
+        creator (``BaseDataStreamCreator`` or dict): Specifies the
             datastream creator or its configuration.
 
     Returns:
     -------
-        ``BaseDataFlowCreator``: The instantiated datastream creator.
+        ``BaseDataStreamCreator``: The instantiated datastream creator.
 
     Example usage:
 
@@ -114,12 +114,12 @@ def setup_datastream_creator(creator: BaseDataStreamCreator[T] | dict) -> BaseDa
         >>> from gravitorch.creators.datastream import setup_datastream_creator
         >>> creator = setup_datastream_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.datastream.IterableDataFlowCreator",
+        ...         "_target_": "gravitorch.creators.datastream.IterableDataStreamCreator",
         ...         "iterable": (1, 2, 3, 4, 5),
         ...     }
         ... )
         >>> creator
-        IterableDataFlowCreator(cache=False, length=5)
+        IterableDataStreamCreator(cache=False, length=5)
     """
     if isinstance(creator, dict):
         logger.info(

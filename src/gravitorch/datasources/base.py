@@ -128,7 +128,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
         Returns:
         -------
-            ``Iterable`` or ``BaseDataFlow``: A data loader.
+            ``Iterable`` or ``BaseDataStream``: A data loader.
 
         Raises:
         ------

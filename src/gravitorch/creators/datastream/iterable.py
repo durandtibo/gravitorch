@@ -18,7 +18,7 @@ T = TypeVar("T")
 
 
 class IterableDataStreamCreator(BaseDataStreamCreator[T]):
-    r"""Implements a simple ``IterableDataFlow`` creator.
+    r"""Implements a simple ``IterableDataStream`` creator.
 
     Args:
     ----
@@ -28,7 +28,7 @@ class IterableDataStreamCreator(BaseDataStreamCreator[T]):
             only the first time, and then a copy of the iterable is
             returned for each call to the ``create`` method.
             Default: ``False``
-        **kwargs: See ``IterableDataFlow`` documentation.
+        **kwargs: See ``IterableDataStream`` documentation.
 
     Example usage:
 
@@ -37,10 +37,10 @@ class IterableDataStreamCreator(BaseDataStreamCreator[T]):
         >>> from gravitorch.creators.datastream import IterableDataStreamCreator
         >>> creator = IterableDataStreamCreator((1, 2, 3, 4, 5))
         >>> creator
-        IterableDataFlowCreator(cache=False, length=5)
+        IterableDataStreamCreator(cache=False, length=5)
         >>> datastream = creator.create()
         >>> datastream
-        IterableDataFlow(length=5)
+        IterableDataStream(length=5)
     """
 
     def __init__(self, iterable: Iterable[T], cache: bool = False, **kwargs) -> None:
