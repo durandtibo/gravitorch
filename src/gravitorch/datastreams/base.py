@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["BaseDataFlow"]
+__all__ = ["BaseDataStream"]
 
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
@@ -10,21 +10,21 @@ from typing import Generic, TypeVar
 T = TypeVar("T")
 
 
-class BaseDataFlow(Generic[T], ABC):
-    r"""Base class to implement a dataflows.
+class BaseDataStream(Generic[T], ABC):
+    r"""Base class to implement a datastream.
 
     Example usage:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.dataflows import IterableDataFlow
-        >>> with IterableDataFlow([1, 2, 3, 4, 5]) as dataflow:
-        ...     for batch in dataflow:
+        >>> from gravitorch.datastreams import IterableDataStream
+        >>> with IterableDataStream([1, 2, 3, 4, 5]) as datastream:
+        ...     for batch in datastream:
         ...         print(batch)  # do something
         ...
     """
 
-    def __enter__(self) -> BaseDataFlow:
+    def __enter__(self) -> BaseDataStream:
         self.launch()
         return self
 
@@ -42,28 +42,28 @@ class BaseDataFlow(Generic[T], ABC):
 
     @abstractmethod
     def launch(self) -> None:
-        r"""Launch the data flow.
+        r"""Launch the datastream.
 
         Example usage:
 
         .. code-block:: pycon
 
-            >>> from gravitorch.dataflows import IterableDataFlow
-            >>> dataflow = IterableDataFlow([1, 2, 3, 4, 5])
-            >>> dataflow.launch()
+            >>> from gravitorch.datastreams import IterableDataStream
+            >>> datastream = IterableDataStream([1, 2, 3, 4, 5])
+            >>> datastream.launch()
         """
 
     @abstractmethod
     def shutdown(self) -> None:
-        r"""Shutdown the data flow.
+        r"""Shutdown the datastream.
 
         Example usage:
 
         .. code-block:: pycon
 
-            >>> from gravitorch.dataflows import IterableDataFlow
-            >>> dataflow = IterableDataFlow([1, 2, 3, 4, 5])
-            >>> dataflow.launch()
+            >>> from gravitorch.datastreams import IterableDataStream
+            >>> datastream = IterableDataStream([1, 2, 3, 4, 5])
+            >>> datastream.launch()
             >>> # do anything
-            >>> dataflow.shutdown()
+            >>> datastream.shutdown()
         """

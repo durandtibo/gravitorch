@@ -1,21 +1,21 @@
 from __future__ import annotations
 
-__all__ = ["IterableDataFlow"]
+__all__ = ["IterableDataStream"]
 
 import copy
 import logging
 from collections.abc import Iterable, Iterator
 from typing import TypeVar
 
-from gravitorch.dataflows.base import BaseDataFlow
+from gravitorch.datastreams.base import BaseDataStream
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
 
-class IterableDataFlow(BaseDataFlow[T]):
-    r"""Implements a simple dataflow for iterables.
+class IterableDataStream(BaseDataStream[T]):
+    r"""Implements a simple datastream for iterables.
 
     Args:
     ----
@@ -29,9 +29,9 @@ class IterableDataFlow(BaseDataFlow[T]):
 
     .. code-block:: pycon
 
-        >>> from gravitorch.dataflows import IterableDataFlow
-        >>> with IterableDataFlow([1, 2, 3, 4, 5]) as dataflow:
-        ...     for batch in dataflow:
+        >>> from gravitorch.datastreams import IterableDataStream
+        >>> with IterableDataStream([1, 2, 3, 4, 5]) as datastream:
+        ...     for batch in datastream:
         ...         print(batch)  # do something
         ...
     """
@@ -66,7 +66,7 @@ class IterableDataFlow(BaseDataFlow[T]):
         return f"{self.__class__.__qualname__}({extra})"
 
     def launch(self) -> None:
-        r"""Nothing to do for this dataflows."""
+        r"""Nothing to do for this datastreams."""
 
     def shutdown(self) -> None:
-        r"""Nothing to do for this dataflows."""
+        r"""Nothing to do for this datastreams."""

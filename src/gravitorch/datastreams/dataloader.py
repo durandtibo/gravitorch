@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-__all__ = ["DataLoaderDataFlow"]
+__all__ = ["DataLoaderDataStream"]
 
 from collections.abc import Iterator
 
 from torch.utils.data import DataLoader
 
-from gravitorch.dataflows.base import BaseDataFlow
+from gravitorch.datastreams.base import BaseDataStream
 from gravitorch.utils.imports import is_torchdata_available
 
 if is_torchdata_available():
@@ -15,8 +15,8 @@ else:
     DataLoader2 = "DataLoader2"  # pragma: no cover
 
 
-class DataLoaderDataFlow(BaseDataFlow):
-    r"""Implements a simple dataflow for PyTorch data loaders.
+class DataLoaderDataStream(BaseDataStream):
+    r"""Implements a simple datastream for PyTorch data loaders.
 
     Args:
         dataloader (``DataLoader`` or ``DataLoader2``): Specifies the
@@ -28,10 +28,10 @@ class DataLoaderDataFlow(BaseDataFlow):
 
         >>> import torch
         >>> from torch.utils.data import DataLoader, TensorDataset
-        >>> from gravitorch.dataflows import IterableDataFlow
+        >>> from gravitorch.datastreams import IterableDataStream
         >>> dataloader = DataLoader(TensorDataset(torch.arange(10)), batch_size=4)
-        >>> with DataLoaderDataFlow(dataloader) as dataflow:
-        ...     for batch in dataflow:
+        >>> with DataLoaderDataStream(dataloader) as datastream:
+        ...     for batch in datastream:
         ...         print(batch)  # do something
         ...
     """
@@ -60,7 +60,7 @@ class DataLoaderDataFlow(BaseDataFlow):
         return f"{self.__class__.__qualname__}({extra})"
 
     def launch(self) -> None:
-        r"""Nothing to do for this dataflows."""
+        r"""Nothing to do for this datastreams."""
 
     def shutdown(self) -> None:
         if is_torchdata_available() and isinstance(self.dataloader, DataLoader2):
