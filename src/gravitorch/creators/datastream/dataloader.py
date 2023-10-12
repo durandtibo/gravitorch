@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-__all__ = ["DataLoaderDataFlowCreator"]
+__all__ = ["DataLoaderDataStreamCreator"]
 
 from typing import TYPE_CHECKING, TypeVar
 
 from coola.utils import str_indent, str_mapping
 from torch.utils.data import DataLoader
 
-from gravitorch.creators.dataflow.base import BaseDataFlowCreator
-from gravitorch.dataflows.dataloader import DataLoaderDataFlow
+from gravitorch.creators.datastream.base import BaseDataStreamCreator
 from gravitorch.dataloaders.factory import is_dataloader_config
+from gravitorch.datastreams.dataloader import DataLoaderDataStream
 from gravitorch.experimental.dataloader.base import (
     BaseDataLoaderCreator,
     setup_dataloader_creator,
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 T = TypeVar("T")
 
 
-class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
+class DataLoaderDataStreamCreator(BaseDataStreamCreator[T]):
     r"""Implements a simple ``DataLoaderDataFlow`` creator.
 
     Args:
@@ -37,9 +37,9 @@ class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
     .. code-block:: pycon
 
         >>> from gravitorch.datasets import ExampleDataset
-        >>> from gravitorch.creators.dataflow import DataLoaderDataFlowCreator
+        >>> from gravitorch.creators.datastream import DataLoaderDataStreamCreator
         >>> from torch.utils.data import DataLoader
-        >>> creator = DataLoaderDataFlowCreator(DataLoader(ExampleDataset([1, 2, 3, 4, 5])))
+        >>> creator = DataLoaderDataStreamCreator(DataLoader(ExampleDataset([1, 2, 3, 4, 5])))
         >>> creator
         DataLoaderDataFlowCreator(
           (dataloader): DataLoaderCreator(
@@ -47,8 +47,8 @@ class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
               dataloader=<torch.utils.data.dataloader.DataLoader object at 0x...>
             )
         )
-        >>> dataflow = creator.create()
-        >>> dataflow
+        >>> datastream = creator.create()
+        >>> datastream
         DataLoaderDataFlow(length=5)
     """
 
@@ -63,5 +63,5 @@ class DataLoaderDataFlowCreator(BaseDataFlowCreator[T]):
         config = {"dataloader": self._dataloader}
         return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(config))}\n)"
 
-    def create(self, engine: BaseEngine | None = None) -> DataLoaderDataFlow[T]:
-        return DataLoaderDataFlow(self._dataloader.create(engine))
+    def create(self, engine: BaseEngine | None = None) -> DataLoaderDataStream[T]:
+        return DataLoaderDataStream(self._dataloader.create(engine))

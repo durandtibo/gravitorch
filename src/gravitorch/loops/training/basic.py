@@ -14,7 +14,7 @@ from torch.nn import Module
 from torch.optim import Optimizer
 
 from gravitorch import constants as ct
-from gravitorch.dataflows.base import BaseDataFlow
+from gravitorch.datastreams.base import BaseDataStream
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -169,7 +169,7 @@ class BaseBasicTrainingLoop(BaseTrainingLoop):
     @abstractmethod
     def _prepare_model_optimizer_datastream(
         self, engine: BaseEngine
-    ) -> tuple[Module, Optimizer, BaseDataFlow | Iterable]:
+    ) -> tuple[Module, Optimizer, BaseDataStream | Iterable]:
         r"""Prepares the model, optimizer and datastream.
 
         Args:

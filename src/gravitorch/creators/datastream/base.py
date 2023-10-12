@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["BaseDataFlowCreator", "is_dataflow_creator_config", "setup_dataflow_creator"]
+__all__ = ["BaseDataStreamCreator", "is_datastream_creator_config", "setup_datastream_creator"]
 
 import logging
 from abc import ABC, abstractmethod
@@ -12,7 +12,7 @@ from objectory.utils import is_object_config
 from gravitorch.utils.format import str_target_object
 
 if TYPE_CHECKING:
-    from gravitorch.dataflows import BaseDataFlow
+    from gravitorch.datastreams import BaseDataStream
     from gravitorch.engines import BaseEngine
 
 logger = logging.getLogger(__name__)
@@ -20,25 +20,25 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
-    r"""Define the base class to implement a dataflow creator.
+class BaseDataStreamCreator(Generic[T], ABC, metaclass=AbstractFactory):
+    r"""Define the base class to implement a datastream creator.
 
     Example usage:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataflow import IterableDataFlowCreator
-        >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
+        >>> from gravitorch.creators.datastream import IterableDataStreamCreator
+        >>> creator = IterableDataStreamCreator((1, 2, 3, 4, 5))
         >>> creator
         IterableDataFlowCreator(cache=False, length=5)
-        >>> dataflow = creator.create()
-        >>> dataflow
+        >>> datastream = creator.create()
+        >>> datastream
         IterableDataFlow(length=5)
     """
 
     @abstractmethod
-    def create(self, engine: BaseEngine | None = None) -> BaseDataFlow[T]:
-        r"""Create a dataflows.
+    def create(self, engine: BaseEngine | None = None) -> BaseDataStream[T]:
+        r"""Create a datastreams.
 
         Args:
         ----
@@ -47,21 +47,21 @@ class BaseDataFlowCreator(Generic[T], ABC, metaclass=AbstractFactory):
 
         Returns:
         -------
-            ``BaseDataFlow``: The created dataflows.
+            ``BaseDataFlow``: The created datastreams.
 
         Example usage:
 
         .. code-block:: pycon
 
-            >>> from gravitorch.creators.dataflow import IterableDataFlowCreator
-            >>> creator = IterableDataFlowCreator((1, 2, 3, 4, 5))
-            >>> dataflow = creator.create()
-            >>> dataflow
+            >>> from gravitorch.creators.datastream import IterableDataStreamCreator
+            >>> creator = IterableDataStreamCreator((1, 2, 3, 4, 5))
+            >>> datastream = creator.create()
+            >>> datastream
             IterableDataFlow(length=5)
         """
 
 
-def is_dataflow_creator_config(config: dict) -> bool:
+def is_datastream_creator_config(config: dict) -> bool:
     r"""Indicate if the input configuration is a configuration for a
     ``BaseDataFlowCreator``.
 
@@ -83,38 +83,38 @@ def is_dataflow_creator_config(config: dict) -> bool:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataflow import is_dataflow_creator_config
-        >>> is_dataflow_creator_config(
-        ...     {"_target_": "gravitorch.creators.dataflow.IterableDataFlowCreator"}
+        >>> from gravitorch.creators.datastream import is_datastream_creator_config
+        >>> is_datastream_creator_config(
+        ...     {"_target_": "gravitorch.creators.datastream.IterableDataFlowCreator"}
         ... )
         True
     """
-    return is_object_config(config, BaseDataFlowCreator)
+    return is_object_config(config, BaseDataStreamCreator)
 
 
-def setup_dataflow_creator(creator: BaseDataFlowCreator[T] | dict) -> BaseDataFlowCreator[T]:
-    r"""Sets up the dataflow creator.
+def setup_datastream_creator(creator: BaseDataStreamCreator[T] | dict) -> BaseDataStreamCreator[T]:
+    r"""Sets up the datastream creator.
 
-    The dataflow creator is instantiated from its configuration by
+    The datastream creator is instantiated from its configuration by
     using the ``BaseDataFlowCreator`` factory function.
 
     Args:
     ----
         creator (``BaseDataFlowCreator`` or dict): Specifies the
-            dataflow creator or its configuration.
+            datastream creator or its configuration.
 
     Returns:
     -------
-        ``BaseDataFlowCreator``: The instantiated dataflow creator.
+        ``BaseDataFlowCreator``: The instantiated datastream creator.
 
     Example usage:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.creators.dataflow import setup_dataflow_creator
-        >>> creator = setup_dataflow_creator(
+        >>> from gravitorch.creators.datastream import setup_datastream_creator
+        >>> creator = setup_datastream_creator(
         ...     {
-        ...         "_target_": "gravitorch.creators.dataflow.IterableDataFlowCreator",
+        ...         "_target_": "gravitorch.creators.datastream.IterableDataFlowCreator",
         ...         "iterable": (1, 2, 3, 4, 5),
         ...     }
         ... )
@@ -123,8 +123,8 @@ def setup_dataflow_creator(creator: BaseDataFlowCreator[T] | dict) -> BaseDataFl
     """
     if isinstance(creator, dict):
         logger.info(
-            "Initializing the dataflow creator from its configuration... "
+            "Initializing the datastream creator from its configuration... "
             f"{str_target_object(creator)}"
         )
-        creator = BaseDataFlowCreator.factory(**creator)
+        creator = BaseDataStreamCreator.factory(**creator)
     return creator

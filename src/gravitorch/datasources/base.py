@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING, Any, Generic, TypeVar
 from objectory import AbstractFactory
 from objectory.utils import is_object_config
 
-from gravitorch.dataflows.base import BaseDataFlow
+from gravitorch.datastreams.base import BaseDataStream
 from gravitorch.utils.format import str_target_object
 
 if TYPE_CHECKING:
@@ -114,7 +114,7 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
     @abstractmethod
     def get_dataloader(
         self, loader_id: str, engine: BaseEngine | None = None
-    ) -> Iterable[T] | BaseDataFlow[T]:
+    ) -> Iterable[T] | BaseDataStream[T]:
         r"""Gets a data loader.
 
         Args:

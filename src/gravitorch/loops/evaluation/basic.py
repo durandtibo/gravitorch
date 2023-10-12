@@ -13,7 +13,7 @@ from typing import Any
 from torch.nn import Module
 
 from gravitorch import constants as ct
-from gravitorch.dataflows.base import BaseDataFlow
+from gravitorch.datastreams.base import BaseDataStream
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -198,7 +198,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
     @abstractmethod
     def _prepare_model_datastream(
         self, engine: BaseEngine
-    ) -> tuple[Module, BaseDataFlow | Iterable]:
+    ) -> tuple[Module, BaseDataStream | Iterable]:
         r"""Prepares the model and datastream.
 
         Args:

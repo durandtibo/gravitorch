@@ -6,9 +6,12 @@ from unittest.mock import Mock
 from objectory import OBJECT_TARGET
 from pytest import LogCaptureFixture, fixture, raises
 
-from gravitorch.creators.dataflow import BaseDataFlowCreator, IterableDataFlowCreator
-from gravitorch.dataflows import IterableDataFlow
+from gravitorch.creators.datastream import (
+    BaseDataStreamCreator,
+    IterableDataStreamCreator,
+)
 from gravitorch.datasources import LoaderNotFoundError, VanillaDataSource
+from gravitorch.datastreams import IterableDataStream
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError
 
@@ -22,10 +25,10 @@ def datasource() -> VanillaDataSource:
     return VanillaDataSource(
         {
             "train": {
-                OBJECT_TARGET: "gravitorch.creators.dataflow.IterableDataFlowCreator",
+                OBJECT_TARGET: "gravitorch.creators.datastream.IterableDataFlowCreator",
                 "iterable": [1, 2, 3, 4],
             },
-            "eval": IterableDataFlowCreator(["a", "b", "c"]),
+            "eval": IterableDataStreamCreator(["a", "b", "c"]),
         }
     )
 
@@ -62,16 +65,16 @@ def test_vanilla_data_source_has_asset_false(datasource: VanillaDataSource) -> N
 
 
 def test_vanilla_data_source_get_dataloader_train(datasource: VanillaDataSource) -> None:
-    dataflow = datasource.get_dataloader("train")
-    assert isinstance(dataflow, IterableDataFlow)
-    with dataflow as flow:
+    datastream = datasource.get_dataloader("train")
+    assert isinstance(datastream, IterableDataStream)
+    with datastream as flow:
         assert tuple(flow) == (1, 2, 3, 4)
 
 
 def test_vanilla_data_source_get_dataloader_eval(datasource: VanillaDataSource) -> None:
-    dataflow = datasource.get_dataloader("eval")
-    assert isinstance(dataflow, IterableDataFlow)
-    with dataflow as flow:
+    datastream = datasource.get_dataloader("eval")
+    assert isinstance(datastream, IterableDataStream)
+    with datastream as flow:
         assert tuple(flow) == ("a", "b", "c")
 
 
@@ -82,17 +85,17 @@ def test_vanilla_data_source_get_dataloader_missing(datasource: VanillaDataSourc
 
 def test_vanilla_data_source_get_dataloader_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
-    dataflow_creator = Mock(spec=BaseDataFlowCreator, create=Mock(return_value=["a", "b", "c"]))
-    datasource = VanillaDataSource({"train": dataflow_creator})
+    datastream_creator = Mock(spec=BaseDataStreamCreator, create=Mock(return_value=["a", "b", "c"]))
+    datasource = VanillaDataSource({"train": datastream_creator})
     datasource.get_dataloader("train", engine=engine)
-    dataflow_creator.create.assert_called_once_with(engine=engine)
+    datastream_creator.create.assert_called_once_with(engine=engine)
 
 
 def test_vanilla_data_source_get_dataloader_without_engine() -> None:
-    dataflow_creator = Mock(spec=BaseDataFlowCreator, create=Mock(return_value=["a", "b", "c"]))
-    datasource = VanillaDataSource({"train": dataflow_creator})
+    datastream_creator = Mock(spec=BaseDataStreamCreator, create=Mock(return_value=["a", "b", "c"]))
+    datasource = VanillaDataSource({"train": datastream_creator})
     datasource.get_dataloader("train")
-    dataflow_creator.create.assert_called_once_with(engine=None)
+    datastream_creator.create.assert_called_once_with(engine=None)
 
 
 def test_vanilla_data_source_has_dataloader_true(datasource: VanillaDataSource) -> None:
