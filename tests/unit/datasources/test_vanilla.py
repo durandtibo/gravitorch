@@ -10,7 +10,7 @@ from gravitorch.creators.datastream import (
     BaseDataStreamCreator,
     IterableDataStreamCreator,
 )
-from gravitorch.datasources import DataStreamNotFoundError, VanillaDataSource
+from gravitorch.datasources import IterableNotFoundError, VanillaDataSource
 from gravitorch.datastreams import IterableDataStream
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError
@@ -64,46 +64,46 @@ def test_vanilla_data_source_has_asset_false(datasource: VanillaDataSource) -> N
     assert not datasource.has_asset("something")
 
 
-def test_vanilla_data_source_get_datastream_train(datasource: VanillaDataSource) -> None:
-    datastream = datasource.get_datastream("train")
+def test_vanilla_data_source_get_iterable_train(datasource: VanillaDataSource) -> None:
+    datastream = datasource.get_iterable("train")
     assert isinstance(datastream, IterableDataStream)
     with datastream as flow:
         assert tuple(flow) == (1, 2, 3, 4)
 
 
-def test_vanilla_data_source_get_datastream_eval(datasource: VanillaDataSource) -> None:
-    datastream = datasource.get_datastream("eval")
+def test_vanilla_data_source_get_iterable_eval(datasource: VanillaDataSource) -> None:
+    datastream = datasource.get_iterable("eval")
     assert isinstance(datastream, IterableDataStream)
     with datastream as flow:
         assert tuple(flow) == ("a", "b", "c")
 
 
-def test_vanilla_data_source_get_datastream_missing(datasource: VanillaDataSource) -> None:
-    with raises(DataStreamNotFoundError):
-        datasource.get_datastream("missing")
+def test_vanilla_data_source_get_iterable_missing(datasource: VanillaDataSource) -> None:
+    with raises(IterableNotFoundError):
+        datasource.get_iterable("missing")
 
 
-def test_vanilla_data_source_get_datastream_with_engine() -> None:
+def test_vanilla_data_source_get_iterable_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datastream_creator = Mock(spec=BaseDataStreamCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = VanillaDataSource({"train": datastream_creator})
-    datasource.get_datastream("train", engine=engine)
+    datasource.get_iterable("train", engine=engine)
     datastream_creator.create.assert_called_once_with(engine=engine)
 
 
-def test_vanilla_data_source_get_datastream_without_engine() -> None:
+def test_vanilla_data_source_get_iterable_without_engine() -> None:
     datastream_creator = Mock(spec=BaseDataStreamCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = VanillaDataSource({"train": datastream_creator})
-    datasource.get_datastream("train")
+    datasource.get_iterable("train")
     datastream_creator.create.assert_called_once_with(engine=None)
 
 
-def test_vanilla_data_source_has_datastream_true(datasource: VanillaDataSource) -> None:
-    assert datasource.has_datastream("train")
+def test_vanilla_data_source_has_iterable_true(datasource: VanillaDataSource) -> None:
+    assert datasource.has_iterable("train")
 
 
-def test_vanilla_data_source_has_datastream_false(datasource: VanillaDataSource) -> None:
-    assert not datasource.has_datastream("missing")
+def test_vanilla_data_source_has_iterable_false(datasource: VanillaDataSource) -> None:
+    assert not datasource.has_iterable("missing")
 
 
 def test_vanilla_data_source_load_state_dict(datasource: VanillaDataSource) -> None:

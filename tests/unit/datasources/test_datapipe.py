@@ -10,7 +10,7 @@ from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCre
 from gravitorch.datasources import (
     DataCreatorDataSource,
     DataPipeDataSource,
-    DataStreamNotFoundError,
+    IterableNotFoundError,
 )
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError
@@ -87,54 +87,54 @@ def test_datapipe_datasource_has_asset_false(
     assert not datasource.has_asset("something")
 
 
-def test_datapipe_datasource_get_datastream_train(
+def test_datapipe_datasource_get_iterable_train(
     datasource: DataPipeDataSource,
 ) -> None:
-    loader = datasource.get_datastream("train")
+    loader = datasource.get_iterable("train")
     assert isinstance(loader, IterableWrapper)
     assert tuple(loader) == (1, 2, 3, 4)
 
 
-def test_datapipe_datasource_get_datastream_val(
+def test_datapipe_datasource_get_iterable_val(
     datasource: DataPipeDataSource,
 ) -> None:
-    loader = datasource.get_datastream("val")
+    loader = datasource.get_iterable("val")
     assert isinstance(loader, IterableWrapper)
     assert tuple(loader) == ("a", "b", "c")
 
 
-def test_datapipe_datasource_get_datastream_missing(
+def test_datapipe_datasource_get_iterable_missing(
     datasource: DataPipeDataSource,
 ) -> None:
-    with raises(DataStreamNotFoundError):
-        datasource.get_datastream("missing")
+    with raises(IterableNotFoundError):
+        datasource.get_iterable("missing")
 
 
-def test_datapipe_datasource_get_datastream_with_engine() -> None:
+def test_datapipe_datasource_get_iterable_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = DataPipeDataSource({"train": datapipe_creator})
-    datasource.get_datastream("train", engine=engine)
+    datasource.get_iterable("train", engine=engine)
     datapipe_creator.create.assert_called_once_with(engine=engine)
 
 
-def test_datapipe_datasource_get_datastream_without_engine() -> None:
+def test_datapipe_datasource_get_iterable_without_engine() -> None:
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
     datasource = DataPipeDataSource({"train": datapipe_creator})
-    datasource.get_datastream("train")
+    datasource.get_iterable("train")
     datapipe_creator.create.assert_called_once_with(engine=None)
 
 
-def test_datapipe_datasource_has_datastream_true(
+def test_datapipe_datasource_has_iterable_true(
     datasource: DataPipeDataSource,
 ) -> None:
-    assert datasource.has_datastream("train")
+    assert datasource.has_iterable("train")
 
 
-def test_datapipe_datasource_has_datastream_false(
+def test_datapipe_datasource_has_iterable_false(
     datasource: DataPipeDataSource,
 ) -> None:
-    assert not datasource.has_datastream("missing")
+    assert not datasource.has_iterable("missing")
 
 
 def test_datapipe_datasource_load_state_dict(
@@ -216,7 +216,7 @@ def test_data_creator_datasource_create_datapipe_no_data_creator_with_engine() -
     assert tuple(datapipe) == ("a", "b", "c")
 
 
-def test_data_creator_datasource_get_datastream() -> None:
+def test_data_creator_datasource_get_iterable() -> None:
     creator = DataCreatorDataSource(
         datapipe_creators={
             "train": ChainedDataPipeCreator(
@@ -229,5 +229,5 @@ def test_data_creator_datasource_get_datastream() -> None:
             "train": HypercubeVertexDataCreator(num_examples=10, num_classes=5),
         },
     )
-    datapipe = creator.get_datastream("train")
+    datapipe = creator.get_iterable("train")
     assert isinstance(datapipe, IterableWrapper)

@@ -117,7 +117,7 @@ class TrainingLoop(BaseBasicTrainingLoop):
         self, engine: BaseEngine
     ) -> tuple[Module, Optimizer, Iterable]:
         logger.info("Preparing the model, optimizer, and datastream...")
-        datastream = engine.datasource.get_datastream(datastream_id=self._tag, engine=engine)
+        datastream = engine.datasource.get_iterable(iter_id=self._tag, engine=engine)
         datastream = (
             datastream if isinstance(datastream, BaseDataStream) else IterableDataStream(datastream)
         )

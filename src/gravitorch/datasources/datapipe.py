@@ -15,7 +15,7 @@ from gravitorch.creators.datapipe.base import (
     setup_datapipe_creator,
 )
 from gravitorch.data.datacreators.base import BaseDataCreator, setup_datacreator
-from gravitorch.datasources.base import BaseDataSource, DataStreamNotFoundError
+from gravitorch.datasources.base import BaseDataSource, IterableNotFoundError
 from gravitorch.utils.asset import AssetManager
 
 if TYPE_CHECKING:
@@ -133,13 +133,13 @@ class DataPipeDataSource(BaseDataSource):
     def has_asset(self, asset_id: str) -> bool:
         return self._asset_manager.has_asset(asset_id)
 
-    def get_datastream(self, datastream_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
-        if not self.has_datastream(datastream_id):
-            raise DataStreamNotFoundError(f"{datastream_id} does not exist")
-        return self._create_datapipe(loader_id=datastream_id, engine=engine)
+    def get_iterable(self, iter_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
+        if not self.has_iterable(iter_id):
+            raise IterableNotFoundError(f"{iter_id} does not exist")
+        return self._create_datapipe(loader_id=iter_id, engine=engine)
 
-    def has_datastream(self, datastream_id: str) -> bool:
-        return datastream_id in self._datapipe_creators
+    def has_iterable(self, iter_id: str) -> bool:
+        return iter_id in self._datapipe_creators
 
     def _create_datapipe(
         self, loader_id: str, engine: BaseEngine | None = None

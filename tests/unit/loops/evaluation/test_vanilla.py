@@ -142,8 +142,8 @@ def test_evaluation_loop_eval_with_loss_history(device: str) -> None:
     assert len(loss_history.get_recent_history()) == 2
 
 
-def test_evaluation_loop_eval_no_datastream() -> None:
-    engine = create_dummy_engine(datasource=Mock(has_datastream=Mock(return_value=False)))
+def test_evaluation_loop_eval_no_iterable() -> None:
+    engine = create_dummy_engine(datasource=Mock(has_iterable=Mock(return_value=False)))
     EvaluationLoop().eval(engine)
     assert engine.epoch == -1
     assert engine.iteration == -1

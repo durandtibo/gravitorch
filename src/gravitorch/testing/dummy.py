@@ -142,9 +142,9 @@ class DummyDataSource(DatasetDataSource):
         ...     train_dataset=DummyDataset(num_examples=10, feature_size=3),
         ...     eval_dataset=DummyDataset(num_examples=6, feature_size=3),
         ... )
-        >>> next(iter(datasource.get_datastream("train")))
+        >>> next(iter(datasource.get_iterable("train")))
         {'input': tensor([[1., 1., 1.]]), 'target': tensor([1])}
-        >>> next(iter(datasource.get_datastream("eval")))
+        >>> next(iter(datasource.get_iterable("eval")))
         {'input': tensor([[1., 1., 1.]]), 'target': tensor([1])}
     """
 

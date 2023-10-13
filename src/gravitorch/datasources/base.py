@@ -2,7 +2,7 @@ from __future__ import annotations
 
 __all__ = [
     "BaseDataSource",
-    "DataStreamNotFoundError",
+    "IterableNotFoundError",
     "is_datasource_config",
     "setup_and_attach_datasource",
     "setup_datasource",
@@ -16,7 +16,6 @@ from typing import TYPE_CHECKING, Any, Generic, TypeVar
 from objectory import AbstractFactory
 from objectory.utils import is_object_config
 
-from gravitorch.datastreams.base import BaseDataStream
 from gravitorch.utils.format import str_target_object
 
 if TYPE_CHECKING:
@@ -30,7 +29,7 @@ T = TypeVar("T")
 class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
     r"""Defines the base class to implement a datasource.
 
-    A datasource object is responsible to create the datastreams.
+    A datasource object is responsible to create the data iterables.
 
     Note: it is an experimental class and the API may change.
     """
@@ -112,27 +111,25 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         """
 
     @abstractmethod
-    def get_datastream(
-        self, datastream_id: str, engine: BaseEngine | None = None
-    ) -> Iterable[T] | BaseDataStream[T]:
-        r"""Gets a datastream for the given ID.
+    def get_iterable(self, iter_id: str, engine: BaseEngine | None = None) -> Iterable[T]:
+        r"""Gets a data iterable for the given ID.
 
         Args:
         ----
-            datastream_id (str): Specifies the ID of the datastream to
-                get.
+            iter_id (str): Specifies the ID of the data iterable
+                to get.
             engine (``BaseEngine`` or ``None``, optional): Specifies
                 an engine. The engine can be used to initialize the
-                datastream by using the current epoch value.
+                data iterable by using the current epoch value.
                 Default: ``None``
 
         Returns:
         -------
-            ``Iterable`` or ``BaseDataStream``: A datastream.
+            ``Iterable`` : A data iterable.
 
         Raises:
         ------
-            ``LoaderNotFoundError`` if the loader does not exist.
+            ``IterableNotFoundError`` if the loader does not exist.
 
         Example usage:
 
@@ -140,28 +137,28 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
             >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
             >>> datasource = DummyDataSource()
-            >>> dataloader = datasource.get_datastream("train")
+            >>> dataloader = datasource.get_iterable("train")
             >>> dataloader
             <torch.utils.data.dataloader.DataLoader object at 0x...>
-            >>> # Get a datastream that can use information from an engine
+            >>> # Get a iterable that can use information from an engine
             >>> engine = create_dummy_engine()
-            >>> dataloader = datasource.get_datastream("train", engine)
+            >>> dataloader = datasource.get_iterable("train", engine)
             >>> dataloader
             <torch.utils.data.dataloader.DataLoader object at 0x...>
         """
 
     @abstractmethod
-    def has_datastream(self, datastream_id: str) -> bool:
-        r"""Indicates if the datasource has a datastream for the given
+    def has_iterable(self, iter_id: str) -> bool:
+        r"""Indicates if the datasource has a data iterable for the given
         ID.
 
         Args:
         ----
-            datastream_id (str): Specifies the ID of the datastream.
+            iter_id (str): Specifies the ID of the data iterable.
 
         Returns:
         -------
-            bool: ``True`` if the datastream exists, ``False``
+            bool: ``True`` if the data iterable exists, ``False``
                 otherwise.
 
         Example usage:
@@ -170,11 +167,11 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
             >>> from gravitorch.testing import DummyDataSource
             >>> datasource = DummyDataSource()
-            >>> datasource.has_datastream("train")
+            >>> datasource.has_iterable("train")
             True
-            >>> datasource.has_datastream("eval")
+            >>> datasource.has_iterable("eval")
             True
-            >>> datasource.has_datastream("missing")
+            >>> datasource.has_iterable("missing")
             False
         """
 
@@ -216,8 +213,8 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
         return {}
 
 
-class DataStreamNotFoundError(Exception):
-    r"""Raised when a datastream is requires but does not exist."""
+class IterableNotFoundError(Exception):
+    r"""Raised when a data iterable is requires but does not exist."""
 
 
 def is_datasource_config(config: dict) -> bool:
