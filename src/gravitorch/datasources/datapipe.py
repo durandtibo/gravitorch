@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-__all__ = ["IterDataPipeCreatorDataSource", "DataCreatorDataSource"]
+__all__ = ["DataPipeDataSource", "DataCreatorDataSource"]
 
 import logging
 from collections.abc import Iterable
@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, TypeVar
 
 from coola import summary
 from coola.utils import str_indent, str_mapping
-from torch.utils.data import IterDataPipe
+from torch.utils.data import IterDataPipe, MapDataPipe
 
 from gravitorch.creators.datapipe.base import (
     BaseDataPipeCreator,
@@ -26,27 +26,27 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-class IterDataPipeCreatorDataSource(BaseDataSource):
+class DataPipeDataSource(BaseDataSource):
     r"""Implements a datasource that creates data loaders using
-    ``IterDataPipe`` creators.
+    ``DataPipe`` creators.
 
     Args:
     ----
-        datapipe_creators (dict): Specifies the ``IterDataPipe``
-            creators. Each key is associated to a loader ID. For
-            example if you want to use a ``'train'`` data loader,
+        datapipe_creators (dict): Specifies the ``DataPipe``
+            creators. Each key is associated to a datastream ID.
+            For example if you want to use a ``'train'`` datastream,
             you need to have a key associated to a
-            ``BaseIterDataPipeCreator`` object or its configuration.
-            Each ``BaseIterDataPipeCreator`` object contains the
-            recipe to create an ``IterDataPipe`` object.
+            ``BaseDataPipeCreator`` object or its configuration.
+            Each ``BaseDataPipeCreator`` object contains the
+            recipe to create a ``DataPipe`` object.
 
     Example usage:
 
     .. code-block:: pycon
 
-        >>> from gravitorch.datasources import IterDataPipeCreatorDataSource
+        >>> from gravitorch.datasources import DataPipeDataSource
         >>> from gravitorch.creators.datapipe import ChainedDataPipeCreator
-        >>> datasource = IterDataPipeCreatorDataSource(
+        >>> datasource = DataPipeDataSource(
         ...     datapipe_creators={
         ...         "train": ChainedDataPipeCreator(
         ...             config=[
@@ -67,7 +67,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...     }
         ... )
         >>> datasource
-        IterDataPipeCreatorDataSource(
+        DataPipeDataSource(
           (train): ChainedDataPipeCreator(
               (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
             )
@@ -77,7 +77,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         )
         >>> # Create by using the configs
         >>> # Note that both examples lead to the same result.
-        >>> datasource = IterDataPipeCreatorDataSource(
+        >>> datasource = DataPipeDataSource(
         ...     datapipe_creators={
         ...         "train": {
         ...             "_target_": "gravitorch.creators.datapipe.ChainedDataPipeCreator",
@@ -100,7 +100,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         ...     }
         ... )
         >>> datasource
-        IterDataPipeCreatorDataSource(
+        DataPipeDataSource(
           (train): ChainedDataPipeCreator(
               (0): {'_target_': 'torch.utils.data.datapipes.iter.IterableWrapper', 'iterable': [1, 2, 3, 4]}
             )
@@ -112,11 +112,11 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
     def __init__(self, datapipe_creators: dict[str, BaseDataPipeCreator | dict]) -> None:
         self._asset_manager = AssetManager()
-        logger.info("Initializing the IterDataPipe creators...")
+        logger.info("Initializing the DataPipe creators...")
         self._datapipe_creators = {
             key: setup_datapipe_creator(creator) for key, creator in datapipe_creators.items()
         }
-        logger.info(f"IterDataPipe creators:\n{str_mapping(self._datapipe_creators)}")
+        logger.info(f"DataPipe creators:\n{str_mapping(self._datapipe_creators)}")
 
     def __repr__(self) -> str:
         return (
@@ -141,8 +141,10 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
     def has_datastream(self, datastream_id: str) -> bool:
         return datastream_id in self._datapipe_creators
 
-    def _create_datapipe(self, loader_id: str, engine: BaseEngine | None = None) -> IterDataPipe[T]:
-        r"""Creates an ``IterDataPipe`` object.
+    def _create_datapipe(
+        self, loader_id: str, engine: BaseEngine | None = None
+    ) -> IterDataPipe[T] | MapDataPipe[T]:
+        r"""Creates an ``DataPipe`` object.
 
         Args:
         ----
@@ -155,7 +157,7 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
 
         Returns:
         -------
-            ``IterDataPipe``: An ``IterDataPipe`` object.
+            ``IterDataPipe`` or ``MapDataPipe``: A DataPipe object.
         """
         logger.info("Crating DataPipe...")
         datapipe = self._datapipe_creators[loader_id].create(engine=engine)
@@ -163,25 +165,25 @@ class IterDataPipeCreatorDataSource(BaseDataSource):
         return datapipe
 
 
-class DataCreatorDataSource(IterDataPipeCreatorDataSource):
+class DataCreatorDataSource(DataPipeDataSource):
     r"""Implements a datasource that creates data loaders using
-    ``IterDataPipe`` creators.
+    ``DataPipe`` creators.
 
-    Unlike ``IterDataPipeCreatorDataSource``, each ``IterDataPipe``
+    Unlike ``DataPipeDataSource``, each ``DataPipe``
     creator takes as input (``source_inputs``) the data created by a
     ``BaseDataCreator`` object if it is defined. If no
     ``BaseDataCreator`` object is defined, ``source_inputs`` of the
-    ``IterDataPipe`` creator is set to ``None``.
+    ``DataPipe`` creator is set to ``None``.
 
     Args:
     ----
-        datapipe_creators (dict): Specifies the ``IterDataPipe``
+        datapipe_creators (dict): Specifies the ``DataPipe``
             creators or their configurations. Each key is associated
             to a loader ID. For example if you want to use a
             ``'train'`` data loader, you need to map this key to a
-            ``BaseIterDataPipeCreator`` object or its configuration.
-            Each ``BaseIterDataPipeCreator`` object contains the
-            recipe to create an ``IterDataPipe`` object.
+            ``BaseDataPipeCreator`` object or its configuration.
+            Each ``BaseDataPipeCreator`` object contains the
+            recipe to create an ``DataPipe`` object.
         data_creators (dict): Specifies the data creators or their
             configurations. Each key is associated to a loader ID.
             For example if you want to create data for the ``'train'``
@@ -271,8 +273,10 @@ class DataCreatorDataSource(IterDataPipeCreatorDataSource):
         )
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
-    def _create_datapipe(self, loader_id: str, engine: BaseEngine | None = None) -> IterDataPipe:
-        r"""Creates an ``IterDataPipe`` object.
+    def _create_datapipe(
+        self, loader_id: str, engine: BaseEngine | None = None
+    ) -> IterDataPipe | MapDataPipe:
+        r"""Creates an ``DataPipe`` object.
 
         Args:
         ----
@@ -285,7 +289,7 @@ class DataCreatorDataSource(IterDataPipeCreatorDataSource):
 
         Returns:
         -------
-            ``IterDataPipe``: An ``IterDataPipe`` object.
+            ``IterDataPipe`` or ``MapDataPipe``: A ``DataPipe`` object.
         """
         source_input = self._data.get(loader_id, None)
         return self._datapipe_creators[loader_id].create(

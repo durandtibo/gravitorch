@@ -243,9 +243,7 @@ def is_datasource_config(config: dict) -> bool:
     .. code-block:: pycon
 
         >>> from gravitorch.datasources import is_datasource_config
-        >>> is_datasource_config(
-        ...     {"_target_": "gravitorch.datasources.IterDataPipeCreatorDataSource"}
-        ... )
+        >>> is_datasource_config({"_target_": "gravitorch.datasources.DataPipeDataSource"})
         True
     """
     return is_object_config(config, BaseDataSource)
