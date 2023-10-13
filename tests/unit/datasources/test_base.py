@@ -9,7 +9,7 @@ from torch.nn import Identity
 
 from gravitorch.datasources import (
     BaseDataSource,
-    IterDataPipeCreatorDataSource,
+    DataPipeDataSource,
     is_datasource_config,
     setup_and_attach_datasource,
     setup_datasource,
@@ -22,9 +22,7 @@ from gravitorch.engines import BaseEngine
 
 
 def test_is_datasource_config_true() -> None:
-    assert is_datasource_config(
-        {OBJECT_TARGET: "gravitorch.datasources.IterDataPipeCreatorDataSource"}
-    )
+    assert is_datasource_config({OBJECT_TARGET: "gravitorch.datasources.DataPipeDataSource"})
 
 
 def test_is_datasource_config_false() -> None:
@@ -52,7 +50,7 @@ def test_setup_datasource_dict() -> None:
     assert isinstance(
         setup_datasource(
             {
-                OBJECT_TARGET: "gravitorch.datasources.IterDataPipeCreatorDataSource",
+                OBJECT_TARGET: "gravitorch.datasources.DataPipeDataSource",
                 "datapipe_creators": {
                     "train": {
                         OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
@@ -66,7 +64,7 @@ def test_setup_datasource_dict() -> None:
                 },
             }
         ),
-        IterDataPipeCreatorDataSource,
+        DataPipeDataSource,
     )
 
 

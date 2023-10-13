@@ -9,20 +9,20 @@ from gravitorch.creators.datapipe import BaseDataPipeCreator, ChainedDataPipeCre
 from gravitorch.data.datacreators import BaseDataCreator, HypercubeVertexDataCreator
 from gravitorch.datasources import (
     DataCreatorDataSource,
+    DataPipeDataSource,
     DataStreamNotFoundError,
-    IterDataPipeCreatorDataSource,
 )
 from gravitorch.engines import BaseEngine
 from gravitorch.utils.asset import AssetNotFoundError
 
-###################################################
-#     Tests for IterDataPipeCreatorDataSource     #
-###################################################
+########################################
+#     Tests for DataPipeDataSource     #
+########################################
 
 
 @fixture
-def datasource() -> IterDataPipeCreatorDataSource:
-    return IterDataPipeCreatorDataSource(
+def datasource() -> DataPipeDataSource:
+    return DataPipeDataSource(
         {
             "train": {
                 OBJECT_TARGET: "gravitorch.creators.datapipe.ChainedDataPipeCreator",
@@ -46,105 +46,105 @@ def datasource() -> IterDataPipeCreatorDataSource:
     )
 
 
-def test_iter_data_pipe_creator_datasource_str() -> None:
-    assert str(IterDataPipeCreatorDataSource({"train": Mock(spec=BaseDataPipeCreator)})).startswith(
-        "IterDataPipeCreatorDataSource("
+def test_datapipe_datasource_str() -> None:
+    assert str(DataPipeDataSource({"train": Mock(spec=BaseDataPipeCreator)})).startswith(
+        "DataPipeDataSource("
     )
 
 
-def test_iter_data_pipe_creator_datasource_attach(
-    caplog: LogCaptureFixture, datasource: IterDataPipeCreatorDataSource
+def test_datapipe_datasource_attach(
+    caplog: LogCaptureFixture, datasource: DataPipeDataSource
 ) -> None:
     with caplog.at_level(logging.INFO):
         datasource.attach(engine=Mock(spec=BaseEngine))
         assert len(caplog.messages) >= 1
 
 
-def test_iter_data_pipe_creator_datasource_get_asset_exists(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_get_asset_exists(
+    datasource: DataPipeDataSource,
 ) -> None:
     datasource._asset_manager.add_asset("something", 2)
     assert datasource.get_asset("something") == 2
 
 
-def test_iter_data_pipe_creator_datasource_get_asset_does_not_exist(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_get_asset_does_not_exist(
+    datasource: DataPipeDataSource,
 ) -> None:
     with raises(AssetNotFoundError, match="The asset 'something' does not exist"):
         datasource.get_asset("something")
 
 
-def test_iter_data_pipe_creator_datasource_has_asset_true(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_has_asset_true(
+    datasource: DataPipeDataSource,
 ) -> None:
     datasource._asset_manager.add_asset("something", 1)
     assert datasource.has_asset("something")
 
 
-def test_iter_data_pipe_creator_datasource_has_asset_false(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_has_asset_false(
+    datasource: DataPipeDataSource,
 ) -> None:
     assert not datasource.has_asset("something")
 
 
-def test_iter_data_pipe_creator_datasource_get_datastream_train(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_get_datastream_train(
+    datasource: DataPipeDataSource,
 ) -> None:
     loader = datasource.get_datastream("train")
     assert isinstance(loader, IterableWrapper)
     assert tuple(loader) == (1, 2, 3, 4)
 
 
-def test_iter_data_pipe_creator_datasource_get_datastream_val(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_get_datastream_val(
+    datasource: DataPipeDataSource,
 ) -> None:
     loader = datasource.get_datastream("val")
     assert isinstance(loader, IterableWrapper)
     assert tuple(loader) == ("a", "b", "c")
 
 
-def test_iter_data_pipe_creator_datasource_get_datastream_missing(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_get_datastream_missing(
+    datasource: DataPipeDataSource,
 ) -> None:
     with raises(DataStreamNotFoundError):
         datasource.get_datastream("missing")
 
 
-def test_iter_data_pipe_creator_datasource_get_datastream_with_engine() -> None:
+def test_datapipe_datasource_get_datastream_with_engine() -> None:
     engine = Mock(spec=BaseEngine)
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
-    datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
+    datasource = DataPipeDataSource({"train": datapipe_creator})
     datasource.get_datastream("train", engine=engine)
     datapipe_creator.create.assert_called_once_with(engine=engine)
 
 
-def test_iter_data_pipe_creator_datasource_get_datastream_without_engine() -> None:
+def test_datapipe_datasource_get_datastream_without_engine() -> None:
     datapipe_creator = Mock(spec=BaseDataPipeCreator, create=Mock(return_value=["a", "b", "c"]))
-    datasource = IterDataPipeCreatorDataSource({"train": datapipe_creator})
+    datasource = DataPipeDataSource({"train": datapipe_creator})
     datasource.get_datastream("train")
     datapipe_creator.create.assert_called_once_with(engine=None)
 
 
-def test_iter_data_pipe_creator_datasource_has_datastream_true(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_has_datastream_true(
+    datasource: DataPipeDataSource,
 ) -> None:
     assert datasource.has_datastream("train")
 
 
-def test_iter_data_pipe_creator_datasource_has_datastream_false(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_has_datastream_false(
+    datasource: DataPipeDataSource,
 ) -> None:
     assert not datasource.has_datastream("missing")
 
 
-def test_iter_data_pipe_creator_datasource_load_state_dict(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_load_state_dict(
+    datasource: DataPipeDataSource,
 ) -> None:
     datasource.load_state_dict({})
 
 
-def test_iter_data_pipe_creator_datasource_state_dict(
-    datasource: IterDataPipeCreatorDataSource,
+def test_datapipe_datasource_state_dict(
+    datasource: DataPipeDataSource,
 ) -> None:
     assert datasource.state_dict() == {}
 

@@ -4,7 +4,7 @@ __all__ = [
     "BaseDataSource",
     "DataCreatorDataSource",
     "DatasetDataSource",
-    "IterDataPipeCreatorDataSource",
+    "DataPipeDataSource",
     "DataStreamNotFoundError",
     "VanillaDataSource",
     "is_datasource_config",
@@ -19,9 +19,6 @@ from gravitorch.datasources.base import (
     setup_and_attach_datasource,
     setup_datasource,
 )
-from gravitorch.datasources.datapipe import (
-    DataCreatorDataSource,
-    IterDataPipeCreatorDataSource,
-)
+from gravitorch.datasources.datapipe import DataCreatorDataSource, DataPipeDataSource
 from gravitorch.datasources.dataset import DatasetDataSource
 from gravitorch.datasources.vanilla import VanillaDataSource
