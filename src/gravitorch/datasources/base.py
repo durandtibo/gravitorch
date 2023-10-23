@@ -137,13 +137,13 @@ class BaseDataSource(ABC, Generic[T], metaclass=AbstractFactory):
 
             >>> from gravitorch.testing import DummyDataSource, create_dummy_engine
             >>> datasource = DummyDataSource()
-            >>> dataloader = datasource.get_iterable("train")
-            >>> dataloader
+            >>> dataiter = datasource.get_iterable("train")
+            >>> dataiter
             <torch.utils.data.dataloader.DataLoader object at 0x...>
             >>> # Get a iterable that can use information from an engine
             >>> engine = create_dummy_engine()
-            >>> dataloader = datasource.get_iterable("train", engine)
-            >>> dataloader
+            >>> dataiter = datasource.get_iterable("train", engine)
+            >>> dataiter
             <torch.utils.data.dataloader.DataLoader object at 0x...>
         """
 
