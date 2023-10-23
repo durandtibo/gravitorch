@@ -247,7 +247,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.9', '3.10', '3.11' ]
-        pytorch-ignite-version: [ 0.4.12, 0.4.11 ]
+        pytorch-ignite-version: [ 0.4.13, 0.4.12, 0.4.11 ]
 
     steps:
       - name: Checkout
@@ -435,7 +435,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.9', '3.10', '3.11' ]
-        startorch-version: [ 0.0.6, 0.0.5 ]
+        startorch-version: [ 0.0.7, 0.0.6, 0.0.5 ]
 
     steps:
       - name: Checkout
