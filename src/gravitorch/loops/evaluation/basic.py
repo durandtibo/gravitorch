@@ -13,7 +13,6 @@ from typing import Any
 from torch.nn import Module
 
 from gravitorch import constants as ct
-from gravitorch.datastreams.base import BaseDataStream
 from gravitorch.distributed import comm as dist
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
@@ -88,12 +87,11 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         dist.barrier()
         engine.trigger_event(EngineEvents.EVAL_EPOCH_STARTED)
 
-        model, datastream = self._prepare_model_datastream(engine)
+        model, dataiter = self._prepare_model_dataiter(engine)
         dist.barrier()
 
         self._observer.start(engine)
-        with datastream as dataiter:
-            self._evaluate_loop(engine=engine, model=model, dataiter=dataiter)
+        self._evaluate_loop(engine=engine, model=model, dataiter=dataiter)
         self._observer.end(engine)
 
         engine.trigger_event(EngineEvents.EVAL_EPOCH_COMPLETED)
@@ -196,9 +194,7 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
         """
 
     @abstractmethod
-    def _prepare_model_datastream(
-        self, engine: BaseEngine
-    ) -> tuple[Module, BaseDataStream | Iterable]:
+    def _prepare_model_dataiter(self, engine: BaseEngine) -> tuple[Module, Iterable]:
         r"""Prepares the model and datastream.
 
         Args:
@@ -207,7 +203,6 @@ class BaseBasicEvaluationLoop(BaseEvaluationLoop):
 
         Returns:
         -------
-            ``torch.nn.Module``, ``BaseDataStream`` or ``Iterable``:
-                A tuple with the model and the datastream or data
-                iterable.
+            ``torch.nn.Module``, ``Iterable``: A tuple with the model
+                and a data iterable.
         """
