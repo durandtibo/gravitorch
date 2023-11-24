@@ -14,8 +14,6 @@ from torch.nn import Module
 from torch.optim import Optimizer
 
 from gravitorch import constants as ct
-from gravitorch.datastreams.base import BaseDataStream
-from gravitorch.datastreams.iterable import IterableDataStream
 from gravitorch.engines.base import BaseEngine
 from gravitorch.engines.events import EngineEvents
 from gravitorch.loops.observers import BaseLoopObserver
@@ -113,16 +111,13 @@ class TrainingLoop(BaseBasicTrainingLoop):
         )
         return f"{self.__class__.__qualname__}(\n  {args}\n)"
 
-    def _prepare_model_optimizer_datastream(
+    def _prepare_model_optimizer_dataiter(
         self, engine: BaseEngine
     ) -> tuple[Module, Optimizer, Iterable]:
-        logger.info("Preparing the model, optimizer, and datastream...")
-        datastream = engine.datasource.get_iterable(iter_id=self._tag, engine=engine)
-        datastream = (
-            datastream if isinstance(datastream, BaseDataStream) else IterableDataStream(datastream)
-        )
-        logger.info("Training datastream has been created")
-        return engine.model, engine.optimizer, datastream
+        logger.info("Preparing the model, optimizer, and data iterable...")
+        dataiter = engine.datasource.get_iterable(iter_id=self._tag, engine=engine)
+        logger.info("Training model, optimizer, and data iterable have been created")
+        return engine.model, engine.optimizer, dataiter
 
     def _train_one_batch(
         self, engine: BaseEngine, model: Module, optimizer: Optimizer, batch: Any
