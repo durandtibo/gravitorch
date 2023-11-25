@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.9', '3.10', '3.11' ]
-        coola-version: [ 0.0.24, 0.0.23, 0.0.22, 0.0.21, 0.0.20 ]
+        coola-version: [ 0.0.25, 0.0.24, 0.0.23, 0.0.22, 0.0.21, 0.0.20 ]
 
     steps:
       - name: Checkout
@@ -293,7 +293,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ '3.9', '3.10', '3.11' ]
-        pytorch-version: [ 2.1.0, 2.0.1 ]
+        torch-version: [ 2.1.1, 2.0.1 ]
 
     steps:
       - name: Checkout
@@ -314,7 +314,7 @@ jobs:
 
       - name: Install PyTorch
         run: |
-          poetry run pip install torch==${{ matrix.pytorch-version }} torchdata
+          poetry run pip install torch==${{ matrix.torch-version }} torchdata
 
       - name: Show installed packages
         run: |
