@@ -6,7 +6,6 @@ __all__ = [
     "DatasetDataSource",
     "DataPipeDataSource",
     "IterableNotFoundError",
-    "VanillaDataSource",
     "is_datasource_config",
     "setup_and_attach_datasource",
     "setup_datasource",
@@ -21,4 +20,3 @@ from gravitorch.datasources.base import (
 )
 from gravitorch.datasources.datapipe import DataCreatorDataSource, DataPipeDataSource
 from gravitorch.datasources.dataset import DatasetDataSource
-from gravitorch.datasources.vanilla import VanillaDataSource
