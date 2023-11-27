@@ -314,7 +314,7 @@ jobs:
 
       - name: Install PyTorch
         run: |
-          poetry run pip install torch==${{ matrix.torch-version }} torchdata
+          poetry run pip install torch==${{ matrix.torch-version }}
 
       - name: Show installed packages
         run: |
