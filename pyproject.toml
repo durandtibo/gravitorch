@@ -38,7 +38,7 @@ tabulate = ">=0.9,<0.10"
 torch = ">=2.0,<2.2"
 
 # Optional dependencies
-colorlog = { version = ">=6.7,<6.8", optional = true }  # Move to exp
+colorlog = { version = ">=6.7,<6.9", optional = true }  # Move to exp
 matplotlib = { version = ">=3.6,<3.9", optional = true }
 pillow = { version = ">=9.0,<11.0", optional = true }
 psutil = { version = ">=5.9,<5.10", optional = true }
