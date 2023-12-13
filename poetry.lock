@@ -3764,4 +3764,4 @@ tb = ["tensorboard"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "64cd2e516f3d99141f241800f790e1c82560e48941367cb9ccd468e64eed0aba"
+content-hash = "8003a8e71e209434a7af1a3be5971aac18cd312844f7034eb7a6931aeee7dcde"
