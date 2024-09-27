@@ -70,7 +70,7 @@ jupyterlab = "^4.0"
 torch-tb-profiler = "^0.4"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.12"
+black = ">=23.12,<25.0"
 coverage = { extras = ["toml"], version = "^7.3" }
 docformatter = "^1.7"
 pre-commit = "^3.6"
